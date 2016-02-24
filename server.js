@@ -10,13 +10,16 @@ var argv = minimist(process.argv.slice(2), {
 })
 
 var st = ecstatic(path.join(__dirname, 'public'))
+var vst = ecstatic(path.join(__dirname, 'vendor/ideditor'))
 var osm = osmdb(argv.datadir)
 var osmrouter = osmserver(osm)
 
 var http = require('http')
 var server = http.createServer(function (req, res) {
   if (osmrouter.handle(req, res)) {}
-  else st(req, res)
+  else if (/^\/(data|dist|css)\//.test(req.url)) {
+    vst(req, res)
+  } else st(req, res)
 })
 server.listen(argv.port)
 
