@@ -16,7 +16,7 @@ var osmrouter = osmserver(osm)
 
 var http = require('http')
 var server = http.createServer(function (req, res) {
-  console.log(req.method, req.path)
+  console.log(req.method, req.url)
   if (osmrouter.handle(req, res)) {}
   else if (/^\/(data|dist|css)\//.test(req.url)) {
     vst(req, res)
