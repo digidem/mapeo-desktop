@@ -27,9 +27,11 @@ server.listen(argv.port, function () {
   ready()
 })
 
-var app = require('app')
-var Window = require('browser-window')
-app.on('ready', ready)
+if (!argv.headless) {
+  var app = require('app')
+  var Window = require('browser-window')
+  app.on('ready', ready)
+}
 
 function ready () {
   if (--pending !== 0) return

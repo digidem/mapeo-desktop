@@ -6,6 +6,7 @@
   "scripts": {
     "build": "bin/concat.sh",
     "start": "electron app.js",
+    "server": "node app.js --headless",
     "dev": "electron app.js --debug --disable-http-cache"
   },
   "repository": {
