@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "build": "bin/concat.sh",
+    "start": "electron app.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/digidem/ecuador-map-editor#readme",
   "dependencies": {
     "ecstatic": "^1.4.0",
+    "electron": "^0.4.1",
     "minimist": "^1.2.0",
     "osm-p2p": "^1.1.0",
     "osm-p2p-server": "^1.5.0"
