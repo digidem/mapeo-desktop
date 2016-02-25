@@ -15,7 +15,7 @@ var argv = minimist(process.argv.slice(2), {
 })
 
 var osmdb = require('osm-p2p')
-var osm = osmdb(argv.dir)
+var osm = osmdb(argv.datadir)
 
 var createServer = require('./server.js')
 var server = createServer(osm)
