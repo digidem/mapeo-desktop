@@ -8,7 +8,30 @@
   <body>
     <div id="container"></div>
     <script src="/ideditor.js"></script>
-    <script>iD.data.load(function() {
+    <script>
+    osmAuth = function (opts) {
+      return {
+        authenticated: function () { return true },
+        logout: function () { return this },
+        authenticate: function (cb) { return cb() },
+        bootstrapToken: function (token, cb) { cb(null, this) },
+        xhr: function (opts, cb) { cb(null) },
+        preauth: function (c) {},
+        options: function () {}
+      }
+    }
+    iD.ui.Account = function () {
+      return function () {}
+    }
+    ;(function (original) {
+      iD.Connection = function () {
+        var res = original.apply(this, arguments)
+        res.userDetails = function (cb) { cb(null, {}) }
+        return res
+      }
+    })(iD.Connection)
+
+    iD.data.load(function() {
       id = iD()
         .presets(iD.data.presets)
         .imagery(iD.data.imagery)
@@ -34,6 +57,7 @@
               "oauth_secret": "aMnOOCwExO2XYtRVWJ1bI9QOdqh1cay2UgpbhA6p"
             }
           ])*/)
-    })</script>
+    })
+    </script>
   </body>
 </html>
