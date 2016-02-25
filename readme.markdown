@@ -11,3 +11,11 @@ $ npm install
 $ npm run build
 $ npm start
 ```
+
+# development
+
+To run the application with debugging enabled, do:
+
+```
+$ npm run dev
+```

@@ -1,5 +1,6 @@
 #!/bin/bash
 (cd vendor/ideditor;
+  echo 'module=undefined;require=undefined'
   grep '<script' index.html | grep 'src=' \
   | sed "s/.*src=['\"]//" | sed "s/['\"].*//" \
   | xargs cat \
