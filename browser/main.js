@@ -13,7 +13,7 @@ osmAuth = function () {
         url: opts.path,
         body: opts.content,
         headers: (opts.options || {}).header || {}
-      }), cb)
+      }), function (err, res, body) { cb(err, body) })
     },
     preauth: function (c) {},
     options: function () {}
