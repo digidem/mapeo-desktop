@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "bin/concat.sh",
+    "build": "bin/build.sh",
     "start": "electron app.js",
     "server": "node app.js --headless",
     "dev": "electron app.js --debug --disable-http-cache"
@@ -25,7 +25,9 @@
     "electron-prebuilt": "^0.36.9",
     "minimist": "^1.2.0",
     "osm-p2p": "^1.1.0",
-    "osm-p2p-server": "^1.5.0"
+    "osm-p2p-server": "^1.5.0",
+    "xhr": "^2.2.0",
+    "xtend": "^4.0.1"
   },
   "devDependencies": {
     "browserify": "^13.0.0",

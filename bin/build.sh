@@ -7,3 +7,5 @@
   | perl -pe"s/('[^']*)www\.openstreetmap.org/\$1'+location.host+'/" \
   | perl -pe"s/('[^']*)openstreetmap.org/\$1'+location.host+'/" \
 ) > public/ideditor.js
+
+browserify browser/main.js > public/bundle.js
