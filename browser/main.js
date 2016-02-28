@@ -8,6 +8,9 @@ osmAuth = function () {
     authenticate: function (cb) { return cb() },
     bootstrapToken: function (token, cb) { cb(null, this) },
     xhr: function (opts, cb) {
+      console.log(opts.method, opts.path, {
+        headers: (opts.options || {}).header || {}
+      })
       return xhr(xtend(opts, {
         method: opts.method,
         url: opts.path,

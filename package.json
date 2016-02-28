@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engine": {
+    "node": "5.7.0"
+  },
   "scripts": {
     "build": "bin/build.sh",
     "start": "electron app.js",
@@ -31,6 +34,7 @@
   },
   "devDependencies": {
     "browserify": "^13.0.0",
+    "electron-prebuilt": "0.36.9",
     "watchify": "^3.7.0"
   }
 }
