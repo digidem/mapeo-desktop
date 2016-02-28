@@ -1,6 +1,14 @@
 var xhr = require('xhr')
 var xtend = require('xtend')
 
+var prevhash = localStorage.getItem('location')
+if (location.hash) localStorage.setItem('location', location.hash)
+else if (prevhash) location.hash = prevhash
+
+window.addEventListener('hashchange', function (ev) {
+  localStorage.setItem('location', location.hash)
+})
+
 osmAuth = function () {
   return {
     authenticated: function () { return true },
