@@ -13,7 +13,7 @@ module.exports = function (osm) {
   return http.createServer(function (req, res) {
     console.log(req.method, req.url)
     if (osmrouter.handle(req, res)) {}
-    else if (/^\/(data|dist|css)\//.test(req.url)) {
+    else if (/^\/(data|dist|css|img)\//.test(req.url)) {
       vst(req, res)
     } else if (req.method === 'POST' && req.url === '/replicate') {
       body(req, res, function (err, params) {
