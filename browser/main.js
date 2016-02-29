@@ -45,18 +45,18 @@ iD.ui.Account = function () {
   }
 })(iD.Connection)
 
-iD.data.load(function() {
-  id = iD()
-    .presets(iD.data.presets)
-    //.imagery(iD.data.imagery)
-    .imagery(require('../imagery.json'))
-    .taginfo(iD.services.taginfo())
-    .assetPath('dist/')
+id = iD()
+  .presets({
+    presets: require('../vendor/ideditor/data/presets/presets.json'),
+    defaults: require('../vendor/ideditor/data/presets/defaults.json'),
+    categories: require('../vendor/ideditor/data/presets/categories.json'),
+    fields: require('../vendor/ideditor/data/presets/fields.json')
+  })
+  // .imagery(require('../vendor/ideditor/data/imagery.json'))
+  .imagery(require('../imagery.json'))
+  .taginfo(iD.services.taginfo())
+  .assetPath('dist/')
+  .preauth({url: 'http://' + window.location.host})
 
-  d3.select('#container')
-    .call(id.ui())
-
-  d3.select('#about-list').insert('li', '.user-list')
-    .attr('class', 'source-switch')
-    .call(iD.ui.SourceSwitch(id))
-})
+d3.select('#container')
+  .call(id.ui())
