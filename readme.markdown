@@ -4,9 +4,11 @@ osm-p2p map editor for remote mapping project in ecuador
 
 # getting started
 
-To install all dependencies and run the server, do:
+To clone and install all dependencies and run the server, do:
 
 ```
+$ git clone git@github.com:digidem/ecuador-map-editor.git --recursive
+$ cd ecuador-map-editor
 $ npm install
 $ npm run build
 $ npm start
