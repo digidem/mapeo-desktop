@@ -57,6 +57,7 @@ id = iD()
   .taginfo(iD.services.taginfo())
   .assetPath('dist/')
   .preauth({url: 'http://' + window.location.host})
+  .minEditableZoom(14)
 
 d3.select('#container')
   .call(id.ui())
