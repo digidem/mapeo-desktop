@@ -22,8 +22,8 @@ module.exports = function (osm) {
         exdb.once('error', function (err) {
           error(500, res, err)
         })
-        var s = srcdb.replicate()
-        var d = osm.replicate()
+        var s = srcdb.log.replicate()
+        var d = osm.log.replicate()
         var pending = 2
         s.once('end', onend)
         d.once('end', onend)

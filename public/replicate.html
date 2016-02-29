@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>replication</title>
+    <title>replicate</title>
     <style>
     </style>
   </head>
   <body>
     <h1>replication</h1>
+    <p>
+      Use this form to export map data to external media (for example, a USB
+      thumb drive) and to replicate with other databases.
+    </p>
     <form method="POST" action="/replicate">
       <div>
-        location of external database to replicate with:
+        file system path of external database to replicate with:
       </div>
       <div>
         <input type="text" name="source" placeholder="path to external media...">
+      </div>
+      <div>
+        If there is no database at the file system path, a new database will be
+        created before replicating.
       </div>
       <div>
         <button type="submit">replicate</button>
