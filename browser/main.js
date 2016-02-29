@@ -48,7 +48,8 @@ iD.ui.Account = function () {
 iD.data.load(function() {
   id = iD()
     .presets(iD.data.presets)
-    .imagery(iD.data.imagery)
+    //.imagery(iD.data.imagery)
+    .imagery(require('../imagery.json'))
     .taginfo(iD.services.taginfo())
     .assetPath('dist/')
 

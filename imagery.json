@@ -1,0 +1,10 @@
+[
+  {
+    "name": "local guyana tiles",
+    "type": "tms",
+    "template": "http://localhost:5000/tiles/{zoom}/{x}/{y}.jpg",
+    "polygon": [
+      [[2.115, -59.28],[2.345,-59.05]]
+    ]
+  }
+]
