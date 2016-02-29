@@ -35,7 +35,6 @@ module.exports = function (osm) {
           cleanup()
         }
         function cleanup () {
-          console.log('try to close')
           exdb.db.close()
         }
       })
