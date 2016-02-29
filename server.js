@@ -21,8 +21,9 @@ module.exports = function (osm) {
         var exdb = osmdb(params.source)
         exdb.once('error', function (err) {
           error(500, res, err)
+          cleanup()
         })
-        var s = srcdb.log.replicate()
+        var s = exdb.log.replicate()
         var d = osm.log.replicate()
         var pending = 2
         s.once('end', onend)
@@ -31,6 +32,11 @@ module.exports = function (osm) {
         function onend () {
           if (--pending !== 0) return
           res.end('ok\n')
+          cleanup()
+        }
+        function cleanup () {
+          console.log('try to close')
+          exdb.db.close()
         }
       })
     } else if (req.url === '/replicate') {
