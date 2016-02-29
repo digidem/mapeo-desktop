@@ -21,7 +21,7 @@ var createServer = require('./server.js')
 var server = createServer(osm)
 
 var pending = 2
-server.listen(argv.port, function () {
+server.listen(argv.port, '127.0.0.1', function () {
   var href = 'http://127.0.0.1:' + server.address().port
   console.log(href)
   ready()
