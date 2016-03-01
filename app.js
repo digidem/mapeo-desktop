@@ -9,7 +9,7 @@ var BrowserWindow = electron.BrowserWindow  // Module to create native browser w
 var argv = minimist(process.argv.slice(2), {
   default: {
     port: 5000,
-    datadir: './data'
+    datadir: path.join(__dirname, 'data')
   },
   boolean: [ 'headless', 'debug' ],
   alias: {
