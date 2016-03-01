@@ -53,6 +53,7 @@ function ready () {
   if (argv.headless) return
   var href = 'http://127.0.0.1:' + server.address().port + '/'
   win = new BrowserWindow({title: APP_NAME})
+  win.maximize()
   if (argv.debug) win.webContents.openDevTools()
   win.loadURL(href)
 
@@ -64,4 +65,3 @@ function ready () {
     win = null
   })
 }
-
