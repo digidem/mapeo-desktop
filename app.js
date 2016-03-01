@@ -6,6 +6,8 @@ var electron = require('electron')
 var app = electron.app  // Module to control application life.
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 
+var APP_NAME = 'Mapeo CEIBO'
+
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
 var userDataPath = app.getPath('userData')
@@ -50,7 +52,7 @@ function ready () {
   if (--pending !== 0) return
   if (argv.headless) return
   var href = 'http://127.0.0.1:' + server.address().port + '/'
-  win = new BrowserWindow()
+  win = new BrowserWindow({title: APP_NAME})
   if (argv.debug) win.webContents.openDevTools()
   win.loadURL(href)
 
