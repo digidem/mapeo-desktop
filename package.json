@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "bin/build.sh",
-    "start": "electron app.js",
+    "start": "electron app.js --disable-http-cache",
     "server": "node app.js --headless",
     "dev": "electron app.js --debug --disable-http-cache"
   },
