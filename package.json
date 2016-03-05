@@ -26,10 +26,13 @@
   "dependencies": {
     "body": "^5.1.0",
     "ecstatic": "^1.4.0",
+    "jsonstream": "^1.0.3",
     "level": "^1.4.0",
     "minimist": "^1.2.0",
     "osm-p2p": "^1.2.2",
     "osm-p2p-server": "^1.5.0",
+    "pump": "^1.0.1",
+    "through2": "^2.0.1",
     "xhr": "^2.2.0",
     "xtend": "^4.0.1"
   },
