@@ -5,10 +5,8 @@ var http = require('http')
 var osmdb = require('osm-p2p')
 var body = require('body/any')
 var qs = require('querystring')
-var xtend = require('xtend')
-var jsonstream = require('jsonstream')
+var exportGeoJson = require('./lib/geojson.js')
 var pump = require('pump')
-var through = require('through2')
 
 var st = ecstatic(path.join(__dirname, 'public'))
 var vst = ecstatic(path.join(__dirname, 'vendor/ideditor'))
@@ -46,7 +44,7 @@ module.exports = function (osm) {
     } else if (req.url === '/replicate') {
       req.url = '/replicate.html'
       st(req, res)
-    } else if (req.url.split('?')[0] === '/export') {
+    } else if (req.url.split('?')[0] === '/export.geojson') {
       var params = qs.parse(req.url.replace(/^[^\?]*?/, ''))
       var bbox = [[params.minlat,params.maxlat],[params.minlon,params.maxlon]]
         .map(function (pt) {
@@ -63,67 +61,4 @@ module.exports = function (osm) {
 function error (code, res, err) {
   res.statusCode = code
   res.end((err.message || err) + '\n')
-}
-
-function exportGeoJson (osm, bbox) {
-  var rstream = osm.queryStream(bbox)
-  var str = jsonstream.stringify()
-  var wrap = through({}, null, function end (next) {
-    this.push('}\n')
-    next()
-  })
-  wrap.push('{ "type": "FeatureCollection", "features": ')
-  return pump(
-    rstream,
-    through.obj(write, end),
-    str, wrap
-  )
-  function write (row, enc, next) {
-    var self = this
-    if (row.type === 'node') {
-      this.push({
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [row.lon,row.lat]
-        },
-        properties: xtend(row.tags || {}, {
-          id: row.id,
-          version: row.version
-        })
-      })
-      next()
-    } else if (row.type === 'way') {
-      var pending = 1
-      var coords = []
-      ;(row.refs || []).forEach(function (ref, ix) {
-        pending++
-        osm.get(ref, function (err, docs) {
-          if (docs) {
-            var doc = docs[Object.keys(docs)[0]] // for now
-            coords[ix] = [doc.lon,doc.lat]
-          }
-          if (--pending === 0) done()
-        })
-      })
-      if (--pending === 0) done()
-      function done () {
-        self.push({
-          type: 'Feature',
-          geometry: {
-            type: 'Polygon',
-            coordinates: coords
-          },
-          properties: xtend(row.tags || {}, {
-            id: row.id,
-            version: row.version
-          })
-        })
-        next()
-      }
-    } else next()
-  }
-  function end (next) {
-    next()
-  }
 }
