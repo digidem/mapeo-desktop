@@ -2,9 +2,9 @@ var path = require('path')
 var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
 var http = require('http')
-var osmdb = require('osm-p2p')
 var hyperlog = require('hyperlog')
-var level = require('level')
+var levelup = require('levelup')
+var sqldown = require('sqldown')
 
 var body = require('body/any')
 var qs = require('querystring')
@@ -24,11 +24,12 @@ module.exports = function (osm) {
     } else if (req.method === 'POST' && req.url === '/replicate') {
       body(req, res, function (err, params) {
         if (err) return error(400, res, err)
-        var exdb = hyperlog(level(params.source), { valueEncoding: 'json' })
-        exdb.once('error', function (err) {
+        var syncDb = levelup(params.source, {db: sqldown})
+        var syncLog = hyperlog(syncDb, { valueEncoding: 'json' })
+        syncLog.once('error', function (err) {
           error(500, res, err)
         })
-        var s = exdb.replicate()
+        var s = syncLog.replicate()
         var d = osm.log.replicate()
         var pending = 2
         s.once('end', onend)
