@@ -2,13 +2,15 @@
   "name": "ecuador-map-editor",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "engine": {
     "node": "5.7.0"
   },
   "scripts": {
     "build": "bin/build.sh",
-    "start": "electron app.js --disable-http-cache",
+    "package-win": "electron-packager . 'Mapeo CEIBO' --out=dist/ --platform=win32 --arch=ia32 --version=0.36.9 --ignore=^dist --prune --overwrite --asar",
+    "package-mac": "electron-packager . 'Mapeo CEIBO' --out=dist/ --platform=darwin --arch=x64 --version=0.36.9 --ignore=^dist --prune --overwrite",
+    "start": "electron app.js",
     "server": "node app.js --headless",
     "dev": "electron app.js --debug --disable-http-cache"
   },
@@ -39,6 +41,7 @@
   },
   "devDependencies": {
     "browserify": "^13.0.0",
+    "electron-packager": "^5.2.1",
     "electron-prebuilt": "0.36.9",
     "watchify": "^3.7.0"
   }
