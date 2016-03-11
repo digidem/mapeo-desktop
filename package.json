@@ -28,6 +28,7 @@
   "dependencies": {
     "body": "^5.1.0",
     "ecstatic": "^1.4.0",
+    "hyperlog": "^4.8.0",
     "level": "^1.4.0",
     "minimist": "^1.2.0",
     "osm-p2p": "^1.2.2",
