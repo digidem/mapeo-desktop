@@ -3,6 +3,9 @@ var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
 var http = require('http')
 var osmdb = require('osm-p2p')
+var hyperlog = require('hyperlog')
+var level = require('level')
+
 var body = require('body/any')
 var qs = require('querystring')
 var exportGeoJson = require('./lib/geojson.js')
@@ -21,12 +24,11 @@ module.exports = function (osm) {
     } else if (req.method === 'POST' && req.url === '/replicate') {
       body(req, res, function (err, params) {
         if (err) return error(400, res, err)
-        var exdb = osmdb(params.source)
+        var exdb = hyperlog(level(params.source), { valueEncoding: 'json' })
         exdb.once('error', function (err) {
           error(500, res, err)
-          cleanup()
         })
-        var s = exdb.log.replicate()
+        var s = exdb.replicate()
         var d = osm.log.replicate()
         var pending = 2
         s.once('end', onend)
@@ -35,10 +37,6 @@ module.exports = function (osm) {
         function onend () {
           if (--pending !== 0) return
           res.end('ok\n')
-          cleanup()
-        }
-        function cleanup () {
-          exdb.db.close()
         }
       })
     } else if (req.url === '/replicate') {
