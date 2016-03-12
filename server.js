@@ -1,4 +1,5 @@
 var path = require('path')
+var fs = require('fs')
 var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
 var http = require('http')
@@ -10,6 +11,10 @@ var body = require('body/any')
 var qs = require('querystring')
 var exportGeoJson = require('./lib/geojson.js')
 var pump = require('pump')
+var shp = require('shpjs')
+var tmpdir = require('os').tmpdir()
+var unzip = require('unzip')
+var mkdirp = require('mkdirp')
 
 var st = ecstatic(path.join(__dirname, 'public'))
 var vst = ecstatic(path.join(__dirname, 'vendor/ideditor'))
@@ -53,6 +58,23 @@ module.exports = function (osm) {
         })
       res.setHeader('content-type', 'text/json')
       pump(exportGeoJson(osm, bbox), res)
+    } else if (req.url === '/import.shp') {
+      var dir = path.join(tmpdir, 'shapefile-' + Math.random())
+      console.log(dir)
+      mkdirp(dir, function (err) {
+        var parser = unzip.Parse()
+        req.pipe(parser)
+        parser.on('entry', onentry)
+        parser.once('finish', function () {
+          console.log('FINISH', dir)
+        })
+      })
+      function onentry (entry) {
+        var outfile = path.join(dir, entry.path)
+        if (!/^\.\./.test(path.relative(dir, outfile))) {
+          entry.pipe(fs.createWriteStream(outfile))
+        } else entry.resume()
+      }
     } else st(req, res)
   })
 }
@@ -60,4 +82,9 @@ module.exports = function (osm) {
 function error (code, res, err) {
   res.statusCode = code
   res.end((err.message || err) + '\n')
+}
+
+function errb (promise, cb) {
+  promise.then(cb.bind(null, null))
+  promise.catch(cb)
 }
