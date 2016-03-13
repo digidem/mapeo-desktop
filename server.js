@@ -42,7 +42,10 @@ module.exports = function (osm) {
         s.pipe(d).pipe(s)
         function onend () {
           if (--pending !== 0) return
-          res.end('ok\n')
+          res.writeHead(302, {
+            Location: '/'
+          })
+          res.end()
         }
       })
     } else if (req.url === '/replicate') {
