@@ -8,7 +8,8 @@ var sqldown = require('sqldown')
 
 var body = require('body/any')
 var qs = require('querystring')
-var exportGeoJson = require('./lib/geojson.js')
+var exportGeoJson = require('./lib/export-geo.js')
+var importGeo = require('./lib/import-geo.js')
 var pump = require('pump')
 var shp = require('shpjs')
 var tmpdir = require('os').tmpdir()
@@ -56,10 +57,23 @@ module.exports = function (osm) {
         })
       res.setHeader('content-type', 'text/json')
       pump(exportGeoJson(osm, bbox), res)
-    } else if (req.url === '/import.shp') {
+    } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
       req.pipe(concat(function (buf) {
-        errb(shp(buf), function (err, geojson) {
-          console.log('geo=', err, geojson)
+        errb(shp(buf), function (err, geojsons) {
+          if (err) return error(400, res, err)
+          var errors = [], pending = 1
+          geojsons.forEach(function (geo) {
+            importGeo(osm, geo, function (err) {
+              if (err) errors.push(String(err.message || err))
+              if (--pending === 0) done()
+            })
+          })
+          if (--pending === 0) done()
+          function done () {
+            res.end(JSON.stringify({
+              errors: errors
+            }, null, 2))
+          }
         })
       }))
     } else st(req, res)
