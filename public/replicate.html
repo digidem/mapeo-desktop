@@ -32,5 +32,17 @@
         <button type="submit">replicate</button>
       </div>
     </form>
+    <script>
+      // should only work in electron:
+      ;(function () {
+        if (typeof require !== 'function') return
+        try { var ipc = require('ipc') } catch (e) { return }
+        ipc.send('open-dir')
+        ipc.on('select-dir', function (dir) {
+          document.querySelector('form[action="/replicate"]'
+            + ' input[name="source"]').value = dir
+        })
+      })()
+    </script>
   </body>
 </html>

@@ -57,6 +57,22 @@ function ready () {
   if (argv.debug) win.webContents.openDevTools()
   win.loadURL(href)
 
+  var ipc = electron.ipcMain
+  ipc.on('open-dir', function () {
+    electron.dialog.showOpenDialog(win, {
+      title: 'select USB media for replication',
+      properties: [ 'openDirectory' ],
+      filters: []
+    }, onopen)
+
+    function onopen (filenames) {
+      if (filenames.length === 1) {
+        var dir = filenames[0]
+        win.webContents.send('select-dir', dir)
+      }
+    }
+  })
+
   // Emitted when the window is closed.
   win.on('closed', function () {
     // Dereference the window object, usually you would store windows
