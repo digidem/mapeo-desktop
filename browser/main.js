@@ -45,6 +45,9 @@ iD.ui.Account = function () {
   }
 })(iD.Connection)
 
+// Override iD.modes.Browse to avoid dragging points without selecting them
+require('../lib/id-browse')
+
 id = iD()
   .presets({
     presets: require('../node_modules/iD/data/presets/presets.json'),
