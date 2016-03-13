@@ -66,6 +66,7 @@ function ready () {
     }, onopen)
 
     function onopen (filenames) {
+      if (typeof filenames === 'undefined') return
       if (filenames.length === 1) {
         var dir = filenames[0]
         win.webContents.send('select-dir', dir)
