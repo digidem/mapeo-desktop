@@ -7,7 +7,9 @@
     "node": "5.7.0"
   },
   "scripts": {
-    "build": "bin/build.sh",
+    "build": "npm run build:id && npm run build:bundle",
+    "build:id": "node bin/build_id_editor.js",
+    "build:bundle": "browserify browser/main.js -o public/bundle.js",
     "package-win": "electron-packager . \"Mapeo CEIBO\" --out=dist/ --platform=win32 --arch=x64 --version=0.36.9 --ignore=\"^dist\" --prune --overwrite --asar",
     "package-mac": "electron-packager . \"Mapeo CEIBO\" --out=dist/ --platform=darwin --arch=x64 --version=0.36.9 --ignore=\"^dist\" --prune --overwrite",
     "rebuild-leveldb": "cd node_modules/leveldown && set HOME=~/.electron-gyp && node-gyp rebuild --target=0.36.9 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
@@ -27,11 +29,12 @@
   },
   "homepage": "https://github.com/digidem/ecuador-map-editor#readme",
   "dependencies": {
+    "JSONStream": "^1.0.3",
     "body": "^5.1.0",
     "concat-stream": "^1.5.1",
     "ecstatic": "^1.4.0",
     "hyperlog": "^4.8.0",
-    "jsonstream": "^1.0.3",
+    "iD": "github:openstreetmap/iD#v1.9.1",
     "level": "^1.4.0",
     "levelup": "^1.3.1",
     "minimist": "^1.2.0",

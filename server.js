@@ -16,14 +16,15 @@ var tmpdir = require('os').tmpdir()
 var concat = require('concat-stream')
 
 var st = ecstatic(path.join(__dirname, 'public'))
-var vst = ecstatic(path.join(__dirname, 'vendor/ideditor'))
+var vst = ecstatic(path.join(__dirname, 'node_modules/iD'))
 
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
   return http.createServer(function (req, res) {
     console.log(req.method, req.url)
     if (osmrouter.handle(req, res)) {}
-    else if (/^\/(data|dist|css|img)\//.test(req.url)) {
+    else if (/^\/(data|dist|css)\//.test(req.url)) {
+      req.url = req.url.replace(/^\/css\/img\//, '/dist/img/')
       vst(req, res)
     } else if (req.method === 'POST' && req.url === '/replicate') {
       body(req, res, function (err, params) {
@@ -61,6 +62,9 @@ module.exports = function (osm) {
       req.pipe(concat(function (buf) {
         errb(shp(buf), function (err, geojsons) {
           if (err) return error(400, res, err)
+          if (!(geojsons instanceof Array)) {
+            geojsons = [geojsons]
+          }
           var errors = [], pending = 1
           geojsons.forEach(function (geo) {
             importGeo(osm, geo, function (err) {
