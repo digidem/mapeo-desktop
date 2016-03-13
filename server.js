@@ -16,7 +16,7 @@ var tmpdir = require('os').tmpdir()
 var concat = require('concat-stream')
 
 var st = ecstatic(path.join(__dirname, 'public'))
-var vst = ecstatic(path.join(__dirname, 'vendor/ideditor'))
+var vst = ecstatic(path.join(__dirname, 'node_modules/iD'))
 
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)

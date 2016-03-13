@@ -47,13 +47,12 @@ iD.ui.Account = function () {
 
 id = iD()
   .presets({
-    presets: require('../vendor/ideditor/data/presets/presets.json'),
-    defaults: require('../vendor/ideditor/data/presets/defaults.json'),
-    categories: require('../vendor/ideditor/data/presets/categories.json'),
-    fields: require('../vendor/ideditor/data/presets/fields.json')
+    presets: require('../node_modules/iD/data/presets/presets.json'),
+    defaults: require('../node_modules/iD/data/presets/defaults.json'),
+    categories: require('../node_modules/iD/data/presets/categories.json'),
+    fields: require('../node_modules/iD/data/presets/fields.json')
   })
-  // .imagery(require('../vendor/ideditor/data/imagery.json'))
-  .imagery(require('../imagery.json'))
+  .imagery(require('../node_modules/iD/data/imagery.json'))
   .taginfo(iD.services.taginfo())
   .assetPath('dist/')
   .preauth({url: 'http://' + window.location.host})
