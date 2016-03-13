@@ -62,6 +62,9 @@ module.exports = function (osm) {
       req.pipe(concat(function (buf) {
         errb(shp(buf), function (err, geojsons) {
           if (err) return error(400, res, err)
+          if (!(geojsons instanceof Array)) {
+            geojsons = [geojsons]
+          }
           var errors = [], pending = 1
           geojsons.forEach(function (geo) {
             importGeo(osm, geo, function (err) {
