@@ -11,8 +11,8 @@
     "build:id": "node bin/build_id_editor.js",
     "build:bundle": "browserify browser/main.js -o public/bundle.js",
     "build:sync": "browserify browser/sync.js -o public/bundle_sync.js",
-    "package-win": "electron-packager . \"Mapeo CEIBO\" --out=dist/ --platform=win32 --arch=x64 --version=0.36.9 --ignore=\"^dist\" --prune --overwrite --asar",
-    "package-mac": "electron-packager . \"Mapeo CEIBO\" --out=dist/ --platform=darwin --arch=x64 --version=0.36.9 --ignore=\"^dist\" --prune --overwrite",
+    "package-win": "rimraf \"dist/Mapeo CEIBO-win32-x64\" && npm run build && electron-packager . \"Mapeo CEIBO\" --out=dist/ --platform=win32 --arch=x64 --version=0.36.9 --ignore=\"^dist\" --prune --overwrite --asar",
+    "package-mac": "rimraf \"dist/Mapeo CEIBO-darwin-x64\" && npm run build && electron-packager . \"Mapeo CEIBO\" --out=dist/ --platform=darwin --arch=x64 --version=0.36.9 --ignore=\"^dist\" --prune --overwrite",
     "rebuild-leveldb": "cd node_modules/leveldown && set HOME=~/.electron-gyp && node-gyp rebuild --target=0.36.9 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "start": "electron app.js --disable-http-cache",
     "server": "node app.js --headless",
@@ -61,6 +61,7 @@
     "browserify": "^13.0.0",
     "electron-packager": "^5.2.1",
     "electron-prebuilt": "0.36.9",
+    "rimraf": "^2.5.2",
     "watchify": "^3.7.0"
   }
 }
