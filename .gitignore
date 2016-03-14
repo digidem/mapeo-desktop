@@ -2,5 +2,6 @@ node_modules
 data
 public/ideditor.js
 public/bundle.js
+public/bundle_sync.js
 dist
 osm-p2p-data

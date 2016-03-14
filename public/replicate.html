@@ -17,7 +17,7 @@
       Use this form to export map data to external media (for example, a USB
       thumb drive) and to replicate with other databases.
     </p>
-    <form method="POST" action="/replicate">
+    <form method="POST" action="/replicate" id="sync">
       <div>
         file system path of external database to replicate with:
       </div>
@@ -31,6 +31,7 @@
       <div>
         <button type="submit">replicate</button>
       </div>
+      <div id="response"></div>
     </form>
     <script>
       // should only work in electron:
@@ -44,5 +45,6 @@
         })
       })()
     </script>
+    <script src="/bundle_sync.js"></script>
   </body>
 </html>

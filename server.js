@@ -13,39 +13,29 @@ var pump = require('pump')
 var shp = require('shpjs')
 var tmpdir = require('os').tmpdir()
 var concat = require('concat-stream')
+var wsock = require('websocket-stream')
+var onend = require('end-of-stream')
+var randombytes = require('randombytes')
 
 var st = ecstatic(path.join(__dirname, 'public'))
 var vst = ecstatic(path.join(__dirname, 'node_modules/iD'))
 
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
-  return http.createServer(function (req, res) {
+  var replicating = false
+
+  var server = http.createServer(function (req, res) {
     console.log(req.method, req.url)
     if (osmrouter.handle(req, res)) {}
     else if (/^\/(data|dist|css)\//.test(req.url)) {
       req.url = req.url.replace(/^\/css\/img\//, '/dist/img/')
       vst(req, res)
     } else if (req.method === 'POST' && req.url === '/replicate') {
+      if (replicating) return error(400, res, 'Replication in progress.\n')
       body(req, res, function (err, params) {
         if (err) return error(400, res, err)
-        var syncDb = level(params.source)
-        var syncLog = hyperlog(syncDb, { valueEncoding: 'json' })
-        syncLog.once('error', function (err) {
-          error(500, res, err)
-        })
-        var s = syncLog.replicate()
-        var d = osm.log.replicate()
-        var pending = 2
-        s.once('end', onend)
-        d.once('end', onend)
-        s.pipe(d).pipe(s)
-        function onend () {
-          if (--pending !== 0) return
-          res.writeHead(302, {
-            Location: '/'
-          })
-          res.end()
-        }
+        replicate(params.source)
+        res.end('replication started\n')
       })
     } else if (req.url === '/replicate') {
       req.url = '/replicate.html'
@@ -84,6 +74,44 @@ module.exports = function (osm) {
       }))
     } else st(req, res)
   })
+
+  var streams = {}
+  wsock.createServer({ server: server }, function (stream) {
+    var id = randombytes(8).toString('hex')
+    streams[id] = stream
+    onend(stream, function () { delete streams[id] })
+  })
+  return server
+
+  function replicate (sourcedir) {
+    var syncDb = level(sourcedir)
+    var syncLog = hyperlog(syncDb, { valueEncoding: 'json' })
+    syncLog.on('error', syncErr)
+    var s = syncLog.replicate()
+    var d = osm.log.replicate()
+    var pending = 2
+    onend(s, onend)
+    onend(d, onend)
+    s.on('error', syncErr)
+    d.on('error', syncErr)
+    s.pipe(d).pipe(s)
+
+    function onend () {
+      if (--pending !== 0) return
+      replicating = false
+      send('replication-complete')
+    }
+    function syncErr (err) {
+      replicating = false
+      send('replication-error', err.message)
+    }
+  }
+  function send (topic, msg) {
+    var str = JSON.stringify({ topic: topic, message: msg || {} }) + '\n'
+    Object.keys(streams).forEach(function (id) {
+      streams[id].write(str)
+    })
+  }
 }
 
 function error (code, res, err) {
