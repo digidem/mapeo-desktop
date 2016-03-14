@@ -17,8 +17,12 @@ var wsock = require('websocket-stream')
 var onend = require('end-of-stream')
 var randombytes = require('randombytes')
 
-var st = ecstatic(path.join(__dirname, 'public'))
-var vst = ecstatic(path.join(__dirname, 'node_modules/iD'))
+var ecstaticOpts = {
+  cache: 0
+}
+
+var st = ecstatic(path.join(__dirname, 'public'), ecstaticOpts)
+var vst = ecstatic(path.join(__dirname, 'node_modules/iD'), ecstaticOpts)
 
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
