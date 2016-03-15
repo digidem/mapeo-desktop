@@ -18,6 +18,7 @@ concat([
   path.join(mpPath, 'id-connection.js'),
   path.join(mpPath, 'id-modes-browse.js'),
   path.join(mpPath, 'id-ui-account.js'),
+  path.join(mpPath, 'id-svg-tagclasses.js'),
   path.join(mpPath, 'osm-auth.js'),
   path.join(mpPath, 'end.js')
 ], path.join(dstPath, 'iD-patched.js'), done)
