@@ -17,23 +17,13 @@ var wsock = require('websocket-stream')
 var onend = require('end-of-stream')
 var randombytes = require('randombytes')
 
-var ecstaticOpts = {
-  cache: 0
-}
-
-var st = ecstatic(path.join(__dirname, 'public'), ecstaticOpts)
-var vst = ecstatic(path.join(__dirname, 'node_modules/iD'), ecstaticOpts)
-
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
   var replicating = false
 
   var server = http.createServer(function (req, res) {
     console.log(req.method, req.url)
-    if (osmrouter.handle(req, res)) {}
-    else if (/^\/(data|dist|css)\//.test(req.url)) {
-      req.url = req.url.replace(/^\/css\/img\//, '/dist/img/')
-      vst(req, res)
+    if (osmrouter.handle(req, res)) {
     } else if (req.method === 'POST' && req.url === '/replicate') {
       if (replicating) return error(400, res, 'Replication in progress.\n')
       body(req, res, function (err, params) {
@@ -41,9 +31,6 @@ module.exports = function (osm) {
         replicate(params.source)
         res.end('replication started\n')
       })
-    } else if (req.url === '/replicate') {
-      req.url = '/replicate.html'
-      st(req, res)
     } else if (req.url.split('?')[0] === '/export.geojson') {
       var params = qs.parse(req.url.replace(/^[^\?]*?/, ''))
       var bbox = [[params.minlat,params.maxlat],[params.minlon,params.maxlon]]
@@ -76,7 +63,7 @@ module.exports = function (osm) {
           }
         })
       }))
-    } else st(req, res)
+    } else error(404, res, 'Not Found')
   })
 
   var streams = {}

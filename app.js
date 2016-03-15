@@ -34,9 +34,10 @@ var createServer = require('./server.js')
 var server = createServer(osm)
 
 var pending = 2
+
 server.listen(argv.port, '127.0.0.1', function () {
-  var href = 'http://127.0.0.1:' + server.address().port
-  console.log(href)
+  global.osmServerHost = '127.0.0.1:' + server.address().port
+  console.log(global.osmServerHost)
   ready()
 })
 
@@ -53,11 +54,11 @@ var win = null
 function ready () {
   if (--pending !== 0) return
   if (argv.headless) return
-  var href = 'http://127.0.0.1:' + server.address().port + '/'
+  var INDEX = 'file://' + path.resolve(__dirname, './index.html')
   win = new BrowserWindow({title: APP_NAME})
   win.maximize()
   if (argv.debug) win.webContents.openDevTools()
-  win.loadURL(href)
+  win.loadURL(INDEX)
 
   var ipc = electron.ipcMain
   ipc.on('open-dir', function () {

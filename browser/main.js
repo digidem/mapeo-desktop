@@ -1,3 +1,5 @@
+var remote = require('remote')
+var path = require('path')
 
 var prevhash = localStorage.getItem('location')
 if (location.hash) localStorage.setItem('location', location.hash)
@@ -7,6 +9,7 @@ window.addEventListener('hashchange', function (ev) {
   localStorage.setItem('location', location.hash)
 })
 
+var serverUrl = 'http://' + require('remote').getGlobal('osmServerHost')
 
 
 id = iD()
@@ -18,8 +21,8 @@ id = iD()
   })
   .imagery(require('../node_modules/iD/data/imagery.json'))
   .taginfo(iD.services.taginfo())
-  .preauth({url: 'http://' + window.location.host})
   .assetPath('vendor/iD/')
+  .preauth({url: serverUrl})
   .minEditableZoom(14)
 
 d3.select('#container')
