@@ -11,15 +11,15 @@ window.addEventListener('hashchange', function (ev) {
 
 var serverUrl = 'http://' + require('remote').getGlobal('osmServerHost')
 
+var customPresets = remote.require('./lib/user-config').getPresets()
+var customImagery = remote.require('./lib/user-config').getImagery()
+
+var presets = customPresets || require('../vendor/iD/presets.json')
+var imagery = customImagery || require('../vendor/iD/imagery.json')
 
 id = iD()
-  .presets({
-    presets: require('../node_modules/iD/data/presets/presets.json'),
-    defaults: require('../node_modules/iD/data/presets/defaults.json'),
-    categories: require('../node_modules/iD/data/presets/categories.json'),
-    fields: require('../node_modules/iD/data/presets/fields.json')
-  })
-  .imagery(require('../node_modules/iD/data/imagery.json'))
+  .presets(presets)
+  .imagery(imagery)
   .taginfo(iD.services.taginfo())
   .assetPath('vendor/iD/')
   .preauth({url: serverUrl})
