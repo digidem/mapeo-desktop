@@ -6,6 +6,8 @@ var electron = require('electron')
 var app = electron.app  // Module to control application life.
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 
+require('electron-debug')()
+
 var APP_NAME = 'Mapeo CEIBO'
 
 // Path to `userData`, operating system specific, see

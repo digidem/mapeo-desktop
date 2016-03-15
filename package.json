@@ -37,6 +37,7 @@
     "body": "^5.1.0",
     "concat-stream": "^1.5.1",
     "ecstatic": "^1.4.0",
+    "electron-debug": "^0.5.2",
     "end-of-stream": "^1.1.0",
     "hyperlog": "^4.8.1",
     "iD": "github:openstreetmap/iD#v1.9.1",
