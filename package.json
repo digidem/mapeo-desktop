@@ -17,9 +17,6 @@
     "rebuild-leveldb": "cd node_modules/leveldown && set HOME=~/.electron-gyp && node-gyp rebuild --target=0.36.9 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "start": "electron app.js --disable-http-cache",
     "server": "node app.js --headless",
-    "watch": "npm run watch:bundle & npm run watch:sync",
-    "watch:bundle": "watchify browser/main.js -o public/bundle.js -dv",
-    "watch:sync": "watchify browser/sync.js -o public/bundle_sync.js -dv",
     "dev": "electron app.js --debug --disable-http-cache"
   },
   "repository": {
