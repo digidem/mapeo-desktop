@@ -1,5 +1,6 @@
 {
   "name": "ecuador-map-editor",
+  "productName": "Mapeo CEIBO",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",

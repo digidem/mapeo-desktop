@@ -10,7 +10,7 @@ var BrowserWindow = electron.BrowserWindow  // Module to create native browser w
 require('electron-debug')()
 var menuTemplate = require('./lib/menu')
 
-var APP_NAME = 'Mapeo CEIBO'
+var APP_NAME = app.getName()
 
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
