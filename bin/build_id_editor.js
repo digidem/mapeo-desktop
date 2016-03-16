@@ -25,7 +25,7 @@ concat([
 
 // Copy all iD dist assets
 cpr(idDstPath, dstPath, {overwrite: true}, done)
-cpr(path.join(idPath, 'data/imagery.json'), dstPath, done)
+cpr(path.join(idPath, 'data/imagery.json'), dstPath, {overwrite: true}, done)
 
 var presets = {
   presets: require('../node_modules/iD/data/presets/presets.json'),
