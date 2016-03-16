@@ -4,9 +4,11 @@ var path = require('path')
 var minimist = require('minimist')
 var electron = require('electron')
 var app = electron.app  // Module to control application life.
+var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 
 require('electron-debug')()
+var menuTemplate = require('./lib/menu')
 
 var APP_NAME = 'Mapeo CEIBO'
 
@@ -50,6 +52,7 @@ if (!argv.headless) {
 }
 
 var win = null
+var menu = null
 
 function ready () {
   if (--pending !== 0) return
@@ -79,6 +82,9 @@ function ready () {
       }
     }
   })
+
+  menu = Menu.buildFromTemplate(menuTemplate(app))
+  Menu.setApplicationMenu(menu)
 
   // Emitted when the window is closed.
   win.on('closed', function () {
