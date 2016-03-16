@@ -61,6 +61,9 @@ function ready () {
   win.loadURL(INDEX)
 
   var ipc = electron.ipcMain
+
+  require('./lib/user-config')
+
   ipc.on('open-dir', function () {
     electron.dialog.showOpenDialog(win, {
       title: 'select USB media for replication',
