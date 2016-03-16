@@ -5,7 +5,7 @@ var cpr = require('cpr')
 var mkdirp = require('mkdirp')
 
 var mpPath = path.resolve(__dirname, '../id_monkey_patches')
-var idPath = path.resolve(__dirname, '../node_modules/iD')
+var idPath = path.dirname(require.resolve('iD/package.json'))
 var idDstPath = path.join(idPath, 'dist')
 var dstPath = path.resolve(__dirname, '../vendor/iD')
 
@@ -28,10 +28,10 @@ cpr(idDstPath, dstPath, {overwrite: true}, done)
 cpr(path.join(idPath, 'data/imagery.json'), dstPath, {overwrite: true}, done)
 
 var presets = {
-  presets: require('../node_modules/iD/data/presets/presets.json'),
-  defaults: require('../node_modules/iD/data/presets/defaults.json'),
-  categories: require('../node_modules/iD/data/presets/categories.json'),
-  fields: require('../node_modules/iD/data/presets/fields.json')
+  presets: require('iD/data/presets/presets.json'),
+  defaults: require('iD/data/presets/defaults.json'),
+  categories: require('iD/data/presets/categories.json'),
+  fields: require('iD/data/presets/fields.json')
 }
 
 fs.writeFileSync(path.join(dstPath, 'presets.json'), JSON.stringify(presets, null, '  '))
