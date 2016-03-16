@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='vendor/iD/iD.css'>
+    <style>
+      #overlay {
+        z-index: 100;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+      }
+      #overlay button {
+        min-width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="overlay">
+      <a href="replicate.html"><button>replicate</button></a>
+    </div>
+    <div id="container"></div>
+    <script src="vendor/iD/iD-patched.js"></script>
+    <script src="vendor/iD/presets.js"></script>
+    <script src="vendor/iD/imagery.js"></script>
+    <script>
+      require('./browser/main.js')
+    </script>
+  </body>
+</html>

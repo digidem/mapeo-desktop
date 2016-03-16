@@ -1,5 +1,5 @@
-var xhr = require('xhr')
-var xtend = require('xtend')
+var insertCss = require('insert-css')
+var ipc = require('electron').ipcRenderer
 
 var prevhash = localStorage.getItem('location')
 if (location.hash) localStorage.setItem('location', location.hash)
@@ -9,57 +9,38 @@ window.addEventListener('hashchange', function (ev) {
   localStorage.setItem('location', location.hash)
 })
 
-osmAuth = function () {
-  return {
-    authenticated: function () { return true },
-    logout: function () { return this },
-    authenticate: function (cb) { return cb() },
-    bootstrapToken: function (token, cb) { cb(null, this) },
-    xhr: function (opts, cb) {
-      console.log(opts.method, opts.path, {
-        headers: (opts.options || {}).header || {}
-      })
-      return xhr(xtend(opts, {
-        method: opts.method,
-        url: opts.path,
-        body: opts.content,
-        headers: (opts.options || {}).header || {}
-      }), function (err, res, body) { cb(err, body) })
-    },
-    preauth: function (c) {},
-    options: function () {}
-  }
-}
-iD.ui.Account = function () {
-  return function () {}
-}
-;(function (original) {
-  iD.Connection = function () {
-    var res = original.apply(this, arguments)
-    res.userDetails = function (cb) {
-      cb(null, {
-        id: 'anonymous'
-      })
-    }
-    return res
-  }
-})(iD.Connection)
+var serverUrl = 'http://' + require('remote').getGlobal('osmServerHost')
 
-// Override iD.modes.Browse to avoid dragging points without selecting them
-require('../lib/id-browse')
+var presets = ipc.sendSync('get-user-data', 'presets')
+var customCss = ipc.sendSync('get-user-data', 'css')
+var imagery = ipc.sendSync('get-user-data', 'imagery')
 
-id = iD()
-  .presets({
-    presets: require('../node_modules/iD/data/presets/presets.json'),
-    defaults: require('../node_modules/iD/data/presets/defaults.json'),
-    categories: require('../node_modules/iD/data/presets/categories.json'),
-    fields: require('../node_modules/iD/data/presets/fields.json')
-  })
-  .imagery(require('../node_modules/iD/data/imagery.json'))
+if (customCss) insertCss(customCss)
+
+var id = iD()
+  .presets(presets || require('../vendor/iD/presets.json'))
+  .imagery(imagery || require('../vendor/iD/imagery.json'))
   .taginfo(iD.services.taginfo())
-  .assetPath('dist/')
-  .preauth({url: 'http://' + window.location.host})
+  .assetPath('vendor/iD/')
+  .preauth({url: serverUrl})
   .minEditableZoom(14)
+
+ipc.on('updated-user-data', function (event, type, data) {
+  switch (type) {
+    case 'presets':
+      id.presets(data)
+      break
+    case 'css':
+      insertCss(data)
+      break
+    case 'imagery':
+    console.log(data)
+      id.imagery(data)
+      break
+    default:
+      console.warn('unhandled event', event, type)
+  }
+})
 
 d3.select('#container')
   .call(id.ui())

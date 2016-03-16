@@ -1,3 +1,0 @@
-[submodule "vendor/ideditor"]
-	path = vendor/ideditor
-	url = git@github.com:openstreetmap/iD.git

@@ -37,14 +37,14 @@
       // should only work in electron:
       ;(function () {
         if (typeof require !== 'function') return
-        try { var ipc = require('ipc') } catch (e) { return }
+        try { var ipc = require("electron").ipcRenderer } catch (e) { return }
         ipc.send('open-dir')
-        ipc.on('select-dir', function (dir) {
+        ipc.on('select-dir', function (event, dir) {
           document.querySelector('form[action="/replicate"]'
             + ' input[name="source"]').value = dir
         })
       })()
+      require('./browser/sync.js')
     </script>
-    <script src="/bundle_sync.js"></script>
   </body>
 </html>
