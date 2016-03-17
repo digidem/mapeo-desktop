@@ -10,6 +10,8 @@ var ws = wsock('ws://' + osmServerHost)
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   if (row && row.topic === 'replication-error') {
     resdiv.innerText = row.message
+  } else if (row && row.topic === 'replication-data-complete') {
+    resdiv.innerText = 'data transfer complete, updating indexes...'
   } else if (row && row.topic === 'replication-complete') {
     resdiv.innerText = 'replication complete!'
     setTimeout(function () {

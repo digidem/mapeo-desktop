@@ -90,7 +90,13 @@ module.exports = function (osm) {
     function onend () {
       if (--pending !== 0) return
       replicating = false
-      send('replication-complete')
+      send('replication-data-complete')
+      setTimeout(function () {
+        osm.ready(function () {
+          console.log('COMPlETE')
+          send('replication-complete')
+        })
+      }, 5000) // HACK, figure out how to not do this in the future
     }
     function syncErr (err) {
       replicating = false
