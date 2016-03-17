@@ -2,22 +2,37 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <title>Mapeo CEIBO</title>
     <link rel='stylesheet' href='vendor/iD/iD.css'>
     <style>
       #overlay {
         z-index: 100;
         position: absolute;
-        top: 5px;
-        right: 5px;
+        top: 10px;
+        right: 10px;
       }
       #overlay button {
         min-width: 100px;
+        padding: 0 15px;
       }
     </style>
   </head>
   <body>
     <div id="overlay">
-      <a href="replicate.html"><button>replicate</button></a>
+      <a href="replicate.html">
+        <button>
+          <svg class="icon pre-text" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <path d="M0 0h24v24H0V0z" id="a"/>
+            </defs>
+            <clipPath id="b">
+                <use overflow="visible" xlink:href="#a"/>
+            </clipPath>
+            <path clip-path="url(#b)" d="M9.01 14H2v2h7.01v3L13 15l-3.99-4v3zm5.98-1v-3H22V8h-7.01V5L11 9l3.99 4z"/>
+          </svg>
+          <span class="label">Sincronizar</span>
+        </button>
+      </a>
     </div>
     <div id="container"></div>
     <script src="vendor/iD/iD-patched.js"></script>

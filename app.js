@@ -18,12 +18,13 @@ var userDataPath = app.getPath('userData')
 var argv = minimist(process.argv.slice(2), {
   default: {
     port: 5000,
-    datadir: path.join(userDataPath, 'data')
+    datadir: path.join(userDataPath, 'data'),
+    tileport: 5005
   },
   boolean: [ 'headless', 'debug' ],
   alias: {
     p: 'port',
-    d: 'datadir',
+    t: 'tileport',
     d: 'debug'
   }
 })
@@ -40,6 +41,11 @@ server.listen(argv.port, '127.0.0.1', function () {
   global.osmServerHost = '127.0.0.1:' + server.address().port
   console.log(global.osmServerHost)
   ready()
+})
+
+var tileServer = require('./tile-server.js')()
+tileServer.listen(argv.tileport, '127.0.0.1', function () {
+  console.log('tile server listening on :', server.address().port)
 })
 
 if (!argv.headless) {
