@@ -1,49 +1,53 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>replicate</title>
+    <meta charset="UTF-8">
+    <title>Sincronización</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
     <style>
-      form input[type="text"] {
-        font-size: 1.5em;
+      body {
+        position: absolute;
+        height: 100%;
         width: 100%;
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button#cancel {
+        min-width: 110px;
       }
     </style>
   </head>
   <body>
-    <h1>replication</h1>
-    <p>
-      Use this form to export map data to external media (for example, a USB
-      thumb drive) and to replicate with other databases.
-    </p>
-    <form method="POST" action="/replicate" id="sync">
-      <div>
-        file system path of external database to replicate with:
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h2 class="panel-title">Sincronizar Base de Datos Mapeo</h2>
+            </div>
+            <div class="panel-body">
+              <p class="lead">
+                Seleccionar el archivo en el USB para sincronizar.<br/>
+                Buscar el archivo <code>mapeo-waorani.osmp2p</code>.
+              </p>
+              <div id="response" class="alert alert-info hidden" role="alert">
+              </div>
+              <form method="POST" action="/replicate" id="sync">
+                <p class="text-right">
+                  <input type="hidden" name="source">
+                  <button id="cancel" type="button" class="btn btn-default btn-lg">Cancelar</button>
+                  <button id="select" type="button" class="btn btn-primary btn-lg">
+                  <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">Seleccionar Archivo&hellip;</span>
+                  </button>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        <input type="text" name="source" placeholder="path to external media...">
-      </div>
-      <div>
-        If there is no database at the file system path, a new database will be
-        created before replicating.
-      </div>
-      <div>
-        <button type="submit">replicate</button>
-      </div>
-      <div id="response"></div>
-    </form>
+    </div>
     <script>
-      // should only work in electron:
-      ;(function () {
-        if (typeof require !== 'function') return
-        try { var ipc = require("electron").ipcRenderer } catch (e) { return }
-        ipc.send('open-dir')
-        ipc.on('select-dir', function (event, dir) {
-          document.querySelector('form[action="/replicate"]'
-            + ' input[name="source"]').value = dir
-        })
-      })()
       require('./browser/sync.js')
     </script>
   </body>
