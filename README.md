@@ -1,4 +1,4 @@
-# ecuador-map-editor
+# mapeo-desktop
 
 An _experimental_ offline mapping app for indigenous territory mapping in remote environments. It uses [osm-p2p](https://github.com/digidem/osm-p2p-db) for offline peer-to-peer synchronization of an OpenStreetMap database, without any server. The editor is based on [iDEditor](https://github.com/openstreetmap/iD/), a simple and easy to use editor for OpenStreetMap. The app is web app built with [Electron](http://electron.atom.io) for desktop integration and offline usage.
 
@@ -9,8 +9,8 @@ This project is under active development and is still at the prototype phase, al
 To clone and install all dependencies and run the server, do:
 
 ```
-$ git clone git@github.com:digidem/ecuador-map-editor.git
-$ cd ecuador-map-editor
+$ git clone git@github.com:digidem/mapeo-desktop.git
+$ cd mapeo-desktop
 $ npm install
 $ npm run build
 $ npm start
@@ -43,7 +43,7 @@ To add local tiles for offline use, copy or symlink a folder of tiles into 'tile
 - $XDG_CONFIG_HOME or ~/.config on Linux
 - ~/Library/Application Support on OS X
 
-The app folder will be `electron` if you are in development, or the application name (currently "CEIBO Mapeo") if you are working with the packaged app. E.g. on a mac, copy the folder of image tiles into: `~/Library/Application Support/CEIBO Mapeo/tiles`
+The app folder will be `electron` if you are in development, or the application name (currently "Mapeo") if you are working with the packaged app. E.g. on a mac, copy the folder of image tiles into: `~/Library/Application Support/Mapeo/tiles`
 
 Edit `imagery.json` accordingly with a type of `tms`. The tileserver runs on localhost on port `5005`. For example:
 

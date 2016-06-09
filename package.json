@@ -1,6 +1,6 @@
 {
-  "name": "ecuador-map-editor",
-  "productName": "Mapeo CEIBO",
+  "name": "mapeo-desktop",
+  "productName": "Mapeo",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -10,8 +10,8 @@
   "scripts": {
     "build": "npm run build:id",
     "build:id": "node bin/build_id_editor.js",
-    "package-win": "rimraf \"dist/Mapeo CEIBO-win32-x64\" && npm run build:id && electron-packager . \"Mapeo CEIBO\" --out=dist --ignore=\"^/dist\" --platform=win32 --arch=x64 --version=0.36.9 --prune --overwrite --asar",
-    "package-mac": "rimraf \"dist/Mapeo CEIBO-darwin-x64\" && npm run build:id && electron-packager . \"Mapeo CEIBO\" --out=dist --ignore=\"^/dist\" --platform=darwin --arch=x64 --version=0.36.9 --prune --overwrite",
+    "package-win": "rimraf \"dist/Mapeo-win32-x64\" && npm run build:id && electron-packager . \"Mapeo CEIBO\" --out=dist --ignore=\"^/dist\" --platform=win32 --arch=x64 --version=0.36.9 --prune --overwrite --asar",
+    "package-mac": "rimraf \"dist/Mapeo-darwin-x64\" && npm run build:id && electron-packager . \"Mapeo CEIBO\" --out=dist --ignore=\"^/dist\" --platform=darwin --arch=x64 --version=0.36.9 --prune --overwrite",
     "rebuild-leveldb": "cd node_modules/leveldown && set HOME=~/.electron-gyp && node-gyp rebuild --target=0.36.9 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "start": "electron app.js --disable-http-cache",
     "server": "node app.js --headless",
@@ -19,15 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/digidem/ecuador-map-editor.git"
+    "url": "git+https://github.com/digidem/mapeo-desktop.git"
   },
   "keywords": [],
   "author": "substack",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/digidem/ecuador-map-editor/issues"
+    "url": "https://github.com/digidem/mapeo-desktop/issues"
   },
-  "homepage": "https://github.com/digidem/ecuador-map-editor#readme",
+  "homepage": "https://github.com/digidem/mapeo-desktop#readme",
   "dependencies": {
     "JSONStream": "^1.0.3",
     "body": "^5.1.0",
