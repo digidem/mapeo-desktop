@@ -72,7 +72,7 @@
     "devtron": "^1.2.0",
     "electron-packager": "^7.0.4",
     "electron-prebuilt": "1.2.3",
-    "iD": "github:openstreetmap/iD#v1.9.1",
+    "iD": "openstreetmap/iD#v1.9.6",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.5.2",
     "watchify": "^3.7.0"

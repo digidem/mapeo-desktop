@@ -6,7 +6,7 @@ var mkdirp = require('mkdirp')
 
 var mpPath = path.resolve(__dirname, '../id_monkey_patches')
 var idPath = path.dirname(require.resolve('iD/package.json'))
-var idDstPath = path.join(idPath, 'dist')
+var idDistPath = path.join(idPath, 'dist')
 var dstPath = path.resolve(__dirname, '../vendor/iD')
 
 mkdirp.sync(dstPath)
@@ -14,7 +14,7 @@ mkdirp.sync(dstPath)
 // Monkey patch and build iD
 concat([
   path.join(mpPath, 'start.js'),
-  path.join(idDstPath, 'iD.js'),
+  path.join(idDistPath, 'iD.js'),
   path.join(mpPath, 'id-connection.js'),
   path.join(mpPath, 'id-modes-browse.js'),
   path.join(mpPath, 'id-ui-account.js'),
@@ -25,8 +25,8 @@ concat([
 ], path.join(dstPath, 'iD-patched.js'), done)
 
 // Copy all iD dist assets
-cpr(idDstPath, dstPath, {overwrite: true}, done)
-cpr(path.join(idPath, 'data/imagery.json'), dstPath, {overwrite: true}, done)
+cpr(idDistPath, dstPath, {overwrite: true}, done)
+cpr(path.join(idPath, 'data/imagery.json'), path.join(dstPath, 'imagery.json'), {overwrite: true}, done)
 
 var presets = {
   presets: require('iD/data/presets/presets.json'),
@@ -38,5 +38,5 @@ var presets = {
 fs.writeFileSync(path.join(dstPath, 'presets.json'), JSON.stringify(presets, null, '  '))
 
 function done (err) {
-  if (err) console.error(err)
+  if (err) console.error(err, err.stack)
 }
