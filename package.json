@@ -21,8 +21,19 @@
     "type": "git",
     "url": "git+https://github.com/digidem/mapeo-desktop.git"
   },
-  "keywords": [],
-  "author": "substack",
+  "keywords": [
+    "osm",
+    "p2p",
+    "peer-to-peer",
+    "gis",
+    "maps",
+    "iD",
+    "osm-p2p"
+  ],
+  "contributors": [
+    "substack",
+    "Gregor MacLennan <gmaclennan@digital-democracy.org>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/digidem/mapeo-desktop/issues"
