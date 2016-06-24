@@ -1,0 +1,51 @@
+version: 0.1.{build}
+
+# Test against this version of Node.js
+environment:
+  nodejs_version: "6.2.1"
+
+platform:
+  - x64
+
+# fetch repository as zip archive
+shallow_clone: true
+
+artifacts:
+  - path: dist/Mapeo-win32-x64
+    name: mapeo-desktop
+
+cache:
+  - node_modules
+  - '%APPDATA%\npm-cache'
+  - '%USERPROFILE%\.electron'
+
+init:
+  - git config --global core.autocrlf input
+
+install:
+  # Get the latest stable version of Node.js
+  - ps: Install-Product node $env:nodejs_version x64
+  - npm install
+
+build_script:
+  - if not exist "%USERPROFILE%\.electron" md "%USERPROFILE%\.electron"
+  - npm config set msvs_version 2015 --global
+  - node --version
+  - npm --version
+  - npm run build
+  - npm run rebuild-leveldb
+  - npm run package-win
+
+test: off
+
+deploy:
+  release: mapeo-v$(appveyor_build_version)
+  provider: GitHub
+  auth_token:
+    secure: z8zjHnYUgzuwBjJw26lgwSM2T0SdRIqMUzijaL0e0po7+8/tkBsFC/+0z7MkCRUU
+  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only

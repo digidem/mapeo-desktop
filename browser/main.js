@@ -1,5 +1,6 @@
 var insertCss = require('insert-css')
 var ipc = require('electron').ipcRenderer
+var remote = require('electron').remote
 
 var prevhash = localStorage.getItem('location')
 if (location.hash) localStorage.setItem('location', location.hash)
@@ -9,7 +10,7 @@ window.addEventListener('hashchange', function (ev) {
   localStorage.setItem('location', location.hash)
 })
 
-var serverUrl = 'http://' + require('remote').getGlobal('osmServerHost')
+var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
 var presets = ipc.sendSync('get-user-data', 'presets')
 var customCss = ipc.sendSync('get-user-data', 'css')

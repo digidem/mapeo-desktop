@@ -5,8 +5,8 @@ var through = require('through2')
 var xhr = require('xhr')
 
 var ipc = require('electron').ipcRenderer
-
-var osmServerHost = require('remote').getGlobal('osmServerHost')
+var remote = require('electron').remote
+var osmServerHost = remote.getGlobal('osmServerHost')
 
 var ws = wsock('ws://' + osmServerHost)
 
