@@ -42,6 +42,7 @@
   "homepage": "https://github.com/digidem/mapeo-desktop#readme",
   "dependencies": {
     "JSONStream": "^1.0.3",
+    "application-config-path": "^0.1.0",
     "body": "^5.1.0",
     "concat-stream": "^1.5.1",
     "ecstatic": "^1.4.0",

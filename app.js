@@ -1,6 +1,7 @@
 #!/usr/bin/env electron
 
 var path = require('path')
+var fs = require('fs')
 var minimist = require('minimist')
 var electron = require('electron')
 var app = electron.app  // Module to control application life.
@@ -30,6 +31,23 @@ var argv = minimist(process.argv.slice(2), {
     d: 'debug'
   }
 })
+
+var oldUserDataPath = require('application-config-path')('ecuador-map-editor')
+var hasOldUserData = true
+
+try {
+  fs.statSync(oldUserDataPath)
+} catch (e) {
+  hasOldUserData = false
+}
+
+// Migrate old data if needed
+if (hasOldUserData) {
+  mv(path.join(oldUserDataPath, 'data'), path.join(userDataPath, 'data'))
+  mv(path.join(oldUserDataPath, 'tiles'), path.join(userDataPath, 'tiles'))
+  mv(path.join(oldUserDataPath, 'imagery.json'), path.join(userDataPath, 'imagery.json'))
+  mv(path.join(oldUserDataPath, 'presets.json'), path.join(userDataPath, 'presets.json'))
+}
 
 var osmdb = require('osm-p2p')
 var osm = osmdb(argv.datadir)
@@ -101,4 +119,18 @@ function ready () {
     win = null
     app.quit()
   })
+}
+
+// Move a file, but only if the old one exists and the new one doesn't
+function mv (src, dst) {
+  try {
+    fs.statSync(src)
+  } catch (e) {
+    return
+  }
+  try {
+    fs.statSync(dst)
+  } catch (e) {
+    fs.rename(src, dst)
+  }
 }
