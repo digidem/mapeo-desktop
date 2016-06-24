@@ -11,8 +11,7 @@ platform:
 shallow_clone: true
 
 artifacts:
-  - path: dist/installer-win-x64
-    name: mapeo-desktop
+  - path: dist/installer-win-x64/InstallarMapeo.exe
 
 cache:
   - node_modules
