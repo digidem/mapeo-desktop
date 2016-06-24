@@ -16,8 +16,8 @@ artifacts:
 
 cache:
   - node_modules
-  - '%APPDATA%\npm-cache'
-  - '%USERPROFILE%\.electron'
+  - "%APPDATA%\npm-cache"
+  - "%USERPROFILE%\.electron"
 
 init:
   - git config --global core.autocrlf input
@@ -28,7 +28,7 @@ install:
   - npm install
 
 build_script:
-  - md '%USERPROFILE%\.electron'
+  - md "%USERPROFILE%\.electron"
   - npm config set msvs_version 2015 --global
   - node --version
   - npm --version
@@ -37,3 +37,15 @@ build_script:
   - npm run package-win
 
 test: off
+
+deploy:
+  release: mapeo-v$(appveyor_build_version)
+  provider: GitHub
+  auth_token:
+    secure: z8zjHnYUgzuwBjJw26lgwSM2T0SdRIqMUzijaL0e0po7+8/tkBsFC/+0z7MkCRUU
+  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
