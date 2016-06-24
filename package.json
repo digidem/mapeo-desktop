@@ -12,7 +12,7 @@
     "build:id": "node bin/build_id_editor.js",
     "package-win": "rimraf \"dist/Mapeo-win32-x64\" && npm run build:id && electron-packager . \"Mapeo\" --out=dist --ignore=\"^/dist\" --platform=win32 --arch=x64 --version=1.2.3 --prune --overwrite --asar",
     "package-mac": "rimraf \"dist/Mapeo-darwin-x64\" && npm run build:id && electron-packager . \"Mapeo\" --out=dist --ignore=\"^/dist\" --platform=darwin --arch=x64 --version=1.2.3 --prune --overwrite --app-bundle-id=\"org.digital-democracy.mapeo-desktop\" --app-version=\"1.0.0\" --build-version=\"1.0.0\" --osx-sign",
-    "rebuild-leveldb": "cd node_modules/leveldown && set HOME=~/.electron-gyp && node-gyp rebuild --target=1.2.3 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
+    "rebuild-leveldb": "cd node_modules/leveldown && cross-env HOME=~/.electron-gyp node-gyp rebuild --target=1.2.3 --runtime=electron --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "start": "electron app.js --disable-http-cache",
     "server": "node app.js --headless",
     "dev": "electron app.js --debug --disable-http-cache"
@@ -69,6 +69,7 @@
     "browserify": "^13.0.0",
     "concat": "azer/concat",
     "cpr": "^1.0.0",
+    "cross-env": "^1.0.8",
     "devtron": "^1.2.0",
     "electron-packager": "^7.0.4",
     "electron-prebuilt": "1.2.3",
