@@ -9,6 +9,8 @@ var BrowserWindow = electron.BrowserWindow  // Module to create native browser w
 
 var menuTemplate = require('./lib/menu')
 
+if (require('electron-squirrel-startup')) return
+
 var APP_NAME = app.getName()
 
 // Path to `userData`, operating system specific, see
