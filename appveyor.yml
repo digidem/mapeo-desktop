@@ -16,8 +16,8 @@ artifacts:
 
 cache:
   - node_modules
-  - "%APPDATA%\npm-cache"
-  - "%USERPROFILE%\.electron"
+  - '%APPDATA%\npm-cache'
+  - '%USERPROFILE%\.electron'
 
 init:
   - git config --global core.autocrlf input
