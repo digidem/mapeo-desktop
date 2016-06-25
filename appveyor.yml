@@ -11,7 +11,8 @@ platform:
 shallow_clone: true
 
 artifacts:
-  - path: dist/installer-win-x64/InstallarMapeo.exe
+  - path: dist/Mapeo-win32-x64
+    name: mapeo-win
 
 cache:
   - node_modules
@@ -34,7 +35,6 @@ build_script:
   - npm run build
   - npm run rebuild-leveldb
   - npm run package-win
-  - npm run installer-win
 
 test: off
 
