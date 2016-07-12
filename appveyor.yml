@@ -24,6 +24,7 @@ init:
 install:
   # Get the latest stable version of Node.js
   - ps: Install-Product node $env:nodejs_version x64
+  - npm install -g npm@latest
   - npm install
 
 build_script:
