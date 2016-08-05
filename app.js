@@ -64,7 +64,7 @@ server.listen(argv.port, '127.0.0.1', function () {
 })
 
 var tileServer = require('./tile-server.js')()
-tileServer.listen(argv.tileport, '127.0.0.1', function () {
+tileServer.listen(argv.tileport, function () {
   console.log('tile server listening on :', server.address().port)
 })
 
