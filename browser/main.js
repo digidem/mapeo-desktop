@@ -44,6 +44,14 @@ id.loadLocale = function(cb) {
 d3.select('#container')
   .call(id.ui())
 
+var parser = new DOMParser()
+var customDefs = id.container()
+  .append('svg')
+  .attr('id', 'custom-defs')
+  .append('defs')
+
+customDefs.append('svg')
+
 updateSettings()
 ipc.on('updated-settings', updateSettings)
 
@@ -52,6 +60,11 @@ function updateSettings () {
   var customCss = ipc.sendSync('get-user-data', 'css')
   var imagery = ipc.sendSync('get-user-data', 'imagery')
   var translations = ipc.sendSync('get-user-data', 'translations')
+  var icons = ipc.sendSync('get-user-data', 'icons')
+  if (icons) {
+    var iconsSvg = parser.parseFromString(icons, 'image/svg+xml').documentElement
+    customDefs.node().replaceChild(iconsSvg, customDefs.node().firstChild)
+  }
   if (customCss) insertCss(customCss)
   if (translations) merge(window.locale, translations)
   id.presets(presets || defaultPresets)
