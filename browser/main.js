@@ -37,14 +37,20 @@ id.loadLocale = function(cb) {
       var translations = ipc.sendSync('get-user-data', 'translations')
       merge(window.locale, translations)
       cb()
+      window.onbeforeunload = myOnBeforeLoad
     })
   } else {
     cb()
+    window.onbeforeunload = myOnBeforeLoad
   }
 }
 
 d3.select('#container')
   .call(id.ui())
+
+function myOnBeforeLoad () {
+  context.save()
+}
 
 var parser = new DOMParser()
 var customDefs = id.container()
