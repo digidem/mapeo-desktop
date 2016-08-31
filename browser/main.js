@@ -55,6 +55,9 @@ function myOnBeforeLoad () {
 var parser = new DOMParser()
 var customDefs = id.container()
   .append('svg')
+  .style('position', 'absolute')
+  .style('width', '0px')
+  .style('height', '0px')
   .attr('id', 'custom-defs')
   .append('defs')
 
