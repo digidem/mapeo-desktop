@@ -16,6 +16,8 @@ window.addEventListener('hashchange', function (ev) {
 
 var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
+iD.oneWayTags.waterway.spring = true;
+
 var id = iD()
   .taginfo(iD.services.taginfo())
   .assetPath('vendor/iD/')
