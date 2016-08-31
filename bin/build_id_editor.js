@@ -1,6 +1,6 @@
 var fs = require('fs-extra')
 var path = require('path')
-var concat = require('concat')
+var concat = require('@gmaclennan/concat')
 var mkdirp = require('mkdirp')
 
 var mpPath = path.resolve(__dirname, '../id_monkey_patches')
