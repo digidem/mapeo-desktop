@@ -19,6 +19,7 @@ var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 iD.oneWayTags.waterway.spring = true;
 
 var id = iD()
+  .imagery(defaultImagery)
   .taginfo(iD.services.taginfo())
   .assetPath('vendor/iD/')
   .preauth({url: serverUrl})
@@ -78,6 +79,6 @@ function updateSettings () {
   }
   if (customCss) insertCss(customCss)
   if (translations) merge(window.locale, translations)
+  if (imagery) id.imagery(imagery)
   id.presets(presets || defaultPresets)
-  id.imagery(imagery || defaultPresets)
 }
