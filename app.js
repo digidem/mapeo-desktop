@@ -83,7 +83,8 @@ function ready () {
   if (--pending !== 0) return
   if (argv.headless) return
   var INDEX = 'file://' + path.resolve(__dirname, './index.html')
-  win = new BrowserWindow({title: APP_NAME})
+  win = new BrowserWindow({title: APP_NAME, show: false})
+  win.once('ready-to-show', () => win.show())
   win.maximize()
   if (argv.debug) win.webContents.openDevTools()
   win.loadURL(INDEX)
