@@ -74,7 +74,6 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "appdmg": "^0.4.5",
     "browserify": "^13.0.0",
     "@gmaclennan/concat": "^1.0.0",
     "cross-env": "^1.0.8",
