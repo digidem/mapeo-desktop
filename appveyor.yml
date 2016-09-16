@@ -10,6 +10,12 @@ platform:
 # fetch repository as zip archive
 shallow_clone: true
 
+# skip mapeo-vX.Y.Z tags; we already know they build, since they're created
+# as a result of a deployment completing
+branches:
+  except:
+    - /mapeo-v.*/
+
 artifacts:
   - path: dist/Mapeo-win32-x64
     name: mapeo-win
@@ -39,13 +45,13 @@ build_script:
 test: off
 
 deploy:
-  release: mapeo-v$(appveyor_build_version)
+  release: mapeo-v$(appveyor_build_version)  # also the name of the tag that gets created
   provider: GitHub
   auth_token:
     secure: z8zjHnYUgzuwBjJw26lgwSM2T0SdRIqMUzijaL0e0po7+8/tkBsFC/+0z7MkCRUU
-  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
+  artifact: /mapeo-win.zip/
   draft: false
   prerelease: false
   on:
-    branch: master                 # release from master branch only
+    branch: /^v/                   # don't match "mapeo-*" tags, otherwise we'll get into a tag loop
     appveyor_repo_tag: true        # deploy on tag push only
