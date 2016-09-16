@@ -1,3 +1,6 @@
+# Appveyor: for producing and deploying Windows builds
+#------------------------------------------------------
+
 version: 0.1.{build}
 
 # Test against this version of Node.js
@@ -17,8 +20,10 @@ branches:
     - /mapeo-v.*/
 
 artifacts:
-  - path: dist/Mapeo-win32-x64
-    name: mapeo-win
+  - path: '**\*.nupkg'
+    name: nupkg
+  - path: '**\InstallarMapeo.exe'
+    name: exe
 
 cache:
   - '%APPDATA%\npm-cache'
@@ -41,6 +46,7 @@ build_script:
   - npm run build
   - npm run rebuild-leveldb
   - npm run package-win
+  - npm run installer-win
 
 test: off
 
@@ -48,8 +54,7 @@ deploy:
   release: mapeo-v$(appveyor_build_version)  # also the name of the tag that gets created
   provider: GitHub
   auth_token:
-    secure: z8zjHnYUgzuwBjJw26lgwSM2T0SdRIqMUzijaL0e0po7+8/tkBsFC/+0z7MkCRUU
-  artifact: /mapeo-win.zip/
+    secure: Do48zAyJyqq3Cqu0JLYy/ayhLbNvvDt+j/yZPi6GMIn/dD0t5En/11JFOLMG9c13
   draft: false
   prerelease: false
   on:

@@ -15,9 +15,13 @@ electronInstaller.createWindowsInstaller({
   outputDirectory: installerFolder,
   description: 'Offline Map Editor',
   authors: 'Digital Democracy',
+  name: 'Mapeo',
   exe: 'Mapeo.exe',
   setupExe: 'InstallarMapeo.exe',
-  iconUrl: 'https://raw.githubusercontent.com/digidem/mapeo-desktop/master/static/mapeo.ico'
+  iconUrl: 'https://raw.githubusercontent.com/digidem/mapeo-desktop/master/static/mapeo.ico',
+  version: '1.2.3-fake',
+  title: 'mapeo',
+  usePackageJson: false
 }).then(function () {
   console.log('It worked!')
 }).catch(function (e) {
