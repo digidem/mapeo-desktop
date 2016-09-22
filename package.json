@@ -58,7 +58,7 @@
     "minimist": "^1.2.0",
     "once": "^1.3.3",
     "osm-p2p": "^1.4.0",
-    "osm-p2p-server": "^2.0.0-beta2",
+    "osm-p2p-server": "^2.0.0-beta3",
     "pump": "^1.0.1",
     "randombytes": "^2.0.3",
     "shpjs": "^3.3.1",
