@@ -1,8 +1,6 @@
 # Appveyor: for producing and deploying Windows builds
 #------------------------------------------------------
 
-version: 0.1.{build}
-
 # Test against this version of Node.js
 environment:
   nodejs_version: "6.2.1"
@@ -22,7 +20,7 @@ branches:
 artifacts:
   - path: '**\*.nupkg'
     name: nupkg
-  - path: '**\InstallarMapeo.exe'
+  - path: '**\InstallarMapeo*.exe'
     name: exe
 
 cache:
@@ -47,11 +45,13 @@ build_script:
   - npm run rebuild-leveldb
   - npm run package-win
   - npm run installer-win
+  - ps: $PACKAGE_VERSION = node -e "require('./package.json').version"
+  - ps: $env:RELEASE = "${PACKAGE_NAME}-${PACKAGE_VERSION}"
+
 
 test: off
 
 deploy:
-  release: mapeo-v$(appveyor_build_version)  # also the name of the tag that gets created
   provider: GitHub
   auth_token:
     secure: Do48zAyJyqq3Cqu0JLYy/ayhLbNvvDt+j/yZPi6GMIn/dD0t5En/11JFOLMG9c13
