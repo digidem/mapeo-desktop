@@ -11,7 +11,7 @@
     "build": "npm run build:id",
     "build:id": "node bin/build_id_editor.js",
     "package-win": "rimraf \"dist/Mapeo-win32-x64\" && npm run build:id && electron-packager . \"Mapeo\" --icon=\"static/mapeo.ico\" --out=dist --ignore=\"^/dist\" --platform=win32 --arch=x64 --version=1.3.4 --prune --overwrite --asar --version-string.ProductName=Mapeo --version-string.CompanyName=\"Digital Democracy\"",
-    "installer-win": "node bin/create_installer.js",
+    "installer-win": "node bin/create_windows_installer.js",
     "package-mac": "rimraf \"dist/Mapeo-darwin-x64\" && npm run build:id && electron-packager . \"Mapeo\" --icon=\"static/mapeo.icns\" --out=dist --ignore=\"^/dist\" --tmpdir=false --platform=darwin --arch=x64 --version=1.3.4 --prune --overwrite --app-bundle-id=\"org.digital-democracy.mapeo-desktop\" --app-version=\"1.2.0\" --build-version=\"1.0.0\" --osx-sign",
     "rebuild-leveldb": "cd node_modules/leveldown && cross-env HOME=~/.electron-gyp node-gyp rebuild --target=1.3.4 --runtime=electron --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "start": "electron app.js --disable-http-cache",
