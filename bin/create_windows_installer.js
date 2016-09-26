@@ -4,7 +4,7 @@ var rimraf = require('rimraf').sync
 var path = require('path')
 
 var distFolder = path.join(__dirname, '..', 'dist')
-var pkg = JSON.parse(require('fs').readFileSync(path.join(__dirname, '..', 'package.json')).toString())
+var pkg = require(path.join('..', 'package.json'))
 var buildFolder = path.join(distFolder, 'Mapeo-win32-x64')
 var installerFolder = path.join(distFolder, 'installer-win-x64')
 
@@ -17,8 +17,8 @@ electronInstaller.createWindowsInstaller({
 
   usePackageJson: false,
 
-  description: 'Offline Map Editor',
-  authors: 'Digital Democracy',
+  description: pkg.productDescription,
+  authors: pkg.author,
   name: 'Mapeo',
   exe: 'Mapeo.exe',
   setupExe: 'InstallarMapeo_' + pkg.version + '.exe',
