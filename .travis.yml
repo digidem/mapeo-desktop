@@ -1,0 +1,27 @@
+sudo: false
+language: node_js
+node_js:
+  - "6"
+  - "stable"
+
+os:
+  - osx
+
+# latest npm
+before_install:
+  - npm install -g npm
+
+script:
+  - node bin/package_macos.js
+  - node bin/create_macos_dmg.js
+
+deploy:
+  skip_cleanup: true
+  provider: releases  # github releases
+  file_glob: true
+  file: "dist/Mapeo-darwin-x64/Mapeo-v*.dmg"
+  on:
+    tags: true
+  api_key:
+    secure: "2ZHJN10sBsT4Myw8GJCn30/tK1R7lHrgIOka3ycVjr/Nz6KV2X4fV9NJ1Npgypt9sd7rqicW+vhHZcEsMe1nOF+PpFhhaRs74I5h1NV3Qd1mukb/9wYWwX0SMWw2x0dRxrzeGpULzwwHgQ5RmlQ5RQYTfXjMp4ZUD0nULetHUP/b5fuIEznJlk8Oe3WwdoRkRvkXe9/xG1rHQLnSQy2B3e74fTEI444jpAbE3BrziSzKYM6UxsrnFhNWxrc6NIRxEmmcAIrFTsuXGc363RHOwJVx/36NK3U8w5HtUE1r1w9+WjAZiCiibZPYKr6pYKIx3hoOiBH7HmjWlLAgUOBDU+rzBKD5f3GNdL595N54Vtp0/6XGRS92QYmXKxV1STTot33MdUEwPSoEpRhhcagOqa99wqDg9qgMx+hYsd5Ddxm+1TjOErVjnDHF148fKjugtXiRFdEAsrM0bY1D1HqMuTT+A4GT0iDH8ESDhDM6dqISfR1dGHx5xWgxcIM1ArDlynnSYhDXSfixr8Hc6fA/obXOz0IsgKVIdWRlvmM7mIBUKJFJtq8s4xKfRFT0dMNLrVlImhuv9tP9qvCgKH4qrq+RDHJsyZDPmVrFMDwPeXD/mlrnIhSvDt7/kZ1WJ2MZMnHM7mq0bwg6mf4H24a+2RRT+JqSWFa4Ty42vz0UznA="
+

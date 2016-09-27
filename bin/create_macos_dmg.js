@@ -1,15 +1,15 @@
 var appDmg = require('appdmg')
 var path = require('path')
-var rimrag = require('rimraf')
+var rimraf = require('rimraf')
 
 var config = require('../config')
 
 console.log('OS X: Creating dmg...')
 
-var DIST_PATH = path.join(__dirname, '..', 'dist')
+var DIST_PATH = path.join(__dirname, '..', 'dist', 'Mapeo-darwin-x64')
 var BUILD_NAME = config.APP_NAME + '-v' + config.APP_VERSION
 
-var appPath = path.join(buildPath[0], config.APP_NAME + '.app')
+var appPath = path.join(DIST_PATH, config.APP_NAME + '.app')
 var targetPath = path.join(DIST_PATH, BUILD_NAME + '.dmg')
 rimraf.sync(targetPath)
 
@@ -20,7 +20,7 @@ var dmgOpts = {
   specification: {
     title: config.APP_NAME,
     icon: config.APP_ICON + '.icns',
-    background: path.join(config.STATIC_PATH, 'appdmg.png'),
+    // background: path.join(config.STATIC_PATH, 'appdmg.png'),
     'icon-size': 128,
     contents: [
       { x: 122, y: 240, type: 'file', path: appPath },
@@ -36,11 +36,14 @@ var dmgOpts = {
 }
 
 var dmg = appDmg(dmgOpts)
-dmg.once('error', cb)
+dmg.once('error', function (err) {
+  console.error(err)
+  process.exit(1)
+})
 dmg.on('progress', function (info) {
   if (info.type === 'step-begin') console.log(info.title + '...')
 })
 dmg.once('finish', function (info) {
-  console.log('OS X: Created dmg.')
-  cb(null)
+  console.log('OS X: Created dmg @', targetPath)
+  process.exit(0)
 })
