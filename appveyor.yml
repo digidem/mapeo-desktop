@@ -24,7 +24,6 @@ artifacts:
     name: exe
 
 cache:
-  - '%APPDATA%\npm-cache'
   - '%USERPROFILE%\.electron'
 
 init:
