@@ -7,7 +7,7 @@ var level = require('level')
 
 var body = require('body/any')
 var qs = require('querystring')
-var exportGeoJson = require('./lib/export-geo.js')
+var exportGeoJson = require('osm-p2p-geojson')
 var importGeo = require('./lib/import-geo.js')
 var pump = require('pump')
 var shp = require('shpjs')
@@ -40,7 +40,7 @@ module.exports = function (osm) {
           return pt
         })
       res.setHeader('content-type', 'text/json')
-      pump(exportGeoJson(osm, bbox), res)
+      pump(exportGeoJson(osm, {bbox: bbox}), res)
     } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
       req.pipe(concat(function (buf) {
         errb(shp(buf), function (err, geojsons) {
