@@ -53,7 +53,7 @@ test: off
 deploy:
   provider: GitHub
   auth_token:
-    secure: Do48zAyJyqq3Cqu0JLYy/ayhLbNvvDt+j/yZPi6GMIn/dD0t5En/11JFOLMG9c13
+    secure: ynUUx/DcUyVkzXOAl62UMCAMJk9wA8YpfQZA9BI2tpTz77xWycmuju4Zl3JSTh23
   draft: false
   prerelease: false
   on:
