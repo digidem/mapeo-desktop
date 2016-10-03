@@ -17,6 +17,8 @@ electronInstaller.createWindowsInstaller({
 
   usePackageJson: false,
 
+  remoteReleases: 'http://192.168.2.24:3000',
+
   description: pkg.productDescription,
   authors: pkg.author,
   name: 'Mapeo',

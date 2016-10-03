@@ -1,0 +1,13 @@
+- electron-gh-releases sounds promising
+  - fully static (no servers we need to run)
+  - uses the github repo itself
+  - just need to maintain a single json file (we can make a post-version npm hook)
+- osx *demands* code signing for auto-update to work
+  - what's done:
+    - I've got the .p12 as a base64'd env var on the travis environment
+    - the logic to decode that .p12 and load it into the osx keyring works
+  - not done:
+    - I haven't figured out the cert/key dance yet so we can use travis to sign
+    - which identity do I use? it claims "no identities found"!
+- haven't done any windows tests yet, but I don't think code signing is needed
+

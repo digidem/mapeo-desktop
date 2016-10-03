@@ -36,7 +36,7 @@ packager({
   prune: true,
   overwrite: true,
   'app-bundle-id': 'org.digital-democracy.mapeo-desktop',
-  // 'osx-sign': true
+  'osx-sign': true
 }, function done_callback (err, appPaths) {
   if (err) {
     console.error(err)

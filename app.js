@@ -4,13 +4,62 @@ var path = require('path')
 var fs = require('fs')
 var minimist = require('minimist')
 var electron = require('electron')
+var GhReleases = require('electron-gh-releases')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 
 var menuTemplate = require('./lib/menu')
 
-if (require('electron-squirrel-startup')) return
+// if (require('electron-squirrel-startup')) return
+
+let options = {
+  repo: 'jenslind/electron-gh-releases',
+  currentVersion: app.getVersion()
+}
+
+var updater = new GhReleases(options)
+updater.check((err, status) => {
+  console.log('update status', status)
+  if (!err && status) {
+    // Download the update
+    updater.download()
+  }
+})
+
+// When an update has been downloaded
+updater.on('update-downloaded', (info) => {
+  // Restart the app and install the update
+  console.log('normally i\'d update now')
+  // updater.install()
+})
+
+// macos
+var os = require('os').platform();
+if (os === 'darwin') {
+  var autoUpdater = require('auto-updater');
+  var appVersion = require('./package.json').version;
+  var updateFeed = 'http://192.168.2.24:3000';
+  autoUpdater.setFeedURL(updateFeed + '?v=' + appVersion);
+  autoUpdater.checkForUpdates()
+
+  autoUpdater.on('error', function (err) {
+    console.log('autoUpdater', 'error', err)
+  })
+  autoUpdater.on('checking-for-update', function () {
+    console.log('autoUpdater', 'checking-for-update')
+  })
+  autoUpdater.on('update-available', function () {
+    console.log('autoUpdater', 'update-available')
+  })
+  autoUpdater.on('update-not-available', function () {
+    console.log('autoUpdater', 'update-not-available')
+  })
+  autoUpdater.on('update-downloaded', function (evt) {
+    console.log('autoUpdater', 'update-downloaded', evt)
+  })
+}
+
 
 var APP_NAME = app.getName()
 
