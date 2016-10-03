@@ -2,9 +2,11 @@ var fs = require('fs-extra')
 var path = require('path')
 var concat = require('@gmaclennan/concat')
 var mkdirp = require('mkdirp')
+var EOL = require('os').EOL
 
 var mpPath = path.resolve(__dirname, '../id_monkey_patches')
 var idPath = path.dirname(require.resolve('iD/package.json'))
+var pkg = require('../package.json')
 var idDistPath = path.join(idPath, 'dist')
 var dstPath = path.resolve(__dirname, '../vendor/iD')
 
@@ -13,6 +15,8 @@ mkdirp.sync(dstPath)
 // Copy all iD dist assets
 fs.copySync(idDistPath, dstPath, {clobber: true})
 fs.copySync(path.join(idPath, 'data/imagery.json'), path.join(dstPath, 'imagery.json'), {clobber: true})
+
+var patchPath = path.join(dstPath, 'iD-patched.js')
 
 // Monkey patch and build iD
 concat([
@@ -26,10 +30,13 @@ concat([
   path.join(mpPath, 'osm-auth.js'),
   path.join(mpPath, 'no-slow.js'),
   path.join(mpPath, 'end.js')
-], path.join(dstPath, 'iD-patched.js'), done)
+], patchPath, done)
 
 function done (err) {
   if (err) console.error(err, err.stack)
+
+  // needs to happen at build-time: version patch
+  fs.writeFileSync(patchPath, fs.readFileSync(patchPath).toString() + EOL + 'iD.version = "' + pkg.version + '"')
 
   var presets = {
     presets: require('iD/data/presets/presets.json'),
