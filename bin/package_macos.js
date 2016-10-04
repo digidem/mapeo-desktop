@@ -30,7 +30,7 @@ packager({
   ignore: /^\/dist/,
   out: 'dist',
   tmpdir: false,
-  version: pkg.version,
+  version: '1.3.4',
   'app-version': pkg.version,
   'build-version': '1.0.0',
   prune: true,
