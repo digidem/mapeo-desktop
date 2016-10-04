@@ -7,10 +7,10 @@ var config = require('../config')
 console.log('OS X: Creating dmg...')
 
 var DIST_PATH = path.join(__dirname, '..', 'dist', 'Mapeo-darwin-x64')
-var BUILD_NAME = config.APP_NAME + '-v' + config.APP_VERSION
+var BUILD_NAME = 'Installar_' + config.APP_NAME + '_v' + config.APP_VERSION
 
 var appPath = path.join(DIST_PATH, config.APP_NAME + '.app')
-var targetPath = path.join(DIST_PATH, BUILD_NAME + '.dmg')
+var targetPath = path.join(DIST_PATH, BUILD_NAME + '_macOS.dmg')
 rimraf.sync(targetPath)
 
 // Create a .dmg (OS X disk image) file, for easy user installation.
