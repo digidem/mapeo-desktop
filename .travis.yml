@@ -2,7 +2,6 @@ sudo: false
 language: node_js
 node_js:
   - "6"
-  - "stable"
 
 os:
   - osx
@@ -19,7 +18,7 @@ deploy:
   skip_cleanup: true
   provider: releases  # github releases
   file_glob: true
-  file: "dist/Mapeo-darwin-x64/*Mapeo*.dmg"
+  file: "dist/Mapeo-darwin-x64/Installar_Mapeo*.dmg"
   on:
     tags: true
     repo: digidem/mapeo-desktop
