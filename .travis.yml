@@ -19,7 +19,7 @@ deploy:
   skip_cleanup: true
   provider: releases  # github releases
   file_glob: true
-  file: "dist/Mapeo-darwin-x64/Mapeo*.dmg"
+  file: "dist/Mapeo-darwin-x64/*Mapeo*.dmg"
   on:
     tags: true
     repo: digidem/mapeo-desktop

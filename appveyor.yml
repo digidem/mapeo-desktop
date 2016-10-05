@@ -20,7 +20,7 @@ branches:
 artifacts:
   - path: '**\*.nupkg'
     name: nupkg
-  - path: '**\*.exe'
+  - path: '**\*Mapeo*.exe'
     name: exe
 
 cache:
