@@ -10,6 +10,8 @@ a simple and easy to use editor for OpenStreetMap. The app is web app built with
 This project is under active development and is still at the prototype phase,
 although we are already testing it out in the field in Ecuador.
 
+![screenshot](static/screenshot.png)
+
 # Getting Started
 
 To clone and install all dependencies and start the program, execute
