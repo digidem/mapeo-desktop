@@ -11,6 +11,7 @@ before_install:
   - npm install -g npm
 
 script:
+  - npm run rebuild-leveldb
   - node bin/package_macos.js
   - node bin/create_macos_dmg.js
 
