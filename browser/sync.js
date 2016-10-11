@@ -23,7 +23,8 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     resdiv.innerHTML = '<strong>Sinconización se ha completado exitosamente.</strong><br/>' +
       'Ya debes tener la información más reciente en tu mapa. ' +
       'Haga un click en "OK" para volver al mapa'
-    selectBtn.classList.add('hidden')
+    selectExistingBtn.classList.add('hidden')
+    selectNewBtn.classList.add('hidden')
     cancelBtn.classList.remove('hidden')
     cancelBtn.classList.add('btn-primary')
     cancelBtn.innerText = 'OK'
@@ -35,16 +36,16 @@ function onerror (err) { console.error(err) }
 
 var resdiv = document.getElementById('response')
 var cancelBtn = document.getElementById('cancel')
-var selectBtn = document.getElementById('select')
-var buttonText = document.getElementById('button-text')
+var selectExistingBtn = document.getElementById('select-existing')
+var selectNewBtn = document.getElementById('select-new')
 var sourceField = document.querySelector('form#sync input[name="source"]')
 
-ipc.on('select-dir', function (event, dir) {
-  if (!dir) return
-  sourceField.value = dir
-  selectBtn.setAttribute('disabled', 'disabled')
+ipc.on('select-file', function (event, file) {
+  if (!file) return
+  sourceField.value = file
+  selectExistingBtn.setAttribute('disabled', 'disabled')
+  selectNewBtn.setAttribute('disabled', 'disabled')
 
-  buttonText.innerText = 'Sincronizando…'
   xhr({
     method: 'POST',
     url: 'http://' + osmServerHost + '/replicate',
@@ -57,9 +58,14 @@ ipc.on('select-dir', function (event, dir) {
   }, onpost)
 })
 
-selectBtn.addEventListener('click', function (ev) {
+selectExistingBtn.addEventListener('click', function (ev) {
   ev.preventDefault()
-  ipc.send('open-dir')
+  ipc.send('open-file')
+})
+
+selectNewBtn.addEventListener('click', function (ev) {
+  ev.preventDefault()
+  ipc.send('save-file')
 })
 
 cancelBtn.addEventListener('click', function (ev) {
@@ -68,9 +74,9 @@ cancelBtn.addEventListener('click', function (ev) {
 
 function showButtons () {
   document.querySelector('.lead').classList.remove('hidden')
-  selectBtn.removeAttribute('disabled')
+  selectExistingBtn.removeAttribute('disabled')
+  selectNewBtn.removeAttribute('disabled')
   cancelBtn.classList.remove('hidden')
-  buttonText.innerText = 'Seleccionar Archivo…'
 }
 
 function onpost (err, res, body) {

@@ -93,18 +93,37 @@ function ready () {
 
   require('./lib/user-config')
 
-  ipc.on('open-dir', function () {
+  ipc.on('save-file', function () {
+    electron.dialog.showSaveDialog(win, {
+      title: 'Select .mapeodata file for replication',
+      defaultPath: 'sync.mapeodata',
+      filters: [
+        { name: 'Mapeo Data', extensions: ['mapeodata'] },
+      ]
+    }, onopen)
+
+    function onopen (filename) {
+      console.log('1 save-file', filename)
+      if (typeof filename === 'undefined') return
+      console.log('2 save-file', filename)
+      win.webContents.send('select-file', filename)
+    }
+  })
+
+  ipc.on('open-file', function () {
     electron.dialog.showOpenDialog(win, {
-      title: 'select USB media for replication',
-      properties: [ 'openDirectory' ],
-      filters: []
+      title: 'Select .mapeodata file for replication',
+      properties: [ 'openFile' ],
+      filters: [
+        { name: 'Mapeo Data', extensions: ['mapeodata'] },
+      ]
     }, onopen)
 
     function onopen (filenames) {
       if (typeof filenames === 'undefined') return
       if (filenames.length === 1) {
-        var dir = filenames[0]
-        win.webContents.send('select-dir', dir)
+        var file = filenames[0]
+        win.webContents.send('select-file', file)
       }
     }
   })
