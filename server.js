@@ -208,12 +208,10 @@ module.exports = function (osm) {
       if (err) return syncErr(err)
       replicating = false
       send('replication-data-complete')
-      setTimeout(function () {
-        osm.ready(function () {
-          console.log('COMPLETE')
-          send('replication-complete')
-        })
-      }, 5000) // HACK, figure out how to not do this in the future
+      osm.ready(function () {
+        console.log('COMPlETE')
+        send('replication-complete')
+      })
     }
     function syncErr (err) {
       replicating = false
