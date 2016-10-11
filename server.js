@@ -15,7 +15,7 @@ var shp = require('shpjs')
 var tmpdir = require('os').tmpdir()
 var concat = require('concat-stream')
 var wsock = require('websocket-stream')
-var onend = require('end-of-stream')
+var eos = require('end-of-stream')
 var randombytes = require('randombytes')
 
 var userConfig = require('./lib/user-config')
@@ -74,15 +74,14 @@ module.exports = function (osm) {
   wsock.createServer({ server: server }, function (stream) {
     var id = randombytes(8).toString('hex')
     streams[id] = stream
-    onend(stream, function () { delete streams[id] })
+    eos(stream, function () { delete streams[id] })
   })
   return server
 
   function replicate (sourceFile) {
-
     console.log('replicating to', sourceFile)
-
     sneakernet(osm.log, { safetyFile: true }, sourceFile, onend)
+    replicating = true
 
     function onend (err) {
       if (err) return syncErr(err)
