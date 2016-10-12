@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sincronización</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style>
+      body {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button#cancel {
+        min-width: 110px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h2 class="panel-title">Network Sync</h2>
+            </div>
+            <div class="panel-body">
+              <p class="lead">
+                Choose a machine on the network to sync with.<br/>
+              </p>
+              <div id="response" class="alert alert-info hidden" role="alert">
+              </div>
+              <form method="POST" action="/replicate_net" id="sync">
+                <p id="sync-targets" class="text-right">
+                  <input type="hidden" name="source">
+                  <button id="cancel" type="button" class="btn btn-default btn-lg">Cancelar</button>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      require('./browser/sync_network.js')
+    </script>
+  </body>
+</html>
