@@ -81,7 +81,7 @@ function addSyncTarget (target) {
 function selectSyncTarget (target) {
   if (!target) return
 
-    // hide sync targets after successful sync
+  // hide sync targets after successful sync
   syncTargets.classList.add('hidden')
   cancelBtn.setAttribute('disabled', 'disabled')
 
