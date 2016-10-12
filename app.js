@@ -7,6 +7,7 @@ var electron = require('electron')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
+var net = require('net')
 var userConfig = require('./lib/user-config')
 var metadata = userConfig.getSettings('metadata')
 
@@ -72,6 +73,9 @@ tileServer.listen(argv.tileport, function () {
 
 if (!argv.headless) {
   app.on('ready', ready)
+
+  app.on('before-quit', server.shutdown)
+
   // Quit when all windows are closed.
   app.on('window-all-closed', function () {
     app.quit()
@@ -132,6 +136,8 @@ function ready () {
     }
   })
 
+  ipc.on('sync-to-target', syncToTarget)
+
   menu = Menu.buildFromTemplate(menuTemplate(app))
   Menu.setApplicationMenu(menu)
 
@@ -156,5 +162,19 @@ function mv (src, dst) {
     fs.statSync(dst)
   } catch (e) {
     fs.rename(src, dst)
+  }
+}
+
+function syncToTarget (event, target) {
+  console.log('target', target)
+  var socket = net.connect(target.port, target.host, onConnect)
+
+  socket.on('error', function (err) {
+    server.send('replication-error', err.message)
+  })
+
+  function onConnect () {
+    console.log('connected to', target.name, 'to replicate dataset', target.dataset_id)
+    server.replicateNetwork(socket, 'pull')
   }
 }
