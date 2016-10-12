@@ -7,6 +7,7 @@ var electron = require('electron')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
+var presets = require('./vendor/iD/presets.json')
 
 var menuTemplate = require('./lib/menu')
 
@@ -94,11 +95,12 @@ function ready () {
   require('./lib/user-config')
 
   ipc.on('save-file', function () {
+    var ext = presets.metadata ? presets.metadata.dataset_id : 'mapeodata'
     electron.dialog.showSaveDialog(win, {
       title: 'Crear nuevo base de datos para sincronizar',
       defaultPath: 'base-de-datos-mapeo.mapeodata',
       filters: [
-        { name: 'Mapeo Data', extensions: ['mapeodata'] },
+        { name: 'Mapeo Data', extensions: [ext] },
       ]
     }, onopen)
 
@@ -111,11 +113,12 @@ function ready () {
   })
 
   ipc.on('open-file', function () {
+    var ext = presets.metadata ? presets.metadata.dataset_id : 'mapeodata'
     electron.dialog.showOpenDialog(win, {
       title: 'Seleccionar base de datos para sincronizar',
       properties: [ 'openFile' ],
       filters: [
-        { name: 'Mapeo Data', extensions: ['mapeodata'] },
+        { name: 'Mapeo Data', extensions: [ext] },
       ]
     }, onopen)
 
