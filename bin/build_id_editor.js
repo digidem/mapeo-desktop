@@ -11,9 +11,32 @@ var pkg = require('../package.json')
 var idDistPath = path.join(idPath, 'dist')
 
 icebox(function (dstPath, done) {
-  // var dstPath = path.resolve(__dirname, '../vendor/iD')
+  // mkdirp.sync(dstPath)
 
-  mkdirp.sync(dstPath)
+  ;[
+    'app.js',
+    'browser',
+    'config.js',
+    'css',
+    'fonts',
+    'icon.ico',
+    'index.html',
+    'lib',
+    'LICENSE',
+    'locales',
+    'node_modules',
+    'package.json',
+    'packager.json',
+    'README.md',
+    'replicate.html',
+    'server.js',
+    'static',
+    'tile-server.js'
+  ].forEach(function (file) {
+    console.log('Copying', file, '..')
+    fs.copySync(path.join(__dirname, '..', file), path.join(dstPath, file), {clobber: true})
+    console.log('..done!')
+  })
 
   // Copy all iD dist assets
   fs.copySync(idDistPath, dstPath, {clobber: true})
