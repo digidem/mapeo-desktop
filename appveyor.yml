@@ -22,6 +22,7 @@ artifacts:
     name: nupkg
   - path: '**\Installar_Mapeo*.exe'
     name: exe
+  - path: '**\RELEASES'
 
 cache:
   - '%USERPROFILE%\.electron'

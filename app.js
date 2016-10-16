@@ -7,10 +7,57 @@ var electron = require('electron')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
+var request = require('request')
 
 var menuTemplate = require('./lib/menu')
 
+console.log('pre electron-squirrel.startup')
+
+// win32 only
 if (require('electron-squirrel-startup')) return
+
+console.log('post electron-squirrel.startup')
+
+// macos & windows
+var os = require('os').platform();
+console.log('I am a', os)
+if (os === 'darwin' || os === 'win32') {
+  var autoUpdater = require('auto-updater')
+
+  if (os === 'win32') {
+    getLatestTagWin32(function (err, tag) {
+      if (err) {
+        console.error('ERR on auto-update:', err)
+        return
+      }
+      console.log('sez our tag is', tag)
+      check(tag)
+    })
+  }
+
+  function check (url) {
+    console.log('feedurl set to', url)
+    autoUpdater.setFeedURL(url)
+    autoUpdater.checkForUpdates()
+
+    autoUpdater.on('error', function (err) {
+      console.log('autoUpdater', 'error', err)
+    })
+    autoUpdater.on('checking-for-update', function () {
+      console.log('autoUpdater', 'checking-for-update')
+    })
+    autoUpdater.on('update-available', function () {
+      console.log('autoUpdater', 'update-available')
+    })
+    autoUpdater.on('update-not-available', function () {
+      console.log('autoUpdater', 'update-not-available')
+    })
+    autoUpdater.on('update-downloaded', function (evt) {
+      console.log('autoUpdater', 'update-downloaded', evt)
+    })
+  }
+}
+
 
 var APP_NAME = app.getName()
 
@@ -134,4 +181,21 @@ function mv (src, dst) {
   } catch (e) {
     fs.rename(src, dst)
   }
+}
+
+// Send an HTTP request to the master branch of the repo on Github, read
+// auto_updater.json, and determine the tag name of the latest released
+// version.
+function getLatestTagWin32 (cb) {
+  var url = 'https://github.com/noffle/mapeo-desktop/raw/windows-auto-update/auto_updater.json'
+  request(url, function (err, res, body) {
+    if (err) return cb(err)
+    if (res.statusCode !== 200) return cb('got http response code ' + res.statusCode)
+    try {
+      var data = JSON.parse(body)
+      cb(null, data.win32_tag)
+    } catch (e) {
+      return cb(e)
+    }
+  })
 }
