@@ -17,7 +17,7 @@ electronInstaller.createWindowsInstaller({
 
   usePackageJson: false,
 
-  remoteReleases: 'https://github.com/digidem/mapeo-desktop',
+  remoteReleases: 'https://github.com/noffle/mapeo-desktop',
 
   description: pkg.productDescription,
   authors: pkg.author,
