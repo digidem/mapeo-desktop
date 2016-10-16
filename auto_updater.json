@@ -1,7 +1,7 @@
 {
-    "url": "https://github.com/noffle/mapeo-desktop/releases/download/v1.2.5/mapeo.zip",
-    "name": "1.2.5",
+    "url": "https://github.com/noffle/mapeo-desktop/releases/download/v1.2.11/mapeo.zip",
+    "name": "1.2.11",
     "notes": "These are some release notes",
     "pub_date": "2016-09-18T12:29:53+01:00",
-    "win32_tag": "v1.2.5"
+    "win32_tag": "v1.2.11"
 }
