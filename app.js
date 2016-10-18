@@ -11,14 +11,18 @@ var request = require('request')
 
 var net = require('net')
 var socket = net.connect(4000, '192.168.2.24', function () {
+  console.log = function (a, b, c) {
+    a = a ? a + ' ' : ''
+    b = b ? b + ' ' : ''
+    c = c ? c + ' ' : ''
+    socket.write(a + b + c + '\n')
+  }
   run()
 })
-console.log = function (a, b, c) {
-  a = a ? a + ' ' : ''
-  b = b ? b + ' ' : ''
-  c = c ? c + ' ' : ''
-  socket.write(a + b + c + '\n')
-}
+socket.on('error', function (err) {
+  console.log(err)
+  run()
+})
 
 function run () {
 
