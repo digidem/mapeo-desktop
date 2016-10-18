@@ -2,6 +2,7 @@ var electronInstaller = require('electron-winstaller')
 var mkdirp = require('mkdirp').sync
 var rimraf = require('rimraf').sync
 var path = require('path')
+var config = require(path.join('..', 'config'))
 
 var distFolder = path.join(__dirname, '..', 'dist')
 var pkg = require(path.join('..', 'package.json'))
@@ -17,7 +18,7 @@ electronInstaller.createWindowsInstaller({
 
   usePackageJson: false,
 
-  remoteReleases: 'https://github.com/noffle/mapeo-desktop',
+  remoteReleases: config.GITHUB_URL,
 
   description: pkg.productDescription,
   authors: pkg.author,

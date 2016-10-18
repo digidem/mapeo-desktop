@@ -8,6 +8,7 @@ var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var request = require('request')
+var config = require('./config')
 
 var net = require('net')
 var socket = net.connect(4000, '192.168.2.24', function () {
@@ -204,7 +205,7 @@ function run () {
   // auto_updater.json, and determine the tag name of the latest released
   // version.
   function getLatestTagWin32 (cb) {
-    var url = 'https://github.com/noffle/mapeo-desktop/raw/windows-auto-update/auto_updater.json'
+    var url = config.GITHUB_URL_RAW + '/auto_updater.json'
     request(url, function (err, res, body) {
       if (err) return cb(err)
       if (res.statusCode !== 200) return cb('got http response code ' + res.statusCode)

@@ -20,8 +20,8 @@ module.exports = {
 
   CONFIG_PATH: getConfigPath(),
 
-  GITHUB_URL: 'https://github.com/digidem/mapeo-desktop',
-  GITHUB_URL_RAW: 'https://raw.githubusercontent.com/digidem/mapeo-desktop/master',
+  GITHUB_URL: 'https://github.com/noffle/mapeo-desktop',
+  GITHUB_URL_RAW: 'https://github.com/noffle/mapeo-desktop/raw/noffle',
 
   IS_PORTABLE: isPortable(),
   IS_PRODUCTION: isProduction(),
