@@ -21,7 +21,8 @@
     "start": "electron app.js --disable-http-cache",
     "server": "node app.js --headless",
     "dev": "electron app.js --debug --disable-http-cache",
-    "postinstall": "npmpd"
+    "postinstall": "npmpd",
+    "version": "node bin/version_auto_updater.js && git add auto_updater.json"
   },
   "repository": {
     "type": "git",
@@ -97,6 +98,7 @@
     "mkdirp": "^0.5.1",
     "npm-platform-dependencies": "0.0.12",
     "rimraf": "^2.5.2",
+    "strftime": "^0.9.2",
     "watchify": "^3.7.0"
   }
 }
