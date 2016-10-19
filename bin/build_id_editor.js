@@ -42,7 +42,8 @@ function done (err) {
     presets: require('iD/data/presets/presets.json'),
     defaults: require('iD/data/presets/defaults.json'),
     categories: require('iD/data/presets/categories.json'),
-    fields: require('iD/data/presets/fields.json')
+    fields: require('iD/data/presets/fields.json'),
+    metadata: require(path.join('..', 'metadata.json'))
   }
 
   fs.writeFileSync(path.join(dstPath, 'presets.json'), JSON.stringify(presets, null, '  '))
