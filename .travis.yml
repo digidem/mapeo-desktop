@@ -11,15 +11,13 @@ before_install:
   - npm install -g npm
 
 script:
-  - npm run rebuild-leveldb
-  - node bin/package_macos.js
-  - node bin/create_macos_dmg.js
+  - npm run dmg-mac
 
 deploy:
   skip_cleanup: true
   provider: releases  # github releases
   file_glob: true
-  file: "dist/Mapeo-darwin-x64/Installar_Mapeo*.dmg"
+  file: "ice-box/**/Mapeo-darwin-x64/Installar_Mapeo*.dmg"
   on:
     tags: true
     repo: digidem/mapeo-desktop

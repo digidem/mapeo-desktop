@@ -2,47 +2,39 @@ var path = require('path')
 var rimraf = require('rimraf').sync
 var spawn = require('cross-spawn').sync
 var packager = require('electron-packager')
+var icebox = require('ice-box')()
+var arg = require('argv-or-stdin')
 
 var pkg = require(path.join('..', 'package.json'))
 
-// clear old output folder
-var distFolder = path.join(__dirname, '..', 'dist')
-var installerFolder = path.join(distFolder, 'installer-win-x64')
-rimraf(installerFolder)
-
-// run "bin/build_id_editor.js"
-var res = spawn('npm', ['run', 'build:id'])
-if (res.error) {
-  console.log(res.error)
-  process.exit(1)
-}
-if (res.status) {
-  console.log(res.output.toString())
-  process.exit(res.status)
-}
-
-// package electron exeuctable
-packager({
-  dir: '.',
-  arch: 'x64',
-  platform: 'win32',
-  icon: path.join('static', 'mapeo.ico'),
-  ignore: /^\/dist/,
-  out: 'dist',
-  version: '1.3.4',
-  prune: true,
-  overwrite: true,
-  asar: true,
-  'version-string': {
-    ProductName: 'Mapeo',
-    CompanyName: 'Digital Democracy'
-  },
-}, function done_callback (err, appPaths) {
-  if (err) {
-    console.error(err)
-    process.exit(1)
-  } else {
-    console.log(appPaths)
-  }
+// take the a build directory as input
+arg(function (err, srcPath) {
+  icebox(function (dstPath, done) {
+    // package electron executable
+    packager({
+      dir: srcPath,
+      arch: 'x64',
+      platform: 'win32',
+      icon: path.join('static', 'mapeo.ico'),
+      ignore: new RegExp('^' + dstPath),
+      out: dstPath,
+      version: '1.3.4',
+      download: {
+        quiet: true
+      },
+      prune: false,
+      overwrite: true,
+      asar: true,
+      'version-string': {
+        ProductName: 'Mapeo',
+        CompanyName: 'Digital Democracy'
+      },
+    }, function done_callback (err, appPaths) {
+      if (err) return console.trace(err)
+      done()
+    })
+  }, function (err, finalPath) {
+    if (err) return console.trace(err)
+    console.log(finalPath)
+  })
 })
-
