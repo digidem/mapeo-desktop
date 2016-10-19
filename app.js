@@ -32,6 +32,7 @@ function run () {
   console.log('pre electron-squirrel.startup')
 
   // win32 only
+  debugElectronSquirrelStartup()
   if (require('electron-squirrel-startup')) return
 
   console.log('post electron-squirrel.startup')
@@ -217,4 +218,14 @@ function run () {
       }
     })
   }
+}
+
+function debugElectronSquirrelStartup () {
+  var cmd = process.argv[1]
+  console.log('DESS processing squirrel command `%s`', cmd)
+  console.log('DESS argv', process.argv)
+  console.log('DESS targetPath', path.basename(process.execPath))
+
+  var updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe')
+  console.log('DESS *would* spawn `%s` with args `%s`', updateExe, args)
 }
