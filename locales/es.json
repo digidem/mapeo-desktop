@@ -356,6 +356,38 @@
             "description": "Puntos",
             "tooltip": "Puntos de interés"
         },
+        "revisar": {
+            "description": "Por revisar",
+            "tooltip": "Puntos por revisar y clasificar"
+        },
+        "flora": {
+            "description": "Flora",
+            "tooltip": "Arboles, palmeras, lianas y plantas"
+        },
+        "fauna": {
+            "description": "Fauna",
+            "tooltip": "Animales, peces y aves"
+        },
+        "natural": {
+            "description": "Elementos naturales",
+            "tooltip": "Cuevas, miradores, montañas, playas, barro etc."
+        },
+        "caminos_wao": {
+            "description": "Caminos Wao",
+            "tooltip": "Caminos de viajar, caseria, y caminos imaginados"
+        },
+        "caminos_animales": {
+            "description": "Caminos de Animales",
+            "tooltip": "Caminos de animales"
+        },
+        "comunidad": {
+            "description": "Elementos de la comunidad",
+            "tooltip": "Casas, chacras, sitios historicos, caza, pesca etc."
+        },
+        "areas": {
+            "description": "Areas",
+            "tooltip": "Areas"
+        },
         "traffic_roads": {
             "description": "Carreteras de tráfico",
             "tooltip": "Carreteras, calles, etc."

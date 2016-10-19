@@ -32,6 +32,8 @@ id.loadLocale = function(cb) {
   }
   if (locale && locale !== 'en' && iD.data.locales.indexOf(locale) !== -1) {
     var localePath = id.asset('locales/' + locale + '.json')
+    if (locale === 'es') localePath = 'locales/es.json'
+    console.log(localePath)
     d3.json(localePath, function (err, result) {
       window.locale[locale] = result
       window.locale.current(locale)
