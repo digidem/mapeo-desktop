@@ -18,6 +18,9 @@ var wsock = require('websocket-stream')
 var onend = require('end-of-stream')
 var randombytes = require('randombytes')
 
+var userConfig = require('./lib/user-config')
+var metadata = userConfig.getSettings('metadata')
+
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
   var replicating = false
