@@ -27,11 +27,10 @@ function onerror (err) { console.error(err) }
 var syncButtons = []
 var cancelBtn = document.getElementById('cancel')
 var resdiv = document.getElementById('response')
+var syncTargets = document.getElementById('sync-targets')
 
 function addSyncTarget (target) {
   // console.error('addSyncTarget', target)
-
-  var syncTargets = document.getElementById('sync-targets')
 
   var networkElem = document.createElement('div')
   networkElem.className = 'network-element'
@@ -51,12 +50,12 @@ function addSyncTarget (target) {
   center.appendChild(btn)
 
   var span = document.createElement('span')
-  span.className = 'glyphicon glyphicon-folder-open'
+  span.className = 'glyphicon glyphicon-save'
   span.setAttribute('aria-hidden', 'true')
   btn.appendChild(span)
 
   var spanBtn = document.createElement('span')
-  spanBtn.innerText = 'Sync'
+  spanBtn.innerText = ' Agregar cambios'
   btn.appendChild(spanBtn)
 
   btn.addEventListener('click', function (ev) {
@@ -82,10 +81,9 @@ function addSyncTarget (target) {
 function selectSyncTarget (target) {
   if (!target) return
 
-  // disable all sync buttons
-  syncButtons.forEach(function (btn) {
-    btn.setAttribute('disabled', 'disabled')
-  })
+    // hide sync targets after successful sync
+  syncTargets.classList.add('hidden')
+  cancelBtn.setAttribute('disabled', 'disabled')
 
   // TODO: set selected button to 'sync' text
   // buttonText.innerText = 'Sincronizando…'
@@ -116,13 +114,13 @@ function onSyncTargets (err, res, bodyJson) {
 }
 
 function onReplicationComplete () {
-  // enable all sync buttons
-  syncButtons.forEach(function (btn) {
-    btn.removeAttribute('disabled')
-  })
+  cancelBtn.classList.remove('hidden')
+  cancelBtn.classList.add('btn-primary')
+  cancelBtn.removeAttribute('disabled')
+  cancelBtn.innerText = 'OK'
 
   resdiv.className = 'alert alert-success'
-  resdiv.innerHTML = '<strong>Sinconización se ha completado exitosamente.</strong><br/>' +
+  resdiv.innerHTML = '<strong>Ya agregó cambios por Wi-Fi.</strong><br/>' +
     'Ya debes tener la información más reciente en tu mapa. ' +
     'Haga un click en "OK" para volver al mapa'
 }
