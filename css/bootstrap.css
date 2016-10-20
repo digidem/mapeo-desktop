@@ -573,6 +573,7 @@ th {
 }
 .glyphicon-folder-open:before {
   content: "\e118";
+  margin-right: 10px;
 }
 .glyphicon-resize-vertical:before {
   content: "\e119";
@@ -3630,4 +3631,14 @@ input[type="button"].btn-block {
 }
 .affix {
   position: fixed;
+}
+
+.network-element {
+  float: left;
+  padding: 10px;
+  margin: 5px;
+  border-color: #cccccc;
+  border-style: solid;
+  border-width: 1px;
+  min-width: 150px;
 }
