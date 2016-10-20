@@ -1,9 +1,5 @@
-var path = require('path')
-var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
 var http = require('http')
-var hyperlog = require('hyperlog')
-var level = require('level')
 var sneakernet = require('hyperlog-sneakernet-replicator')
 
 var body = require('body/any')
@@ -12,14 +8,10 @@ var exportGeoJson = require('osm-p2p-geojson')
 var importGeo = require('./lib/import-geo.js')
 var pump = require('pump')
 var shp = require('shpjs')
-var tmpdir = require('os').tmpdir()
 var concat = require('concat-stream')
 var wsock = require('websocket-stream')
-var onend = require('end-of-stream')
+var eos = require('end-of-stream')
 var randombytes = require('randombytes')
-
-var userConfig = require('./lib/user-config')
-var metadata = userConfig.getSettings('metadata')
 
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
@@ -37,12 +29,14 @@ module.exports = function (osm) {
       })
     } else if (req.url.split('?')[0] === '/export.geojson') {
       var params = qs.parse(req.url.replace(/^[^\?]*?/, ''))
-      var bbox = [[params.minlat,params.maxlat],[params.minlon,params.maxlon]]
-        .map(function (pt) {
-          if (pt[0] === undefined) pt[0] = -Infinity
-          if (pt[1] === undefined) pt[1] = Infinity
-          return pt
-        })
+      var bbox = [
+        [params.minlat, params.maxlat],
+        [params.minlon, params.maxlon]
+      ].map(function (pt) {
+        if (pt[0] === undefined) pt[0] = -Infinity
+        if (pt[1] === undefined) pt[1] = Infinity
+        return pt
+      })
       res.setHeader('content-type', 'text/json')
       pump(exportGeoJson(osm, {bbox: bbox}), res)
     } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
@@ -52,14 +46,15 @@ module.exports = function (osm) {
           if (!(geojsons instanceof Array)) {
             geojsons = [geojsons]
           }
-          var errors = [], pending = 1
+          var errors = []
+          var pending = 1
           geojsons.forEach(function (geo) {
             importGeo(osm, geo, function (err) {
               if (err) errors.push(String(err.message || err))
               if (--pending === 0) done()
             })
           })
-          if (--pending === 0) done()
+          if (--pending === 0) { done() }
           function done () {
             res.end(JSON.stringify({
               errors: errors
@@ -74,15 +69,14 @@ module.exports = function (osm) {
   wsock.createServer({ server: server }, function (stream) {
     var id = randombytes(8).toString('hex')
     streams[id] = stream
-    onend(stream, function () { delete streams[id] })
+    eos(stream, function () { delete streams[id] })
   })
   return server
 
   function replicate (sourceFile) {
-
     console.log('replicating to', sourceFile)
-
     sneakernet(osm.log, { safetyFile: true }, sourceFile, onend)
+    replicating = true
 
     function onend (err) {
       if (err) return syncErr(err)

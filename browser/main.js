@@ -72,7 +72,6 @@ function updateSettings () {
   var customCss = ipc.sendSync('get-user-data', 'css')
   var imagery = ipc.sendSync('get-user-data', 'imagery')
   var translations = ipc.sendSync('get-user-data', 'translations')
-  var metadata = ipc.sendSync('get-user-data', 'metadata')
   var icons = ipc.sendSync('get-user-data', 'icons')
   if (icons) {
     var iconsSvg = parser.parseFromString(icons, 'image/svg+xml').documentElement
