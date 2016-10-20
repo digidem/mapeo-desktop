@@ -46,10 +46,18 @@ try {
 
 // Migrate old data if needed
 if (hasOldUserData) {
-  mv(path.join(oldUserDataPath, 'data'), path.join(userDataPath, 'data'))
-  mv(path.join(oldUserDataPath, 'tiles'), path.join(userDataPath, 'tiles'))
-  mv(path.join(oldUserDataPath, 'imagery.json'), path.join(userDataPath, 'imagery.json'))
-  mv(path.join(oldUserDataPath, 'presets.json'), path.join(userDataPath, 'presets.json'))
+  try {
+    mv(path.join(oldUserDataPath, 'data'), path.join(userDataPath, 'data'))
+  } catch (e) {}
+  try {
+    mv(path.join(oldUserDataPath, 'tiles'), path.join(userDataPath, 'tiles'))
+  } catch (e) {}
+  try {
+    mv(path.join(oldUserDataPath, 'imagery.json'), path.join(userDataPath, 'imagery.json'))
+  } catch (e) {}
+  try {
+    mv(path.join(oldUserDataPath, 'presets.json'), path.join(userDataPath, 'presets.json'))
+  } catch (e) {}
 }
 
 var osmdb = require('osm-p2p')
