@@ -58,6 +58,7 @@
     "electron-winstaller": "^2.3.1",
     "end-of-stream": "^1.1.0",
     "hyperlog": "^4.10.0",
+    "hyperlog-sneakernet-replicator": "^1.1.2",
     "insert-css": "^1.0.0",
     "level": "^1.4.0",
     "levelup": "^1.3.1",

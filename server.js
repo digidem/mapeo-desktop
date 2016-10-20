@@ -4,6 +4,7 @@ var osmserver = require('osm-p2p-server')
 var http = require('http')
 var hyperlog = require('hyperlog')
 var level = require('level')
+var sneakernet = require('hyperlog-sneakernet-replicator')
 
 var body = require('body/any')
 var qs = require('querystring')
@@ -74,26 +75,19 @@ module.exports = function (osm) {
   })
   return server
 
-  function replicate (sourcedir) {
-    var syncDb = level(sourcedir)
-    var syncLog = hyperlog(syncDb, { valueEncoding: 'json' })
-    syncLog.on('error', syncErr)
-    var s = syncLog.replicate()
-    var d = osm.log.replicate()
-    var pending = 2
-    onend(s, onend)
-    onend(d, onend)
-    s.on('error', syncErr)
-    d.on('error', syncErr)
-    s.pipe(d).pipe(s)
+  function replicate (sourceFile) {
 
-    function onend () {
-      if (--pending !== 0) return
+    console.log('replicating to', sourceFile)
+
+    sneakernet(osm.log, { safetyFile: true }, sourceFile, onend)
+
+    function onend (err) {
+      if (err) return syncErr(err)
       replicating = false
       send('replication-data-complete')
       setTimeout(function () {
         osm.ready(function () {
-          console.log('COMPlETE')
+          console.log('COMPLETE')
           send('replication-complete')
         })
       }, 5000) // HACK, figure out how to not do this in the future
