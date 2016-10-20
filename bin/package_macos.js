@@ -7,8 +7,8 @@ var pkg = require(path.join('..', 'package.json'))
 
 // clear old output folder
 var distFolder = path.join(__dirname, '..', 'dist')
-var installerFolder = path.join(distFolder, 'installer-win-x64')
-rimraf(installerFolder)
+var buildFolder = path.join(distFolder, 'Mapeo-darwin-x64')
+rimraf(buildFolder)
 
 // run "bin/build_id_editor.js"
 var res = spawn('npm', ['run', 'build:id'])
