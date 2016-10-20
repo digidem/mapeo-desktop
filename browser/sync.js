@@ -17,7 +17,7 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     showButtons()
   } else if (row && row.topic === 'replication-data-complete') {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> Actualizando indices&hellip; puede demorar un momento'
+    resdiv.innerHTML = '<strong>Sincronizando:</strong> Actualizando indices... puede demorar un momento'
   } else if (row && row.topic === 'replication-complete') {
     resdiv.className = 'alert alert-success'
     resdiv.innerHTML = '<strong>Sinconización se ha completado exitosamente.</strong><br/>' +
@@ -91,6 +91,6 @@ function onpost (err, res, body) {
     showButtons()
   } else {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso&hellip'
+    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...'
   }
 }

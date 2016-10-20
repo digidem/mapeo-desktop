@@ -95,8 +95,8 @@ function ready () {
 
   ipc.on('save-file', function () {
     electron.dialog.showSaveDialog(win, {
-      title: 'Select .mapeodata file for replication',
-      defaultPath: 'sync.mapeodata',
+      title: 'Crear nuevo base de datos para sincronizar',
+      defaultPath: 'base-de-datos-mapeo.mapeodata',
       filters: [
         { name: 'Mapeo Data', extensions: ['mapeodata'] },
       ]
@@ -112,7 +112,7 @@ function ready () {
 
   ipc.on('open-file', function () {
     electron.dialog.showOpenDialog(win, {
-      title: 'Select .mapeodata file for replication',
+      title: 'Seleccionar base de datos para sincronizar',
       properties: [ 'openFile' ],
       filters: [
         { name: 'Mapeo Data', extensions: ['mapeodata'] },
