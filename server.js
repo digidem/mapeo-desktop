@@ -179,8 +179,8 @@ module.exports = function (osm) {
     src.on('error', syncErr)
     socket.on('error', syncErr)
     socket.pipe(src).pipe(socket)
-    onend(src, onend)
-    onend(socket, onend)
+    eos(src, onend)
+    eos(socket, onend)
 
     function onend () {
       if (--pending !== 0) return
