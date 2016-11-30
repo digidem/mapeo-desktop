@@ -4,7 +4,7 @@
   "author": "Stephen Whitmore <sww@eight45.net>",
   "version": "0.0.0",
   "repository": {
-    "type": "git,
+    "type": "git",
     "url": "git://github.com/noffle/mapfilter-wrapper.git"
   },
   "homepage": "https://github.com/noffle/mapfilter-wrapper",
