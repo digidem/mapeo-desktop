@@ -1,13 +1,11 @@
 #!/usr/bin/env electron
 
 var path = require('path')
-var fs = require('fs')
 var minimist = require('minimist')
 var electron = require('electron')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
-var net = require('net')
 
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
@@ -66,7 +64,6 @@ function appReady () {
     Menu.setApplicationMenu(menu)
   }
 }
-
 
 var argv = parseArguments(process.argv.slice(2))
 start(argv)
