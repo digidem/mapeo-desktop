@@ -5,7 +5,7 @@ function createConfiguration () {
   var config = require('../config')
 
   var distFolder = path.join(__dirname, '..', 'dist')
-  var installerFolder = path.join(distFolder, 'Mapeo-darwin-x64')
+  var installerFolder = path.join(distFolder, 'mapfilter-desktop-darwin-x64')
   var buildName = 'Installar_' + config.APP_NAME + '_v' + config.APP_VERSION
   var appPath = path.join(installerFolder, config.APP_NAME + '.app')
   var dmgPath = path.join(distFolder, buildName + '_macOS.dmg')

@@ -7,7 +7,7 @@ var distFolder = path.join(__dirname, '..', 'dist')
 var installerFolder = path.join(distFolder, 'installer-win-x64')
 
 function createConfiguration () {
-  var buildFolder = path.join(distFolder, 'Mapeo-win32-x64')
+  var buildFolder = path.join(distFolder, 'mapfilter-desktop-win32-x64')
 
   return {
     appDirectory: buildFolder,
