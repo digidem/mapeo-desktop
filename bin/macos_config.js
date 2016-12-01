@@ -1,4 +1,5 @@
 var path = require('path')
+var config = require('../config')
 
 var pkg = require(path.join('..', 'package.json'))
 
@@ -11,8 +12,8 @@ module.exports = {
   ignore: /^\/dist/,
   out: 'dist',
   tmpdir: false,
-  version: '1.3.4',
   'app-version': pkg.version,
+  version: config.ELECTRON_VERSION,
   'build-version': '1.0.0',
   prune: true,
   overwrite: true,

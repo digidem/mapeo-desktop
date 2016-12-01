@@ -1,5 +1,6 @@
 var path = require('path')
 var pkg = require(path.join('..', 'package.json'))
+var config = require('../config')
 
 module.exports = {
   dir: '.',
@@ -8,7 +9,7 @@ module.exports = {
   icon: path.join('static', 'mapeo.ico'),
   ignore: /^\/dist/,
   out: 'dist',
-  version: '1.3.4',
+  version: config.ELECTRON_VERSION,
   'app-version': pkg.version,
   prune: true,
   overwrite: true,

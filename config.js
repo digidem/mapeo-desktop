@@ -1,6 +1,8 @@
 var path = require('path')
 
-var APP_VERSION = require('./package.json').version
+var pkg = require('./package.json')
+
+var APP_VERSION = pkg.version
 var APP_TEAM = 'Digital Democracy'
 var APP_NAME = 'Mapfilter'
 
@@ -11,6 +13,8 @@ module.exports = {
   APP_TEAM: APP_TEAM,
   APP_VERSION: APP_VERSION,
   APP_WINDOW_TITLE: APP_NAME + ' (ALPHA)',
+
+  ELECTRON_VERSION: pkg.dependencies.electron,
 
   ROOT_PATH: __dirname
 }
