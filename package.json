@@ -1,14 +1,14 @@
 {
-  "name": "mapfilter-wrapper",
+  "name": "mapfilter-desktop",
   "description": "electron app that wraps mapfilter",
   "author": "Stephen Whitmore <sww@eight45.net>",
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/noffle/mapfilter-wrapper.git"
+    "url": "git://github.com/noffle/mapfilter-desktop.git"
   },
-  "homepage": "https://github.com/noffle/mapfilter-wrapper",
-  "bugs": "https://github.com/noffle/mapfilter-wrapper/issues",
+  "homepage": "https://github.com/noffle/mapfilter-desktop",
+  "bugs": "https://github.com/noffle/mapfilter-desktop/issues",
   "main": "app.js",
   "scripts": {
     "lint": "standard"
