@@ -13,13 +13,17 @@
   "scripts": {
     "lint": "standard"
   },
-  "keywords": [
+  "keywords": [],
+  "pre-commit": [
+    "lint"
   ],
-  "pre-commit": ["lint"],
-  "dependencies": {},
+  "dependencies": {
+    "minimist": "^1.2.0"
+  },
   "devDependencies": {
-    "standard": "~8.3.0",
-    "pre-commit": "~1.1.3"
+    "electron": "^1.4.10",
+    "pre-commit": "~1.1.3",
+    "standard": "~8.3.0"
   },
   "license": "ISC"
 }
