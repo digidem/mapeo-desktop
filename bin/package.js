@@ -18,7 +18,7 @@ packager(config, function (err, appPaths) {
     console.error(err)
     process.exit(1)
   } else {
-    console.log(appPaths)
+    console.log(appPaths[0])
   }
 })
 

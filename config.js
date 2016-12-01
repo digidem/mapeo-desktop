@@ -8,11 +8,13 @@ var APP_NAME = 'Mapfilter'
 
 module.exports = {
   APP_COPYRIGHT: 'Copyright © 2016 ' + APP_TEAM,
-  APP_ICON: path.join(__dirname, 'static', 'Mapeo'),
+  APP_ICON_PATH: path.join(__dirname, 'static', 'mapfilter'),
+  APP_DESCRIPTION: 'mapfilter electron wrapper',
   APP_NAME: APP_NAME,
   APP_TEAM: APP_TEAM,
   APP_VERSION: APP_VERSION,
   APP_WINDOW_TITLE: APP_NAME + ' (ALPHA)',
+  APP_BUNDLE_ID: 'org.digital-democracy.mapfilter-desktop',
 
   ELECTRON_VERSION: pkg.dependencies.electron,
 

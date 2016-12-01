@@ -1,21 +1,19 @@
-var path = require('path')
-var pkg = require(path.join('..', 'package.json'))
 var config = require('../config')
 
 module.exports = {
   dir: '.',
   arch: 'x64',
   platform: 'win32',
-  icon: path.join('static', 'mapeo.ico'),
+  icon: config.APP_ICON_PATH + '.ico',
   ignore: /^\/dist/,
   out: 'dist',
   version: config.ELECTRON_VERSION,
-  'app-version': pkg.version,
+  'app-version': config.APP_VERSION,
   prune: true,
   overwrite: true,
   asar: true,
   'version-string': {
-    ProductName: 'Mapeo',
-    CompanyName: 'Digital Democracy'
+    ProductName: config.APP_NAME,
+    CompanyName: config.APP_TEAM
   }
 }
