@@ -12,6 +12,7 @@
   "main": "app.js",
   "scripts": {
     "lint": "standard",
+    "start": "electron app.js --disable-http-cache",
     "create-windows-installer": "node bin/package.js windows && node bin/create_windows_installer.js",
     "create-macos-installer": "node bin/package.js macos && node bin/create_macos_installer.js",
     "postinstall": "npmpd"
