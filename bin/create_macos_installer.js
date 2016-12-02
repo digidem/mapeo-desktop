@@ -1,11 +1,13 @@
 var appDmg = require('appdmg')
 var path = require('path')
+var clear = require('./clear-directory')
+
+var distFolder = path.join(__dirname, '..', 'dist')
+var installerFolder = path.join(distFolder, 'mapfilter-desktop-darwin-x64')
 
 function createConfiguration () {
   var config = require('../config')
 
-  var distFolder = path.join(__dirname, '..', 'dist')
-  var installerFolder = path.join(distFolder, 'mapfilter-desktop-darwin-x64')
   var buildName = 'Installar_' + config.APP_NAME + '_v' + config.APP_VERSION
   var appPath = path.join(installerFolder, config.APP_FILE_NAME + '.app')
   var dmgPath = path.join(distFolder, buildName + '_macOS.dmg')
@@ -32,13 +34,21 @@ function createConfiguration () {
   }
 }
 
-var config = createConfiguration()
-var dmg = appDmg(config)
-dmg.once('error', function (err) {
-  console.error(err)
-  process.exit(1)
-})
-dmg.once('finish', function (info) {
-  console.log(config.target)
-  process.exit(0)
+function createInstaller () {
+  var config = createConfiguration()
+  var dmg = appDmg(config)
+  dmg.once('error', function (err) {
+    console.error(err)
+    process.exit(1)
+  })
+  dmg.once('finish', function (info) {
+    console.log(config.target)
+    process.exit(0)
+  })
+}
+
+console.log('gonna clear', installerFolder)
+clear(installerFolder, function (err) {
+  if (err) throw err
+  createInstaller()
 })

@@ -1,7 +1,7 @@
-var mkdirp = require('mkdirp').sync
 var path = require('path')
 var electronInstaller = require('electron-winstaller')
 var config = require('../config')
+var clear = require('./clear-directory')
 
 var distFolder = path.join(__dirname, '..', 'dist')
 var installerFolder = path.join(distFolder, 'installer-win-x64')
@@ -26,12 +26,18 @@ function createConfiguration () {
   }
 }
 
-mkdirp(installerFolder)
+function createInstaller () {
+  var cfg = createConfiguration()
+  electronInstaller.createWindowsInstaller(cfg)
+    .then(function () {
+      console.log(path.join(cfg.outputDirectory, cfg.setupExe))
+    }).catch(function (e) {
+      console.error(e.message)
+    })
+}
 
-var cfg = createConfiguration()
-electronInstaller.createWindowsInstaller(cfg)
-  .then(function () {
-    console.log(path.join(cfg.outputDirectory, cfg.setupExe))
-  }).catch(function (e) {
-    console.error(e.message)
-  })
+console.log('gonna clear', installerFolder)
+clear(installerFolder, function (err) {
+  if (err) throw err
+  createInstaller()
+})
