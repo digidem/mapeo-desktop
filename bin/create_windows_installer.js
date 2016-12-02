@@ -18,7 +18,7 @@ function createConfiguration () {
     description: config.APP_DESCRIPTION,
     authors: config.APP_TEAM,
     name: config.APP_NAME,
-    exe: config.APP_NAME + '.exe',
+    exe: config.APP_FILE_NAME + '.exe',
     setupExe: 'Installar_' + config.APP_NAME + '_' + config.APP_VERSION + '_Windows.exe',
     iconUrl: 'https://raw.githubusercontent.com/digidem/mapfilter-desktop/master/static/mapfilter.ico',
     version: config.APP_VERSION,

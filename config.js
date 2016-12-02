@@ -11,6 +11,7 @@ module.exports = {
   APP_ICON_PATH: path.join(__dirname, 'static', 'mapfilter'),
   APP_DESCRIPTION: 'mapfilter electron wrapper',
   APP_NAME: APP_NAME,
+  APP_FILE_NAME: 'mapfilter-desktop',
   APP_TEAM: APP_TEAM,
   APP_VERSION: APP_VERSION,
   APP_WINDOW_TITLE: APP_NAME + ' (ALPHA)',
