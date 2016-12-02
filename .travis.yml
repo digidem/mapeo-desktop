@@ -1,0 +1,25 @@
+sudo: false
+language: node_js
+node_js:
+  - "6"
+
+os:
+  - osx
+
+# latest npm
+before_install:
+  - npm install -g npm
+
+script:
+  - npm run create-macos-installer
+
+deploy:
+  skip_cleanup: true
+  provider: releases  # github releases
+  file_glob: true
+  file: "dist/mapfilter-desktop-darwin-x64/Installar_Mapfilter*.dmg"
+  on:
+    tags: true
+    repo: digidem/mapfilter-desktop
+  api_key:
+    secure: ivwlKQOuGLzHGh00OJUAB0dGbH5p6UrYW3MdWmzWAERILtByZnjoE9WVyYuEOIjjR03sTM54pbm4l6bOw/9PtdRUaV5oi0/D3cHX4rfnb4UVuVpyCyqfOzMDvegHKoXwuGI9BAfnpf7+b+4Suwl7nIs4i6XM3DCgV0yzjdNRZtHr6FzmT/n9p+LkmHMdUEyifGJ5kXD1ZS6QHT0+VTc0FmkBxlR2V1P/gh8D12yrFXh3+bNd0G2VWSmEL8MWaNZ8YiDjMdBdPJsd7Zcb8dkK+gsCO5XGocmD+lb9aWU4Rp+Mp9QVszeVJUF+FJ6c4mvjBf//xeylqmJyLIhgP/4HAhqYdQCAq03xhU23Xw2EDAW4YTyzYHAs3RgwNbd+88/Xt3RabcctdNb+t2coyW0PETHYGuTd9ROelMVN+aP0TaPT9fmRHQ1QmN656UY9Yji6KFv4Dy5AVBDjP8H0ptvy8mZwX3Ixh8OZSO1kvchdvs8buprYHUfF02J+9ftfu+0sQOcufaAxfIuqVJ7FdbmEVCgcqK7HiMN7LvO6U8D85DAR0hc1qbZZrFnSYM6iW0jrATv6cygy2H2GzYIsXRGOBz3S/bAYLV4b6Gfzhv2HYDKaGR1VMMhh00wwMkJR+ETqIGlRQabk2waujeh4+CTPJjZ8UZgO/Dce6x5vDnPhwmM=
