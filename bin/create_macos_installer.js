@@ -1,16 +1,15 @@
 var appDmg = require('appdmg')
 var path = require('path')
-var clear = require('./clear-directory')
+var rimraf = require('rimraf')
+var config = require('../config')
 
 var distFolder = path.join(__dirname, '..', 'dist')
-var installerFolder = path.join(distFolder, 'mapfilter-desktop-darwin-x64')
+var buildName = 'Installar_' + config.APP_NAME + '_v' + config.APP_VERSION
+var dmgPath = path.join(distFolder, buildName + '_macOS.dmg')
 
 function createConfiguration () {
-  var config = require('../config')
-
-  var buildName = 'Installar_' + config.APP_NAME + '_v' + config.APP_VERSION
+  var installerFolder = path.join(distFolder, 'mapfilter-desktop-darwin-x64')
   var appPath = path.join(installerFolder, config.APP_FILE_NAME + '.app')
-  var dmgPath = path.join(distFolder, buildName + '_macOS.dmg')
 
   return {
     basepath: config.ROOT_PATH,
@@ -47,8 +46,8 @@ function createInstaller () {
   })
 }
 
-console.log('gonna clear', installerFolder)
-clear(installerFolder, function (err) {
+console.log('gonna clear', dmgPath)
+rimraf(dmgPath, function (err) {
   if (err) throw err
   createInstaller()
 })
