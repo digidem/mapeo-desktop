@@ -22,6 +22,7 @@
     "lint"
   ],
   "dependencies": {
+    "electron-debug": "^1.1.0",
     "minimist": "^1.2.0"
   },
   "darwinDependencies": {
