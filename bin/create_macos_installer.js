@@ -16,7 +16,7 @@ function createConfiguration () {
     target: dmgPath,
     specification: {
       title: config.APP_NAME,
-      icon: config.APP_ICON + '.icns',
+      icon: config.APP_ICON_PATH + '.icns',
       'icon-size': 128,
       contents: [
         { x: 122, y: 240, type: 'file', path: appPath },
