@@ -1,0 +1,53 @@
+/* Overlays */
+
+#overlay {
+    z-index: 100;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+#overlay button {
+    min-width: 100px;
+    padding: 0 15px;
+}
+
+
+/* Buttons */
+
+button {
+    text-align: center;
+    line-height:20px;
+    border:0;
+    background: white;
+    font-weight: bold;
+    color:#333;
+    font-size:12px;
+    display: inline-block;
+    height:40px;
+    border-radius:4px;
+}
+
+button:focus,
+button:hover {
+    background-color: #ececec;
+}
+
+button[disabled],
+button.disabled {
+    background-color: rgba(255,255,255,.25);
+    color: rgba(0,0,0,.4);
+    cursor: auto;
+}
+
+button.active {
+    background: #7092ff;
+}
+
+
+/* Icons */
+
+.icon {
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+}
