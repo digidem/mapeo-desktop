@@ -17,7 +17,7 @@ deploy:
   skip_cleanup: true
   provider: releases  # github releases
   file_glob: true
-  file: "dist/mapfilter-desktop-darwin-x64/Installar_Mapfilter*.dmg"
+  file: "dist/Installar_Mapfilter_v*_macOS.dmg"
   on:
     tags: true
     repo: digidem/mapfilter-desktop
