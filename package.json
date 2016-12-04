@@ -25,6 +25,8 @@
     "body": "^5.1.0",
     "electron-debug": "^1.1.0",
     "minimist": "^1.2.0",
+    "osm-p2p": "^1.4.0",
+    "osm-p2p-observations": "^2.0.0",
     "pump": "^1.0.1",
     "randombytes": "^2.0.3",
     "split2": "^2.1.0",

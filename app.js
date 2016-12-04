@@ -10,6 +10,10 @@ var BrowserWindow = electron.BrowserWindow  // Module to create native browser w
 var config = require('./config')
 
 require('electron-debug')({showDevTools: false})
+var osmdb = require('osm-p2p')
+var obsdb = require('osm-p2p-observations')
+var level = require('level')
+
 
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
@@ -38,30 +42,44 @@ function start (argv) {
       app.quit()
     })
   }
-
-  var nodeServer = server()
-  nodeServer.listen(config.servers.http.port)
 }
 
 function onAppReady () {
-  setupWindow()
+  var win = setupWindow()
+
   setupMenu()
+
+  setupFileIPCs(win, electron.ipcMain, win.webContents)
+
+  var osm = setupOsm()
+
+  setupServer(osm)
 
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
     var win = createWindow(indexHtml)
 
-    setupFileIPCs(win, electron.ipcMain, win.webContents)
-
     win.on('closed', function () {
       app.quit()
     })
+
+    return win
   }
 
   function setupMenu () {
     var template = require('./lib/menu')(app)
     var menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
+  }
+
+  function setupOsm () {
+    var dataPath = path.join(app.getPath('userData'), 'data')
+    return createOsm(dataPath)
+  }
+
+  function setupServer (osm) {
+    var nodeServer = server(osm)
+    nodeServer.listen(config.servers.http.port)
   }
 }
 
@@ -113,6 +131,24 @@ function setupFileIPCs (window, incomingChannel, outgoingChannel) {
       outgoingChannel.send('select-file', filename)
     }
   }
+}
+
+function createOsm (dataPath) {
+  var osm = createOsmDb(dataPath)
+  var obs = createOsmObservationsDb(dataPath, osm)
+  return {
+    osm: osm,
+    obs: obs
+  }
+}
+
+function createOsmDb (rootPath) {
+  return osmdb(rootPath)
+}
+
+function createOsmObservationsDb (rootPath, osm) {
+  var db = level(path.join(rootPath, 'osm-obs.db'))
+  return obsdb({ db: db, log: osm.log })
 }
 
 var argv = parseArguments(process.argv.slice(2))
