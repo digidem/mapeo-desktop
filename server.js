@@ -1,5 +1,6 @@
 var http = require('http')
 var body = require('body/any')
+var sneakernet = require('hyperlog-sneakernet-replicator')
 
 var BroadcastServer = require('./broadcast_server')
 
@@ -40,9 +41,30 @@ module.exports = function (osm) {
   }
 
   function replicateUsb (sourceFile) {
-    console.log('would be replicating to', sourceFile)
-    // TODO(sww): replication logic
-    broadcast(messages.ReplicationError, 'not implemented')
+    console.error('Replicating to', sourceFile)
+
+    replicating = true
+
+    sneakernet(osm.osm.log, { safetyFile: true }, sourceFile, onEnd)
+
+    function onEnd (err) {
+      replicating = false
+
+      if (err) {
+        return onError(err)
+      }
+
+      broadcast(messages.ReplicationDataComplete)
+
+      osm.osm.ready(function () {
+        console.error('Replication complete')
+        broadcast(messages.ReplicationComplete)
+      })
+    }
+
+    function onError (err) {
+      broadcast(messages.ReplicationError, err.message)
+    }
   }
 }
 
