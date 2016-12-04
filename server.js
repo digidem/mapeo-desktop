@@ -1,5 +1,12 @@
 var http = require('http')
 var body = require('body/any')
+var BroadcastServer = require('./broadcast_server')
+
+var messages = {
+  ReplicationDataComplete: 'replication-data-complete',
+  ReplicationComplete: 'replication-complete',
+  ReplicationError: 'replication-error'
+}
 
 module.exports = function (osm) {
   var replicating = false
@@ -13,6 +20,8 @@ module.exports = function (osm) {
       error(404, res, 'Not Found')
     }
   })
+
+  var broadcast = BroadcastServer(httpServer)
 
   return httpServer
 
@@ -32,6 +41,7 @@ module.exports = function (osm) {
   function replicateUsb (sourceFile) {
     console.log('would be replicating to', sourceFile)
     // TODO(sww): replication logic
+    broadcast(messages.ReplicationError, 'not implemented')
   }
 }
 
