@@ -26,6 +26,7 @@
     "electron-debug": "^1.1.0",
     "minimist": "^1.2.0",
     "pump": "^1.0.1",
+    "randombytes": "^2.0.3",
     "split2": "^2.1.0",
     "through2": "^2.0.3",
     "websocket-stream": "^3.3.3",
