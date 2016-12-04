@@ -22,6 +22,7 @@
     "lint"
   ],
   "dependencies": {
+    "body": "^5.1.0",
     "electron-debug": "^1.1.0",
     "minimist": "^1.2.0",
     "pump": "^1.0.1",
