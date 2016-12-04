@@ -11,6 +11,7 @@ before_install:
   - npm install -g npm
 
 script:
+  - npm run rebuild-leveldb
   - npm run create-macos-installer
 
 deploy:
