@@ -73,7 +73,7 @@ function onAppReady () {
   }
 
   function setupOsm () {
-    var dataPath = path.join(app.getPath('userData'), 'data')
+    var dataPath = path.join(app.getPath('userData'), 'mapfilter-data')
     return createOsm(dataPath)
   }
 
