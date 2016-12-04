@@ -19,5 +19,12 @@ module.exports = {
 
   ELECTRON_VERSION: pkg.dependencies.electron,
 
-  ROOT_PATH: __dirname
+  ROOT_PATH: __dirname,
+
+  servers: {
+    http: {
+      host: 'localhost',
+      port: 3196
+    }
+  }
 }
