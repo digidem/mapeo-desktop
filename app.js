@@ -9,11 +9,11 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var config = require('./config')
 
-require('electron-debug')({showDevTools: false})
 var osmdb = require('osm-p2p')
 var obsdb = require('osm-p2p-observations')
 var level = require('level')
 
+require('electron-debug')({showDevTools: true})
 
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
