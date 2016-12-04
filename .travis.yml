@@ -11,7 +11,7 @@ before_install:
   - npm install -g npm
 
 script:
-  - npm run rebuild-leveldb
+  - npm run rebuild-electron-deps
   - npm run create-macos-installer
 
 deploy:

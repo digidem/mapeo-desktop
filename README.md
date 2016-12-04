@@ -15,7 +15,7 @@ To clone and install all dependencies and start the program, execute
 $ git clone git@github.com:digidem/mapfilter-desktop.git
 $ cd mapfilter-desktop
 $ npm install
-$ npm rebuild-leveldb
+$ npm rebuild-electron-deps
 $ npm start
 ```
 

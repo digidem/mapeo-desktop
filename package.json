@@ -15,6 +15,7 @@
     "start": "electron app.js --disable-http-cache",
     "rebuild-leveldb": "node bin/rebuild_leveldb.js",
     "rebuild-sqlite3": "node bin/rebuild_sqlite3.js",
+    "rebuild-electron-deps": "npm run rebuild-leveldb && npm run rebuild-sqlite3",
     "create-windows-installer": "node bin/package.js windows && node bin/create_windows_installer.js",
     "create-macos-installer": "node bin/package.js macos && node bin/create_macos_installer.js",
     "postinstall": "npmpd"
