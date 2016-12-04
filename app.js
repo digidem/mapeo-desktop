@@ -29,7 +29,7 @@ function parseArguments (args) {
 
 function start (argv) {
   if (!argv.headless) {
-    app.on('ready', appReady)
+    app.on('ready', onAppReady)
 
     // Quit when all windows are closed.
     app.on('window-all-closed', function () {
@@ -38,33 +38,33 @@ function start (argv) {
   }
 }
 
-function appReady () {
-  var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
-  var menuTemplate = require('./lib/menu')(app)
+function onAppReady () {
+  setupWindow()
+  setupMenu()
 
-  createWindow(indexHtml)
-  createMenu(menuTemplate)
-
-  function createWindow (indexFile) {
-    var win = new BrowserWindow({title: app.getName(), show: false})
-    win.once('ready-to-show', () => win.show())
-    win.maximize()
-    if (argv.debug) win.webContents.openDevTools()
-    win.loadURL(indexFile)
+  function setupWindow () {
+    var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
+    var win = createWindow(indexHtml)
 
     win.on('closed', function () {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
-      win = null
       app.quit()
     })
   }
 
-  function createMenu (template) {
+  function setupMenu () {
+    var template = require('./lib/menu')(app)
     var menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
   }
+}
+
+function createWindow (indexFile) {
+  var win = new BrowserWindow({title: app.getName(), show: false})
+  win.once('ready-to-show', () => win.show())
+  win.maximize()
+  win.loadURL(indexFile)
+
+  return win
 }
 
 var argv = parseArguments(process.argv.slice(2))
