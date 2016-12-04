@@ -18,6 +18,9 @@ function createBroadcastServer (httpServer) {
   return send
 
   function send (topic, msg) {
+    if (!topic) {
+      throw new Error('no topic set for broadcast')
+    }
     var str = JSON.stringify({ topic: topic, message: msg || {} }) + '\n'
     Object.keys(streams).forEach(function (id) {
       streams[id].write(str)
