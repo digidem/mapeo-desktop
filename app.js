@@ -3,9 +3,11 @@
 var path = require('path')
 var minimist = require('minimist')
 var electron = require('electron')
+var server = require('./server')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
+var config = require('./config')
 
 require('electron-debug')({showDevTools: false})
 
@@ -36,6 +38,9 @@ function start (argv) {
       app.quit()
     })
   }
+
+  var nodeServer = server()
+  nodeServer.listen(config.servers.http.port)
 }
 
 function onAppReady () {

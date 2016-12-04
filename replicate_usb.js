@@ -4,11 +4,11 @@ var split = require('split2')
 var through = require('through2')
 var xhr = require('xhr')
 
+var config = require('./config')
 var ipc = require('electron').ipcRenderer
-var remote = require('electron').remote
-var osmServerHost = remote.getGlobal('osmServerHost')
 
-var ws = wsock('ws://' + osmServerHost)
+var httpServerHostPort = config.servers.http.host + ':' + config.servers.http.port
+var ws = wsock('ws://' + httpServerHostPort)
 
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   if (row && row.topic === 'replication-error') {
@@ -48,7 +48,7 @@ ipc.on('select-file', function (event, file) {
 
   xhr({
     method: 'POST',
-    url: 'http://' + osmServerHost + '/replicate',
+    url: 'http://' + httpServerHostPort + '/replicate',
     headers: {
       'content-type': 'application/json'
     },
