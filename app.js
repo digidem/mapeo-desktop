@@ -16,20 +16,28 @@ var level = require('level')
 var sqlite3 = require('sqlite3').verbose()
 var db = new sqlite3.Database(':memory:')
 
-db.serialize(function () {
-  db.run('CREATE TABLE lorem (info TEXT)')
-
-  var stmt = db.prepare('INSERT INTO lorem VALUES (?)')
-  for (var i = 0; i < 10; i++) {
-    stmt.run('Ipsum ' + i)
-  }
-  stmt.finalize()
-
-  db.each('SELECT rowid AS id, info FROM lorem', function (err, row) {
-    if (err) console.error(err)
-    else console.log(row.id + ': ' + row.info)
+function testSqlite3 (win) {
+  console.log('foo 1')
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send('print-crap', 'hello warld')
+    console.log('foo 2')
   })
-})
+  db.serialize(function () {
+    db.run('CREATE TABLE lorem (info TEXT)')
+
+    var stmt = db.prepare('INSERT INTO lorem VALUES (?)')
+    for (var i = 0; i < 10; i++) {
+      stmt.run('Ipsum ' + i)
+    }
+    stmt.finalize()
+
+    db.each('SELECT rowid AS id, info FROM lorem', function (err, row) {
+      if (err) return console.error(err)
+      console.log(row.id + ': ' + row.info)
+      win.webContents.send('print-crap', row.id + ': ' + row.info)
+    })
+  })
+}
 
 // db.close();
 
@@ -74,6 +82,10 @@ function onAppReady () {
   var osm = setupOsm()
 
   setupServer(osm)
+
+  setTimeout(function () {
+    testSqlite3(win)
+  }, 1000)
 
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
