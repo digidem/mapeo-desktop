@@ -25,14 +25,5 @@
     </div>
     <div id="container"></div>
   </body>
-  <script type="text/javascript">
-var ipc = require('electron').ipcRenderer
-ipc.on('print-crap', function (event, crap) {
-  console.log('hi', event, crap)
-  var elm = document.createElement('p')
-  elm.innerText = crap
-  document.body.appendChild(elm)
-})
-  </script>
 </html>
 
