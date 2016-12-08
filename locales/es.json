@@ -294,7 +294,7 @@
         "no_documentation_combination": "No hay documentación disponible para esta combinación de etiquetas",
         "no_documentation_key": "No hay documentación disponible para esta etiqueta",
         "show_more": "Ver más",
-        "view_on_osm": "Ver en openstreetmap.org",
+        "view_on_osm": "Ver fuente XML del elemento",
         "all_fields": "Todos los campos",
         "all_tags": "Todas las etiquetas",
         "all_members": "Todos los miembros",

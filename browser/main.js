@@ -25,6 +25,8 @@ var id = iD()
   .preauth({url: serverUrl})
   .minEditableZoom(14)
 
+window.locale.en.inspector.view_on_osm = 'View element source XML'
+
 id.loadLocale = function(cb) {
   var locale = iD.detect().locale
   if (locale && iD.data.locales.indexOf(locale) === -1) {
