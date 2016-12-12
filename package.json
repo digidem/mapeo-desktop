@@ -12,7 +12,7 @@
   "main": "app.js",
   "scripts": {
     "lint": "standard",
-    "start": "electron app.js --disable-http-cache",
+    "start": "mkdirp build && browserify src/index.js -o build/index.js && electron app.js --disable-http-cache",
     "rebuild-leveldb": "node bin/rebuild_leveldb.js",
     "rebuild-sqlite3": "node bin/rebuild_sqlite3.js",
     "rebuild-electron-deps": "npm run rebuild-leveldb && npm run rebuild-sqlite3",
@@ -25,6 +25,7 @@
     "lint"
   ],
   "dependencies": {
+    "babel-polyfill": "^6.20.0",
     "body": "^5.1.0",
     "electron-debug": "^1.1.0",
     "hyperlog-sneakernet-replicator": "^1.1.4",
@@ -33,6 +34,8 @@
     "osm-p2p-observations": "^2.0.0",
     "pump": "^1.0.1",
     "randombytes": "^2.0.3",
+    "react-dom": "^15.4.1",
+    "react-mapfilter": "^0.1.0",
     "split2": "^2.1.0",
     "sqlite3": "^3.1.8",
     "through2": "^2.0.3",
@@ -43,14 +46,23 @@
     "appdmg": "0.4.5"
   },
   "devDependencies": {
+    "babelify": "^7.3.0",
+    "brfs": "^1.4.3",
+    "browserify": "^13.1.1",
     "electron": "1.4.10",
     "electron-packager": "^8.3.0",
     "electron-winstaller": "^2.4.1",
+    "mkdirp": "^0.5.1",
     "npm-execspawn": "^1.3.0",
     "npm-platform-dependencies": "0.0.12",
     "pre-commit": "~1.1.3",
     "rimraf": "^2.5.4",
     "standard": "~8.3.0"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  }
 }

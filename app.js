@@ -22,12 +22,10 @@ var userDataPath = app.getPath('userData')
 function parseArguments (args) {
   return minimist(args, {
     default: {
-      port: 5000,
       datadir: path.join(userDataPath, 'data')
     },
     boolean: [ 'headless', 'debug' ],
     alias: {
-      p: 'port',
       d: 'debug'
     }
   })

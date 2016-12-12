@@ -1,6 +1,6 @@
-# Mapfilter Desktop
+# MapFilter Desktop
 
-Mapfilter Desktop is an _experimental_ offline-first mapping and reporting app to facilitate reporting observations in time & space of physical phenomena.
+MapFilter Desktop is an _experimental_ offline-first mapping and reporting app to facilitate reporting observations in time & space of physical phenomena.
 
 It uses [osm-p2p](https://github.com/digidem/osm-p2p-db) for offline peer-to-peer synchronization of an OpenStreetMap database, without any
 servers.
@@ -23,7 +23,7 @@ $ npm start
 
 ## Packaging
 
-Mapfilter Desktop uses [Electron](http://electron.atom.io/). To package the Electron app as a native Windows `.exe` or macOS `.dmg`, execute
+MapFilter Desktop uses [Electron](http://electron.atom.io/). To package the Electron app as a native Windows `.exe` or macOS `.dmg`, execute
 
 ```
 $ npm run create-windows-installer
@@ -37,7 +37,7 @@ The resultant installer or DMG will be placed in the `./dist` folder.
 
 ## Creating a Release
 
-Mapfilter Desktop uses [GitHub Releases](https://help.github.com/articles/about-releases/) for deployment.
+MapFilter Desktop uses [GitHub Releases](https://help.github.com/articles/about-releases/) for deployment.
 
 To create a release, simply push a git tag to the repository. A convenient way
 to both advance the project by a version *and* push a tag is using the `npm
