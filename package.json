@@ -12,7 +12,7 @@
   "main": "app.js",
   "scripts": {
     "lint": "standard",
-    "start": "mkdirp build && browserify src/index.js > build/index.js && electron app.js --disable-http-cache",
+    "start": "mkdirp build && browserify src/index.js -o build/index.js && electron app.js --disable-http-cache",
     "rebuild-leveldb": "node bin/rebuild_leveldb.js",
     "rebuild-sqlite3": "node bin/rebuild_sqlite3.js",
     "rebuild-electron-deps": "npm run rebuild-leveldb && npm run rebuild-sqlite3",
