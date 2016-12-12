@@ -4,7 +4,7 @@ var pkg = require('./package.json')
 
 var APP_VERSION = pkg.version
 var APP_TEAM = 'Digital Democracy'
-var APP_NAME = 'Mapfilter'
+var APP_NAME = 'MapFilter'
 
 module.exports = {
   APP_COPYRIGHT: 'Copyright © 2016 ' + APP_TEAM,
