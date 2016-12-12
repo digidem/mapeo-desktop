@@ -22,6 +22,7 @@ var userDataPath = app.getPath('userData')
 function parseArguments (args) {
   return minimist(args, {
     default: {
+      // TODO unused
       port: 5000,
       datadir: path.join(userDataPath, 'data')
     },
