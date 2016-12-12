@@ -12,7 +12,7 @@
   "main": "app.js",
   "scripts": {
     "lint": "standard",
-    "start": "electron app.js --disable-http-cache",
+    "start": "browserify src/index.js > bundle.js && electron app.js --disable-http-cache",
     "rebuild-leveldb": "node bin/rebuild_leveldb.js",
     "rebuild-sqlite3": "node bin/rebuild_sqlite3.js",
     "rebuild-electron-deps": "npm run rebuild-leveldb && npm run rebuild-sqlite3",
@@ -33,6 +33,8 @@
     "osm-p2p-observations": "^2.0.0",
     "pump": "^1.0.1",
     "randombytes": "^2.0.3",
+    "react-dom": "^15.4.1",
+    "react-mapfilter": "^0.1.0",
     "split2": "^2.1.0",
     "sqlite3": "^3.1.8",
     "through2": "^2.0.3",
@@ -43,6 +45,13 @@
     "appdmg": "0.4.5"
   },
   "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babelify": "^7.3.0",
+    "brfs": "^1.4.3",
+    "browserify": "^13.1.1",
     "electron": "1.4.10",
     "electron-packager": "^8.3.0",
     "electron-winstaller": "^2.4.1",
@@ -52,5 +61,11 @@
     "rimraf": "^2.5.4",
     "standard": "~8.3.0"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "browserify": {
+    "transform": [
+      "babelify",
+      "brfs"
+    ]
+  }
 }
