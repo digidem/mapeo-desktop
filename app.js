@@ -4,6 +4,7 @@ var http = require('http')
 var path = require('path')
 var minimist = require('minimist')
 var electron = require('electron')
+var Config = require('electron-config')
 var server = require('./server')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
@@ -20,6 +21,7 @@ require('electron-debug')()
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
 var userDataPath = app.getPath('userData')
+var appConfig = new Config()
 
 function parseArguments (args) {
   return minimist(args, {
@@ -63,6 +65,8 @@ function onAppReady () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
     var win = createWindow(indexHtml)
 
+    win.on('close', () => appConfig.set('winBounds', win.getBounds()))
+
     win.on('closed', function () {
       win = null
     })
@@ -87,17 +91,18 @@ function onAppReady () {
   }
 
   function setupObservationServer () {
-    // TODO put in userData
-    // var obs = observationServer(path.join(app.getPath('userData'), 'mapfilter-observations'))
-    var ospath = require('ospath')
-    var obs = observationServer(path.join(ospath.data(), 'mapfilter-osm-p2p'))
+    var obs = observationServer(path.join(app.getPath('userData'), 'mapfilter-observations'))
     var server = http.createServer(obs)
     server.listen(config.servers.observations.port)
   }
 }
 
 function createWindow (indexFile) {
-  var win = new BrowserWindow({title: app.getName(), show: false})
+  var opts = Object.assign({}, appConfig.get('winBounds'), {
+    show: false,
+    title: app.getName()
+  })
+  var win = new BrowserWindow(opts)
   win.once('ready-to-show', () => win.show())
   win.loadURL(indexFile)
 
