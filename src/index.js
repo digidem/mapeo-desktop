@@ -5,6 +5,8 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const MapFilter = require('react-mapfilter')
 
+const mf = React.createElement(MapFilter)
+
 fetch('http://localhost:3210/obs/list')
   .then(rsp => rsp.text())
   .then(lines => {
@@ -15,9 +17,13 @@ fetch('http://localhost:3210/obs/list')
 
     const features = observations.map(x => x.tags)
 
-    // TODO just update the props
-    ReactDOM.render(React.createElement(MapFilter, {features: features}), document.getElementById('root'))
+    ReactDOM.render(
+      React.cloneElement(mf,
+        {
+          features
+        }),
+      document.getElementById('root'))
   })
   .catch(err => console.warn(err.stack))
 
-// ReactDOM.render(React.createElement(MapFilter, {features: features}), document.getElementById('root'))
+ReactDOM.render(mf, document.getElementById('root'))
