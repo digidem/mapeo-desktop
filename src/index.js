@@ -1,13 +1,23 @@
+/* global fetch */
 require('babel-polyfill')
-
-const fs = require('fs')
-const path = require('path')
 
 const React = require('react')
 const ReactDOM = require('react-dom')
 const MapFilter = require('react-mapfilter')
 
-const sampleGeoJSON = fs.readFileSync(path.join(__dirname, './sample.geojson'), 'utf8')
-const features = JSON.parse(sampleGeoJSON).features
+fetch('http://localhost:3210/obs/list')
+  .then(rsp => rsp.text())
+  .then(lines => {
+    const observations = lines
+      .split('\n')
+      .filter(line => !!line)
+      .map(JSON.parse)
 
-ReactDOM.render(React.createElement(MapFilter, {features: features}), document.getElementById('root'))
+    const features = observations.map(x => x.tags)
+
+    // TODO just update the props
+    ReactDOM.render(React.createElement(MapFilter, {features: features}), document.getElementById('root'))
+  })
+  .catch(err => console.warn(err.stack))
+
+// ReactDOM.render(React.createElement(MapFilter, {features: features}), document.getElementById('root'))
