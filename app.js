@@ -15,7 +15,7 @@ var osmdb = require('osm-p2p')
 var obsdb = require('osm-p2p-observations')
 var level = require('level')
 
-require('electron-debug')({showDevTools: true})
+require('electron-debug')()
 
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
@@ -99,7 +99,6 @@ function onAppReady () {
 function createWindow (indexFile) {
   var win = new BrowserWindow({title: app.getName(), show: false})
   win.once('ready-to-show', () => win.show())
-  win.maximize()
   win.loadURL(indexFile)
 
   return win
