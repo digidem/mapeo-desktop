@@ -28,6 +28,7 @@
   "dependencies": {
     "babel-polyfill": "^6.20.0",
     "body": "^5.1.0",
+    "ddem-observation-server": "github:mojodna/ddem-observation-server#integration",
     "electron-debug": "^1.1.0",
     "hyperlog-sneakernet-replicator": "^1.1.4",
     "minimist": "^1.2.0",
