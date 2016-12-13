@@ -1,5 +1,6 @@
 #!/usr/bin/env electron
 
+var http = require('http')
 var path = require('path')
 var minimist = require('minimist')
 var electron = require('electron')
@@ -9,6 +10,7 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var config = require('./config')
 
+var observationServer = require('ddem-observation-server')
 var osmdb = require('osm-p2p')
 var obsdb = require('osm-p2p-observations')
 var level = require('level')
@@ -53,6 +55,8 @@ function onAppReady () {
 
   setupServer(osm)
 
+  setupObservationServer()
+
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
     var win = createWindow(indexHtml)
@@ -78,6 +82,15 @@ function onAppReady () {
   function setupServer (osm) {
     var nodeServer = server(osm)
     nodeServer.listen(config.servers.http.port)
+  }
+
+  function setupObservationServer () {
+    // TODO put in userData
+    // var obs = observationServer(path.join(app.getPath('userData'), 'mapfilter-observations'))
+    var ospath = require('ospath')
+    var obs = observationServer(path.join(ospath.data(), 'mapfilter-osm-p2p'))
+    var server = http.createServer(obs)
+    server.listen(config.servers.observations.port)
   }
 }
 

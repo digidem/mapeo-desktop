@@ -5,9 +5,12 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const MapFilter = require('react-mapfilter')
 
+const config = require('../config')
+const observationServer = config.servers.observations
+
 const mf = React.createElement(MapFilter)
 
-fetch('http://localhost:3210/obs/list')
+fetch(`http://${observationServer.host}:${observationServer.port}/obs/list`)
   .then(rsp => rsp.text())
   .then(lines => {
     const observations = lines
