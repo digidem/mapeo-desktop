@@ -51,6 +51,7 @@
     "babelify": "^7.3.0",
     "brfs": "^1.4.3",
     "browserify": "^13.1.1",
+    "devtron": "^1.4.0",
     "electron": "1.4.10",
     "electron-packager": "^8.3.0",
     "electron-winstaller": "^2.4.1",
