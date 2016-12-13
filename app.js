@@ -39,7 +39,9 @@ function start (argv) {
 
     // Quit when all windows are closed.
     app.on('window-all-closed', function () {
-      app.quit()
+      if (process.platform !== 'darwin') {
+        app.quit()
+      }
     })
   }
 }
@@ -62,7 +64,7 @@ function onAppReady () {
     var win = createWindow(indexHtml)
 
     win.on('closed', function () {
-      app.quit()
+      win = null
     })
 
     return win
