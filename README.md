@@ -57,6 +57,20 @@ added to the github release asynchronously as they complete.
 
 You'll be able to find the results on the project's [releases](../../releases/) page.
 
+## Creating Sample Observations
+
+First, install and start [ddem-observation-server](https://github.com/digidem/ddem-observation-server).
+
+```bash
+mkdir -p data
+cd data
+../bin/create-sample-observations.js ../src/sample.geojson
+
+for f in *.json; do
+  curl -H "Content-Type: application/json" -d @$f http://localhost:3210/obs/create
+done
+```
+
 # License
 
 MIT
