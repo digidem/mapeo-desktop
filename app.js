@@ -12,9 +12,6 @@ var BrowserWindow = electron.BrowserWindow  // Module to create native browser w
 var config = require('./config')
 
 var observationServer = require('ddem-observation-server')
-var osmdb = require('osm-p2p')
-var obsdb = require('osm-p2p-observations')
-var level = require('level')
 
 require('electron-debug')()
 
@@ -55,11 +52,23 @@ function onAppReady () {
 
   setupFileIPCs(win, electron.ipcMain, win.webContents)
 
-  var osm = setupOsm()
+  var obs = setupObservations()
 
-  setupServer(osm)
+  setupObservationsServer(obs)
+  setupServer(obs)
 
-  setupObservationServer()
+  const stream = require('stream')
+  // TODO websocket-stream
+  const replicationStream = new stream.Writable({
+    objectMode: true
+  })
+
+  replicationStream._write = (obj, _, done) => {
+    console.log(obj)
+    done()
+  }
+
+  obs.log.createReadStream({ live: true }).pipe(replicationStream)
 
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
@@ -80,18 +89,16 @@ function onAppReady () {
     Menu.setApplicationMenu(menu)
   }
 
-  function setupOsm () {
-    var dataPath = path.join(app.getPath('userData'), 'mapfilter-data')
-    return createOsm(dataPath)
-  }
-
   function setupServer (osm) {
     var nodeServer = server(osm)
     nodeServer.listen(config.servers.http.port)
   }
 
-  function setupObservationServer () {
-    var obs = observationServer(path.join(app.getPath('userData'), 'mapfilter-observations'))
+  function setupObservations () {
+    return observationServer(path.join(app.getPath('userData'), 'org.digital-democracy.MapFilter'))
+  }
+
+  function setupObservationsServer (obs) {
     var server = http.createServer(obs)
     server.listen(config.servers.observations.port)
   }
@@ -148,24 +155,6 @@ function setupFileIPCs (window, incomingChannel, outgoingChannel) {
       outgoingChannel.send('select-file', filename)
     }
   }
-}
-
-function createOsm (dataPath) {
-  var osm = createOsmDb(dataPath)
-  var obs = createOsmObservationsDb(dataPath, osm)
-  return {
-    osm: osm,
-    obs: obs
-  }
-}
-
-function createOsmDb (rootPath) {
-  return osmdb(rootPath)
-}
-
-function createOsmObservationsDb (rootPath, osm) {
-  var db = level(path.join(rootPath, 'osm-obs.db'))
-  return obsdb({ db: db, log: osm.log })
 }
 
 var argv = parseArguments(process.argv.slice(2))
