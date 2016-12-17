@@ -18,7 +18,11 @@ fetch(`http://${observationServer.host}:${observationServer.port}/obs/list`)
       .filter(line => !!line)
       .map(JSON.parse)
 
-    const features = observations.map(x => x.tags)
+    const features = observations
+          .map(x => x.tags)
+          .map(x => x.data)
+
+    console.log('features:', features)
 
     ReactDOM.render(
       React.cloneElement(mf,
