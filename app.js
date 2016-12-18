@@ -11,7 +11,9 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var config = require('./config')
 
+var JSONStream = require('JSONStream')
 var observationServer = require('ddem-observation-server')
+var websocket = require('websocket-stream')
 
 require('electron-debug')()
 
@@ -54,21 +56,9 @@ function onAppReady () {
 
   var obs = setupObservations()
 
-  setupObservationsServer(obs)
+  var obss = setupObservationsServer(obs)
   setupServer(obs)
-
-  const stream = require('stream')
-  // TODO websocket-stream
-  const replicationStream = new stream.Writable({
-    objectMode: true
-  })
-
-  replicationStream._write = (obj, _, done) => {
-    console.log(obj)
-    done()
-  }
-
-  obs.log.createReadStream({ live: true }).pipe(replicationStream)
+  setupObservationWebsocket(obss, obs)
 
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
@@ -101,6 +91,13 @@ function onAppReady () {
   function setupObservationsServer (obs) {
     var server = http.createServer(obs)
     server.listen(config.servers.observations.port)
+    return server
+  }
+
+  function setupObservationWebsocket (server, obs) {
+    websocket.createServer({ server: server }, function (stream) {
+      obs.log.createReadStream({ live: true }).pipe(JSONStream.stringify()).pipe(stream)
+    })
   }
 }
 
