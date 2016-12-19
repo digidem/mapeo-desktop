@@ -18,6 +18,8 @@ var websocket = require('websocket-stream')
 
 require('electron-debug')()
 
+var tileserver = require('./lib/tileserver')
+
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
 var userDataPath = app.getPath('userData')
@@ -63,6 +65,12 @@ function onAppReady () {
 
   setupStaticServer()
 
+  // workaround for pathnames containing spaces
+  setupTileServer({
+    protocol: 'mbtiles:',
+    pathname: `${userDataPath}/mapfilter.mbtiles`
+  })
+
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
     var win = createWindow(indexHtml)
@@ -105,6 +113,10 @@ function onAppReady () {
 
   function setupStaticServer () {
     http.createServer(ecstatic({root: path.join(__dirname, 'static')})).listen(config.servers.static.port)
+  }
+
+  function setupTileServer (tileUri) {
+    tileserver(tileUri).listen(config.servers.tiles.port)
   }
 }
 

@@ -14,6 +14,7 @@ const baseUrl = `http://${config.servers.static.host}:${config.servers.static.po
 ;['glyphs', 'sprite'].forEach(function (key) {
   mapStyle[key] = mapStyle[key].replace(/mapfilter:\/\//, baseUrl)
 })
+mapStyle.sources.composite.url = `http://${config.servers.tiles.host}:${config.servers.tiles.port}/index.json`
 
 const mf = React.createElement(MapFilter, {
   mapStyle

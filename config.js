@@ -33,6 +33,10 @@ module.exports = {
     static: {
       host: 'localhost',
       port: 3211
+    },
+    tiles: {
+      host: 'localhost',
+      port: 3212
     }
   }
 }
