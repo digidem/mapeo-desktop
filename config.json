@@ -1,0 +1,18 @@
+{
+  "defaultMapStyle": "mapbox://styles/gmaclennan/cio7mcryg0015akm9b6wur5ic",
+  "colors": [
+    "#1f78b4",
+    "#33a02c",
+    "#6a3d9a",
+    "#a6cee3",
+    "#b15928",
+    "#b2df8a",
+    "#cab2d6",
+    "#e31a1c",
+    "#fb9a99",
+    "#fdbf6f",
+    "#ff7f00",
+    "#ffff99"
+  ],
+  "defaultColor": "#555555"
+}

@@ -9,7 +9,15 @@ const websocket = require('websocket-stream')
 const config = require('../config')
 const observationServer = config.servers.observations
 
-const mf = React.createElement(MapFilter)
+const mapStyle = require('../static/map_style/style.json')
+const baseUrl = `http://${config.servers.static.host}:${config.servers.static.port}/map_style/`
+;['glyphs', 'sprite'].forEach(function (key) {
+  mapStyle[key] = mapStyle[key].replace(/mapfilter:\/\//, baseUrl)
+})
+
+const mf = React.createElement(MapFilter, {
+  mapStyle
+})
 
 fetch(`http://${observationServer.host}:${observationServer.port}/obs/list`)
   .then(rsp => rsp.text())

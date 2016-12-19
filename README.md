@@ -35,6 +35,12 @@ $ npm run create-macos-installer
 
 The resultant installer or DMG will be placed in the `./dist` folder.
 
+## Rebuilding Static Map Assets
+
+```sh
+bin/build_style.js static/map_style
+```
+
 ## Creating a Release
 
 MapFilter Desktop uses [GitHub Releases](https://help.github.com/articles/about-releases/) for deployment.

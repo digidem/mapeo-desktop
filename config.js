@@ -29,6 +29,10 @@ module.exports = {
     observations: {
       host: 'localhost',
       port: 3210
+    },
+    static: {
+      host: 'localhost',
+      port: 3211
     }
   }
 }

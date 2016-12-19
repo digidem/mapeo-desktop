@@ -11,6 +11,7 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var config = require('./config')
 
+var ecstatic = require('ecstatic')
 var JSONStream = require('JSONStream')
 var observationServer = require('ddem-observation-server')
 var websocket = require('websocket-stream')
@@ -60,6 +61,8 @@ function onAppReady () {
   setupServer(obs)
   setupObservationWebsocket(obss, obs)
 
+  setupStaticServer()
+
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
     var win = createWindow(indexHtml)
@@ -98,6 +101,10 @@ function onAppReady () {
     websocket.createServer({ server: server }, function (stream) {
       obs.log.createReadStream({ live: true }).pipe(JSONStream.stringify()).pipe(stream)
     })
+  }
+
+  function setupStaticServer () {
+    http.createServer(ecstatic({root: path.join(__dirname, 'static')})).listen(config.servers.static.port)
   }
 }
 
