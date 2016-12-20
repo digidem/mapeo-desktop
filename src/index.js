@@ -1,4 +1,6 @@
 /* global fetch */
+
+const clone = require('clone')
 const React = require('react')
 const ReactDOM = require('react-dom')
 const JSONStream = require('JSONStream')
@@ -9,14 +11,33 @@ const websocket = require('websocket-stream')
 const config = require('../config')
 const observationServer = config.servers.observations
 
-const mapStyle = require('../static/map_style/style.json')
+let features = []
+
+let mapStyle = require('../static/map_style/style.json')
 const baseUrl = `http://${config.servers.static.host}:${config.servers.static.port}/map_style/`
 ;['glyphs', 'sprite'].forEach(function (key) {
   mapStyle[key] = mapStyle[key].replace(/mapfilter:\/\//, baseUrl)
 })
-mapStyle.sources.composite.url = `http://${config.servers.tiles.host}:${config.servers.tiles.port}/index.json`
+
+const tileJSON = `http://${config.servers.tiles.host}:${config.servers.tiles.port}/index.json`
+fetch(tileJSON)
+.then(rsp => {
+  // local tiles are available
+  mapStyle = clone(mapStyle)
+  mapStyle.sources.composite.url = tileJSON
+
+  // reload MapFilter with an offline-capable map style
+  ReactDOM.render(
+    React.cloneElement(mf,
+      {
+        features,
+        mapStyle
+      }),
+    document.getElementById('root'))
+})
 
 const mf = React.createElement(MapFilter, {
+  features,
   mapStyle
 })
 
@@ -32,7 +53,7 @@ fetch(`http://${observationServer.host}:${observationServer.port}/obs/list`)
 
     const seen = new Set(observations.map(x => x.id))
 
-    let features = observations
+    features = observations
           .map(x => x.tags)
           .map(x => x.data)
 
@@ -41,7 +62,8 @@ fetch(`http://${observationServer.host}:${observationServer.port}/obs/list`)
     ReactDOM.render(
       React.cloneElement(mf,
         {
-          features
+          features,
+          mapStyle
         }),
       document.getElementById('root'))
 
@@ -56,7 +78,8 @@ fetch(`http://${observationServer.host}:${observationServer.port}/obs/list`)
         ReactDOM.render(
           React.cloneElement(mf,
             {
-              features
+              features,
+              mapStyle
             }),
           document.getElementById('root'))
       }

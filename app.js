@@ -1,5 +1,6 @@
 #!/usr/bin/env electron
 
+var fs = require('fs')
 var http = require('http')
 var path = require('path')
 var minimist = require('minimist')
@@ -65,11 +66,13 @@ function onAppReady () {
 
   setupStaticServer()
 
-  // workaround for pathnames containing spaces
-  setupTileServer({
-    protocol: 'mbtiles:',
-    pathname: `${userDataPath}/mapfilter.mbtiles`
-  })
+  if (fs.existsSync(path.join(userDataPath, 'mapfilter.mbtiles'))) {
+    // workaround for pathnames containing spaces
+    setupTileServer({
+      protocol: 'mbtiles:',
+      pathname: path.join(userDataPath, 'mapfilter.mbtiles')
+    })
+  }
 
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
