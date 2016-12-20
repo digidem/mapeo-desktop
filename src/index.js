@@ -11,6 +11,23 @@ const websocket = require('websocket-stream')
 const config = require('../config')
 const observationServer = config.servers.observations
 
+const observationToFeature = obs => {
+  const data = obs.tags.data
+  const attachments = obs.tags.attachments
+
+  // attach attachments
+  if (attachments != null) {
+    data.properties.__mf_attachments = attachments.reduce((obj, k) => {
+      obj[k] = `http://localhost:3210/media/${k}`
+
+      return obj
+    }, {})
+    data.properties.__mf_primary_attachment = data.properties.__mf_attachments[attachments[0]]
+  }
+
+  return data
+}
+
 let features = []
 
 let mapStyle = require('../static/map_style/style.json')
@@ -53,9 +70,7 @@ fetch(`http://${observationServer.host}:${observationServer.port}/obs/list`)
 
     const seen = new Set(observations.map(x => x.id))
 
-    features = observations
-          .map(x => x.tags)
-          .map(x => x.data)
+    features = observations.map(observationToFeature)
 
     console.log('features:', features)
 
@@ -71,8 +86,7 @@ fetch(`http://${observationServer.host}:${observationServer.port}/obs/list`)
     const ws = websocket(`ws://${observationServer.host}:${observationServer.port}`)
     ws.pipe(JSONStream.parse('*.value')).pipe(through.obj((obj, _, next) => {
       if (!seen.has(obj.k)) {
-        const data = obj.v.tags.data
-        console.log(obj.k, data)
+        const data = observationToFeature(obj.v)
         seen.add(obj.k)
         features = features.concat([data])
         ReactDOM.render(
