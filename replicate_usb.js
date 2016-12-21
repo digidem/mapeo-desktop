@@ -69,7 +69,7 @@ selectNewBtn.addEventListener('click', function (ev) {
 })
 
 cancelBtn.addEventListener('click', function (ev) {
-  window.location.href = 'index.html'
+  window.close()
 })
 
 function showButtons () {

@@ -138,6 +138,7 @@ function createWindow (indexFile) {
 function setupFileIPCs (window, incomingChannel, outgoingChannel) {
   incomingChannel.on('save-file', onSaveFile)
   incomingChannel.on('open-file', onOpenFile)
+  incomingChannel.on('replicate-usb', onReplicateUsb)
 
   function onSaveFile () {
     var ext = 'mapfilter'
@@ -173,6 +174,15 @@ function setupFileIPCs (window, incomingChannel, outgoingChannel) {
       var filename = filenames[0]
       outgoingChannel.send('select-file', filename)
     }
+  }
+
+  function onReplicateUsb () {
+    var win = new BrowserWindow({
+      show: false,
+      title: app.getName() + ' - ' + 'Sincronización'
+    })
+    win.once('ready-to-show', () => win.show())
+    win.loadURL('file://' + path.resolve(__dirname, 'replicate_usb.html'))
   }
 }
 
