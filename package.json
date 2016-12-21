@@ -42,7 +42,7 @@
     "pump": "^1.0.1",
     "randombytes": "^2.0.3",
     "react-dom": "^15.4.1",
-    "react-mapfilter": "github:mojodna/mapfilter#integration",
+    "react-mapfilter": "github:mojodna/mapfilter#pkg",
     "router": "^1.1.4",
     "split2": "^2.1.0",
     "sqlite3": "^3.1.8",
