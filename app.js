@@ -1,23 +1,30 @@
 #!/usr/bin/env electron
 
+var fs = require('fs')
+var http = require('http')
 var path = require('path')
 var minimist = require('minimist')
 var electron = require('electron')
+var Config = require('electron-config')
 var server = require('./server')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var config = require('./config')
 
-var osmdb = require('osm-p2p')
-var obsdb = require('osm-p2p-observations')
-var level = require('level')
+var ecstatic = require('ecstatic')
+var JSONStream = require('JSONStream')
+var observationServer = require('ddem-observation-server')
+var websocket = require('websocket-stream')
 
-require('electron-debug')({showDevTools: true})
+require('electron-debug')()
+
+var tileserver = require('./lib/tileserver')
 
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
 var userDataPath = app.getPath('userData')
+var appConfig = new Config()
 
 function parseArguments (args) {
   return minimist(args, {
@@ -37,7 +44,9 @@ function start (argv) {
 
     // Quit when all windows are closed.
     app.on('window-all-closed', function () {
-      app.quit()
+      if (process.platform !== 'darwin') {
+        app.quit()
+      }
     })
   }
 }
@@ -49,16 +58,30 @@ function onAppReady () {
 
   setupFileIPCs(win, electron.ipcMain, win.webContents)
 
-  var osm = setupOsm()
+  var obs = setupObservations()
 
-  setupServer(osm)
+  var obss = setupObservationsServer(obs)
+  setupServer(obs)
+  setupObservationWebsocket(obss, obs)
+
+  setupStaticServer()
+
+  if (fs.existsSync(path.join(userDataPath, 'mapfilter.mbtiles'))) {
+    // workaround for pathnames containing spaces
+    setupTileServer({
+      protocol: 'mbtiles:',
+      pathname: path.join(userDataPath, 'mapfilter.mbtiles')
+    })
+  }
 
   function setupWindow () {
     var indexHtml = 'file://' + path.resolve(__dirname, './index.html')
     var win = createWindow(indexHtml)
 
+    win.on('close', () => appConfig.set('winBounds', win.getBounds()))
+
     win.on('closed', function () {
-      app.quit()
+      win = null
     })
 
     return win
@@ -70,21 +93,43 @@ function onAppReady () {
     Menu.setApplicationMenu(menu)
   }
 
-  function setupOsm () {
-    var dataPath = path.join(app.getPath('userData'), 'mapfilter-data')
-    return createOsm(dataPath)
-  }
-
   function setupServer (osm) {
     var nodeServer = server(osm)
     nodeServer.listen(config.servers.http.port)
   }
+
+  function setupObservations () {
+    return observationServer(path.join(app.getPath('userData'), 'org.digital-democracy.MapFilter'))
+  }
+
+  function setupObservationsServer (obs) {
+    var server = http.createServer(obs)
+    server.listen(config.servers.observations.port)
+    return server
+  }
+
+  function setupObservationWebsocket (server, obs) {
+    websocket.createServer({ server: server }, function (stream) {
+      obs.log.createReadStream({ live: true }).pipe(JSONStream.stringify()).pipe(stream)
+    })
+  }
+
+  function setupStaticServer () {
+    http.createServer(ecstatic({root: path.join(__dirname, 'static')})).listen(config.servers.static.port)
+  }
+
+  function setupTileServer (tileUri) {
+    tileserver(tileUri).listen(config.servers.tiles.port)
+  }
 }
 
 function createWindow (indexFile) {
-  var win = new BrowserWindow({title: app.getName(), show: false})
+  var opts = Object.assign({}, appConfig.get('winBounds'), {
+    show: false,
+    title: app.getName()
+  })
+  var win = new BrowserWindow(opts)
   win.once('ready-to-show', () => win.show())
-  win.maximize()
   win.loadURL(indexFile)
 
   return win
@@ -129,24 +174,6 @@ function setupFileIPCs (window, incomingChannel, outgoingChannel) {
       outgoingChannel.send('select-file', filename)
     }
   }
-}
-
-function createOsm (dataPath) {
-  var osm = createOsmDb(dataPath)
-  var obs = createOsmObservationsDb(dataPath, osm)
-  return {
-    osm: osm,
-    obs: obs
-  }
-}
-
-function createOsmDb (rootPath) {
-  return osmdb(rootPath)
-}
-
-function createOsmObservationsDb (rootPath, osm) {
-  var db = level(path.join(rootPath, 'osm-obs.db'))
-  return obsdb({ db: db, log: osm.log })
 }
 
 var argv = parseArguments(process.argv.slice(2))

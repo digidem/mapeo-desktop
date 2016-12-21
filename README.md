@@ -35,6 +35,12 @@ $ npm run create-macos-installer
 
 The resultant installer or DMG will be placed in the `./dist` folder.
 
+## Rebuilding Static Map Assets
+
+```sh
+bin/build_style.js static/map_style
+```
+
 ## Creating a Release
 
 MapFilter Desktop uses [GitHub Releases](https://help.github.com/articles/about-releases/) for deployment.
@@ -56,6 +62,20 @@ and a [Travis](.travis.yml) build will be started for a macOS DMG. Each will be
 added to the github release asynchronously as they complete.
 
 You'll be able to find the results on the project's [releases](../../releases/) page.
+
+## Creating Sample Observations
+
+First, install and start [ddem-observation-server](https://github.com/digidem/ddem-observation-server).
+
+```bash
+mkdir -p data
+cd data
+../bin/create-sample-observations.js ../src/sample.geojson
+
+for f in *.json; do
+  curl -H "Content-Type: application/json" -d @$f http://localhost:3210/obs/create
+done
+```
 
 # License
 

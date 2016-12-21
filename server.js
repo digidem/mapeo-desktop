@@ -45,7 +45,7 @@ module.exports = function (osm) {
 
     replicating = true
 
-    sneakernet(osm.osm.log, { safetyFile: true }, sourceFile, onEnd)
+    sneakernet(osm.log, { safetyFile: true }, sourceFile, onEnd)
 
     function onEnd (err) {
       replicating = false
@@ -56,7 +56,7 @@ module.exports = function (osm) {
 
       broadcast(messages.ReplicationDataComplete)
 
-      osm.osm.ready(function () {
+      osm.ready(function () {
         console.error('Replication complete')
         broadcast(messages.ReplicationComplete)
       })
