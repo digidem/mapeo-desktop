@@ -22,7 +22,6 @@ const observationToFeature = obs => {
 
       return obj
     }, {})
-    data.properties.__mf_primary_attachment = data.properties.__mf_attachments[attachments[0]]
   }
 
   return data
