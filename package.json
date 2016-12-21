@@ -2,7 +2,7 @@
   "name": "mapfilter-desktop",
   "description": "electron app that wraps mapfilter",
   "author": "Stephen Whitmore <sww@eight45.net>",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "repository": {
     "type": "git",
     "url": "git://github.com/noffle/mapfilter-desktop.git"
