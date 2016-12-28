@@ -35,6 +35,7 @@ const baseUrl = `http://${config.servers.static.host}:${config.servers.static.po
   mapStyle[key] = mapStyle[key].replace(/mapfilter:\/\//, baseUrl)
 })
 
+// TODO use IPC to detect this instead
 const tileJSON = `http://${config.servers.tiles.host}:${config.servers.tiles.port}/index.json`
 fetch(tileJSON)
 .then(rsp => {
