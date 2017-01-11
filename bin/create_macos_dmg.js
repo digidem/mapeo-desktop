@@ -19,7 +19,7 @@ var dmgOpts = {
   target: targetPath,
   specification: {
     title: config.APP_NAME,
-    icon: config.APP_ICON + '.icns',
+    icon: config.APP_ICON + '_installer.icns',
     // background: path.join(config.STATIC_PATH, 'appdmg.png'),
     'icon-size': 128,
     contents: [
