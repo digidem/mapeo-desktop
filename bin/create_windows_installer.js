@@ -22,7 +22,7 @@ electronInstaller.createWindowsInstaller({
   name: 'Mapeo',
   exe: 'Mapeo.exe',
   setupExe: 'Installar_Mapeo_' + pkg.version + '_Windows.exe',
-  iconUrl: 'https://raw.githubusercontent.com/digidem/mapeo-desktop/master/static/mapeo.ico',
+  iconUrl: 'https://raw.githubusercontent.com/digidem/mapeo-desktop/master/static/mapeo_installer.ico',
   version: pkg.version,
   title: 'mapeo',
 }).then(function () {
