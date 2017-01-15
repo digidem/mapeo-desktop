@@ -8,7 +8,7 @@ os:
 
 # latest npm
 before_install:
-  - npm install -g npm
+  - npm install -g npm@3
 
 script:
   - npm run rebuild-leveldb
