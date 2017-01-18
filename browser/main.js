@@ -68,6 +68,7 @@ customDefs.append('svg')
 
 updateSettings()
 ipc.on('updated-settings', updateSettings)
+ipc.on('zoom-to-data', zoomToData)
 
 function updateSettings () {
   var presets = ipc.sendSync('get-user-data', 'presets')
@@ -83,4 +84,15 @@ function updateSettings () {
   if (translations) merge(window.locale, translations)
   if (imagery) id.imagery(imagery)
   id.presets(presets || defaultPresets)
+}
+
+function zoomToData () {
+  translateAndZoomToLocation([-70, -2], 14)
+}
+
+function translateAndZoomToLocation (loc, zoom) {
+  id.map().centerEase(loc, 1000)
+  setTimeout(function () {
+    id.map().zoom(zoom)
+  }, 1000)
 }
