@@ -149,6 +149,12 @@ function ready () {
 
   ipc.on('sync-to-target', syncToTarget)
 
+  ipc.on('zoom-to-data-get-centroid', function () {
+    getGlobalDatasetCentroid(function (_, loc) {
+      win.webContents.send('zoom-to-data-response', loc)
+    })
+  })
+
   menu = Menu.buildFromTemplate(menuTemplate(app))
   Menu.setApplicationMenu(menu)
 
@@ -204,5 +210,28 @@ function handleUncaughtExceptions () {
     electron.dialog.showMessageBox(win, opts, function () {
       process.exit(1)
     })
+  })
+}
+
+function getGlobalDatasetCentroid (done) {
+  var bbox = [[-90,90],[-180,180]]
+  var loc = null
+
+  var stream = osm.queryStream(bbox)
+  stream.on('data', function (doc) {
+    if (loc) return
+    if (doc.type === 'node') {
+      loc = [Number(doc.lon), Number(doc.lat)]
+      // TODO(noffle): does this actually propagate the stream close back to
+      // the server? This isn't a request we'd like to keep running.
+      stream.unpipe()
+      done(null, loc)
+    }
+  })
+  stream.on('end', function () {
+    done(null, [0, 0])
+  })
+  stream.on('error', function (err) {
+    done(err)
   })
 }
