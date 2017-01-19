@@ -17,6 +17,9 @@ if (require('electron-squirrel-startup')) return
 
 var APP_NAME = app.getName()
 
+// Set up global node exception handler
+handleUncaughtExceptions()
+
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
 var userDataPath = app.getPath('userData')
@@ -185,4 +188,23 @@ function syncToTarget (event, target) {
     console.log('connected to', target.name, 'to replicate dataset', target.dataset_id)
     server.replicateNetwork(socket, 'pull')
   }
+}
+
+function handleUncaughtExceptions () {
+  process.on('uncaughtException', function (error) {
+    // TODO(noffle): log to logging mechanism once
+    // https://github.com/digidem/mapeo-desktop/issues/77 is in.
+    console.log('uncaughtException', error)
+
+    // Show a vaguely informative dialog.
+    var opts = {
+      type: 'error',
+      buttons: [ 'OK' ],  // TODO: internationalize
+      title: 'Fatal Error',
+      message: error.message
+    }
+    electron.dialog.showMessageBox(win, opts, function () {
+      process.exit(1)
+    })
+  })
 }
