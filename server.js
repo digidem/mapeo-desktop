@@ -62,7 +62,7 @@ module.exports = function (osm) {
     var params = parseUrl(req.url, true).query
     var bbox = [params.minlon, params.minlat, params.maxlon, params.maxlat]
         .map(function (pt, i) {
-          if (pt === undefined) pt = i < 2 ? -Infinity : Infinity
+          return typeof pt !== 'undefined' ? pt : i < 2 ? -Infinity : Infinity
         })
     if (osmrouter.handle(req, res)) {
     } else if (tileServer.handle(req, res)) {
