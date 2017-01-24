@@ -37,7 +37,7 @@ var map = function (f) {
   var match = matchPreset(f)
   if (match) {
     f.properties.icon = match.icon
-    f.properties.preset = match
+    f.properties.preset = match.id
   }
   return f
 }
