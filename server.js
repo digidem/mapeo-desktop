@@ -22,6 +22,7 @@ var metadata = userConfig.getSettings('metadata')
 var presets = userConfig.getSettings('presets')
 
 var matchPreset = require('./lib/preset-matcher')(presets.presets)
+var isPolygonFeature = require('./lib/polygon-feature')(presets.presets)
 
 var Bonjour = require('bonjour')
 // var HTTP_PORT = 3198
@@ -46,7 +47,8 @@ module.exports = function (osm) {
   var tileServer = VectorTileServer(osm, {
     map: map,
     layers: layers,
-    smooth: true
+    smooth: false,
+    polygonFeatures: isPolygonFeature
   })
   var replicating = false
 
@@ -73,7 +75,7 @@ module.exports = function (osm) {
       })
     } else if (req.url.split('?')[0] === '/export.geojson') {
       res.setHeader('content-type', 'text/json')
-      pump(exportGeoJson(osm, {bbox: bbox}), res)
+      pump(exportGeoJson(osm, {bbox: bbox, map: map, polygonFeatures: isPolygonFeature}), res)
     } else if (req.url.split('?')[0] === '/sync_targets') {
       getSyncTargets(res)
     } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
