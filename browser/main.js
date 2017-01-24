@@ -18,7 +18,7 @@ var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
 iD.oneWayTags.waterway.spring = true;
 
-var id = iD()
+var id = window.id = iD()
   .imagery(defaultImagery)
   .taginfo(iD.services.taginfo())
   .assetPath('vendor/iD/')
