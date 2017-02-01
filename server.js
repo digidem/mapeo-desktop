@@ -41,7 +41,7 @@ module.exports = function (osm) {
       })
     } else if (req.url.split('?')[0] === '/sync_targets') {
       getSyncTargets(res)
-    } else if (req.method === 'POST' && req.url === '/replicate_network') {
+    } else if (req.url.split('?')[0] === '/export.geojson') {
       var params = qs.parse(req.url.replace(/^[^\?]*?/, ''))
       var bbox = [
         [params.minlat, params.maxlat],
@@ -51,6 +51,7 @@ module.exports = function (osm) {
         if (pt[1] === undefined) pt[1] = Infinity
         return pt
       })
+      bbox = [bbox[0][0], bbox[1][0], bbox[0][1], bbox[1][1]]
       res.setHeader('content-type', 'text/json')
       pump(exportGeoJson(osm, {bbox: bbox}), res)
     } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
