@@ -199,8 +199,8 @@ function handleUncaughtExceptions () {
     // Show a vaguely informative dialog.
     var opts = {
       type: 'error',
-      buttons: [ 'OK' ],  // TODO: internationalize
-      title: 'Fatal Error',
+      buttons: [ 'OK' ],
+      title: 'Error Fatal',
       message: error.message
     }
     electron.dialog.showMessageBox(win, opts, function () {
