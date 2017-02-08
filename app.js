@@ -215,22 +215,16 @@ function handleUncaughtExceptions () {
 
 function getGlobalDatasetCentroid (done) {
   var bbox = [[-90,90],[-180,180]]
-  var loc = null
 
   var stream = osm.queryStream(bbox)
-  stream.on('data', function (doc) {
-    if (loc) return
-    if (doc.type === 'node') {
-      loc = [Number(doc.lon), Number(doc.lat)]
-      // TODO(noffle): does this actually propagate the stream close back to
-      // the server? This isn't a request we'd like to keep running.
-      stream.unpipe()
+  var ix = setInterval(function () {
+    var doc = stream.read()
+    if (doc && doc.type === 'node') {
+      var loc = [Number(doc.lon), Number(doc.lat)]
+      clearInterval(ix)
       done(null, loc)
     }
-  })
-  stream.on('end', function () {
-    done(null, [0, 0])
-  })
+  }, 500)
   stream.on('error', function (err) {
     done(err)
   })
