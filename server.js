@@ -4,7 +4,7 @@ var sneakernet = require('hyperlog-sneakernet-replicator')
 var net = require('net')
 
 var body = require('body/any')
-var qs = require('querystring')
+var parseUrl = require('url').parse
 var exportGeoJson = require('osm-p2p-geojson')
 var importGeo = require('./lib/import-geo.js')
 var pump = require('pump')
@@ -16,9 +16,28 @@ var randombytes = require('randombytes')
 
 var userConfig = require('./lib/user-config')
 var metadata = userConfig.getSettings('metadata')
+var presets = userConfig.getSettings('presets')
+
+var matchPreset = require('./lib/preset-matcher')(presets.presets)
+var isPolygonFeature = require('./lib/polygon-feature')(presets.presets)
 
 var Bonjour = require('bonjour')
 var HTTP_PORT = 3198
+
+var featureMap = function (f) {
+  var newProps = {}
+  Object.keys(f.properties).forEach(function (key) {
+    var newKey = key.replace(':', '_')
+    newProps[newKey] = f.properties[key]
+  })
+  f.properties = newProps
+  var match = matchPreset(f)
+  if (match) {
+    f.properties.icon = match.icon
+    f.properties.preset = match.id
+  }
+  return f
+}
 
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
@@ -31,6 +50,11 @@ module.exports = function (osm) {
 
   var server = http.createServer(function (req, res) {
     console.log(req.method, req.url)
+    var params = parseUrl(req.url, true).query
+    var bbox = [params.minlon, params.minlat, params.maxlon, params.maxlat]
+      .map(function (pt, i) {
+        return typeof pt !== 'undefined' ? pt : i < 2 ? -Infinity : Infinity
+      })
     if (osmrouter.handle(req, res)) {
     } else if (req.method === 'POST' && req.url === '/replicate') {
       if (replicating) return error(400, res, 'Replication in progress.\n')
@@ -42,18 +66,8 @@ module.exports = function (osm) {
     } else if (req.url.split('?')[0] === '/sync_targets') {
       getSyncTargets(res)
     } else if (req.url.split('?')[0] === '/export.geojson') {
-      var params = qs.parse(req.url.replace(/^[^\?]*?/, ''))
-      var bbox = [
-        [params.minlat, params.maxlat],
-        [params.minlon, params.maxlon]
-      ].map(function (pt) {
-        if (pt[0] === undefined) pt[0] = -Infinity
-        if (pt[1] === undefined) pt[1] = Infinity
-        return pt
-      })
-      bbox = [bbox[0][0], bbox[1][0], bbox[0][1], bbox[1][1]]
       res.setHeader('content-type', 'text/json')
-      pump(exportGeoJson(osm, {bbox: bbox}), res)
+      pump(exportGeoJson(osm, {bbox: bbox, map: featureMap, polygonFeatures: isPolygonFeature}), res)
     } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
       req.pipe(concat(function (buf) {
         errb(shp(buf), function (err, geojsons) {
