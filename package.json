@@ -65,6 +65,7 @@
     "levelup": "^1.3.1",
     "lodash": "^4.15.0",
     "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
     "once": "^1.3.3",
     "osm-p2p": "^1.4.0",
     "osm-p2p-geojson": "^2.0.0",
@@ -96,7 +97,6 @@
     "electron-packager": "^7.6.0",
     "fs-extra": "^0.30.0",
     "iD": "openstreetmap/iD#v1.9.6",
-    "mkdirp": "^0.5.1",
     "npm-platform-dependencies": "0.0.12",
     "rimraf": "^2.5.2",
     "watchify": "^3.7.0"
