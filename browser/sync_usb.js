@@ -10,6 +10,8 @@ var osmServerHost = remote.getGlobal('osmServerHost')
 
 var ws = wsock('ws://' + osmServerHost)
 
+var log = require('../lib/log').Browser()
+
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   if (row && row.topic === 'replication-error') {
     resdiv.className = 'alert alert-error'
@@ -32,7 +34,7 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   next()
 })).on('error', onerror)
 
-function onerror (err) { console.error(err) }
+function onerror (err) { log.error(err) }
 
 var resdiv = document.getElementById('response')
 var cancelBtn = document.getElementById('cancel')

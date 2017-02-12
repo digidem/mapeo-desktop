@@ -17,6 +17,8 @@ if (require('electron-squirrel-startup')) return
 
 var APP_NAME = app.getName()
 
+var log = require('./lib/log').Node()
+
 // Set up global node exception handler
 handleUncaughtExceptions()
 
@@ -73,13 +75,13 @@ var pending = 2
 
 server.listen(argv.port, '127.0.0.1', function () {
   global.osmServerHost = '127.0.0.1:' + server.address().port
-  console.log(global.osmServerHost)
+  log(global.osmServerHost)
   ready()
 })
 
 var tileServer = require('./tile-server.js')()
 tileServer.listen(argv.tileport, function () {
-  console.log('tile server listening on :', server.address().port)
+  log('tile server listening on :', server.address().port)
 })
 
 if (!argv.headless) {
@@ -121,9 +123,7 @@ function ready () {
     }, onopen)
 
     function onopen (filename) {
-      console.log('1 save-file', filename)
       if (typeof filename === 'undefined') return
-      console.log('2 save-file', filename)
       win.webContents.send('select-file', filename)
     }
   })
@@ -177,7 +177,7 @@ function mv (src, dst) {
 }
 
 function syncToTarget (event, target) {
-  console.log('target', target)
+  log('sync to target', target)
   var socket = net.connect(target.port, target.host, onConnect)
 
   socket.on('error', function (err) {
@@ -185,16 +185,14 @@ function syncToTarget (event, target) {
   })
 
   function onConnect () {
-    console.log('connected to', target.name, 'to replicate dataset', target.dataset_id)
+    log('connected to', target.name, 'to replicate dataset', target.dataset_id)
     server.replicateNetwork(socket, 'pull')
   }
 }
 
 function handleUncaughtExceptions () {
   process.on('uncaughtException', function (error) {
-    // TODO(noffle): log to logging mechanism once
-    // https://github.com/digidem/mapeo-desktop/issues/77 is in.
-    console.log('uncaughtException', error)
+    log('uncaughtException in Node:', error)
 
     // Show a vaguely informative dialog.
     var opts = {
