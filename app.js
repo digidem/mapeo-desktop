@@ -8,6 +8,7 @@ var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var net = require('net')
+var to = require('to2')
 var userConfig = require('./lib/user-config')
 var metadata = userConfig.getSettings('metadata')
 
@@ -149,6 +150,12 @@ function ready () {
 
   ipc.on('sync-to-target', syncToTarget)
 
+  ipc.on('zoom-to-data-get-centroid', function () {
+    getGlobalDatasetCentroid(function (_, loc) {
+      win.webContents.send('zoom-to-data-response', loc)
+    })
+  })
+
   menu = Menu.buildFromTemplate(menuTemplate(app))
   Menu.setApplicationMenu(menu)
 
@@ -204,5 +211,24 @@ function handleUncaughtExceptions () {
     electron.dialog.showMessageBox(win, opts, function () {
       process.exit(1)
     })
+  })
+}
+
+function getGlobalDatasetCentroid (done) {
+  var bbox = [[-90,90],[-180,180]]
+
+  var stream = osm.queryStream(bbox)
+
+  stream.pipe(to.obj(function (doc, enc, next) {
+    if (doc && doc.type === 'node') {
+      var loc = [Number(doc.lon), Number(doc.lat)]
+      stream.unpipe(this)
+      done(null, loc)
+    } else {
+      next()
+    }
+  }))
+  stream.on('error', function (err) {
+    done(err)
   })
 }

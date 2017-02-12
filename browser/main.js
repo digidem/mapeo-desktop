@@ -68,6 +68,8 @@ customDefs.append('svg')
 
 updateSettings()
 ipc.on('updated-settings', updateSettings)
+ipc.on('zoom-to-data-request', zoomToDataRequest)
+ipc.on('zoom-to-data-response', zoomToDataResponse)
 
 function updateSettings () {
   var presets = ipc.sendSync('get-user-data', 'presets')
@@ -84,3 +86,19 @@ function updateSettings () {
   if (imagery) id.imagery(imagery)
   id.presets(presets || defaultPresets)
 }
+
+function zoomToDataRequest () {
+  ipc.send('zoom-to-data-get-centroid')
+}
+
+function zoomToDataResponse (_, loc) {
+  translateAndZoomToLocation(loc, 14)
+}
+
+function translateAndZoomToLocation (loc, zoom) {
+  id.map().centerEase(loc, 1000)
+  setTimeout(function () {
+    id.map().zoom(zoom)
+  }, 1000)
+}
+
