@@ -8,6 +8,7 @@ var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var net = require('net')
+var to = require('to2')
 var userConfig = require('./lib/user-config')
 var metadata = userConfig.getSettings('metadata')
 
@@ -217,14 +218,16 @@ function getGlobalDatasetCentroid (done) {
   var bbox = [[-90,90],[-180,180]]
 
   var stream = osm.queryStream(bbox)
-  var ix = setInterval(function () {
-    var doc = stream.read()
+
+  stream.pipe(to.obj(function (doc, enc, next) {
     if (doc && doc.type === 'node') {
       var loc = [Number(doc.lon), Number(doc.lat)]
-      clearInterval(ix)
+      stream.unpipe(this)
       done(null, loc)
+    } else {
+      next()
     }
-  }, 500)
+  }))
   stream.on('error', function (err) {
     done(err)
   })
