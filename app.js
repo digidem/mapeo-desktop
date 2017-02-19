@@ -160,6 +160,10 @@ function ready () {
     })
   })
 
+  ipc.on('refresh-window', function () {
+    win.reload()
+  })
+
   menu = Menu.buildFromTemplate(menuTemplate(app))
   Menu.setApplicationMenu(menu)
 
