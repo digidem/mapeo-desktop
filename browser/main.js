@@ -6,6 +6,8 @@ var merge = require('lodash/merge')
 var defaultPresets = require('../vendor/iD/presets.json')
 var defaultImagery = require('../vendor/iD/imagery.json')
 
+var log = require('../lib/log').Browser()
+
 var prevhash = localStorage.getItem('location')
 if (location.hash) localStorage.setItem('location', location.hash)
 else if (prevhash) location.hash = prevhash
@@ -67,7 +69,10 @@ var customDefs = id.container()
 customDefs.append('svg')
 
 updateSettings()
-ipc.on('updated-settings', updateSettings)
+ipc.on('updated-settings', function () {
+  updateSettings()
+  ipc.send('refresh-window')
+})
 ipc.on('zoom-to-data-request', zoomToDataRequest)
 ipc.on('zoom-to-data-response', zoomToDataResponse)
 
@@ -84,6 +89,7 @@ function updateSettings () {
   if (customCss) insertCss(customCss)
   if (translations) merge(window.locale, translations)
   if (imagery) id.imagery(imagery)
+  log('updating settings')
   id.presets(presets || defaultPresets)
 }
 
