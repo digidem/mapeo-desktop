@@ -68,6 +68,10 @@ if (hasOldUserData) {
 
 var osmdb = require('osm-p2p')
 var osm = osmdb(argv.datadir)
+log('preparing osm indexes..')
+osm.ready(function () {
+  log('osm indexes READY')
+})
 
 var createServer = require('./server.js')
 var server = createServer(osm)
