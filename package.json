@@ -90,7 +90,6 @@
   },
   "devDependencies": {
     "@gmaclennan/concat": "^1.0.0",
-    "browserify": "^13.0.0",
     "cross-env": "^1.0.8",
     "cross-spawn": "^4.0.2",
     "devtron": "^1.2.0",
