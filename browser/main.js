@@ -108,3 +108,52 @@ function translateAndZoomToLocation (loc, zoom) {
   }, 1000)
 }
 
+mapboxgl.accessToken = 'pk.eyJ1Ijoibm9mZmxlIiwiYSI6ImNpdWgzZHQ1bTAwb3Qyb3AyZHFzenVwaW4ifQ.mK7DhfggajvLzOOC4bIpGg';
+var simple = {
+    "version": 8,
+
+    "sources": {
+      "osm": {
+        "type": "vector",
+        //"tiles": ["https://vector.mapzen.com/osm/all/{z}/{x}/{y}.mvt?api_key=vector-tiles-LM25tq4"]
+        // "tiles": ["http://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.mvt?api_key=vector-tiles-LM25tq4"]
+        "tiles": ["http://localhost:6001/tiles/{z}/{x}/{y}.mvt"]
+// /api/0.6/map?bbox=57.41455078125,-20.26219712424651,57.4365234375,-20.241582819542185
+      },
+        "raster-tiles": {
+            "type": "raster",
+            "url": "mapbox://mapbox.streets",
+            "tileSize": 256
+        }
+    },
+    "layers": [
+        {
+            "id": "simple-tiles",
+            "type": "raster",
+            "source": "raster-tiles",
+            "minzoom": 0,
+            "maxzoom": 22
+        },
+      {
+        "id": "vector-tiles",
+        "source": "osm",
+        "source-layer": "pois",
+        "type": "symbol"
+      }
+    ]
+};
+
+// var mapDiv = document.createElement('div')
+// // mapDiv.style.width = "400px"
+// // mapDiv.style.height = "300px"
+// mapDiv.id = 'mapbox'
+// var dataDiv = document.getElementsByClassName('layer layer-data')[0]
+// dataDiv.parentNode.insertBefore(mapDiv, dataDiv)
+
+var map = new mapboxgl.Map({
+    container: 'mapbox',
+    style: simple,
+    zoom: 12,
+    center: [-75.19042968750009, -0.5932511181406923]
+});
+map.addControl(new mapboxgl.NavigationControl());
