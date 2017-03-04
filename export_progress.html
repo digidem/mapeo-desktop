@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>GeoJSON Export</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style>
+      body {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button#cancel {
+        min-width: 110px;
+      }
+
+      .progress-outer {
+        width:400px;
+        height:32px;
+        padding:2px;
+        background-color:white;
+        border:1px solid black;
+        text-align:center
+      }
+      .progress-inner {
+        width:250px;
+        height: 26px;
+        background-color:#3333DF;
+        color:black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="panel-body">
+            <p class="lead">
+              Exportación de GeoJSON..
+            </p>
+            <div id="response" class="alert alert-info hidden" role="alert">
+            </div>
+            <center>
+              <div class="progress-outer" id="indicator-outer">
+                <div class="progress-inner" id="indicator-inner">
+                  55%
+                </div>
+              </div>
+            </center>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      require('./browser/export_progress.js')
+    </script>
+  </body>
+</html>
+
