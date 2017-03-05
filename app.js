@@ -10,7 +10,6 @@ var BrowserWindow = electron.BrowserWindow  // Module to create native browser w
 var net = require('net')
 var to = require('to2')
 var userConfig = require('./lib/user-config')
-var metadata = userConfig.getSettings('metadata')
 
 var menuTemplate = require('./lib/menu')
 
@@ -118,6 +117,7 @@ function ready () {
   require('./lib/user-config')
 
   ipc.on('save-file', function () {
+    var metadata = userConfig.getSettings('metadata')
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
     electron.dialog.showSaveDialog(win, {
       title: 'Crear nuevo base de datos para sincronizar',
@@ -134,6 +134,7 @@ function ready () {
   })
 
   ipc.on('open-file', function () {
+    var metadata = userConfig.getSettings('metadata')
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
     electron.dialog.showOpenDialog(win, {
       title: 'Seleccionar base de datos para sincronizar',
