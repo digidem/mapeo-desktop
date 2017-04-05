@@ -71,6 +71,7 @@ log('preparing osm indexes..')
 osm.ready(function () {
   log('osm indexes READY')
 })
+app.osm = osm
 
 var createServer = require('./server.js')
 var server = createServer(osm)

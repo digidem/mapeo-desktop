@@ -5,7 +5,7 @@ var net = require('net')
 
 var body = require('body/any')
 var parseUrl = require('url').parse
-var exportGeoJson = require('osm-p2p-geojson')
+var exportGeoJson = require('./lib/export-geojson')
 var importGeo = require('./lib/import-geo.js')
 var pump = require('pump')
 var shp = require('shpjs')
@@ -16,28 +16,9 @@ var randombytes = require('randombytes')
 
 var userConfig = require('./lib/user-config')
 var metadata = userConfig.getSettings('metadata')
-var presets = userConfig.getSettings('presets')
-
-var matchPreset = require('./lib/preset-matcher')(presets.presets)
-var isPolygonFeature = require('./lib/polygon-feature')(presets.presets)
 
 var Bonjour = require('bonjour')
 var HTTP_PORT = 3198
-
-var featureMap = function (f) {
-  var newProps = {}
-  Object.keys(f.properties).forEach(function (key) {
-    var newKey = key.replace(':', '_')
-    newProps[newKey] = f.properties[key]
-  })
-  f.properties = newProps
-  var match = matchPreset(f)
-  if (match) {
-    f.properties.icon = match.icon
-    f.properties.preset = match.id
-  }
-  return f
-}
 
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
@@ -67,7 +48,7 @@ module.exports = function (osm) {
       getSyncTargets(res)
     } else if (req.url.split('?')[0] === '/export.geojson') {
       res.setHeader('content-type', 'text/json')
-      pump(exportGeoJson(osm, {bbox: bbox, map: featureMap, polygonFeatures: isPolygonFeature}), res)
+      pump(exportGeoJson(osm, bbox), res)
     } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
       req.pipe(concat(function (buf) {
         errb(shp(buf), function (err, geojsons) {
