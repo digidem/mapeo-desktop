@@ -6,8 +6,7 @@ var net = require('net')
 var body = require('body/any')
 var parseUrl = require('url').parse
 var exportGeoJson = require('./lib/export-geojson')
-var importGeo = require('./lib/import-geo.js')
-var pump = require('pump')
+var importGeo = require('./lib/import-geo')
 var shp = require('shpjs')
 var concat = require('concat-stream')
 var wsock = require('websocket-stream')
@@ -18,7 +17,6 @@ var userConfig = require('./lib/user-config')
 var metadata = userConfig.getSettings('metadata')
 
 var Bonjour = require('bonjour')
-var HTTP_PORT = 3198
 
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
@@ -48,7 +46,8 @@ module.exports = function (osm) {
       getSyncTargets(res)
     } else if (req.url.split('?')[0] === '/export.geojson') {
       res.setHeader('content-type', 'text/json')
-      pump(exportGeoJson(osm, bbox), res)
+      bbox = [[bbox[0], bbox[2]], [bbox[1], bbox[3]]]
+      exportGeoJson(osm, bbox).pipe(res)
     } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
       req.pipe(concat(function (buf) {
         errb(shp(buf), function (err, geojsons) {
