@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.7.0] - 2017-04-30
+### Added
+- Add deforking to GeoJSON export
+- Add GeoJSON Export menu item
+### Fixed
+- Use latest metadata.json for displaying dialogs
+- Removed unused dev dep: browserify
+
+
 ## [1.2.3] - 2016-10-30
 
 ### Changed
