@@ -15,6 +15,17 @@
         id: 'anonymous'
       })
     }
+    res.changesetTags = function (comment, imageryUsed) {
+      var detected = iD.detect()
+      var tags = {
+        created_by: 'iD ' + iD.version,
+        imagery_used: imageryUsed.join(';'),
+        host: (window.location.origin + window.location.pathname),
+        locale: detected.locale
+      }
+
+      return tags
+    }
     return res
   }
 })(iD.Connection)

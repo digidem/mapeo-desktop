@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.8.0] - 2017-05-06
+### Changed
+- Removed 255 char restriction on text fields
+
 ## [1.7.0] - 2017-04-30
 ### Added
 - Add deforking to GeoJSON export
