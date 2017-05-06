@@ -42,6 +42,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 Start of Change Log
 
+[1.8.0]: https://github.com/digidem/mapeo-desktop/compare/v1.7.0...v1.8.0
+[1.7.0]: https://github.com/digidem/mapeo-desktop/compare/v1.2.3...v1.7.0
 [1.2.3]: https://github.com/digidem/mapeo-desktop/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/digidem/mapeo-desktop/compare/v1.2.0...v1.2.2
 [1.2.0]: https://github.com/digidem/mapeo-desktop/compare/v1.1.0...v1.2.0
