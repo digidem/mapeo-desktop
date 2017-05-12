@@ -10,8 +10,13 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var ecstatic = require('ecstatic')
 var mkdirp = require('mkdirp')
+var isDev = require('electron-is-dev')
 
-require('electron-debug')()
+if (isDev) {
+  require('electron-debug')()
+} else {
+  process.env.NODE_ENV = 'production'
+}
 
 var tileserver = require('./lib/tileserver')
 var createMediaServer = require('./lib/media_server')
@@ -39,7 +44,6 @@ var api = new Api(dbPath)
 var mediaServer = createMediaServer(api.archive, '/media')
 http
   .createServer(function (req, res) {
-    console.log('request to media server')
     mediaServer(req, res, function (err) {
       if (err) {
         console.error(err)
@@ -57,9 +61,6 @@ http
 module.exports.api = api
 
 function onAppReady () {
-  BrowserWindow.addDevToolsExtension('/Users/Gregor/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/2.1.9_0')
-  BrowserWindow.addDevToolsExtension('/Users/Gregor/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.15.1_0')
-
   var win = setupWindow()
 
   win.on('closed', function () {
