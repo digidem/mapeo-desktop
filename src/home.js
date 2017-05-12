@@ -12,6 +12,7 @@ const clone = require('clone')
 const traverse = require('traverse')
 const remote = require('electron').remote
 const toBuffer = require('blob-to-buffer')
+const assign = require('object-assign')
 
 // const JSONStream = require('JSONStream')
 // const through = require('through2')
@@ -31,8 +32,10 @@ class Home extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      features: [],
-      showModal: false
+      featuresByFormId: {},
+      formId: 'monitoring',
+      showModal: false,
+      mapStyle: 'http://localhost:8080/style.json'
     }
     this.getOfflineStyle()
     this.getFeatures()
@@ -85,7 +88,9 @@ class Home extends React.Component {
       features.forEach(function (f) {
         f.properties = replaceProtocols(f.properties, mediaBaseUrl)
       })
-      this.setState({features: features})
+      this.setState(state => ({
+        featuresByFormId: features.reduce(formIdReducer, assign({}, state.featuresByFormId))
+      }))
     })
   }
 
@@ -102,7 +107,9 @@ class Home extends React.Component {
     features.forEach(function (f) {
       f.properties = replaceProtocols(f.properties, mediaBaseUrl)
     })
-    this.setState(state => ({features: state.features.concat(features)}))
+    this.setState(state => ({
+      featuresByFormId: features.reduce(formIdReducer, assign({}, state.featuresByFormId))
+    }))
   }
 
   uploadFile (blob, filename) {
@@ -118,11 +125,11 @@ class Home extends React.Component {
   }
 
   render () {
-    const {features, showModal, mapStyle} = this.state
+    const {featuresByFormId, formId, showModal, mapStyle} = this.state
     return h('div', {}, [
       mapStyle && h(MapFilter, {
         key: 1,
-        features: features,
+        features: featuresByFormId[formId] || [],
         mapStyle: mapStyle,
         fieldTypes: {
           impacts: 'space_delimited',
@@ -174,6 +181,16 @@ const createSyncButton = (onClick) => () => (
     h(NotificationSync, {color: 'white'})
   )
 )
+
+function formIdReducer (acc, f) {
+  const formId = (f.properties.meta && f.properties.meta.formId) || 'No Form Id'
+  if (!acc[formId]) {
+    acc[formId] = [f]
+  } else {
+    acc[formId] = acc[formId].concat([f])
+  }
+  return acc
+}
 
 function replaceProtocols (obj, baseUrl) {
   return traverse(obj).map(function (value) {
