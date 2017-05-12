@@ -3,7 +3,6 @@
 const request = require('request')
 const traverse = require('traverse')
 const uniq = require('lodash/uniq')
-const urlencode = require('urlencode')
 const fs = require('fs')
 const path = require('path')
 const pump = require('pump')
@@ -23,8 +22,6 @@ mkdirp.sync(outputDir)
 const mapStyle = 'mapbox://styles/mapbox/streets-v9'
 const mapStyleBaseUrl = mapStyle.replace(/^mapbox:\/\/styles\//, 'https://api.mapbox.com/styles/v1/')
 const mapStyleUrl = mapStyleBaseUrl + '?access_token=' + MAPBOX_TOKEN
-
-const RANGES = ['0-255', '65280-65535', '65024-65279', '12288-12543', '65024-65279']
 
 request(mapStyleUrl, onStyle)
 

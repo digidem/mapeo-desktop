@@ -37,7 +37,7 @@ app.on('window-all-closed', function () {
 var dbPath = path.join(userDataPath, 'db')
 var api = new Api(dbPath)
 var mediaServer = createMediaServer(api.archive, '/media')
-var observationServer = http
+http
   .createServer(function (req, res) {
     console.log('request to media server')
     mediaServer(req, res, function (err) {
@@ -50,7 +50,7 @@ var observationServer = http
   })
   .listen(config.servers.observations.port)
 
-var staticServer = http
+http
   .createServer(ecstatic({root: path.join(__dirname, 'static')}))
   .listen(config.servers.static.port)
 
