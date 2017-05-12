@@ -6,21 +6,7 @@
     <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
-    <div id="overlay">
-      <button onClick="require('electron').ipcRenderer.send('replicate-usb')">
-        <svg class="icon pre-text" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-              <path d="M0 0h24v24H0V0z" id="a"/>
-          </defs>
-          <clipPath id="b">
-              <use overflow="visible" xlink:href="#a"/>
-          </clipPath>
-          <path clip-path="url(#b)" d="M9.01 14H2v2h7.01v3L13 15l-3.99-4v3zm5.98-1v-3H22V8h-7.01V5L11 9l3.99 4z"/>
-        </svg>
-        <span class="label">Sincronizar USB</span>
-      </button>
-    </div>
     <div id="root"></div>
-    <script>require('./build')</script>
+    <script>require('./src/index.js')</script>
   </body>
 </html>

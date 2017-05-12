@@ -9,99 +9,77 @@ const path = require('path')
 const pump = require('pump')
 const rimraf = require('rimraf')
 const mkdirp = require('mkdirp')
+const queue = require('d3-queue').queue
 
 const CONFIG = require('../config.json')
 const markerColors = CONFIG.colors
 markerColors.push(CONFIG.defaultColor)
 
-const markerPath = path.join(__dirname, '..', 'node_modules', 'react-mapfilter', 'svg')
-const marker = fs.readFileSync(path.join(markerPath, 'marker.svg'), 'utf8')
-const markerHover = fs.readFileSync(path.join(markerPath, 'marker-hover.svg'), 'utf8')
-
-require('dotenv').config()
-
-const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN
+const MAPBOX_TOKEN = CONFIG.mapboxToken
 const outputDir = path.join(process.cwd(), process.argv[2])
 rimraf.sync(outputDir)
 mkdirp.sync(outputDir)
 
-const mapStyle = CONFIG.defaultMapStyle
+const mapStyle = 'mapbox://styles/mapbox/streets-v9'
 const mapStyleBaseUrl = mapStyle.replace(/^mapbox:\/\/styles\//, 'https://api.mapbox.com/styles/v1/')
 const mapStyleUrl = mapStyleBaseUrl + '?access_token=' + MAPBOX_TOKEN
 
 const RANGES = ['0-255', '65280-65535', '65024-65279', '12288-12543', '65024-65279']
 
-let pending = markerColors.length * 2
-markerColors.forEach(function (color) {
-  const markerBaseName = 'marker-' + color.replace('#', '')
-  const coloredMarker = marker.replace('{{fillColor}}', color)
-  const coloredMarkerHover = markerHover.replace('{{fillColor}}', color)
-  request.put({
-    url: mapStyleBaseUrl + '/sprite/' + markerBaseName + '?access_token=' + MAPBOX_TOKEN,
-    body: coloredMarker
-  }, done)
-  request.put({
-    url: mapStyleBaseUrl + '/sprite/' + markerBaseName + '-hover?access_token=' + MAPBOX_TOKEN,
-    body: coloredMarkerHover
-  }, done)
-})
-
-function done (err, res, body) {
-  if (err) return console.error(err)
-  if (--pending === 0) {
-    request(mapStyleUrl, onStyle)
-  }
-}
+request(mapStyleUrl, onStyle)
 
 function onStyle (err, res, body) {
   if (err) return console.error(err)
   const style = JSON.parse(body)
-  const fonts = []
+  var fontStacks = []
   traverse(style).forEach(function (x) {
     if (this.key === 'text-font') {
       if (Array.isArray(x)) {
-        fonts.push.apply(fonts, x)
+        fontStacks.push(x.join(','))
       } else if (typeof x === 'string') {
-        fonts.push(x)
-      } else {
-        traverse(x).forEach(fontsFromStops)
+        fontStacks.push(x)
+      } else if (x.stops) {
+        x.stops.forEach(stop => {
+          fontStacks.push(Array.isArray(stop[1]) ? stop[1].join(',') : stop[1])
+        })
       }
     }
   })
-  function fontsFromStops (x) {
-    if (typeof x === 'string') {
-      fonts.push(x)
-    }
-  }
-  const fontStack = uniq(fonts).map(s => urlencode(s)).join(',')
-  style.glyphs = 'mapfilter://fonts/{range}.pbf?stack={fontstack}'
+  fontStacks = uniq(fontStacks)
+  style.glyphs = 'mapfilter://fonts/{fontstack}/{range}.pbf'
   const originalSprite = style.sprite
   style.sprite = 'mapfilter://sprites/sprite'
   fs.writeFileSync(path.join(outputDir, 'style.json'), JSON.stringify(style, null, 4))
-  downloadFonts(fontStack, done)
+  downloadFonts(fontStacks, done)
   downloadSprites(originalSprite, done)
-  function done () {
+  function done (err) {
+    if (err) return console.error(err)
     console.log('DONE!')
   }
 }
 
-function downloadFonts (fontStack, cb) {
-  mkdirp.sync(path.join(outputDir, 'fonts'))
-  let pending = RANGES.length
-  RANGES.forEach(function (range) {
-    const url = 'https://api.mapbox.com/fonts/v1/gmaclennan/' +
-      fontStack + '/' + range + '.pbf' + '?access_token=' + MAPBOX_TOKEN
-    const filepath = path.join(outputDir, 'fonts', range + '.pbf')
-    const req = request({
-      url: url,
-      gzip: true
-    })
-    pump(req, fs.createWriteStream(filepath), done)
+function downloadFonts (fontStacks, cb) {
+  var q = queue(10)
+  var baseUrl = 'https://api.mapbox.com/fonts/v1/gmaclennan/'
+  fontStacks.forEach(stack => {
+    var stackDir = path.join(outputDir, 'fonts', stack)
+    mkdirp.sync(stackDir)
+    var range
+    var url
+    var outFilepath
+    for (var i = 0; i < 65536; (i = i + 256)) {
+      range = i + '-' + Math.min(i + 255, 65535)
+      url = baseUrl + stack + '/' + range + '.pbf' + '?access_token=' + MAPBOX_TOKEN
+      outFilepath = path.join(stackDir, range + '.pbf')
+      q.defer(download, url, outFilepath)
+    }
   })
-  function done (err) {
-    if (err) return console.error(err)
-    if (--pending === 0) cb(err)
-  }
+  q.awaitAll(cb)
+}
+
+function download (url, filepath, cb) {
+  var req = request({url: url, gzip: true})
+  pump(req, fs.createWriteStream(filepath), cb)
 }
 
 function downloadSprites (sprite, cb) {

@@ -3,68 +3,72 @@
 var fs = require('fs')
 var http = require('http')
 var path = require('path')
-var minimist = require('minimist')
 var electron = require('electron')
 var Config = require('electron-config')
-var server = require('./server')
 var app = electron.app  // Module to control application life.
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
-var config = require('./config')
-
 var ecstatic = require('ecstatic')
-var JSONStream = require('JSONStream')
-var observationServer = require('ddem-observation-server')
-var websocket = require('websocket-stream')
+var mkdirp = require('mkdirp')
 
 require('electron-debug')()
 
 var tileserver = require('./lib/tileserver')
+var createMediaServer = require('./lib/media_server')
+var config = require('./config')
+var Api = require('./lib/api')
 
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
-var userDataPath = app.getPath('userData')
+var userDataPath = path.join(app.getPath('userData'), 'org.digital-democracy.MapFilter')
+mkdirp.sync(userDataPath)
+
 var appConfig = new Config()
 
-function parseArguments (args) {
-  return minimist(args, {
-    default: {
-      datadir: path.join(userDataPath, 'data')
-    },
-    boolean: [ 'headless', 'debug' ],
-    alias: {
-      d: 'debug'
-    }
-  })
-}
+app.on('ready', onAppReady)
 
-function start (argv) {
-  if (!argv.headless) {
-    app.on('ready', onAppReady)
+// Quit when all windows are closed.
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
 
-    // Quit when all windows are closed.
-    app.on('window-all-closed', function () {
-      if (process.platform !== 'darwin') {
-        app.quit()
+var dbPath = path.join(userDataPath, 'db')
+var api = new Api(dbPath)
+var mediaServer = createMediaServer(api.archive, '/media')
+var observationServer = http
+  .createServer(function (req, res) {
+    console.log('request to media server')
+    mediaServer(req, res, function (err) {
+      if (err) {
+        console.error(err)
+        res.statusCode = 404
+        res.end()
       }
     })
-  }
-}
+  })
+  .listen(config.servers.observations.port)
+
+var staticServer = http
+  .createServer(ecstatic({root: path.join(__dirname, 'static')}))
+  .listen(config.servers.static.port)
+
+module.exports.api = api
 
 function onAppReady () {
+  BrowserWindow.addDevToolsExtension('/Users/Gregor/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/2.1.9_0')
+  BrowserWindow.addDevToolsExtension('/Users/Gregor/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.15.1_0')
+
   var win = setupWindow()
+
+  win.on('closed', function () {
+    win = null
+  })
 
   setupMenu()
 
   setupFileIPCs(win, electron.ipcMain, win.webContents)
-
-  var obs = setupObservations()
-
-  var obss = setupObservationsServer(obs)
-  setupServer(obs)
-  setupObservationWebsocket(obss, obs)
-
-  setupStaticServer()
 
   if (fs.existsSync(path.join(userDataPath, 'mapfilter.mbtiles'))) {
     // workaround for pathnames containing spaces
@@ -80,10 +84,6 @@ function onAppReady () {
 
     win.on('close', () => appConfig.set('winBounds', win.getBounds()))
 
-    win.on('closed', function () {
-      win = null
-    })
-
     return win
   }
 
@@ -93,32 +93,8 @@ function onAppReady () {
     Menu.setApplicationMenu(menu)
   }
 
-  function setupServer (osm) {
-    var nodeServer = server(osm)
-    nodeServer.listen(config.servers.http.port)
-  }
-
-  function setupObservations () {
-    return observationServer(path.join(app.getPath('userData'), 'org.digital-democracy.MapFilter'))
-  }
-
-  function setupObservationsServer (obs) {
-    var server = http.createServer(obs)
-    server.listen(config.servers.observations.port)
-    return server
-  }
-
-  function setupObservationWebsocket (server, obs) {
-    websocket.createServer({ server: server }, function (stream) {
-      obs.log.createReadStream({ live: true }).pipe(JSONStream.stringify()).pipe(stream)
-    })
-  }
-
-  function setupStaticServer () {
-    http.createServer(ecstatic({root: path.join(__dirname, 'static')})).listen(config.servers.static.port)
-  }
-
   function setupTileServer (tileUri) {
+    console.log(tileUri, config.servers.tiles.port)
     tileserver(tileUri).listen(config.servers.tiles.port)
   }
 }
@@ -186,5 +162,3 @@ function setupFileIPCs (window, incomingChannel, outgoingChannel) {
   }
 }
 
-var argv = parseArguments(process.argv.slice(2))
-start(argv)
