@@ -8,6 +8,8 @@ const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const ContentAdd = require('material-ui/svg-icons/content/add').default
 const IconButton = require('material-ui/IconButton').default
 const NotificationSync = require('material-ui/svg-icons/notification/sync').default
+const {DropDownMenu} = require('material-ui/DropDownMenu')
+const MenuItem = require('material-ui/MenuItem').default
 const clone = require('clone')
 const traverse = require('traverse')
 const remote = require('electron').remote
@@ -28,11 +30,26 @@ const api = remote.require('./app').api
 
 const mediaBaseUrl = `http://${obsServer.host}:${obsServer.port}/media/`
 
+const Title = ({datasets, activeDataset, onChange}) => (
+  h('div', {}, [
+    h('div', {key: 1, style: {float: 'left'}}, ['TiziTizi', ' /']),
+    h(DropDownMenu, {
+      key: 3,
+      value: activeDataset,
+      onChange: onChange,
+      style: {marginLeft: -18},
+      labelStyle: {color: '#ffffff', fontWeight: 300, fontSize: 20}
+    }, datasets.map(d => h(MenuItem, {key: d, value: d, primaryText: d})))
+  ])
+)
+
 class Home extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      featuresByFormId: {},
+      featuresByFormId: {
+        monitoring: []
+      },
       formId: 'monitoring',
       showModal: false,
       mapStyle: 'http://localhost:8080/style.json'
@@ -43,6 +60,7 @@ class Home extends React.Component {
     this.uploadForm = this.uploadForm.bind(this)
     this.uploadFile = this.uploadFile.bind(this)
     this.onUpload = this.onUpload.bind(this)
+    this.handleDatasetChange = this.handleDatasetChange.bind(this)
     this.ActionButton = createAddButton(this.handleAddButtonClick.bind(this))
     this.toolbarButtons = [
       createSyncButton(this.handleSyncButtonClick.bind(this)),
@@ -57,6 +75,10 @@ class Home extends React.Component {
 
   handleSyncButtonClick () {
     this.setState({showModal: 'sync'})
+  }
+
+  handleDatasetChange (e, i, value) {
+    this.setState({formId: value})
   }
 
   closeModal () {
@@ -136,7 +158,12 @@ class Home extends React.Component {
           people: 'space_delimited'
         },
         actionButton: this.ActionButton,
-        toolbarButtons: this.toolbarButtons
+        toolbarButtons: this.toolbarButtons,
+        toolbarTitle: h(Title, {
+          datasets: Object.keys(featuresByFormId),
+          activeDataset: formId,
+          onChange: this.handleDatasetChange
+        })
       }),
       showModal && h(Modal, {
         key: 2,
@@ -183,7 +210,8 @@ const createSyncButton = (onClick) => () => (
 )
 
 function formIdReducer (acc, f) {
-  const formId = (f.properties.meta && f.properties.meta.formId) || 'No Form Id'
+  let formId = (f.properties.meta && f.properties.meta.formId) || 'No Form Id'
+  formId = formId.replace(/_v\d+$/, '')
   if (!acc[formId]) {
     acc[formId] = [f]
   } else {
