@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.1] - 2017-05-17
+### Fixed
+- Fixed 'Export as GeoJSON..' menu option
 
 ## [1.8.0] - 2017-05-06
 ### Changed
