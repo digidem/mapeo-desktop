@@ -12,6 +12,8 @@ var ws = wsock('ws://' + osmServerHost)
 
 var log = require('../lib/log').Browser()
 
+var replicationProgress = 0
+
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   if (row && row.topic === 'replication-error') {
     resdiv.className = 'alert alert-error'
@@ -30,6 +32,13 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     cancelBtn.classList.remove('hidden')
     cancelBtn.classList.add('btn-primary')
     cancelBtn.innerText = 'OK'
+  } else if (row && row.topic === 'replication-progress') {
+    replicationProgress = (replicationProgress + 1) % 4
+    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...   '
+    if (replicationProgress === 0) resdiv.innerHTML += '/'
+    if (replicationProgress === 1) resdiv.innerHTML += '-'
+    if (replicationProgress === 2) resdiv.innerHTML += '\\'
+    if (replicationProgress === 3) resdiv.innerHTML += '|'
   }
   next()
 })).on('error', onerror)

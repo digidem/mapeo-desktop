@@ -197,10 +197,26 @@ module.exports = function (osm) {
   function replicateUsb (sourceFile) {
     console.log('replicating to', sourceFile)
     replicating = true
+
+    // Root around in hyperlog's guts to fake progress events
+    var replicateOrig = osm.log.replicate
+    osm.log.replicate = function () {
+      var stream = replicateOrig.call(osm.log)
+      stream.on('data', onProgress)
+      return stream
+    }
+
     sneakernet(osm.log, { safetyFile: true }, sourceFile, onend)
+
+    function onProgress () {
+      send('replication-progress')
+    }
 
     function onend (err) {
       if (err) return syncErr(err)
+
+      osm.log.replicate = replicateOrig
+
       replicating = false
       send('replication-data-complete')
       osm.ready(function () {
