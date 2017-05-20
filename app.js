@@ -78,7 +78,7 @@ series([
   createServers,
   startupMsg('Started osm and tile servers'),
 
-  createWindow,
+  createMainWindow,
   startupMsg('Created app window')
 ], function (err) {
   if (err) log('STARTUP FAILED', err)
@@ -90,8 +90,18 @@ function initOsmDb (done) {
   app.osm = osm
 
   log('preparing osm indexes..')
+
+  var ready = false
+
+  setTimeout(function () {
+    if (!ready) {
+      win = createLoadingWindow()
+    }
+  }, 2000)
+
   osm.ready(function () {
     log('osm indexes READY')
+    ready = true
     done()
   })
 }
@@ -162,7 +172,19 @@ function createServers (done) {
   })
 }
 
-function createWindow (done) {
+function createLoadingWindow () {
+  if (argv.headless) return
+
+  var INDEX = 'file://' + path.resolve(__dirname, './generating_indexes.html')
+  var win = new BrowserWindow({title: APP_NAME, show: false})
+  win.once('ready-to-show', () => win.show())
+  win.maximize()
+  win.loadURL(INDEX)
+
+  return win
+}
+
+function createMainWindow (done) {
   if (!argv.headless) {
     if (!appIsReady) {
       app.once('ready', ready)
@@ -184,9 +206,11 @@ function createWindow (done) {
     if (argv.headless) return
 
     var INDEX = 'file://' + path.resolve(__dirname, './index.html')
-    win = new BrowserWindow({title: APP_NAME, show: false})
-    win.once('ready-to-show', () => win.show())
-    win.maximize()
+    if (!win) {
+      win = new BrowserWindow({title: APP_NAME, show: false})
+      win.once('ready-to-show', () => win.show())
+      win.maximize()
+    }
     if (argv.debug) win.webContents.openDevTools()
     win.loadURL(INDEX)
 
