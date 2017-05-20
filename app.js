@@ -14,6 +14,8 @@ var level = require('level')
 var sublevel = require('subleveldown')
 var osmdb = require('osm-p2p')
 var series = require('run-series')
+var appSettings = require('./app-settings.json')
+var semver = require('semver')
 
 var menuTemplate = require('./lib/menu')
 
@@ -88,8 +90,13 @@ function versionCheckIndexes (done) {
   var idxDb = level(path.join(dir, 'index'))
   var versionDb = sublevel(idxDb, 'versions')
   versionDb.get('kdb-index', function (err, version) {
-    console.log('kdb-index', err, version)
-    idxDb.close(done)
+    if (err && err.notFound) version = '1.0.0'
+    else if (err) return done(err)
+
+    if (semver.major(appSettings.indexes.kdb.version) > semver.major(version)) {
+      log('kdb index must be regenerated (local='+version+', needed='+appSettings.indexes.kdb.version+')')
+      idxDb.close(done)
+    }
   })
 }
 
