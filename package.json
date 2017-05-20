@@ -74,6 +74,7 @@
     "osm-p2p-server": "^2.1.2",
     "pump": "^1.0.1",
     "randombytes": "^2.0.3",
+    "run-series": "^1.1.4",
     "shpjs": "^3.3.1",
     "split2": "^2.0.1",
     "sqldown": "^2.1.0",
