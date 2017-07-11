@@ -66,9 +66,6 @@ function startupMsg (txt) {
 
 // The app startup sequence
 series([
-  migrateOldDataIfNeeded,
-  startupMsg('Migrated any old data'),
-
   versionCheckIndexes,
   startupMsg('Checked indexes version is up-to-date'),
 
@@ -354,39 +351,4 @@ function getGlobalDatasetCentroid (done) {
   stream.on('error', function (err) {
     done(err)
   })
-}
-
-function migrateOldDataIfNeeded (done) {
-  var oldUserDataPath = require('application-config-path')('ecuador-map-editor')
-
-  try {
-    fs.statSync(oldUserDataPath)
-  } catch (e) {
-    return done()
-  }
-
-  var errs = []
-
-  try {
-    mv(path.join(oldUserDataPath, 'data'), path.join(userDataPath, 'data'))
-  } catch (e) {
-    errs.push(e)
-  }
-  try {
-    mv(path.join(oldUserDataPath, 'tiles'), path.join(userDataPath, 'tiles'))
-  } catch (e) {
-    errs.push(e)
-  }
-  try {
-    mv(path.join(oldUserDataPath, 'imagery.json'), path.join(userDataPath, 'imagery.json'))
-  } catch (e) {
-    errs.push(e)
-  }
-  try {
-    mv(path.join(oldUserDataPath, 'presets.json'), path.join(userDataPath, 'presets.json'))
-  } catch (e) {
-    errs.push(e)
-  }
-
-  done(errs.length ? errs : null)
 }
