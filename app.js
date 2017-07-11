@@ -91,19 +91,9 @@ function initOsmDb (done) {
 
   log('preparing osm indexes..')
 
-  var ready = false
+  createLoadingWindow()
 
-  setTimeout(function () {
-    if (!ready) {
-      win = createLoadingWindow()
-    }
-  }, 2000)
-
-  osm.ready(function () {
-    log('osm indexes READY')
-    ready = true
-    done()
-  })
+  done()
 }
 
 // Regenerate osm indexes if needed
@@ -176,12 +166,29 @@ function createLoadingWindow () {
   if (argv.headless) return
 
   var INDEX = 'file://' + path.resolve(__dirname, './generating_indexes.html')
-  var win = new BrowserWindow({title: APP_NAME, show: false})
-  win.once('ready-to-show', () => win.show())
-  win.maximize()
-  win.loadURL(INDEX)
+  var winOpts = {
+    title: APP_NAME,
+    width: 300,
+    height: 200,
+    modal: true,
+    show: false,
+    alwaysOnTop: true,
+    parent: win
+  }
+  var loadingWin = new BrowserWindow(winOpts)
+  loadingWin.once('ready-to-show', function () {
+    loadingWin.setMenu(null)
+    loadingWin.show()
+  })
+  loadingWin.loadURL(INDEX)
 
-  return win
+  app.osm.ready(function () {
+    log('osm indexes READY')
+    loadingWin.close()
+    win.reload()
+  })
+
+  return loadingWin
 }
 
 function createMainWindow (done) {
