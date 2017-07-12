@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.9.0] - 2017-07-11
+### Added
+- Added versioning information to osm-p2p-db indexes
+- Added an "indexes generating" dialog when index generation is in progress on
+  start-up
+### Removed
+- Took out old (unused) data migration logic
+
+## [1.8.3] - 2017-07-06
+### Fixed
+- App no longer crashes when no presets are present
+
+## [1.8.2] - 2017-05-19
+
 ## [1.8.1] - 2017-05-17
 ### Fixed
 - Fixed 'Export as GeoJSON..' menu option
