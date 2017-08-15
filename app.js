@@ -179,7 +179,9 @@ function createLoadingWindow () {
   })
   loadingWin.loadURL(INDEX)
 
+  console.time('Generating indexes')
   app.osm.ready(function () {
+    console.timeEnd('Generating indexes')
     log('osm indexes READY')
     loadingWin.close()
     win.reload()
