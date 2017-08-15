@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [x.y.z] - ????-??-??
+### Changed
+- 'Regenerating Indexes' screen should only take 50% - 70% as long as before
+
 ## [1.9.5] - 2017-07-17
 ### Fixed
 - Fixed electron version bundling issue that was causing the Windows installer to crash
