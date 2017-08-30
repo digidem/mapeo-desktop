@@ -162,7 +162,7 @@ function createServers (done) {
 function createLoadingWindow () {
   if (argv.headless) return
 
-  var INDEX = 'file://' + path.resolve(__dirname, './generating_indexes.html')
+  var INDEX = 'file://' + path.resolve(__dirname, './browser/generating_indexes.html')
   var winOpts = {
     title: APP_NAME,
     width: 300,
