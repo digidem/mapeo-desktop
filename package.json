@@ -71,7 +71,7 @@
     "osm-p2p": "^2.0.0",
     "osm-p2p-defork": "^1.0.0",
     "osm-p2p-geojson": "^3.0.0",
-    "osm-p2p-server": "^2.1.6",
+    "osm-p2p-server": "^2.3.1",
     "pump": "^1.0.1",
     "randombytes": "^2.0.3",
     "rimraf": "^2.5.2",
