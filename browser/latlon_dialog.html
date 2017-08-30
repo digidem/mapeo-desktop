@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Generating Indexes</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <style>
+      body {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button#cancel {
+        min-width: 110px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h2 class="panel-title">Enter Coordinates (Latitude,Longitude)</h2>
+            </div>
+            <div class="panel-body">
+              <p class="lead">
+                <form onsubmit="submitHandler()">
+                  <input id="latlon-text" type="text"></input>
+                  <button>Go (TRANSLATE ME)</button>
+                </form>
+                <button>Cancel</button>
+                <p>TODO: translate to espanol</p>
+              </p>
+              <div id="response" class="alert alert-info hidden" role="alert">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      var ipc = require('electron').ipcRenderer
+      function submitHandler () {
+        var text = document.getElementById('latlon-text').value
+        var values = text.trim().split(',')
+        if (values && values.length === 2) {
+          var lat = parseFloat(values[0].trim())
+          var lon = parseFloat(values[1].trim())
+          if (!isNaN(lat) && !isNaN(lon)) {
+            console.log('3')
+            ipc.send('zoom-to-latlon-request', lat, lon)
+            ipc.send('close-latlon-dialog')
+          }
+        }
+      }
+    </script>
+    <!-- <script> -->
+    <!--   require('./browser/sync_usb.js') -->
+    <!-- </script> -->
+  </body>
+</html>

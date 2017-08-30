@@ -119,6 +119,8 @@ ipc.on('updated-settings', function () {
 ipc.on('zoom-to-data-request', zoomToDataRequest)
 ipc.on('zoom-to-data-response', zoomToDataResponse)
 
+ipc.on('zoom-to-latlon-response', zoomToLatLonResponse)
+
 function updateSettings () {
   var presets = ipc.sendSync('get-user-data', 'presets')
   var customCss = ipc.sendSync('get-user-data', 'css')
@@ -149,5 +151,12 @@ function translateAndZoomToLocation (loc, zoom) {
   id.map().centerEase(loc, 1000)
   setTimeout(function () {
     id.map().zoom(zoom)
+  }, 1000)
+}
+
+function zoomToLatLonResponse (_, lat, lon) {
+  id.map().centerEase([lat, lon], 1000)
+  setTimeout(function () {
+    id.map().zoom(15)
   }, 1000)
 }
