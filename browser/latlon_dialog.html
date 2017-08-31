@@ -33,6 +33,7 @@
                   <button>Go (TRANSLATE ME)</button>
                 </form>
                 <button>Cancel</button>
+                <p>TODO: implement cancel button</p>
                 <p>TODO: translate to espanol</p>
               </p>
               <div id="response" class="alert alert-info hidden" role="alert">
@@ -46,16 +47,19 @@
       var ipc = require('electron').ipcRenderer
       function submitHandler () {
         var text = document.getElementById('latlon-text').value
-        var values = text.trim().split(',')
-        if (values && values.length === 2) {
-          var lat = parseFloat(values[0].trim())
-          var lon = parseFloat(values[1].trim())
-          if (!isNaN(lat) && !isNaN(lon)) {
-            console.log('3')
-            ipc.send('zoom-to-latlon-request', lat, lon)
-            ipc.send('close-latlon-dialog')
-          }
+        var pt = pullLatLon(text)
+        if (pt) {
+          ipc.send('zoom-to-latlon-request', pt[0], pt[1])
+          ipc.send('close-latlon-dialog')
         }
+      }
+
+      // Use regex to pull a lat and lon from arbitrary text
+      function pullLatLon (text) {
+        var rx = /(-?\d+\.?\d+)[^01234567890-]+(-?\d+\.?\d+)/
+        var match = rx.exec(text)
+        if (match) return [ parseFloat(match[1]), parseFloat(match[2]) ]
+        else return null
       }
     </script>
     <!-- <script> -->
