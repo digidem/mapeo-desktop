@@ -32,8 +32,7 @@
                   <input id="latlon-text" type="text"></input>
                   <button>Go (TRANSLATE ME)</button>
                 </form>
-                <button>Cancel</button>
-                <p>TODO: implement cancel button</p>
+                <button onclick="closeWindow()">Cancel</button>
                 <p>TODO: translate to espanol</p>
               </p>
               <div id="response" class="alert alert-info hidden" role="alert">
@@ -50,8 +49,12 @@
         var pt = pullLatLon(text)
         if (pt) {
           ipc.send('zoom-to-latlon-request', pt[0], pt[1])
-          ipc.send('close-latlon-dialog')
+          closeWindow()
         }
+      }
+
+      function closeWindow () {
+        ipc.send('close-latlon-dialog')
       }
 
       // Use regex to pull a lat and lon from arbitrary text
