@@ -29,7 +29,8 @@ packager({
   icon: path.join('static', 'mapeo.icns'),
   ignore: /^\/dist/,
   out: 'dist',
-  tmpdir: false,
+  // TODO(noffle): commented out because a minor/patch of electron-packager broke it.
+  // tmpdir: false,
   version: '1.4.15',
   'app-version': pkg.version,
   'build-version': '1.0.0',
