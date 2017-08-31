@@ -32,8 +32,8 @@ init:
 install:
   # Get the latest stable version of Node.js
   - ps: Install-Product node $env:nodejs_version x64
-  # Issue with 'npm prune --production' on npm@5.3.0 
-  - npm install -g npm@5.2.0
+  # Issue with 'npm prune --production' on npm@5.3.0
+  - npm install -g npm@4.0.0
   - npm install
 
 build_script:
