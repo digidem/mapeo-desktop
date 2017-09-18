@@ -101,7 +101,7 @@
     "electron": "1.4.15",
     "electron-packager": "^7.6.0",
     "fs-extra": "^0.30.0",
-    "iD": "openstreetmap/iD#v1.9.6",
+    "iD": "digidem/iD-mapeo",
     "npm-platform-dependencies": "0.0.12",
     "watchify": "^3.7.0"
   }

@@ -22,14 +22,8 @@ var patchPath = path.join(dstPath, 'iD-patched.js')
 concat([
   path.join(mpPath, 'start.js'),
   path.join(idDistPath, 'iD.js'),
-  path.join(mpPath, 'id-connection.js'),
-  path.join(mpPath, 'id-modes-browse.js'),
-  path.join(mpPath, 'id-modes-save.js'),
-  path.join(mpPath, 'id-presets-textarea.js'),
-  path.join(mpPath, 'id-raw-tag-editor.js'),
   path.join(mpPath, 'id-svg-tagclasses.js'),
   path.join(mpPath, 'id-ui-account.js'),
-  path.join(mpPath, 'osm-auth.js'),
   path.join(mpPath, 'no-slow.js'),
   path.join(mpPath, 'end.js')
 ], patchPath, done)
