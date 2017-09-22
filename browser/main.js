@@ -18,23 +18,21 @@ window.addEventListener('hashchange', function (ev) {
 
 var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
-iD.oneWayTags.waterway.spring = true;
+// iD.oneWayTags.waterway.spring = true;
 
-var id = iD()
-  .imagery(defaultImagery)
-  .taginfo(iD.services.taginfo())
+var id = iD.Context()
   .assetPath('vendor/iD/')
-  .preauth({url: serverUrl})
+  .preauth({urlroot: serverUrl})
   .minEditableZoom(14)
 
-window.locale.en.inspector.view_on_osm = 'View element source XML'
+// window.locale.en.inspector.view_on_osm = 'View element source XML'
 
-id.loadLocale = function(cb) {
-  var locale = iD.detect().locale
-  if (locale && iD.data.locales.indexOf(locale) === -1) {
+function loadLocale () {
+  var locale = iD.Detect().locale
+  if (locale && !iD.dataLocales[locale]) {
     locale = locale.split('-')[0]
   }
-  if (locale && locale !== 'en' && iD.data.locales.indexOf(locale) !== -1) {
+  if (locale && locale !== 'en' && iD.dataLocales[locale]) {
     var localePath = id.asset('locales/' + locale + '.json')
     d3.json(localePath, function (err, result) {
       window.locale[locale] = result
@@ -45,28 +43,25 @@ id.loadLocale = function(cb) {
       window.onbeforeunload = myOnBeforeLoad
     })
   } else {
-    cb()
     window.onbeforeunload = myOnBeforeLoad
   }
 }
-
-d3.select('#container')
-  .call(id.ui())
+id.ui()(document.getElementById('container'), loadLocale)
 
 function myOnBeforeLoad () {
-  context.save()
+  id.save()
 }
 
 var parser = new DOMParser()
-var customDefs = id.container()
-  .append('svg')
-  .style('position', 'absolute')
-  .style('width', '0px')
-  .style('height', '0px')
-  .attr('id', 'custom-defs')
-  .append('defs')
-
-customDefs.append('svg')
+// var customDefs = id.container()
+//   .append('svg')
+//   .style('position', 'absolute')
+//   .style('width', '0px')
+//   .style('height', '0px')
+//   .attr('id', 'custom-defs')
+//   .append('defs')
+//
+// customDefs.append('svg')
 
 updateSettings()
 ipc.on('updated-settings', function () {
@@ -107,4 +102,3 @@ function translateAndZoomToLocation (loc, zoom) {
     id.map().zoom(zoom)
   }, 1000)
 }
-
