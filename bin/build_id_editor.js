@@ -4,7 +4,6 @@ var concat = require('@gmaclennan/concat')
 var mkdirp = require('mkdirp')
 var EOL = require('os').EOL
 
-var mpPath = path.resolve(__dirname, '../id_monkey_patches')
 var idPath = path.dirname(require.resolve('iD/package.json'))
 var pkg = require('../package.json')
 var idDistPath = path.join(idPath, 'dist')
@@ -16,23 +15,13 @@ mkdirp.sync(dstPath)
 fs.copySync(idDistPath, dstPath, {clobber: true})
 fs.copySync(path.join(idPath, 'data/imagery.json'), path.join(dstPath, 'imagery.json'), {clobber: true})
 
-var patchPath = path.join(dstPath, 'iD-patched.js')
-
-// Monkey patch and build iD
-concat([
-  path.join(mpPath, 'start.js'),
-  path.join(idDistPath, 'iD.js'),
-  path.join(mpPath, 'id-svg-tagclasses.js'),
-  path.join(mpPath, 'id-ui-account.js'),
-  path.join(mpPath, 'no-slow.js'),
-  path.join(mpPath, 'end.js')
-], patchPath, done)
+var idPath = path.join(idDistPath, 'iD.js')
 
 function done (err) {
   if (err) console.error(err, err.stack)
 
   // needs to happen at build-time: version patch
-  fs.writeFileSync(patchPath, fs.readFileSync(patchPath).toString() + EOL + 'iD.version = "' + pkg.version + '"')
+  fs.writeFileSync(idPath, fs.readFileSync(idPath).toString() + EOL + 'iD.version = "' + pkg.version + '"')
 
   var presets = {
     presets: require('iD/data/presets/presets.json'),
