@@ -3,9 +3,6 @@ var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
 var merge = require('lodash/merge')
 
-var defaultPresets = require('../vendor/iD/presets.json')
-var defaultImagery = require('../vendor/iD/imagery.json')
-
 var log = require('../lib/log').Browser()
 
 var prevhash = localStorage.getItem('location')
@@ -85,7 +82,7 @@ function updateSettings () {
   if (translations) merge(window.locale, translations)
   if (imagery) id.imagery(imagery)
   log('updating settings')
-  id.presets(presets || defaultPresets)
+  if (presets) id.presets(presets)
 }
 
 function zoomToDataRequest () {

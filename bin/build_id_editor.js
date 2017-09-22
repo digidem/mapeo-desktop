@@ -13,8 +13,6 @@ mkdirp.sync(dstPath)
 
 // Copy all iD dist assets
 fs.copySync(idDistPath, dstPath, {clobber: true})
-fs.copySync(path.join(idPath, 'data/imagery.json'), path.join(dstPath, 'imagery.json'), {clobber: true})
-
 var idPath = path.join(idDistPath, 'iD.js')
 
 function done (err) {
