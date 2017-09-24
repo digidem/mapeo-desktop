@@ -36,7 +36,6 @@ function loadLocale () {
       window.locale.current(locale)
       var translations = ipc.sendSync('get-user-data', 'translations')
       merge(window.locale, translations)
-      cb()
       window.onbeforeunload = myOnBeforeLoad
     })
   } else {
