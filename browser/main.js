@@ -19,7 +19,7 @@ var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
 var id = iD.Context()
   .assetPath('vendor/iD/')
-  .preauth({urlroot: serverUrl})
+  .preauth({url: serverUrl})
   .minEditableZoom(14)
 
 // window.locale.en.inspector.view_on_osm = 'View element source XML'
