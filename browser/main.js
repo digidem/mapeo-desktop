@@ -1,10 +1,15 @@
 var insertCss = require('insert-css')
+var url = require('url')
+var querystring = require('querystring')
 var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
+var dialog = require('electron').dialog
 var merge = require('lodash/merge')
 
 var defaultPresets = require('../vendor/iD/presets.json')
 var defaultImagery = require('../vendor/iD/imagery.json')
+
+var welcomeScreen = require('./welcome')
 
 var log = require('../lib/log').Browser()
 
@@ -21,6 +26,8 @@ document.addEventListener("DOMContentLoaded",  function () {
   document.querySelector("a[href='https://github.com/openstreetmap/iD']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop')
 })
 
+var parser = new DOMParser()
+
 var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
 iD.oneWayTags.waterway.spring = true;
@@ -33,6 +40,17 @@ var id = iD()
   .minEditableZoom(14)
 
 window.locale.en.inspector.view_on_osm = 'View element source XML'
+
+var $overlay = document.getElementById('overlay')
+var $welcome = document.getElementById('welcome')
+var $map = document.getElementById('container')
+
+var query = querystring.parse(url.parse(window.location.href).query)
+var showedWelcome = localStorage.getItem('showedWelcome')
+if (true) {
+  localStorage.setItem('showedWelcome', true)
+  welcomeScreen($overlay, $welcome, $map)
+} else openMap()
 
 id.loadLocale = function(cb) {
   var locale = iD.detect().locale
@@ -62,13 +80,8 @@ id.loadLocale = function(cb) {
 }
 
 d3.select('#container')
-  .call(id.ui())
+.call(id.ui())
 
-function myOnBeforeLoad () {
-  context.save()
-}
-
-var parser = new DOMParser()
 var customDefs = id.container()
   .append('svg')
   .style('position', 'absolute')
@@ -78,12 +91,24 @@ var customDefs = id.container()
   .append('defs')
 
 customDefs.append('svg')
-
 updateSettings()
+
+
+function myOnBeforeLoad () {
+  context.save()
+}
+
+function openMap () {
+  $overlay.style = 'visibility: visible;'
+  $map.style = 'visibility: visible;'
+  $welcome.style = 'display: none;'
+}
+
 ipc.on('updated-settings', function () {
   updateSettings()
   ipc.send('refresh-window')
 })
+
 ipc.on('zoom-to-data-request', zoomToDataRequest)
 ipc.on('zoom-to-data-response', zoomToDataResponse)
 
@@ -119,3 +144,5 @@ function translateAndZoomToLocation (loc, zoom) {
     id.map().zoom(zoom)
   }, 1000)
 }
+
+if (query.zoom) zoomToDataRequest()

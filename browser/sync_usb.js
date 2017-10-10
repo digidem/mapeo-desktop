@@ -1,20 +1,23 @@
+var xhr = require('xhr')
+var url = require('url')
+var querystring = require('querystring')
+var ipc = require('electron').ipcRenderer
+var through = require('through2')
+var split = require('split2')
 var wsock = require('websocket-stream')
 var pump = require('pump')
-var split = require('split2')
-var through = require('through2')
-var xhr = require('xhr')
-
 var ipc = require('electron').ipcRenderer
+var log = require('../lib/log').Browser()
 var remote = require('electron').remote
-var osmServerHost = remote.getGlobal('osmServerHost')
 
+var osmServerHost = remote.getGlobal('osmServerHost')
 var ws = wsock('ws://' + osmServerHost)
 
-var log = require('../lib/log').Browser()
-
 var replicationProgress = 0
+var file
 
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
+  console.log(row)
   if (row && row.topic === 'replication-error') {
     resdiv.className = 'alert alert-error'
     resdiv.innerHTML = '<strong>Error:</strong> ' + row.message
@@ -41,9 +44,7 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     if (replicationProgress === 3) resdiv.innerHTML += '|'
   }
   next()
-})).on('error', onerror)
-
-function onerror (err) { log.error(err) }
+})).on('error', function (err) { log.error(err) })
 
 var resdiv = document.getElementById('response')
 var cancelBtn = document.getElementById('cancel')
@@ -51,12 +52,10 @@ var selectExistingBtn = document.getElementById('select-existing')
 var selectNewBtn = document.getElementById('select-new')
 var sourceField = document.querySelector('form#sync input[name="source"]')
 
-ipc.on('select-file', function (event, file) {
-  if (!file) return
-  sourceField.value = file
+function selectFile (_file) {
+  file = _file
   selectExistingBtn.setAttribute('disabled', 'disabled')
   selectNewBtn.setAttribute('disabled', 'disabled')
-
   xhr({
     method: 'POST',
     url: 'http://' + osmServerHost + '/replicate',
@@ -64,10 +63,10 @@ ipc.on('select-file', function (event, file) {
       'content-type': 'application/json'
     },
     body: JSON.stringify({
-      source: sourceField.value
+      source: file
     })
   }, onpost)
-})
+}
 
 selectExistingBtn.addEventListener('click', function (ev) {
   ev.preventDefault()
@@ -80,7 +79,9 @@ selectNewBtn.addEventListener('click', function (ev) {
 })
 
 cancelBtn.addEventListener('click', function (ev) {
-  window.location.href = 'index.html'
+  // hack in a default zoom level for example dataset
+  if (file.match(/arapaho/)) window.location.href = 'index.html#map=14/-105.7680/40.1300'
+  else window.location.href = 'index.html'
 })
 
 function showButtons () {
@@ -105,3 +106,11 @@ function onpost (err, res, body) {
     resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...'
   }
 }
+
+var query = querystring.parse(url.parse(window.location.href).query)
+if (query.file) selectFile(query.file)
+
+ipc.on('select-file', function (event, file) {
+  if (!file) return
+  selectFile(file)
+})

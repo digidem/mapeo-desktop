@@ -18,6 +18,7 @@ var appSettings = require('./app-settings.json')
 var semver = require('semver')
 var rimraf = require('rimraf')
 
+var examples = require('./lib/examples')
 var menuTemplate = require('./lib/menu')
 
 if (require('electron-squirrel-startup')) return
@@ -28,6 +29,7 @@ var log = require('./lib/log').Node()
 
 var win = null
 var server = null
+var firstTime = false
 
 // Listen for app-ready event
 var appIsReady = false
@@ -223,6 +225,17 @@ function createMainWindow (done) {
     var ipc = electron.ipcMain
 
     require('./lib/user-config')
+    ipc.on('open-map', function () {
+      var MAP = 'file://' + path.resolve(__dirname, './map.html')
+      win.loadURL(MAP)
+    })
+
+    ipc.on('import-settings', function (ev, filename) {
+      userConfig.importSettings(win, filename, function (err) {
+        if (!err) log('Settings imported from ' + filename)
+        return
+      })
+    })
 
     ipc.on('save-file', function () {
       var metadata = userConfig.getSettings('metadata')
@@ -248,7 +261,7 @@ function createMainWindow (done) {
         title: 'Seleccionar base de datos para sincronizar',
         properties: [ 'openFile' ],
         filters: [
-          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext] },
+          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext, 'sync'] },
         ]
       }, onopen)
 

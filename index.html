@@ -2,8 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Mapeo CEIBO</title>
+    <title>Mapeo</title>
     <link rel='stylesheet' href='vendor/iD/iD.css'>
+
+    <meta name='apple-mobile-web-app-capable' content='yes'/>
+    <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'/>
+    <script src="vendor/iD/iD-patched.js"></script>
     <style>
       #overlay {
         z-index: 100;
@@ -18,10 +22,106 @@
       .overlay-layer-attribution {
         display: none;
       }
+      #welcome {
+        width: 100%;
+        height: 100%;
+        background-color: rgb(57, 82, 123);
+        color: #6f6f6f;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      #welcome h1,h2 {
+        color: white;
+        font-weight: bold;
+      }
+      #welcome h1 {
+        line-height: 1.4;
+        font-size: 30px;
+        margin: 5px;
+      }
+      #welcome h2 {
+        line-height: 1.2;
+        font-size: 20px;
+      }
+      #welcome img {
+        width: 150px;
+      }
+      #welcome .big-button {
+        padding: 5px;
+        max-width: 50%;
+        min-width: 300px;
+        line-height: 1.2;
+        font-size: 14px;
+        text-align: center;
+        margin: 10px 0px;
+        color: #ececec;
+        background-color: rgb(87, 108, 144);
+        border: 1px solid white;
+      }
+      #welcome .big-button:hover {
+        color: white;
+        background-color: rgb(72, 92, 114)
+      }
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .intro-text {
+        width: 60%;
+      }
+      #screen-1 {
+        text-align: center;
+        margin: auto;
+      }
+      #skip-intro {
+        position: absolute;
+        color: #efefef;
+        top: 30px;
+        right: 30px;
+        display: block;
+        text-transform: uppercase;
+      }
+      #skip-intro:hover {
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
-    <div id="overlay">
+    <div id="welcome" style="display: none;">
+      <div id="skip-intro">Skip intro</div>
+      <div id="screen-1">
+        <img src="static/Dd-square-solid-300.png" />
+        <h1>Welcome to Mapeo</h1>
+        <button class="big-button next-screen" data-next="screen-2">
+          Get started
+        </button>
+      </div>
+      <div id="screen-2" style="display: none;">
+        <h2 class="intro-text">Hey there, this is an offline map editor.
+            You can edit maps and share them with people you trust.</h2>
+        <button class="big-button next-screen" data-next="screen-3">
+            Start Mapping
+        </button>
+      </div>
+      <div id="screen-3" style="display: none;">
+        <h2 class="intro-text">First time here? </h2>
+        <div class="action-buttons">
+          <button id="example-dataset" class="big-button">
+            Test out Mapeo using an example Open Street Map dataset from Arapaho National Forest in Colorado
+          </button>
+          <button id="use-presets" class="big-button">
+            Load our Jungle Settings and make a map of the rainforest
+          </button>
+          <button id="open-map" class="big-button">
+            Start your own map from scratch using Open Street Map default settings
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="overlay"  style="visibility: hidden;">
       <a href="replicate_usb.html">
         <button>
           <svg class="icon pre-text" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
@@ -47,9 +147,6 @@
       </a>
     </div>
     <div id="container"></div>
-    <script src="vendor/iD/iD-patched.js"></script>
-    <script src="vendor/iD/presets.js"></script>
-    <script src="vendor/iD/imagery.js"></script>
     <script>
       require('./browser/main.js')
     </script>
