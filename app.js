@@ -28,6 +28,7 @@ var log = require('./lib/log').Node()
 
 var win = null
 var server = null
+var firstTime = false
 
 // Listen for app-ready event
 var appIsReady = false
@@ -69,6 +70,9 @@ series([
   versionCheckIndexes,
   startupMsg('Checked indexes version is up-to-date'),
 
+  setStartupFlags,
+  startupMsg('Checking if this is the first time mapeo is loaded'),
+
   initOsmDb,
   startupMsg('Initialized osm-p2p'),
 
@@ -81,6 +85,14 @@ series([
   if (err) log('STARTUP FAILED', err)
   else log('STARTUP success!')
 })
+
+function setStartupFlags (done) {
+  fs.exists(argv.datadir, function (err, exists) {
+    if (err) return done(err)
+    firstTime = !exists
+    return done()
+  }
+}
 
 function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
@@ -210,8 +222,9 @@ function createMainWindow (done) {
 
   function ready () {
     if (argv.headless) return
+    var splash = firstTime ? './index.html' : './map.html'
 
-    var INDEX = 'file://' + path.resolve(__dirname, './index.html')
+    var INDEX = 'file://' + path.resolve(__dirname, splash)
     if (!win) {
       win = new BrowserWindow({title: APP_NAME, show: false})
       win.once('ready-to-show', () => win.show())
@@ -223,6 +236,10 @@ function createMainWindow (done) {
     var ipc = electron.ipcMain
 
     require('./lib/user-config')
+    ipc.on('open-map', function () {
+      var MAP = 'file://' + path.resolve(__dirname, './map.html')
+      win.loadURL(MAP)
+    })
 
     ipc.on('save-file', function () {
       var metadata = userConfig.getSettings('metadata')
