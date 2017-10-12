@@ -87,11 +87,10 @@ series([
 })
 
 function setStartupFlags (done) {
-  fs.exists(argv.datadir, function (err, exists) {
-    if (err) return done(err)
+  fs.exists(argv.datadir, function (exists) {
     firstTime = !exists
     return done()
-  }
+  })
 }
 
 function initOsmDb (done) {
@@ -222,6 +221,7 @@ function createMainWindow (done) {
 
   function ready () {
     if (argv.headless) return
+    firstTime = true
     var splash = firstTime ? './index.html' : './map.html'
 
     var INDEX = 'file://' + path.resolve(__dirname, splash)
