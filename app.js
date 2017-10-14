@@ -265,7 +265,7 @@ function createMainWindow (done) {
         title: 'Seleccionar base de datos para sincronizar',
         properties: [ 'openFile' ],
         filters: [
-          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext] },
+          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext, 'sync'] },
         ]
       }, onopen)
 

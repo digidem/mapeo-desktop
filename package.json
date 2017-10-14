@@ -54,6 +54,7 @@
     "bonjour": "^3.5.0",
     "collect-transform-stream": "0.0.2",
     "concat-stream": "^1.5.1",
+    "dat-node": "^3.5.3",
     "ecstatic": "^2.1.0",
     "electron-debug": "^1.0.0",
     "electron-squirrel-startup": "^1.0.0",
