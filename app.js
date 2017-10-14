@@ -18,6 +18,7 @@ var appSettings = require('./app-settings.json')
 var semver = require('semver')
 var rimraf = require('rimraf')
 
+var examples = require('./lib/examples')()
 var menuTemplate = require('./lib/menu')
 
 if (require('electron-squirrel-startup')) return
@@ -234,6 +235,12 @@ function createMainWindow (done) {
     win.loadURL(INDEX)
 
     var ipc = electron.ipcMain
+
+    ipc.on('get-examples', function () {
+      examples.list(function (err, data) {
+        win.webContents.send('examples', data)
+      })
+    })
 
     require('./lib/user-config')
     ipc.on('open-map', function () {

@@ -6,22 +6,23 @@ openMapBtn.addEventListener('click', function (ev) {
   ipc.send('open-map')
 })
 
-var EXAMPLES = [
-  {
-    name: 'Boulder, CO',
-    file: 'boulder.sync'
-  }
-]
+ipc.on('examples', function (ev, examples) {
+  renderExamples(examples)
+})
 
-var examplesElement = document.getElementById('example-datasets')
-for (var i in EXAMPLES) {
-  var example = EXAMPLES[i]
-  var el = document.createElement('div')
-  var title = document.createElement('h1')
-  title.innerHTML = example.name
-  el.appendChild(title)
-  el.onclick = function () {
-    window.location.href = `replicate_usb.html?file=${example.file}`
+ipc.send('get-examples')
+
+function renderExamples (examples) {
+  var examplesElement = document.getElementById('example-datasets')
+  for (var i in examples) {
+    var example = examples[i]
+    var el = document.createElement('div')
+    var title = document.createElement('h1')
+    title.innerHTML = example.name
+    el.appendChild(title)
+    el.onclick = function () {
+      window.location.href = `replicate_usb.html?file=${example.file}`
+    }
+    examplesElement.appendChild(el)
   }
-  examplesElement.appendChild(el)
 }
