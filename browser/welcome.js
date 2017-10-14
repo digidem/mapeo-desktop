@@ -18,10 +18,10 @@ function renderExamples (examples) {
     var example = examples[i]
     var el = document.createElement('div')
     var title = document.createElement('h1')
-    title.innerHTML = example.name
+    title.innerHTML = example
     el.appendChild(title)
     el.onclick = function () {
-      window.location.href = `replicate_usb.html?file=${example.file}`
+      window.location.href = `replicate_usb.html?file=${example}`
     }
     examplesElement.appendChild(el)
   }
