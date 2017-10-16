@@ -79,9 +79,9 @@ function updateSettings () {
   }
   if (customCss) insertCss(customCss)
   if (translations) merge(window.locale, translations)
-  if (imagery) id.imagery(imagery)
+  if (imagery) iD.data.imagery = imagery
   log('updating settings')
-  if (presets) id.presets(presets)
+  if (presets) iD.data.presets = presets
 }
 
 function zoomToDataRequest () {
