@@ -228,8 +228,8 @@ function createMainWindow (done) {
       var metadata = userConfig.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showSaveDialog(win, {
-        title: 'Crear nuevo base de datos para sincronizar',
-        defaultPath: 'base-de-datos-mapeo.' + ext,
+        title: 'Create a new databases for syncronization',
+        defaultPath: 'database-mapeo.' + ext,
         filters: [
           { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext] },
         ]
@@ -245,7 +245,7 @@ function createMainWindow (done) {
       var metadata = userConfig.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showOpenDialog(win, {
-        title: 'Seleccionar base de datos para sincronizar',
+        title: 'Select a database for syncronization',
         properties: [ 'openFile' ],
         filters: [
           { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext] },

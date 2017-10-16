@@ -120,9 +120,9 @@ function onReplicationComplete () {
   cancelBtn.innerText = 'OK'
 
   resdiv.className = 'alert alert-success'
-  resdiv.innerHTML = '<strong>Ya agregó cambios por Wi-Fi.</strong><br/>' +
-    'Ya debes tener la información más reciente en tu mapa. ' +
-    'Haga un click en "OK" para volver al mapa'
+  resdiv.innerHTML = '<strong>You added changes from Wi-Fi.</strong><br/>' +
+    'You already have the most recent information in your map.' +
+    'Click "OK" to return to the map'
 }
 
 function onReplicationError (err) {

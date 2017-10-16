@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Sincronización</title>
+    <title>Syncronization</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <style>
       body {
@@ -24,23 +24,23 @@
         <div class="col-md-8 col-md-offset-2">
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h2 class="panel-title">Sincronizar Base de Datos Mapeo</h2>
+              <h2 class="panel-title">Syncronize Mapeo Databse</h2>
             </div>
             <div class="panel-body">
               <p class="lead">
-                Seleccionar un archivo base de datos en el USB para sincronizar o sincronizar a un base de datos nuevo.
+                Select a database from USB or sync a new database.
               </p>
               <div id="response" class="alert alert-info hidden" role="alert">
               </div>
               <form method="POST" action="/replicate" id="sync">
                 <p class="text-right">
                   <input type="hidden" name="source">
-                  <button id="cancel" type="button" class="btn btn-default btn-lg">Cancelar</button>
+                  <button id="cancel" type="button" class="btn btn-default btn-lg">Cancel</button>
                   <button id="select-new" type="button" class="btn btn-primary btn-lg">
-                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">Nuevo Base de Datos&hellip;</span>
+                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">New Database&hellip;</span>
                   </button>
                   <button id="select-existing" type="button" class="btn btn-primary btn-lg">
-                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">Abrir Base de Datos&hellip;</span>
+                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">Open Database&hellip;</span>
                   </button>
                 </p>
               </form>

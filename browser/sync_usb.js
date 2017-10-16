@@ -21,12 +21,12 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     showButtons()
   } else if (row && row.topic === 'replication-data-complete') {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> Actualizando indices... puede demorar un momento'
+    resdiv.innerHTML = '<strong>Syncronizing:</strong> Updating indexes... it could be delayed a moment'
   } else if (row && row.topic === 'replication-complete') {
     resdiv.className = 'alert alert-success'
-    resdiv.innerHTML = '<strong>Sinconización se ha completado exitosamente.</strong><br/>' +
-      'Ya debes tener la información más reciente en tu mapa. ' +
-      'Haga un click en "OK" para volver al mapa'
+    resdiv.innerHTML = '<strong>Syncronizing has completed successfully.</strong><br/>' +
+      'You now have the most recent information in your map. ' +
+      'Clik "OK" to return to the map.'
     selectExistingBtn.classList.add('hidden')
     selectNewBtn.classList.add('hidden')
     cancelBtn.classList.remove('hidden')
@@ -34,7 +34,7 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     cancelBtn.innerText = 'OK'
   } else if (row && row.topic === 'replication-progress') {
     replicationProgress = (replicationProgress + 1) % 4
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...   '
+    resdiv.innerHTML = '<strong>Syncronizing:</strong> In progress...   '
     if (replicationProgress === 0) resdiv.innerHTML += '/'
     if (replicationProgress === 1) resdiv.innerHTML += '-'
     if (replicationProgress === 2) resdiv.innerHTML += '\\'
@@ -102,6 +102,6 @@ function onpost (err, res, body) {
     showButtons()
   } else {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...'
+    resdiv.innerHTML = '<strong>Syncronizing:</strong> In progress...'
   }
 }
