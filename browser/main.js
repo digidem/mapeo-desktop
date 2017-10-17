@@ -16,6 +16,11 @@ window.addEventListener('hashchange', function (ev) {
   localStorage.setItem('location', location.hash)
 })
 
+document.addEventListener("DOMContentLoaded",  function () {
+  document.querySelector("a[href*='iD/issues']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
+  document.querySelector("a[href='https://github.com/openstreetmap/iD']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop')
+})
+
 var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
 iD.oneWayTags.waterway.spring = true;
@@ -51,8 +56,6 @@ id.loadLocale = function(cb) {
     // TODO: update language directly in id-mapeo
     var translations = require('../id_monkey_patches/locales/' + locale + '.json')
     merge(window.locale[locale], translations)
-    document.querySelector("a[href*='iD/issues']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
-    document.querySelector("a[href='https://github.com/openstreetmap/iD']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop')
     cb()
     window.onbeforeunload = myOnBeforeLoad
   }
