@@ -3,6 +3,17 @@
 		"help": "Save your changes",
 		"uploading": "Uploading changes."
 	},
+	"modes": {
+    "add_line": {
+  	 	"description": "Add paths, rivers, canals or other lines to the map."
+		},
+		"add_area": {
+			"description": "Add parks, lakes or other areas to the map."
+		},
+		"add_point": {
+    	"description": "Add waterfalls, villages, or other points to the map."
+		}
+  },
 	"validations": {
 		"many_deletions": "You're deleting {n} objects. Are you sure you want to do this? This will delete them from the map that everyone else sees."
 	},
