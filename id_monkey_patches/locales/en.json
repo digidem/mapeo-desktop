@@ -31,5 +31,8 @@
 	"commit": {
 		"upload_explanation": "The changes you upload will only be visible on maps that you syncronize with.",
 		"upload_explanation_with_user": "The changes you upload as {user} will be visible on all maps that you syncronize with."
+	},
+	"inspector": {
+		"view_on_osm": "View element source XML"
 	}
 }

@@ -39,8 +39,6 @@ var id = iD()
   .preauth({url: serverUrl})
   .minEditableZoom(14)
 
-window.locale.en.inspector.view_on_osm = 'View element source XML'
-
 var $overlay = document.getElementById('overlay')
 var $welcome = document.getElementById('welcome')
 var $map = document.getElementById('container')
