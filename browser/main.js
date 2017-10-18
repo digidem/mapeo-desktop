@@ -16,6 +16,11 @@ window.addEventListener('hashchange', function (ev) {
   localStorage.setItem('location', location.hash)
 })
 
+document.addEventListener("DOMContentLoaded",  function () {
+  document.querySelector("a[href*='iD/issues']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
+  document.querySelector("a[href='https://github.com/openstreetmap/iD']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop')
+})
+
 var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
 iD.oneWayTags.waterway.spring = true;
@@ -34,6 +39,7 @@ id.loadLocale = function(cb) {
   if (locale && iD.data.locales.indexOf(locale) === -1) {
     locale = locale.split('-')[0]
   }
+
   if (locale && locale !== 'en' && iD.data.locales.indexOf(locale) !== -1) {
     var localePath = id.asset('locales/' + locale + '.json')
     d3.json(localePath, function (err, result) {
@@ -41,10 +47,15 @@ id.loadLocale = function(cb) {
       window.locale.current(locale)
       var translations = ipc.sendSync('get-user-data', 'translations')
       merge(window.locale, translations)
-      cb()
-      window.onbeforeunload = myOnBeforeLoad
+      done()
     })
-  } else {
+  } else done()
+
+  function done () {
+    // after loading translations, monkey patch the openstreetmap specific stuff
+    // TODO: update language directly in id-mapeo
+    var translations = require('../id_monkey_patches/locales/' + locale + '.json')
+    merge(window.locale[locale], translations)
     cb()
     window.onbeforeunload = myOnBeforeLoad
   }
@@ -86,6 +97,7 @@ function updateSettings () {
     var iconsSvg = parser.parseFromString(icons, 'image/svg+xml').documentElement
     customDefs.node().replaceChild(iconsSvg, customDefs.node().firstChild)
   }
+
   if (customCss) insertCss(customCss)
   if (translations) merge(window.locale, translations)
   if (imagery) id.imagery(imagery)
@@ -107,4 +119,3 @@ function translateAndZoomToLocation (loc, zoom) {
     id.map().zoom(zoom)
   }, 1000)
 }
-
