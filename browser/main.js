@@ -49,7 +49,7 @@ var $map = document.getElementById('container')
 
 var query = querystring.parse(url.parse(window.location.href).query)
 var showedWelcome = localStorage.getItem('showedWelcome')
-if (true) {
+if (!showedWelcome) {
   localStorage.setItem('showedWelcome', true)
   welcomeScreen($overlay, $welcome, $map)
 } else openMap()
