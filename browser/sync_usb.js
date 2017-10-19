@@ -17,18 +17,25 @@ var ws = wsock('ws://' + osmServerHost)
 var replicationProgress = 0
 var file
 
+// turn the messages into strings once
+// so the function isn't called for every row
+var messages = {
+  'replication-data-complete': i18n('replication-data-complete'),
+  'replication-complete': i18n('replication-complete'),
+  'replication-progress': i18n('replication-progress')
+}
+
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
-  console.log(row)
   if (row && row.topic === 'replication-error') {
     resdiv.className = 'alert alert-error'
     resdiv.innerHTML = '<strong>Error:</strong> ' + row.message
     showButtons()
   } else if (row && row.topic === 'replication-data-complete') {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = i18n('replication-data-complete')
+    resdiv.innerHTML = messages['replication-data-complete']
   } else if (row && row.topic === 'replication-complete') {
     resdiv.className = 'alert alert-success'
-    resdiv.innerHTML = i18n('replication-complete')
+    resdiv.innerHTML = messages['replication-complete']
     selectExistingBtn.classList.add('hidden')
     selectNewBtn.classList.add('hidden')
     cancelBtn.classList.remove('hidden')
@@ -36,7 +43,7 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     cancelBtn.innerText = 'OK'
   } else if (row && row.topic === 'replication-progress') {
     replicationProgress = (replicationProgress + 1) % 4
-    resdiv.innerHTML = i18n('replication-progress')
+    resdiv.innerHTML = messages['replication-progress']
     if (replicationProgress === 0) resdiv.innerHTML += '/'
     if (replicationProgress === 1) resdiv.innerHTML += '-'
     if (replicationProgress === 2) resdiv.innerHTML += '\\'
@@ -105,7 +112,7 @@ function onpost (err, res, body) {
     showButtons()
   } else {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = i18n('replication-progress')
+    resdiv.innerHTML = messages['replication-progress']
   }
 }
 
