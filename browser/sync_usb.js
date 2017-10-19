@@ -80,7 +80,7 @@ selectNewBtn.addEventListener('click', function (ev) {
 
 cancelBtn.addEventListener('click', function (ev) {
   // hack in a default zoom level for example dataset
-  if (file.match(/arapaho/)) window.location.href = 'index.html#map=14/-105.7680/40.1300'
+  if (file && file.match(/arapaho/)) window.location.href = 'index.html#map=14/-105.7680/40.1300'
   else window.location.href = 'index.html'
 })
 
