@@ -58,5 +58,7 @@
   "welcome-screen-3-title": "Get started with Mapeo",
   "welcome-screen-3-example-dataset": "Load an example OpenStreetMap dataset from Arapaho National Forest in Colorado",
   "welcome-screen-3-use-presets": "Load some custom settings for forest community mapping",
-  "welcome-screen-3-open-map": "Start your own map from scratch using OpenStreetMap settings"
+  "welcome-screen-3-open-map": "Start your own map from scratch using OpenStreetMap settings",
+  "generating-indexes-title": "Indexes",
+  "generating-indexes-body": "Regenerating indexes"
 }
