@@ -60,25 +60,15 @@ id.loadLocale = function(cb) {
     locale = locale.split('-')[0]
   }
 
-  if (locale && locale !== 'en' && iD.data.locales.indexOf(locale) !== -1) {
-    var localePath = id.asset('locales/' + locale + '.json')
-    d3.json(localePath, function (err, result) {
-      window.locale[locale] = result
-      window.locale.current(locale)
-      var translations = ipc.sendSync('get-user-data', 'translations')
-      merge(window.locale, translations)
-      done()
-    })
-  } else done()
+  var translations = require('../id_monkey_patches/locales/' + locale + '.json')
+  merge(window.locale[locale], translations)
 
-  function done () {
-    // after loading translations, monkey patch the openstreetmap specific stuff
-    // TODO: update language directly in id-mapeo
-    var translations = require('../id_monkey_patches/locales/' + locale + '.json')
-    merge(window.locale[locale], translations)
-    cb()
-    window.onbeforeunload = myOnBeforeLoad
-  }
+  var translations = ipc.sendSync('get-user-data', 'translations')
+  merge(window.locale, translations)
+  // after loading translations, monkey patch the openstreetmap specific stuff
+  // TODO: update language directly in id-mapeo
+  window.onbeforeunload = myOnBeforeLoad
+  cb()
 }
 
 d3.select('#container')

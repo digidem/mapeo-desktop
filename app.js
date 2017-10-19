@@ -18,6 +18,7 @@ var appSettings = require('./app-settings.json')
 var semver = require('semver')
 var rimraf = require('rimraf')
 
+var locale = require('./lib/locale')
 var examples = require('./lib/examples')
 var menuTemplate = require('./lib/menu')
 
@@ -193,6 +194,7 @@ function createLoadingWindow () {
 }
 
 function createMainWindow (done) {
+  app.translations = locale.load()
   if (!argv.headless) {
     if (!appIsReady) {
       app.once('ready', ready)
