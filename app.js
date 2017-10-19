@@ -21,6 +21,7 @@ var rimraf = require('rimraf')
 var locale = require('./lib/locale')
 var examples = require('./lib/examples')
 var menuTemplate = require('./lib/menu')
+var i18n = require('./lib/i18n')
 
 if (require('electron-squirrel-startup')) return
 
@@ -243,8 +244,8 @@ function createMainWindow (done) {
       var metadata = userConfig.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showSaveDialog(win, {
-        title: 'Crear nuevo base de datos para sincronizar',
-        defaultPath: 'base-de-datos-mapeo.' + ext,
+        title: i18n('save-db-dialog'),
+        defaultPath: 'database.' + ext,
         filters: [
           { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext] },
         ]
@@ -260,7 +261,7 @@ function createMainWindow (done) {
       var metadata = userConfig.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showOpenDialog(win, {
-        title: 'Seleccionar base de datos para sincronizar',
+        title: i18n('open-db-dialog'),
         properties: [ 'openFile' ],
         filters: [
           { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext, 'sync'] },

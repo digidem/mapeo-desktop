@@ -10,8 +10,10 @@ var defaultPresets = require('../vendor/iD/presets.json')
 var defaultImagery = require('../vendor/iD/imagery.json')
 
 var welcomeScreen = require('./welcome')
+var overlay = require('./overlay')
 
 var log = require('../lib/log').Browser()
+var i18n = require('../lib/i18n')
 
 var prevhash = localStorage.getItem('location')
 if (location.hash) localStorage.setItem('location', location.hash)
@@ -27,7 +29,7 @@ document.addEventListener("DOMContentLoaded",  function () {
   document.querySelector(".overlay-layer-attribution a").
     setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
   document.querySelector(".overlay-layer-attribution a").
-    innerHTML = 'Feedback & Contribute'
+    innerHTML = i18n('feedback-contribute-button')
 })
 
 var parser = new DOMParser()
@@ -91,6 +93,7 @@ function myOnBeforeLoad () {
 }
 
 function openMap () {
+  $overlay.innerHTML = overlay()
   $overlay.style = 'visibility: visible;'
   $map.style = 'visibility: visible;'
   $welcome.style = 'display: none;'

@@ -9,6 +9,7 @@ var pump = require('pump')
 var ipc = require('electron').ipcRenderer
 var log = require('../lib/log').Browser()
 var remote = require('electron').remote
+var i18n = require('../lib/i18n')
 
 var osmServerHost = remote.getGlobal('osmServerHost')
 var ws = wsock('ws://' + osmServerHost)
@@ -24,12 +25,10 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     showButtons()
   } else if (row && row.topic === 'replication-data-complete') {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> Actualizando indices... puede demorar un momento'
+    resdiv.innerHTML = i18n('replication-data-complete')
   } else if (row && row.topic === 'replication-complete') {
     resdiv.className = 'alert alert-success'
-    resdiv.innerHTML = '<strong>Sinconización se ha completado exitosamente.</strong><br/>' +
-      'Ya debes tener la información más reciente en tu mapa. ' +
-      'Haga un click en "OK" para volver al mapa'
+    resdiv.innerHTML = i18n('replication-complete')
     selectExistingBtn.classList.add('hidden')
     selectNewBtn.classList.add('hidden')
     cancelBtn.classList.remove('hidden')
@@ -37,7 +36,7 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     cancelBtn.innerText = 'OK'
   } else if (row && row.topic === 'replication-progress') {
     replicationProgress = (replicationProgress + 1) % 4
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...   '
+    resdiv.innerHTML = i18n('replication-progress')
     if (replicationProgress === 0) resdiv.innerHTML += '/'
     if (replicationProgress === 1) resdiv.innerHTML += '-'
     if (replicationProgress === 2) resdiv.innerHTML += '\\'
@@ -103,7 +102,7 @@ function onpost (err, res, body) {
     showButtons()
   } else {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...'
+    resdiv.innerHTML = i18n('replicatin-progress')
   }
 }
 
@@ -114,3 +113,39 @@ ipc.on('select-file', function (event, file) {
   if (!file) return
   selectFile(file)
 })
+
+var container = document.querySelector('#replicate-container')
+con
+
+function () {
+    return `
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h2 class="panel-title">Sincronizar Base de Datos Mapeo</h2>
+            </div>
+            <div class="panel-body">
+              <p class="lead">
+                Seleccionar un archivo base de datos en el USB para sincronizar o sincronizar a un base de datos nuevo.
+              </p>
+              <div id="response" class="alert alert-info hidden" role="alert">
+              </div>
+              <form method="POST" action="/replicate" id="sync">
+                <p class="text-right">
+                  <input type="hidden" name="source">
+                  <button id="cancel" type="button" class="btn btn-default btn-lg">Cancelar</button>
+                  <button id="select-new" type="button" class="btn btn-primary btn-lg">
+                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">Nuevo Base de Datos&hellip;</span>
+                  </button>
+                  <button id="select-existing" type="button" class="btn btn-primary btn-lg">
+                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">Abrir Base de Datos&hellip;</span>
+                  </button>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  }
