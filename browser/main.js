@@ -62,15 +62,19 @@ id.loadLocale = function(cb) {
     locale = locale.split('-')[0]
   }
 
-  var translations = require('../id_monkey_patches/locales/' + locale + '.json')
-  merge(window.locale[locale], translations)
+  var localePath = '../id_monkey_patches/locales/' + locale + '.json'
+  d3.json(localePath, function (err, translations) {
+    if (err) return done()
+    merge(window.locale[locale], translations)
+    done()
+  })
 
-  var translations = ipc.sendSync('get-user-data', 'translations')
-  merge(window.locale, translations)
-  // after loading translations, monkey patch the openstreetmap specific stuff
-  // TODO: update language directly in id-mapeo
-  window.onbeforeunload = myOnBeforeLoad
-  cb()
+  function done () {
+    var translations = ipc.sendSync('get-user-data', 'translations')
+    merge(window.locale, translations)
+    window.onbeforeunload = myOnBeforeLoad
+    cb()
+  }
 }
 
 d3.select('#container')
