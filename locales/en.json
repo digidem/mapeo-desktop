@@ -44,5 +44,19 @@
   "sync-database-title": "Syncronize Mapeo Database",
   "sync-database-lead": "Select a database file in USB to syncronize or sync a new database.",
   "sync-database-new-button": "New database",
-  "sync-database-open-button": "Open database"
+  "sync-database-open-button": "Open database",
+  "welcome-screen-1-title": "Welcome to Mapeo",
+  "welcome-screen-1-subtitle": "Offline collaborative mapping",
+  "welcome-screen-1-next-button": "Get started",
+  "welcome-screen-2-title": "Mapeo is an offline map editor.",
+  "welcome-screen-2-text-1": "Mapeo makes it easy for individuals or teams to create maps and organize stories and knowledge.",
+  "welcome-screen-2-text-2": "Mapeo has been built in collaboration with indigenous communities in the Amazon.",
+  "welcome-screen-2-text-3": "The data you create is stored privately on your computer. You can share it with other Mapeo users via a sync file, or export it to GeoJSON.",
+  "welcome-screen-2-text-4": "This is a preview of Mapeo, it is in continued development and we are building an accompanying mobile app. Sign up on our website to receive notifications when new versions are released.",
+  "welcome-screen-2-text-5": "We welcome your feedback and reporting of bugs, please get in touch through our GitHub repository.",
+  "welcome-screen-2-next-button": "Start Mapping",
+  "welcome-screen-3-title": "Get started with Mapeo",
+  "welcome-screen-3-example-dataset": "Load an example OpenStreetMap dataset from Arapaho National Forest in Colorado",
+  "welcome-screen-3-use-presets": "Load some custom settings for forest community mapping",
+  "welcome-screen-3-open-map": "Start your own map from scratch using OpenStreetMap settings"
 }
