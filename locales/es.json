@@ -37,5 +37,11 @@
   "save-db-dialog": "Crear nuevo base de datos para sincronizar",
   "open-db-dialog": "Seleccionar base de datos para sincronizar",
   "overlay-sync-usb-button": "Sincronizar USB",
-  "overlay-sync-wifi-button": "Cambios por Wi-Fi"
+  "overlay-sync-wifi-button": "Cambios por Wi-Fi",
+  "cancel": "Cancelar",
+  "sync-database-add-changes": "Agregar cambios",
+  "sync-database-title": "Sincronizar Base de Datos Mapeo",
+  "sync-database-lead": "Seleccionar un archivo base de datos en el USB para sincronizar o sincronizar a un base de datos nuevo.",
+  "sync-database-new-button": "Nuevo Base de Datos",
+  "sync-database-open-button": "Abrir Base de Datos"
 }

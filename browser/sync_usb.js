@@ -45,6 +45,9 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   next()
 })).on('error', function (err) { log.error(err) })
 
+var container = document.querySelector('#replicate-container')
+container.innerHTML = render()
+
 var resdiv = document.getElementById('response')
 var cancelBtn = document.getElementById('cancel')
 var selectExistingBtn = document.getElementById('select-existing')
@@ -102,7 +105,7 @@ function onpost (err, res, body) {
     showButtons()
   } else {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = i18n('replicatin-progress')
+    resdiv.innerHTML = i18n('replication-progress')
   }
 }
 
@@ -114,38 +117,35 @@ ipc.on('select-file', function (event, file) {
   selectFile(file)
 })
 
-var container = document.querySelector('#replicate-container')
-con
-
-function () {
-    return `
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h2 class="panel-title">Sincronizar Base de Datos Mapeo</h2>
+function render () {
+  return `
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2 class="panel-title">${i18n('sync-database-title')}</h2>
+          </div>
+          <div class="panel-body">
+            <p class="lead">
+              ${i18n('sync-database-lead')}
+            </p>
+            <div id="response" class="alert alert-info hidden" role="alert">
             </div>
-            <div class="panel-body">
-              <p class="lead">
-                Seleccionar un archivo base de datos en el USB para sincronizar o sincronizar a un base de datos nuevo.
+            <form method="POST" action="/replicate" id="sync">
+              <p class="text-right">
+                <input type="hidden" name="source">
+                <button id="cancel" type="button" class="btn btn-default btn-lg">${i18n('cancel')}</button>
+                <button id="select-new" type="button" class="btn btn-primary btn-lg">
+                  <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">${i18n('sync-database-new-button')}&hellip;</span>
+                </button>
+                <button id="select-existing" type="button" class="btn btn-primary btn-lg">
+                  <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">${i18n('sync-database-open-button')}&hellip;</span>
+                </button>
               </p>
-              <div id="response" class="alert alert-info hidden" role="alert">
-              </div>
-              <form method="POST" action="/replicate" id="sync">
-                <p class="text-right">
-                  <input type="hidden" name="source">
-                  <button id="cancel" type="button" class="btn btn-default btn-lg">Cancelar</button>
-                  <button id="select-new" type="button" class="btn btn-primary btn-lg">
-                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">Nuevo Base de Datos&hellip;</span>
-                  </button>
-                  <button id="select-existing" type="button" class="btn btn-primary btn-lg">
-                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">Abrir Base de Datos&hellip;</span>
-                  </button>
-                </p>
-              </form>
-            </div>
+            </form>
           </div>
         </div>
       </div>
-    `
-  }
+    </div>
+  `
+}

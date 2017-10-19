@@ -38,5 +38,11 @@
   "open-db-dialog": "Select a database to syncronize",
   "feedback-contribute-button": "Feedback & Contribute",
   "overlay-sync-usb-button": "Syncronize USB",
-  "overlay-sync-wifi-button": "Syncronize via Wi-Fi"
+  "overlay-sync-wifi-button": "Syncronize via Wi-Fi",
+  "cancel": "Cancel",
+  "sync-database-add-changes": "Add Changes",
+  "sync-database-title": "Syncronize Mapeo Database",
+  "sync-database-lead": "Select a database file in USB to syncronize or sync a new database.",
+  "sync-database-new-button": "New database",
+  "sync-database-open-button": "Open database"
 }

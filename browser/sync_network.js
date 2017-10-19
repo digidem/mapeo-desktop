@@ -4,6 +4,8 @@ var split = require('split2')
 var through = require('through2')
 var xhr = require('xhr')
 
+var i18n = require('../lib/i18n')
+
 var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
 var osmServerHost = remote.getGlobal('osmServerHost')
@@ -55,7 +57,7 @@ function addSyncTarget (target) {
   btn.appendChild(span)
 
   var spanBtn = document.createElement('span')
-  spanBtn.innerText = ' Agregar cambios'
+  spanBtn.innerText = i18n('sync-database-add-changes')
   btn.appendChild(spanBtn)
 
   btn.addEventListener('click', function (ev) {
@@ -120,9 +122,7 @@ function onReplicationComplete () {
   cancelBtn.innerText = 'OK'
 
   resdiv.className = 'alert alert-success'
-  resdiv.innerHTML = '<strong>Ya agregó cambios por Wi-Fi.</strong><br/>' +
-    'Ya debes tener la información más reciente en tu mapa. ' +
-    'Haga un click en "OK" para volver al mapa'
+  resdiv.innerHTML = i18n('replication-complete')
 }
 
 function onReplicationError (err) {
