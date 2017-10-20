@@ -59,6 +59,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-winstaller": "^2.3.1",
     "end-of-stream": "^1.1.0",
+    "fs-copy-file-sync": "^1.0.1",
     "hyperlog": "^4.12.0",
     "hyperlog-sneakernet-replicator": "^1.1.2",
     "insert-css": "^1.0.0",
