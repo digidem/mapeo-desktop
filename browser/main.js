@@ -54,23 +54,34 @@ if (!showedWelcome) {
 } else openMap()
 
 id.loadLocale = function(cb) {
+  // TODO: move to id_monkey_patches
   var locale = iD.detect().locale
   if (locale && iD.data.locales.indexOf(locale) === -1) {
     locale = locale.split('-')[0]
   }
-
-  var localePath = '../id_monkey_patches/locales/' + locale + '.json'
-  d3.json(localePath, function (err, translations) {
-    if (err) return done()
-    merge(window.locale[locale], translations)
-    done()
-  })
+  if (locale && locale !== 'en' && iD.data.locales.indexOf(locale) !== -1) {
+    var localePath = id.asset('locales/' + locale + '.json')
+    d3.json(localePath, function (err, result) {
+      window.locale[locale] = result
+      window.locale.current(locale)
+      done()
+    })
+  } else done()
 
   function done () {
+    // after loading translations, monkey patch the openstreetmap specific stuff
+    // TODO: update language directly in id-mapeo
+    try {
+      var translations = require('../id_monkey_patches/locales/' + locale + '.json')
+      merge(window.locale[locale], translations)
+    } catch (e) {
+      log('could not load monkeypatch locale for', locale)
+    }
+
     var translations = ipc.sendSync('get-user-data', 'translations')
     merge(window.locale, translations)
-    window.onbeforeunload = myOnBeforeLoad
     cb()
+    window.onbeforeunload = myOnBeforeLoad
   }
 }
 
@@ -90,7 +101,7 @@ updateSettings()
 
 
 function myOnBeforeLoad () {
-  context.save()
+  id.save()
 }
 
 function openMap () {
