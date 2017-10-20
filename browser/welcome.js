@@ -7,7 +7,7 @@ module.exports = function ($overlay, $welcome, $map) {
   $welcome.style = ''
   $overlay.style = 'visibility: hidden;'
   $map.style = 'visibility: hidden;'
-  var examplesPath = path.join(__dirname, 'examples')
+  var examplesPath = path.join(__dirname, '..', 'examples')
   var nextScreenBtns = document.getElementsByClassName('next-screen')
   for (var i in nextScreenBtns) {
     var btn = nextScreenBtns[i]
