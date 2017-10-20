@@ -9,6 +9,7 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var net = require('net')
 var to = require('to2')
+var os = require('os')
 var userConfig = require('./lib/user-config')
 var level = require('level')
 var sublevel = require('subleveldown')
@@ -17,6 +18,7 @@ var series = require('run-series')
 var appSettings = require('./app-settings.json')
 var semver = require('semver')
 var rimraf = require('rimraf')
+var copyFileSync = require('fs-copy-file-sync')
 
 var locale = require('./lib/locale')
 var examples = require('./lib/examples')
@@ -231,6 +233,14 @@ function createMainWindow (done) {
     ipc.on('open-map', function () {
       var MAP = 'file://' + path.resolve(__dirname, './map.html')
       win.loadURL(MAP)
+    })
+
+    ipc.on('get-example-filename', function (ev) {
+      var tmpdir = os.tmpdir()
+      var example = path.join(__dirname, 'examples', 'arapaho.sync')
+      var dst = path.join(tmpdir, 'arapaho.sync')
+      copyFileSync(example, dst)
+      ev.returnValue = dst
     })
 
     ipc.on('import-settings', function (ev, filename) {
