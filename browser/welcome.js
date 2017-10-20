@@ -25,7 +25,7 @@ module.exports = function ($overlay, $welcome, $map) {
 
   var presetsBtn = document.getElementById('use-presets')
   presetsBtn.onclick = function () {
-    var filename = path.join(examplesPath, 'settings-bengal-v1.0.0.mapeosettings')
+    var filename = path.join(__dirname, '..', 'examples', 'settings-bengal-v1.0.0.mapeosettings')
     ipc.send('import-settings', filename)
   }
 
