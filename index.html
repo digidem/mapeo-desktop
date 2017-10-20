@@ -60,6 +60,10 @@
         color: white;
         background-color: rgb(72, 92, 114);
       }
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+      }
       .intro-text {
         width: 60%;
       }
@@ -88,79 +92,8 @@
   </head>
   <body>
     <div id="welcome" style="display: none;">
-      <div id="skip-intro">Skip intro</div>
-      <div id="screen-1">
-        <img src="static/Dd-square-solid-300.png" />
-        <h1>Welcome to Mapeo</h1>
-        <p>
-          Offline collaborative mapping
-        </p>
-        <button class="big-button next-screen" data-next="screen-2">
-          Get started
-        </button>
-      </div>
-      <div id="screen-2" style="display: none;">
-        <h1>
-          Mapeo is an offline map editor.
-        </h1>
-        <h2 class="intro-text">
-          Mapeo makes it easy for individuals or teams to create maps and organize stories and knowledge.
-        </h2>
-        <p>
-          Mapeo has been built in collaboration with indigenous communities in the Amazon.
-        </p>
-        <p>
-          The data you create is stored privately on your computer. You can share it with other Mapeo users via a sync file, or export it to GeoJSON.
-        </p>
-        <p>
-          This is a preview of Mapeo, it is in continued development and we are building an accompanying mobile app. Sign up on our website to receive notifications when new versions are released.
-        </p>
-        <p>
-          We welcome your feedback and reporting of bugs, please get in touch through our GitHub repository.
-        </p>
-        <button class="big-button next-screen" data-next="screen-3">
-          Start Mapping
-        </button>
-      </div>
-      <div id="screen-3" style="display: none;">
-        <h2 class="intro-text">Get started with Mapeo:</h2>
-        <div class="action-buttons">
-          <button id="example-dataset" class="big-button">
-            Load an example OpenStreetMap dataset from Arapaho National Forest in Colorado
-          </button>
-          <button id="use-presets" class="big-button">
-            Load some custom settings for forest community mapping
-          </button>
-          <button id="open-map" class="big-button">
-            Start your own map from scratch using OpenStreetMap settings
-          </button>
-        </div>
-      </div>
     </div>
     <div id="overlay"  style="visibility: hidden;">
-      <a href="replicate_usb.html">
-        <button>
-          <svg class="icon pre-text" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <path d="M0 0h24v24H0V0z" id="a"/>
-            </defs>
-            <clipPath id="b">
-                <use overflow="visible" xlink:href="#a"/>
-            </clipPath>
-            <path clip-path="url(#b)" d="M9.01 14H2v2h7.01v3L13 15l-3.99-4v3zm5.98-1v-3H22V8h-7.01V5L11 9l3.99 4z"/>
-          </svg>
-          <span class="label">Sincronizar USB</span>
-        </button>
-      </a>
-      <a style="display:none" href="replicate_network.html">
-        <button>
-          <svg class="icon pre-text" fill="#000000" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-              <path d="M0 0h24v24H0z" fill="none"/>
-          </svg>
-          <span class="label">Cambios por Wi-Fi</span>
-        </button>
-      </a>
     </div>
     <div id="container"></div>
     <script>

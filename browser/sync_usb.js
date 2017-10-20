@@ -9,12 +9,21 @@ var pump = require('pump')
 var ipc = require('electron').ipcRenderer
 var log = require('../lib/log').Browser()
 var remote = require('electron').remote
+var i18n = require('../lib/i18n')
 
 var osmServerHost = remote.getGlobal('osmServerHost')
 var ws = wsock('ws://' + osmServerHost)
 
 var replicationProgress = 0
 var file
+
+// turn the messages into strings once
+// so the function isn't called for every row
+var messages = {
+  'replication-data-complete': i18n('replication-data-complete'),
+  'replication-complete': i18n('replication-complete'),
+  'replication-progress': i18n('replication-progress')
+}
 
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   if (row && row.topic === 'replication-error') {
@@ -23,12 +32,10 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     showButtons()
   } else if (row && row.topic === 'replication-data-complete') {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> Actualizando indices... puede demorar un momento'
+    resdiv.innerHTML = messages['replication-data-complete']
   } else if (row && row.topic === 'replication-complete') {
     resdiv.className = 'alert alert-success'
-    resdiv.innerHTML = '<strong>Sinconización se ha completado exitosamente.</strong><br/>' +
-      'Ya debes tener la información más reciente en tu mapa. ' +
-      'Haga un click en "OK" para volver al mapa'
+    resdiv.innerHTML = messages['replication-complete']
     selectExistingBtn.classList.add('hidden')
     selectNewBtn.classList.add('hidden')
     cancelBtn.classList.remove('hidden')
@@ -36,7 +43,7 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     cancelBtn.innerText = 'OK'
   } else if (row && row.topic === 'replication-progress') {
     replicationProgress = (replicationProgress + 1) % 4
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...   '
+    resdiv.innerHTML = messages['replication-progress']
     if (replicationProgress === 0) resdiv.innerHTML += '/'
     if (replicationProgress === 1) resdiv.innerHTML += '-'
     if (replicationProgress === 2) resdiv.innerHTML += '\\'
@@ -44,6 +51,9 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   }
   next()
 })).on('error', function (err) { log.error(err) })
+
+var container = document.querySelector('#replicate-container')
+container.innerHTML = render()
 
 var resdiv = document.getElementById('response')
 var cancelBtn = document.getElementById('cancel')
@@ -102,7 +112,7 @@ function onpost (err, res, body) {
     showButtons()
   } else {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...'
+    resdiv.innerHTML = messages['replication-progress']
   }
 }
 
@@ -113,3 +123,36 @@ ipc.on('select-file', function (event, file) {
   if (!file) return
   selectFile(file)
 })
+
+function render () {
+  return `
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2 class="panel-title">${i18n('sync-database-title')}</h2>
+          </div>
+          <div class="panel-body">
+            <p class="lead">
+              ${i18n('sync-database-lead')}
+            </p>
+            <div id="response" class="alert alert-info hidden" role="alert">
+            </div>
+            <form method="POST" action="/replicate" id="sync">
+              <p class="text-right">
+                <input type="hidden" name="source">
+                <button id="cancel" type="button" class="btn btn-default btn-lg">${i18n('cancel')}</button>
+                <button id="select-new" type="button" class="btn btn-primary btn-lg">
+                  <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">${i18n('sync-database-new-button')}&hellip;</span>
+                </button>
+                <button id="select-existing" type="button" class="btn btn-primary btn-lg">
+                  <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">${i18n('sync-database-open-button')}&hellip;</span>
+                </button>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+}
