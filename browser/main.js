@@ -1,6 +1,4 @@
 var insertCss = require('insert-css')
-var url = require('url')
-var querystring = require('querystring')
 var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
 var dialog = require('electron').dialog
@@ -49,7 +47,6 @@ var $overlay = document.getElementById('overlay')
 var $welcome = document.getElementById('welcome')
 var $map = document.getElementById('container')
 
-var query = querystring.parse(url.parse(window.location.href).query)
 var showedWelcome = localStorage.getItem('showedWelcome')
 if (!showedWelcome) {
   localStorage.setItem('showedWelcome', true)
@@ -143,5 +140,3 @@ function translateAndZoomToLocation (loc, zoom) {
     id.map().zoom(zoom)
   }, 1000)
 }
-
-if (query.zoom) zoomToDataRequest()
