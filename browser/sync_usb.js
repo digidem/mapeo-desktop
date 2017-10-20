@@ -17,7 +17,6 @@ var replicationProgress = 0
 var file
 
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
-  console.log(row)
   if (row && row.topic === 'replication-error') {
     resdiv.className = 'alert alert-error'
     resdiv.innerHTML = '<strong>Error:</strong> ' + row.message
