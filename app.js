@@ -296,7 +296,6 @@ function createMainWindow (done) {
     })
 
     ipc.on('zoom-to-latlon-request', function (_, lat, lon) {
-      console.log('elec', arguments)
       win.webContents.send('zoom-to-latlon-response', lat, lon)
     })
 

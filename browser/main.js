@@ -22,12 +22,22 @@ window.addEventListener('hashchange', function (ev) {
 })
 
 document.addEventListener("DOMContentLoaded",  function () {
-  document.querySelector("a[href*='iD/issues']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
-  document.querySelector("a[href='https://github.com/openstreetmap/iD']").setAttribute('href', 'https://github.com/digidem/mapeo-desktop')
-  document.querySelector(".overlay-layer-attribution a").
-    setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
-  document.querySelector(".overlay-layer-attribution a").
-    innerHTML = i18n('feedback-contribute-button')
+  if (document.querySelector("a[href*='iD/issues']")) {
+    document.querySelector("a[href*='iD/issues']")
+      .setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
+  }
+  if (document.querySelector("a[href='https://github.com/openstreetmap/iD']")) {
+    document.querySelector("a[href='https://github.com/openstreetmap/iD']")
+      .setAttribute('href', 'https://github.com/digidem/mapeo-desktop')
+  }
+  if (document.querySelector(".overlay-layer-attribution a")) {
+    document.querySelector(".overlay-layer-attribution a").
+      setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
+  }
+  if (document.querySelector(".overlay-layer-attribution a")) {
+    document.querySelector(".overlay-layer-attribution a").
+      innerHTML = i18n('feedback-contribute-button')
+  }
 })
 
 var parser = new DOMParser()
