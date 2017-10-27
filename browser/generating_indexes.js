@@ -1,8 +1,8 @@
 var i18n = require('../lib/i18n')
 
 module.exports = function () {
-  var $content = document.getElementById('content')
-  $content.innerHTML = `<div class="row">
+  var content = document.getElementById('content')
+  content.innerHTML = `<div class="row">
     <div class="col-md-8 col-md-offset-2">
       <div class="panel panel-primary">
         <div class="panel-heading">
