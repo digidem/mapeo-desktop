@@ -11,7 +11,6 @@ module.exports = function () {
         <div class="panel-body">
           <p class="lead">
           ${i18n('generating-indexes-body')}
-            Regenerar índices..
           </p>
           <div id="response" class="alert alert-info hidden" role="alert">
           </div>
