@@ -1,4 +1,7 @@
 {
+  "button-submit": "Submit",
+  "button-cancel": "Cancel",
+  "dialog-enter-latlon-coordinates": "Enter Coordinates (Latitude, Longitude)",
   "replication-data-complete": "Updating indexes... it could be delayed a moment.",
   "replication-complete": "Syncronization has completed successfully. You now have the most recent information in your map. Click 'OK' to return to the map.",
   "replication-progress": "Syncronizing: In progress...",
@@ -16,6 +19,7 @@
   "menu-visualization-fullscreen": "Go to Fullscreen",
   "menu-visualization-devtools": "Open developer tools",
   "menu-zoom-to-data": "Zoom to data",
+  "menu-zoom-to-latlon": "Zoom to Coordinates..",
   "menu-window": "Window",
   "menu-help": "Help",
   "menu-about": "About",
