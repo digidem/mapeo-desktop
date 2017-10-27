@@ -59,7 +59,7 @@
 
       // Use regex to pull a lat and lon from arbitrary text
       function pullLatLon (text) {
-        var rx = /(-?\d+\.?\d+)[^01234567890-]+(-?\d+\.?\d+)/
+        var rx = /(-?\d+\.?\d*)[^01234567890-]+(-?\d+\.?\d*)/
         var match = rx.exec(text)
         if (match) return [ parseFloat(match[1]), parseFloat(match[2]) ]
         else return null
