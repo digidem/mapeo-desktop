@@ -295,6 +295,10 @@ function createMainWindow (done) {
       })
     })
 
+    ipc.on('zoom-to-latlon-request', function (_, lat, lon) {
+      win.webContents.send('zoom-to-latlon-response', lat, lon)
+    })
+
     ipc.on('refresh-window', function () {
       win.reload()
     })
