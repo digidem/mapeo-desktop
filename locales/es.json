@@ -1,67 +1,262 @@
 {
-  "button-submit": "OK",
-  "button-cancel": "Cancelar",
-  "dialog-enter-latlon-coordinates": "Ingrese las coordenadas (latitud, longitud)",
-  "replication-data-complete": "Sincronizando: Actualizando indices... puede demorar un momento",
-  "replication-complete": "Sinconización se ha completado exitosamente. Ya debes tener la información más reciente en tu mapa. Haga un click en OK para volver al mapa",
-  "replication-progress": "Sincronizando: En progreso...",
-  "menu-file": "Archivo",
-  "menu-import-configuration": "Importar Configuración...",
-  "menu-import-configuration-title": "Selecionar archivo de configuración",
-  "menu-import-configuration-error": "No pudo importar configuración",
-  "menu-import-configuration-error-known": "No pudo importar configuración por un error",
-  "menu-export-geojson": "Exportar GeoJSON..",
-  "menu-export-geojson-dialog": "Guardar como..",
-  "menu-export-geojson-error": "Error al exportar",
-  "menu-export-geojson-success": "Exportación completa!",
-  "menu-visualization": "Visualización",
-  "menu-visualization-reload": "Volver a cargar página",
-  "menu-visualization-fullscreen": "Usar pantalla completa",
-  "menu-visualization-devtools": "Abrir herramientas de desarrollo",
-  "menu-zoom-to-data": "Acercar a los datos",
-  "menu-zoom-to-latlon": "Acercar a las coordenadas..",
-  "menu-window": "Ventana",
-  "menu-help": "Ayuda",
-  "menu-about": "Acerca de",
-  "menu-services": "Servicios",
-  "menu-hide": "Ocultar",
-  "menu-show-all": "Monstrar todo",
-  "menu-hide-others": "Ocultar otros",
-  "menu-quit": "Salir de",
-  "menu-bring-to-front": "Traer todo al frente",
-  "menu-minimize": "Minimizar",
-  "menu-close": "Cerrar",
-  "menu-edit": "Edición",
-  "menu-undo": "Deshacer",
-  "menu-redo": "Rehacer",
-  "menu-cut": "Cortar",
-  "menu-copy": "Copiar",
-  "menu-paste": "Pegar",
-  "menu-selectall": "Seleccionar todo",
-  "save-db-dialog": "Crear nuevo base de datos para sincronizar",
-  "open-db-dialog": "Seleccionar base de datos para sincronizar",
-  "overlay-sync-usb-button": "Sincronizar USB",
-  "overlay-sync-wifi-button": "Cambios por Wi-Fi",
-  "cancel": "Cancelar",
-  "sync-database-add-changes": "Agregar cambios",
-  "sync-database-title": "Sincronizar Base de Datos Mapeo",
-  "sync-database-lead": "Seleccionar un archivo base de datos en el USB para sincronizar o sincronizar a un base de datos nuevo.",
-  "sync-database-new-button": "Nuevo Base de Datos",
-  "sync-database-open-button": "Abrir Base de Datos",
-  "welcome-screen-1-title": "Bienvenido a Mapeo",
-  "welcome-screen-1-subtitle": "Offline collaborative mapping",
-  "welcome-screen-1-next-button": "Get started",
-  "welcome-screen-2-title": "Mapeo is an offline map editor.",
-  "welcome-screen-2-text-1": "Mapeo makes it easy for individuals or teams to create maps and organize stories and knowledge.",
-  "welcome-screen-2-text-2": "Mapeo has been built in collaboration with indigenous communities in the Amazon.",
-  "welcome-screen-2-text-3": "The data you create is stored privately on your computer. You can share it with other Mapeo users via a sync file, or export it to GeoJSON.",
-  "welcome-screen-2-text-4": "This is a preview of Mapeo, it is in continued development and we are building an accompanying mobile app. Sign up on our website to receive notifications when new versions are released.",
-  "welcome-screen-2-text-5": "We welcome your feedback and reporting of bugs, please get in touch through our GitHub repository.",
-  "welcome-screen-2-next-button": "Start Mapping",
-  "welcome-screen-3-title": "Get started with Mapeo",
-  "welcome-screen-3-example-dataset": "Load an example OpenStreetMap dataset from Arapaho National Forest in Colorado",
-  "welcome-screen-3-use-presets": "Load some custom settings for forest community mapping",
-  "welcome-screen-3-open-map": "Start your own map from scratch using OpenStreetMap settings",
-  "generating-indexes-title": "Indexes",
-  "generating-indexes-body": "Regenerar índices.."
+  "button-submit": {
+    "message": "OK",
+    "description": ""
+  },
+  "button-cancel": {
+    "message": "Cancelar",
+    "description": ""
+  },
+  "dialog-enter-latlon-coordinates": {
+    "message": "Ingrese las coordenadas (latitud, longitud)",
+    "description": ""
+  },
+  "replication-data-complete": {
+    "message": "Sincronizando: Actualizando indices... puede demorar un momento",
+    "description": ""
+  },
+  "replication-complete": {
+    "message": "Sinconización se ha completado exitosamente. Ya debes tener la información más reciente en tu mapa. Haga un click en OK para volver al mapa",
+    "description": ""
+  },
+  "replication-progress": {
+    "message": "Sincronizando: En progreso...",
+    "description": ""
+  },
+  "menu-file": {
+    "message": "Archivo",
+    "description": ""
+  },
+  "menu-import-configuration": {
+    "message": "Importar Configuración...",
+    "description": ""
+  },
+  "menu-import-configuration-title": {
+    "message": "Selecionar archivo de configuración",
+    "description": ""
+  },
+  "menu-import-configuration-error": {
+    "message": "No pudo importar configuración",
+    "description": ""
+  },
+  "menu-import-configuration-error-known": {
+    "message": "No pudo importar configuración por un error",
+    "description": ""
+  },
+  "menu-export-geojson": {
+    "message": "Exportar GeoJSON..",
+    "description": ""
+  },
+  "menu-export-geojson-dialog": {
+    "message": "Guardar como..",
+    "description": ""
+  },
+  "menu-export-geojson-error": {
+    "message": "Error al exportar",
+    "description": ""
+  },
+  "menu-export-geojson-success": {
+    "message": "Exportación completa!",
+    "description": ""
+  },
+  "menu-visualization": {
+    "message": "Visualización",
+    "description": ""
+  },
+  "menu-visualization-reload": {
+    "message": "Volver a cargar página",
+    "description": ""
+  },
+  "menu-visualization-fullscreen": {
+    "message": "Usar pantalla completa",
+    "description": ""
+  },
+  "menu-visualization-devtools": {
+    "message": "Abrir herramientas de desarrollo",
+    "description": ""
+  },
+  "menu-zoom-to-data": {
+    "message": "Acercar a los datos",
+    "description": ""
+  },
+  "menu-zoom-to-latlon": {
+    "message": "Acercar a las coordenadas..",
+    "description": ""
+  },
+  "menu-window": {
+    "message": "Ventana",
+    "description": ""
+  },
+  "menu-help": {
+    "message": "Ayuda",
+    "description": ""
+  },
+  "menu-about": {
+    "message": "Acerca de",
+    "description": ""
+  },
+  "menu-services": {
+    "message": "Servicios",
+    "description": ""
+  },
+  "menu-hide": {
+    "message": "Ocultar",
+    "description": ""
+  },
+  "menu-show-all": {
+    "message": "Monstrar todo",
+    "description": ""
+  },
+  "menu-hide-others": {
+    "message": "Ocultar otros",
+    "description": ""
+  },
+  "menu-quit": {
+    "message": "Salir de",
+    "description": ""
+  },
+  "menu-bring-to-front": {
+    "message": "Traer todo al frente",
+    "description": ""
+  },
+  "menu-minimize": {
+    "message": "Minimizar",
+    "description": ""
+  },
+  "menu-close": {
+    "message": "Cerrar",
+    "description": ""
+  },
+  "menu-edit": {
+    "message": "Edición",
+    "description": ""
+  },
+  "menu-undo": {
+    "message": "Deshacer",
+    "description": ""
+  },
+  "menu-redo": {
+    "message": "Rehacer",
+    "description": ""
+  },
+  "menu-cut": {
+    "message": "Cortar",
+    "description": ""
+  },
+  "menu-copy": {
+    "message": "Copiar",
+    "description": ""
+  },
+  "menu-paste": {
+    "message": "Pegar",
+    "description": ""
+  },
+  "menu-selectall": {
+    "message": "Seleccionar todo",
+    "description": ""
+  },
+  "save-db-dialog": {
+    "message": "Crear nuevo base de datos para sincronizar",
+    "description": ""
+  },
+  "open-db-dialog": {
+    "message": "Seleccionar base de datos para sincronizar",
+    "description": ""
+  },
+  "overlay-sync-usb-button": {
+    "message": "Sincronizar USB",
+    "description": ""
+  },
+  "overlay-sync-wifi-button": {
+    "message": "Cambios por Wi-Fi",
+    "description": ""
+  },
+  "cancel": {
+    "message": "Cancelar",
+    "description": ""
+  },
+  "sync-database-add-changes": {
+    "message": "Agregar cambios",
+    "description": ""
+  },
+  "sync-database-title": {
+    "message": "Sincronizar Base de Datos Mapeo",
+    "description": ""
+  },
+  "sync-database-lead": {
+    "message": "Seleccionar un archivo base de datos en el USB para sincronizar o sincronizar a un base de datos nuevo.",
+    "description": ""
+  },
+  "sync-database-new-button": {
+    "message": "Nuevo Base de Datos",
+    "description": ""
+  },
+  "sync-database-open-button": {
+    "message": "Abrir Base de Datos",
+    "description": ""
+  },
+  "welcome-screen-1-title": {
+    "message": "Bienvenido a Mapeo",
+    "description": ""
+  },
+  "welcome-screen-1-subtitle": {
+    "message": "Offline collaborative mapping",
+    "description": ""
+  },
+  "welcome-screen-1-next-button": {
+    "message": "Get started",
+    "description": ""
+  },
+  "welcome-screen-2-title": {
+    "message": "Mapeo is an offline map editor.",
+    "description": ""
+  },
+  "welcome-screen-2-text-1": {
+    "message": "Mapeo makes it easy for individuals or teams to create maps and organize stories and knowledge.",
+    "description": ""
+  },
+  "welcome-screen-2-text-2": {
+    "message": "Mapeo has been built in collaboration with indigenous communities in the Amazon.",
+    "description": ""
+  },
+  "welcome-screen-2-text-3": {
+    "message": "The data you create is stored privately on your computer. You can share it with other Mapeo users via a sync file, or export it to GeoJSON.",
+    "description": ""
+  },
+  "welcome-screen-2-text-4": {
+    "message": "This is a preview of Mapeo, it is in continued development and we are building an accompanying mobile app. Sign up on our website to receive notifications when new versions are released.",
+    "description": ""
+  },
+  "welcome-screen-2-text-5": {
+    "message": "We welcome your feedback and reporting of bugs, please get in touch through our GitHub repository.",
+    "description": ""
+  },
+  "welcome-screen-2-next-button": {
+    "message": "Start Mapping",
+    "description": ""
+  },
+  "welcome-screen-3-title": {
+    "message": "Get started with Mapeo",
+    "description": ""
+  },
+  "welcome-screen-3-example-dataset": {
+    "message": "Load an example OpenStreetMap dataset from Arapaho National Forest in Colorado",
+    "description": ""
+  },
+  "welcome-screen-3-use-presets": {
+    "message": "Load some custom settings for forest community mapping",
+    "description": ""
+  },
+  "welcome-screen-3-open-map": {
+    "message": "Start your own map from scratch using OpenStreetMap settings",
+    "description": ""
+  },
+  "generating-indexes-title": {
+    "message": "Indexes",
+    "description": ""
+  },
+  "generating-indexes-body": {
+    "message": "Regenerar índices..",
+    "description": ""
+  }
 }

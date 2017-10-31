@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[mapeo-desktop.messagesjson]
+file_filter = locales/<lang>.json
+source_file = locales/en.json
+source_lang = en
+type = KEYVALUEJSON
+
