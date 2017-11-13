@@ -61,6 +61,7 @@
     "end-of-stream": "^1.1.0",
     "fs-copy-file-sync": "^1.0.1",
     "hyperlog": "^4.12.0",
+    "hyperlog-index": "^5.2.2",
     "hyperlog-sneakernet-replicator": "^1.1.2",
     "insert-css": "^1.0.0",
     "level": "^1.4.0",
