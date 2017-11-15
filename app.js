@@ -19,6 +19,7 @@ var appSettings = require('./app-settings.json')
 var semver = require('semver')
 var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
+var installStatsIndex = require('./lib/osm-stats')
 
 var locale = require('./lib/locale')
 var examples = require('./lib/examples')
@@ -90,6 +91,7 @@ series([
 
 function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
+  installStatsIndex(osm)
   app.osm = osm
 
   log('preparing osm indexes..')
@@ -367,20 +369,9 @@ function handleUncaughtExceptions () {
 }
 
 function getGlobalDatasetCentroid (done) {
-  var bbox = [[-90,90],[-180,180]]
-
-  var stream = app.osm.queryStream(bbox)
-
-  stream.pipe(to.obj(function (doc, enc, next) {
-    if (doc && doc.type === 'node') {
-      var loc = [Number(doc.lon), Number(doc.lat)]
-      stream.unpipe(this)
-      done(null, loc)
-    } else {
-      next()
-    }
-  }))
-  stream.on('error', function (err) {
-    done(err)
+  app.osm.stats.getMapCenter(function (err, center) {
+    if (err) return log('ERROR(getGlobalDatasetCentroid):', err)
+    console.log('center', center)
+    done(null, [center.lon, center.lat])
   })
 }
