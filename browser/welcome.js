@@ -56,9 +56,7 @@ function render () {
       <p>${i18n('welcome-screen-2-text-2')}</p>
       <p>${i18n('welcome-screen-2-text-3')}</p>
       <p>${i18n('welcome-screen-2-text-4')}</p>
-      <p>This is a preview of Mapeo, it is in continued development and we are building an accompanying mobile app.
-      <a target="_blank" href="https://mapeo.world">Sign up on our website</a> to receive notifications when new versions are released.
-      <p>We welcome your feedback and reporting of bugs, please get in touch through our <a target="_blank" href="https://github.com/digidem/mapeo-desktop">GitHub repository</a>.</p>
+      <p>${i18n('welcome-screen-2-text-5')}</p>
       <button class="big-button next-screen" data-next="screen-3">
         ${i18n('welcome-screen-2-next-button')}
       </button>
