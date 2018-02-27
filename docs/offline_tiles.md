@@ -1,10 +1,14 @@
 # Using offline aerial imagery with Mapeo
 
+These instructions were written with
+[POSIX](https://en.wikipedia.org/wiki/POSIX) systems in mind (Linux, macOS).
+Windows users may have to infer some of the differences in the commands shown.
+
 ## Install tile-dl
 
 First, make sure you have [npm](https://www.npmjs.com/get-npm) installed.
 
-Next, install `tile-dl`:
+Next, install [tile-dl](https://github.com/noffle/tile-dl):
 
 ```
 npm install --global tile-dl
