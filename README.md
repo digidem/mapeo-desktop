@@ -73,38 +73,7 @@ You'll be able to find the results on the project's [releases](../../releases/) 
 
 # Custom Imagery
 
-To add local tiles for offline use, copy or symlink a folder of tiles into
-'tiles' within the app's folder in your application directory, which by default
-points to:
-
-- `%APPDATA%` on Windows
-- `$XDG_CONFIG_HOME` or `~/.config` on Linux
-- `~/Library/Application Support` on macOS
-
-The app folder will be `electron` if you are in development, or the application
-name (currently "Mapeo") if you are working with the packaged app. E.g. on a
-mac, copy the folder of image tiles into: `~/Library/Application
-Support/Mapeo/tiles`
-
-Edit `imagery.json` accordingly with a type of `tms`. The tileserver runs on
-localhost on port `5005`. For example:
-
-``` json
-[
-  {
-    "name": "local guyana tiles",
-    "type": "tms",
-    "template": "http://localhost:5005/guyana/{zoom}/{x}/{y}.jpg",
-    "polygon": [
-      [[2.115, -59.28],[2.345,-59.05]]
-    ]
-  }
-]
-```
-
-```
-$ ln -s ~/data/guyana_tiles/LC82310582015254LGN00 public/tiles/guyana
-```
+See [downloading tiles for offline use](docs/offline_tiles.md).
 
 # Custom Presets
 
