@@ -6,9 +6,7 @@ var net = require('net')
 var body = require('body/any')
 var parseUrl = require('url').parse
 var exportGeoJson = require('./lib/export-geojson')
-var importGeo = require('./lib/import-geo')
-var shp = require('shpjs')
-var concat = require('concat-stream')
+var importData = require('./lib/import-data')
 var wsock = require('websocket-stream')
 var eos = require('end-of-stream')
 var randombytes = require('randombytes')
@@ -49,28 +47,12 @@ module.exports = function (osm) {
       bbox = [[bbox[0], bbox[2]], [bbox[1], bbox[3]]]
       exportGeoJson(osm, bbox).pipe(res)
     } else if (req.url === '/import.shp' && /^(PUT|POST)/.test(req.method)) {
-      req.pipe(concat(function (buf) {
-        errb(shp(buf), function (err, geojsons) {
-          if (err) return error(400, res, err)
-          if (!(geojsons instanceof Array)) {
-            geojsons = [geojsons]
-          }
-          var errors = []
-          var pending = 1
-          geojsons.forEach(function (geo) {
-            importGeo(osm, geo, function (err) {
-              if (err) errors.push(String(err.message || err))
-              if (--pending === 0) done()
-            })
-          })
-          if (--pending === 0) { done() }
-          function done () {
-            res.end(JSON.stringify({
-              errors: errors
-            }, null, 2))
-          }
-        })
-      }))
+      function done (err) {
+        res.end(JSON.stringify({
+          errors: err
+        }, null, 2))
+      }
+      importData(osm, req, done)
     } else error(404, res, 'Not Found')
   })
 
@@ -240,9 +222,4 @@ module.exports = function (osm) {
 function error (code, res, err) {
   res.statusCode = code
   res.end((err.message || err) + '\n')
-}
-
-function errb (promise, cb) {
-  promise.then(cb.bind(null, null))
-  promise.catch(cb)
 }
