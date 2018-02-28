@@ -13,7 +13,9 @@ var os = require('os')
 var userConfig = require('./lib/user-config')
 var level = require('level')
 var sublevel = require('subleveldown')
-var osmdb = require('osm-p2p')
+var hyperdb = require('hyperdb')
+var geo = require('grid-point-store')
+var osmdb = require('hyperdb-osm')
 var series = require('run-series')
 var appSettings = require('./app-settings.json')
 var semver = require('semver')
@@ -73,8 +75,8 @@ function startupMsg (txt) {
 
 // The app startup sequence
 series([
-  versionCheckIndexes,
-  startupMsg('Checked indexes version is up-to-date'),
+  // versionCheckIndexes,
+  // startupMsg('Checked indexes version is up-to-date'),
 
   initOsmDb,
   startupMsg('Initialized osm-p2p'),
@@ -90,13 +92,17 @@ series([
 })
 
 function initOsmDb (done) {
-  var osm = osmdb(argv.datadir)
-  installStatsIndex(osm)
+  var osm = osmdb({
+    db: hyperdb(path.join(argv.datadir, 'log'), { valueEncoding: 'json' }),
+    index: level(path.join(argv.datadir, 'index'), { valueEncoding: 'json' }),
+    pointstore: geo({ store: level(path.join(argv.datadir, 'geo')) })
+  })
+  // installStatsIndex(osm)
   app.osm = osm
 
   log('preparing osm indexes..')
 
-  createLoadingWindow()
+  // createLoadingWindow()
 
   done()
 }

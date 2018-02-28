@@ -1,6 +1,6 @@
 var osmserver = require('osm-p2p-server')
 var http = require('http')
-var sneakernet = require('hyperlog-sneakernet-replicator')
+// var sneakernet = require('hyperlog-sneakernet-replicator')
 var net = require('net')
 
 var body = require('body/any')
@@ -206,7 +206,7 @@ module.exports = function (osm) {
       return stream
     }
 
-    sneakernet(osm.log, { safetyFile: true }, sourceFile, onend)
+    // sneakernet(osm.log, { safetyFile: true }, sourceFile, onend)
 
     function onProgress () {
       send('replication-progress')
