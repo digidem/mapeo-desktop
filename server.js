@@ -1,4 +1,4 @@
-var osmserver = require('osm-p2p-server')
+var osmserver = require('hyperdb-osm-server')
 var http = require('http')
 // var sneakernet = require('hyperlog-sneakernet-replicator')
 var net = require('net')
