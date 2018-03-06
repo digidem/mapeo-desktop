@@ -97,7 +97,7 @@ function initOsmDb (done) {
     index: level(path.join(argv.datadir, 'index'), { valueEncoding: 'json' }),
     pointstore: geo({ store: level(path.join(argv.datadir, 'geo')) })
   })
-  // installStatsIndex(osm)
+  installStatsIndex(osm)
   app.osm = osm
 
   log('preparing osm indexes..')
