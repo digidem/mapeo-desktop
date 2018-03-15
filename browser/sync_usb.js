@@ -1,18 +1,29 @@
+var xhr = require('xhr')
+var url = require('url')
+var querystring = require('querystring')
+var ipc = require('electron').ipcRenderer
+var through = require('through2')
+var split = require('split2')
 var wsock = require('websocket-stream')
 var pump = require('pump')
-var split = require('split2')
-var through = require('through2')
-var xhr = require('xhr')
-
 var ipc = require('electron').ipcRenderer
+var log = require('../lib/log').Browser()
 var remote = require('electron').remote
-var osmServerHost = remote.getGlobal('osmServerHost')
+var i18n = require('../lib/i18n')
 
+var osmServerHost = remote.getGlobal('osmServerHost')
 var ws = wsock('ws://' + osmServerHost)
 
-var log = require('../lib/log').Browser()
-
 var replicationProgress = 0
+var file
+
+// turn the messages into strings once
+// so the function isn't called for every row
+var messages = {
+  'replication-data-complete': i18n('replication-data-complete'),
+  'replication-complete': i18n('replication-complete'),
+  'replication-progress': i18n('replication-progress')
+}
 
 pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
   if (row && row.topic === 'replication-error') {
@@ -21,12 +32,10 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     showButtons()
   } else if (row && row.topic === 'replication-data-complete') {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> Actualizando indices... puede demorar un momento'
+    resdiv.innerHTML = messages['replication-data-complete']
   } else if (row && row.topic === 'replication-complete') {
     resdiv.className = 'alert alert-success'
-    resdiv.innerHTML = '<strong>Sinconización se ha completado exitosamente.</strong><br/>' +
-      'Ya debes tener la información más reciente en tu mapa. ' +
-      'Haga un click en "OK" para volver al mapa'
+    resdiv.innerHTML = messages['replication-complete']
     selectExistingBtn.classList.add('hidden')
     selectNewBtn.classList.add('hidden')
     cancelBtn.classList.remove('hidden')
@@ -34,16 +43,17 @@ pump(ws, split(JSON.parse), through.obj(function (row, enc, next) {
     cancelBtn.innerText = 'OK'
   } else if (row && row.topic === 'replication-progress') {
     replicationProgress = (replicationProgress + 1) % 4
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...   '
+    resdiv.innerHTML = messages['replication-progress']
     if (replicationProgress === 0) resdiv.innerHTML += '/'
     if (replicationProgress === 1) resdiv.innerHTML += '-'
     if (replicationProgress === 2) resdiv.innerHTML += '\\'
     if (replicationProgress === 3) resdiv.innerHTML += '|'
   }
   next()
-})).on('error', onerror)
+})).on('error', function (err) { log.error(err) })
 
-function onerror (err) { log.error(err) }
+var container = document.querySelector('#replicate-container')
+container.innerHTML = render()
 
 var resdiv = document.getElementById('response')
 var cancelBtn = document.getElementById('cancel')
@@ -51,12 +61,10 @@ var selectExistingBtn = document.getElementById('select-existing')
 var selectNewBtn = document.getElementById('select-new')
 var sourceField = document.querySelector('form#sync input[name="source"]')
 
-ipc.on('select-file', function (event, file) {
-  if (!file) return
-  sourceField.value = file
+function selectFile (_file) {
+  file = _file
   selectExistingBtn.setAttribute('disabled', 'disabled')
   selectNewBtn.setAttribute('disabled', 'disabled')
-
   xhr({
     method: 'POST',
     url: 'http://' + osmServerHost + '/replicate',
@@ -64,10 +72,10 @@ ipc.on('select-file', function (event, file) {
       'content-type': 'application/json'
     },
     body: JSON.stringify({
-      source: sourceField.value
+      source: file
     })
   }, onpost)
-})
+}
 
 selectExistingBtn.addEventListener('click', function (ev) {
   ev.preventDefault()
@@ -80,7 +88,9 @@ selectNewBtn.addEventListener('click', function (ev) {
 })
 
 cancelBtn.addEventListener('click', function (ev) {
-  window.location.href = 'index.html'
+  // hack in a default zoom level for example dataset
+  if (file && file.match(/arapaho/)) window.location.href = 'index.html#map=14/-105.7680/40.1300'
+  else window.location.href = 'index.html'
 })
 
 function showButtons () {
@@ -102,6 +112,47 @@ function onpost (err, res, body) {
     showButtons()
   } else {
     resdiv.className = 'alert alert-info'
-    resdiv.innerHTML = '<strong>Sincronizando:</strong> En progreso...'
+    resdiv.innerHTML = messages['replication-progress']
   }
+}
+
+var query = querystring.parse(url.parse(window.location.href).query)
+if (query.file) selectFile(query.file)
+
+ipc.on('select-file', function (event, file) {
+  if (!file) return
+  selectFile(file)
+})
+
+function render () {
+  return `
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2 class="panel-title">${i18n('sync-database-title')}</h2>
+          </div>
+          <div class="panel-body">
+            <p class="lead">
+              ${i18n('sync-database-lead')}
+            </p>
+            <div id="response" class="alert alert-info hidden" role="alert">
+            </div>
+            <form method="POST" action="/replicate" id="sync">
+              <p class="text-right">
+                <input type="hidden" name="source">
+                <button id="cancel" type="button" class="btn btn-default btn-lg">${i18n('cancel')}</button>
+                <button id="select-new" type="button" class="btn btn-primary btn-lg">
+                  <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">${i18n('sync-database-new-button')}&hellip;</span>
+                </button>
+                <button id="select-existing" type="button" class="btn btn-primary btn-lg">
+                  <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp; <span id="button-text">${i18n('sync-database-open-button')}&hellip;</span>
+                </button>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
 }

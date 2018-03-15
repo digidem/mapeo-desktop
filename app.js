@@ -9,6 +9,7 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
 var net = require('net')
 var to = require('to2')
+var os = require('os')
 var userConfig = require('./lib/user-config')
 var level = require('level')
 var sublevel = require('subleveldown')
@@ -17,8 +18,13 @@ var series = require('run-series')
 var appSettings = require('./app-settings.json')
 var semver = require('semver')
 var rimraf = require('rimraf')
+var copyFileSync = require('fs-copy-file-sync')
+var installStatsIndex = require('./lib/osm-stats')
 
+var locale = require('./lib/locale')
+var examples = require('./lib/examples')
 var menuTemplate = require('./lib/menu')
+var i18n = require('./lib/i18n')
 
 if (require('electron-squirrel-startup')) return
 
@@ -28,6 +34,7 @@ var log = require('./lib/log').Node()
 
 var win = null
 var server = null
+var firstTime = false
 
 // Listen for app-ready event
 var appIsReady = false
@@ -84,6 +91,7 @@ series([
 
 function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
+  installStatsIndex(osm)
   app.osm = osm
 
   log('preparing osm indexes..')
@@ -191,6 +199,7 @@ function createLoadingWindow () {
 }
 
 function createMainWindow (done) {
+  app.translations = locale.load()
   if (!argv.headless) {
     if (!appIsReady) {
       app.once('ready', ready)
@@ -223,13 +232,32 @@ function createMainWindow (done) {
     var ipc = electron.ipcMain
 
     require('./lib/user-config')
+    ipc.on('open-map', function () {
+      var MAP = 'file://' + path.resolve(__dirname, './map.html')
+      win.loadURL(MAP)
+    })
+
+    ipc.on('get-example-filename', function (ev) {
+      var tmpdir = os.tmpdir()
+      var example = path.join(__dirname, 'examples', 'arapaho.sync')
+      var dst = path.join(tmpdir, 'arapaho.sync')
+      copyFileSync(example, dst)
+      ev.returnValue = dst
+    })
+
+    ipc.on('import-settings', function (ev, filename) {
+      userConfig.importSettings(win, filename, function (err) {
+        if (!err) log('Settings imported from ' + filename)
+        return
+      })
+    })
 
     ipc.on('save-file', function () {
       var metadata = userConfig.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showSaveDialog(win, {
-        title: 'Crear nuevo base de datos para sincronizar',
-        defaultPath: 'base-de-datos-mapeo.' + ext,
+        title: i18n('save-db-dialog'),
+        defaultPath: 'database.' + ext,
         filters: [
           { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext] },
         ]
@@ -245,10 +273,10 @@ function createMainWindow (done) {
       var metadata = userConfig.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showOpenDialog(win, {
-        title: 'Seleccionar base de datos para sincronizar',
+        title: i18n('open-db-dialog'),
         properties: [ 'openFile' ],
         filters: [
-          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext] },
+          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext, 'sync'] },
         ]
       }, onopen)
 
@@ -267,6 +295,10 @@ function createMainWindow (done) {
       getGlobalDatasetCentroid(function (_, loc) {
         win.webContents.send('zoom-to-data-response', loc)
       })
+    })
+
+    ipc.on('zoom-to-latlon-request', function (_, lat, lon) {
+      win.webContents.send('zoom-to-latlon-response', lat, lon)
     })
 
     ipc.on('refresh-window', function () {
@@ -337,20 +369,9 @@ function handleUncaughtExceptions () {
 }
 
 function getGlobalDatasetCentroid (done) {
-  var bbox = [[-90,90],[-180,180]]
-
-  var stream = app.osm.queryStream(bbox)
-
-  stream.pipe(to.obj(function (doc, enc, next) {
-    if (doc && doc.type === 'node') {
-      var loc = [Number(doc.lon), Number(doc.lat)]
-      stream.unpipe(this)
-      done(null, loc)
-    } else {
-      next()
-    }
-  }))
-  stream.on('error', function (err) {
-    done(err)
+  app.osm.stats.getMapCenter(function (err, center) {
+    if (err) return log('ERROR(getGlobalDatasetCentroid):', err)
+    console.log('center', center)
+    done(null, [center.lon, center.lat])
   })
 }

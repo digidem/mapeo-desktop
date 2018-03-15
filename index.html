@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Mapeo CEIBO</title>
+    <title>Mapeo</title>
     <link rel='stylesheet' href='vendor/iD/iD.css'>
 
     <meta name='apple-mobile-web-app-capable' content='yes'/>
@@ -19,33 +19,81 @@
         min-width: 100px;
         padding: 0 15px;
       }
+      #welcome {
+        width: 100%;
+        height: 100%;
+        background-color: rgb(57, 82, 123);
+        color: white;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      #welcome h1,h2 {
+        color: white;
+        font-weight: bold;
+      }
+      #welcome h1 {
+        line-height: 1.4;
+        font-size: 30px;
+      }
+      #welcome h2 {
+        line-height: 1.2;
+        font-size: 20px;
+      }
+      #welcome img {
+        width: 150px;
+      }
+      #welcome .big-button {
+        max-width: 60%;
+        padding: 10px;
+        min-width: 300px;
+        line-height: 1.2;
+        font-size: 14px;
+        text-align: center;
+        margin: 10px 0px;
+        color: #ececec;
+        background-color: rgb(87, 108, 144);
+        border: 1px solid white;
+      }
+      #welcome .big-button:hover {
+        color: white;
+        background-color: rgb(72, 92, 114);
+      }
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+      }
+      .intro-text {
+        width: 60%;
+      }
+      #screen-1 {
+        text-align: center;
+        margin: auto;
+      }
+      #skip-intro {
+        position: absolute;
+        color: #efefef;
+        top: 30px;
+        right: 30px;
+        display: block;
+        text-transform: uppercase;
+      }
+      #skip-intro:hover {
+        cursor: pointer;
+      }
+      p {
+        font-size: 14px;
+        margin-bottom: 10px;
+        width: 500px;
+        max-width: 100%;
+      }
     </style>
   </head>
   <body>
-    <div id="overlay">
-      <a href="replicate_usb.html">
-        <button>
-          <svg class="icon pre-text" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <path d="M0 0h24v24H0V0z" id="a"/>
-            </defs>
-            <clipPath id="b">
-                <use overflow="visible" xlink:href="#a"/>
-            </clipPath>
-            <path clip-path="url(#b)" d="M9.01 14H2v2h7.01v3L13 15l-3.99-4v3zm5.98-1v-3H22V8h-7.01V5L11 9l3.99 4z"/>
-          </svg>
-          <span class="label">Sincronizar USB</span>
-        </button>
-      </a>
-      <a style="display:none" href="replicate_network.html">
-        <button>
-          <svg class="icon pre-text" fill="#000000" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-              <path d="M0 0h24v24H0z" fill="none"/>
-          </svg>
-          <span class="label">Cambios por Wi-Fi</span>
-        </button>
-      </a>
+    <div id="welcome" style="display: none;">
+    </div>
+    <div id="overlay"  style="visibility: hidden;">
     </div>
     <div id="container"></div>
     <script>

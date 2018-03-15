@@ -3,8 +3,54 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.13.1 - 2017-12-02
+### Fixed
+- GeoJSON export works again
+
+## 1.13.0 - 2017-11-14
+### Fixed
+- 'Jungle' presets are used instead of Bengal presets when choosing to start a jungle map on 1st launch
+### Changed
+- Major improvements to 'Zoom to Data' feature
+
+## 1.12.0 - 2017-10-27
+## Added
+- Added a live `lat, lon` label to the bottom right corner, indicating where in
+  the world the view currently is
+- Added a 'Go to Lat/Lon' feature in the menu that lets you enter a lat,lon pair
+  of numbers and have the map zoom there
+
+## 1.11.3 - 2017-10-20
+## Fixed
+- Welcome screen fixes & improvements
+
+## 1.11.2 - 2017-10-20
+## Fixed
+- Welcome screen fixes & improvements
+
+## 1.11.1 - 2017-10-20
+## Fixed
+- Welcome screen fixes & improvements
+
+## 1.11.0 - 2017-10-20
+## Added
+- The first time app is loaded, show welcome page with example datasets to pick
+  from
+- English translation
+
+
+## 1.10.2 - 2017-08-30
+### Fixed
+- Fixed broken Windows/Mac builds
+- Removed unused development dependencies
+
 ## 1.10.1 - 2017-08-30
-### FIxed
+**BROKEN BUILD**
+### Fixed
+- Tried to fix broken builds (failed)
+
+## 1.10.0 - 2017-08-30
+### Fixed
 - GeoJSON export now contains the same data as the visual map display
 ### Optimized
 - 'Regenerating Indexes' only takes ~60% as long as before!

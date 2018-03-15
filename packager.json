@@ -1,6 +1,6 @@
 {
   "osx" : {
-    "title": "Mapeo CEIBO",
+    "title": "Mapeo",
     "icon": "app-icon.icns",
     "icon-size": 80,
     "contents": [
@@ -9,7 +9,7 @@
     ]
   },
   "win" : {
-    "title" : "Mapeo CEIBO",
+    "title" : "Mapeo",
     "version" : "1.0.0",
     "icon": "icon.ico"
   }
