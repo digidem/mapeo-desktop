@@ -4,7 +4,7 @@ var concat = require('@gmaclennan/concat')
 var mkdirp = require('mkdirp')
 var EOL = require('os').EOL
 
-var idPath = path.dirname(require.resolve('iD/package.json'))
+var idPath = path.dirname(require.resolve('id-mapeo/package.json'))
 var pkg = require('../package.json')
 var idDistPath = path.join(idPath, 'dist')
 var dstPath = path.resolve(__dirname, '../vendor/iD')
