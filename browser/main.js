@@ -2,9 +2,7 @@ var insertCss = require('insert-css')
 var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
 var dialog = require('electron').dialog
-var merge = require('lodash/merge')
-var defaultPresets = require('../vendor/iD/presets.json')
-var defaultImagery = require('../vendor/iD/imagery.json')
+
 var welcomeScreen = require('./welcome')
 var overlay = require('./overlay')
 var log = require('../lib/log').Browser()
@@ -41,8 +39,6 @@ var parser = new DOMParser()
 
 var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
 
-// iD.oneWayTags.waterway.spring = true;
-
 var id = iD.Context()
   .assetPath('vendor/iD/')
   .preauth({url: serverUrl})
@@ -60,39 +56,7 @@ if (!showedWelcome) {
   welcomeScreen($overlay, $welcome, $map)
 } else openMap()
 
-function loadLocale () {
-  var locale = iD.Detect().locale
-  if (locale && !iD.dataLocales[locale]) {
-    locale = locale.split('-')[0]
-  }
-  if (locale && locale !== 'en' && iD.dataLocales[locale]) {
-    var localePath = id.asset('locales/' + locale + '.json')
-    d3.json(localePath, function (err, result) {
-      window.locale[locale] = result
-      window.locale.current(locale)
-      var translations = ipc.sendSync('get-user-data', 'translations')
-      merge(window.locale, translations)
-      done()
-    })
-  } else done()
-
-  function done () {
-    // after loading translations, monkey patch the openstreetmap specific stuff
-    // TODO: update language directly in id-mapeo
-    try {
-      var translations = require('../id_monkey_patches/locales/' + locale + '.json')
-      merge(window.locale[locale], translations)
-    } catch (e) {
-      log('could not load monkeypatch locale for', locale)
-    }
-
-    var translations = ipc.sendSync('get-user-data', 'translations')
-    merge(window.locale, translations)
-    cb()
-    window.onbeforeunload = myOnBeforeLoad
-  }
-}
-id.ui()(document.getElementById('container'), loadLocale)
+id.ui()(document.getElementById('container'))
 
 function myOnBeforeLoad () {
   id.save()
@@ -135,18 +99,16 @@ function updateSettings () {
   var presets = ipc.sendSync('get-user-data', 'presets')
   var customCss = ipc.sendSync('get-user-data', 'css')
   var imagery = ipc.sendSync('get-user-data', 'imagery')
-  var translations = ipc.sendSync('get-user-data', 'translations')
   var icons = ipc.sendSync('get-user-data', 'icons')
+
+  if (presets) iD.data.presets = presets
+  if (customCss) insertCss(customCss)
+  if (imagery) iD.data.imagery = imagery
   if (icons) {
     var iconsSvg = parser.parseFromString(icons, 'image/svg+xml').documentElement
     customDefs.node().replaceChild(iconsSvg, customDefs.node().firstChild)
   }
-
-  if (customCss) insertCss(customCss)
-  if (translations) merge(window.locale, translations)
-  if (imagery) iD.data.imagery = imagery || defaultImagery
-  log('updating settings')
-  if (presets) iD.data.presets = presets || defaultPresets
+  log('settings updated')
 }
 
 function zoomToDataRequest () {

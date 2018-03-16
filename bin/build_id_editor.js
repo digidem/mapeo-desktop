@@ -3,6 +3,7 @@ var path = require('path')
 var concat = require('@gmaclennan/concat')
 var mkdirp = require('mkdirp')
 var EOL = require('os').EOL
+var merge = require('lodash/merge')
 
 var idPath = path.dirname(require.resolve('id-mapeo/package.json'))
 var pkg = require('../package.json')
@@ -15,18 +16,13 @@ mkdirp.sync(dstPath)
 fs.copySync(idDistPath, dstPath, {clobber: true})
 var idPath = path.join(idDistPath, 'iD.js')
 
-function done (err) {
-  if (err) console.error(err, err.stack)
+// needs to happen at build-time: patch locales with mapeo-specific text
+var localeDir = path.join(__dirname, '..', 'id_monkey_patches', 'locales')
+var locales = fs.readdirSync(localeDir)
+locales.forEach(function (filename) {
+  var patch = JSON.parse(fs.readFileSync(path.join(localeDir, filename)).toString())
+  var idLocale = path.join(dstPath, 'locales', filename)
+  var original = JSON.parse(fs.readFileSync(idLocale).toString())
 
-  // needs to happen at build-time: version patch
-  fs.writeFileSync(idPath, fs.readFileSync(idPath).toString() + EOL + 'iD.version = "' + pkg.version + '"')
-
-  var presets = {
-    presets: require('iD/data/presets/presets.json'),
-    defaults: require('iD/data/presets/defaults.json'),
-    categories: require('iD/data/presets/categories.json'),
-    fields: require('iD/data/presets/fields.json')
-  }
-
-  fs.writeFileSync(path.join(dstPath, 'presets.json'), JSON.stringify(presets, null, '  '))
-}
+  fs.writeFileSync(idLocale, JSON.stringify(merge(original, patch)))
+})
