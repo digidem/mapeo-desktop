@@ -73,7 +73,6 @@ id.ui()(document.getElementById('container'), function onLoad () {
   map.on('move', function () {
     var pos = map.center()
     var s = latlonToPosString(pos)
-    console.log(s)
     latlon.text(s)
   })
   updateSettings()
