@@ -2,6 +2,7 @@ var i18n = require('../lib/i18n')
 
 module.exports = function () {
   return `
+  <div id="progress"></div>
     <a href="replicate_usb.html">
         <button>
         <svg class="icon pre-text" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">

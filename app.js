@@ -21,6 +21,7 @@ var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
 var installStatsIndex = require('./lib/osm-stats')
 
+var importer = require('./lib/importer')
 var locale = require('./lib/locale')
 var examples = require('./lib/examples')
 var menuTemplate = require('./lib/menu')
@@ -93,6 +94,7 @@ function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
   installStatsIndex(osm)
   app.osm = osm
+  app.importer = importer(osm)
 
   log('preparing osm indexes..')
 
@@ -232,6 +234,19 @@ function createMainWindow (done) {
     var ipc = electron.ipcMain
 
     require('./lib/user-config')
+    
+    app.importer.on('import-error', function (err, filename) {
+      win.webContents.send('import-error', err, filename)
+    })
+
+    app.importer.on('import-complete', function (filename) {
+      win.webContents.send('import-complete', filename)
+    })
+
+    app.importer.on('import-progress', function (filename, index, total) {
+      win.webContents.send('import-progress', filename, index, total)
+    })
+
     ipc.on('open-map', function () {
       var MAP = 'file://' + path.resolve(__dirname, './map.html')
       win.loadURL(MAP)

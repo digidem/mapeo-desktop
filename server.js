@@ -2,11 +2,11 @@ var osmserver = require('osm-p2p-server')
 var http = require('http')
 var sneakernet = require('hyperlog-sneakernet-replicator')
 var net = require('net')
+var osmGeoJson = require('osm-p2p-geojson')
 
 var body = require('body/any')
 var parseUrl = require('url').parse
 var exportGeoJson = require('./lib/export-geojson')
-var importData = require('./lib/import-data')
 var wsock = require('websocket-stream')
 var eos = require('end-of-stream')
 var randombytes = require('randombytes')
@@ -52,7 +52,8 @@ module.exports = function (osm) {
           errors: err
         }, null, 2))
       }
-      importData(osm, req, done)
+      var importer = osmGeoJson.importer(osm)
+      importer.importFeatureCollection(req, done)
     } else error(404, res, 'Not Found')
   })
 
