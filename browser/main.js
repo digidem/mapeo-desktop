@@ -4,6 +4,7 @@ var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
 var dialog = require('electron').dialog
 
+var progressBar = require('./progressBar')
 var welcomeScreen = require('./welcome')
 var overlay = require('./overlay')
 var log = require('../lib/log').Browser()
@@ -75,6 +76,7 @@ id.ui()(document.getElementById('container'), function onLoad () {
     var s = latlonToPosString(pos)
     latlon.text(s)
   })
+
   updateSettings()
 })
 
@@ -91,7 +93,9 @@ ipc.on('updated-settings', function () {
   updateSettings()
   ipc.send('refresh-window')
 })
-
+ipc.on('import-error', console.error)
+ipc.on('import-complete', importComplete)
+ipc.on('import-progress', importProgress)
 ipc.on('zoom-to-data-request', zoomToDataRequest)
 ipc.on('zoom-to-data-response', zoomToDataResponse)
 ipc.on('zoom-to-latlon-response', zoomToLatLonResponse)
@@ -124,6 +128,16 @@ function updateSettings () {
 
 function zoomToDataRequest () {
   ipc.send('zoom-to-data-get-centroid')
+}
+
+function importComplete (_, filename) {
+  var progress = document.body.querySelector('#progress')
+  progress.innerHTML = ''
+}
+
+function importProgress (_, filename, index, total) {
+  var progress = document.body.querySelector('#progress')
+  progress.innerHTML = progressBar(filename, index, total)
 }
 
 function zoomToDataResponse (_, loc) {
