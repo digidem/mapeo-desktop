@@ -1,7 +1,7 @@
 {
   "button-submit": "OK",
   "button-cancel": "Cancelar",
-  "dialog-enter-latlon-coordinates": "Ingrese las coordenadas (latitud, longitud)",
+  "dialog-enter-latlon-coordinates": "Ingrese las coordenadas (longitud, latitud)",
   "replication-data-complete": "Sincronizando: Actualizando indices... puede demorar un momento",
   "replication-complete": "Sinconización se ha completado exitosamente. Ya debes tener la información más reciente en tu mapa. Haga un click en OK para volver al mapa",
   "replication-progress": "Sincronizando: En progreso...",
