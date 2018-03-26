@@ -133,7 +133,7 @@ function zoomToDataRequest () {
 
 function importComplete (_, filename) {
   var progress = document.body.querySelector('#progress')
-  progress.innerHTMl = ''
+  progress.innerHTML = ''
 }
 
 function importProgress (_, filename, index, total) {
