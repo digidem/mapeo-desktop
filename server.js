@@ -1,6 +1,6 @@
 var osmserver = require('hyperdb-osm-server')
 var http = require('http')
-// var sneakernet = require('hyperlog-sneakernet-replicator')
+var sneakernet = require('hyperdb-sneakernet')
 var net = require('net')
 
 var body = require('body/any')
@@ -168,7 +168,7 @@ module.exports = function (osm) {
     }
 
     var pending = 2
-    var src = osm.log.replicate({ mode: mode })
+    var src = osm.replicate({ mode: mode })
     replicating = true
     console.log('NET REPLICATION: starting')
     src.on('error', syncErr)
@@ -199,14 +199,14 @@ module.exports = function (osm) {
     replicating = true
 
     // Root around in hyperlog's guts to fake progress events
-    var replicateOrig = osm.log.replicate
-    osm.log.replicate = function () {
-      var stream = replicateOrig.call(osm.log)
+    var replicateOrig = osm.db.replicate
+    osm.db.replicate = function () {
+      var stream = replicateOrig.call(osm.db)
       stream.on('data', onProgress)
       return stream
     }
 
-    // sneakernet(osm.log, { safetyFile: true }, sourceFile, onend)
+    sneakernet(osm.db, { safetyFile: true }, sourceFile, onend)
 
     function onProgress () {
       send('replication-progress')
@@ -215,7 +215,7 @@ module.exports = function (osm) {
     function onend (err) {
       if (err) return syncErr(err)
 
-      osm.log.replicate = replicateOrig
+      osm.db.replicate = replicateOrig
 
       replicating = false
       send('replication-data-complete')
