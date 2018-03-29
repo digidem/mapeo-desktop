@@ -3,12 +3,14 @@ var merge = require('lodash/merge')
 var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
 var dialog = require('electron').dialog
+var shell = require('electron').shell
 
 var progressBar = require('./progressBar')
 var welcomeScreen = require('./welcome')
 var overlay = require('./overlay')
 var log = require('../lib/log').Browser()
 var i18n = require('../lib/i18n')
+var package = require('../package.json')
 
 var prevhash = localStorage.getItem('location')
 if (location.hash) localStorage.setItem('location', location.hash)
@@ -36,6 +38,8 @@ var id = iD.Context()
   .preauth({url: serverUrl})
   .minEditableZoom(14)
 
+id.version = package.version
+
 var customDefs = id.container()
   .append('svg')
   .style('position', 'absolute')
@@ -47,30 +51,25 @@ var customDefs = id.container()
 customDefs.append('svg')
 
 id.ui()(document.getElementById('container'), function onLoad () {
-  if (document.querySelector("a[href*='iD/issues']")) {
-    document.querySelector("a[href*='iD/issues']")
-      .setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
-  }
-  if (document.querySelector("a[href='https://github.com/openstreetmap/iD']")) {
-    document.querySelector("a[href='https://github.com/openstreetmap/iD']")
-      .setAttribute('href', 'https://github.com/digidem/mapeo-desktop')
-  }
-  if (document.querySelector(".overlay-layer-attribution a")) {
-    document.querySelector(".overlay-layer-attribution a").
-      setAttribute('href', 'https://github.com/digidem/mapeo-desktop/issues')
-  }
-  if (document.querySelector(".overlay-layer-attribution a")) {
-    document.querySelector(".overlay-layer-attribution a").
-      innerHTML = i18n('feedback-contribute-button')
-  }
-  var aboutList = id.container().select('#about-list')
-  // Update label on map move
-  var map = id.map();
+  var links = document.querySelectorAll('a[href^="http"]')
+  links.forEach(function (link) {
+    var href = link.getAttribute('href')
+    link.onclick = function (event) {
+      event.preventDefault()
+      shell.openExternal(href)
+      return false
+    }
+  })
 
+  var contributeBtn = document.querySelector(".overlay-layer-attribution a")
+  if (contributeBtn) contributeBtn.innerHTML = i18n('feedback-contribute-button')
+
+  // Update label on map move
+  var aboutList = id.container().select('#about-list')
+  var map = id.map();
   var latlon = aboutList.append('li')
   .append('span')
   .text(latlonToPosString(map.center()))
-
   map.on('move', function () {
     var pos = map.center()
     var s = latlonToPosString(pos)

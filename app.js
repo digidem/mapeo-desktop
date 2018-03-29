@@ -234,7 +234,7 @@ function createMainWindow (done) {
     var ipc = electron.ipcMain
 
     require('./lib/user-config')
-    
+
     app.importer.on('import-error', function (err, filename) {
       win.webContents.send('import-error', err, filename)
     })
