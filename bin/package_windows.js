@@ -29,7 +29,6 @@ packager({
   icon: path.join('static', 'mapeo.ico'),
   ignore: /^\/dist/,
   out: 'dist',
-  version: '1.4.15',
   prune: true,
   overwrite: true,
   asar: true,
