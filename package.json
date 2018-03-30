@@ -2,7 +2,7 @@
   "name": "mapeo-desktop",
   "description": "An experimental offline mapping app based on iD Editor, for indigenous territory mapping in remote environments",
   "productName": "Mapeo",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "productDescription": "Offline Map Editor",
   "author": "Digital Democracy",
   "main": "app.js",
