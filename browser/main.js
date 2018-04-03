@@ -1,4 +1,5 @@
 var insertCss = require('insert-css')
+var path = require('path')
 var merge = require('lodash/merge')
 var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
@@ -136,7 +137,7 @@ function importComplete (_, filename) {
 
 function importProgress (_, filename, index, total) {
   var progress = document.body.querySelector('#progress')
-  progress.innerHTML = progressBar(filename, index, total)
+  progress.innerHTML = progressBar(path.basename(filename), index, total)
 }
 
 function zoomToDataResponse (_, loc) {
