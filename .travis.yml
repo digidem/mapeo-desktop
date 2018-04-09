@@ -14,14 +14,13 @@ script:
   - npm run build
   - npm run rebuild-leveldb
   - npm run lint
-  - node bin/package_macos.js
-  - node bin/create_macos_dmg.js
+  - npm run dist
 
 deploy:
   skip_cleanup: true
   provider: releases  # github releases
   file_glob: true
-  file: "dist/Mapeo-darwin-x64/Installar_Mapeo*.dmg"
+  file: "dist/Mapeo-darwin-x64/Mapeo*.dmg"
   on:
     tags: true
     repo: digidem/mapeo-desktop
