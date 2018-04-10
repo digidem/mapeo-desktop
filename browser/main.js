@@ -107,7 +107,10 @@ function updateSettings () {
   var icons = ipc.sendSync('get-user-data', 'icons')
 
   if (presets) {
-    if (!id) iD.data.presets = merge(iD.data.presets, presets)
+    if (!id) {
+      presets.fields = merge(iD.data.presets.fields, presets.fields)
+      iD.data.presets = presets
+    }
   }
   if (customCss) insertCss(customCss)
   if (imagery) {
