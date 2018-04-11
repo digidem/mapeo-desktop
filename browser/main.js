@@ -71,8 +71,8 @@ id.ui()(document.getElementById('container'), function onLoad () {
   var latlon = aboutList.append('li')
   .append('span')
   .text(latlonToPosString(map.center()))
-  map.on('move', function () {
-    var pos = map.center()
+  id.container().on('mousemove', function () {
+    var pos = map.mouseCoordinates()
     var s = latlonToPosString(pos)
     latlon.text(s)
   })
