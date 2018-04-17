@@ -1,27 +1,36 @@
 sudo: false
 language: node_js
 node_js:
-  - "6"
-
+  - '6'
 os:
   - osx
-
-# latest npm
 before_install:
   - npm install -g npm@3
-
 script:
   - npm run rebuild-leveldb
   - node bin/package_macos.js
   - node bin/create_macos_dmg.js
 
+before_deploy: ./bin/before_deploy
 deploy:
-  skip_cleanup: true
-  provider: releases  # github releases
-  file_glob: true
-  file: "dist/Mapeo-darwin-x64/Installar_Mapeo*.dmg"
-  on:
-    tags: true
-    repo: digidem/mapeo-desktop
-  api_key:
-    secure: drFLl3ufKFIUyAdGDDtW8ddpEb75JydIpWobEMnIg+BlbsqdBree3AhuqkBJbO/gnyqs3XQp3tCMmsgCSj2hDVCNW0hsJ+lTzdLM0xpc85IRIYCAMf+x/4H2qIziwqNtxNI44Zuz2wVpwRmAC65mr8MqMsXqxe9ZO2udNdx/ofpkngvczHbcoYl2mhgmQPwtpV/YfVOWVtxTM0qF9zgfNdfRv/+tV44mU66ibXEgV3Lefco4TvmgAdlehwzD+tL36Idg1J4jgbnm+GK9iyhN3MO5RnUTT3mVK4gy2ovE/s3+tLSm98XdAo5+7NyqR8PwnLbuUHSpMX84jlp8vJ+vL2NvedQtCACu1LDB5pzc+vM7rf7K4B5N48VC8RYfMUUb/qtCylWd8QdqwSuSpxPV1beuWZOi7dwf03UAPjRhqGg+ATNisiyT8GnkhEg+z6AAV+dWz/dT1I6EbeotIOciy0HJ1wdCWbBve68W2aaDUSRsEOURi1YE/TYLZt77swjBHUbOrpz/udFp/Q93NH+RYlkh52VrCJ7K2KuLMLCSwsuR1IyK1e8kSCXZplph9YbZJzkk2D9hwV6SJX9vw+vmKBqz2gb02JNDmGxHVnvTZFw5U+1dzWAlMyqC+cqOBY0C668BFDJPZ/uJWDqoU+2FU0dLXx2XY7UBoup5pJUdFdw=
+  - provider: releases
+    skip_cleanup: true
+    file_glob: true
+    file: dist/Mapeo-darwin-x64/Installar_Mapeo*.dmg
+    on:
+      tags: true
+      repo: digidem/mapeo-desktop
+    api_key:
+      secure: drFLl3ufKFIUyAdGDDtW8ddpEb75JydIpWobEMnIg+BlbsqdBree3AhuqkBJbO/gnyqs3XQp3tCMmsgCSj2hDVCNW0hsJ+lTzdLM0xpc85IRIYCAMf+x/4H2qIziwqNtxNI44Zuz2wVpwRmAC65mr8MqMsXqxe9ZO2udNdx/ofpkngvczHbcoYl2mhgmQPwtpV/YfVOWVtxTM0qF9zgfNdfRv/+tV44mU66ibXEgV3Lefco4TvmgAdlehwzD+tL36Idg1J4jgbnm+GK9iyhN3MO5RnUTT3mVK4gy2ovE/s3+tLSm98XdAo5+7NyqR8PwnLbuUHSpMX84jlp8vJ+vL2NvedQtCACu1LDB5pzc+vM7rf7K4B5N48VC8RYfMUUb/qtCylWd8QdqwSuSpxPV1beuWZOi7dwf03UAPjRhqGg+ATNisiyT8GnkhEg+z6AAV+dWz/dT1I6EbeotIOciy0HJ1wdCWbBve68W2aaDUSRsEOURi1YE/TYLZt77swjBHUbOrpz/udFp/Q93NH+RYlkh52VrCJ7K2KuLMLCSwsuR1IyK1e8kSCXZplph9YbZJzkk2D9hwV6SJX9vw+vmKBqz2gb02JNDmGxHVnvTZFw5U+1dzWAlMyqC+cqOBY0C668BFDJPZ/uJWDqoU+2FU0dLXx2XY7UBoup5pJUdFdw=
+  - provider: s3
+    on:
+      tags: true
+      repo: digidem/mapeo-desktop
+    bucket: "releases.digital-democracy.org"
+    skip_cleanup: true
+    local_dir: dist/latest
+    acl: public_read
+    secret_access_key:
+      secure: SCSArVMa0Dd4BRPE6UMKk3ESBvlEEWqvFXikCgWsDydDdpdCSvDnfXVgn3UFXpfCZSeUNtYzXDOUwV7eez9I7nxP6NglooZz8bAPBaWP2CatAwwyKAkhXgYHJGaDHNF+N7pWWJMiqcV4hPZ1ZIZDR6XX7g8FfgTuVHbFEFUnKUXjdh50Q0Qn6mlpZdOFwVPHFCOCOnzfT/jSdKJOihLHy84fOQkA6FAFE/CYM5Up47wLptj5yk/dxlII/SAuPlnYuAUyZ+hvWHTI69nAPBebYJDlcMI/9YCG+6oYL07rz1Ah9LlVDff1kWofpSoUzotM5kY6zcpYEtYOzRDStwUEWaZhYpbnNdMVv2zFNWT7ZfcY0OmFxbbCukLJR5jDUE9A7WNc1vuTvNbSgWIiVxvLcg1GjnzImFs/i2XHRZqCF8uFN4+XR+dyBcUTjy1QIF4HJ869piC4bj31TLctNwmRETKpccq4GcaXVv9x0OCxo8e4ylzCbYJ5MvUYAXgLYUETnYZvdpwrqKl4TvbBlab3OVnOWyTMOH4u1jPQneqjgr4LGXeexqro5cslsI0POgsoO7ln0/YOt2qP8wkOqX8XNh49FoTaHl4ZJ2TgWmsgzg+Cp+GaYj1Tpvdx66lPkpYvWdHHqqYPuTLHlO8jgZXBeje7LzduCe51HIdGkR4i55Y=
+    access_id_key:
+      secure: CaHtZxYW9iB3fBYbN8Ty3ugTgs8Lbr/eLYLSGe09dUpp+5oKpbNuOQ7s/p71dDd70CFOukfDCVpkxsrXmKT17QgMfIeh0cQrItsIBTmQ7YiN0gf+KFEY11xGSRel6W+/iEUIPE9fgC6GgcHTFfY7CDerlSh23SDmkqiYNcQwEygv5/KmUcd6lWBJHNtoldoO7j70VLTGK4fM8IKY+0pSc1MbWzECA6OX8HxAgeR8CE6bzd6Mbve/FRuPzEmrZZ74uWBMDdG0wkhQwEEFE8d3XnJtKcmDu9ceOOlZTsy6koOpPkWkSW7j2TH3tiSVdbeRcnBjAvS32urn5l+X5vw9aQRguFKB5hT1NdtslVQ97F8MxtK5GWWRQzoyObLEJXryddFJLez4wGulgWgUPbPRQsk0Io/aVqDEocU0XY9xdJe3JFFrVCuaunIerC95O/GYuSbzbqoiJ9/oeKhijve19cfDlVoSbLkIRzE2mHXJnAdRkToRimKSAQj7t1oQZ+Oku3UuwpJOuYzDRugYvlfyRmp7CHNI8KfeOgQ9Y584vMYwhrdptMxIAay0tHBFBndkb/VgAL007OVS0n4EVQ+OYx4tkgjVif6RTOBxti/7N9sn0lA2yn9OAaGyUzCodRGx0+N2rGizOaddYNAoF5JxJIPs1YvfY9OlQZ2Y8KQBzh4=
