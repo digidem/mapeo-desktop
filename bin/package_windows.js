@@ -10,16 +10,6 @@ var distFolder = path.join(__dirname, '..', 'dist')
 var installerFolder = path.join(distFolder, 'installer-win-x64')
 rimraf(installerFolder)
 
-// run "bin/build_id_editor.js"
-var res = spawn('npm', ['run', 'build:id'])
-if (res.error) {
-  console.log(res.error)
-  process.exit(1)
-}
-if (res.status) {
-  console.log(res.output.toString())
-  process.exit(res.status)
-}
 
 // package electron exeuctable
 packager({
