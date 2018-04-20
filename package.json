@@ -102,6 +102,7 @@
     "electron": "1.7.5",
     "electron-packager": "^7.6.0",
     "fs-extra": "^0.30.0",
+    "hubfs.js": "^1.0.0",
     "npm-platform-dependencies": "0.0.12",
     "watchify": "^3.7.0"
   }
