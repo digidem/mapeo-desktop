@@ -11,7 +11,7 @@ var welcomeScreen = require('./welcome')
 var overlay = require('./overlay')
 var log = require('../lib/log').Browser()
 var i18n = require('../lib/i18n')
-var package = require('../package.json')
+var pkg = require('../package.json')
 
 var prevhash = localStorage.getItem('location')
 if (location.hash) localStorage.setItem('location', location.hash)
@@ -39,7 +39,7 @@ var id = iD.Context()
   .preauth({url: serverUrl})
   .minEditableZoom(14)
 
-id.version = package.version
+id.version = pkg.version
 
 var customDefs = id.container()
   .append('svg')
