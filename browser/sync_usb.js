@@ -13,6 +13,7 @@ var i18n = require('../lib/i18n')
 
 var osmServerHost = remote.getGlobal('osmServerHost')
 var ws = wsock('ws://' + osmServerHost)
+var win = remote.getCurrentWindow()
 
 var replicationProgress = 0
 var file
@@ -90,7 +91,9 @@ selectNewBtn.addEventListener('click', function (ev) {
 cancelBtn.addEventListener('click', function (ev) {
   // hack in a default zoom level for example dataset
   if (file && file.match(/arapaho/)) window.location.href = 'index.html#map=14/-105.7680/40.1300'
-  else window.location.href = 'index.html'
+  else {
+    win.close()
+  }
 })
 
 function showButtons () {
@@ -120,6 +123,7 @@ var query = querystring.parse(url.parse(window.location.href).query)
 if (query.file) selectFile(query.file)
 
 ipc.on('select-file', function (event, file) {
+  console.log('file selected')
   if (!file) return
   selectFile(file)
 })

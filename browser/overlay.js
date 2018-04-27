@@ -1,8 +1,14 @@
+var ipc = require('electron').ipcRenderer
+var html = require('nanohtml')
 var i18n = require('../lib/i18n')
 
 module.exports = function () {
-  return `
-    <a href="replicate_usb.html">
+  var onclick = function () {
+    ipc.send('open-new-window', 'replicate_usb.html')
+  }
+  return html`
+  <div>
+    <a onclick=${onclick}>
         <button>
         <svg class="icon pre-text" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -26,5 +32,6 @@ module.exports = function () {
       </button>
     </a>
   <div id="progress"></div>
+  </div>
   `
 }
