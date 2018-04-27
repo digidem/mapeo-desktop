@@ -41,7 +41,6 @@ build_script:
   - npm config set msvs_version 2015 --global
   - node --version
   - npm --version
-  - npm run build
   - npm run rebuild-leveldb
   - npm run package-win
   - npm run installer-win
