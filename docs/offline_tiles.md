@@ -28,12 +28,20 @@ Let's store the template for a map tile provider for use by tile-dl:
 ```
 $ echo 'https://c.tiles.mapbox.com/v4/digitalglobe.0a8e44ba/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNqOGRmNW9qZjBudmgzMnA1a294OGRtNm8ifQ.06mo-nDisy4KmqjYxEVwQw' > url_template
 ```
+On Windows
+``` cmd
+Set url_template="https://c.tiles.mapbox.com/v4/digitalglobe.0a8e44ba/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNqOGRmNW9qZjBudmgzMnA1a294OGRtNm8ifQ.06mo-nDisy4KmqjYxEVwQw"
+```
 
-Now you can invoke the `tile-dl` program (On Windows just replace `$(cat url_template` with `url` previously defined):
+Now you can invoke the `tile-dl` program:
 
 ```
 $ tile-dl -t "$(cat url_template)" --lon=-122.2632601 --lat=37.8027446 \
           --radius 0.1 --zoom 12 --output {z}/{x}/{y}.png
+```
+On Windows
+``` cmd
+tile-dl -t %url_template% --lon=-122.2632601 --lat=37.8027446 --radius 0.1 --zoom 12 --output {z}/{x}/{y}.png
 ```
 
 This example downloads the area around Oakland, California. You can tweak the
