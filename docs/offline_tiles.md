@@ -28,12 +28,20 @@ Let's store the template for a map tile provider for use by tile-dl:
 ```
 $ echo 'https://c.tiles.mapbox.com/v4/digitalglobe.0a8e44ba/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNqOGRmNW9qZjBudmgzMnA1a294OGRtNm8ifQ.06mo-nDisy4KmqjYxEVwQw' > url_template
 ```
+On Windows
+``` cmd
+Set url_template="https://c.tiles.mapbox.com/v4/digitalglobe.0a8e44ba/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNqOGRmNW9qZjBudmgzMnA1a294OGRtNm8ifQ.06mo-nDisy4KmqjYxEVwQw"
+```
 
 Now you can invoke the `tile-dl` program:
 
 ```
 $ tile-dl -t "$(cat url_template)" --lon=-122.2632601 --lat=37.8027446 \
           --radius 0.1 --zoom 12 --output {z}/{x}/{y}.png
+```
+On Windows
+``` cmd
+tile-dl -t %url_template% --lon=-122.2632601 --lat=37.8027446 --radius 0.1 --zoom 12 --output {z}/{x}/{y}.png
 ```
 
 This example downloads the area around Oakland, California. You can tweak the
@@ -55,9 +63,10 @@ their generosity by downloading more than what you need.
 ## Tell Mapeo about the imagery
 
 Copy the folder of tiles into a folder named `tiles` in Mapeo's folder in your
-application directory. By default this is
+application directory. Note that on Windows Settings & Data (Subfolder `Roaming`) is seperated from the application (Subfolder `local`).
+By default this is
 
-- `%APPDATA%` on Windows
+- `%APPDATA%\Roaming` on Windows
 - `$XDG_CONFIG_HOME` or `~/.config` on Linux
 - `~/Library/Application Support` on macOS
 
@@ -68,7 +77,7 @@ So, e.g. on macOS, copy the folder of image tiles into: `~/Library/Application
 Support/Mapeo/tiles/guyana`. The name of the sub-folder after `tiles/` doesn't
 matter, but this helps keep your offline data separate.
 
-Now edit `imagery.json` in the application directory. It will contain a JSON
+Now edit or create `imagery.json` in the same directory. It will contain a JSON
 array of imagery sources. Add a new entry to that array like
 
 ``` json
