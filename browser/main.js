@@ -114,10 +114,10 @@ function updateSettings () {
   }
   if (customCss) insertCss(customCss)
   if (imagery) {
-    if (!imagery.id) {
-      imagery = imagery.map(function (i) { i.id = i.name; return i; })
-      console.warn('imagery.json should include an id -- using name instead.', imagery)
-    }
+    imagery = imagery.map(function (i) {
+      if (!id) i.id = i.name
+      return i
+    })
     iD.data.imagery = iD.data.imagery.concat(imagery)
   }
   if (icons) {
