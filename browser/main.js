@@ -118,7 +118,7 @@ function updateSettings () {
       imagery = imagery.map(function (i) { i.id = i.name; return i; })
       console.warn('imagery.json should include an id -- using name instead.', imagery)
     }
-    iD.data.imagery = imagery
+    iD.data.imagery = iD.data.imagery.concat(imagery)
   }
   if (icons) {
     var parser = new DOMParser()
