@@ -36,6 +36,7 @@ var log = require('./lib/log').Node()
 var win = null
 var server = null
 var firstTime = false
+var syncWindow = null
 
 // Listen for app-ready event
 var appIsReady = false
@@ -170,24 +171,8 @@ function createServers (done) {
 }
 
 function createLoadingWindow () {
-  if (argv.headless) return
-
   var INDEX = 'file://' + path.resolve(__dirname, './browser/generating_indexes.html')
-  var winOpts = {
-    title: APP_NAME,
-    width: 300,
-    height: 200,
-    modal: true,
-    show: false,
-    alwaysOnTop: true,
-    parent: win
-  }
-  var loadingWin = new BrowserWindow(winOpts)
-  loadingWin.once('ready-to-show', function () {
-    loadingWin.setMenu(null)
-    loadingWin.show()
-  })
-  loadingWin.loadURL(INDEX)
+  var loadingWin = createNewWindow(INDEX, {height: 200, width: 300, modal: true})
 
   console.time('Generating indexes')
   app.osm.ready(function () {
@@ -196,6 +181,28 @@ function createLoadingWindow () {
     loadingWin.close()
     win.reload()
   })
+
+  return loadingWin
+}
+function createNewWindow (INDEX, winOpts) {
+  if (argv.headless) return
+  if (!winOpts) winOpts = {}
+
+  var defaults = {
+    title: APP_NAME,
+    width: 300,
+    height: 200,
+    modal: false,
+    show: false,
+    alwaysOnTop: true,
+    parent: win
+  }
+  var loadingWin = new BrowserWindow(Object.assign({}, defaults, winOpts))
+  loadingWin.once('ready-to-show', function () {
+    loadingWin.setMenu(null)
+    loadingWin.show()
+  })
+  loadingWin.loadURL(INDEX)
 
   return loadingWin
 }
@@ -247,6 +254,15 @@ function createMainWindow (done) {
       win.webContents.send('import-progress', filename, index, total)
     })
 
+    ipc.on('set-locale', function (ev, lang) {
+      app.translations = locale.load(lang)
+    })
+
+    ipc.on('open-new-window', function (ev, filename) {
+      var INDEX = 'file://' + path.resolve(__dirname, filename)
+      syncWindow = createNewWindow(INDEX, {height: 400, width: 800})
+    })
+
     ipc.on('open-map', function () {
       var MAP = 'file://' + path.resolve(__dirname, './map.html')
       win.loadURL(MAP)
@@ -270,7 +286,7 @@ function createMainWindow (done) {
     ipc.on('save-file', function () {
       var metadata = userConfig.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
-      electron.dialog.showSaveDialog(win, {
+      electron.dialog.showSaveDialog({
         title: i18n('save-db-dialog'),
         defaultPath: 'database.' + ext,
         filters: [
@@ -280,14 +296,14 @@ function createMainWindow (done) {
 
       function onopen (filename) {
         if (typeof filename === 'undefined') return
-        win.webContents.send('select-file', filename)
+        syncWindow.webContents.send('select-file', filename)
       }
     })
 
     ipc.on('open-file', function () {
       var metadata = userConfig.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
-      electron.dialog.showOpenDialog(win, {
+      electron.dialog.showOpenDialog({
         title: i18n('open-db-dialog'),
         properties: [ 'openFile' ],
         filters: [
@@ -299,7 +315,7 @@ function createMainWindow (done) {
         if (typeof filenames === 'undefined') return
         if (filenames.length === 1) {
           var file = filenames[0]
-          win.webContents.send('select-file', file)
+          syncWindow.webContents.send('select-file', file)
         }
       }
     })

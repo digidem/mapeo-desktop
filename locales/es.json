@@ -6,6 +6,8 @@
   "replication-complete": "Sinconización se ha completado exitosamente. Ya debes tener la información más reciente en tu mapa. Haga un click en OK para volver al mapa",
   "replication-progress": "Sincronizando: En progreso...",
   "menu-file": "Archivo",
+  "menu-change-language": "Cambiar idioma...",
+  "menu-change-language-title": "Ingrese el idioma (e.g., 'en' or 'es')",
   "menu-import-configuration": "Importar Configuración...",
   "menu-import-configuration-title": "Selecionar archivo de configuración",
   "menu-import-configuration-error": "No pudo importar configuración",

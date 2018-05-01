@@ -1,9 +1,9 @@
 var insertCss = require('insert-css')
+var Dialogs = require('dialogs')
 var path = require('path')
 var merge = require('lodash/merge')
 var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote
-var dialog = require('electron').dialog
 var shell = require('electron').shell
 
 var progressBar = require('./progressBar')
@@ -12,6 +12,8 @@ var overlay = require('./overlay')
 var log = require('../lib/log').Browser()
 var i18n = require('../lib/i18n')
 var pkg = require('../package.json')
+
+// @global: iD
 
 var prevhash = localStorage.getItem('location')
 if (location.hash) localStorage.setItem('location', location.hash)
@@ -62,15 +64,15 @@ id.ui()(document.getElementById('container'), function onLoad () {
     }
   })
 
-  var contributeBtn = document.querySelector(".overlay-layer-attribution a")
+  var contributeBtn = document.querySelector('.overlay-layer-attribution a')
   if (contributeBtn) contributeBtn.innerHTML = i18n('feedback-contribute-button')
 
   // Update label on map move
   var aboutList = id.container().select('#about-list')
-  var map = id.map();
+  var map = id.map()
   var latlon = aboutList.append('li')
-  .append('span')
-  .text(latlonToPosString(map.center()))
+    .append('span')
+    .text(latlonToPosString(map.center()))
   id.container().on('mousemove', function () {
     var pos = map.mouseCoordinates()
     var s = latlonToPosString(pos)
@@ -83,7 +85,7 @@ id.ui()(document.getElementById('container'), function onLoad () {
 window.onbeforeunload = function () { id.save() }
 
 function openMap () {
-  $overlay.innerHTML = overlay()
+  $overlay.appendChild(overlay())
   $overlay.style = 'visibility: visible;'
   $map.style = 'visibility: visible;'
   $welcome.style = 'display: none;'
@@ -96,6 +98,7 @@ ipc.on('updated-settings', function () {
 ipc.on('import-error', console.error)
 ipc.on('import-complete', importComplete)
 ipc.on('import-progress', importProgress)
+ipc.on('change-language-request', changeLanguageRequest)
 ipc.on('zoom-to-data-request', zoomToDataRequest)
 ipc.on('zoom-to-data-response', zoomToDataResponse)
 ipc.on('zoom-to-latlon-response', zoomToLatLonResponse)
@@ -166,4 +169,18 @@ function latlonToPosString (pos) {
   while (pos[0].length < 10) pos[0] += '0'
   while (pos[1].length < 10) pos[1] += '0'
   return pos.toString()
+}
+
+function setLocale (response) {
+  ipc.send('set-locale', response)
+  $overlay.innerHTML = ''
+  $overlay.appendChild(overlay())
+  id.ui().restart(response)
+}
+
+function changeLanguageRequest () {
+  var dialogs = Dialogs()
+  dialogs.prompt(i18n('menu-change-language-title'), function (response) {
+    if (response) setLocale(response)
+  })
 }
