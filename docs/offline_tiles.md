@@ -4,17 +4,24 @@ These instructions were written with
 [POSIX](https://en.wikipedia.org/wiki/POSIX) systems in mind (Linux, macOS).
 Windows users may have to infer some of the differences in the commands shown.
 
-## Install tile-dl
 
-First, make sure you have [npm](https://www.npmjs.com/get-npm) installed.
+### Automatic Import
+
+Mapeo has a built-in tile importer. Go to File->Import Offline Map Tiles... and
+point Mapeo to the tiles you want to use. It accepts a `.tar` file or a
+directory.
+
+![import.png](import.png)
+
+### Download the Tile Data
+
+Need tile data? First, make sure you have [npm](https://www.npmjs.com/get-npm) installed.
 
 Next, install [tile-dl](https://github.com/noffle/tile-dl):
 
 ```
 npm install --global tile-dl
 ```
-
-## Download the tile data
 
 `tile-dl` needs to be told the latitude, longitude, zoom level, and radius of
 the area to download locally.
@@ -37,11 +44,11 @@ Now you can invoke the `tile-dl` program:
 
 ```
 $ tile-dl -t "$(cat url_template)" --lon=-122.2632601 --lat=37.8027446 \
-          --radius 0.1 --zoom 12 --output {z}/{x}/{y}.png
+          --radius 0.1 --zoom 12 --output tiles/{z}/{x}/{y}.png
 ```
 On Windows
 ``` cmd
-tile-dl -t %url_template% --lon=-122.2632601 --lat=37.8027446 --radius 0.1 --zoom 12 --output {z}/{x}/{y}.png
+tile-dl -t %url_template% --lon=-122.2632601 --lat=37.8027446 --radius 0.1 --zoom 12 --output tiles/{z}/{x}/{y}.png
 ```
 
 This example downloads the area around Oakland, California. You can tweak the
@@ -61,6 +68,8 @@ Map tile providers offer these satellite images for free; please don't abuse
 their generosity by downloading more than what you need.
 
 ## Tell Mapeo about the imagery
+
+If you'd like more fine-grained control of your imagery, and do not want to use our autmoatic import tool, you can manage it yourself on the filesystem.
 
 Copy the folder of tiles into a folder named `tiles` in Mapeo's folder in your
 application directory. Note that on Windows Settings & Data (Subfolder `Roaming`) is seperated from the application (Subfolder `local`).
@@ -104,4 +113,3 @@ Navigate to where you downloaded the imagery for, and use 'b' again to open the
 menu; disable the default imagery (probably Bing) from the top list. You should
 see your offline imagery now. If so: you're ready! The imagery you're seeing is
 being loaded from your machine's local hard drive!
-
