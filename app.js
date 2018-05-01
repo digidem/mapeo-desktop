@@ -21,6 +21,7 @@ var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
 var installStatsIndex = require('./lib/osm-stats')
 
+var TileImporter = require('./lib/tile-importer')
 var importer = require('./lib/importer')
 var locale = require('./lib/locale')
 var examples = require('./lib/examples')
@@ -96,6 +97,7 @@ function initOsmDb (done) {
   installStatsIndex(osm)
   app.osm = osm
   app.importer = importer(osm)
+  app.tiles = TileImporter(userDataPath)
 
   log('preparing osm indexes..')
 
