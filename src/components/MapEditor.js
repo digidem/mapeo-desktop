@@ -12,7 +12,6 @@ export default class MapEditor extends React.Component {
   constructor (props) {
     super(props)
     var self = this
-
     ipcRenderer.on('zoom-to-data-request', self.zoomToDataRequest.bind(self))
     ipcRenderer.on('zoom-to-data-response', self.zoomToDataResponse.bind(self))
     ipcRenderer.on('zoom-to-latlon-response', self.zoomToLatLonResponse.bind(self))

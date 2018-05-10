@@ -201,10 +201,7 @@ module.exports = function (app) {
         {
           label: i18n('menu-zoom-to-latlon'),
           click: function (item, focusedWindow) {
-            var win = createLatLonDialogWindow()
-            electron.ipcMain.once('close-latlon-dialog', function () {
-              if (win) win.close()
-            })
+            focusedWindow.webContents.send('open-latlon-dialog')
           },
           visible: true
         }
@@ -290,24 +287,6 @@ module.exports = function (app) {
     )
   }
   return template
-}
-
-function createLatLonDialogWindow () {
-  var INDEX = 'file://' + path.resolve(__dirname, '../static/latlon_dialog.html')
-  var winOpts = {
-    width: 300,
-    height: 200,
-    modal: true,
-    show: false,
-    alwaysOnTop: true
-  }
-  var win = new electron.BrowserWindow(winOpts)
-  win.once('ready-to-show', function () {
-    win.setMenu(null)
-    win.show()
-  })
-  win.loadURL(INDEX)
-  return win
 }
 
 function exportDataMenu (app, name, ext) {

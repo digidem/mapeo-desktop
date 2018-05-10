@@ -1,18 +1,40 @@
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
+import LatLonDialog from './LatLonDialog'
 import IndexesBar from './IndexesBar'
 import ProgressBar from './ProgressBar'
 import i18n from '../lib/i18n'
 
 export default class Overlay extends React.Component {
-  render () {
-    var onclick = function () {
-      ipcRenderer.send('open-new-window', 'static/replicate_usb.html')
+  constructor (props) {
+    super(props)
+    var self = this
+    self.state = {
+      Modal: false
     }
+    ipcRenderer.on('open-latlon-dialog', function () {
+      self.openModal(LatLonDialog)
+    })
+  }
+
+  closeModal () {
+    this.setState({Modal: false})
+  }
+
+  openModal (Modal) {
+    this.setState({Modal})
+  }
+
+  openReplicateWindow () {
+    ipcRenderer.send('open-new-window', 'static/replicate_usb.html')
+  }
+
+  render () {
+    const {Modal} = this.state
     return (<div id='overlay'>
-      <a onClick={onclick}>
-        <button>
+      <a onClick={this.openReplicateWindow}>
+        <button className='sync-button'>
           <svg className='icon pre-text' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'>
             <defs>
               <path d='M0 0h24v24H0V0z' id='a' />
@@ -25,6 +47,7 @@ export default class Overlay extends React.Component {
           <span className='label'>{i18n('overlay-sync-usb-button')}</span>
         </button>
       </a>
+      {Modal && <Modal onClose={this.closeModal.bind(this)} />}
       <ProgressBar />
       <IndexesBar />
     </div>

@@ -1,7 +1,27 @@
+:root {
+  --main-bg-color: rgb(57, 82, 123);
+  --visible-z-index: 100;
+}
 .full {
   width: 100%;
   height: 100%;
 }
+
+form .button-group {
+  text-align: right;
+}
+
+form button {
+  height: 30px;
+  margin-left: 10px;
+  padding: 0px 10px;
+}
+
+form input {
+  margin-bottom: 10px;
+  padding: 10px 0px;
+}
+
 #logoutLink,
 #userLink,
 .save-communityLinks,
@@ -11,35 +31,80 @@
   display: none !important;
   display: none;
 }
+
 #overlay {
-  z-index: 100;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#overlay .sync-button {
+  z-index: var(--visible-z-index);
   position: absolute;
   top: 10px;
   right: 10px;
-}
-#overlay button {
   min-width: 100px;
   padding: 0 15px;
 }
+
+.modal-overlay {
+  z-index: var(--visible-z-index);
+  width: 100%;
+  background-color: rgba(0,0,0,.5);
+  justify-content: center;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.modal-body {
+  background-color: var(--main-bg-color);
+  margin: 40px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.modal-body h3 {
+  color: white;
+}
+
+.modal-body .close-button {
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  height: inherit;
+  width: 20px;
+  background-color: black;
+  color: white;
+  border-radius: 100px;
+}
+
 #welcome {
   width: 100%;
   height: 100%;
-  background-color: rgb(57, 82, 123);
+  background-color: var(--main-bg-color);
   color: white;
   padding: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 #welcome h1,h2 {
   color: white;
   font-weight: bold;
 }
-#welcome h1 {
+
+h1 {
   line-height: 1.4;
   font-size: 30px;
 }
-#welcome h2 {
+h2 {
   line-height: 1.2;
   font-size: 20px;
 }
@@ -96,7 +161,8 @@ p {
 .bar {
   background-color: #f1f1f1 !important;
 }
-.progress-bar-wrapper{
+.progress-bar-wrapper {
+  z-index: var(--visible-z-index);
   padding: 15px;
   background-color: rgb(57, 82, 123);
   color: white;
