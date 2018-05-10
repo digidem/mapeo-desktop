@@ -10,29 +10,32 @@ var BrowserWindow = electron.BrowserWindow  // Module to create native browser w
 var net = require('net')
 var to = require('to2')
 var os = require('os')
-var userConfig = require('./lib/user-config')
 var level = require('level')
 var sublevel = require('subleveldown')
 var osmdb = require('osm-p2p')
 var series = require('run-series')
-var appSettings = require('./app-settings.json')
 var semver = require('semver')
 var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
-var installStatsIndex = require('./lib/osm-stats')
 
-var TileImporter = require('./lib/tile-importer')
-var importer = require('./lib/importer')
-var locale = require('./lib/locale')
-var examples = require('./lib/examples')
-var menuTemplate = require('./lib/menu')
-var i18n = require('./lib/i18n')
+var menuTemplate = require('./src/menu')
+var createServer = require('./src/server.js')
+var createTileServer = require('./src/tile-server.js')
+
+var appSettings = require('./app-settings.json')
+var installStatsIndex = require('./src/lib/osm-stats')
+var userConfig = require('./src/lib/user-config')
+var TileImporter = require('./src/lib/tile-importer')
+var importer = require('./src/lib/importer')
+var locale = require('./src/lib/locale')
+var examples = require('./src/lib/examples')
+var i18n = require('./src/lib/i18n')
 
 if (require('electron-squirrel-startup')) return
 
 var APP_NAME = app.getName()
 
-var log = require('./lib/log').Node()
+var log = require('./src/lib/log').Node()
 
 var win = null
 var server = null
@@ -154,7 +157,6 @@ function versionCheckIndexes (done) {
 }
 
 function createServers (done) {
-  var createServer = require('./server.js')
   server = createServer(app.osm)
 
   var pending = 2
@@ -165,7 +167,7 @@ function createServers (done) {
     if (--pending === 0) done()
   })
 
-  var tileServer = require('./tile-server.js')()
+  var tileServer = createTileServer()
   tileServer.listen(argv.tileport, function () {
     log('tile server listening on :', server.address().port)
     if (--pending === 0) done()

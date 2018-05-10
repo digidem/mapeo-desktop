@@ -28,7 +28,7 @@ export default class MapEditor extends React.Component {
     return (
       <div className='full'>
         <ProgressBar />
-        <Overlay locale={this.props.locale} />
+        <Overlay />
         <div id='container' />
       </div>
     )
