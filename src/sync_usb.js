@@ -6,10 +6,10 @@ var through = require('through2')
 var split = require('split2')
 var wsock = require('websocket-stream')
 var pump = require('pump')
-var ipc = require('electron').ipcRenderer
-var log = require('../lib/log').Browser()
 var remote = require('electron').remote
-var i18n = require('../lib/i18n')
+
+var log = require('./lib/log').Browser()
+var i18n = require('./lib/i18n')
 
 var osmServerHost = remote.getGlobal('osmServerHost')
 var ws = wsock('ws://' + osmServerHost)

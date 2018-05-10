@@ -68,12 +68,6 @@ function getSettings (type) {
   }
 }
 
-ipc.on('get-user-data', function (event, type) {
-  var data = getSettings(type)
-  if (!data) console.warn('unhandled event', type)
-  event.returnValue = data
-})
-
 module.exports = {
   importSettings: importSettings,
   getSettings: getSettings

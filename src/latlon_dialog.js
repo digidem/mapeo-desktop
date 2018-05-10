@@ -1,4 +1,4 @@
-var i18n = require('../lib/i18n')
+var i18n = require('./lib/i18n')
 
 module.exports = function () {
   var content = document.getElementById('content')
@@ -27,4 +27,3 @@ module.exports = function () {
     </div>
   `
 }
-

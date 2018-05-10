@@ -1,9 +1,10 @@
 var path = require('path')
 var dialog = require('electron').dialog
-var userConfig = require('./user-config')
-var exportData = require('./export-data')
-var i18n = require('./i18n')
 var electron = require('electron')
+
+var userConfig = require('./lib/user-config')
+var exportData = require('./lib/export-data')
+var i18n = require('./lib/i18n')
 
 module.exports = function (app) {
   var template = [

@@ -4,7 +4,7 @@ var split = require('split2')
 var through = require('through2')
 var xhr = require('xhr')
 
-var i18n = require('../lib/i18n')
+var i18n = require('./lib/i18n')
 
 var ipc = require('electron').ipcRenderer
 var remote = require('electron').remote

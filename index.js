@@ -244,7 +244,11 @@ function createMainWindow (done) {
 
     var ipc = electron.ipcMain
 
-    require('./lib/user-config')
+    ipc.on('get-user-data', function (event, type) {
+      var data = userConfig.getSettings(type)
+      if (!data) console.warn('unhandled event', type)
+      event.returnValue = data
+    })
 
     app.importer.on('import-error', function (err, filename) {
       win.webContents.send('import-error', err, filename)

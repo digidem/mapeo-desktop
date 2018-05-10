@@ -1,7 +1,7 @@
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
-import i18n from '../../lib/i18n'
+import i18n from '../lib/i18n'
 
 export default class Overlay extends React.Component {
   render () {

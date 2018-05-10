@@ -5,7 +5,7 @@ import merge from 'lodash/merge'
 import Dialogs from 'dialogs'
 import {ipcRenderer, remote, shell} from 'electron'
 
-import i18n from '../../lib/i18n'
+import i18n from '../lib/i18n'
 import Overlay from './Overlay'
 import pkg from '../../package.json'
 

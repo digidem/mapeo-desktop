@@ -1,7 +1,7 @@
 import path from 'path'
 import {ipcRenderer} from 'electron'
 import React from 'react'
-import i18n from '../../lib/i18n'
+import i18n from '../lib/i18n'
 
 export default class Welcome extends React.Component {
   constructor (props) {
