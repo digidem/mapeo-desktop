@@ -1,0 +1,87 @@
+:root {
+  --main-bg-color: rgb(57, 82, 123);
+  --visible-z-index: 100;
+}
+.button-group {
+  text-align: right;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+button.big {
+  padding: 10px;
+  min-width: 300px;
+  line-height: 1.2;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0px;
+  color: #ececec;
+  background-color: rgb(87, 108, 144);
+  border: 1px solid white;
+}
+button.big:hover {
+  color: white;
+  background-color: rgb(72, 92, 114);
+}
+
+#logoutLink,
+#userLink,
+.save-communityLinks,
+.feature-list-pane .search-header,
+.request-review,
+.button.social {
+  display: none !important;
+  display: none;
+}
+
+h1 {
+  line-height: 1.4;
+  font-size: 30px;
+}
+h2 {
+  line-height: 1.2;
+  font-size: 20px;
+}
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+}
+.intro-text {
+  width: 60%;
+}
+#screen-1 {
+  text-align: center;
+  margin: auto;
+}
+#skip-intro {
+  position: absolute;
+  color: #efefef;
+  top: 30px;
+  right: 30px;
+  display: block;
+  text-transform: uppercase;
+}
+#skip-intro:hover {
+  cursor: pointer;
+}
+p {
+  font-size: 14px;
+  margin-bottom: 10px;
+  width: 500px;
+  max-width: 100%;
+}
+.progress {
+  background-color: #9e9e9e !important;
+}
+.bar {
+  background-color: #f1f1f1 !important;
+}
+.progress-bar-wrapper {
+  z-index: var(--visible-z-index);
+  padding: 15px;
+  background-color: rgb(57, 82, 123);
+  color: white;
+}

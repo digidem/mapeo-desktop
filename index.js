@@ -10,34 +10,36 @@ var BrowserWindow = electron.BrowserWindow  // Module to create native browser w
 var net = require('net')
 var to = require('to2')
 var os = require('os')
-var userConfig = require('./lib/user-config')
 var level = require('level')
 var sublevel = require('subleveldown')
 var osmdb = require('osm-p2p')
 var series = require('run-series')
-var appSettings = require('./app-settings.json')
 var semver = require('semver')
 var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
-var installStatsIndex = require('./lib/osm-stats')
 
-var TileImporter = require('./lib/tile-importer')
-var importer = require('./lib/importer')
-var locale = require('./lib/locale')
-var examples = require('./lib/examples')
-var menuTemplate = require('./lib/menu')
-var i18n = require('./lib/i18n')
+var menuTemplate = require('./src/menu')
+var createServer = require('./src/server.js')
+var createTileServer = require('./src/tile-server.js')
+
+var appSettings = require('./app-settings.json')
+var installStatsIndex = require('./src/lib/osm-stats')
+var userConfig = require('./src/lib/user-config')
+var TileImporter = require('./src/lib/tile-importer')
+var importer = require('./src/lib/importer')
+var locale = require('./src/lib/locale')
+var examples = require('./src/lib/examples')
+var i18n = require('./src/lib/i18n')
 
 if (require('electron-squirrel-startup')) return
 
 var APP_NAME = app.getName()
 
-var log = require('./lib/log').Node()
+var log = require('./src/lib/log').Node()
 
 var win = null
 var server = null
 var firstTime = false
-var syncWindow = null
 
 // Listen for app-ready event
 var appIsReady = false
@@ -101,8 +103,6 @@ function initOsmDb (done) {
 
   log('preparing osm indexes..')
 
-  createLoadingWindow()
-
   done()
 }
 
@@ -154,7 +154,6 @@ function versionCheckIndexes (done) {
 }
 
 function createServers (done) {
-  var createServer = require('./server.js')
   server = createServer(app.osm)
 
   var pending = 2
@@ -165,27 +164,13 @@ function createServers (done) {
     if (--pending === 0) done()
   })
 
-  var tileServer = require('./tile-server.js')()
+  var tileServer = createTileServer()
   tileServer.listen(argv.tileport, function () {
     log('tile server listening on :', server.address().port)
     if (--pending === 0) done()
   })
 }
 
-function createLoadingWindow () {
-  var INDEX = 'file://' + path.resolve(__dirname, './browser/generating_indexes.html')
-  var loadingWin = createNewWindow(INDEX, {height: 200, width: 300, modal: true})
-
-  console.time('Generating indexes')
-  app.osm.ready(function () {
-    console.timeEnd('Generating indexes')
-    log('osm indexes READY')
-    loadingWin.close()
-    win.reload()
-  })
-
-  return loadingWin
-}
 function createNewWindow (INDEX, winOpts) {
   if (argv.headless) return
   if (!winOpts) winOpts = {}
@@ -237,12 +222,17 @@ function createMainWindow (done) {
       win.once('ready-to-show', () => win.show())
       win.maximize()
     }
+
     if (argv.debug) win.webContents.openDevTools()
     win.loadURL(INDEX)
 
     var ipc = electron.ipcMain
 
-    require('./lib/user-config')
+    ipc.on('get-user-data', function (event, type) {
+      var data = userConfig.getSettings(type)
+      if (!data) console.warn('unhandled event', type)
+      event.returnValue = data
+    })
 
     app.importer.on('import-error', function (err, filename) {
       win.webContents.send('import-error', err, filename)
@@ -258,16 +248,6 @@ function createMainWindow (done) {
 
     ipc.on('set-locale', function (ev, lang) {
       app.translations = locale.load(lang)
-    })
-
-    ipc.on('open-new-window', function (ev, filename) {
-      var INDEX = 'file://' + path.resolve(__dirname, filename)
-      syncWindow = createNewWindow(INDEX, {height: 400, width: 800})
-    })
-
-    ipc.on('open-map', function () {
-      var MAP = 'file://' + path.resolve(__dirname, './map.html')
-      win.loadURL(MAP)
     })
 
     ipc.on('get-example-filename', function (ev) {
@@ -298,7 +278,7 @@ function createMainWindow (done) {
 
       function onopen (filename) {
         if (typeof filename === 'undefined') return
-        syncWindow.webContents.send('select-file', filename)
+        win.webContents.send('select-file', filename)
       }
     })
 
@@ -317,7 +297,7 @@ function createMainWindow (done) {
         if (typeof filenames === 'undefined') return
         if (filenames.length === 1) {
           var file = filenames[0]
-          syncWindow.webContents.send('select-file', file)
+          win.webContents.send('select-file', file)
         }
       }
     })
@@ -340,6 +320,13 @@ function createMainWindow (done) {
 
     var menu = Menu.buildFromTemplate(menuTemplate(app))
     Menu.setApplicationMenu(menu)
+
+    win.webContents.once('did-finish-load', function () {
+      win.webContents.send('indexes-loading')
+      app.osm.ready(function () {
+        win.webContents.send('indexes-ready')
+      })
+    })
 
     // Emitted when the window is closed.
     win.on('closed', function () {

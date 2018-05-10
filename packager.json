@@ -11,6 +11,6 @@
   "win" : {
     "title" : "Mapeo",
     "version" : "1.0.0",
-    "icon": "icon.ico"
+    "icon": "static/icon.ico"
   }
 }

@@ -1,5 +1,4 @@
 var fs = require('fs')
-var ipc = require('electron').ipcMain
 var osmGeoJson = require('osm-p2p-geojson')
 var concat = require('concat-stream')
 var shp = require('gtran-shapefile')

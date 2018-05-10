@@ -1,7 +1,5 @@
 var exportGeoJson = require('osm-p2p-geojson')
 var pump = require('pump')
-var defork = require('osm-p2p-defork')
-var collect = require('collect-transform-stream')
 var osmApi = require('osm-p2p-api')
 
 var userConfig = require('./user-config')
