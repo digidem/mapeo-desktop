@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Mapeo</title>
-    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <style>
       body {
         position: absolute;
@@ -19,10 +19,10 @@
     </style>
   </head>
   <body>
-    <div id="content" class="container">
+    <div id="replicate-container" class="container">
     </div>
+    <script>
+      require('../src/sync_usb.js')
+    </script>
   </body>
-  <script>
-    require('./generating_indexes.js')()
-  </script>
 </html>

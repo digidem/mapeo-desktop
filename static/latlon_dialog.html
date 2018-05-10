@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Mapeo</title>
-    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <style>
       body {
         position: absolute;
@@ -21,7 +21,7 @@
   <body id="content">
   </body>
   <script>
-    require('./latlon_dialog.js')()
+    require('../src/latlon_dialog.js')()
     var ipc = require('electron').ipcRenderer
 
     function submitHandler () {

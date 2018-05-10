@@ -173,7 +173,7 @@ function createServers (done) {
 }
 
 function createLoadingWindow () {
-  var INDEX = 'file://' + path.resolve(__dirname, './browser/generating_indexes.html')
+  var INDEX = 'file://' + path.resolve(__dirname, './static/generating_indexes.html')
   var loadingWin = createNewWindow(INDEX, {height: 200, width: 300, modal: true})
 
   console.time('Generating indexes')
@@ -263,11 +263,6 @@ function createMainWindow (done) {
     ipc.on('open-new-window', function (ev, filename) {
       var INDEX = 'file://' + path.resolve(__dirname, filename)
       syncWindow = createNewWindow(INDEX, {height: 400, width: 800})
-    })
-
-    ipc.on('open-map', function () {
-      var MAP = 'file://' + path.resolve(__dirname, './map.html')
-      win.loadURL(MAP)
     })
 
     ipc.on('get-example-filename', function (ev) {

@@ -19,10 +19,10 @@
     </style>
   </head>
   <body>
-    <div id="replicate-container" class="container">
+    <div id="content" class="container">
     </div>
-    <script>
-      require('./browser/sync_usb.js')
-    </script>
   </body>
+  <script>
+    require('../src/generating_indexes.js')()
+  </script>
 </html>

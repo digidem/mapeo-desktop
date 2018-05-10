@@ -30,10 +30,9 @@ gh.readFile(config.filename, {ref: config.branches[0]}, function (err, data) {
   var version = config.version
   var macLine = `/mapeo/latest/mac https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_macOS.dmg`
   var windowsLine = `/mapeo/latest/windows https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_${version}_Windows.exe`
-  var match = false
   var res = []
   data.toString().split('\n').map(function (line) {
-    if (line.length > 0 && !line.match(/mapeo\/latest\//))  {
+    if (line.length > 0 && !line.match(/mapeo\/latest\//)) {
       res.push(line.trim())
     }
   })
@@ -51,9 +50,12 @@ gh.readFile(config.filename, {ref: config.branches[0]}, function (err, data) {
   })
 
   function done (err) {
-    if (err) return cb(err)
+    if (err) return onError(err)
     if (--pending > 0) return
     process.exit(0)
   }
 })
 
+function onError (err) {
+  console.trace(err)
+}
