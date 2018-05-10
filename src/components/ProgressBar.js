@@ -4,35 +4,42 @@ import {ipcRenderer} from 'electron'
 export default class ProgressBar extends React.Component {
   constructor (props) {
     super(props)
-    var self = this
     this.state = {
       progressData: null
     }
+  }
+
+  componentDidMount () {
+    var self = this
     ipcRenderer.on('import-error', console.error)
     ipcRenderer.on('import-complete', self.closeProgress.bind(self))
     ipcRenderer.on('import-progress', self.importProgress.bind(self))
   }
 
-  closeProgress (_, filename) {
-    this.setSate({
+  closeProgress (_, title) {
+    this.setState({
       progressData: null
     })
   }
 
-  importProgress (_, filename, index, total) {
+  importProgress (_, title, index, total) {
     this.setState({
-      progressData: {filename, index, total}
+      progressData: {title, index, total}
     })
   }
 
   render () {
     const {progressData} = this.state
     if (!progressData) return null
+    var style = {
+      height: '24px',
+      width: `${Math.round((progressData.index / progressData.total) * 100)}%`
+    }
     return (
       <div className='progress-bar-wrapper'>
-        Importing {progressData.filename}
+        {progressData.title}
         <div className='bar'>
-          <div className='progress' style='height:24px;width:{Math.round((progressData.index / progressData.total) * 100)}%' />
+          <div className='progress' style={style} />
         </div>
       </div>
     )

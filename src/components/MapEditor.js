@@ -1,5 +1,4 @@
 import React from 'react'
-import ProgressBar from './ProgressBar'
 import insertCss from 'insert-css'
 import merge from 'lodash/merge'
 import Dialogs from 'dialogs'
@@ -27,7 +26,6 @@ export default class MapEditor extends React.Component {
   render () {
     return (
       <div className='full'>
-        <ProgressBar />
         <Overlay />
         <div id='container' />
       </div>

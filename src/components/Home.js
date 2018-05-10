@@ -9,9 +9,8 @@ export default class Home extends React.Component {
     var self = this
     var showedWelcome = localStorage.getItem('showedWelcome')
     self.state = {
-      view: showedWelcome ? 'MapView' : 'Welcome'
+      view: showedWelcome ? 'MapEditor' : 'Welcome'
     }
-
     if (!showedWelcome) localStorage.setItem('showedWelcome', true)
 
     var prevhash = localStorage.getItem('location')
@@ -24,7 +23,6 @@ export default class Home extends React.Component {
   }
 
   changeView (view) {
-    console.log('view', view)
     this.setState({view})
   }
 
@@ -32,6 +30,10 @@ export default class Home extends React.Component {
     const {view} = this.state
     if (view === 'Welcome') return <Welcome openMap={this.changeView.bind(this, 'MapEditor')} />
 
-    return <MapEditor />
+    return (
+      <div className='full'>
+        <MapEditor />
+      </div>
+    )
   }
 }

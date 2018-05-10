@@ -1,6 +1,8 @@
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
+import IndexesBar from './IndexesBar'
+import ProgressBar from './ProgressBar'
 import i18n from '../lib/i18n'
 
 export default class Overlay extends React.Component {
@@ -23,7 +25,8 @@ export default class Overlay extends React.Component {
           <span className='label'>{i18n('overlay-sync-usb-button')}</span>
         </button>
       </a>
-      <div id='progress' />
+      <ProgressBar />
+      <IndexesBar />
     </div>
     )
   }

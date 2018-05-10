@@ -104,8 +104,6 @@ function initOsmDb (done) {
 
   log('preparing osm indexes..')
 
-  createLoadingWindow()
-
   done()
 }
 
@@ -174,20 +172,6 @@ function createServers (done) {
   })
 }
 
-function createLoadingWindow () {
-  var INDEX = 'file://' + path.resolve(__dirname, './static/generating_indexes.html')
-  var loadingWin = createNewWindow(INDEX, {height: 200, width: 300, modal: true})
-
-  console.time('Generating indexes')
-  app.osm.ready(function () {
-    console.timeEnd('Generating indexes')
-    log('osm indexes READY')
-    loadingWin.close()
-    win.reload()
-  })
-
-  return loadingWin
-}
 function createNewWindow (INDEX, winOpts) {
   if (argv.headless) return
   if (!winOpts) winOpts = {}
@@ -239,6 +223,7 @@ function createMainWindow (done) {
       win.once('ready-to-show', () => win.show())
       win.maximize()
     }
+
     if (argv.debug) win.webContents.openDevTools()
     win.loadURL(INDEX)
 
@@ -341,6 +326,13 @@ function createMainWindow (done) {
 
     var menu = Menu.buildFromTemplate(menuTemplate(app))
     Menu.setApplicationMenu(menu)
+
+    win.webContents.once('did-finish-load', function () {
+      win.webContents.send('indexes-loading')
+      app.osm.ready(function () {
+        win.webContents.send('indexes-ready')
+      })
+    })
 
     // Emitted when the window is closed.
     win.on('closed', function () {
