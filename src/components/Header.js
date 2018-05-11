@@ -8,7 +8,11 @@ var style = {
 }
 
 var sidebarStyle = {
-  width: '30%'
+  width: '30%',
+  zIndex: 'var(--visible-z-index)',
+  position: 'absolute',
+  right: 0,
+  textAlign: 'right'
 }
 
 export default class Header extends React.Component {
@@ -33,30 +37,30 @@ export default class Header extends React.Component {
     var views = [
       {
         instance: MapEditor,
-        key: 'Map Editor'
+        label: 'Map Editor'
       },
       {
         instance: 'MapFilter',
-        key: 'Map Filter'
+        label: 'Map Filter'
       },
       {
         instance: ShareView,
-        key: 'Share Data'
+        label: 'Share Data'
       },
       {
         instance: 'ImportView',
-        key: 'Import Data'
+        label: 'Import Data'
       }
     ]
 
-    return (<div style={style}>
-      <button onClick={this.toggleSidebar.bind(this)} className='toggle'>
+    return (<div className='overlay' style={style}>
+      <button onClick={this.toggleSidebar.bind(this)} className='sidebar-button'>
         Toggle Sidebar
       </button>
-      {sidebar && <div style={sidebarStyle}>
-        {views.map((view) => {
-          return (<div className='sidebar-item' onClick={this.onSidebarClick.bind(this, view.instance)}>
-            {view.key}
+      {<div style={sidebarStyle}>
+        {views.map((view, i) => {
+          return (<div key={i} className='sidebar-item' onClick={this.onSidebarClick.bind(this, view.instance)}>
+            {view.label}
           </div>)
         })}
       </div>

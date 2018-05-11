@@ -32,13 +32,13 @@ form input {
   display: none;
 }
 
-#overlay {
+.overlay {
   width: 100%;
   height: 100%;
   position: absolute;
 }
 
-#overlay .sync-button {
+.overlay .sidebar-button {
   z-index: var(--visible-z-index);
   position: absolute;
   top: 10px;

@@ -32,7 +32,7 @@ export default class Overlay extends React.Component {
 
   render () {
     const {Modal} = this.state
-    return (<div id='overlay'>
+    return (<div className='overlay'>
       {Modal && <Modal onClose={this.closeModal.bind(this)} />}
       <ProgressBar />
       <IndexesBar />
