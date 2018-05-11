@@ -1,7 +1,7 @@
 import React from 'react'
 
 import MapEditor from './MapEditor'
-import Header from './Header'
+import Sidebar from './Sidebar'
 import Welcome from './Welcome'
 
 export default class Home extends React.Component {
@@ -33,7 +33,7 @@ export default class Home extends React.Component {
 
     return (
       <div className='full'>
-        <Header changeView={this.changeView.bind(this)} />
+        <Sidebar changeView={this.changeView.bind(this)} />
         <View />
       </div>
     )

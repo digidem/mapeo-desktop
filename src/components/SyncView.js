@@ -11,7 +11,7 @@ export default class ShareView extends React.Component {
   render () {
     return (
       <div>
-        'sharing data'
+        'syncing data'
       </div>
     )
   }
