@@ -80,6 +80,8 @@ export default class MapEditor extends React.Component {
       })
       self.updateSettings()
     })
+
+    window.onbeforeunload = function () { self.id.save() }
   }
 
   zoomToLatLonResponse (_, lat, lon) {
