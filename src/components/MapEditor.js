@@ -1,12 +1,17 @@
 import React from 'react'
+
 import insertCss from 'insert-css'
 import merge from 'lodash/merge'
 import Dialogs from 'dialogs'
 import {ipcRenderer, remote, shell} from 'electron'
 
 import i18n from '../lib/i18n'
-import Overlay from './Overlay'
 import pkg from '../../package.json'
+
+import LatLonDialog from './LatLonDialog'
+import IndexesBar from './IndexesBar'
+import Overlay from './Overlay'
+import ProgressBar from './ProgressBar'
 
 export default class MapEditor extends React.Component {
   constructor (props) {
@@ -25,7 +30,7 @@ export default class MapEditor extends React.Component {
   render () {
     return (
       <div className='full'>
-        <Overlay />
+        <MapEditorOverlay />
         <div id='container' />
       </div>
     )
@@ -147,6 +152,40 @@ export default class MapEditor extends React.Component {
   }
 }
 
+class MapEditorOverlay extends React.Component {
+  constructor (props) {
+    super(props)
+    var self = this
+    self.state = {
+      Modal: false
+    }
+    ipcRenderer.on('open-latlon-dialog', function () {
+      self.openModal(LatLonDialog)
+    })
+  }
+
+  closeModal () {
+    this.setState({Modal: false})
+  }
+
+  openModal (Modal) {
+    this.setState({Modal})
+  }
+
+  openReplicateWindow () {
+    ipcRenderer.send('open-new-window', 'static/replicate_usb.html')
+  }
+
+  render () {
+    const {Modal} = this.state
+    return (<Overlay>
+      {Modal && <Modal onClose={this.closeModal.bind(this)} />}
+      <ProgressBar />
+      <IndexesBar />
+    </Overlay>
+    )
+  }
+}
 
 function latlonToPosString (pos) {
   pos[0] = (Math.floor(pos[0] * 1000000) / 1000000).toString()

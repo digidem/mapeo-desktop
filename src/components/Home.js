@@ -1,6 +1,7 @@
 import React from 'react'
 
 import MapEditor from './MapEditor'
+import Sidebar from './Sidebar'
 import Welcome from './Welcome'
 
 export default class Home extends React.Component {
@@ -9,7 +10,7 @@ export default class Home extends React.Component {
     var self = this
     var showedWelcome = localStorage.getItem('showedWelcome')
     self.state = {
-      view: showedWelcome ? 'MapEditor' : 'Welcome'
+      View: showedWelcome ? MapEditor : 'Welcome'
     }
     if (!showedWelcome) localStorage.setItem('showedWelcome', true)
 
@@ -22,17 +23,18 @@ export default class Home extends React.Component {
     })
   }
 
-  changeView (view) {
-    this.setState({view})
+  changeView (View) {
+    this.setState({View})
   }
 
   render () {
-    const {view} = this.state
-    if (view === 'Welcome') return <Welcome openMap={this.changeView.bind(this, 'MapEditor')} />
+    const {View} = this.state
+    if (View === 'Welcome') return <Welcome openMap={this.changeView.bind(this, 'MapEditor')} />
 
     return (
       <div className='full'>
-        <MapEditor />
+        <Sidebar changeView={this.changeView.bind(this)} />
+        <View />
       </div>
     )
   }
