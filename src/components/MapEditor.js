@@ -40,7 +40,7 @@ export default class MapEditor extends React.Component {
   render () {
     return (
       <div className='full'>
-        <MapEditorOverlay />
+        <MapEditorOverlay {...this.props} />
         <div id='container' />
       </div>
     )
@@ -163,36 +163,23 @@ export default class MapEditor extends React.Component {
 }
 
 class MapEditorOverlay extends React.Component {
-  constructor (props) {
-    super(props)
+
+  componentDidMount () {
     var self = this
-    self.state = {
-      Modal: false
-    }
     ipcRenderer.on('open-latlon-dialog', function () {
-      self.openModal(LatLonDialog)
+      self.props.openModal(LatLonDialog)
     })
   }
 
-  closeModal () {
-    this.setState({Modal: false})
-  }
-
-  openModal (Modal) {
-    this.setState({Modal})
-  }
-
   syncButton () {
-    this.openModal(SyncView)
+    this.props.openModal(SyncView)
   }
 
   render () {
-    const {Modal} = this.state
     return (<Overlay>
       <SyncButton onClick={this.syncButton.bind(this)}>
         {i18n('overlay-sync-usb-button')}
       </SyncButton>
-      {Modal && <Modal onClose={this.closeModal.bind(this)} />}
       <ProgressBar />
       <IndexesBar />
     </Overlay>

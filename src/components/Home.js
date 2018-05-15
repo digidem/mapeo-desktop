@@ -1,6 +1,5 @@
 import React from 'react'
 
-import SyncView from './SyncView'
 import MapEditor from './MapEditor'
 import Welcome from './Welcome'
 
@@ -9,8 +8,12 @@ export default class Home extends React.Component {
     super(props)
     var self = this
     var showedWelcome = localStorage.getItem('showedWelcome')
+    showedWelcome = false
     self.state = {
-      View: showedWelcome ? MapEditor : 'Welcome'
+      Modal: false,
+      View: showedWelcome ? MapEditor : Welcome,
+      viewProps: {},
+      modalProps: {}
     }
     if (!showedWelcome) localStorage.setItem('showedWelcome', true)
 
@@ -23,21 +26,34 @@ export default class Home extends React.Component {
     })
   }
 
-  syncButton (event) {
-    this.changeView(SyncView)
+  changeView (View, state) {
+    console.log('changing view', View, state)
+    var newState = Object.assign({}, {View}, state)
+    console.log('new state', newState)
+    this.setState(newState)
   }
 
-  changeView (View) {
-    this.setState({View})
+  closeModal () {
+    this.setState({Modal: false})
+  }
+
+  openModal (Modal, modalProps) {
+    if (!modalProps) modalProps = {}
+    this.setState({Modal, modalProps})
   }
 
   render () {
-    const {View} = this.state
-    if (View === 'Welcome') return <Welcome openMap={this.changeView.bind(this, 'MapEditor')} />
+    const {View, Modal} = this.state
 
     return (
       <div className='full'>
-        <View changeView={this.changeView.bind(this)} />
+        {Modal && <Modal
+          onClose={this.closeModal.bind(this)}
+          {...this.state.modalProps}
+        />}
+        <View changeView={this.changeView.bind(this)}
+          openModal={this.openModal.bind(this)}
+          {...this.state.viewProps} />
       </div>
     )
   }

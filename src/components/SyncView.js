@@ -37,7 +37,7 @@ export default class ShareView extends React.Component {
     })
   }
 
-  selectFile (file) {
+  selectFile (filename) {
     var self = this
     xhr({
       method: 'POST',
@@ -46,22 +46,24 @@ export default class ShareView extends React.Component {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        source: file
+        source: filename
       })
     }, function onpost (err, res, body) {
       if (err) {
-        this.setState({
+        console.error(err)
+        self.setState({
           message: 'Error: ' + err.message,
           replicationProgress: 'error'
         })
       } else if (res.statusCode !== 200) {
         var message = res.statusCode + ': ' + body
-        this.setState({
+        console.error(err)
+        self.setState({
           message: 'Error: ' + message,
           replicationProgress: 'error'
         })
       } else {
-        this.setState({
+        self.setState({
           message: messages['replication-progress'],
           replicationProgress: 'progress'
         })
@@ -71,7 +73,6 @@ export default class ShareView extends React.Component {
 
   componentDidMount () {
     var self = this
-    if (this.props.file) this.selectFile(this.props.file)
 
     pump(self.ws, split(JSON.parse), through.obj(function (row, enc, next) {
       if (row && row.topic === 'replication-error') {
@@ -108,7 +109,8 @@ export default class ShareView extends React.Component {
 
   render () {
     var {message, replicationProgress} = this.state
-    const {onClose} = this.props
+    const {onClose, filename} = this.props
+    if (filename && replicationProgress === 'ready') this.selectFile(filename)
 
     return (
       <Modal onClose={onClose}>

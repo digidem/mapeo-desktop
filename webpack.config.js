@@ -15,7 +15,10 @@ module.exports = {
       include: path.join(__dirname, 'src'),
       loader: 'babel-loader',
       query: {
-        presets: ['react', 'env']
+        presets: ['react', 'env'],
+        plugins: [
+          'transform-object-rest-spread'
+        ]
       }
     }]
   }

@@ -1,8 +1,17 @@
 import path from 'path'
+import Parser from 'html-react-parser'
 import {ipcRenderer} from 'electron'
 import React from 'react'
-import i18n from '../lib/i18n'
+
+import _i18n from '../lib/i18n'
+import MapEditor from './MapEditor'
+import SyncView from './SyncView'
 import View from './View'
+
+function i18n (id) {
+  var text = _i18n(id)
+  return Parser(text)
+}
 
 export default class Welcome extends React.Component {
   constructor (props) {
@@ -19,16 +28,22 @@ export default class Welcome extends React.Component {
   presetsButton () {
     var filename = path.join(__dirname, '..', 'examples', 'settings-jungle-v1.0.0.mapeosettings')
     ipcRenderer.send('import-settings', filename)
+    this.props.changeView(MapEditor)
   }
 
   examplesButton () {
-    var example = ipcRenderer.sendSync('get-example-filename')
-    window.location.href = `/static/replicate_usb.html?file=${example}`
+    var filename = ipcRenderer.sendSync('get-example-filename')
+    this.props.changeView(MapEditor, {Modal: SyncView, modalProps: {filename}})
+  }
+
+  openMap () {
+    this.props.changeView(MapEditor)
   }
 
   render () {
     const {screen} = this.state
-    const {openMap} = this.props
+
+    var openMap = this.openMap.bind(this)
 
     return (<View id='welcome'>
       <div id='skip-intro' onClick={openMap}>Skip intro</div>
@@ -46,7 +61,7 @@ export default class Welcome extends React.Component {
             <h1>
               {i18n('welcome-screen-2-title')}
             </h1>
-            <h2 className='intro-text'>${i18n('welcome-screen-2-text-1')}</h2>
+            <h2 className='intro-text'>{i18n('welcome-screen-2-text-1')}</h2>
             <p>{i18n('welcome-screen-2-text-2')}</p>
             <p>{i18n('welcome-screen-2-text-3')}</p>
             <p>{i18n('welcome-screen-2-text-4')}</p>
@@ -56,12 +71,12 @@ export default class Welcome extends React.Component {
             </button>
           </div>)
           : <div id='screen-3'>
-            <h2 className='intro-text'>${i18n('welcome-screen-3-title')}</h2>
+            <h2 className='intro-text'>{i18n('welcome-screen-3-title')}</h2>
             <div className='action-buttons'>
-              <button id='example-dataset' className='big' onClick={this.examplesButton}>
+              <button id='example-dataset' className='big' onClick={this.examplesButton.bind(this)}>
                 {i18n('welcome-screen-3-example-dataset')}
               </button>
-              <button id='use-presets' className='big' onClick={this.presetsButton}>
+              <button id='use-presets' className='big' onClick={this.presetsButton.bind(this)}>
                 {i18n('welcome-screen-3-use-presets')}
               </button>
               <button id='open-map' className='big' onClick={openMap}>
