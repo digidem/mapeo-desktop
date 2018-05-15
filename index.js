@@ -258,10 +258,19 @@ function createMainWindow (done) {
       ev.returnValue = dst
     })
 
-    ipc.on('import-settings', function (ev, filename) {
+    ipc.on('import-example-presets', function (ev) {
+      var filename = path.join(__dirname, 'examples', 'settings-jungle-v1.0.0.mapeosettings')
       userConfig.importSettings(win, filename, function (err) {
-        if (!err) log('Settings imported from ' + filename)
-        return
+        if (err) return log(err)
+        log('Example presets imported from ' + filename)
+      })
+    })
+
+    ipc.on('import-settings', function (ev, filename) {
+      console.log('importing settings')
+      userConfig.importSettings(win, filename, function (err) {
+        if (err) return log(err)
+        log('Example presets imported from ' + filename)
       })
     })
 
@@ -312,10 +321,6 @@ function createMainWindow (done) {
 
     ipc.on('zoom-to-latlon-request', function (_, lat, lon) {
       win.webContents.send('zoom-to-latlon-response', lat, lon)
-    })
-
-    ipc.on('refresh-window', function () {
-      win.reload()
     })
 
     var menu = Menu.buildFromTemplate(menuTemplate(app))

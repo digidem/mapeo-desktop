@@ -26,8 +26,7 @@ export default class Welcome extends React.Component {
   }
 
   presetsButton () {
-    var filename = path.join(__dirname, '..', 'examples', 'settings-jungle-v1.0.0.mapeosettings')
-    ipcRenderer.send('import-settings', filename)
+    ipcRenderer.send('import-example-presets')
     this.props.changeView(MapEditor)
   }
 
