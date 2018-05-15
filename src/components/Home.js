@@ -10,9 +10,10 @@ export default class Home extends React.Component {
     var showedWelcome = localStorage.getItem('showedWelcome')
     self.state = {
       Modal: false,
-      View: showedWelcome ? MapEditor : Welcome,
-      viewProps: {},
-      modalProps: {}
+      View: {
+        component: showedWelcome ? MapEditor : Welcome,
+        props: {}
+      }
     }
     if (!showedWelcome) localStorage.setItem('showedWelcome', true)
 
@@ -25,10 +26,8 @@ export default class Home extends React.Component {
     })
   }
 
-  changeView (View, state) {
-    console.log('changing view', View, state)
-    var newState = Object.assign({}, {View}, state)
-    console.log('new state', newState)
+  changeView (component, state) {
+    var newState = Object.assign({}, {View: {component}}, state)
     this.setState(newState)
   }
 
@@ -36,9 +35,9 @@ export default class Home extends React.Component {
     this.setState({Modal: false})
   }
 
-  openModal (Modal, modalProps) {
-    if (!modalProps) modalProps = {}
-    this.setState({Modal, modalProps})
+  openModal (component, props) {
+    if (!props) props = {}
+    this.setState({Modal: {component, props}})
   }
 
   render () {
@@ -46,13 +45,13 @@ export default class Home extends React.Component {
 
     return (
       <div className='full'>
-        {Modal && <Modal
+        {Modal && <Modal.component
           onClose={this.closeModal.bind(this)}
-          {...this.state.modalProps}
+          {...this.state.Modal.props}
         />}
-        <View changeView={this.changeView.bind(this)}
+        <View.component changeView={this.changeView.bind(this)}
           openModal={this.openModal.bind(this)}
-          {...this.state.viewProps} />
+          {...this.state.View.props} />
       </div>
     )
   }
