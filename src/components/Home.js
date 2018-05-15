@@ -8,7 +8,6 @@ export default class Home extends React.Component {
     super(props)
     var self = this
     var showedWelcome = localStorage.getItem('showedWelcome')
-    showedWelcome = false
     self.state = {
       Modal: false,
       View: showedWelcome ? MapEditor : Welcome,
