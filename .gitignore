@@ -2,3 +2,4 @@ node_modules
 vendor
 dist
 examples/.dat
+static/build.js

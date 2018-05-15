@@ -1,9 +1,10 @@
-var fs = require('fs')
+var path = require('path')
 var dialog = require('electron').dialog
-var userConfig = require('./user-config')
-var exportData = require('./export-data')
-var i18n = require('./i18n')
 var electron = require('electron')
+
+var userConfig = require('./lib/user-config')
+var exportData = require('./lib/export-data')
+var i18n = require('./lib/i18n')
 
 module.exports = function (app) {
   var template = [
@@ -200,10 +201,7 @@ module.exports = function (app) {
         {
           label: i18n('menu-zoom-to-latlon'),
           click: function (item, focusedWindow) {
-            var win = createLatLonDialogWindow()
-            electron.ipcMain.once('close-latlon-dialog', function () {
-              if (win) win.close()
-            })
+            focusedWindow.webContents.send('open-latlon-dialog')
           },
           visible: true
         }
@@ -289,24 +287,6 @@ module.exports = function (app) {
     )
   }
   return template
-}
-
-function createLatLonDialogWindow () {
-  var INDEX = 'file://' + require('path').resolve(__dirname, '../browser/latlon_dialog.html')
-  var winOpts = {
-    width: 300,
-    height: 200,
-    modal: true,
-    show: false,
-    alwaysOnTop: true
-  }
-  var win = new electron.BrowserWindow(winOpts)
-  win.once('ready-to-show', function () {
-    win.setMenu(null)
-    win.show()
-  })
-  win.loadURL(INDEX)
-  return win
 }
 
 function exportDataMenu (app, name, ext) {
