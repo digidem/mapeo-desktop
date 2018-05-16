@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {shell} from 'electron'
+import {ipcRenderer, shell} from 'electron'
 
 import ImportProgressBar from './ImportProgressBar'
 import IndexesBar from './IndexesBar'
@@ -42,6 +42,19 @@ var SidebarButton = styled.div`
     color: var(--button-hover-color);
     cursor: pointer;
   }
+  .notification {
+    background-color: var(--main-bg-color);
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    color: white;
+    font-size: 10px;
+    position: absolute;
+    margin-left: 5px;
+    top: 5px;
+    right: 15px;
+  }
 `
 
 var SidebarDiv = styled.div`
@@ -63,8 +76,22 @@ export default class Sidebar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      sidebar: false
+      sidebar: false,
+      notifications: 0
     }
+    ipcRenderer.on('indexes-loading', this.addNotification.bind(this))
+    ipcRenderer.on('indexes-ready', this.removeNotification.bind(this))
+  }
+
+  removeNotification () {
+    this.setState({
+      notifications: Math.max(this.state.notifications - 1, 0)
+    })
+  }
+  addNotification () {
+    this.setState({
+      notifications: this.state.notifications + 1
+    })
   }
 
   onSidebarClick (view) {
@@ -73,7 +100,10 @@ export default class Sidebar extends React.Component {
   }
 
   toggleSidebar () {
-    this.setState({sidebar: !this.state.sidebar})
+    this.setState({
+      sidebar: !this.state.sidebar,
+      notifications: 0
+    })
   }
 
   openGithub () {
@@ -81,7 +111,7 @@ export default class Sidebar extends React.Component {
   }
 
   render () {
-    const {sidebar} = this.state
+    const {notifications, sidebar} = this.state
     const {ActiveComponent} = this.props
 
     var views = [
@@ -105,7 +135,7 @@ export default class Sidebar extends React.Component {
 
     return (<Overlay>
       <SidebarButton onClick={this.toggleSidebar.bind(this)}>
-        Menu
+        Menu {notifications > 0 && <div class='notification'>{notifications}</div>}
       </SidebarButton>
 
       {<SidebarDiv className={sidebar ? 'open' : ''}>

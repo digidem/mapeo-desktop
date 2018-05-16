@@ -7,6 +7,7 @@ export default class ImportProgressBar extends React.Component {
     super(props)
     this.state = {}
   }
+
   closeProgress (_, title) {
     this.setState({title: false, index: 0, total: 0})
   }
