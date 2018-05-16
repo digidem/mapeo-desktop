@@ -1,47 +1,32 @@
+import styled from 'styled-components'
 import React from 'react'
-import {ipcRenderer} from 'electron'
 
-export default class ProgressBar extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      progressData: null
-    }
+var ProgressBarWrapper = styled.div`
+  z-index: var(--visible-z-index);
+  padding: 15px;
+  background-color: var(--main-bg-color);
+  color: white;
+  .progress {
+    background-color: #9e9e9e !important;
   }
-
-  componentDidMount () {
-    var self = this
-    ipcRenderer.on('import-error', console.error)
-    ipcRenderer.on('import-complete', self.closeProgress.bind(self))
-    ipcRenderer.on('import-progress', self.importProgress.bind(self))
+  .bar {
+    background-color: #f1f1f1 !important;
   }
+`
 
-  closeProgress (_, title) {
-    this.setState({
-      progressData: null
-    })
+export default function ProgressBar (props) {
+  var {title, index, total} = props
+  if (!title) return null
+  var style = {
+    height: '24px',
+    width: `${Math.round((index / total) * 100)}%`
   }
-
-  importProgress (_, title, index, total) {
-    this.setState({
-      progressData: {title, index, total}
-    })
-  }
-
-  render () {
-    const {progressData} = this.state
-    if (!progressData) return null
-    var style = {
-      height: '24px',
-      width: `${Math.round((progressData.index / progressData.total) * 100)}%`
-    }
-    return (
-      <div className='progress-bar-wrapper'>
-        {progressData.title}
-        <div className='bar'>
-          <div className='progress' style={style} />
-        </div>
+  return (
+    <ProgressBarWrapper>
+      {title}
+      <div className='bar'>
+        <div className='progress' style={style} />
       </div>
-    )
-  }
+    </ProgressBarWrapper>
+  )
 }

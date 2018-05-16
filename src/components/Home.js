@@ -2,6 +2,8 @@ import React from 'react'
 
 import MapEditor from './MapEditor'
 import Welcome from './Welcome'
+import Sidebar from './Sidebar'
+import Overlay from './Overlay'
 
 export default class Home extends React.Component {
   constructor (props) {
@@ -49,7 +51,15 @@ export default class Home extends React.Component {
           onClose={this.closeModal.bind(this)}
           {...this.state.Modal.props}
         />}
-        <View.component changeView={this.changeView.bind(this)}
+        {!(View instanceof Welcome) && <Overlay>
+          <Sidebar
+            ActiveComponent={View.component}
+            changeView={this.changeView.bind(this)}
+          />
+        </Overlay>
+        }
+        <View.component
+          changeView={this.changeView.bind(this)}
           openModal={this.openModal.bind(this)}
           {...this.state.View.props} />
       </div>

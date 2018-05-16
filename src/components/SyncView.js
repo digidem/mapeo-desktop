@@ -1,35 +1,37 @@
+import styled from 'styled-components'
 import React from 'react'
-import xhr from 'xhr'
-import through from 'through2'
-import split from 'split2'
-import pump from 'pump'
-import wsock from 'websocket-stream'
-import {remote, ipcRenderer} from 'electron'
+import {ipcRenderer} from 'electron'
 
-import Modal from './Modal'
 import MapEditor from './MapEditor'
+import replicate from '../lib/replicate'
 import Form from './Form'
+import View from './View'
 import i18n from '../lib/i18n'
+
+var SyncViewDiv = styled.div`
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+`
 
 // turn the messages into strings once
 // so the function isn't called for every row
 var messages = {
   'replication-data-complete': i18n('replication-data-complete'),
   'replication-complete': i18n('replication-complete'),
-  'replication-progress': i18n('replication-progress')
+  'replication-progress': i18n('replication-progress'),
+  'replication-ready': i18n('sync-database-lead')
 }
 
-export default class ShareView extends React.Component {
+export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
     var self = this
+    var ready = 'replication-ready'
     this.state = {
-      message: '',
-      replicationProgress: 'ready'
+      message: messages[ready],
+      status: ready
     }
-
-    this.osmServerHost = remote.getGlobal('osmServerHost')
-    this.ws = wsock('ws://' + this.osmServerHost)
 
     ipcRenderer.on('select-file', function (event, file) {
       if (!file) return
@@ -37,64 +39,38 @@ export default class ShareView extends React.Component {
     })
   }
 
+  onClose () {
+    this.props.changeView(MapEditor)
+  }
+
   selectFile (filename) {
     var self = this
-    xhr({
-      method: 'POST',
-      url: 'http://' + self.osmServerHost + '/replicate',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        source: filename
-      })
-    }, function onpost (err, res, body) {
+    replicate.start(filename, function (err, res, body) {
+      if (self.destroyed) return
       if (err) {
-        console.error(err)
         self.setState({
           message: 'Error: ' + err.message,
-          replicationProgress: 'error'
+          status: 'replication-error'
         })
-      } else if (res.statusCode !== 200) {
-        var message = res.statusCode + ': ' + body
-        console.error(err)
-        self.setState({
-          message: 'Error: ' + message,
-          replicationProgress: 'error'
-        })
-      } else {
-        self.setState({
-          message: messages['replication-progress'],
-          replicationProgress: 'progress'
-        })
-      }
+      } else self.setState({status: 'replication-progress'})
     })
+  }
+
+  componentWillUnmount () {
+    this.destroyed = true
+    this.stream.destroy()
   }
 
   componentDidMount () {
     var self = this
-
-    pump(self.ws, split(JSON.parse), through.obj(function (row, enc, next) {
-      if (row && row.topic === 'replication-error') {
-        self.setState({
-          message: 'Error: ' + row.message,
-          replicationProgress: 'error'
-        })
-      } else if (row && row.topic === 'replication-data-complete') {
-        self.setState({ message: messages['replication-data-complete'] })
-      } else if (row && row.topic === 'replication-complete') {
-        self.setState({
-          message: messages['replication-complete'],
-          replicationProgress: 'complete'
-        })
-      } else if (row && row.topic === 'replication-progress') {
-        self.setState({
-          message: messages['replication-progress'],
-          replicationProgress: 'progress'
-        })
-      }
-      next()
-    })).on('error', function (err) { console.error(err) })
+    this.destroyed = false
+    this.stream = replicate.parseMessages(function (row, next) {
+      if (self.destroyed) return
+      var status = row.topic
+      var message = messages[status] || row.message
+      self.setState({message, status})
+      return next()
+    })
   }
 
   selectExisting (event) {
@@ -108,39 +84,36 @@ export default class ShareView extends React.Component {
   }
 
   render () {
-    var {message, replicationProgress} = this.state
-    const {onClose, filename} = this.props
-    if (filename && replicationProgress === 'ready') this.selectFile(filename)
+    var {message, status} = this.state
+    const {filename} = this.props
+    if (filename && status === 'replication-ready') this.selectFile(filename)
 
     return (
-      <Modal onClose={onClose}>
-        {replicationProgress === 'ready' && (
-          <h3>
-            {i18n('sync-database-lead')}
-          </h3>
-        )}
-        <div>
-          <h3>{message}</h3>
-        </div>
-        {replicationProgress === 'ready' && (
-          <Form method='POST' action='/replicate'>
-            <div className='button-group'>
-              <input type='hidden' name='source' />
-              <button className='big' onClick={this.selectNew}>
-                <span id='button-text'>{i18n('sync-database-new-button')}&hellip;</span>
-              </button>
-              <button className='big' onClick={this.selectExisting}>
-                <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
-              </button>
-            </div>
-          </Form>
-        )}
-        {replicationProgress === 'complete' && (
-          <div className='button-group'>
-            <button className='big' onClick={onClose}> OK</button>
+      <View>
+        <SyncViewDiv>
+          <div>
+            <h3>{message}</h3>
           </div>
-        )}
-      </Modal>
+          {status === 'replication-ready' && (
+            <Form method='POST' action='/replicate'>
+              <div className='button-group'>
+                <input type='hidden' name='source' />
+                <button className='big' onClick={this.selectNew}>
+                  <span id='button-text'>{i18n('sync-database-new-button')}&hellip;</span>
+                </button>
+                <button className='big' onClick={this.selectExisting}>
+                  <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
+                </button>
+              </div>
+            </Form>
+          )}
+          {status === 'replication-complete' && (
+            <div className='button-group'>
+              <button className='big' onClick={this.onClose.bind(this)}> OK</button>
+            </div>
+          )}
+        </SyncViewDiv>
+      </View>
     )
   }
 }

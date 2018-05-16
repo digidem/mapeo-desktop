@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import {shell} from 'electron'
 
+import ImportProgressBar from './ImportProgressBar'
+import IndexesBar from './IndexesBar'
 import Overlay from './Overlay'
 import MapEditor from './MapEditor'
 import SyncView from './SyncView'
@@ -10,20 +12,36 @@ var SidebarItem = styled.div`
   font-size: 16px;
   padding: 10px 20px;
   color: white;
-  &:hover {
-    background-color: white;
-    color: black;
+  &.active {
+    background-color: var(--button-active-bg-color);
+    color: var(--button-active-color);
+  }
+  &:hover:not(.active) {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-color);
     cursor: pointer;
   }
 `
 
-var SidebarButton = styled.button`
+var SidebarButton = styled.div`
+  font-size: 16px;
+  max-height: 60px;
+  line-height: 40px;
+  text-align: center;
+  font-weight: bold;
   z-index: var(--visible-z-index);
   position: absolute;
+  color: white;
+  background-color: rgba(0,0,0,.5);
   top: 10px;
   right: 10px;
+  border-radius: 5px;
   min-width: 100px;
-  padding: 0 15px;
+  &:hover {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-color);
+    cursor: pointer;
+  }
 `
 
 var SidebarDiv = styled.div`
@@ -31,10 +49,11 @@ var SidebarDiv = styled.div`
   position: absolute;
   right: -200px;
   text-align: right;
-  background-color: var(--main-bg-color);
+  background-color: rgba(0,0,0,.9);
   height: 100%;
   max-width: 200px;
   transition: right .5s;
+  border-left: var(--border);
   &.open {
     right: 0px;
   }
@@ -63,22 +82,23 @@ export default class Sidebar extends React.Component {
 
   render () {
     const {sidebar} = this.state
+    const {ActiveComponent} = this.props
 
     var views = [
       {
-        instance: MapEditor,
+        component: MapEditor,
         label: 'Editor'
       },
       // {
-      //   instance: 'MapFilter',
+      //   component: 'MapFilter',
       //   label: 'Map Filter'
       // },
       {
-        instance: SyncView,
+        component: SyncView,
         label: 'Sync Data'
       }
       // {
-      //   instance: 'ImportView',
+      //   component: 'ImportView',
       //   label: 'Import Data'
       // }
     ]
@@ -87,19 +107,24 @@ export default class Sidebar extends React.Component {
       <SidebarButton onClick={this.toggleSidebar.bind(this)}>
         Menu
       </SidebarButton>
+
       {<SidebarDiv className={sidebar ? 'open' : ''}>
-        <SidebarItem onClick={this.toggleSidebar.bind(this)}>
-          Close menu
-        </SidebarItem>
+        <ImportProgressBar />
+        <IndexesBar />
         {views.map((view, i) => {
           return (
             <SidebarItem
               key={i}
-              onClick={this.onSidebarClick.bind(this, view.instance)}>
+              className={(ActiveComponent === view.component) ? 'active' : ''}
+              onClick={this.onSidebarClick.bind(this, view.component)}>
               {view.label}
             </SidebarItem>)
         })}
+        <SidebarItem onClick={this.toggleSidebar.bind(this)}>
+          Close menu
+        </SidebarItem>
       </SidebarDiv>
+
       }
     </Overlay>
     )
