@@ -1,16 +1,19 @@
 # Mapeo Desktop
 
-An _experimental_ offline mapping app for indigenous territory mapping in remote
+[![Build Status](https://travis-ci.org/digidem/mapeo-desktop.svg?branch=master)](https://travis-ci.org/digidem/mapeo-desktop)
+
+An offline map editing application for indigenous territory mapping in remote
 environments. It uses [osm-p2p](https://github.com/digidem/osm-p2p-db) for
 offline peer-to-peer synchronization of an OpenStreetMap database, without any
 server. The editor is based on [iDEditor](https://github.com/openstreetmap/iD/),
 a simple and easy to use editor for OpenStreetMap. The app is web app built with
-[Electron](http://electron.atom.io) for desktop integration and offline usage.
+[Electron](http://electron.atom.io).
 
-This project is under active development and is still at the prototype phase,
-although we are already testing it out in the field in Ecuador.
+This project is under active development and we are testing it out in the field in Ecuador.
 
 ![screenshot](static/screenshot.png)
+
+For a mobile application that is compatible with Mapeo Desktop, see [Mapeo Mobile](https://github.com/digidem/mapeo-mobile).
 
 # Getting Started
 
@@ -82,4 +85,3 @@ See [downloading tiles for offline use](docs/offline_tiles.md).
 # License
 
 MIT
-
