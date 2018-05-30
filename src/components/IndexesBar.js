@@ -1,6 +1,7 @@
 import React from 'react'
 import i18n from '../lib/i18n'
 import {ipcRenderer} from 'electron'
+import ProgressBar from './ProgressBar'
 
 export default class IndexesBar extends React.Component {
   constructor (props) {
@@ -15,20 +16,29 @@ export default class IndexesBar extends React.Component {
 
   indexesReady () {
     this.setState({loading: false})
+    clearInterval(this.interval)
   }
 
   indexesLoading () {
-    console.log('hi loading')
-    this.setState({loading: true})
+    var self = this
+    this.setState({
+      loading: true,
+      title: i18n('generating-indexes-body'),
+      index: 5,
+      total: 100
+    })
+    this.interval = setInterval(function () {
+      self.setState({
+        index: (self.state.index + 5) % 100
+      })
+    }, 1000)
   }
 
   render () {
-    const {loading} = this.state
-    if (!loading) return null
+    if (!this.state.loading) return null
+
     return (
-      <div className='progress-bar-wrapper'>
-        {i18n('generating-indexes-body')}
-      </div>
+      <ProgressBar {...this.state} />
     )
   }
 }

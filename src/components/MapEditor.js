@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import insertCss from 'insert-css'
 import merge from 'lodash/merge'
 import Dialogs from 'dialogs'
@@ -8,20 +7,7 @@ import {ipcRenderer, remote, shell} from 'electron'
 import i18n from '../lib/i18n'
 import pkg from '../../package.json'
 
-import SyncView from './SyncView'
 import LatLonDialog from './LatLonDialog'
-import IndexesBar from './IndexesBar'
-import Overlay from './Overlay'
-import ProgressBar from './ProgressBar'
-
-var SyncButton = styled.button`
-  z-index: var(--visible-z-index);
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  min-width: 100px;
-  padding: 0 15px;
-`
 
 export default class MapEditor extends React.Component {
   constructor (props) {
@@ -35,12 +21,14 @@ export default class MapEditor extends React.Component {
       self.updateSettings()
       ipcRenderer.send('refresh-window')
     })
+    ipcRenderer.on('open-latlon-dialog', function () {
+      props.openModal(LatLonDialog)
+    })
   }
 
   render () {
     return (
       <div className='full'>
-        <MapEditorOverlay {...this.props} />
         <div id='container' />
       </div>
     )
@@ -159,31 +147,6 @@ export default class MapEditor extends React.Component {
       var defs = self.customDefs && self.customDefs.node()
       if (defs) defs.replaceChild(iconsSvg, defs.firstChild)
     }
-  }
-}
-
-class MapEditorOverlay extends React.Component {
-
-  componentDidMount () {
-    var self = this
-    ipcRenderer.on('open-latlon-dialog', function () {
-      self.props.openModal(LatLonDialog)
-    })
-  }
-
-  syncButton () {
-    this.props.openModal(SyncView)
-  }
-
-  render () {
-    return (<Overlay>
-      <SyncButton onClick={this.syncButton.bind(this)}>
-        {i18n('overlay-sync-usb-button')}
-      </SyncButton>
-      <ProgressBar />
-      <IndexesBar />
-    </Overlay>
-    )
   }
 }
 
