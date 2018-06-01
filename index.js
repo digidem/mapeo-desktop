@@ -235,15 +235,15 @@ function createMainWindow (done) {
     })
 
     app.importer.on('import-error', function (err, filename) {
-      win.webContents.send('import-error', err, filename)
+      win.webContents.send('import-error', err, path.basename(filename))
     })
 
     app.importer.on('import-complete', function (filename) {
-      win.webContents.send('import-complete', filename)
+      win.webContents.send('import-complete', path.basename(filename))
     })
 
     app.importer.on('import-progress', function (filename, index, total) {
-      win.webContents.send('import-progress', filename, index, total)
+      win.webContents.send('import-progress', path.basename(filename), index, total)
     })
 
     ipc.on('set-locale', function (ev, lang) {
