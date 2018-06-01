@@ -18,7 +18,7 @@ function parseMessages (cb) {
   })).on('error', cb)
 }
 
-function start (filename, cb) {
+function start (target, cb) {
   var osmServerHost = remote.getGlobal('osmServerHost')
   xhr({
     method: 'POST',
@@ -26,9 +26,7 @@ function start (filename, cb) {
     headers: {
       'content-type': 'application/json'
     },
-    body: JSON.stringify({
-      source: filename
-    })
+    body: JSON.stringify(target)
   }, function (err, res, body) {
     if (err) return cb(err)
     if (res.statusCode !== 200) return cb(new Error(res.statusCode))

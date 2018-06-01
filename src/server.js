@@ -13,29 +13,38 @@ module.exports = function (osm) {
   var osmrouter = osmserver(osm)
   var id = 'MapeoDesktop_' + randombytes(8).toString('hex')
   var sync = osmsync(osm, {id})
-  var replicating = false
 
   var server = http.createServer(function (req, res) {
     if (osmrouter.handle(req, res)) {
-    } else if (req.method === 'POST' && req.url === '/sync/file') {
-      if (replicating) return error(400, res, 'Replication in progress.\n')
+    } else if (req.method === 'POST') {
       body(req, res, function (err, params) {
-        if (err) return error(400, res, err)
-        replicateFromFile(params.source)
-        res.end('usb replication started\n')
+        if (err) return onerror(400, res, err)
+        if (req.url === '/sync/file') {
+          replicateFromFile(params.filename)
+          res.end('usb replication started\n')
+        } else if (req.url === '/sync/wifi') {
+          replicateWifi(params)
+          res.end('wifi replication started\n')
+        }
       })
-    } else error(404, res, 'Not Found')
-    // TODO: add osmsync network routes
+    } else onerror(404, res, 'Not Found')
   })
 
-  var streams = {}
-  wsock.createServer({ server: server }, function (stream) {
-    var id = randombytes(8).toString('hex')
-    streams[id] = stream
-    eos(stream, function () { delete streams[id] })
+  var stream = null
+  wsock.createServer({ server: server }, function (socket) {
+    osmsync.mdns()
+    stream = socket
+    eos(socket, function () {
+      stream = null
+    })
+    osmsync.on('up', function (service) {
+      send('up', service)
+    })
+    osmsync.on('down', function (service) {
+      send('down', service)
+    })
   })
 
-  server.replicateNetwork = replicateNetwork
   server.send = send
   server.shutdown = function () { sync.close() }
   return server
@@ -48,8 +57,8 @@ module.exports = function (osm) {
     })
   }
 
-  function replicateNetwork (socket) {
-    var emitter = sync.replicateNetwork(socket)
+  function replicateWifi (target) {
+    var emitter = sync.syncToTarget(target)
     emitter.on('error', replicationEnd)
     emitter.on('end', replicationEnd)
     // TODO: real progress events.
@@ -67,13 +76,11 @@ module.exports = function (osm) {
 
   function send (topic, msg) {
     var str = JSON.stringify({ topic: topic, message: msg || {} }) + '\n'
-    Object.keys(streams).forEach(function (id) {
-      streams[id].write(str)
-    })
+    if (stream) stream.write(str)
   }
-}
 
-function error (code, res, err) {
-  res.statusCode = code
-  res.end((err.message || err) + '\n')
+  function onerror (code, res, err) {
+    res.statusCode = code
+    res.end((err.message || err) + '\n')
+  }
 }
