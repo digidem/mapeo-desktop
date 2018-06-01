@@ -22,7 +22,7 @@ function start (filename, cb) {
   var osmServerHost = remote.getGlobal('osmServerHost')
   xhr({
     method: 'POST',
-    url: 'http://' + osmServerHost + '/replicate',
+    url: 'http://' + osmServerHost + '/sync/file',
     headers: {
       'content-type': 'application/json'
     },
