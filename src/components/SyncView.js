@@ -33,9 +33,9 @@ export default class SyncView extends React.Component {
       status: ready
     }
 
-    ipcRenderer.on('select-file', function (event, file) {
-      if (!file) return
-      self.selectFile(file)
+    ipcRenderer.on('select-file', function (event, filename) {
+      if (!filename) return
+      self.replicate({filename})
     })
   }
 
@@ -43,9 +43,9 @@ export default class SyncView extends React.Component {
     this.props.changeView(MapEditor)
   }
 
-  selectFile (filename) {
+  replicate (target) {
     var self = this
-    replicate.start(filename, function (err, res, body) {
+    replicate.start(target, function (err, res, body) {
       if (self.destroyed) return
       if (err) {
         self.setState({
