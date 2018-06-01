@@ -203,7 +203,7 @@ function createMainWindow (done) {
       ready()
     }
 
-    app.on('before-quit', server.shutdown)
+    app.on('before-quit', function () { server.sync.close() })
 
     // Quit when all windows are closed.
     app.on('window-all-closed', function () {
@@ -374,7 +374,7 @@ function syncToTarget (event, target) {
 
   function onConnect () {
     log('connected to', target.name, 'to replicate dataset', target.dataset_id)
-    server.replicateNetwork(socket, 'pull')
+    server.sync.replicateNetwork(socket, 'pull')
   }
 }
 
