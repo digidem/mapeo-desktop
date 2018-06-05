@@ -77,8 +77,6 @@ export default class Sidebar extends React.Component {
       sidebar: false,
       notifications: 0
     }
-    ipcRenderer.on('indexes-loading', this.addNotification.bind(this))
-    ipcRenderer.on('indexes-ready', this.removeNotification.bind(this))
   }
 
   removeNotification () {
@@ -90,6 +88,11 @@ export default class Sidebar extends React.Component {
     this.setState({
       notifications: this.state.notifications + 1
     })
+  }
+
+  componentDidMount () {
+    ipcRenderer.on('indexes-loading', this.addNotification.bind(this))
+    ipcRenderer.on('indexes-ready', this.removeNotification.bind(this))
   }
 
   onSidebarClick (view) {

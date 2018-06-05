@@ -26,50 +26,67 @@ var messages = {
 export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
-    var self = this
     var ready = 'replication-ready'
     this.state = {
       message: messages[ready],
-      status: ready
+      status: ready,
+      targets: []
     }
-
-    ipcRenderer.on('select-file', function (event, filename) {
-      if (!filename) return
-      self.replicate({filename})
-    })
   }
 
   onClose () {
     this.props.changeView(MapEditor)
   }
 
+  onError (err) {
+    this.setState({
+      message: 'Error: ' + err.message,
+      status: 'replication-error'
+    })
+  }
+
   replicate (target) {
     var self = this
+    if (!target) return
     replicate.start(target, function (err, res, body) {
       if (self.destroyed) return
-      if (err) {
-        self.setState({
-          message: 'Error: ' + err.message,
-          status: 'replication-error'
-        })
-      } else self.setState({status: 'replication-progress'})
+      if (err) return self.onError(err)
+      self.setState({status: 'replication-progress'})
     })
   }
 
   componentWillUnmount () {
     this.destroyed = true
     this.stream.destroy()
+    clearInterval(this.interval)
+    ipcRenderer.removeListener('select-file', this.selectFile.bind(this))
+  }
+
+  selectFile (event, filename) {
+    if (!filename) return
+    this.replicate({filename})
   }
 
   componentDidMount () {
     var self = this
     this.destroyed = false
+    this.interval = setInterval(this.updateTargets.bind(this), 1000)
     this.stream = replicate.parseMessages(function (row, next) {
       if (self.destroyed) return
       var status = row.topic
       var message = messages[status] || row.message
       self.setState({message, status})
       return next()
+    })
+    ipcRenderer.on('select-file', this.selectFile.bind(this))
+  }
+
+  updateTargets () {
+    var self = this
+    replicate.getTargets(function (err, targets) {
+      if (err) return self.onError(err)
+      targets = JSON.parse(targets)
+      self.setState({targets})
     })
   }
 
@@ -84,7 +101,7 @@ export default class SyncView extends React.Component {
   }
 
   render () {
-    var {message, status} = this.state
+    var {message, status, targets} = this.state
     const {filename} = this.props
     if (filename && status === 'replication-ready') this.selectFile(filename)
 
@@ -95,17 +112,26 @@ export default class SyncView extends React.Component {
             <h3>{message}</h3>
           </div>
           {status === 'replication-ready' && (
-            <Form method='POST' action='/replicate'>
-              <div className='button-group'>
-                <input type='hidden' name='source' />
-                <button className='big' onClick={this.selectNew}>
-                  <span id='button-text'>{i18n('sync-database-new-button')}&hellip;</span>
-                </button>
-                <button className='big' onClick={this.selectExisting}>
-                  <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
-                </button>
+            <div>
+              <div className='targets'>
+                <ul>
+                  {targets.map(function (t) {
+                    return <li>{t.name}</li>
+                  })}
+                </ul>
               </div>
-            </Form>
+              <Form method='POST'>
+                <div className='button-group'>
+                  <input type='hidden' name='source' />
+                  <button className='big' onClick={this.selectNew}>
+                    <span id='button-text'>{i18n('sync-database-new-button')}&hellip;</span>
+                  </button>
+                  <button className='big' onClick={this.selectExisting}>
+                    <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
+                  </button>
+                </div>
+              </Form>
+            </div>
           )}
           {status === 'replication-complete' && (
             <div className='button-group'>
