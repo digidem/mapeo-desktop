@@ -6,12 +6,11 @@ import ProgressBar from './ProgressBar'
 export default class IndexesBar extends React.Component {
   constructor (props) {
     super(props)
-    var self = this
     this.state = {
       loading: false
     }
-    ipcRenderer.on('indexes-loading', self.indexesLoading.bind(self))
-    ipcRenderer.on('indexes-ready', self.indexesReady.bind(self))
+    // ipcRenderer.on('indexes-loading', self.indexesLoading.bind(self))
+    // ipcRenderer.on('indexes-ready', self.indexesReady.bind(self))
   }
 
   indexesReady () {

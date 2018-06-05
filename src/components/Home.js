@@ -1,6 +1,7 @@
 import React from 'react'
 
 import MapEditor from './MapEditor'
+import SyncView from './SyncView'
 import Welcome from './Welcome'
 import Sidebar from './Sidebar'
 import Overlay from './Overlay'
@@ -13,7 +14,7 @@ export default class Home extends React.Component {
     self.state = {
       Modal: false,
       View: {
-        component: showedWelcome ? MapEditor : Welcome,
+        component: showedWelcome ? SyncView : Welcome,
         props: {}
       }
     }

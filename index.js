@@ -225,6 +225,10 @@ function createMainWindow (done) {
 
     if (argv.debug) win.webContents.openDevTools()
     win.loadURL(INDEX)
+    // TODO: what's the way to see when the window is being refreshed?
+    win.on('refresh', function () {
+      server.sync.close()
+    })
 
     var ipc = electron.ipcMain
 
@@ -298,7 +302,7 @@ function createMainWindow (done) {
         title: i18n('open-db-dialog'),
         properties: [ 'openFile' ],
         filters: [
-          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext, 'sync'] },
+          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext, 'sync', 'zip'] },
         ]
       }, onopen)
 
@@ -310,8 +314,6 @@ function createMainWindow (done) {
         }
       }
     })
-
-    ipc.on('sync-to-target', syncToTarget)
 
     ipc.on('zoom-to-data-get-centroid', function () {
       getGlobalDatasetCentroid(function (_, loc) {
@@ -361,20 +363,6 @@ function mv (src, dst) {
     fs.statSync(dst)
   } catch (e) {
     fs.rename(src, dst)
-  }
-}
-
-function syncToTarget (event, target) {
-  log('sync to target', target)
-  var socket = net.connect(target.port, target.host, onConnect)
-
-  socket.on('error', function (err) {
-    server.send('replication-error', err.message)
-  })
-
-  function onConnect () {
-    log('connected to', target.name, 'to replicate dataset', target.dataset_id)
-    server.sync.replicateNetwork(socket, 'pull')
   }
 }
 

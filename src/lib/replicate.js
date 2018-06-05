@@ -6,7 +6,29 @@ import {remote} from 'electron'
 import xhr from 'xhr'
 
 module.exports = {
-  start, parseMessages
+  start, parseMessages, getTargets
+}
+
+function getTargets (cb) {
+  var osmServerHost = remote.getGlobal('osmServerHost')
+  var opts = {
+    method: 'GET',
+    url: 'http://' + osmServerHost + '/sync/targets'
+  }
+  _req(opts, cb)
+}
+
+function start (target, cb) {
+  var osmServerHost = remote.getGlobal('osmServerHost')
+  var opts = {
+    method: 'POST',
+    url: 'http://' + osmServerHost + '/sync/start',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(target)
+  }
+  _req(opts, cb)
 }
 
 function parseMessages (cb) {
@@ -18,18 +40,9 @@ function parseMessages (cb) {
   })).on('error', cb)
 }
 
-function start (target, cb) {
-  var osmServerHost = remote.getGlobal('osmServerHost')
-  xhr({
-    method: 'POST',
-    url: 'http://' + osmServerHost + '/sync/file',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(target)
-  }, function (err, res, body) {
+function _req (opts, cb) {
+  xhr(opts, function (err, res, body) {
     if (err) return cb(err)
-    if (res.statusCode !== 200) return cb(new Error(res.statusCode))
     return cb(null, body)
   })
 }

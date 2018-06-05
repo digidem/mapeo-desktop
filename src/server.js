@@ -12,19 +12,24 @@ var userConfig = require('./lib/user-config')
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
   var id = 'MapeoDesktop_' + randombytes(8).toString('hex')
-  var sync = osmsync(osm, {id})
+  var host = id
+  var sync = osmsync(osm, {id, host})
+  var replicating = false
 
   var server = http.createServer(function (req, res) {
     if (osmrouter.handle(req, res)) {
+    } else if (req.url === '/sync/targets') {
+      res.setHeader('Content-Type', 'application/json')
+      res.end(JSON.stringify(sync.targets))
     } else if (req.method === 'POST') {
       body(req, res, function (err, params) {
         if (err) return onerror(400, res, err)
-        if (req.url === '/sync/file') {
-          replicateFromFile(params.filename)
-          res.end('usb replication started\n')
-        } else if (req.url === '/sync/wifi') {
-          replicateWifi(params)
-          res.end('wifi replication started\n')
+        if (req.url === '/sync/start') {
+          if (replicating) return onerror(400, res, new Error('Failed: only one replication allowed at a time.'))
+          replicating = true
+          if (params.filename) replicateFromFile(params.filename)
+          else if (params.host && params.port) replicateWifi(params)
+          res.end('replication started\n')
         }
       })
     } else onerror(404, res, 'Not Found')
@@ -32,47 +37,15 @@ module.exports = function (osm) {
 
   var stream = null
   wsock.createServer({ server: server }, function (socket) {
-    osmsync.mdns()
+    // question: broadcast on mdns all the time or only when requested?
+    try {
+      sync.mdns()
+    } catch (err) {
+      console.error(err)
+    }
     stream = socket
-    eos(socket, function () {
-      stream = null
-    })
-    osmsync.on('up', function (service) {
-      send('up', service)
-    })
-    osmsync.on('down', function (service) {
-      send('down', service)
-    })
+    eos(socket, function () { stream = null })
   })
-
-  server.send = send
-  server.shutdown = function () { sync.close() }
-  return server
-
-  function replicationEnd (err) {
-    if (err) return send('replication-error', err.message)
-    send('replication-data-complete')
-    osm.ready(function () {
-      send('replication-complete')
-    })
-  }
-
-  function replicateWifi (target) {
-    var emitter = sync.syncToTarget(target)
-    emitter.on('error', replicationEnd)
-    emitter.on('end', replicationEnd)
-    // TODO: real progress events.
-    send('replication-progress')
-  }
-
-  function replicateFromFile (sourceFile) {
-    var emitter = sync.replicateFromFile(sourceFile)
-    emitter.on('error', replicationEnd)
-    emitter.on('end', replicationEnd)
-    emitter.on('progress', function () {
-      send('replication-progress')
-    })
-  }
 
   function send (topic, msg) {
     var str = JSON.stringify({ topic: topic, message: msg || {} }) + '\n'
@@ -82,5 +55,37 @@ module.exports = function (osm) {
   function onerror (code, res, err) {
     res.statusCode = code
     res.end((err.message || err) + '\n')
+  }
+
+  sync.on('error', function (err) {
+    console.error(err)
+  })
+  server.sync = sync
+  return server
+
+  function onend (err) {
+    replicating = false
+    if (err) return send('replication-error', err.message)
+    send('replication-data-complete')
+    osm.ready(function () {
+      send('replication-complete')
+    })
+  }
+
+  function replicateWifi (target) {
+    var emitter = sync.syncToTarget(target)
+    emitter.on('error', onend)
+    emitter.on('end', onend)
+    // TODO: real progress events.
+    send('replication-progress')
+  }
+
+  function replicateFromFile (filename) {
+    var emitter = sync.replicateFromFile(filename)
+    emitter.on('error', onend)
+    emitter.on('end', onend)
+    emitter.on('progress', function () {
+      send('replication-progress')
+    })
   }
 }
