@@ -39,7 +39,7 @@ module.exports = function (osm) {
   wsock.createServer({ server: server }, function (socket) {
     // question: broadcast on mdns all the time or only when requested?
     try {
-      sync.mdns()
+      sync.listen()
     } catch (err) {
       console.error(err)
     }
