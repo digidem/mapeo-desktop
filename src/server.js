@@ -48,11 +48,8 @@ module.exports = function (osm) {
     function onend (err) {
       replicating = false
       if (err) return onerror(res, err.message)
-      send(res, 'replication-data-complete')
-      osm.ready(function () {
-        send(res, 'replication-complete')
-        res.end()
-      })
+      send(res, 'replication-complete')
+      res.end()
     }
 
     function send (res, topic, msg) {
