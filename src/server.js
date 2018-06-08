@@ -1,12 +1,10 @@
+var url = require('url')
+var querystring = require('querystring')
 var osmserver = require('osm-p2p-server')
 var osmsync = require('osm-p2p-sync')
 var http = require('http')
 
-var body = require('body/any')
-var wsock = require('websocket-stream')
-var eos = require('end-of-stream')
 var randombytes = require('randombytes')
-
 var userConfig = require('./lib/user-config')
 
 module.exports = function (osm) {
@@ -21,71 +19,55 @@ module.exports = function (osm) {
     } else if (req.url === '/sync/targets') {
       res.setHeader('Content-Type', 'application/json')
       res.end(JSON.stringify(sync.targets))
-    } else if (req.method === 'POST') {
-      body(req, res, function (err, params) {
-        if (err) return onerror(400, res, err)
-        if (req.url === '/sync/start') {
-          if (replicating) return onerror(400, res, new Error('Failed: only one replication allowed at a time.'))
-          replicating = true
-          if (params.filename) replicateFromFile(params.filename)
-          else if (params.host && params.port) replicateWifi(params)
-          res.end('replication started\n')
-        }
-      })
-    } else onerror(404, res, 'Not Found')
-  })
-
-  var stream = null
-  wsock.createServer({ server: server }, function (socket) {
-    // question: broadcast on mdns all the time or only when requested?
-    try {
-      sync.listen()
-    } catch (err) {
-      console.error(err)
+    } else if (req.method === 'GET') {
+      console.log('replicating', replicating)
+      if (req.url.startsWith('/sync/start')) {
+        var query = url.parse(req.url).query
+        if (!query) return onerror(res, 'Requires filename or host and port')
+        var params = querystring.parse(query)
+        if (replicating) return onerror(res, 'Failed: only one replication allowed at a time.')
+        replicating = true
+        var progress
+        if (params.filename) {
+          progress = sync.replicateFromFile(params.filename)
+        } else if (params.host && params.port) {
+          progress = sync.syncToTarget(params)
+        } else return onerror(res, 'Requires filename or host and port')
+        send(res, 'replication-progress')
+        progress.on('error', onend)
+        progress.on('end', onend)
+      }
+    } else {
+      res.statusCode = 404
+      res.end('Not Found')
     }
-    stream = socket
-    eos(socket, function () { stream = null })
+
+    function onend (err) {
+      replicating = false
+      if (err) return onerror(res, err.message)
+      send(res, 'replication-data-complete')
+      osm.ready(function () {
+        send(res, 'replication-complete')
+        res.end()
+      })
+    }
+
+    function send (res, topic, msg) {
+      var str = JSON.stringify({ topic: topic, message: msg || {} }) + '\n'
+      res.write(str)
+    }
+
+    function onerror (res, err) {
+      replicating = false
+      res.statusCode = 400
+      var str = JSON.stringify({topic: 'replication-error', message: err.message || err}) + '\n'
+      res.end(str)
+    }
   })
-
-  function send (topic, msg) {
-    var str = JSON.stringify({ topic: topic, message: msg || {} }) + '\n'
-    if (stream) stream.write(str)
-  }
-
-  function onerror (code, res, err) {
-    res.statusCode = code
-    res.end((err.message || err) + '\n')
-  }
 
   sync.on('error', function (err) {
     console.error(err)
   })
   server.sync = sync
   return server
-
-  function onend (err) {
-    replicating = false
-    if (err) return send('replication-error', err.message)
-    send('replication-data-complete')
-    osm.ready(function () {
-      send('replication-complete')
-    })
-  }
-
-  function replicateWifi (target) {
-    var emitter = sync.syncToTarget(target)
-    emitter.on('error', onend)
-    emitter.on('end', onend)
-    // TODO: real progress events.
-    send('replication-progress')
-  }
-
-  function replicateFromFile (filename) {
-    var emitter = sync.replicateFromFile(filename)
-    emitter.on('error', onend)
-    emitter.on('end', onend)
-    emitter.on('progress', function () {
-      send('replication-progress')
-    })
-  }
 }

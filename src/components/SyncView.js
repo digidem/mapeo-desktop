@@ -48,10 +48,21 @@ export default class SyncView extends React.Component {
   replicate (target) {
     var self = this
     if (!target) return
-    replicate.start(target, function (err, res, body) {
+    this.destroyed = false
+    this.stream = replicate.start(target)
+    this.stream.on('data', function (data) {
       if (self.destroyed) return
-      if (err) return self.onError(err)
-      self.setState({status: 'replication-progress'})
+      var row = JSON.parse(data)
+      var status = row.topic
+      var message = messages[status] || row.message
+      console.log(message)
+      self.setState({message, status})
+    })
+    this.stream.on('done', function () {
+      console.log('stream over')
+    })
+    this.stream.on('error', function (err) {
+      console.error(err)
     })
   }
 
@@ -68,16 +79,7 @@ export default class SyncView extends React.Component {
   }
 
   componentDidMount () {
-    var self = this
-    this.destroyed = false
     this.interval = setInterval(this.updateTargets.bind(this), 1000)
-    this.stream = replicate.parseMessages(function (row, next) {
-      if (self.destroyed) return
-      var status = row.topic
-      var message = messages[status] || row.message
-      self.setState({message, status})
-      return next()
-    })
     ipcRenderer.on('select-file', this.selectFile.bind(this))
   }
 
