@@ -34,6 +34,9 @@ module.exports = function (osm) {
           progress = sync.syncToTarget(params)
         } else return onerror(res, 'Requires filename or host and port')
         send(res, 'replication-started')
+        progress.on('progress', function (data) {
+          send(res, 'replication-progress')
+        })
         progress.on('error', onend)
         progress.on('end', onend)
       }
