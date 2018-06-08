@@ -13,6 +13,7 @@ module.exports = function (osm) {
   var host = id
   var sync = osmsync(osm, {id, host})
   var replicating = false
+  sync.listen()
 
   var server = http.createServer(function (req, res) {
     if (osmrouter.handle(req, res)) {
@@ -20,7 +21,6 @@ module.exports = function (osm) {
       res.setHeader('Content-Type', 'application/json')
       res.end(JSON.stringify(sync.targets))
     } else if (req.method === 'GET') {
-      console.log('replicating', replicating)
       if (req.url.startsWith('/sync/start')) {
         var query = url.parse(req.url).query
         if (!query) return onerror(res, 'Requires filename or host and port')
