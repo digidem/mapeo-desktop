@@ -53,7 +53,7 @@ module.exports = function (osm) {
     }
 
     function send (res, topic, msg) {
-      var str = JSON.stringify({ topic: topic, message: msg || {} }) + '\n'
+      var str = JSON.stringify({ topic: topic, message: msg }) + '\n'
       res.write(str)
     }
 

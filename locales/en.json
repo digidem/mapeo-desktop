@@ -4,6 +4,7 @@
   "dialog-enter-latlon-coordinates": "Enter Coordinates",
   "replication-data-complete": "Updating indexes... it could be delayed a moment.",
   "replication-complete": "Syncronization has completed successfully. You now have the most recent information in your map. Click 'OK' to return to the map.",
+  "replication-started": "Syncronization has begun, waiting for response...",
   "replication-progress": "Syncronizing: In progress...",
   "menu-file": "File",
   "menu-change-language": "Change language...",
