@@ -7,9 +7,8 @@ module.exports = function (osm, media) {
   var mapeo = mapeoserver(osm, media)
 
   var server = http.createServer(function (req, res) {
-    if (osmrouter.handle(req, res)) {
-    } else if (mapeo(req, res)) {
-    } else {
+    var m = osmrouter.handle(req, res) || mapeo(req, res)
+    if (!m) {
       res.statusCode = 404
       res.end('Not Found')
     }
