@@ -17,6 +17,7 @@ var series = require('run-series')
 var semver = require('semver')
 var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
+var MediaStore = require('fs-blob-store')
 
 var menuTemplate = require('./src/menu')
 var createServer = require('./src/server.js')
@@ -97,7 +98,9 @@ series([
 function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
   installStatsIndex(osm)
+  var media = MediaStore(path.join(argv.datadir, 'media'))
   app.osm = osm
+  app.media = media
   app.importer = importer(osm)
   app.tiles = TileImporter(userDataPath)
 
@@ -154,7 +157,7 @@ function versionCheckIndexes (done) {
 }
 
 function createServers (done) {
-  server = createServer(app.osm)
+  server = createServer(app.osm, app.media)
 
   var pending = 2
 
