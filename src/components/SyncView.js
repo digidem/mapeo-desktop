@@ -18,6 +18,7 @@ var SyncViewDiv = styled.div`
 // so the function isn't called for every row
 var messages = {
   'replication-data-complete': i18n('replication-data-complete'),
+  'replication-started': i18n('replication-started'),
   'replication-complete': i18n('replication-complete'),
   'replication-progress': i18n('replication-progress'),
   'replication-ready': i18n('sync-database-lead')
@@ -55,7 +56,6 @@ export default class SyncView extends React.Component {
       var row = JSON.parse(data)
       var status = row.topic
       var message = messages[status] || row.message
-      console.log(message)
       self.setState({message, status})
     })
     this.stream.on('done', function () {
