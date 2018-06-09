@@ -55,6 +55,7 @@ export default class SyncView extends React.Component {
       if (self.destroyed) return
       var row = JSON.parse(data)
       var status = row.topic
+      if (status === 'replication-error') return this.onError(new Error(row.message))
       var message = messages[status] || row.message
       self.setState({message, status})
     })
