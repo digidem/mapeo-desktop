@@ -17,7 +17,7 @@ var series = require('run-series')
 var semver = require('semver')
 var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
-var MediaStore = require('fs-blob-store')
+var MediaStore = require('safe-fs-blob-store')
 
 var menuTemplate = require('./src/menu')
 var createServer = require('./src/server.js')
