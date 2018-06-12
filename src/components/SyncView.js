@@ -1,3 +1,5 @@
+import pump from 'pump'
+import through from 'through2'
 import styled from 'styled-components'
 import React from 'react'
 import {ipcRenderer} from 'electron'
@@ -51,20 +53,19 @@ export default class SyncView extends React.Component {
     if (!target) return
     this.destroyed = false
     this.stream = replicate.start(target)
-    this.stream.on('data', function (data) {
+    pump(this.stream, through.obj(function (data, enc, next) {
       if (self.destroyed) return
       var row = JSON.parse(data)
       var status = row.topic
       if (status === 'replication-error') return this.onError(new Error(row.message))
       var message = messages[status] || row.message
       self.setState({message, status})
-    })
-    this.stream.on('done', function () {
-      console.log('stream over')
-    })
-    this.stream.on('error', function (err) {
-      console.error(err)
-    })
+      next()
+    }), done)
+
+    function done (err) {
+      if (err) console.error(err)
+    }
   }
 
   componentWillUnmount () {
