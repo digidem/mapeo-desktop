@@ -6,6 +6,7 @@ import ImportProgressBar from './ImportProgressBar'
 import IndexesBar from './IndexesBar'
 import Overlay from './Overlay'
 import MapEditor from './MapEditor'
+import MapFilter from './MapFilter'
 import SyncView from './SyncView'
 
 var SidebarItem = styled.div`
@@ -120,10 +121,10 @@ export default class Sidebar extends React.Component {
         component: MapEditor,
         label: 'Map Editor'
       },
-      // {
-      //   component: 'MapFilter',
-      //   label: 'Map Filter'
-      // },
+      {
+        component: MapFilter,
+        label: 'Map Filter'
+      },
       {
         component: SyncView,
         label: 'Sync with...',
@@ -131,7 +132,7 @@ export default class Sidebar extends React.Component {
       }
     ]
 
-    return (<Overlay>
+    return (<div>
       <MenuButton onClick={this.toggleSidebar.bind(this)}>
         Menu {notifications > 0 && <div className='notification'>{notifications}</div>}
       </MenuButton>
@@ -150,7 +151,7 @@ export default class Sidebar extends React.Component {
       </SidebarDiv>
 
       }
-    </Overlay>
+    </div>
     )
   }
 }

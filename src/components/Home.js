@@ -3,9 +3,8 @@ import {ipcRenderer} from 'electron'
 
 import LatLonDialog from './LatLonDialog'
 import MapEditor from './MapEditor'
+import MapFilter from './MapFilter'
 import Welcome from './Welcome'
-import Sidebar from './Sidebar'
-import Overlay from './Overlay'
 
 export default class Home extends React.Component {
   constructor (props) {
@@ -24,8 +23,10 @@ export default class Home extends React.Component {
       switch (view) {
         case 'MapEditor':
           return MapEditor
+        case 'MapFilter':
+          return MapFilter
         default:
-          return MapEditor
+          return MapFilter
       }
     }
     var prevhash = localStorage.getItem('location')
@@ -63,15 +64,9 @@ export default class Home extends React.Component {
       <div className='full'>
         {Modal && <Modal.component
           onClose={this.closeModal.bind(this)}
+          changeView={this.changeView.bind(this)}
           {...this.state.Modal.props}
         />}
-        <Overlay>
-          <Sidebar
-            ActiveComponent={View.component}
-            changeView={this.changeView.bind(this)}
-            openModal={this.openModal.bind(this)}
-          />
-        </Overlay>
         <View.component
           changeView={this.changeView.bind(this)}
           openModal={this.openModal.bind(this)}

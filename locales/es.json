@@ -82,5 +82,7 @@
   "menu-import-data":  "Importar los datos...",
   "menu-import-data-dialog": "Selecionar archivo para importar...",
   "menu-import-data-success": "Importación completa!",
-  "menu-import-data-error": "Error al importar"
+  "menu-import-data-error": "Error al importar",
+  "convert-button": "Copiar al Editor",
+  "convert-number": "observaciones sera enviado al Editor"
 }

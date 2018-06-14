@@ -3,6 +3,7 @@ import React from 'react'
 import {ipcRenderer} from 'electron'
 
 import replicate from '../lib/replicate'
+import MapFilter from './MapFilter'
 import Modal from './Modal'
 import Form from './Form'
 import i18n from '../lib/i18n'
@@ -69,20 +70,23 @@ export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      targets: []
+      targets: [],
+      replicated: false
     }
     this.selectFile = this.selectFile.bind(this)
   }
 
   replicate (target) {
+    var self = this
     if (!target) return
     replicate.start(target, function (err, body) {
       if (err) console.error(err)
+      self.setState({replicated: true})
     })
   }
 
   componentWillUnmount () {
-    clearInterval(this.interval)
+    if (this.interval) clearInterval(this.interval)
     ipcRenderer.removeListener('select-file', this.selectFile)
   }
 
@@ -102,6 +106,7 @@ export default class SyncView extends React.Component {
 
   onClose () {
     this.props.onClose()
+    if (this.state.replicated) this.props.changeView(MapFilter)
     ipcRenderer.send('refresh-window')
   }
 
@@ -141,7 +146,7 @@ export default class SyncView extends React.Component {
                 <Target key={t.name}>
                   <div className='target'>
                     <span className='name'>{t.name}</span>
-                    <span className='info'>via {i18n(`sync-${t.type}-info`)}</span>
+                    <span className='info'>{i18n(`sync-${t.type}-info`)}</span>
                   </div>
                   {t.status ? <h3>{message}</h3>
                     : <SyncButton onClick={self.replicate.bind(self, t)}>
@@ -153,25 +158,25 @@ export default class SyncView extends React.Component {
             })}
           </ul>
         </TargetsDiv>
-          <Form method='POST'>
-            <input type='hidden' name='source' />
-            <div className='button-group'>
-              <button className='big' onClick={this.selectExisting}>
-                <span id='button-text'>
-                  {i18n('sync-database-open-button')}&hellip;
-                </span>
-              </button>
-              <button className='big' onClick={this.selectNew}>
-                <span id='button-text'>
-                  {i18n('sync-database-new-button')}&hellip;
-                </span>
-              </button>
-              <button className='big' onClick={onClose}>
-                 {i18n('done')}
-              </button>
-            </div>
-          </Form>
-        </Modal>
+        <Form method='POST'>
+          <input type='hidden' name='source' />
+          <div className='button-group'>
+            <button className='big' onClick={this.selectExisting}>
+              <span id='button-text'>
+                {i18n('sync-database-open-button')}&hellip;
+              </span>
+            </button>
+            <button className='big' onClick={this.selectNew}>
+              <span id='button-text'>
+                {i18n('sync-database-new-button')}&hellip;
+              </span>
+            </button>
+            <button className='big' onClick={onClose}>
+              {i18n('done')}
+            </button>
+          </div>
+        </Form>
+      </Modal>
     )
   }
 }
