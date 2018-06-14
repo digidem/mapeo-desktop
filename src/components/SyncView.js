@@ -53,24 +53,23 @@ export default class SyncView extends React.Component {
     if (!target) return
     this.destroyed = false
     this.stream = replicate.start(target)
-    pump(this.stream, through.obj(function (data, enc, next) {
+    this.stream.on('data', function (data) {
       if (self.destroyed) return
       var row = JSON.parse(data)
       var status = row.topic
       if (status === 'replication-error') return this.onError(new Error(row.message))
       var message = messages[status] || row.message
       self.setState({message, status})
-      next()
-    }), done)
+    })
 
-    function done (err) {
+    this.stream.on('error', function (err) {
       if (err) console.error(err)
-    }
+    })
   }
 
   componentWillUnmount () {
     this.destroyed = true
-    this.stream.destroy()
+    if (this.stream) this.stream.destroy()
     clearInterval(this.interval)
     ipcRenderer.removeListener('select-file', this.selectFile.bind(this))
   }
@@ -105,6 +104,7 @@ export default class SyncView extends React.Component {
   }
 
   render () {
+    var self = this
     var {message, status, targets} = this.state
     const {filename} = this.props
     if (filename && status === 'replication-ready') this.selectFile(filename)
@@ -120,7 +120,11 @@ export default class SyncView extends React.Component {
               <div className='targets'>
                 <ul>
                   {targets.map(function (t) {
-                    return <li>{t.name}</li>
+                    return (
+                      <li>
+                        {t.name} <button onClick={self.replicate.bind(self, t)}>Sync</button>
+                      </li>
+                    )
                   })}
                 </ul>
               </div>
