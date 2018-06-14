@@ -206,7 +206,7 @@ function createMainWindow (done) {
       ready()
     }
 
-    app.on('before-quit', function () { server.sync.close() })
+    app.on('before-quit', function () { server.close() })
 
     // Quit when all windows are closed.
     app.on('window-all-closed', function () {
