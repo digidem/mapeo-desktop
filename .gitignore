@@ -3,3 +3,4 @@ vendor
 dist
 examples/.dat
 static/build.js
+test/test-data
