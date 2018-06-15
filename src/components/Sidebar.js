@@ -96,7 +96,8 @@ export default class Sidebar extends React.Component {
   }
 
   onSidebarClick (view) {
-    this.props.changeView(view)
+    if (view.modal) this.props.openModal(view.component)
+    else this.props.changeView(view.component)
     this.setState({sidebar: false})
   }
 
@@ -125,12 +126,9 @@ export default class Sidebar extends React.Component {
       // },
       {
         component: SyncView,
-        label: 'Sync Data'
+        label: 'Sync with...',
+        modal: true
       }
-      // {
-      //   component: 'ImportView',
-      //   label: 'Import Data'
-      // }
     ]
 
     return (<Overlay>
@@ -145,7 +143,7 @@ export default class Sidebar extends React.Component {
           return (
             <SidebarItem
               key={i}
-              onClick={this.onSidebarClick.bind(this, view.component)}>
+              onClick={this.onSidebarClick.bind(this, view)}>
               {view.label}
             </SidebarItem>)
         })}

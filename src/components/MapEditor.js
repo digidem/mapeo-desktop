@@ -7,8 +7,6 @@ import {ipcRenderer, remote, shell} from 'electron'
 import i18n from '../lib/i18n'
 import pkg from '../../package.json'
 
-import LatLonDialog from './LatLonDialog'
-
 export default class MapEditor extends React.Component {
   constructor (props) {
     super(props)
@@ -20,9 +18,6 @@ export default class MapEditor extends React.Component {
     ipcRenderer.on('updated-settings', function () {
       self.updateSettings()
       ipcRenderer.send('refresh-window')
-    })
-    ipcRenderer.on('open-latlon-dialog', function () {
-      props.openModal(LatLonDialog)
     })
   }
 
