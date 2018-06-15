@@ -29,7 +29,7 @@ export default class LatLonDialog extends React.Component {
         <div>
           <form onSubmit={this.submitHandler.bind(this)}>
             <input id='latlon-text' placeholder='Lon, Lat' type='text' />
-            <div className='button-group'>
+            <div className='button-group right'>
               <button className='big' type='submit'>{i18n('button-submit')}</button>
             </div>
           </form>

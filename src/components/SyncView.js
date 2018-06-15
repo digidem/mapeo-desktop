@@ -1,6 +1,6 @@
+import styled from 'styled-components'
 import pump from 'pump'
 import through from 'through2'
-import styled from 'styled-components'
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
@@ -17,26 +17,75 @@ var messages = {
   'replication-data-complete': i18n('replication-data-complete'),
   'replication-started': i18n('replication-started'),
   'replication-complete': i18n('replication-complete'),
-  'replication-progress': i18n('replication-progress'),
-  'replication-ready': i18n('sync-database-lead')
+  'replication-progress': i18n('replication-progress')
 }
+
+
+var SyncButton = styled.button`
+  background-color: orange;
+  padding: 0px 20px;
+`
+
+var Subtitle = styled.div`
+  background-color: var(--main-bg-color);
+  vertical-align: middle;
+  padding: 5px 15px;
+`
+
+var LoadingText = styled.div`
+  background-color: white;
+  color: grey;
+  text-align: center;
+  min-height: 300px;
+  font-style: italic;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`
+
+var Target = styled.li`
+  min-width: 500px;
+  padding: 20px;
+  border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+  line-height: 30px;
+  .target {
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .info {
+    padding-left: 10px;
+    font-weight: normal;
+    font-size: 14px;
+    font-style: italic;
+  }
+}
+`
+
+var TargetsDiv = styled.div`
+  min-height: 300px;
+  background-color: white;
+  color: black;
+`
 
 export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
-    var ready = 'replication-ready'
     this.state = {
-      message: messages[ready],
-      status: ready,
-      targets: []
+      targets: [],
+      statuses: {}
     }
   }
 
-  onError (err) {
-    this.setState({
+  onError (err, target) {
+    self.state.statuses[target.host] = {
       message: 'Error: ' + err.message,
       status: 'replication-error'
-    })
+    }
+    self.setState({statuses: self.state.statuses})
   }
 
   replicate (target) {
@@ -50,7 +99,8 @@ export default class SyncView extends React.Component {
       var status = row.topic
       if (status === 'replication-error') return this.onError(new Error(row.message))
       var message = messages[status] || row.message
-      self.setState({message, status})
+      self.state.statuses[target.host] = {status, message}
+      self.setState({statuses: self.state.statuses})
     })
 
     this.stream.on('error', function (err) {
@@ -96,41 +146,44 @@ export default class SyncView extends React.Component {
 
   render () {
     var self = this
-    var {message, status, targets} = this.state
+    var {message, status, targets, statuses} = this.state
     const {filename, onClose} = this.props
-    if (filename && status === 'replication-ready') this.selectFile(filename)
+    if (filename) this.selectFile(filename)
 
     return (
-      <Modal onClose={this.props.onClose}>
-        <h3>{message}</h3>
-        {status === 'replication-ready' && (
-          <div>
-            <div className='targets'>
-              <ul>
-                {targets.map(function (t) {
-                  return (
-                    <li>
-                      {t.name} <button onClick={self.replicate.bind(self, t)}>Sync</button>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-            <Form method='POST'>
-              <div className='button-group'>
-                <input type='hidden' name='source' />
-                <button className='big' onClick={this.selectExisting}>
-                  <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
-                </button>
-              </div>
-            </Form>
-          </div>
-        )}
-        {status === 'replication-complete' && (
+      <Modal onClose={this.props.onClose} title={i18n('sync-database-lead')}>
+        <TargetsDiv>
+        {targets.length === 0
+          ? <LoadingText>Searching for devices&hellip;</LoadingText>
+          : <Subtitle>Available Devices</Subtitle>
+        }
+          <ul>
+            {targets.map(function (t) {
+              return (
+                <Target key={t.host}>
+                  <div className='target'>
+                    <span className='name'>{t.name}</span>
+                    <span className='info'>via WiFi</span>
+                  </div>
+                  {statuses[t.host] ? <h3>{statuses[t.host].message}</h3> :
+                    <SyncButton onClick={self.replicate.bind(self, t)}>
+                      arrow
+                    </SyncButton>
+                  }
+                </Target>
+              )
+            })}
+          </ul>
+        </TargetsDiv>
+        <Form method='POST'>
           <div className='button-group'>
-            <button className='big' onClick={this.onClose.bind(this)}> OK</button>
+            <input type='hidden' name='source' />
+            <button className='big' onClick={this.selectExisting}>
+              <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
+            </button>
+            <button className='big' onClick={this.props.onClose.bind(this)}>Done</button>
           </div>
-        )}
+        </Form>
       </Modal>
     )
   }
