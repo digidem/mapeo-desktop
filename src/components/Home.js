@@ -4,7 +4,6 @@ import {ipcRenderer} from 'electron'
 import LatLonDialog from './LatLonDialog'
 import SyncView from './SyncView'
 import MapEditor from './MapEditor'
-import MapFilter from './MapFilter'
 import Welcome from './Welcome'
 import Sidebar from './Sidebar'
 import Overlay from './Overlay'
@@ -26,8 +25,6 @@ export default class Home extends React.Component {
       switch (view) {
         case 'MapEditor':
           return MapEditor
-        case 'MapFilter':
-          return MapFilter
         default:
           return MapEditor
       }
