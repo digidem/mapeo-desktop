@@ -2,7 +2,6 @@ import React from 'react'
 import {ipcRenderer} from 'electron'
 
 import LatLonDialog from './LatLonDialog'
-import SyncView from './SyncView'
 import MapEditor from './MapEditor'
 import Welcome from './Welcome'
 import Sidebar from './Sidebar'
@@ -12,11 +11,11 @@ export default class Home extends React.Component {
   constructor (props) {
     super(props)
     var self = this
-    var showedWelcome = localStorage.getItem('showedWelcome')
+    var lastView = localStorage.getItem('lastView')
     self.state = {
       Modal: false,
       View: {
-        component: showedWelcome ? SyncView : Welcome,
+        component: getView(lastView),
         props: {}
       }
     }
@@ -58,6 +57,7 @@ export default class Home extends React.Component {
 
   render () {
     const {View, Modal} = this.state
+    localStorage.setItem('lastView', View.component.name)
 
     return (
       <div className='full'>
