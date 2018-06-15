@@ -4,17 +4,12 @@ import styled from 'styled-components'
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
+import Modal from './Modal'
 import MapEditor from './MapEditor'
 import replicate from '../lib/replicate'
 import Form from './Form'
 import View from './View'
 import i18n from '../lib/i18n'
-
-var SyncViewDiv = styled.div`
-  text-align: center;
-  max-width: 900px;
-  margin: auto;
-`
 
 // turn the messages into strings once
 // so the function isn't called for every row
@@ -35,10 +30,6 @@ export default class SyncView extends React.Component {
       status: ready,
       targets: []
     }
-  }
-
-  onClose () {
-    this.props.changeView(MapEditor)
   }
 
   onError (err) {
@@ -106,48 +97,41 @@ export default class SyncView extends React.Component {
   render () {
     var self = this
     var {message, status, targets} = this.state
-    const {filename} = this.props
+    const {filename, onClose} = this.props
     if (filename && status === 'replication-ready') this.selectFile(filename)
 
     return (
-      <View>
-        <SyncViewDiv>
+      <Modal onClose={this.props.onClose}>
+        <h3>{message}</h3>
+        {status === 'replication-ready' && (
           <div>
-            <h3>{message}</h3>
-          </div>
-          {status === 'replication-ready' && (
-            <div>
-              <div className='targets'>
-                <ul>
-                  {targets.map(function (t) {
-                    return (
-                      <li>
-                        {t.name} <button onClick={self.replicate.bind(self, t)}>Sync</button>
-                      </li>
-                    )
-                  })}
-                </ul>
+            <div className='targets'>
+              <ul>
+                {targets.map(function (t) {
+                  return (
+                    <li>
+                      {t.name} <button onClick={self.replicate.bind(self, t)}>Sync</button>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+            <Form method='POST'>
+              <div className='button-group'>
+                <input type='hidden' name='source' />
+                <button className='big' onClick={this.selectExisting}>
+                  <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
+                </button>
               </div>
-              <Form method='POST'>
-                <div className='button-group'>
-                  <input type='hidden' name='source' />
-                  <button className='big' onClick={this.selectNew}>
-                    <span id='button-text'>{i18n('sync-database-new-button')}&hellip;</span>
-                  </button>
-                  <button className='big' onClick={this.selectExisting}>
-                    <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
-                  </button>
-                </div>
-              </Form>
-            </div>
-          )}
-          {status === 'replication-complete' && (
-            <div className='button-group'>
-              <button className='big' onClick={this.onClose.bind(this)}> OK</button>
-            </div>
-          )}
-        </SyncViewDiv>
-      </View>
+            </Form>
+          </div>
+        )}
+        {status === 'replication-complete' && (
+          <div className='button-group'>
+            <button className='big' onClick={this.onClose.bind(this)}> OK</button>
+          </div>
+        )}
+      </Modal>
     )
   }
 }

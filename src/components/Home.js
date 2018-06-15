@@ -1,7 +1,10 @@
 import React from 'react'
+import {ipcRenderer} from 'electron'
 
-import MapEditor from './MapEditor'
+import LatLonDialog from './LatLonDialog'
 import SyncView from './SyncView'
+import MapEditor from './MapEditor'
+import MapFilter from './MapFilter'
 import Welcome from './Welcome'
 import Sidebar from './Sidebar'
 import Overlay from './Overlay'
@@ -18,14 +21,27 @@ export default class Home extends React.Component {
         props: {}
       }
     }
-    if (!showedWelcome) localStorage.setItem('showedWelcome', true)
-
+    function getView (view) {
+      if (!view) return Welcome
+      switch (view) {
+        case 'MapEditor':
+          return MapEditor
+        case 'MapFilter':
+          return MapFilter
+        default:
+          return MapEditor
+      }
+    }
     var prevhash = localStorage.getItem('location')
     if (location.hash) localStorage.setItem('location', location.hash)
     else if (prevhash) location.hash = prevhash
 
     window.addEventListener('hashchange', function (ev) {
       localStorage.setItem('location', location.hash)
+    })
+
+    ipcRenderer.on('open-latlon-dialog', function () {
+      self.openModal(LatLonDialog)
     })
   }
 
@@ -52,13 +68,13 @@ export default class Home extends React.Component {
           onClose={this.closeModal.bind(this)}
           {...this.state.Modal.props}
         />}
-        {!(View instanceof Welcome) && <Overlay>
+        <Overlay>
           <Sidebar
             ActiveComponent={View.component}
             changeView={this.changeView.bind(this)}
+            openModal={this.openModal.bind(this)}
           />
         </Overlay>
-        }
         <View.component
           changeView={this.changeView.bind(this)}
           openModal={this.openModal.bind(this)}
