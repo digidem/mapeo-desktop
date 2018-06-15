@@ -206,7 +206,10 @@ function createMainWindow (done) {
       ready()
     }
 
-    app.on('before-quit', function () { server.close() })
+    app.on('before-quit', function () {
+      server.close()
+      server.mapeo.api.close()
+    })
 
     // Quit when all windows are closed.
     app.on('window-all-closed', function () {
