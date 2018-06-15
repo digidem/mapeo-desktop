@@ -27,3 +27,10 @@ var server = http.createServer(function (req, res) {
 server.listen(port, function () {
   console.log('listening on port', port)
 })
+
+process.on('SIGINT', function () {
+  mapeo.api.close(function () {
+    console.log('closing')
+    process.exit()
+  })
+})
