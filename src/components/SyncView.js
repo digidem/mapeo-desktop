@@ -28,6 +28,7 @@ var SyncButton = styled.button`
 
 var Subtitle = styled.div`
   background-color: var(--main-bg-color);
+  color: white;
   vertical-align: middle;
   padding: 5px 15px;
 `
