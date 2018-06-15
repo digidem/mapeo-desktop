@@ -1,5 +1,6 @@
 :root {
   --main-bg-color: rgb(57, 82, 123);
+  --secondary-bg-color: blue;
   --main-bg-color-alpha: rgba(57, 82, 123, .5);
   --visible-z-index: 100;
   --button-hover-color: white;
@@ -11,6 +12,9 @@
   --border: 1px solid white;
 }
 .button-group {
+  padding: 10px;
+}
+.right {
   text-align: right;
 }
 

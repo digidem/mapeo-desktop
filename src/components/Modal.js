@@ -1,12 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
 
+var ModalTitle = styled.div`
+  background-color: var(--secondary-bg-color);
+  text-align: center;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+`
+
 var ModalBody = styled.div`
   background-color: var(--main-bg-color);
   margin: 40px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
   border-radius: 5px;
   position: relative;
   color: white;
@@ -52,10 +59,11 @@ export default class Modal extends React.Component {
   }
 
   render () {
-    const { onClose } = this.props
+    const { onClose, title } = this.props
     return (<ModalOverlay onClick={this.onClickOverlay.bind(this)}>
       <ModalBody onKeyDown={this.onKeyDown.bind(this)} onClick={this.onClickModal}>
         <button className='close-button' onClick={onClose}>X</button>
+        {title && <ModalTitle>{title}</ModalTitle>}
         {this.props.children}
       </ModalBody>
     </ModalOverlay>
