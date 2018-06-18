@@ -35,7 +35,13 @@ button.big {
   background-color: var(--button-bg-color);
   border: var(--border);
 }
-button.big:hover {
+
+button.big:disabled {
+  background-color: white !important;
+  color: black;
+}
+
+button.big:hover:not([disabled]) {
   color: var(--button-hover-color);
   background-color: var(--button-hover-bg-color);
 }

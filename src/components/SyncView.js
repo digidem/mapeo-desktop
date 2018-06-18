@@ -1,3 +1,4 @@
+import path from 'path'
 import styled from 'styled-components'
 import pump from 'pump'
 import through from 'through2'
@@ -104,6 +105,10 @@ export default class SyncView extends React.Component {
     stream.on('error', function (err) {
       if (err) console.error(err)
     })
+
+    stream.on('end', function () {
+      delete self.streams[id]
+    })
   }
 
   componentWillUnmount () {
@@ -148,12 +153,13 @@ export default class SyncView extends React.Component {
     var {message, status, targets, wifis, files} = this.state
     const {filename, onClose} = this.props
     if (filename) this.selectFile(filename)
+    var disabled = Object.keys(self.streams).length > 0
 
     return (
-      <Modal onClose={this.props.onClose} title={i18n('sync-database-lead')}>
+      <Modal closeButton={false} onClose={this.props.onClose} title={i18n('sync-database-lead')}>
         <TargetsDiv>
         {targets.length === 0
-          ? <LoadingText>Searching for devices&hellip;</LoadingText>
+          ? <Subtitle>Searching for devices&hellip;</Subtitle>
           : <Subtitle>Available Devices</Subtitle>
         }
           <ul>
@@ -177,7 +183,7 @@ export default class SyncView extends React.Component {
               return (
                 <Target key={t.target.filename}>
                   <div className='target'>
-                    <span className='name'>{t.target.filename}</span>
+                    <span className='name'>{path.basename(t.target.filename)}</span>
                     <span className='info'>via File</span>
                   </div>
                   <h3>{t.message}</h3>
@@ -194,8 +200,10 @@ export default class SyncView extends React.Component {
                 {i18n('sync-database-open-button')}&hellip;
               </span>
             </button>
-            <button className='big' onClick={this.props.onClose.bind(this)}>
-              Done
+            <button
+              className='big' onClick={this.props.onClose.bind(this)}
+              disabled={disabled}>
+              {disabled ? 'Please wait...' : 'Done'}
             </button>
           </div>
         </Form>
