@@ -93,6 +93,10 @@ module.exports = function (app) {
             {
               label: i18n('menu-export-shapefile'),
               click: exportDataMenu(app, 'Shapefile', 'shp')
+            },
+            {
+              label: i18n('menu-export-sync'),
+              click: exportDataMenu(app, 'Mapeo Sync File', 'mapeodata')
             }
           ],
           visible: true
@@ -297,8 +301,12 @@ function exportDataMenu (app, name, ext) {
       filters: [{name: name, extensions: [ext]}]
     }, function (filename) {
       if (!filename) return
-      exportData(app.osm, filename, function (err) {
+      exportData(app.server.mapeo, filename, function (err) {
         if (err) dialog.showErrorBox('Error', i18n('menu-export-data-error') + err)
+        dialog.showMessageBox({
+          message: i18n('menu-export-data-success'),
+          buttons: ['OK']
+        })
       })
     })
   }

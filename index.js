@@ -157,19 +157,19 @@ function versionCheckIndexes (done) {
 }
 
 function createServers (done) {
-  server = createServer(app.osm, app.media)
+  app.server = createServer(app.osm, app.media)
 
   var pending = 2
 
-  server.listen(argv.port, '127.0.0.1', function () {
-    global.osmServerHost = '127.0.0.1:' + server.address().port
+  app.server.listen(argv.port, '127.0.0.1', function () {
+    global.osmServerHost = '127.0.0.1:' + app.server.address().port
     log(global.osmServerHost)
     if (--pending === 0) done()
   })
 
   var tileServer = createTileServer()
   tileServer.listen(argv.tileport, function () {
-    log('tile server listening on :', server.address().port)
+    log('tile server listening on :', app.server.address().port)
     if (--pending === 0) done()
   })
 }
@@ -232,10 +232,6 @@ function createMainWindow (done) {
 
     if (argv.debug) win.webContents.openDevTools()
     win.loadURL(INDEX)
-    // TODO: what's the way to see when the window is being refreshed?
-    win.on('refresh', function () {
-      server.sync.close()
-    })
 
     var ipc = electron.ipcMain
 
