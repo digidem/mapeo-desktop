@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import pump from 'pump'
 import through from 'through2'
 import React from 'react'
+import randombytes from 'randombytes'
 import {ipcRenderer} from 'electron'
 
 import Modal from './Modal'
@@ -80,22 +81,19 @@ export default class SyncView extends React.Component {
       wifis: {},
       files: {}
     }
+    this.streams = {}
   }
 
   replicate (target) {
     var self = this
     if (!target) return
-    this.destroyed = false
-    this.stream = replicate.start(target)
-    this.stream.on('data', function (data) {
-      if (self.destroyed) return
+    var stream = replicate.start(target)
+    var id = randombytes(16).toString('hex')
+    this.streams[id] = stream
+    stream.on('data', function (data) {
       var row = JSON.parse(data)
       var status = row.topic
       var message = messages[status] || row.message
-      if (status === 'replication-error') {
-        message = 'Error: ' + err.message,
-        status = 'replication-error'
-      }
       // TODO: this is clunky, improve status rendering via external module?
       var msg = { status, message, target }
       if (target.host) self.state.wifis[target.host] = msg
@@ -103,14 +101,15 @@ export default class SyncView extends React.Component {
       self.setState({wifis: self.state.wifis, files: self.state.files})
     })
 
-    this.stream.on('error', function (err) {
+    stream.on('error', function (err) {
       if (err) console.error(err)
     })
   }
 
   componentWillUnmount () {
-    this.destroyed = true
-    if (this.stream) this.stream.destroy()
+    var self = this
+    Object.keys(this.streams).map((k) => self.streams[k].destroy())
+    this.streams = {}
     clearInterval(this.interval)
     ipcRenderer.removeListener('select-file', this.selectFile.bind(this))
   }
