@@ -77,16 +77,9 @@ export default class SyncView extends React.Component {
     super(props)
     this.state = {
       targets: [],
-      statuses: {}
+      wifis: {},
+      files: {}
     }
-  }
-
-  onError (err, target) {
-    self.state.statuses[target.host] = {
-      message: 'Error: ' + err.message,
-      status: 'replication-error'
-    }
-    self.setState({statuses: self.state.statuses})
   }
 
   replicate (target) {
@@ -98,10 +91,16 @@ export default class SyncView extends React.Component {
       if (self.destroyed) return
       var row = JSON.parse(data)
       var status = row.topic
-      if (status === 'replication-error') return this.onError(new Error(row.message))
       var message = messages[status] || row.message
-      self.state.statuses[target.host] = {status, message}
-      self.setState({statuses: self.state.statuses})
+      if (status === 'replication-error') {
+        message = 'Error: ' + err.message,
+        status = 'replication-error'
+      }
+      // TODO: this is clunky, improve status rendering via external module?
+      var msg = { status, message, target }
+      if (target.host) self.state.wifis[target.host] = msg
+      if (target.filename) self.state.files[target.filename] = msg
+      self.setState({wifis: self.state.wifis, files: self.state.files})
     })
 
     this.stream.on('error', function (err) {
@@ -147,7 +146,7 @@ export default class SyncView extends React.Component {
 
   render () {
     var self = this
-    var {message, status, targets, statuses} = this.state
+    var {message, status, targets, wifis, files} = this.state
     const {filename, onClose} = this.props
     if (filename) this.selectFile(filename)
 
@@ -166,11 +165,23 @@ export default class SyncView extends React.Component {
                     <span className='name'>{t.name}</span>
                     <span className='info'>via WiFi</span>
                   </div>
-                  {statuses[t.host] ? <h3>{statuses[t.host].message}</h3> :
+                  {wifis[t.host] ? <h3>{wifis[t.host].message}</h3> :
                     <SyncButton onClick={self.replicate.bind(self, t)}>
                       arrow
                     </SyncButton>
                   }
+                </Target>
+              )
+            })}
+            {Object.keys(files).map(function (k) {
+              var t = files[k]
+              return (
+                <Target key={t.target.filename}>
+                  <div className='target'>
+                    <span className='name'>{t.target.filename}</span>
+                    <span className='info'>via File</span>
+                  </div>
+                  <h3>{t.message}</h3>
                 </Target>
               )
             })}
@@ -180,9 +191,13 @@ export default class SyncView extends React.Component {
           <div className='button-group'>
             <input type='hidden' name='source' />
             <button className='big' onClick={this.selectExisting}>
-              <span id='button-text'>{i18n('sync-database-open-button')}&hellip;</span>
+              <span id='button-text'>
+                {i18n('sync-database-open-button')}&hellip;
+              </span>
             </button>
-            <button className='big' onClick={this.props.onClose.bind(this)}>Done</button>
+            <button className='big' onClick={this.props.onClose.bind(this)}>
+              Done
+            </button>
           </div>
         </Form>
       </Modal>
