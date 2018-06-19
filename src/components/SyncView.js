@@ -39,7 +39,6 @@ var LoadingText = styled.div`
   background-color: white;
   color: grey;
   text-align: center;
-  min-height: 300px;
   font-style: italic;
   font-size: 24px;
   display: flex;
@@ -69,7 +68,6 @@ var Target = styled.li`
 `
 
 var TargetsDiv = styled.div`
-  min-height: 300px;
   background-color: white;
   color: black;
 `
