@@ -9,8 +9,15 @@ export default class IndexesBar extends React.Component {
     this.state = {
       loading: false
     }
-    // ipcRenderer.on('indexes-loading', self.indexesLoading.bind(self))
-    // ipcRenderer.on('indexes-ready', self.indexesReady.bind(self))
+    this.indexesLoading = this.indexesLoading.bind(this)
+    this.indexesReady = this.indexesReady.bind(this)
+    ipcRenderer.on('indexes-loading', this.indexesLoading)
+    ipcRenderer.on('indexes-ready', this.indexesReady)
+  }
+
+  componentWillUnmount () {
+    ipcRenderer.removeListener('indexes-loading', this.indexesLoading)
+    ipcRenderer.removeListener('indexes-ready', this.indexesReady)
   }
 
   indexesReady () {
