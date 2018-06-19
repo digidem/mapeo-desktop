@@ -60,7 +60,7 @@ export default class Modal extends React.Component {
 
   render () {
     var { onClose, title, closeButton } = this.props
-    if (!closeButton) closeButton = true
+    if (typeof closeButton === 'undefined') closeButton = true
     return (<ModalOverlay onClick={this.onClickOverlay.bind(this)}>
       <ModalBody onKeyDown={this.onKeyDown.bind(this)} onClick={this.onClickModal}>
         {closeButton && <button className='close-button' onClick={onClose}>X</button>}
