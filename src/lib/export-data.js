@@ -1,7 +1,6 @@
 var path = require('path')
 var pump = require('pump')
 var fs = require('fs')
-var replicate = require('./replicate')
 var exportGeoJson = require('./export-geojson')
 var exportShapefile = require('./export-shapefile')
 
