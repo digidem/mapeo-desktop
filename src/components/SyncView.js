@@ -83,6 +83,7 @@ export default class SyncView extends React.Component {
       files: {}
     }
     this.streams = {}
+    this.selectFile = this.selectFile.bind(this)
   }
 
   replicate (target) {
@@ -121,7 +122,7 @@ export default class SyncView extends React.Component {
     Object.keys(this.streams).map((k) => self.streams[k].destroy())
     this.streams = {}
     clearInterval(this.interval)
-    ipcRenderer.removeListener('select-file', this.selectFile.bind(this))
+    ipcRenderer.removeListener('select-file', this.selectFile)
   }
 
   selectFile (event, filename) {
@@ -131,7 +132,7 @@ export default class SyncView extends React.Component {
 
   componentDidMount () {
     this.interval = setInterval(this.updateTargets.bind(this), 1000)
-    ipcRenderer.on('select-file', this.selectFile.bind(this))
+    ipcRenderer.on('select-file', this.selectFile)
   }
 
   updateTargets () {
