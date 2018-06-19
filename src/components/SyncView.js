@@ -92,7 +92,12 @@ export default class SyncView extends React.Component {
     var id = randombytes(16).toString('hex')
     this.streams[id] = stream
     stream.on('data', function (data) {
-      var row = JSON.parse(data)
+      try {
+        var row = JSON.parse(data)
+      } catch (err) {
+        console.error(err)
+        return
+      }
       var status = row.topic
       var message = messages[status] || row.message
       // TODO: this is clunky, improve status rendering via external module?
