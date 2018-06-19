@@ -1,8 +1,13 @@
+import styled from 'styled-components'
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
 import i18n from '../lib/i18n'
 import Modal from './Modal'
+
+const LatLonDialogDiv = styled.div`
+  padding: 20px;
+`
 
 export default class LatLonDialog extends React.Component {
   submitHandler (event) {
@@ -25,15 +30,17 @@ export default class LatLonDialog extends React.Component {
   render () {
     return (
       <Modal onClose={this.props.onClose}>
-        <h3>{i18n('dialog-enter-latlon-coordinates')}</h3>
-        <div>
-          <form onSubmit={this.submitHandler.bind(this)}>
-            <input id='latlon-text' placeholder='Lon, Lat' type='text' />
-            <div className='button-group right'>
-              <button className='big' type='submit'>{i18n('button-submit')}</button>
-            </div>
-          </form>
-        </div>
+        <LatLonDialogDiv>
+          <h3>{i18n('dialog-enter-latlon-coordinates')}</h3>
+          <div>
+            <form onSubmit={this.submitHandler.bind(this)}>
+              <input id='latlon-text' placeholder='Lon, Lat' type='text' />
+              <div className='button-group right'>
+                <button className='big' type='submit'>{i18n('button-submit')}</button>
+              </div>
+            </form>
+          </div>
+        </LatLonDialogDiv>
       </Modal>
     )
   }
