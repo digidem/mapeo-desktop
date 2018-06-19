@@ -39,7 +39,6 @@ var APP_NAME = app.getName()
 var log = require('./src/lib/log').Node()
 
 var win = null
-var server = null
 var firstTime = false
 
 // Listen for app-ready event
@@ -207,8 +206,8 @@ function createMainWindow (done) {
     }
 
     app.on('before-quit', function () {
-      server.mapeo.api.close(function () {
-        server.close()
+      app.server.mapeo.api.close(function () {
+        app.server.close()
       })
     })
 
