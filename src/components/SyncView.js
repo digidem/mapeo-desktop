@@ -200,6 +200,11 @@ export default class SyncView extends React.Component {
                 {i18n('sync-database-open-button')}&hellip;
               </span>
             </button>
+            <button className='big' onClick={this.selectNew}>
+              <span id='button-text'>
+                {i18n('sync-database-new-button')}&hellip;
+              </span>
+            </button>
             <button
               className='big' onClick={this.props.onClose.bind(this)}
               disabled={disabled}>
