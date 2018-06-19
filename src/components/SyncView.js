@@ -99,7 +99,7 @@ export default class SyncView extends React.Component {
       var msg = { status, message, target }
       if (target.host) self.state.wifis[target.host] = msg
       if (target.filename) self.state.files[target.filename] = msg
-      self.setState({wifis: self.state.wifis, files: self.state.files})
+      if (status !== 'replication-progress') self.setState({wifis: self.state.wifis, files: self.state.files})
     })
 
     stream.on('error', function (err) {
