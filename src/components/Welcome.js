@@ -72,9 +72,6 @@ export default class Welcome extends React.Component {
           : <div id='screen-3'>
             <h2 className='intro-text'>{i18n('welcome-screen-3-title')}</h2>
             <div className='action-buttons'>
-              <button id='example-dataset' className='big' onClick={this.examplesButton.bind(this)}>
-                {i18n('welcome-screen-3-example-dataset')}
-              </button>
               <button id='use-presets' className='big' onClick={this.presetsButton.bind(this)}>
                 {i18n('welcome-screen-3-use-presets')}
               </button>

@@ -65,6 +65,7 @@ h2 {
   font-size: 20px;
 }
 .action-buttons {
+  max-width: 400px;
   display: flex;
   flex-direction: column;
 }
