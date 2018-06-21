@@ -131,7 +131,9 @@ export default class SyncView extends React.Component {
   componentDidMount () {
     this.interval = setInterval(this.updateTargets.bind(this), 1000)
     ipcRenderer.on('select-file', this.selectFile)
-    replicate.announce()
+    replicate.announce(function (err) {
+      if (err) console.error(err)
+    })
   }
 
   updateTargets () {
