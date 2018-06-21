@@ -126,8 +126,7 @@ export default class Sidebar extends React.Component {
       // },
       {
         component: SyncView,
-        label: 'Sync with...',
-        modal: true
+        label: 'Sync with...'
       }
     ]
 

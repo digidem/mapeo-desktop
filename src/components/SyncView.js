@@ -6,7 +6,6 @@ import React from 'react'
 import randombytes from 'randombytes'
 import {ipcRenderer} from 'electron'
 
-import Modal from './Modal'
 import MapEditor from './MapEditor'
 import replicate from '../lib/replicate'
 import Form from './Form'
@@ -28,15 +27,20 @@ var SyncButton = styled.button`
   padding: 0px 20px;
 `
 
+var Buttons = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
 var Subtitle = styled.div`
-  background-color: var(--main-bg-color);
+  background-color: var(--dark-bg-color);
   color: white;
   vertical-align: middle;
-  padding: 5px 15px;
+  padding: 5px ;
 `
 
 var LoadingText = styled.div`
-  background-color: white;
   color: grey;
   text-align: center;
   font-style: italic;
@@ -47,7 +51,7 @@ var LoadingText = styled.div`
 `
 
 var Target = styled.li`
-  min-width: 500px;
+  background-color: white;
   padding: 20px;
   border-bottom: 1px solid grey;
   display: flex;
@@ -68,8 +72,11 @@ var Target = styled.li`
 `
 
 var TargetsDiv = styled.div`
-  background-color: white;
+  max-width: 700px;
   color: black;
+  button {
+    margin: 10px 0px !important;
+  }
 `
 
 export default class SyncView extends React.Component {
@@ -158,12 +165,13 @@ export default class SyncView extends React.Component {
   render () {
     var self = this
     var {message, status, targets, wifis, files} = this.state
-    const {filename, onClose} = this.props
+    const {filename} = this.props
     if (filename) this.selectFile(filename)
     var disabled = Object.keys(self.streams).length > 0
 
     return (
-      <Modal closeButton={false} onClose={this.props.onClose} title={i18n('sync-database-lead')}>
+      <View>
+        <h1>{i18n('sync-database-lead')}</h1>
         <TargetsDiv>
         {targets.length === 0
           ? <Subtitle>Searching for devices&hellip;</Subtitle>
@@ -198,28 +206,24 @@ export default class SyncView extends React.Component {
               )
             })}
           </ul>
-        </TargetsDiv>
-        <Form method='POST'>
-          <div className='button-group'>
+          <Form method='POST'>
+            {disabled && <h3>Please wait...</h3>}
             <input type='hidden' name='source' />
-            <button className='big' onClick={this.selectExisting}>
-              <span id='button-text'>
-                {i18n('sync-database-open-button')}&hellip;
-              </span>
-            </button>
-            <button className='big' onClick={this.selectNew}>
-              <span id='button-text'>
-                {i18n('sync-database-new-button')}&hellip;
-              </span>
-            </button>
-            <button
-              className='big' onClick={this.props.onClose.bind(this)}
-              disabled={disabled}>
-              {disabled ? 'Please wait...' : 'Done'}
-            </button>
-          </div>
-        </Form>
-      </Modal>
+            <Buttons>
+              <button className='big' onClick={this.selectExisting}>
+                <span id='button-text'>
+                  {i18n('sync-database-open-button')}&hellip;
+                </span>
+              </button>
+              <button className='big' onClick={this.selectNew}>
+                <span id='button-text'>
+                  {i18n('sync-database-new-button')}&hellip;
+                </span>
+              </button>
+            </Buttons>
+          </Form>
+        </TargetsDiv>
+      </View>
     )
   }
 }
