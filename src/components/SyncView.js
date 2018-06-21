@@ -136,6 +136,11 @@ export default class SyncView extends React.Component {
     })
   }
 
+  onClose () {
+    this.props.onClose()
+    ipcRenderer.send('refresh-window')
+  }
+
   updateTargets () {
     var self = this
     replicate.getTargets(function (err, targets) {
@@ -214,7 +219,7 @@ export default class SyncView extends React.Component {
                 </span>
               </button>
               <button
-                className='big' onClick={this.props.onClose.bind(this)}
+                className='big' onClick={this.onClose.bind(this)}
                 disabled={disabled}>
                 {disabled ? 'Please wait...' : 'Done'}
               </button>
