@@ -16,9 +16,9 @@ mkdirp.sync(dir)
 var ws = media.createWriteStream('file.txt')
 ws.write('hi')
 ws.end()
-var mapeo = Mapeo(osm, media)
+var mapeo = Mapeo(osm, media, {listen: true})
 var server = http.createServer(function (req, res) {
-  if (!mapeo(req, res)) {
+  if (!mapeo.handle(req, res)) {
     res.statusCode = 404
     res.end('404')
   }
