@@ -179,6 +179,7 @@ export default class SyncView extends React.Component {
         }
           <ul>
             {targets.map(function (t) {
+              if (t.name === 'localhost') return
               return (
                 <Target key={t.host}>
                   <div className='target'>
