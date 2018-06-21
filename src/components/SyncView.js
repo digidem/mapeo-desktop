@@ -108,7 +108,7 @@ export default class SyncView extends React.Component {
       var message = messages[status] || row.message
       // TODO: this is clunky, improve status rendering via external module?
       var msg = { status, message, target }
-      if (target.host) self.state.wifis[target.host] = msg
+      if (target.name) self.state.wifis[target.name] = msg
       if (target.filename) self.state.files[target.filename] = msg
       if (status !== 'replication-progress') self.setState({wifis: self.state.wifis, files: self.state.files})
     })
@@ -181,12 +181,12 @@ export default class SyncView extends React.Component {
             {targets.map(function (t) {
               if (t.name === 'localhost') return
               return (
-                <Target key={t.host}>
+                <Target key={t.name}>
                   <div className='target'>
                     <span className='name'>{t.name}</span>
                     <span className='info'>via WiFi</span>
                   </div>
-                  {wifis[t.host] ? <h3>{wifis[t.host].message}</h3> :
+                  {wifis[t.name] ? <h3>{wifis[t.name].message}</h3> :
                     <SyncButton onClick={self.replicate.bind(self, t)}>
                       arrow
                     </SyncButton>
