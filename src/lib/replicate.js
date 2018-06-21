@@ -5,15 +5,28 @@ import pump from 'pump'
 import {remote} from 'electron'
 import hyperquest from 'hyperquest'
 
+
 module.exports = {
-  start, getTargets
+  start, getTargets, announce
+}
+
+function announce (cb) {
+  var osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/announce`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    return cb(null, body)
+  })
 }
 
 function getTargets (cb) {
-  var osmServerHost = remote.getGlobal('osmServerHost')
+  var osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
   var opts = {
     method: 'GET',
-    url: 'http://' + osmServerHost + '/sync/targets'
+    url: `${osmServerHost}/sync/targets`
   }
   xhr(opts, function (err, res, body) {
     if (err) return cb(err)
@@ -22,8 +35,8 @@ function getTargets (cb) {
 }
 
 function start (target, cb) {
-  var osmServerHost = remote.getGlobal('osmServerHost')
-  var url = `http://${osmServerHost}/sync/start?${querystring.stringify(target)}`
+  var osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
+  var url = `${osmServerHost}/sync/start?${querystring.stringify(target)}`
   var hq = hyperquest(url)
   return pump(hq, split2())
 }
