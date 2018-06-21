@@ -208,7 +208,6 @@ export default class SyncView extends React.Component {
             })}
           </ul>
           <Form method='POST'>
-            {disabled && <h3>Please wait...</h3>}
             <input type='hidden' name='source' />
             <Buttons>
               <button className='big' onClick={this.selectExisting}>
