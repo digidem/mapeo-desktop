@@ -171,8 +171,8 @@ export default class SyncView extends React.Component {
       <Modal closeButton={false} onClose={this.props.onClose} title={i18n('sync-database-lead')}>
         <TargetsDiv>
         {targets.length === 0
-          ? <Subtitle>Searching for devices&hellip;</Subtitle>
-          : <Subtitle>Available Devices</Subtitle>
+          ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+          : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
         }
           <ul>
             {targets.map(function (t) {
@@ -181,11 +181,11 @@ export default class SyncView extends React.Component {
                 <Target key={t.name}>
                   <div className='target'>
                     <span className='name'>{t.name}</span>
-                    <span className='info'>via WiFi</span>
+                    <span className='info'>{i18n('sync-wifi-info')}</span>
                   </div>
                   {wifis[t.name] ? <h3>{wifis[t.name].message}</h3> :
                     <SyncButton onClick={self.replicate.bind(self, t)}>
-                      arrow
+                      Sync
                     </SyncButton>
                   }
                 </Target>
@@ -197,7 +197,7 @@ export default class SyncView extends React.Component {
                 <Target key={t.target.filename}>
                   <div className='target'>
                     <span className='name'>{path.basename(t.target.filename)}</span>
-                    <span className='info'>via File</span>
+                    <span className='info'>{i18n('sync-file-info')}</span>
                   </div>
                   <h3>{t.message}</h3>
                 </Target>
@@ -221,7 +221,7 @@ export default class SyncView extends React.Component {
               <button
                 className='big' onClick={this.onClose.bind(this)}
                 disabled={disabled}>
-                {disabled ? 'Please wait...' : 'Done'}
+                {disabled ? `${i18n('wait')}&hellip;` : i18n('done')}
               </button>
             </div>
           </Form>
