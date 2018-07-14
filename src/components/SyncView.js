@@ -1,28 +1,23 @@
-import path from 'path'
 import styled from 'styled-components'
-import pump from 'pump'
-import through from 'through2'
 import React from 'react'
 import randombytes from 'randombytes'
-import {ipcRenderer} from 'electron'
+import {ipcRenderer, remote} from 'electron'
 
-import Modal from './Modal'
-import MapEditor from './MapEditor'
 import replicate from '../lib/replicate'
+import Modal from './Modal'
 import Form from './Form'
-import View from './View'
 import i18n from '../lib/i18n'
 
 // turn the messages into strings once
 // so the function isn't called for every row
+
 var messages = {
   'replication-data-complete': i18n('replication-data-complete'),
   'replication-started': i18n('replication-started'),
   'replication-complete': i18n('replication-complete'),
-  'replication-progress': i18n('replication-progress')
+  'media-connected': i18n('replication-progress'),
+  'osm-connected': i18n('replication-progress')
 }
-
-
 var SyncButton = styled.button`
   background-color: orange;
   padding: 0px 20px;
@@ -35,15 +30,19 @@ var Subtitle = styled.div`
   padding: 5px 15px;
 `
 
-var LoadingText = styled.div`
+var TargetsDiv = styled.div`
   background-color: white;
-  color: grey;
-  text-align: center;
-  font-style: italic;
-  font-size: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  color: black;
+  .loading {
+    background-color: white;
+    color: grey;
+    text-align: center;
+    font-style: italic;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
 `
 
 var Target = styled.li`
@@ -67,73 +66,35 @@ var Target = styled.li`
 }
 `
 
-var TargetsDiv = styled.div`
-  background-color: white;
-  color: black;
-`
-
 export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      targets: [],
-      wifis: {},
-      files: {}
+      targets: []
     }
-    this.streams = {}
     this.selectFile = this.selectFile.bind(this)
   }
 
   replicate (target) {
     var self = this
     if (!target) return
-    var stream = replicate.start(target)
-    var id = randombytes(16).toString('hex')
-    this.streams[id] = stream
-    stream.on('data', function (data) {
-      try {
-        var row = JSON.parse(data)
-      } catch (err) {
-        console.error(err)
-        return
-      }
-      var status = row.topic
-      var message = messages[status] || row.message
-      // TODO: this is clunky, improve status rendering via external module?
-      var msg = { status, message, target }
-      if (target.name) self.state.wifis[target.name] = msg
-      if (target.filename) self.state.files[target.filename] = msg
-      if (status !== 'replication-progress') self.setState({wifis: self.state.wifis, files: self.state.files})
-    })
-
-    stream.on('error', function (err) {
+    replicate.start(target, function (err, body) {
       if (err) console.error(err)
-    })
-
-    stream.on('end', function () {
-      delete self.streams[id]
     })
   }
 
   componentWillUnmount () {
     var self = this
-    Object.keys(this.streams).map((k) => self.streams[k].destroy())
-    this.streams = {}
     clearInterval(this.interval)
     ipcRenderer.removeListener('select-file', this.selectFile)
   }
 
-  selectFile (event, filename) {
-    if (!filename) return
-    this.replicate({filename})
-  }
-
   componentDidMount () {
     this.interval = setInterval(this.updateTargets.bind(this), 1000)
-    ipcRenderer.on('select-file', this.selectFile)
     replicate.announce(function (err) {
       if (err) console.error(err)
     })
+    ipcRenderer.on('select-file', this.selectFile)
   }
 
   onClose () {
@@ -145,7 +106,6 @@ export default class SyncView extends React.Component {
     var self = this
     replicate.getTargets(function (err, targets) {
       if (err) return console.error(err)
-      targets = JSON.parse(targets)
       self.setState({targets})
     })
   }
@@ -160,15 +120,19 @@ export default class SyncView extends React.Component {
     ipcRenderer.send('save-file')
   }
 
+  selectFile (event, filename) {
+    if (!filename) return
+    this.replicate({filename})
+  }
+
   render () {
     var self = this
-    var {message, status, targets, wifis, files} = this.state
-    const {filename, onClose} = this.props
-    if (filename) this.selectFile(filename)
-    var disabled = Object.keys(self.streams).length > 0
+    var {targets} = this.state
+    if (this.props.filename) this.replicate({filename: this.props.filename})
+    var onClose = this.onClose.bind(this)
 
     return (
-      <Modal closeButton={false} onClose={this.props.onClose} title={i18n('sync-database-lead')}>
+      <Modal closeButton={false} onClose={onClose} title={i18n('sync-database-lead')}>
         <TargetsDiv>
         {targets.length === 0
           ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
@@ -177,29 +141,18 @@ export default class SyncView extends React.Component {
           <ul>
             {targets.map(function (t) {
               if (t.name === 'localhost') return
+              var message = messages[t.status] || t.message
               return (
                 <Target key={t.name}>
                   <div className='target'>
                     <span className='name'>{t.name}</span>
-                    <span className='info'>{i18n('sync-wifi-info')}</span>
+                    <span className='info'>via {i18n(`sync-${t.type}-info`)}</span>
                   </div>
-                  {wifis[t.name] ? <h3>{wifis[t.name].message}</h3> :
+                  {t.status ? <h3>{message}</h3> :
                     <SyncButton onClick={self.replicate.bind(self, t)}>
                       Sync
                     </SyncButton>
                   }
-                </Target>
-              )
-            })}
-            {Object.keys(files).map(function (k) {
-              var t = files[k]
-              return (
-                <Target key={t.target.filename}>
-                  <div className='target'>
-                    <span className='name'>{path.basename(t.target.filename)}</span>
-                    <span className='info'>{i18n('sync-file-info')}</span>
-                  </div>
-                  <h3>{t.message}</h3>
                 </Target>
               )
             })}
@@ -218,10 +171,8 @@ export default class SyncView extends React.Component {
                   {i18n('sync-database-new-button')}&hellip;
                 </span>
               </button>
-              <button
-                className='big' onClick={this.onClose.bind(this)}
-                disabled={disabled}>
-                {disabled ? `${i18n('wait')}&hellip;` : i18n('done')}
+              <button className='big' onClick={onClose}>
+              ('done')
               </button>
             </div>
           </Form>

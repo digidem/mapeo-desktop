@@ -287,7 +287,7 @@ function createMainWindow (done) {
         title: i18n('save-db-dialog'),
         defaultPath: 'database.' + ext,
         filters: [
-          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext] },
+          { name: 'Mapeo Data (*.' + ext + ')', extensions: ['mapeodata', 'mapeo-jungle', ext] },
         ]
       }, onopen)
 
@@ -304,7 +304,7 @@ function createMainWindow (done) {
         title: i18n('open-db-dialog'),
         properties: [ 'openFile' ],
         filters: [
-          { name: 'Mapeo Data (*.' + ext + ')', extensions: [ext, 'sync', 'zip'] },
+          { name: 'Mapeo Data (*.' + ext + ')', extensions: ['mapeodata', 'mapeo-jungle', ext, 'sync', 'zip'] },
         ]
       }, onopen)
 
@@ -328,7 +328,7 @@ function createMainWindow (done) {
     })
 
     ipc.on('refresh-window', function () {
-      win.reload()
+      win.webContents.send('refresh-window')
     })
 
     var menu = Menu.buildFromTemplate(menuTemplate(app))
