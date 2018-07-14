@@ -85,6 +85,7 @@ export default class SyncView extends React.Component {
 
   componentWillUnmount () {
     var self = this
+    clearInterval(this.interval)
     ipcRenderer.removeListener('select-file', this.selectFile)
   }
 
@@ -118,6 +119,7 @@ export default class SyncView extends React.Component {
     event.preventDefault()
     ipcRenderer.send('save-file')
   }
+
   selectFile (event, filename) {
     if (!filename) return
     this.replicate({filename})
