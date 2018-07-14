@@ -40,7 +40,12 @@ function getTargets (cb) {
 
 function start (target, cb) {
   var osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
-  var url = `${osmServerHost}/sync/start?${querystring.stringify(target)}`
-  var hq = hyperquest(url)
-  return pump(hq, split2())
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/start?${querystring.stringify(target)}`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    cb(null, body)
+  })
 }

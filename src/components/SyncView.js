@@ -72,33 +72,19 @@ export default class SyncView extends React.Component {
     this.state = {
       targets: []
     }
-    this.streams = {}
     this.selectFile = this.selectFile.bind(this)
   }
 
   replicate (target) {
     var self = this
     if (!target) return
-    var stream = replicate.start(target)
-    var id = randombytes(16).toString('hex')
-    this.streams[id] = stream
-    stream.on('data', function (data) {
-      // TODO: add debugging
-    })
-    stream.on('error', function (err) {
+    replicate.start(target, function (err, body) {
       if (err) console.error(err)
-      delete self.streams[id]
-    })
-
-    stream.on('end', function () {
-      delete self.streams[id]
     })
   }
 
   componentWillUnmount () {
     var self = this
-    Object.keys(this.streams).map((k) => self.streams[k].destroy())
-    this.streams = {}
     ipcRenderer.removeListener('select-file', this.selectFile)
   }
 
