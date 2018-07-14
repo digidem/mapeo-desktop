@@ -135,8 +135,8 @@ export default class SyncView extends React.Component {
       <Modal closeButton={false} onClose={onClose} title={i18n('sync-database-lead')}>
         <TargetsDiv>
         {targets.length === 0
-          ? <Subtitle>Searching for devices&hellip;</Subtitle>
-          : <Subtitle>Available Devices</Subtitle>
+          ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+          : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
         }
           <ul>
             {targets.map(function (t) {
@@ -146,11 +146,11 @@ export default class SyncView extends React.Component {
                 <Target key={t.name}>
                   <div className='target'>
                     <span className='name'>{t.name}</span>
-                    <span className='info'>via {t.type}</span>
+                    <span className='info'>via {i18n(`sync-${t.type}-info`)}</span>
                   </div>
                   {t.status ? <h3>{message}</h3> :
                     <SyncButton onClick={self.replicate.bind(self, t)}>
-                      arrow
+                      Sync
                     </SyncButton>
                   }
                 </Target>
@@ -172,7 +172,7 @@ export default class SyncView extends React.Component {
                 </span>
               </button>
               <button className='big' onClick={onClose}>
-              Done
+              ('done')
               </button>
             </div>
           </Form>
