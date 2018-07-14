@@ -15,7 +15,8 @@ var messages = {
   'replication-data-complete': i18n('replication-data-complete'),
   'replication-started': i18n('replication-started'),
   'replication-complete': i18n('replication-complete'),
-  'replication-progress': i18n('replication-progress')
+  'media-connected': i18n('replication-progress'),
+  'osm-connected': i18n('replication-progress')
 }
 var SyncButton = styled.button`
   background-color: orange;
@@ -90,9 +91,7 @@ export default class SyncView extends React.Component {
     })
 
     stream.on('end', function () {
-      console.log('stream over', id)
       delete self.streams[id]
-      self.setState()
     })
   }
 
@@ -142,7 +141,6 @@ export default class SyncView extends React.Component {
     var self = this
     var {targets} = this.state
     if (this.props.filename) this.replicate({filename: this.props.filename})
-    var disabled = Object.keys(self.streams).length > 0
     var onClose = this.onClose.bind(this)
 
     return (
@@ -185,10 +183,8 @@ export default class SyncView extends React.Component {
                   {i18n('sync-database-new-button')}&hellip;
                 </span>
               </button>
-              <button
-                className='big' onClick={onClose}
-                disabled={disabled}>
-                {disabled ? 'Please wait...' : 'Done'}
+              <button className='big' onClick={onClose}>
+              Done
               </button>
             </div>
           </Form>
