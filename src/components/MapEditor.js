@@ -15,9 +15,9 @@ export default class MapEditor extends React.Component {
     ipcRenderer.on('zoom-to-data-response', self.zoomToDataResponse.bind(self))
     ipcRenderer.on('zoom-to-latlon-response', self.zoomToLatLonResponse.bind(self))
     ipcRenderer.on('change-language-request', self.changeLanguageRequest.bind(self))
+    ipcRenderer.on('refresh-window', self.refreshWindow.bind(self))
     ipcRenderer.on('updated-settings', function () {
       self.updateSettings()
-      ipcRenderer.send('refresh-window')
     })
   }
 
@@ -27,6 +27,10 @@ export default class MapEditor extends React.Component {
         <div id='container' />
       </div>
     )
+  }
+
+  refreshWindow () {
+    if (this.id) this.id.flush()
   }
 
   componentDidMount () {

@@ -328,7 +328,7 @@ function createMainWindow (done) {
     })
 
     ipc.on('refresh-window', function () {
-      win.reload()
+      win.webContents.send('refresh-window')
     })
 
     var menu = Menu.buildFromTemplate(menuTemplate(app))
