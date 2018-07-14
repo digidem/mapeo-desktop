@@ -30,7 +30,11 @@ function getTargets (cb) {
   }
   xhr(opts, function (err, res, body) {
     if (err) return cb(err)
-    return cb(null, body)
+    try {
+      return cb(null, JSON.parse(body))
+    } catch (err) {
+      return cb(err)
+    }
   })
 }
 

@@ -3,6 +3,7 @@ import React from 'react'
 import randombytes from 'randombytes'
 import {ipcRenderer, remote} from 'electron'
 
+import replicate from '../lib/replicate'
 import Modal from './Modal'
 import Form from './Form'
 import i18n from '../lib/i18n'
@@ -16,7 +17,17 @@ var messages = {
   'replication-complete': i18n('replication-complete'),
   'replication-progress': i18n('replication-progress')
 }
+var SyncButton = styled.button`
+  background-color: orange;
+  padding: 0px 20px;
+`
 
+var Subtitle = styled.div`
+  background-color: var(--main-bg-color);
+  color: white;
+  vertical-align: middle;
+  padding: 5px 15px;
+`
 
 var TargetsDiv = styled.div`
   background-color: white;
@@ -31,37 +42,25 @@ var TargetsDiv = styled.div`
     flex-direction: column;
     justify-content: space-around;
   }
+`
 
-  .subtitle {
-    background-color: var(--main-bg-color);
-    color: white;
+var Target = styled.li`
+  min-width: 500px;
+  padding: 20px;
+  border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+  line-height: 30px;
+  .target {
     vertical-align: middle;
-    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 16px;
   }
-
-  .sync-button {
-    background-color: orange;
-    padding: 0px 20px;
-  }
-
-  li.row {
-    min-width: 500px;
-    padding: 20px;
-    border-bottom: 1px solid grey;
-    display: flex;
-    justify-content: space-between;
-    line-height: 30px;
-    .target {
-      vertical-align: middle;
-      font-weight: bold;
-      font-size: 16px;
-    }
-    .info {
-      padding-left: 10px;
-      font-weight: normal;
-      font-size: 14px;
-      font-style: italic;
-    }
+  .info {
+    padding-left: 10px;
+    font-weight: normal;
+    font-size: 14px;
+    font-style: italic;
   }
 }
 `
@@ -70,8 +69,9 @@ export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      targets: {}
+      targets: []
     }
+    this.streams = {}
     this.selectFile = this.selectFile.bind(this)
   }
 
@@ -82,33 +82,32 @@ export default class SyncView extends React.Component {
     var id = randombytes(16).toString('hex')
     this.streams[id] = stream
     stream.on('data', function (data) {
-      try {
-        var row = JSON.parse(data)
-      } catch (err) {
-        console.error(err)
-        return
-      }
-      var t = Target(target)
-      t.status = row.topic
-      t.message = self.props.messages[row.topic] || row.message
-      self.state.targets[target.name] = t
-      if (status !== 'replication-progress') self.setState({statuses: self.state.statuses})
+      // TODO: add debugging
     })
-
     stream.on('error', function (err) {
       if (err) console.error(err)
+      delete self.streams[id]
     })
 
     stream.on('end', function () {
+      console.log('stream over', id)
       delete self.streams[id]
+      self.setState()
     })
   }
 
   componentWillUnmount () {
+    var self = this
+    Object.keys(this.streams).map((k) => self.streams[k].destroy())
+    this.streams = {}
     ipcRenderer.removeListener('select-file', this.selectFile)
   }
 
   componentDidMount () {
+    this.interval = setInterval(this.updateTargets.bind(this), 1000)
+    replicate.announce(function (err) {
+      if (err) console.error(err)
+    })
     ipcRenderer.on('select-file', this.selectFile)
   }
 
@@ -119,19 +118,11 @@ export default class SyncView extends React.Component {
 
   updateTargets () {
     var self = this
-    getTargets(this.props.server, function (err, targets) {
+    replicate.getTargets(function (err, targets) {
       if (err) return console.error(err)
-      targets = JSON.parse(targets)
-      Object.keys(self.state.targets).forEach(function (name) {
-        var match = targets.filter((t) => t.name === name).length
-        if (!match) delete self.state.targets[name]
-      })
-      targets.forEach(function (t) {
-        var old = self.state.targets[t.name] || {}
-        self.state.targets[t.name] = Target(Object.assign(old, t))
-      })
-      self.setState({targets: self.state.targets})
-    })}
+      self.setState({targets})
+    })
+  }
 
   selectExisting (event) {
     event.preventDefault()
@@ -142,32 +133,36 @@ export default class SyncView extends React.Component {
     event.preventDefault()
     ipcRenderer.send('save-file')
   }
+  selectFile (event, filename) {
+    if (!filename) return
+    this.replicate({filename})
+  }
 
   render () {
     var self = this
     var {targets} = this.state
-    if (this.props.filename) this.selectFile(this.props.filename)
+    if (this.props.filename) this.replicate({filename: this.props.filename})
     var disabled = Object.keys(self.streams).length > 0
     var onClose = this.onClose.bind(this)
 
     return (
       <Modal closeButton={false} onClose={onClose} title={i18n('sync-database-lead')}>
         <TargetsDiv>
-        {Object.keys(targets).length === 0
+        {targets.length === 0
           ? <Subtitle>Searching for devices&hellip;</Subtitle>
           : <Subtitle>Available Devices</Subtitle>
         }
           <ul>
-            {Object.keys(targets).map(function (key) {
-              var t = targets[key]
+            {targets.map(function (t) {
               if (t.name === 'localhost') return
+              var message = messages[t.status] || t.message
               return (
                 <Target key={t.name}>
                   <div className='target'>
                     <span className='name'>{t.name}</span>
                     <span className='info'>via {t.type}</span>
                   </div>
-                  {t.status ? <h3>{t.message}</h3> :
+                  {t.status ? <h3>{message}</h3> :
                     <SyncButton onClick={self.replicate.bind(self, t)}>
                       arrow
                     </SyncButton>
