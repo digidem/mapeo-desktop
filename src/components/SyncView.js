@@ -167,7 +167,7 @@ export default class SyncView extends React.Component {
                 </span>
               </button>
               <button className='big' onClick={onClose}>
-              ('done')
+                 {i18n('done')}
               </button>
             </div>
           </Form>
