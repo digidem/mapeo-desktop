@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import React from 'react'
-import randombytes from 'randombytes'
-import {ipcRenderer, remote} from 'electron'
+import {ipcRenderer} from 'electron'
 
 import replicate from '../lib/replicate'
 import Modal from './Modal'
@@ -76,7 +75,6 @@ export default class SyncView extends React.Component {
   }
 
   replicate (target) {
-    var self = this
     if (!target) return
     replicate.start(target, function (err, body) {
       if (err) console.error(err)
@@ -84,7 +82,6 @@ export default class SyncView extends React.Component {
   }
 
   componentWillUnmount () {
-    var self = this
     clearInterval(this.interval)
     ipcRenderer.removeListener('select-file', this.selectFile)
   }
@@ -132,10 +129,10 @@ export default class SyncView extends React.Component {
     return (
       <Modal closeButton={false} onClose={onClose} title={i18n('sync-database-lead')}>
         <TargetsDiv>
-        {targets.length === 0
-          ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
-          : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
-        }
+          { targets.length === 0
+            ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+            : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
+          }
           <ul>
             {targets.map(function (t) {
               if (t.name === 'localhost') return
@@ -146,8 +143,8 @@ export default class SyncView extends React.Component {
                     <span className='name'>{t.name}</span>
                     <span className='info'>via {i18n(`sync-${t.type}-info`)}</span>
                   </div>
-                  {t.status ? <h3>{message}</h3> :
-                    <SyncButton onClick={self.replicate.bind(self, t)}>
+                  {t.status ? <h3>{message}</h3>
+                    : <SyncButton onClick={self.replicate.bind(self, t)}>
                       Sync
                     </SyncButton>
                   }
