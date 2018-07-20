@@ -90,24 +90,22 @@ export default class SyncView extends React.Component {
   }
 
   componentDidMount () {
-    this.interval = setInterval(this.updateTargets.bind(this), 1000)
-    replicate.announce(function (err) {
-      if (err) console.error(err)
-    })
+    var self = this
+    this.interval = setInterval(function () {
+      replicate.getTargets(function (err, targets) {
+        if (err) return console.error(err)
+        self.setState({targets})
+      })
+      replicate.announce(function (err) {
+        if (err) console.error(err)
+      })
+    }, 1000)
     ipcRenderer.on('select-file', this.selectFile)
   }
 
   onClose () {
     this.props.onClose()
     ipcRenderer.send('refresh-window')
-  }
-
-  updateTargets () {
-    var self = this
-    replicate.getTargets(function (err, targets) {
-      if (err) return console.error(err)
-      self.setState({targets})
-    })
   }
 
   selectExisting (event) {
