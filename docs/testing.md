@@ -33,7 +33,4 @@ This is a script we can use to manually test Mapeo Desktop.
 
     1. Hit 'Save'.
     2. See that the changes are reflected in the point.
-10. Sync Mapeo Desktop with Mapeo Mobile (see 2).
-11. See that the observation on Mapeo Mobile has the new changes.
-
   
