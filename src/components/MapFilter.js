@@ -93,8 +93,14 @@ class Home extends React.Component {
     }
 
     deleted.forEach(f => api.del(f, cb))
-    added.forEach(f => api.create(f, cb))
-    updated.forEach(f => api.update(f, cb))
+    added.forEach(f => function (f) {
+      console.log('added', f)
+      api.create(featureToObservation(f), cb)
+    })
+    updated.forEach(f => function (f) {
+      console.log('updated', f)
+      api.update(featureToObservation(f), cb)
+    })
     const newFeaturesByFormId = assign({}, this.state.featuresByFormId)
     newFeaturesByFormId[this.state.formId] = changedFeatures
     this.setState({featuresByFormId: newFeaturesByFormId})
@@ -244,9 +250,7 @@ function observationToFeature (obs, id) {
     geometry: null
   })
 
-  feature.properties = feature.tags || {}
-  delete feature.tags
-  delete feature.version
+  feature.properties = obs.tags || {}
 
   if (obs.lon && obs.lat) {
     feature.geometry = {
@@ -254,12 +258,12 @@ function observationToFeature (obs, id) {
       coordinates: [obs.lon, obs.lat]
     }
   }
-
   feature.properties.media = obs.attachments.map(function (a) {
     // TODO: handle other image types
     return {
       type: 'image',
-      value: `${osmServerHost}/media/original/${a.id}`
+      value: `${osmServerHost}/media/original/${a.id}`,
+      attachment: a
     }
   })
 
@@ -273,5 +277,15 @@ function observationToFeature (obs, id) {
   return feature
 }
 
+function featureToObservation (feature) {
+  return {
+    lat: feature.lat,
+    lon: feature.lon,
+    tags: feature.properties,
+    version: feature.version,
+    attachments: feature.properties.media.map((m) => m.attachment),
+  }
+}
 
 module.exports = Home
+
