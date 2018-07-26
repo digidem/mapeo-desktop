@@ -259,7 +259,7 @@ function observationToFeature (obs, id) {
     // TODO: handle other image types
     return {
       type: 'image',
-      value: `${osmServerHost}/media/original/${a}`
+      value: `${osmServerHost}/media/original/${a.id}`
     }
   })
 
