@@ -30,13 +30,18 @@ export default class ConvertDialog extends React.Component {
   render () {
     const {open, features, onClose} = this.props
 
+    var notAdded = features.filter((f) => f.refs === undefined)
+
     if (!open) return <div />
-    // TODO: internationalize
     return (
       <Modal onClose={onClose}>
         <ConvertDialogDiv>
-          <h3>{features.length} {i18n('convert-number')}</h3>
+          <h3>{i18n('convert-number', features.length)}</h3>
           <form onSubmit={this.submitHandler.bind(this)}>
+            <p> {notAdded.length
+              ? i18n('convert-detail', features.length)
+              : i18n('convert-nothing', features.length)}
+            </p>
             <div className='button-group right'>
               <button className='big' type='submit'>
                 {i18n('button-submit')}

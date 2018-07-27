@@ -84,5 +84,7 @@
   "menu-import-data-success": "Importación completa!",
   "menu-import-data-error": "Error al importar",
   "convert-button": "Copiar al Editor",
-  "convert-number": "observaciones sera enviado al Editor"
+  "convert-number": "Usted ha filtrado sus puntos para mostrar {count} observationes",
+  "convert-detail": "De esos hay {count} que todavia no están en el Editor de Mapas. Para copiar esas {count} observaciones al editor de Mapas presiona OK.",
+  "convert-nothing": "Usted ha filtrado sus puntos para mostrar {count} observaciones. Todos esos ya están en el Editor de Mapas."
 }
