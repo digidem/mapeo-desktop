@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
-import replicate from '../lib/replicate'
+import api from '../api'
 import MapFilter from './MapFilter'
 import Modal from './Modal'
 import Form from './Form'
@@ -79,7 +79,7 @@ export default class SyncView extends React.Component {
   replicate (target) {
     var self = this
     if (!target) return
-    replicate.start(target, function (err, body) {
+    api.start(target, function (err, body) {
       if (err) console.error(err)
       self.setState({replicated: true})
     })
@@ -93,11 +93,11 @@ export default class SyncView extends React.Component {
   componentDidMount () {
     var self = this
     this.interval = setInterval(function () {
-      replicate.getTargets(function (err, targets) {
+      api.getTargets(function (err, targets) {
         if (err) return console.error(err)
         self.setState({targets})
       })
-      replicate.announce(function (err) {
+      api.announce(function (err) {
         if (err) console.error(err)
       })
     }, 1000)

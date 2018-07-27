@@ -1,8 +1,57 @@
 import xhr from 'xhr'
 import {remote} from 'electron'
+import querystring from 'querystring'
+
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
-module.exports = { createMedia, create, update, del, list, convert }
+module.exports = {
+  announce,
+  getTargets,
+  start,
+  createMedia,
+  create,
+  update,
+  del,
+  list,
+  convert
+}
+
+function announce (cb) {
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/announce`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    return cb(null, body)
+  })
+}
+
+function getTargets (cb) {
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/targets`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    try {
+      return cb(null, JSON.parse(body))
+    } catch (err) {
+      return cb(err)
+    }
+  })
+}
+
+function start (target, cb) {
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/start?${querystring.stringify(target)}`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    cb(null, body)
+  })
+}
 
 function createMedia (buf, cb) {
   var opts = {
