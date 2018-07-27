@@ -45,12 +45,15 @@ class Home extends React.Component {
     this.zoomToDataRequest = this.zoomToDataRequest.bind(this)
     this.zoomToDataResponse = this.zoomToDataResponse.bind(this)
     this.zoomToLatLonResponse = this.zoomToLatLonResponse.bind(this)
+    this.getFeatures = this.getFeatures.bind(this)
+    ipcRenderer.on('refresh-window', this.getFeatures)
     ipcRenderer.on('zoom-to-data-request', this.zoomToDataRequest)
     ipcRenderer.on('zoom-to-data-response', self.zoomToDataResponse)
     ipcRenderer.on('zoom-to-latlon-response', self.zoomToLatLonResponse)
   }
 
   componentWillUnmount () {
+    ipcRenderer.removeListener('refresh-window', this.getFeatures)
     ipcRenderer.removeListener('zoom-to-data-request', this.zoomToDataRequest)
     ipcRenderer.removeListener('zoom-to-data-response', this.zoomToDataResponse)
     ipcRenderer.removeListener('zoom-to-latlon-response', this.zoomToLatLonResponse)
