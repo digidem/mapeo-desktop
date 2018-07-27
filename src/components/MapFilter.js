@@ -36,6 +36,7 @@ class Home extends React.Component {
       featuresByFormId: {
         'Mapeo Mobile': []
       },
+      mapPosition: {center: [0,0], zoom: 0},
       formId: 'Mapeo Mobile',
       showModal: false,
       mapStyle: styleUrl
@@ -191,6 +192,8 @@ class Home extends React.Component {
       <MapFilter
         mapStyle={styleUrl}
         features={features}
+        mapPosition={mapPosition}
+        onChangeMapPosition={this.handleChangeMapPosition}
         onChangeFeatures={this.handleChangeFeatures}
         fieldTypes={{
           impacts: FIELD_TYPE_SPACE_DELIMITED,
