@@ -151,18 +151,6 @@ class Home extends React.Component {
     }))
   }
 
-  replicateToServer = (server, done) => {
-    var self = this
-    ipcRenderer.once('replicate-server-complete', function (event, err) {
-      if (err) {
-        if (err.code === "ECONNREFUSED")
-        self.handleError(new Error('Cant find the server. Is it correct?'))
-      }
-      return done(err)
-    })
-    ipcRenderer.send('replicate-server', server)
-  }
-
   uploadFile = (blob, filepath) => {
     return new Promise((resolve, reject) => {
       toBuffer(blob, (err, buf) => {
