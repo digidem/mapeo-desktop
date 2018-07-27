@@ -173,8 +173,8 @@ class Home extends React.Component {
     })
   }
 
-  handleChangeMapPosition (pos) {
-    console.log('hi', pos)
+  handleChangeMapPosition (mapPosition) {
+    this.setState({mapPosition})
   }
 
   render () {
@@ -193,7 +193,7 @@ class Home extends React.Component {
         mapStyle={styleUrl}
         features={features}
         mapPosition={mapPosition}
-        onChangeMapPosition={this.handleChangeMapPosition}
+        onChangeMapPosition={this.handleChangeMapPosition.bind(this)}
         onChangeFeatures={this.handleChangeFeatures}
         fieldTypes={{
           impacts: FIELD_TYPE_SPACE_DELIMITED,
