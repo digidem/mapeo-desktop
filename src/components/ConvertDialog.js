@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {ipcRenderer} from 'electron'
 
 import api from '../api'
 import Modal from './Modal'
@@ -18,6 +19,7 @@ export default class ConvertDialog extends React.Component {
       })
     })
 
+    ipcRenderer.send('refresh-window')
     // TODO: better error handling
     this.props.onClose()
     if (event) {
@@ -30,24 +32,34 @@ export default class ConvertDialog extends React.Component {
   render () {
     const {open, features, onClose} = this.props
 
-    var notAdded = features.filter((f) => f.refs === undefined)
+    var notAdded = features.filter(function (f) {
+      return (f.ref === undefined && (f.properties && f.properties.element_id === undefined))
+    })
 
     if (!open) return <div />
     return (
       <Modal onClose={onClose}>
         <ConvertDialogDiv>
           <h3>{i18n('convert-number', features.length)}</h3>
-          <form onSubmit={this.submitHandler.bind(this)}>
+          <div>
             <p> {notAdded.length
-              ? i18n('convert-detail', features.length)
+              ? i18n('convert-detail', notAdded.length)
               : i18n('convert-nothing', features.length)}
             </p>
-            <div className='button-group right'>
-              <button className='big' type='submit'>
-                {i18n('button-submit')}
+            <div className='button-group'>
+              {notAdded.length
+                ? (
+                  <button className='big' onClick={this.submitHandler.bind(this)}>
+                    {i18n('button-submit')}
+                  </button>
+                )
+                : <div />
+              }
+              <button className='big' onClick={onClose}>
+                {i18n('button-cancel')}
               </button>
             </div>
-          </form>
+          </div>
         </ConvertDialogDiv>
       </Modal>
     )
