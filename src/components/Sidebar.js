@@ -27,11 +27,8 @@ var MenuButton = styled.div`
   text-align: center;
   font-weight: bold;
   z-index: var(--visible-z-index);
-  position: absolute;
   color: black;
   background-color: white;
-  top: 10px;
-  right: 10px;
   border-radius: 5px;
   min-width: 100px;
   &:hover {
