@@ -1,4 +1,5 @@
 import React from 'react'
+import Dialog from '@material-ui/core/Dialog'
 import styled from 'styled-components'
 
 var ModalTitle = styled.div`
@@ -59,15 +60,17 @@ export default class Modal extends React.Component {
   }
 
   render () {
-    var { onClose, title, closeButton } = this.props
+    var { open, onClose, title, closeButton } = this.props
     if (typeof closeButton === 'undefined') closeButton = true
-    return (<ModalOverlay onClick={this.onClickOverlay.bind(this)}>
-      <ModalBody onKeyDown={this.onKeyDown.bind(this)} onClick={this.onClickModal}>
-        {closeButton && <button className='close-button' onClick={onClose}>X</button>}
+    return (
+      <Dialog onClose={onClose} open={open} onKeyDown={this.onKeyDown.bind(this)} onClick={this.onClickModal}>
         {title && <ModalTitle>{title}</ModalTitle>}
         {this.props.children}
-      </ModalBody>
-    </ModalOverlay>
+      </Dialog>
     )
   }
+}
+
+Modal.defaultProps = {
+  open: true
 }

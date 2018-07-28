@@ -1,14 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
+import DialogActions from '@material-ui/core/DialogActions'
+import Button from '@material-ui/core/Button'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import {ipcRenderer} from 'electron'
 
 import api from '../api'
 import Modal from './Modal'
 import i18n from '../lib/i18n'
-
-const ConvertDialogDiv = styled.div`
-  padding:20px;
-`
 
 export default class ConvertDialog extends React.Component {
   submitHandler (event) {
@@ -39,28 +38,26 @@ export default class ConvertDialog extends React.Component {
     if (!open) return <div />
     return (
       <Modal onClose={onClose}>
-        <ConvertDialogDiv>
-          <h3>{i18n('convert-number', features.length)}</h3>
-          <div>
-            <p> {notAdded.length
-              ? i18n('convert-detail', notAdded.length)
-              : i18n('convert-nothing', features.length)}
-            </p>
-            <div className='button-group'>
-              {notAdded.length
-                ? (
-                  <button className='big' onClick={this.submitHandler.bind(this)}>
-                    {i18n('button-submit')}
-                  </button>
-                )
-                : <div />
-              }
-              <button className='big' onClick={onClose}>
-                {i18n('button-cancel')}
-              </button>
-            </div>
-          </div>
-        </ConvertDialogDiv>
+        <DialogTitle>{i18n('convert-number', features.length)}</DialogTitle>
+        <DialogContent>
+          <p> {notAdded.length
+            ? i18n('convert-detail', notAdded.length)
+            : i18n('convert-nothing', features.length)}
+          </p>
+          {notAdded.length
+            ? (
+              <DialogActions>
+                <Button onClick={this.submitHandler.bind(this)}>
+                  {i18n('button-submit')}
+                </Button>
+                <Button onClick={onClose}>
+                  {i18n('button-cancel')}
+                </Button>
+              </DialogActions>
+            )
+            : <div />
+          }
+        </DialogContent>
       </Modal>
     )
   }
