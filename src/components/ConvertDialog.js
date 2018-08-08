@@ -1,8 +1,8 @@
 import React from 'react'
-import DialogActions from '@material-ui/core/DialogActions'
-import Button from '@material-ui/core/Button'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogActions from 'material-ui/DialogActions'
+import Button from 'material-ui/Button'
+import DialogContent from 'material-ui/DialogContent'
+import DialogTitle from 'material-ui/DialogTitle'
 import {ipcRenderer} from 'electron'
 
 import api from '../api'

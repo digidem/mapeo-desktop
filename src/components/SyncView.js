@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
+import Button from 'material-ui/Button'
 import React from 'react'
 import {ipcRenderer} from 'electron'
 

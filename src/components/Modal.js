@@ -1,6 +1,6 @@
 import React from 'react'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
+import Dialog from 'material-ui/Dialog'
+import DialogTitle from 'material-ui/DialogTitle'
 import styled from 'styled-components'
 
 var ModalBody = styled.div`
