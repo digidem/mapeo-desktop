@@ -254,10 +254,10 @@ function observationToFeature (obs, id) {
     }
   }
   feature.properties.media = obs.attachments.map(function (a) {
-    // TODO: handle other image types
+    var id = a.id || a // the phone doesn't have id property on it's attachments.
     return {
       type: 'image',
-      value: `${osmServerHost}/media/original/${a.id}`,
+      value: `${osmServerHost}/media/original/${id}`,
       attachment: a
     }
   })
