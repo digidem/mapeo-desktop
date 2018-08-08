@@ -265,9 +265,7 @@ function observationToFeature (obs, id) {
   if (typeof feature.properties.public === 'undefined') {
     feature.properties.public = false
   }
-  if (!feature.properties.summary) {
-    feature.properties.summary = ' '
-  }
+  feature.properties.notes = obs.notes || ' '
   feature.properties = replaceProtocols(feature.properties, mediaBaseUrl)
   return feature
 }
