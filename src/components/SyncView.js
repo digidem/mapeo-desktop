@@ -141,7 +141,6 @@ export default class SyncView extends React.Component {
           }
           <ul>
             {targets.map(function (t) {
-              if (t.name === 'localhost') return
               var message = messages[t.status] || t.message
               return (
                 <Target key={t.name}>
