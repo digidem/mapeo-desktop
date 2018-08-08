@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Button from '@material-ui/core/Button'
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
@@ -27,7 +28,7 @@ var Subtitle = styled.div`
   background-color: var(--main-bg-color);
   color: white;
   vertical-align: middle;
-  padding: 5px 15px;
+  padding: 20px;
 `
 
 var TargetsDiv = styled.div`
@@ -161,19 +162,19 @@ export default class SyncView extends React.Component {
         <Form method='POST'>
           <input type='hidden' name='source' />
           <div className='button-group'>
-            <button className='big' onClick={this.selectExisting}>
+            <Button onClick={this.selectExisting}>
               <span id='button-text'>
                 {i18n('sync-database-open-button')}&hellip;
               </span>
-            </button>
-            <button className='big' onClick={this.selectNew}>
+            </Button>
+            <Button onClick={this.selectNew}>
               <span id='button-text'>
                 {i18n('sync-database-new-button')}&hellip;
               </span>
-            </button>
-            <button className='big' onClick={onClose}>
+            </Button>
+            <Button onClick={onClose}>
               {i18n('done')}
-            </button>
+            </Button>
           </div>
         </Form>
       </Modal>

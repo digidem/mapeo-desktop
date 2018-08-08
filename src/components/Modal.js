@@ -1,14 +1,7 @@
 import React from 'react'
 import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import styled from 'styled-components'
-
-var ModalTitle = styled.div`
-  background-color: var(--secondary-bg-color);
-  text-align: center;
-  padding: 15px;
-  font-size: 16px;
-  font-weight: bold;
-`
 
 var ModalBody = styled.div`
   background-color: var(--main-bg-color);
@@ -64,7 +57,7 @@ export default class Modal extends React.Component {
     if (typeof closeButton === 'undefined') closeButton = true
     return (
       <Dialog onClose={onClose} open={open} onKeyDown={this.onKeyDown.bind(this)} onClick={this.onClickModal}>
-        {title && <ModalTitle>{title}</ModalTitle>}
+        {title && <DialogTitle>{title}</DialogTitle>}
         {this.props.children}
       </Dialog>
     )
