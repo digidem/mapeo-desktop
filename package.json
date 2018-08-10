@@ -47,6 +47,8 @@
   },
   "homepage": "https://github.com/digidem/mapeo-desktop#readme",
   "dependencies": {
+    "@material-ui/core": "^1.4.3",
+    "@material-ui/icons": "^2.0.1",
     "JSONStream": "^1.0.3",
     "application-config": "^1.0.1",
     "application-config-path": "^0.1.0",
@@ -77,8 +79,6 @@
     "lodash": "^4.17.4",
     "mapeo-server": "^8.0.0",
     "mapeo-styles": "^1.0.0",
-    "material-ui": "^1.0.0-beta.47",
-    "material-ui-icons": "^1.0.0-beta.35",
     "minimist": "^1.2.0",
     "mirror-folder": "^2.1.1",
     "mkdirp": "^0.5.1",
