@@ -20,7 +20,6 @@ import Sidebar from './Sidebar'
 import MapEditor from './MapEditor'
 import ConvertDialog from './ConvertDialog'
 import ConvertButton from './ConvertButton'
-import XFormUploader from './XFormUploader'
 import Title from './Title'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
