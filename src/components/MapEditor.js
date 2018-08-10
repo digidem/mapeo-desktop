@@ -3,11 +3,22 @@ import insertCss from 'insert-css'
 import merge from 'lodash/merge'
 import Dialogs from 'dialogs'
 import {ipcRenderer, remote, shell} from 'electron'
+import styled from 'styled-components'
 
 import Sidebar from './Sidebar'
-import Overlay from './Overlay'
 import i18n from '../lib/i18n'
 import pkg from '../../package.json'
+
+const Overlay = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  .menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+`
 
 export default class MapEditor extends React.Component {
   constructor (props) {

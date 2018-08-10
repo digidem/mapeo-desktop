@@ -130,7 +130,7 @@ export default class Sidebar extends React.Component {
     ]
 
     return (<div>
-      <MenuButton onClick={this.toggleSidebar.bind(this)}>
+      <MenuButton className='menu' onClick={this.toggleSidebar.bind(this)}>
         Menu {notifications > 0 && <div className='notification'>{notifications}</div>}
       </MenuButton>
 
