@@ -14,13 +14,18 @@ import {
 import xor from 'lodash/xor'
 import differenceBy from 'lodash/differenceBy'
 
-import api from '../api'
+import MenuItem from '@material-ui/core/MenuItem'
+import MenuList from '@material-ui/core/MenuList'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import IconButton from '@material-ui/core/IconButton'
 
 import Sidebar from './Sidebar'
 import MapEditor from './MapEditor'
 import ConvertDialog from './ConvertDialog'
 import ConvertButton from './ConvertButton'
 import Title from './Title'
+import views from './views'
+import api from '../api'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
@@ -32,6 +37,7 @@ class Home extends React.Component {
     super(props)
     var self = this
     self.state = {
+      sidebar: false,
       featuresByFormId: {
         'Mapeo Mobile': []
       },
@@ -171,12 +177,18 @@ class Home extends React.Component {
     this.setState({mapPosition})
   }
 
+  toggleSidebar () {
+    this.setState({sidebar: !this.state.sidebar})
+  }
+
   render () {
-    const {featuresByFormId, formId, showModal, mapPosition} = this.state
+    var self = this
+    const {sidebar, featuresByFormId, formId, showModal, mapPosition} = this.state
     const {changeView, openModal} = this.props
+    var datasets = Object.keys(featuresByFormId)
     const toolbarTitle = <Title
       onConvert={this.handleConvertFeaturesClick}
-      datasets={Object.keys(featuresByFormId)}
+      datasets={datasets}
       activeDataset={formId}
       onChange={this.handleDatasetChange} />
 
@@ -202,11 +214,13 @@ class Home extends React.Component {
           public: 1,
           summary: 2
         }}
-        appBarButtons={[<Sidebar
-          changeView={changeView}
-          openModal={openModal}
-          />]}
         appBarTitle={toolbarTitle} />
+
+      <Sidebar
+        open={sidebar}
+        changeView={changeView}
+        openModal={openModal}
+      />
 
       <ConvertDialog
         open={showModal === 'convert'}

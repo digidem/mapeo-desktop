@@ -4,8 +4,6 @@ import React from 'react'
 var ProgressBarWrapper = styled.div`
   z-index: var(--visible-z-index);
   padding: 15px;
-  background-color: var(--main-bg-color);
-  color: white;
   .progress {
     background-color: #9e9e9e !important;
   }

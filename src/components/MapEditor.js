@@ -1,18 +1,42 @@
 import React from 'react'
+import styled from 'styled-components'
 import insertCss from 'insert-css'
 import merge from 'lodash/merge'
 import Dialogs from 'dialogs'
 import {ipcRenderer, remote, shell} from 'electron'
 
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import IconButton from '@material-ui/core/IconButton'
 import Sidebar from './Sidebar'
-import Overlay from './Overlay'
 import i18n from '../lib/i18n'
 import pkg from '../../package.json'
+
+const Overlay = styled.div`
+  height: 100%;
+  width: 100%;
+  position: absolute;
+
+  .MuiIconButton-root-1 {
+    position: absolute;
+    z-index: 1000;
+    margin: 5px;
+    top: 0;
+    right: 0;
+    background-color: white;
+
+    &:hover {
+      background-color: white;
+    }
+  }
+`
 
 export default class MapEditor extends React.Component {
   constructor (props) {
     super(props)
     var self = this
+    this.state = {
+      sidebar: false
+    }
     this.refreshWindow = this.refreshWindow.bind(this)
     this.zoomToDataRequest = this.zoomToDataRequest.bind(this)
     this.zoomToDataResponse = this.zoomToDataResponse.bind(this)
@@ -28,6 +52,10 @@ export default class MapEditor extends React.Component {
     })
   }
 
+  toggleSidebar () {
+    this.setState({sidebar: !this.state.sidebar})
+  }
+
   componentWillUnmount () {
     ipcRenderer.removeListener('zoom-to-data-request', this.zoomToDataRequest)
     ipcRenderer.removeListener('zoom-to-data-response', this.zoomToDataResponse)
@@ -37,10 +65,20 @@ export default class MapEditor extends React.Component {
   }
 
   render () {
+    const {sidebar} = this.state
+
     return (
       <div className='full'>
         <Overlay>
-          <Sidebar
+          <IconButton
+            aria-label='More'
+            aria-owns={sidebar ? 'long-menu' : null}
+            aria-haspopup='true'
+            color='default'
+            onClick={this.toggleSidebar.bind(this)}>
+            <MoreVertIcon />
+          </IconButton>
+          <Sidebar open={sidebar}
             changeView={this.props.changeView}
             openModal={this.props.openModal}
           />
