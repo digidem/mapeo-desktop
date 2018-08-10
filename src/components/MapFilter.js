@@ -20,7 +20,6 @@ import Sidebar from './Sidebar'
 import MapEditor from './MapEditor'
 import ConvertDialog from './ConvertDialog'
 import ConvertButton from './ConvertButton'
-import Title from './Title'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
@@ -174,13 +173,13 @@ class Home extends React.Component {
   render () {
     const {featuresByFormId, formId, showModal, mapPosition} = this.state
     const {changeView, openModal} = this.props
-    const toolbarTitle = <Title
-      onConvert={this.handleConvertFeaturesClick}
-      datasets={Object.keys(featuresByFormId)}
-      activeDataset={formId}
-      onChange={this.handleDatasetChange} />
 
     var features = featuresByFormId[formId] || []
+    const toolbarTitle = <div>
+      <ConvertButton
+        features={features}
+        onClick={this.handleConvertFeaturesClick.bind(this)} />
+    </div>
 
     return (<div>
       <MapFilter
