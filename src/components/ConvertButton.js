@@ -10,7 +10,7 @@ const ConvertButton = function ({onClick, features}) {
 
   return (
     <Paper>
-    <Button color='paper' onClick={click}>
+    <Button color='default' onClick={click}>
       {i18n('convert-button')}
     </Button>
     </Paper>
