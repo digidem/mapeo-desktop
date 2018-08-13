@@ -251,6 +251,7 @@ function observationToFeature (obs, id) {
       coordinates: [obs.lon, obs.lat]
     }
   }
+  if (!obs.attachments) obs.attachments = []
   feature.properties.media = obs.attachments.map(function (a) {
     var id = a.id || a // the phone doesn't have id property on it's attachments.
     return {
