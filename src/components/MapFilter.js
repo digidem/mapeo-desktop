@@ -98,14 +98,8 @@ class Home extends React.Component {
     }
 
     deleted.forEach(f => api.del(f, cb))
-    added.forEach(f => function (f) {
-      console.log('added', f)
-      api.create(featureToObservation(f), cb)
-    })
-    updated.forEach(f => function (f) {
-      console.log('updated', f)
-      api.update(featureToObservation(f), cb)
-    })
+    added.forEach(f => api.create(featureToObservation(f), cb))
+    updated.forEach(f => api.update(featureToObservation(f), cb))
     const newFeaturesByFormId = assign({}, this.state.featuresByFormId)
     newFeaturesByFormId[this.state.formId] = changedFeatures
     this.setState({featuresByFormId: newFeaturesByFormId})
@@ -261,22 +255,18 @@ function observationToFeature (obs, id) {
     }
   })
 
-  if (typeof feature.properties.public === 'undefined') {
-    feature.properties.public = false
-  }
   feature.properties.notes = obs.notes || ' '
-  feature.properties = replaceProtocols(feature.properties, mediaBaseUrl)
   return feature
 }
 
 function featureToObservation (feature) {
-  return {
-    lat: feature.lat,
-    lon: feature.lon,
-    tags: feature.properties,
-    version: feature.version,
-    attachments: feature.properties.media.map((m) => m.attachment),
-  }
+  var obs = Object.assign({}, feature)
+  obs.notes = feature.properties.notes
+  obs.type = 'observation'
+  obs.attachments = obs.attachments.map(function (a) {
+    return {id: a}
+  })
+  return obs
 }
 
 module.exports = Home
