@@ -122,41 +122,6 @@ class Home extends React.Component {
     })
   }
 
-  uploadForm = (formData) => {
-    return new Promise((resolve, reject) => {
-      api.create(formData, function (err, resp) {
-        if (err) return reject(err)
-        if (typeof formData.properties.public === 'undefined') {
-          formData.properties.public = false
-        }
-        if (!formData.properties.summary) {
-          formData.properties.summary = ''
-        }
-        resolve(formData)
-      })
-    })
-  }
-
-  onUpload = (err, features) => {
-    if (err) return this.handleError(err)
-    this.setState(state => ({
-      featuresByFormId: features.reduce(formIdReducer, assign({}, state.featuresByFormId))
-    }))
-  }
-
-  uploadFile = (blob, filepath) => {
-    return new Promise((resolve, reject) => {
-      toBuffer(blob, (err, buf) => {
-        if (err) return reject(err)
-        api.createMedia(opts, (err, resp) => {
-          if (err) return reject(err)
-          var json = JSON.parse(resp.body)
-          resolve(json.id)
-        })
-      })
-    })
-  }
-
   handleChangeMapPosition (mapPosition) {
     this.setState({mapPosition})
   }
