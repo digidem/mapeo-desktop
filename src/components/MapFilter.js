@@ -139,9 +139,6 @@ class Home extends React.Component {
 
   onUpload = (err, features) => {
     if (err) return this.handleError(err)
-    features.forEach(function (f) {
-      f.properties = replaceProtocols(f.properties, mediaBaseUrl)
-    })
     this.setState(state => ({
       featuresByFormId: features.reduce(formIdReducer, assign({}, state.featuresByFormId))
     }))
@@ -219,16 +216,6 @@ function formIdReducer (acc, f) {
     acc[formId] = acc[formId].concat([f])
   }
   return acc
-}
-
-function replaceProtocols (obj, baseUrl) {
-  return traverse(obj).map(function (value) {
-    if (typeof value !== 'string') return
-    var newValue = value.replace(/^mapeo:\/\//, baseUrl)
-    if (newValue !== value) {
-      this.update(newValue)
-    }
-  })
 }
 
 function observationToFeature (obs, id) {
