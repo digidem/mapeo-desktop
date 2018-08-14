@@ -263,6 +263,7 @@ function featureToObservation (feature) {
   var obs = Object.assign({}, feature)
   obs.notes = feature.properties.notes
   obs.type = 'observation'
+  delete obs.properties
   obs.attachments = obs.attachments.map(function (a) {
     return {id: a}
   })
