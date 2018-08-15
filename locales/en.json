@@ -1,5 +1,5 @@
 {
-  "button-submit": "Submit",
+  "button-submit": "OK",
   "button-cancel": "Cancel",
   "dialog-enter-latlon-coordinates": "Enter Coordinates",
   "replication-data-complete": "Updating indexes... it could be delayed a moment.",
@@ -83,5 +83,9 @@
   "menu-import-data": "Import data...",
   "menu-import-data-dialog": "Choose a file to import...",
   "menu-import-data-success": "Import complete!",
-  "menu-import-data-error": "Error on import"
+  "menu-import-data-error": "Error on import",
+  "convert-button": "Copy to Editor",
+  "convert-number": "You have filtered your data to show {count} observations",
+  "convert-detail": "{count} of these are not yet in Map Editor. Click OK to move these {count} observations to Map Editor.",
+  "convert-nothing": "You have filtered your data to show {count} observations. These are all already in the Map Editor."
 }

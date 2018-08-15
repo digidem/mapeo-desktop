@@ -1,5 +1,6 @@
 var mkdirp = require('mkdirp')
-var rimraf = require('rimraf')
+var concat = require('concat-stream')
+var hyperquest = require('hyperquest')
 var path = require('path')
 var Mapeo = require('mapeo-server')
 var blobstore = require('safe-fs-blob-store')
@@ -12,10 +13,6 @@ var media = blobstore(path.join(dir, 'media'))
 
 var port = 5006
 
-mkdirp.sync(dir)
-var ws = media.createWriteStream('file.txt')
-ws.write('hi')
-ws.end()
 var mapeo = Mapeo(osm, media, {listen: true})
 var server = http.createServer(function (req, res) {
   if (!mapeo.handle(req, res)) {
@@ -26,6 +23,38 @@ var server = http.createServer(function (req, res) {
 
 server.listen(port, function () {
   console.log('listening on port', port)
+  var base = `http://localhost:${port}`
+  var fpath = encodeURIComponent(path.join(__dirname, 'image.jpg'))
+  var href = base + '/media?file=' + fpath
+
+  var hq = hyperquest.put(href, {})
+  hq.pipe(concat({ encoding: 'string' }, function (body) {
+    var hq = hyperquest.post(base + '/observations', {
+      headers: {'content-type': 'application/json'}
+    })
+    var obj = JSON.parse(body)
+
+    hq.on('response', function (res) {
+      if (res.statusCode !== 200) console.log('create observation failed')
+    })
+
+    hq.pipe(concat({ encoding: 'string' }, function (body) {
+      console.log(body)
+    }))
+
+    var obs = {
+      type: 'observation',
+      lat: 0.4,
+      lon: 1,
+      attachments: [ {
+        id: obj.id
+      }]
+    }
+
+    hq.end(JSON.stringify(obs))
+  }))
+
+  hq.end()
 })
 
 process.on('SIGINT', function () {

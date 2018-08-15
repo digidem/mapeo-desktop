@@ -6,6 +6,7 @@ import ImportProgressBar from './ImportProgressBar'
 import IndexesBar from './IndexesBar'
 import Overlay from './Overlay'
 import MapEditor from './MapEditor'
+import MapFilter from './MapFilter'
 import SyncView from './SyncView'
 
 var SidebarItem = styled.div`
@@ -26,11 +27,8 @@ var MenuButton = styled.div`
   text-align: center;
   font-weight: bold;
   z-index: var(--visible-z-index);
-  position: absolute;
   color: black;
   background-color: white;
-  top: 10px;
-  right: 10px;
   border-radius: 5px;
   min-width: 100px;
   &:hover {
@@ -120,10 +118,10 @@ export default class Sidebar extends React.Component {
         component: MapEditor,
         label: 'Map Editor'
       },
-      // {
-      //   component: 'MapFilter',
-      //   label: 'Map Filter'
-      // },
+      {
+        component: MapFilter,
+        label: 'Map Filter'
+      },
       {
         component: SyncView,
         label: 'Sync with...',
@@ -131,8 +129,8 @@ export default class Sidebar extends React.Component {
       }
     ]
 
-    return (<Overlay>
-      <MenuButton onClick={this.toggleSidebar.bind(this)}>
+    return (<div>
+      <MenuButton className='menu' onClick={this.toggleSidebar.bind(this)}>
         Menu {notifications > 0 && <div className='notification'>{notifications}</div>}
       </MenuButton>
 
@@ -150,7 +148,7 @@ export default class Sidebar extends React.Component {
       </SidebarDiv>
 
       }
-    </Overlay>
+    </div>
     )
   }
 }

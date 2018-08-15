@@ -1,13 +1,15 @@
-import styled from 'styled-components'
+import DialogActions from '@material-ui/core/DialogActions'
+import Button from '@material-ui/core/Button'
+import Input from '@material-ui/core/Input'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import FormControl from '@material-ui/core/FormControl'
+
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
 import i18n from '../lib/i18n'
 import Modal from './Modal'
-
-const LatLonDialogDiv = styled.div`
-  padding: 20px;
-`
 
 export default class LatLonDialog extends React.Component {
   submitHandler (event) {
@@ -30,17 +32,15 @@ export default class LatLonDialog extends React.Component {
   render () {
     return (
       <Modal onClose={this.props.onClose}>
-        <LatLonDialogDiv>
-          <h3>{i18n('dialog-enter-latlon-coordinates')}</h3>
-          <div>
-            <form onSubmit={this.submitHandler.bind(this)}>
-              <input id='latlon-text' placeholder='Lon, Lat' type='text' />
-              <div className='button-group right'>
-                <button className='big' type='submit'>{i18n('button-submit')}</button>
-              </div>
-            </form>
-          </div>
-        </LatLonDialogDiv>
+        <DialogTitle>{i18n('dialog-enter-latlon-coordinates')}</DialogTitle>
+        <DialogContent>
+          <FormControl>
+            <Input id='latlon-text' placeholder='Lon, Lat' type='text' />
+            <DialogActions>
+              <Button onClick={this.submitHandler.bind(this)}>{i18n('button-submit')}</Button>
+            </DialogActions>
+          </FormControl>
+        </DialogContent>
       </Modal>
     )
   }

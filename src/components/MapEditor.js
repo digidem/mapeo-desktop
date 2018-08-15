@@ -3,27 +3,59 @@ import insertCss from 'insert-css'
 import merge from 'lodash/merge'
 import Dialogs from 'dialogs'
 import {ipcRenderer, remote, shell} from 'electron'
+import styled from 'styled-components'
 
+import Sidebar from './Sidebar'
 import i18n from '../lib/i18n'
 import pkg from '../../package.json'
+
+const Overlay = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  .menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+`
 
 export default class MapEditor extends React.Component {
   constructor (props) {
     super(props)
     var self = this
-    ipcRenderer.on('zoom-to-data-request', self.zoomToDataRequest.bind(self))
-    ipcRenderer.on('zoom-to-data-response', self.zoomToDataResponse.bind(self))
-    ipcRenderer.on('zoom-to-latlon-response', self.zoomToLatLonResponse.bind(self))
-    ipcRenderer.on('change-language-request', self.changeLanguageRequest.bind(self))
-    ipcRenderer.on('refresh-window', self.refreshWindow.bind(self))
+    this.refreshWindow = this.refreshWindow.bind(this)
+    this.zoomToDataRequest = this.zoomToDataRequest.bind(this)
+    this.zoomToDataResponse = this.zoomToDataResponse.bind(this)
+    this.zoomToLatLonResponse = this.zoomToLatLonResponse.bind(this)
+    this.changeLanguageRequest = this.changeLanguageRequest.bind(this)
+    ipcRenderer.on('zoom-to-data-request', this.zoomToDataRequest)
+    ipcRenderer.on('zoom-to-data-response', self.zoomToDataResponse)
+    ipcRenderer.on('zoom-to-latlon-response', self.zoomToLatLonResponse)
+    ipcRenderer.on('change-language-request', self.changeLanguageRequest)
+    ipcRenderer.on('refresh-window', self.refreshWindow)
     ipcRenderer.on('updated-settings', function () {
       self.updateSettings()
     })
   }
 
+  componentWillUnmount () {
+    ipcRenderer.removeListener('zoom-to-data-request', this.zoomToDataRequest)
+    ipcRenderer.removeListener('zoom-to-data-response', this.zoomToDataResponse)
+    ipcRenderer.removeListener('zoom-to-latlon-response', this.zoomToLatLonResponse)
+    ipcRenderer.removeListener('change-language-request', this.changeLanguageRequest)
+    ipcRenderer.removeListener('refresh-window', this.refreshWindow)
+  }
+
   render () {
     return (
       <div className='full'>
+        <Overlay>
+          <Sidebar
+            changeView={this.props.changeView}
+            openModal={this.props.openModal}
+          />
+        </Overlay>
         <div id='container' />
       </div>
     )
