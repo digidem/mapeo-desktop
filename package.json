@@ -74,6 +74,7 @@
     "hyperlog-sneakernet-replicator": "^1.1.2",
     "hyperquest": "^2.1.3",
     "id-mapeo": "^1.0.12",
+    "inherits": "^2.0.3",
     "insert-css": "^1.0.0",
     "level": "^1.4.0",
     "levelup": "^1.3.1",
