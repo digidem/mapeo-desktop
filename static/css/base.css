@@ -56,11 +56,11 @@ button.big:hover:not([disabled]) {
   display: none;
 }
 
-h1 {
+#welcome h1 {
   line-height: 1.4;
   font-size: 30px;
 }
-h2 {
+#welcome h2 {
   line-height: 1.2;
   font-size: 20px;
 }
@@ -87,7 +87,7 @@ h2 {
 #skip-intro:hover {
   cursor: pointer;
 }
-p {
+#welcome p {
   font-size: 14px;
   margin-bottom: 10px;
   width: 500px;
