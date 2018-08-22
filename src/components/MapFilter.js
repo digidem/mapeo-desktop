@@ -7,12 +7,11 @@ import assign from 'object-assign'
 import diff from 'lodash/difference'
 import path from 'path'
 import {
-  FIELD_TYPE_STRING,
-  FIELD_TYPE_BOOLEAN,
-  FIELD_TYPE_SPACE_DELIMITED
+  FIELD_TYPE_STRING
 } from 'react-mapfilter/es5/constants'
 import xor from 'lodash/xor'
 import differenceBy from 'lodash/differenceBy'
+import url from 'url'
 
 import api from '../api'
 
@@ -20,6 +19,7 @@ import Sidebar from './Sidebar'
 import MapEditor from './MapEditor'
 import ConvertDialog from './ConvertDialog'
 import ConvertButton from './ConvertButton'
+import randomBytes from 'randombytes'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
@@ -31,11 +31,8 @@ class Home extends React.Component {
     super(props)
     var self = this
     self.state = {
-      featuresByFormId: {
-        'Mapeo Mobile': []
-      },
+      features: [],
       mapPosition: {center: [0,0], zoom: 0},
-      formId: 'Mapeo Mobile',
       showModal: false,
       mapStyle: styleUrl
     }
@@ -86,23 +83,66 @@ class Home extends React.Component {
   }
 
   handleChangeFeatures = (changedFeatures) => {
-    const {featuresByFormId, formId} = this.state
-    const features = featuresByFormId[formId]
+    const {features} = this.state
     const xorFeatures = xor(changedFeatures, features)
     const deleted = differenceBy(xorFeatures, changedFeatures, 'id')
     const added = differenceBy(xorFeatures, features, 'id')
-    const updated = xorFeatures.filter(f => added.indexOf(f) === -1 && deleted.indexOf(f) === -1)
+    const updated = xorFeatures.filter(f => {
+      return added.indexOf(f) === -1 &&
+        deleted.indexOf(f) === -1 &&
+        features.indexOf(f) === -1
+    })
 
     var cb = function (err, resp) {
       if (err) return this.handleError(err)
     }
 
     deleted.forEach(f => api.del(f, cb))
-    added.forEach(f => api.create(featureToObservation(f), cb))
-    updated.forEach(f => api.update(featureToObservation(f), cb))
-    const newFeaturesByFormId = assign({}, this.state.featuresByFormId)
-    newFeaturesByFormId[this.state.formId] = changedFeatures
-    this.setState({featuresByFormId: newFeaturesByFormId})
+    added.forEach(f => this.createObservation(f))
+    updated.forEach(f => this.updateObservation(f))
+    this.setState({features: changedFeatures})
+  }
+
+  updateObservation (f) {
+    const obs = this._observationsById[f.id]
+    const newObs = Object.assign({}, obs)
+
+    // TODO: media is currently not updated, but it will be in the future
+    const WHITELIST = ['fields', 'media']
+    Object.keys(f.properties || {}).forEach(function (key) {
+      if (WHITELIST.indexOf(key) > -1) return
+      newObs.tags[key] = f.properties[key]
+    })
+
+    // Mapeo Mobile currently expects field definitions as a property on tags
+    ;(obs.tags.fields || []).forEach(function (field, i) {
+      if (!f.properties || f.properties[field.id] === undefined) return
+      newObs.tags.fields[i].answer = f.properties[field.id]
+      newObs.tags.fields[i].answered = true
+    })
+
+    api.update(newObs, (err, obs) => {
+      if (err) return this.handleError(err)
+      // Keep a reference to the updated obs
+      this._observationsById[obs.id] = obs
+    })
+  }
+
+  createObservation (f, cb) {
+    const newObs = {
+      id: f.id || randomBytes(8).toString('hex'),
+      type: 'observation',
+      tags: f.properties || {}
+    }
+    if (f.geometry) {
+      newObs.lon = f.geometry.coordinates[0]
+      newObs.lat = f.geometry.coordinates[1]
+    }
+    api.create(newObs, (err, obs) => {
+      if (err) return this.handleError(err)
+      // Keep a reference to the updated obs
+      this._observationsById[obs.id] = obs
+    })
   }
 
   closeModal = () => {
@@ -112,14 +152,20 @@ class Home extends React.Component {
   getFeatures () {
     var self = this
     api.list(function (err, resp) {
-      if (err) return this.handleError(err)
-      var features = JSON.parse(resp.body)
-      self._seen = new Set(features.map(f => f.id))
-      features = features.map(observationToFeature)
-      self.setState(state => ({
-        featuresByFormId: features.reduce(formIdReducer, assign({}, state.featuresByFormId))
-      }))
+      if (err) return self.handleError(err)
+      const observations = JSON.parse(resp.body)
+      const byId = self._observationsById = observations.reduce(observationIdReducer, {})
+      // the byId reducer removes forks, so use that for the features array
+      const features = Object.keys(byId)
+        .map(key => byId[key])
+        .map(observationToFeature)
+      self.setState({ features })
     })
+  }
+
+  handleError (err) {
+    // TODO: Show some kind of error message in the UI
+    console.error(err)
   }
 
   handleChangeMapPosition (mapPosition) {
@@ -127,16 +173,14 @@ class Home extends React.Component {
   }
 
   render () {
-    const {featuresByFormId, formId, showModal, mapPosition} = this.state
+    const {features, showModal, mapPosition} = this.state
     const {changeView, openModal} = this.props
 
-    var features = featuresByFormId[formId] || []
     const toolbarTitle = <div>
       <ConvertButton
         features={features}
         onClick={this.handleConvertFeaturesClick.bind(this)} />
     </div>
-
     return (<div>
       <MapFilter
         mapStyle={styleUrl}
@@ -145,23 +189,15 @@ class Home extends React.Component {
         onChangeMapPosition={this.handleChangeMapPosition.bind(this)}
         onChangeFeatures={this.handleChangeFeatures}
         fieldTypes={{
-          impacts: FIELD_TYPE_SPACE_DELIMITED,
-          people: FIELD_TYPE_SPACE_DELIMITED,
-          public: FIELD_TYPE_BOOLEAN,
-          summary: FIELD_TYPE_STRING,
-          'meta.instanceName': FIELD_TYPE_STRING
+          notes: FIELD_TYPE_STRING
         }}
-        datasetName={formId}
-        fieldOrder={{
-          location: 0,
-          public: 1,
-          summary: 2
-        }}
+        datasetName="mapeo"
+        resizer={resizer}
         appBarButtons={[<Sidebar
           changeView={changeView}
           openModal={openModal}
           />]}
-        appBarTitle={toolbarTitle} />
+        appBarTitle="Mapeo" />
 
       <ConvertDialog
         open={showModal === 'convert'}
@@ -172,24 +208,13 @@ class Home extends React.Component {
   }
 }
 
-function formIdReducer (acc, f) {
-  let formId = (f.properties.meta && f.properties.meta.formId) || 'Mapeo Mobile'
-  formId = formId.replace(/_v\d+$/, '')
-  if (!acc[formId]) {
-    acc[formId] = [f]
-  } else {
-    acc[formId] = acc[formId].concat([f])
-  }
-  return acc
-}
-
 function observationToFeature (obs, id) {
-  var feature = Object.assign(obs, {
+  var feature = {
+    id: obs.id,
     type: 'Feature',
-    geometry: null
-  })
-
-  feature.properties = obs.tags || {}
+    geometry: null,
+    properties: {}
+  }
 
   if (obs.lon && obs.lat) {
     feature.geometry = {
@@ -197,30 +222,42 @@ function observationToFeature (obs, id) {
       coordinates: [obs.lon, obs.lat]
     }
   }
-  if (!obs.attachments) obs.attachments = []
-  feature.properties.media = obs.attachments.map(function (a) {
-    var id = a.id || a // the phone doesn't have id property on it's attachments.
-    return {
-      type: 'image',
-      value: `${osmServerHost}/media/original/${id}`,
-      attachment: a
-    }
+
+  const WHITELIST = ['fields']
+  Object.keys(obs.tags || {}).forEach(function (key) {
+    if (WHITELIST.indexOf(key) > -1) return
+    feature.properties[key] = obs.tags[key]
+  })
+
+  feature.properties.media = (obs.attachments || []).map(function (a) {
+    return a.id || a // the phone doesn't have id property on it's attachments.
   })
 
   feature.properties.notes = obs.notes || ' '
   return feature
 }
 
-function featureToObservation (feature) {
-  var obs = Object.assign({}, feature)
-  obs.notes = feature.properties.notes
-  obs.type = 'observation'
-  delete obs.properties
-  obs.attachments = obs.attachments.map(function (a) {
-    return {id: a}
-  })
-  return obs
+function resizer (src, size) {
+  const parsedUrl = url.parse(src)
+  // Don't resize local images
+  if (parsedUrl.hostname === 'localhost' || parsedUrl.hostname === '127.0.0.1') return src
+  return 'https://resizer.digital-democracy.org/{width}/{height}/{url}'
+    .replace('{width}', size)
+    .replace('{height}', size)
+    .replace('{url}', src)
+}
+
+function observationIdReducer (acc, obs) {
+  if (acc[obs.id]) {
+    // there is a fork
+    if (obs.timestamp > acc[obs.id].timestamp) {
+      // use the most recent
+      acc[obs.id] = obs
+    }
+  } else {
+    acc[obs.id] = obs
+  }
+  return acc
 }
 
 module.exports = Home
-
