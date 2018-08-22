@@ -11,6 +11,15 @@
   --button-color: #ececec;
   --border: 1px solid white;
 }
+
+body {
+  font: normal 12px/1.6667 "-apple-system", BlinkMacSystemFont,
+        "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+        "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
+        sans-serif;
+  overflow: hidden;
+}
+
 .button-group {
   padding: 10px;
 }
