@@ -33,6 +33,12 @@ body {
   height: 100%;
 }
 
+@media print {
+  .full {
+    position: static;
+  }
+}
+
 button.big {
   padding: 10px;
   min-width: 300px;
