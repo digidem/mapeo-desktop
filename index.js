@@ -34,6 +34,9 @@ var i18n = require('./src/lib/i18n')
 
 if (require('electron-squirrel-startup')) return
 
+// HACK: enable GPU graphics acceleration on some older laptops
+app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
+
 var APP_NAME = app.getName()
 
 var log = require('./src/lib/log').Node()
