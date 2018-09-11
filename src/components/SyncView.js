@@ -2,6 +2,9 @@ import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import React from 'react'
 import {ipcRenderer} from 'electron'
+import SyncIcon from '@material-ui/icons/Sync'
+import DoneIcon from '@material-ui/icons/Done'
+import MoreHoriz from '@material-ui/icons/MoreHoriz'
 
 import api from '../api'
 import MapFilter from './MapFilter'
@@ -13,26 +16,22 @@ import i18n from '../lib/i18n'
 // so the function isn't called for every row
 
 var messages = {
-  'replication-data-complete': i18n('replication-data-complete'),
+  'replication-complete': DoneIcon,
+  'replication-data-complete': DoneIcon,
   'replication-started': i18n('replication-started'),
-  'replication-complete': i18n('replication-complete'),
-  'media-connected': i18n('replication-progress'),
-  'osm-connected': i18n('replication-progress')
+  'media-connected': MoreHoriz,
+  'osm-connected': MoreHoriz
 }
-var SyncButton = styled.button`
-  background-color: orange;
-  padding: 0px 20px;
-`
 
 var Subtitle = styled.div`
   background-color: var(--main-bg-color);
   color: white;
   vertical-align: middle;
-  padding: 20px;
+  padding: 5px 20px;
 `
 
 var TargetsDiv = styled.div`
-  background-color: white;
+  background-color: white
   color: black;
   .loading {
     background-color: white;
@@ -47,13 +46,19 @@ var TargetsDiv = styled.div`
 `
 
 var Target = styled.li`
-  min-width: 500px;
+  min-width: 300px;
   padding: 20px;
   border-bottom: 1px solid grey;
   display: flex;
   justify-content: space-between;
-  line-height: 30px;
+  vertical-align: middle;
+  &:hover {
+    background-color: #eee;
+    cursor: pointer;
+  }
   .target {
+    display: flex;
+    flex-direction: column;
     vertical-align: middle;
     font-weight: bold;
     font-size: 16px;
@@ -142,24 +147,19 @@ export default class SyncView extends React.Component {
             ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
-          <ul>
-            {targets.map(function (t) {
-              var message = messages[t.status] || t.message
-              return (
-                <Target key={t.name}>
-                  <div className='target'>
-                    <span className='name'>{t.name}</span>
-                    <span className='info'>{i18n(`sync-${t.type}-info`)}</span>
-                  </div>
-                  {t.status ? <h3>{message}</h3>
-                    : <SyncButton onClick={self.replicate.bind(self, t)}>
-                      Sync
-                    </SyncButton>
-                  }
-                </Target>
-              )
-            })}
-          </ul>
+          {targets.map(function (t) {
+            var message = messages[t.status] || t.message || SyncIcon
+            var Icon = (typeof message !== 'string') && message
+            return (
+              <Target key={t.name} onClick={self.replicate.bind(self, t)}>
+                <div className='target'>
+                  <span className='name'>{t.name}</span>
+                  <span className='info'>{i18n(`sync-${t.type}-info`)}</span>
+                </div>
+                <div>{Icon ? <Icon /> : message}</div>
+              </Target>
+            )
+          })}
         </TargetsDiv>
         <Form method='POST'>
           <input type='hidden' name='source' />

@@ -55,6 +55,12 @@ server.listen(port, function () {
   }))
 
   hq.end()
+
+  var hq2 = hyperquest.get(base + '/sync/announce', {})
+  hq2.pipe(concat({ encoding: 'string' }, function (body) {
+    console.log(body)
+  }))
+  hq2.end()
 })
 
 process.on('SIGINT', function () {
