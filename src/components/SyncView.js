@@ -69,6 +69,11 @@ var Target = styled.li`
     font-size: 14px;
     font-style: italic;
   }
+  .icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 `
 
@@ -156,7 +161,7 @@ export default class SyncView extends React.Component {
                   <span className='name'>{t.name}</span>
                   <span className='info'>{i18n(`sync-${t.type}-info`)}</span>
                 </div>
-                <div>{Icon ? <Icon /> : message}</div>
+                <div className='icon'>{Icon ? <Icon /> : message}</div>
               </Target>
             )
           })}
