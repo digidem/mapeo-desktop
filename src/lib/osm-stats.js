@@ -36,7 +36,7 @@ function installStatsIndex (osm) {
           if (err) return cb(err)
           var center = {
             lat: stats.latSum / stats.numNodes,
-            lon: stats.lonSum / stats.numNodes,
+            lon: stats.lonSum / stats.numNodes
           }
           return cb(null, center)
         })
@@ -60,13 +60,13 @@ function installStatsIndex (osm) {
     }
 
     idb.get('lat-sum', function (err, latSum) {
-      if (err && !err.notFound) return next(err)
+      if (err && !err.notFound) return cb(err)
       if (err && err.notFound) latSum = 0
       idb.get('lon-sum', function (err, lonSum) {
-        if (err && !err.notFound) return next(err)
+        if (err && !err.notFound) return cb(err)
         if (err && err.notFound) lonSum = 0
         idb.get('num-nodes', function (err, numNodes) {
-          if (err && !err.notFound) return next(err)
+          if (err && !err.notFound) return cb(err)
           if (err && err.notFound) numNodes = 0
           stats = {
             latSum: Number(latSum),

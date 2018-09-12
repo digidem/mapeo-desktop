@@ -1,6 +1,6 @@
 import React from 'react'
 import i18n from '../lib/i18n'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 import ProgressBar from './ProgressBar'
 
 export default class IndexesBar extends React.Component {
@@ -21,7 +21,7 @@ export default class IndexesBar extends React.Component {
   }
 
   indexesReady () {
-    this.setState({loading: false})
+    this.setState({ loading: false })
     clearInterval(this.interval)
   }
 

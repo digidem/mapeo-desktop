@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - "6"
+  - '8'
 
 os:
   - osx
@@ -13,6 +13,7 @@ before_install:
 script:
   - npm run build
   - npm run rebuild-leveldb
+  - npm run lint
   - node bin/package_macos.js
   - node bin/create_macos_dmg.js
 

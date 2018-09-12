@@ -1,15 +1,11 @@
 var path = require('path')
 var rimraf = require('rimraf').sync
-var spawn = require('cross-spawn').sync
 var packager = require('electron-packager')
-
-var pkg = require(path.join('..', 'package.json'))
 
 // clear old output folder
 var distFolder = path.join(__dirname, '..', 'dist')
 var installerFolder = path.join(distFolder, 'installer-win-x64')
 rimraf(installerFolder)
-
 
 // package electron exeuctable
 packager({
@@ -25,8 +21,8 @@ packager({
   'version-string': {
     ProductName: 'Mapeo',
     CompanyName: 'Digital Democracy'
-  },
-}, function done_callback (err, appPaths) {
+  }
+}, function (err, appPaths) {
   if (err) {
     console.error(err)
     process.exit(1)
@@ -34,4 +30,3 @@ packager({
     console.log(appPaths)
   }
 })
-

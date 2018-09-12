@@ -1,5 +1,5 @@
 import React from 'react'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 import ProgressBar from './ProgressBar'
 
 export default class ImportProgressBar extends React.Component {
@@ -9,11 +9,11 @@ export default class ImportProgressBar extends React.Component {
   }
 
   closeProgress (_, title) {
-    this.setState({title: false, index: 0, total: 0})
+    this.setState({ title: false, index: 0, total: 0 })
   }
 
   importProgress (_, title, index, total) {
-    this.setState({title, index, total})
+    this.setState({ title, index, total })
   }
 
   componentDidMount () {

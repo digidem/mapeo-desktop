@@ -1,11 +1,6 @@
 import React from 'react'
 import MapFilter from 'react-mapfilter'
-import traverse from 'traverse'
-import {ipcRenderer, remote} from 'electron'
-import toBuffer from 'blob-to-buffer'
-import assign from 'object-assign'
-import diff from 'lodash/difference'
-import path from 'path'
+import { ipcRenderer, remote } from 'electron'
 import {
   FIELD_TYPE_STRING
 } from 'react-mapfilter/es5/constants'
@@ -16,14 +11,11 @@ import url from 'url'
 import api from '../api'
 
 import Sidebar from './Sidebar'
-import MapEditor from './MapEditor'
 import ConvertDialog from './ConvertDialog'
-import ConvertButton from './ConvertButton'
 import randomBytes from 'randombytes'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
-const mediaBaseUrl = `${osmServerHost}/media/`
 const styleUrl = `${osmServerHost}/styles/mapfilter-style/style.json`
 
 class Home extends React.Component {
@@ -32,7 +24,7 @@ class Home extends React.Component {
     var self = this
     self.state = {
       features: [],
-      mapPosition: {center: [0,0], zoom: 0},
+      mapPosition: { center: [0, 0], zoom: 0 },
       showModal: false,
       mapStyle: styleUrl
     }
@@ -60,13 +52,13 @@ class Home extends React.Component {
 
   zoomToLatLonResponse (_, lat, lon) {
     this.setState({
-      mapPosition: {center: [lat, lon], zoom: 14}
+      mapPosition: { center: [lat, lon], zoom: 14 }
     })
   }
 
   zoomToDataResponse (_, loc) {
     this.setState({
-      mapPosition: {center: loc, zoom: 14}
+      mapPosition: { center: loc, zoom: 14 }
     })
   }
 
@@ -74,33 +66,39 @@ class Home extends React.Component {
     ipcRenderer.send('zoom-to-data-get-centroid')
   }
 
-  handleDatasetChange = (e) => {
-    this.setState({formId: e.target.value})
-  }
-
-  handleConvertFeaturesClick = () => {
-    this.setState({showModal: 'convert'})
-  }
-
-  handleChangeFeatures = (changedFeatures) => {
-    const {features} = this.state
-    const xorFeatures = xor(changedFeatures, features)
-    const deleted = differenceBy(xorFeatures, changedFeatures, 'id')
-    const added = differenceBy(xorFeatures, features, 'id')
-    const updated = xorFeatures.filter(f => {
-      return added.indexOf(f) === -1 &&
-        deleted.indexOf(f) === -1 &&
-        features.indexOf(f) === -1
-    })
-
-    var cb = function (err, resp) {
-      if (err) return this.handleError(err)
+  handleDatasetChange () {
+    return (e) => {
+      this.setState({ formId: e.target.value })
     }
+  }
 
-    deleted.forEach(f => api.del(f, cb))
-    added.forEach(f => this.createObservation(f))
-    updated.forEach(f => this.updateObservation(f))
-    this.setState({features: changedFeatures})
+  handleConvertFeaturesClick () {
+    return () => {
+      this.setState({ showModal: 'convert' })
+    }
+  }
+
+  handleChangeFeatures () {
+    return (changedFeatures) => {
+      const { features } = this.state
+      const xorFeatures = xor(changedFeatures, features)
+      const deleted = differenceBy(xorFeatures, changedFeatures, 'id')
+      const added = differenceBy(xorFeatures, features, 'id')
+      const updated = xorFeatures.filter(f => {
+        return added.indexOf(f) === -1 &&
+          deleted.indexOf(f) === -1 &&
+          features.indexOf(f) === -1
+      })
+
+      var cb = function (err, resp) {
+        if (err) return this.handleError(err)
+      }
+
+      deleted.forEach(f => api.del(f, cb))
+      added.forEach(f => this.createObservation(f))
+      updated.forEach(f => this.updateObservation(f))
+      this.setState({ features: changedFeatures })
+    }
   }
 
   updateObservation (f) {
@@ -145,8 +143,8 @@ class Home extends React.Component {
     })
   }
 
-  closeModal = () => {
-    this.setState({showModal: false})
+  closeModal () {
+    return () => { this.setState({ showModal: false }) }
   }
 
   getFeatures () {
@@ -169,18 +167,13 @@ class Home extends React.Component {
   }
 
   handleChangeMapPosition (mapPosition) {
-    this.setState({mapPosition})
+    this.setState({ mapPosition })
   }
 
   render () {
-    const {features, showModal, mapPosition} = this.state
-    const {changeView, openModal} = this.props
+    const { features, showModal, mapPosition } = this.state
+    const { changeView, openModal } = this.props
 
-    const toolbarTitle = <div>
-      <ConvertButton
-        features={features}
-        onClick={this.handleConvertFeaturesClick.bind(this)} />
-    </div>
     return (<div>
       <MapFilter
         mapStyle={styleUrl}
@@ -191,17 +184,17 @@ class Home extends React.Component {
         fieldTypes={{
           notes: FIELD_TYPE_STRING
         }}
-        datasetName="mapeo"
+        datasetName='mapeo'
         resizer={resizer}
         appBarButtons={[<Sidebar
           changeView={changeView}
           openModal={openModal}
-          />]}
-        appBarTitle="Mapeo" />
+        />]}
+        appBarTitle='Mapeo' />
 
       <ConvertDialog
         open={showModal === 'convert'}
-        onClose={() => { this.setState({showModal: false}) }}
+        onClose={() => { this.setState({ showModal: false }) }}
         features={features} />
 
     </div>)

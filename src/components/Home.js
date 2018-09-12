@@ -1,10 +1,13 @@
 import React from 'react'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 
 import LatLonDialog from './LatLonDialog'
 import MapEditor from './MapEditor'
 import MapFilter from './MapFilter'
 import Welcome from './Welcome'
+
+let localStorage = window.localStorage
+let location = window.location
 
 export default class Home extends React.Component {
   constructor (props) {
@@ -43,21 +46,21 @@ export default class Home extends React.Component {
   }
 
   changeView (component, state) {
-    var newState = Object.assign({}, {View: {component}}, state)
+    var newState = Object.assign({}, { View: { component } }, state)
     this.setState(newState)
   }
 
   closeModal () {
-    this.setState({Modal: false})
+    this.setState({ Modal: false })
   }
 
   openModal (component, props) {
     if (!props) props = {}
-    this.setState({Modal: {component, props}})
+    this.setState({ Modal: { component, props } })
   }
 
   render () {
-    const {View, Modal} = this.state
+    const { View, Modal } = this.state
     localStorage.setItem('lastView', View.component.name)
 
     return (

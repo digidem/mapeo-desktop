@@ -27,7 +27,7 @@ module.exports = function (osm, bbox) {
   var api = osmApi(osm)
   bbox = [ -Infinity, -Infinity, Infinity, Infinity ]
 
-  var source = api.getMap(bbox, {forks: false})
+  var source = api.getMap(bbox, { forks: false })
   var dest = exportGeoJson(osm, {
     map: featureMap,
     polygonFeatures: isPolygonFeature

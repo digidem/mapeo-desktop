@@ -1,11 +1,11 @@
 const fs = require('fs')
 const merge = require('lodash/merge')
 const path = require('path')
-const app = require('electron').app;
+const app = require('electron').app
 
 var log = require('../lib/log').Node()
 
-module.exports =  {
+module.exports = {
   load: load
 }
 
@@ -21,13 +21,13 @@ function load (lang) {
     log('Problem loading messages for locale ' + locale, err)
     log('Falling back to en locale')
 
-    locale = 'en';
-    messages = english;
+    locale = 'en'
+    messages = english
   }
   return messages
 }
 
 function read (locale) {
   var localePath = path.join(__dirname, '..', '..', 'locales', locale + '.json')
-  return JSON.parse(fs.readFileSync(localePath, 'utf-8'));
+  return JSON.parse(fs.readFileSync(localePath, 'utf-8'))
 }

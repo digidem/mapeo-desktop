@@ -7,7 +7,7 @@ var http = require('http')
 module.exports = function (osm, media) {
   var osmrouter = osmserver(osm)
   var staticRoot = path.dirname(require.resolve('mapeo-styles'))
-  var mapeo = mapeoserver(osm, media, {staticRoot})
+  var mapeo = mapeoserver(osm, media, { staticRoot })
 
   var server = http.createServer(function (req, res) {
     var staticHandler = ecstatic({

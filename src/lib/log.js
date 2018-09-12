@@ -56,7 +56,7 @@ function setupNodeLogger () {
 }
 
 function setupBrowserLogger () {
-  var socket = wsock('ws://localhost:'+PORT)
+  var socket = wsock('ws://localhost:' + PORT)
 
   var browserConsole = window.console
 
@@ -72,7 +72,7 @@ function setupBrowserLogger () {
 
   // capture browser errors
   window.onerror = function (event, source, line, col) {
-    c.log(event, '(' + source + ':' + line + ':' +  col + ')')
+    c.log(event, '(' + source + ':' + line + ':' + col + ')')
   }
 
   return c.log
@@ -80,7 +80,7 @@ function setupBrowserLogger () {
 
 function websocketServer (handler, done) {
   var server = http.createServer()
-  var ws = wsock.createServer({ server: server }, handler)
+  wsock.createServer({ server: server }, handler)
   console.log('ws prepped')
   server.listen(PORT, function () {
     console.log('ws listening')

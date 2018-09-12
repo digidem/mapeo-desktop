@@ -1,6 +1,5 @@
-import path from 'path'
 import Parser from 'html-react-parser'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 import React from 'react'
 
 import _i18n from '../lib/i18n'
@@ -22,7 +21,7 @@ export default class Welcome extends React.Component {
   }
 
   nextScreen (nextScreen) {
-    this.setState({screen: nextScreen})
+    this.setState({ screen: nextScreen })
   }
 
   presetsButton () {
@@ -32,7 +31,7 @@ export default class Welcome extends React.Component {
 
   examplesButton () {
     var filename = ipcRenderer.sendSync('get-example-filename')
-    this.props.changeView(MapEditor, {Modal: {component: SyncView, props: {filename}}})
+    this.props.changeView(MapEditor, { Modal: { component: SyncView, props: { filename } } })
   }
 
   openMap () {
@@ -40,7 +39,7 @@ export default class Welcome extends React.Component {
   }
 
   render () {
-    const {screen} = this.state
+    const { screen } = this.state
 
     var openMap = this.openMap.bind(this)
 

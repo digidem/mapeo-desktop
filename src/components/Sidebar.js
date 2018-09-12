@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import {ipcRenderer, shell} from 'electron'
+import { ipcRenderer, shell } from 'electron'
 
 import ImportProgressBar from './ImportProgressBar'
 import IndexesBar from './IndexesBar'
-import Overlay from './Overlay'
 import MapEditor from './MapEditor'
 import MapFilter from './MapFilter'
 import SyncView from './SyncView'
@@ -96,7 +95,7 @@ export default class Sidebar extends React.Component {
   onSidebarClick (view) {
     if (view.modal) this.props.openModal(view.component)
     else this.props.changeView(view.component)
-    this.setState({sidebar: false})
+    this.setState({ sidebar: false })
   }
 
   toggleSidebar () {
@@ -111,7 +110,7 @@ export default class Sidebar extends React.Component {
   }
 
   render () {
-    const {notifications, sidebar} = this.state
+    const { notifications, sidebar } = this.state
 
     var views = [
       {
@@ -138,8 +137,10 @@ export default class Sidebar extends React.Component {
         <ImportProgressBar />
         <IndexesBar />
         {views.map((view, i) => {
+          var id = `menu-option-${i}`
           return (
             <SidebarItem
+              id={id}
               key={i}
               onClick={this.onSidebarClick.bind(this, view)}>
               {view.label}

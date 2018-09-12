@@ -1,5 +1,5 @@
 import xhr from 'xhr'
-import {remote} from 'electron'
+import { remote } from 'electron'
 import querystring from 'querystring'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')

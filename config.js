@@ -1,6 +1,5 @@
 var appConfig = require('application-config')('Mapeo')
 var path = require('path')
-var pathExists = require('path-exists')
 
 var APP_NAME = 'Mapeo'
 var APP_TEAM = 'Digital Democracy'
@@ -15,7 +14,7 @@ module.exports = {
   APP_WINDOW_TITLE: APP_NAME + ' (BETA)',
 
   AUTO_UPDATE_CHECK_STARTUP_DELAY: 5 * 1000 /* 5 seconds */,
-  //AUTO_UPDATE_URL: 'https://webtorrent.io/desktop/update' +
+  // AUTO_UPDATE_URL: 'https://webtorrent.io/desktop/update' +
   //  '?version=' + APP_VERSION + '&platform=' + process.platform,
 
   CONFIG_PATH: getConfigPath(),
@@ -23,25 +22,16 @@ module.exports = {
   GITHUB_URL: 'https://github.com/digidem/mapeo-desktop',
   GITHUB_URL_RAW: 'https://raw.githubusercontent.com/digidem/mapeo-desktop/master',
 
-  IS_PORTABLE: isPortable(),
   IS_PRODUCTION: isProduction(),
 
   ROOT_PATH: __dirname,
   STATIC_PATH: path.join(__dirname, 'static'),
 
-  WINDOW_MAIN: 'file://' + path.join(__dirname, 'renderer', 'main.html'),
+  WINDOW_MAIN: 'file://' + path.join(__dirname, 'renderer', 'main.html')
 }
 
 function getConfigPath () {
-  if (isPortable()) {
-    return PORTABLE_PATH
-  } else {
-    return path.dirname(appConfig.filePath)
-  }
-}
-
-function isPortable () {
-  return process.platform === 'win32' && isProduction() && pathExists(PORTABLE_PATH)
+  return path.dirname(appConfig.filePath)
 }
 
 function isProduction () {
