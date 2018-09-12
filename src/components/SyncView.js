@@ -1,10 +1,9 @@
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import React from 'react'
-import {ipcRenderer} from 'electron'
+import {remote, ipcRenderer} from 'electron'
 import SyncIcon from '@material-ui/icons/Sync'
 import DoneIcon from '@material-ui/icons/Done'
-import MoreHoriz from '@material-ui/icons/MoreHoriz'
 
 import api from '../api'
 import MapFilter from './MapFilter'
@@ -12,15 +11,29 @@ import Modal from './Modal'
 import Form from './Form'
 import i18n from '../lib/i18n'
 
+const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
+
+const Loading = styled.img`
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  font-size: 24px;
+`
+
+function LoadingIcon (props) {
+  var src = `${osmServerHost}/static/spinner.png`
+  return (<Loading src={src} />)
+}
+
 // turn the messages into strings once
 // so the function isn't called for every row
-
+// TODO: add message alongside during the sync process, like mobile app
 var messages = {
   'replication-complete': DoneIcon,
   'replication-data-complete': DoneIcon,
-  'replication-started': i18n('replication-started'),
-  'media-connected': MoreHoriz,
-  'osm-connected': MoreHoriz
+  'replication-started': LoadingIcon,
+  'media-connected': LoadingIcon,
+  'osm-connected': LoadingIcon
 }
 
 var Subtitle = styled.div`

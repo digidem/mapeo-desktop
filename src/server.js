@@ -1,5 +1,6 @@
 var path = require('path')
 var mapeoserver = require('mapeo-server')
+var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
 var http = require('http')
 
@@ -9,11 +10,20 @@ module.exports = function (osm, media) {
   var mapeo = mapeoserver(osm, media, {staticRoot})
 
   var server = http.createServer(function (req, res) {
-    var m = osmrouter.handle(req, res) || mapeo.handle(req, res)
-    if (!m) {
-      res.statusCode = 404
-      res.end('Not Found')
+    var staticHandler = ecstatic({
+      root: path.join(__dirname, '..', 'static'),
+      baseDir: 'static',
+      handleError: false
+    })
+
+    function next () {
+      var m = osmrouter.handle(req, res) || mapeo.handle(req, res)
+      if (!m) {
+        res.statusCode = 404
+        res.end('Not Found')
+      }
     }
+    staticHandler(req, res, next)
   })
   server.mapeo = mapeo
   return server
