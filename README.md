@@ -39,6 +39,9 @@ To run the application with debugging enabled, execute
 $ npm run dev
 ```
 
+In another terminal, run `npm run watch` to automatically generate the
+front-end bundle every time it is changed.
+
 ## Testing
 
 ### Run a mock device
