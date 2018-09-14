@@ -7,7 +7,7 @@ var tilePath = path.join(app.getPath('userData'), 'tiles')
 
 module.exports = function () {
   var server = http.createServer(
-      ecstatic({ root: tilePath })
-    )
+    ecstatic({ root: tilePath })
+  )
   return server
 }

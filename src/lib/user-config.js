@@ -2,7 +2,6 @@ var fs = require('fs')
 var tar = require('tar-fs')
 var pump = require('pump')
 var path = require('path')
-var ipc = require('electron').ipcMain
 var app = require('electron').app
 var userDataPath = app.getPath('userData')
 var cssPath = path.join(userDataPath, 'style.css')

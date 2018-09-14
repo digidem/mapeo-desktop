@@ -31,12 +31,12 @@ const styles = {
   }
 }
 
-const Title = ({datasets, activeDataset, onConvert, onChange, classes}) => (
+const Title = ({ datasets, activeDataset, onConvert, onChange, classes }) => (
   <div>
     <Select
       value={activeDataset}
       onChange={onChange}
-      MenuProps={{MenuListProps: {dense: true}}}
+      MenuProps={{ MenuListProps: { dense: true } }}
       classes={{
         root: classes.select,
         icon: classes.icon

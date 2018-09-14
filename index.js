@@ -4,11 +4,10 @@ var path = require('path')
 var fs = require('fs')
 var minimist = require('minimist')
 var electron = require('electron')
-var app = electron.app  // Module to control application life.
+var app = electron.app
 var Menu = electron.Menu
-var BrowserWindow = electron.BrowserWindow  // Module to create native browser window.
-var net = require('net')
-var to = require('to2')
+var BrowserWindow = electron.BrowserWindow
+
 var os = require('os')
 var level = require('level')
 var sublevel = require('subleveldown')
@@ -29,10 +28,11 @@ var userConfig = require('./src/lib/user-config')
 var TileImporter = require('./src/lib/tile-importer')
 var importer = require('./src/lib/importer')
 var locale = require('./src/lib/locale')
-var examples = require('./src/lib/examples')
 var i18n = require('./src/lib/i18n')
 
-if (require('electron-squirrel-startup')) return
+if (require('electron-squirrel-startup')) {
+  process.exit(0)
+}
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
@@ -42,7 +42,6 @@ var APP_NAME = app.getName()
 var log = require('./src/lib/log').Node()
 
 var win = null
-var firstTime = false
 
 // Listen for app-ready event
 var appIsReady = false
@@ -99,6 +98,7 @@ series([
 
 function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
+  log('loading datadir', argv.datadir)
   installStatsIndex(osm)
   var media = MediaStore(path.join(argv.datadir, 'media'))
   app.osm = osm
@@ -119,11 +119,11 @@ function versionCheckIndexes (done) {
 
   versionDb.get('kdb-index', function (err, version) {
     if (err && err.notFound) version = '1.0.0'
-    else if (err) return versionDb.close(function (_) { done(err) })  // cleanup!
+    else if (err) return versionDb.close(function (_) { done(err) }) // cleanup!
 
     idxDb.close(function (_) {
       if (semver.major(appSettings.indexes.kdb.version) > semver.major(version)) {
-        log('kdb index must be regenerated (have='+version+', needed='+appSettings.indexes.kdb.version+')')
+        log('kdb index must be regenerated (have=' + version + ', needed=' + appSettings.indexes.kdb.version + ')')
 
         // TODO(noffle): in the future, let's be smarter about selectively wiping sub-indexes as needed
         series([wipeAllIndexes, writeUpToDateVersions], done)
@@ -176,29 +176,6 @@ function createServers (done) {
   })
 }
 
-function createNewWindow (INDEX, winOpts) {
-  if (argv.headless) return
-  if (!winOpts) winOpts = {}
-
-  var defaults = {
-    title: APP_NAME,
-    width: 300,
-    height: 200,
-    modal: false,
-    show: false,
-    alwaysOnTop: true,
-    parent: win
-  }
-  var loadingWin = new BrowserWindow(Object.assign({}, defaults, winOpts))
-  loadingWin.once('ready-to-show', function () {
-    loadingWin.setMenu(null)
-    loadingWin.show()
-  })
-  loadingWin.loadURL(INDEX)
-
-  return loadingWin
-}
-
 function createMainWindow (done) {
   app.translations = locale.load()
   if (!argv.headless) {
@@ -227,7 +204,7 @@ function createMainWindow (done) {
 
     var INDEX = 'file://' + path.resolve(__dirname, './index.html')
     if (!win) {
-      win = new BrowserWindow({title: APP_NAME, show: false})
+      win = new BrowserWindow({ title: APP_NAME, show: false })
       win.once('ready-to-show', () => win.show())
       win.maximize()
     }
@@ -290,7 +267,7 @@ function createMainWindow (done) {
         title: i18n('save-db-dialog'),
         defaultPath: 'database.' + ext,
         filters: [
-          { name: 'Mapeo Data (*.' + ext + ')', extensions: ['mapeodata', 'mapeo-jungle', ext] },
+          { name: 'Mapeo Data (*.' + ext + ')', extensions: ['mapeodata', 'mapeo-jungle', ext] }
         ]
       }, onopen)
 
@@ -307,7 +284,7 @@ function createMainWindow (done) {
         title: i18n('open-db-dialog'),
         properties: [ 'openFile' ],
         filters: [
-          { name: 'Mapeo Data (*.' + ext + ')', extensions: ['mapeodata', 'mapeo-jungle', ext, 'sync', 'zip'] },
+          { name: 'Mapeo Data (*.' + ext + ')', extensions: ['mapeodata', 'mapeo-jungle', ext, 'sync', 'zip'] }
         ]
       }, onopen)
 
@@ -354,20 +331,6 @@ function createMainWindow (done) {
     })
 
     done()
-  }
-}
-
-// Move a file, but only if the old one exists and the new one doesn't
-function mv (src, dst) {
-  try {
-    fs.statSync(src)
-  } catch (e) {
-    return
-  }
-  try {
-    fs.statSync(dst)
-  } catch (e) {
-    fs.rename(src, dst)
   }
 }
 

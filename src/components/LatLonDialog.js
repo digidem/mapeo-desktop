@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 
 import React from 'react'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 
 import i18n from '../lib/i18n'
 import Modal from './Modal'

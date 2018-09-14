@@ -1,6 +1,5 @@
 var path = require('path')
 var rimraf = require('rimraf').sync
-var spawn = require('cross-spawn').sync
 var packager = require('electron-packager')
 
 var pkg = require(path.join('..', 'package.json'))
@@ -24,9 +23,9 @@ packager({
   'build-version': '1.0.0',
   prune: true,
   overwrite: true,
-  'app-bundle-id': 'org.digital-democracy.mapeo-desktop',
+  'app-bundle-id': 'org.digital-democracy.mapeo-desktop'
   // 'osx-sign': true
-}, function done_callback (err, appPaths) {
+}, function (err, appPaths) {
   if (err) {
     console.error(err)
     process.exit(1)
@@ -34,4 +33,3 @@ packager({
     console.log(appPaths)
   }
 })
-

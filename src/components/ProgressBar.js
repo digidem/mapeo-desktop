@@ -15,7 +15,7 @@ var ProgressBarWrapper = styled.div`
 `
 
 export default function ProgressBar (props) {
-  var {title, index, total} = props
+  var { title, index, total } = props
   if (!title) return null
   var style = {
     height: '24px',

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import React from 'react'
-import {remote, ipcRenderer} from 'electron'
+import { remote, ipcRenderer } from 'electron'
 import SyncIcon from '@material-ui/icons/Sync'
 import DoneIcon from '@material-ui/icons/Done'
 
@@ -29,11 +29,26 @@ function LoadingIcon (props) {
 // so the function isn't called for every row
 // TODO: add message alongside during the sync process, like mobile app
 var messages = {
-  'replication-complete': DoneIcon,
-  'replication-data-complete': DoneIcon,
-  'replication-started': LoadingIcon,
-  'media-connected': LoadingIcon,
-  'osm-connected': LoadingIcon
+  'replication-complete': {
+    icon: DoneIcon,
+    info: i18n('replication-complete')
+  },
+  'replication-data-complete': {
+    icon: DoneIcon,
+    info: i18n('replication-complete')
+  },
+  'replication-started': {
+    icon: LoadingIcon,
+    info: i18n('replication-started')
+  },
+  'media-connected': {
+    icon: LoadingIcon,
+    info: i18n('replication-progress')
+  },
+  'osm-connected': {
+    icon: LoadingIcon,
+    info: i18n('replication-progress')
+  }
 }
 
 var Subtitle = styled.div`
@@ -105,7 +120,7 @@ export default class SyncView extends React.Component {
     if (!target) return
     api.start(target, function (err, body) {
       if (err) console.error(err)
-      self.setState({replicated: true})
+      self.setState({ replicated: true })
     })
   }
 
@@ -122,7 +137,7 @@ export default class SyncView extends React.Component {
     this.interval = setInterval(function () {
       api.getTargets(function (err, targets) {
         if (err) return console.error(err)
-        self.setState({targets})
+        self.setState({ targets })
       })
       api.announce(function (err) {
         if (err) console.error(err)
@@ -149,32 +164,35 @@ export default class SyncView extends React.Component {
 
   selectFile (event, filename) {
     if (!filename) return
-    this.replicate({filename})
+    this.replicate({ filename })
   }
 
   render () {
     var self = this
-    var {targets} = this.state
-    if (this.props.filename) this.replicate({filename: this.props.filename})
+    var { targets } = this.state
+    if (this.props.filename) this.replicate({ filename: this.props.filename })
     var onClose = this.onClose.bind(this)
 
     return (
       <Modal closeButton={false} onClose={onClose} title={i18n('sync-database-lead')}>
-        <TargetsDiv>
+        <TargetsDiv id='sync-targets'>
           { targets.length === 0
             ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
           {targets.map(function (t) {
-            var message = messages[t.status] || t.message || SyncIcon
-            var Icon = (typeof message !== 'string') && message
+            var defaultMessage = {
+              icon: SyncIcon,
+              info: i18n(`sync-${t.type}-info`)
+            }
+            var message = messages[t.status] || t.message || defaultMessage
             return (
               <Target key={t.name} onClick={self.replicate.bind(self, t)}>
                 <div className='target'>
                   <span className='name'>{t.name}</span>
-                  <span className='info'>{i18n(`sync-${t.type}-info`)}</span>
+                  <span className='info'>{message.info}</span>
                 </div>
-                <div className='icon'>{Icon ? <Icon /> : message}</div>
+                <div className='icon'><message.icon /></div>
               </Target>
             )
           })}
@@ -192,7 +210,7 @@ export default class SyncView extends React.Component {
                 {i18n('sync-database-new-button')}&hellip;
               </span>
             </Button>
-            <Button onClick={onClose}>
+            <Button id='sync-done' onClick={onClose}>
               {i18n('done')}
             </Button>
           </div>

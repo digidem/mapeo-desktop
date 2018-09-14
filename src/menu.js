@@ -1,6 +1,4 @@
-var path = require('path')
 var dialog = require('electron').dialog
-var electron = require('electron')
 
 var userConfig = require('./lib/user-config')
 var exportData = require('./lib/export-data')
@@ -16,7 +14,7 @@ module.exports = function (app) {
           click: function (item, focusedWindow) {
             dialog.showOpenDialog({
               title: i18n('menu-import-tiles'),
-              filters: [{name: 'Offline Maps'}],
+              filters: [{ name: 'Offline Maps' }],
               properties: ['openFile', 'openDirectory']
             }, function (filenames) {
               if (!filenames) return
@@ -42,7 +40,7 @@ module.exports = function (app) {
           click: function (item, focusedWindow) {
             dialog.showOpenDialog({
               title: i18n('menu-import-configuration-dialog'),
-              filters: [{name: 'Mapeo Settings', extensions: ['mapeosettings']}],
+              filters: [{ name: 'Mapeo Settings', extensions: ['mapeosettings'] }],
               properties: ['openFile']
             }, function (filenames) {
               if (!filenames) return
@@ -63,13 +61,12 @@ module.exports = function (app) {
             // TODO: handle multiple files
             dialog.showOpenDialog({
               title: i18n('menu-import-data-dialog'),
-              filters: [{name: 'GeoJSON', extensions: ['geojson']}, {name: 'Shape', extensions: ['shp']}],
+              filters: [{ name: 'GeoJSON', extensions: ['geojson'] }, { name: 'Shape', extensions: ['shp'] }],
               properties: ['openFile']
             }, function (filenames) {
               if (!filenames) return
-              var pending = filenames.length
               var filename = filenames[0]
-              var ex = app.importer.importFromFile(filename, function (err) {
+              app.importer.importFromFile(filename, function (err) {
                 if (err) {
                   dialog.showErrorBox('Error', i18n('menu-import-data-error') + err)
                 } else {
@@ -298,7 +295,7 @@ function exportDataMenu (app, name, ext) {
     dialog.showSaveDialog({
       title: i18n('menu-export-data-dialog'),
       defaultPath: `export.${ext}`,
-      filters: [{name: name, extensions: [ext]}]
+      filters: [{ name: name, extensions: [ext] }]
     }, function (filename) {
       if (!filename) return
       exportData(app.server.mapeo, filename, function (err) {

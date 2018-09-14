@@ -21,7 +21,7 @@ var hubfsOptions = {
 
 var gh = Hubfs(hubfsOptions)
 
-gh.readFile(config.filename, {ref: config.branches[0]}, function (err, data) {
+gh.readFile(config.filename, { ref: config.branches[0] }, function (err, data) {
   if (err) {
     if (!(/not found/i.test(err) || err.notFound)) {
       return onError(err)

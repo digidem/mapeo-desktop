@@ -2,12 +2,15 @@ import React from 'react'
 import insertCss from 'insert-css'
 import merge from 'lodash/merge'
 import Dialogs from 'dialogs'
-import {ipcRenderer, remote, shell} from 'electron'
+import { ipcRenderer, remote, shell } from 'electron'
 import styled from 'styled-components'
 
 import Sidebar from './Sidebar'
 import i18n from '../lib/i18n'
 import pkg from '../../package.json'
+
+let iD = window.iD
+let DOMParser = window.DOMParser
 
 const Overlay = styled.div`
   position: absolute;
@@ -73,7 +76,7 @@ export default class MapEditor extends React.Component {
     var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
     this.id = iD.Context()
       .assetPath('node_modules/id-mapeo/dist/')
-      .preauth({url: serverUrl})
+      .preauth({ url: serverUrl })
       .minEditableZoom(14)
 
     this.id.version = pkg.version
@@ -144,7 +147,7 @@ export default class MapEditor extends React.Component {
     var dialogs = Dialogs()
     dialogs.prompt(i18n('menu-change-language-title'), function (locale) {
       if (locale) {
-        self.setState({locale})
+        self.setState({ locale })
         ipcRenderer.send('set-locale', locale)
         self.id.ui().restart(locale)
       }

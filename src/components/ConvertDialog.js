@@ -3,7 +3,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 
 import api from '../api'
 import Modal from './Modal'
@@ -29,7 +29,7 @@ export default class ConvertDialog extends React.Component {
   }
 
   render () {
-    const {open, features, onClose} = this.props
+    const { open, features, onClose } = this.props
 
     var notAdded = features.filter(function (f) {
       return (f.ref === undefined && (f.properties && f.properties.element_id === undefined))

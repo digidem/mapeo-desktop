@@ -36,8 +36,7 @@ Importer.prototype.importFromFile = function (name, done) {
       var geojson = JSON.parse(data)
       return importer.importFeatureCollection(geojson, done)
     }))
-  }
-  else if (ext === '.shp') {
+  } else if (ext === '.shp') {
     shp.toGeoJson(name).then(function (geojson) {
       return importer.importFeatureCollection(geojson, done)
     })
