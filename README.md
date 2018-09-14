@@ -27,6 +27,7 @@ $ cd mapeo-desktop
 $ npm install
 $ npm run build
 $ npm run rebuild-leveldb
+$ npm rebuild
 $ npm start
 ```
 
