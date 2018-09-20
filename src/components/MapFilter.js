@@ -15,6 +15,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import api from '../api'
 import MenuItems from './MenuItems'
+import ConvertButton from './ConvertButton'
 import ConvertDialog from './ConvertDialog'
 
 const theme = createMuiTheme({
@@ -84,9 +85,7 @@ class Home extends React.Component {
   }
 
   handleConvertFeaturesClick () {
-    return () => {
-      this.setState({ showModal: 'convert' })
-    }
+    this.setState({ showModal: 'convert' })
   }
 
   handleChangeFeatures () {
@@ -201,7 +200,14 @@ class Home extends React.Component {
       )
     })
 
+    const toolbarTitle = (<div>
+      <ConvertButton
+        features={features}
+        onClick={this.handleConvertFeaturesClick.bind(this)} />
+    </div>)
+
     return (<div>
+<<<<<<< HEAD
       <MuiThemeProvider theme={theme}>
         <MapFilter
           mapStyle={styleUrl}
@@ -219,7 +225,7 @@ class Home extends React.Component {
 
         <ConvertDialog
           open={showModal === 'convert'}
-          onClose={() => { this.setState({ showModal: false }) }}
+          onClose={this.closeModal.bind(this)}
           features={features} />
       </MuiThemeProvider>
 
