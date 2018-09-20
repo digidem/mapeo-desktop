@@ -38,6 +38,7 @@ if (require('electron-squirrel-startup')) {
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 
 var APP_NAME = app.getName()
+var IS_TEST = process.env.NODE_ENV === 'test'
 
 var log = require('./src/lib/log').Node()
 
@@ -206,7 +207,8 @@ function createMainWindow (done) {
     if (!win) {
       win = new BrowserWindow({ title: APP_NAME, show: false })
       win.once('ready-to-show', () => win.show())
-      win.maximize()
+      if (IS_TEST) win.setSize(1000, 800, false)
+      else win.maximize()
     }
 
     if (argv.debug) win.webContents.openDevTools()
