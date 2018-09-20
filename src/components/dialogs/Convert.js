@@ -36,7 +36,7 @@ export default class ConvertDialog extends React.Component {
     })
 
     return (
-      <Dialog open={open} onClose={onClose}>
+      <Dialog id='convert-dialog' open={open} onClose={onClose}>
         <DialogTitle>{i18n('convert-number', features.length)}</DialogTitle>
         <DialogContent>
           <p> {notAdded.length
@@ -46,11 +46,11 @@ export default class ConvertDialog extends React.Component {
           {notAdded.length
             ? (
               <DialogActions>
-                <Button onClick={this.submitHandler.bind(this)}>
-                  {i18n('button-submit')}
-                </Button>
                 <Button onClick={onClose}>
                   {i18n('button-cancel')}
+                </Button>
+                <Button id='convert-submit' color='primary' onClick={this.submitHandler.bind(this)}>
+                  {i18n('button-submit')}
                 </Button>
               </DialogActions>
             )
