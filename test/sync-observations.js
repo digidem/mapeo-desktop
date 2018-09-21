@@ -42,7 +42,7 @@ test('sync-observations: discovers wifi device, syncs observation', function (t)
       (err) => setup.endTest(app, t, err || 'error'))
 })
 
-test('sync-observations: view synced observation', function (t) {
+test.skip('sync-observations: view synced observation', function (t) {
   t.timeoutAfter(30e3)
   const app = setup.createApp()
   setup.waitForLoad(app, t)
