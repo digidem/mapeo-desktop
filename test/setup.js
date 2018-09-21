@@ -40,6 +40,8 @@ function waitForLoad (app, t, opts) {
   return app.start().then(function () {
     return app.client.waitUntilWindowLoaded()
   }).then(function () {
+    if (opts.fresh) app.webContents.executeJavaScript('testFresh()')
+  }).then(function () {
     return app.webContents.getTitle()
   }).then(function (title) {
     t.equal(title, 'Mapeo', 'title loaded')
