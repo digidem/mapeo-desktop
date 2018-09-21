@@ -64,7 +64,7 @@ button.big:hover:not([disabled]) {
 #logoutLink,
 #userLink,
 .save-communityLinks,
-.feature-list-pane .search-header,
+.feature-list-pane,
 .request-review,
 .button.social {
   display: none !important;
