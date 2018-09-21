@@ -139,6 +139,7 @@
     "fs-extra": "^0.30.0",
     "hubfs.js": "^1.0.0",
     "hyperquest": "^2.1.3",
+    "mock-data": "^1.5.5",
     "npm-platform-dependencies": "0.0.12",
     "pngjs": "^3.3.3",
     "standard": "^12.0.1",

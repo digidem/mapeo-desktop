@@ -58,7 +58,7 @@ test.skip('sync-observations: view synced observation', function (t) {
 function startMockDevice () {
   device = setup.createMockDevice(config.TEST_DIR_MOCK_DEVICE)
   device.turnOn(function () {
-    device.createMockData(function (err, body) {
+    device.createMockData(1000, function (err, body) {
       if (err) throw err
       device.openSyncScreen()
     })

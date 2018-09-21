@@ -1,4 +1,5 @@
 var concat = require('concat-stream')
+var mock = require('mock-data')
 var hyperquest = require('hyperquest')
 var debug = require('debug')('mapeo-mock-device')
 var path = require('path')
@@ -78,45 +79,71 @@ function closeSyncScreen (cb) {
   hq2.end()
 }
 
-function createMockData (cb) {
+function createMockData (count, cb) {
+  if (!cb) {
+    cb = count
+    count = 1
+  }
+  var bounds = [-78.3155, -3.3493, -74.9871, 0.6275]
+  bounds = bounds.map((b) => b * 100)
+
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
   var fpath = encodeURIComponent(path.join(__dirname, 'image.jpg'))
-  var href = base + '/media?file=' + fpath
 
-  var hq = hyperquest.put(href, {})
-  hq.pipe(concat({ encoding: 'string' }, function (body) {
-    var hq = hyperquest.post(base + '/observations', {
-      headers: { 'content-type': 'application/json' }
+  mock.generate({
+    type: 'integer',
+    count: count,
+    params: { start: bounds[0], end: bounds[2] }
+  }, function (err, lons) {
+    if (err) throw err
+    mock.generate({
+      type: 'integer',
+      count: count,
+      params: { start: bounds[1], end: bounds[3] }
+    }, function (err, lats) {
+      if (err) throw err
+      lons.forEach((lon, i) => {
+        var obs = {
+          type: 'observation',
+          lat: lats[i] / 100,
+          lon: lon / 100,
+          notes: '',
+          observedBy: 'you'
+        }
+        createObservation(obs)
+      })
     })
-    var obj = JSON.parse(body)
+  })
 
-    hq.on('response', function (res) {
-      if (res.statusCode !== 200) cb(new Error('create observation failed', res))
-    })
-
+  function createObservation (obs) {
+    var hq = hyperquest.put(base + '/media?file=' + fpath, {})
     hq.pipe(concat({ encoding: 'string' }, function (body) {
-      debug('created observation', body)
-      if (cb) cb(null, body)
-    }))
+      var hq = hyperquest.post(base + '/observations', {
+        headers: { 'content-type': 'application/json' }
+      })
+      var obj = JSON.parse(body)
 
-    var obs = {
-      type: 'observation',
-      lat: 0.4,
-      lon: 1,
-      notes: '',
-      observedBy: 'you',
-      attachments: [ {
+      hq.on('response', function (res) {
+        if (res.statusCode !== 200) cb(new Error('create observation failed', res))
+      })
+
+      hq.pipe(concat({ encoding: 'string' }, function (body) {
+        debug('created observation', body)
+        if (cb) cb(null, body)
+      }))
+
+      obs.attachments = [{
         id: obj.id,
         type: 'image/jpeg'
       }]
-    }
 
-    hq.end(JSON.stringify(obs))
-  }))
+      hq.end(JSON.stringify(obs))
+    }))
 
-  hq.end()
+    hq.end()
+  }
 }
 
 function shutdown (cb) {
@@ -138,11 +165,10 @@ if (require.main === module) {
 
   device.turnOn(port, function () {
     console.log('listening on port', device.address().port)
-    device.createMockData(function () {
-      console.log('opening sync screen')
-      device.openSyncScreen(function () {
-        console.log('announced')
-      })
+    device.createMockData(1000, function () {
+    })
+    device.openSyncScreen(function () {
+      console.log('announced')
     })
   })
 

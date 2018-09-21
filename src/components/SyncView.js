@@ -4,6 +4,7 @@ import React from 'react'
 import { remote, ipcRenderer } from 'electron'
 import SyncIcon from '@material-ui/icons/Sync'
 import DoneIcon from '@material-ui/icons/Done'
+import ErrorIcon from '@material-ui/icons/Error'
 
 import api from '../api'
 import MapFilter from './MapFilter'
@@ -25,35 +26,6 @@ function LoadingIcon (props) {
   return (<Loading src={src} />)
 }
 
-// turn the messages into strings once
-// so the function isn't called for every row
-// TODO: add message alongside during the sync process, like mobile app
-var messages = {
-  'replication-complete': {
-    icon: DoneIcon,
-    info: i18n('replication-complete')
-  },
-  'replication-data-complete': {
-    icon: DoneIcon,
-    info: i18n('replication-complete')
-  },
-  'replication-started': {
-    icon: LoadingIcon,
-    info: i18n('replication-started')
-  },
-  'replication-progress': {
-    icon: LoadingIcon,
-    info: i18n('replication-progress')
-  },
-  'media-connected': {
-    icon: LoadingIcon,
-    info: i18n('replication-progress')
-  },
-  'osm-connected': {
-    icon: LoadingIcon,
-    info: i18n('replication-progress')
-  }
-}
 
 var Subtitle = styled.div`
   background-color: var(--main-bg-color);
@@ -123,7 +95,7 @@ export default class SyncView extends React.Component {
     var self = this
     if (!target) return
     api.start(target, function (err, body) {
-      if (err) console.error(err)
+      if (err) console.error(err) // TODO handle errors more gracefully
       self.setState({ replicated: true })
     })
   }
@@ -185,11 +157,7 @@ export default class SyncView extends React.Component {
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
           {targets.map(function (t) {
-            var defaultMessage = {
-              icon: SyncIcon,
-              info: i18n(`sync-${t.type}-info`)
-            }
-            var message = messages[t.status] || t.message || defaultMessage
+            var message = getMessage(t)
             return (
               <Target key={t.name} onClick={self.replicate.bind(self, t)}>
                 <div className='target'>
@@ -222,4 +190,48 @@ export default class SyncView extends React.Component {
       </Modal>
     )
   }
+}
+
+// turn the messages into strings once
+// so the function isn't called for every row
+var messages = {
+  'replication-complete': {
+    icon: DoneIcon,
+    info: i18n('replication-complete')
+  },
+  'replication-data-complete': {
+    icon: DoneIcon,
+    info: i18n('replication-complete')
+  },
+  'replication-started': {
+    icon: LoadingIcon,
+    info: i18n('replication-started')
+  },
+  'replication-progress': {
+    icon: LoadingIcon,
+    info: i18n('replication-progress')
+  },
+  'media-connected': {
+    icon: LoadingIcon,
+    info: i18n('replication-progress')
+  },
+  'osm-connected': {
+    icon: LoadingIcon,
+    info: i18n('replication-progress')
+  }
+}
+
+function getMessage (t) {
+  var defaultMessage = {
+    icon: SyncIcon,
+    info: i18n(`sync-${t.type}-info`)
+  }
+  var message = messages[t.status] || defaultMessage
+  if (t.status === 'replication-error') {
+    message = {
+      icon: ErrorIcon,
+      info: t.message
+    }
+  }
+  return message
 }
