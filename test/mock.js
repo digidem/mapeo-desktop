@@ -105,8 +105,11 @@ function createMockData (cb) {
       type: 'observation',
       lat: 0.4,
       lon: 1,
+      notes: '',
+      observedBy: 'you',
       attachments: [ {
-        id: obj.id
+        id: obj.id,
+        type: 'image/jpeg'
       }]
     }
 
