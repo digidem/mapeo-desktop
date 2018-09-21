@@ -26,7 +26,6 @@ function LoadingIcon (props) {
   return (<Loading src={src} />)
 }
 
-
 var Subtitle = styled.div`
   background-color: var(--main-bg-color);
   color: white;
