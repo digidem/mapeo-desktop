@@ -41,6 +41,10 @@ var messages = {
     icon: LoadingIcon,
     info: i18n('replication-started')
   },
+  'replication-progress': {
+    icon: LoadingIcon,
+    info: i18n('replication-progress')
+  },
   'media-connected': {
     icon: LoadingIcon,
     info: i18n('replication-progress')
