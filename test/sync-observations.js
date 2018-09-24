@@ -17,7 +17,7 @@ test('sync-observations: mapfilter opens', function (t) {
       (err) => setup.endTest(app, t, err || 'error'))
 })
 
-test('sync-observations: discovers wifi device, syncs observation', function (t) {
+test.skip('sync-observations: discovers wifi device, syncs many observations', function (t) {
   setup.resetTestDataDir()
   t.timeoutAfter(30e3)
   const app = setup.createApp()
@@ -29,7 +29,7 @@ test('sync-observations: discovers wifi device, syncs observation', function (t)
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-menu-open'))
     .then(() => app.client.click('#menu-option-2')) // sync with.. button
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-open'))
-    .then(() => startMockDevice())
+    .then(() => startMockDevice(1000))
     .then(() => app.client.waitUntilTextExists('.info', 'WiFi'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-discovery'))
     .then(() => app.client.click('.target'))
@@ -42,23 +42,26 @@ test('sync-observations: discovers wifi device, syncs observation', function (t)
       (err) => setup.endTest(app, t, err || 'error'))
 })
 
-test.skip('sync-observations: view synced observation', function (t) {
+test('sync-observations: view synced observation', function (t) {
+  setup.resetTestDataDir()
   t.timeoutAfter(30e3)
   const app = setup.createApp()
   setup.waitForLoad(app, t)
     .then(() => waitTilMap(app))
     .then((err) => t.notOk(err))
     .then(() => setup.wait()) // waiting for auto zoom..
+    .then(() => startMockDevice(0))
     .then(() => setup.wait())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-observation-view'))
+    .then(() => device.shutdown())
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
 })
 
-function startMockDevice () {
+function startMockDevice (count) {
   device = setup.createMockDevice(config.TEST_DIR_MOCK_DEVICE)
   device.turnOn(function () {
-    device.createMockData(1000, function (err, body) {
+    device.createMockData(count, function (err, body) {
       if (err) throw err
       device.openSyncScreen()
     })

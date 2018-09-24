@@ -87,6 +87,15 @@ function createMockData (count, cb) {
   var bounds = [-78.3155, -3.3493, -74.9871, 0.6275]
   bounds = bounds.map((b) => b * 100)
 
+  // create at least one dummy
+  createObservation({
+    lon: bounds[0],
+    lat: bounds[1],
+    notes: '',
+    observedBy: 'you',
+    type: 'observation'
+  })
+
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
