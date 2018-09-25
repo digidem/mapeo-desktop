@@ -87,6 +87,11 @@ function createMockData (count, cb) {
   var bounds = [-78.3155, -3.3493, -74.9871, 0.6275]
   bounds = bounds.map((b) => b * 100)
 
+  var server = this
+  var port = server.address().port
+  var base = `http://localhost:${port}`
+  var fpath = encodeURIComponent(path.join(__dirname, 'image.jpg'))
+
   // create at least one dummy
   createObservation({
     lon: bounds[0],
@@ -95,11 +100,6 @@ function createMockData (count, cb) {
     observedBy: 'you',
     type: 'observation'
   })
-
-  var server = this
-  var port = server.address().port
-  var base = `http://localhost:${port}`
-  var fpath = encodeURIComponent(path.join(__dirname, 'image.jpg'))
 
   mock.generate({
     type: 'integer',
