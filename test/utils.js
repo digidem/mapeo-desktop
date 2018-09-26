@@ -24,4 +24,3 @@ function waitForMapFilter (app) {
 function waitForMapEditor (app) {
   return app.client.waitUntilTextExists('.attribution', 'Feedback & Contribute')
 }
-
