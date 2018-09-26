@@ -3,8 +3,6 @@ import { ipcRenderer } from 'electron'
 import React from 'react'
 
 import _i18n from '../lib/i18n'
-import MapEditor from './MapEditor'
-import SyncView from './SyncView'
 import View from './View'
 
 function i18n (id) {
@@ -26,16 +24,16 @@ export default class Welcome extends React.Component {
 
   presetsButton () {
     ipcRenderer.send('import-example-presets')
-    this.props.changeView(MapEditor)
+    this.props.changeView('MapEditor')
   }
 
   examplesButton () {
     var filename = ipcRenderer.sendSync('get-example-filename')
-    this.props.changeView(MapEditor, { Modal: { component: SyncView, props: { filename } } })
+    this.props.changeView('MapEditor', { Modal: { name: 'SyncView', props: { filename } } })
   }
 
   openMap () {
-    this.props.changeView(MapEditor)
+    this.props.changeView('MapEditor')
   }
 
   render () {

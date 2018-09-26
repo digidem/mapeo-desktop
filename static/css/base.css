@@ -61,6 +61,10 @@ button.big:hover:not([disabled]) {
   background-color: var(--button-hover-bg-color);
 }
 
+#bar {
+  background-color: var(--main-bg-color);
+}
+
 #logoutLink,
 #userLink,
 .save-communityLinks,

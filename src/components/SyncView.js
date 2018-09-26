@@ -7,7 +7,6 @@ import DoneIcon from '@material-ui/icons/Done'
 import ErrorIcon from '@material-ui/icons/Error'
 
 import api from '../api'
-import MapFilter from './MapFilter'
 import Modal from './Modal'
 import Form from './Form'
 import i18n from '../lib/i18n'
@@ -123,7 +122,7 @@ export default class SyncView extends React.Component {
 
   onClose () {
     this.props.onClose()
-    if (this.state.replicated) this.props.changeView(MapFilter)
+    if (this.state.replicated) this.props.changeView('MapFilter')
     ipcRenderer.send('refresh-window')
   }
 

@@ -9,8 +9,9 @@ import differenceBy from 'lodash/differenceBy'
 import url from 'url'
 
 import api from '../api'
+import MenuItems from './MenuItems'
 
-import Sidebar from './Sidebar'
+import MenuItem from '@material-ui/core/MenuItem'
 import ConvertDialog from './ConvertDialog'
 import randomBytes from 'randombytes'
 
@@ -170,9 +171,25 @@ class Home extends React.Component {
     this.setState({ mapPosition })
   }
 
+  onMenuItemClick (view) {
+    if (view.modal) this.props.openModal(view.name)
+    else this.props.changeView(view.name)
+  }
+
   render () {
     const { features, showModal, mapPosition } = this.state
-    const { changeView, openModal } = this.props
+
+    var appBarMenuItems = []
+
+    MenuItems.forEach((view, i) => {
+      if (view.name === 'MapFilter') return
+      appBarMenuItems.push(
+        <MenuItem
+          onClick={this.onMenuItemClick.bind(this, view)}>
+          {view.label}
+        </MenuItem>
+      )
+    })
 
     return (<div>
       <MapFilter
@@ -186,10 +203,7 @@ class Home extends React.Component {
         }}
         datasetName='mapeo'
         resizer={resizer}
-        appBarButtons={[<Sidebar
-          changeView={changeView}
-          openModal={openModal}
-        />]}
+        appBarMenuItems={appBarMenuItems}
         appBarTitle='Mapeo' />
 
       <ConvertDialog
