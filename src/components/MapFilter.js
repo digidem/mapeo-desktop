@@ -8,12 +8,22 @@ import xor from 'lodash/xor'
 import differenceBy from 'lodash/differenceBy'
 import url from 'url'
 
+import MenuItem from '@material-ui/core/MenuItem'
+import randomBytes from 'randombytes'
+
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+
 import api from '../api'
 import MenuItems from './MenuItems'
-
-import MenuItem from '@material-ui/core/MenuItem'
 import ConvertDialog from './ConvertDialog'
-import randomBytes from 'randombytes'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#39527b'
+    }
+  }
+})
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
@@ -192,24 +202,26 @@ class Home extends React.Component {
     })
 
     return (<div>
-      <MapFilter
-        mapStyle={styleUrl}
-        features={features}
-        mapPosition={mapPosition}
-        onChangeMapPosition={this.handleChangeMapPosition.bind(this)}
-        onChangeFeatures={this.handleChangeFeatures}
-        fieldTypes={{
-          notes: FIELD_TYPE_STRING
-        }}
-        datasetName='mapeo'
-        resizer={resizer}
-        appBarMenuItems={appBarMenuItems}
-        appBarTitle='Mapeo' />
+      <MuiThemeProvider theme={theme}>
+        <MapFilter
+          mapStyle={styleUrl}
+          features={features}
+          mapPosition={mapPosition}
+          onChangeMapPosition={this.handleChangeMapPosition.bind(this)}
+          onChangeFeatures={this.handleChangeFeatures}
+          fieldTypes={{
+            notes: FIELD_TYPE_STRING
+          }}
+          datasetName='mapeo'
+          resizer={resizer}
+          appBarMenuItems={appBarMenuItems}
+          appBarTitle='Mapeo' />
 
-      <ConvertDialog
-        open={showModal === 'convert'}
-        onClose={() => { this.setState({ showModal: false }) }}
-        features={features} />
+        <ConvertDialog
+          open={showModal === 'convert'}
+          onClose={() => { this.setState({ showModal: false }) }}
+          features={features} />
+      </MuiThemeProvider>
 
     </div>)
   }
