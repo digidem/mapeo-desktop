@@ -72,7 +72,7 @@ export default class Sidebar extends React.Component {
   }
 
   render () {
-    const { notifications, anchorEl } = this.state
+    const { anchorEl } = this.state
 
     return (<FixedTopMenu>
       <IconButton
@@ -120,4 +120,3 @@ class ExportSidebarItem extends React.Component {
 //     Report Issue
 //   </SidebarItem>
 // </SidebarFooter>
-
