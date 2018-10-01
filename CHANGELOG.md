@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.0
+
+### Breaking Changes
+
+- The new syncfile format created by Mapeo 3.0.0 is not compatible with older
+  versions of Mapeo Desktop. 
+
+### New Features
+
+- **Two-way syncronization with Mapeo Mobile.** You can now export and import a file that will syncronize your media, observations, and places between both Desktop and Mobile. 
+- Switch more easily between the Editor and Filter views with an improved menu 
+
+### Bug Fixes
+
+- Images attached to observations in Mapeo mobile will now display in MapFilter
+- Errors are handled more gracefully during sync
+- Fix print layout in Filter View
+- Improve feature handling in Filter View
+
+### Code Improvements
+
+- Implemented a new integration test harness that automates the workflow of
+  a user.
+
 ## 1.13.1 - 2017-12-02
 ### Fixed
 - GeoJSON export works again
