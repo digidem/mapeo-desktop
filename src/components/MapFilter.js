@@ -207,7 +207,6 @@ class Home extends React.Component {
     </div>)
 
     return (<div>
-<<<<<<< HEAD
       <MuiThemeProvider theme={theme}>
         <MapFilter
           mapStyle={styleUrl}
