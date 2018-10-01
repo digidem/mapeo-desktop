@@ -249,7 +249,11 @@ function observationToFeature (obs, id) {
   })
 
   feature.properties.media = (obs.attachments || []).map(function (a) {
-    return a.id || a // the phone doesn't have id property on it's attachments.
+    var id = a.id || a // the phone doesn't have id property on it's attachments.
+    return {
+      // type: 'image' -- turns on media filtering on the sidebar.
+      value: `${osmServerHost}/media/original/${id}`
+    }
   })
 
   feature.properties.notes = obs.notes || ' '

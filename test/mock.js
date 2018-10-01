@@ -92,6 +92,15 @@ function createMockData (count, cb) {
   var base = `http://localhost:${port}`
   var fpath = encodeURIComponent(path.join(__dirname, 'image.jpg'))
 
+  // create at least one dummy
+  createObservation({
+    lon: bounds[0],
+    lat: bounds[1],
+    notes: '',
+    observedBy: 'you',
+    type: 'observation'
+  })
+
   mock.generate({
     type: 'integer',
     count: count,
