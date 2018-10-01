@@ -55,14 +55,39 @@ test('sync-observations: discovers wifi device, syncs many observations', functi
     .then(() => setup.wait())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-device-shutdown'))
     .then(() => app.client.click('#sync-done'))
+    .then(() => setup.endTest(app, t),
+      (err) => setup.endTest(app, t, err || 'error'))
+})
+
+test('sync-observations: view synced observation', function (t) {
+  t.timeoutAfter(30e3)
+  const app = setup.createApp()
+  setup.waitForLoad(app, t)
     .then(() => waitForMapFilter(app))
     .then((err) => t.notOk(err))
     .then(() => app.client.click('button[role="tab"]:first-of-type + button'))
     .then(() => setup.wait())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-media-view'))
     .then(() => app.client.click('img'))
-    .then(() => app.client.waitUntilTextExists('table', 'Attachment'))
     .then(() => app.client.waitUntilTextExists('table', 'media/original'))
+    .then(() => setup.endTest(app, t),
+      (err) => setup.endTest(app, t, err || 'error'))
+})
+
+test('sync-observations: open convert dialog', function (t) {
+  t.timeoutAfter(30e3)
+  const app = setup.createApp()
+  setup.waitForLoad(app, t)
+    .then(() => waitForMapFilter(app))
+    .then((err) => t.notOk(err))
+    .then(() => app.client.click('#convert-button'))
+    .then(() => app.client.waitUntilTextExists('#convert-dialog', '1 observations'))
+    .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-convert-dialog'))
+    .then(() => app.client.click('#convert-submit'))
+    .then(() => waitForMapFilter(app))
+    .then((err) => t.notOk(err))
+    .then(() => app.client.click('#convert-button'))
+    .then(() => app.client.waitUntilTextExists('#convert-dialog', 'These are all already in the Map Editor'))
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
 })

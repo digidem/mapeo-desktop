@@ -24,7 +24,7 @@ export default class Modal extends React.Component {
     var { open, onClose, title, closeButton } = this.props
     if (typeof closeButton === 'undefined') closeButton = true
     return (
-      <Dialog onClose={onClose} open={open} onKeyDown={this.onKeyDown.bind(this)} onClick={this.onClickModal}>
+      <Dialog onClose={onClose} open={open} onKeyDown={this.onKeyDown.bind(this)} onClick={this.onClickModal} {...this.props}>
         {title && <DialogTitle>{title}</DialogTitle>}
         {this.props.children}
       </Dialog>
