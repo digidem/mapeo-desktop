@@ -154,7 +154,7 @@ class Home extends React.Component {
   }
 
   closeModal () {
-    return () => { this.setState({ showModal: false }) }
+    this.setState({ showModal: false })
   }
 
   getFeatures () {

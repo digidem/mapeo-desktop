@@ -19,11 +19,11 @@ export default class ConvertDialog extends React.Component {
     this.submitHandler = this.submitHandler.bind(this)
   }
 
-  submitHandler (event) {
+  convertFeatures (features) {
     var self = this
     var tasks = []
 
-    this.props.features.forEach(function (feature) {
+    features.forEach(function (feature) {
       var task = (function () {
         return function (cb) {
           api.convert(feature, function (err, resp) {
@@ -43,24 +43,31 @@ export default class ConvertDialog extends React.Component {
       self.props.changeView('MapEditor')
       this.setState({ progress: false })
     })
+  }
 
-    if (event) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
+  submitHandler (event) {
+    var notAdded = this.notAdded()
+    if (notAdded.length) this.convertFeatures(notAdded)
+    event.preventDefault()
+    event.stopPropagation()
+    this.props.onClose()
     return false
+  }
+
+  notAdded () {
+    var features = this.props.features
+    return features.filter(function (f) {
+      return (f.ref === undefined && (f.properties && f.properties.element_id === undefined))
+    })
   }
 
   render () {
     const { open, features, onClose } = this.props
     const { progress } = this.state
 
-    var notAdded = features.filter(function (f) {
-      return (f.ref === undefined && (f.properties && f.properties.element_id === undefined))
-    })
-
     if (!open) return <div />
     var percentage = Math.round((progress / features.length) * 100)
+    var notAdded = this.notAdded()
 
     return (
       <Modal id='convert-dialog' onClose={onClose}>
@@ -80,6 +87,7 @@ export default class ConvertDialog extends React.Component {
                   disabled={Boolean(progress)}
                   id='convert-submit'
                   color='primary'
+                  variant='contained'
                   onClick={this.submitHandler}>
                   {i18n('button-submit')}
                 </Button>
