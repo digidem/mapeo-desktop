@@ -88,5 +88,5 @@
   "convert-button": "Copy to Editor",
   "convert-number": "You have filtered your data to show {count} observations",
   "convert-detail": "{count} of these are not yet in Map Editor. Click OK to move these {count} observations to Map Editor.",
-  "convert-nothing": "You have filtered your data to show {count} observations. These are all already in the Map Editor."
+  "convert-nothing": "These are all already in the Map Editor."
 }
