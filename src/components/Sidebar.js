@@ -1,69 +1,25 @@
 import React from 'react'
-import styled from 'styled-components'
 import { ipcRenderer, shell } from 'electron'
+import styled from 'styled-components'
 
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import i18n from '../lib/i18n'
 import ImportProgressBar from './ImportProgressBar'
 import IndexesBar from './IndexesBar'
-import MapEditor from './MapEditor'
-import MapFilter from './MapFilter'
-import SyncView from './SyncView'
+import MenuItems from './MenuItems'
 
-var SidebarItem = styled.div`
-  font-size: 14px;
-  padding: 5px 20px;
-  color: black;
-  &:hover {
-    background-color: var(--button-hover-bg-color);
-    color: var(--button-hover-color);
-    cursor: pointer;
-  }
-`
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
+import IconButton from '@material-ui/core/IconButton'
 
-var MenuButton = styled.div`
-  font-size: 14px;
-  max-height: 60px;
-  line-height: 40px;
-  text-align: center;
-  font-weight: bold;
-  z-index: var(--visible-z-index);
-  color: black;
-  background-color: white;
-  border-radius: 5px;
-  min-width: 100px;
-  &:hover {
-    background-color: #ececec;
-    color: black;
-    cursor: pointer;
-  }
-  .notification {
-    background-color: var(--main-bg-color);
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    line-height: 15px;
-    color: white;
-    font-size: 10px;
-    position: absolute;
-    margin-left: 5px;
-    top: 5px;
-    right: 15px;
-  }
-`
-
-var SidebarDiv = styled.div`
-  z-index: var(--visible-z-index);
-  position: absolute;
-  padding: 10px 0px;
-  text-align: right;
-  border-radius: 5px;
-  background-color: white;
-  color: black;
-  max-width: 200px;
-  right: 50px;
-  top: 50px;
-  display: none;
-  &.open {
-    display: block;
+var FixedTopMenu = styled.div`
+  top: 0;
+  right: 0;
+  position: fixed;
+  z-index: 30;
+  padding: 5px;
+  button {
+    background-color: white;
   }
 `
 
@@ -71,9 +27,10 @@ export default class Sidebar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      sidebar: false,
+      anchorEl: null,
       notifications: 0
     }
+    this.handleClose = this.handleClose.bind(this)
   }
 
   removeNotification () {
@@ -81,6 +38,7 @@ export default class Sidebar extends React.Component {
       notifications: Math.max(this.state.notifications - 1, 0)
     })
   }
+
   addNotification () {
     this.setState({
       notifications: this.state.notifications + 1
@@ -93,14 +51,18 @@ export default class Sidebar extends React.Component {
   }
 
   onSidebarClick (view) {
-    if (view.modal) this.props.openModal(view.component)
-    else this.props.changeView(view.component)
-    this.setState({ sidebar: false })
+    if (view.modal) this.props.openModal(view.name)
+    else this.props.changeView(view.name)
+    this.handleClose()
   }
 
-  toggleSidebar () {
+  handleClose () {
+    this.setState({ anchorEl: null })
+  }
+
+  toggleSidebar (event) {
     this.setState({
-      sidebar: !this.state.sidebar,
+      anchorEl: event.currentTarget,
       notifications: 0
     })
   }
@@ -110,47 +72,46 @@ export default class Sidebar extends React.Component {
   }
 
   render () {
-    const { notifications, sidebar } = this.state
+    const { anchorEl } = this.state
 
-    var views = [
-      {
-        component: MapEditor,
-        label: 'Map Editor'
-      },
-      {
-        component: MapFilter,
-        label: 'Map Filter'
-      },
-      {
-        component: SyncView,
-        label: 'Sync with...',
-        modal: true
-      }
-    ]
-
-    return (<div>
-      <MenuButton className='menu' onClick={this.toggleSidebar.bind(this)}>
-        Menu {notifications > 0 && <div className='notification'>{notifications}</div>}
-      </MenuButton>
-
-      {<SidebarDiv className={sidebar ? 'open' : ''}>
+    return (<FixedTopMenu>
+      <IconButton
+        aria-owns={anchorEl ? 'simple-menu' : null}
+        aria-haspopup='true'
+        onClick={this.toggleSidebar.bind(this)}>
+        <MoreVertIcon />
+      </IconButton>
+      <Menu id='the-menu' anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
         <ImportProgressBar />
         <IndexesBar />
-        {views.map((view, i) => {
+        <ExportSidebarItem name='GeoJSON' ext='geojson' />
+        <ExportSidebarItem name='ShapeFile' ext='shp' />
+        {MenuItems.map((view, i) => {
           var id = `menu-option-${i}`
+          if (view.name === 'MapEditor') return
           return (
-            <SidebarItem
+            <MenuItem
               id={id}
               key={i}
               onClick={this.onSidebarClick.bind(this, view)}>
               {view.label}
-            </SidebarItem>)
+            </MenuItem>)
         })}
-      </SidebarDiv>
-
-      }
-    </div>
+      </Menu>
+    </FixedTopMenu>
     )
+  }
+}
+
+class ExportSidebarItem extends React.Component {
+  render () {
+    const { name, ext } = this.props
+
+    function onClick () {
+      ipcRenderer.send('export-data', name, ext)
+    }
+    var label = `${i18n('menu-export-data')} ${name}...`
+    return <MenuItem onClick={onClick}>{label}</MenuItem>
   }
 }
 

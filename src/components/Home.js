@@ -1,6 +1,7 @@
 import React from 'react'
 import { ipcRenderer } from 'electron'
 
+import SyncView from './SyncView'
 import LatLonDialog from './LatLonDialog'
 import MapEditor from './MapEditor'
 import MapFilter from './MapFilter'
@@ -17,19 +18,9 @@ export default class Home extends React.Component {
     self.state = {
       Modal: false,
       View: {
-        component: getView(lastView),
+        name: lastView,
+        component: self.getView(lastView),
         props: {}
-      }
-    }
-    function getView (view) {
-      if (!view) return Welcome
-      switch (view) {
-        case 'MapEditor':
-          return MapEditor
-        case 'MapFilter':
-          return MapFilter
-        default:
-          return MapFilter
       }
     }
     var prevhash = localStorage.getItem('location')
@@ -41,12 +32,30 @@ export default class Home extends React.Component {
     })
 
     ipcRenderer.on('open-latlon-dialog', function () {
-      self.openModal(LatLonDialog)
+      self.openModal('LatLonDialog')
     })
   }
 
-  changeView (component, state) {
-    var newState = Object.assign({}, { View: { component } }, state)
+  getView (name) {
+    if (!name) return Welcome
+    switch (name) {
+      case 'MapEditor':
+        return MapEditor
+      case 'MapFilter':
+        return MapFilter
+      case 'SyncView':
+        return SyncView
+      case 'LatLonDialog':
+        return LatLonDialog
+      default:
+        return MapFilter
+    }
+  }
+
+  changeView (name, state) {
+    var component = this.getView(name)
+    var View = { name, component }
+    var newState = Object.assign({}, { View }, state)
     this.setState(newState)
   }
 
@@ -54,14 +63,15 @@ export default class Home extends React.Component {
     this.setState({ Modal: false })
   }
 
-  openModal (component, props) {
+  openModal (name, props) {
     if (!props) props = {}
-    this.setState({ Modal: { component, props } })
+    var component = this.getView(name)
+    this.setState({ Modal: { name, component, props } })
   }
 
   render () {
     const { View, Modal } = this.state
-    localStorage.setItem('lastView', View.component.name)
+    localStorage.setItem('lastView', View.name)
 
     return (
       <div className='full'>

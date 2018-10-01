@@ -17,7 +17,7 @@
   "menu-import-configuration-error": "No pudo importar configuración",
   "menu-import-configuration-error-known": "No pudo importar configuración por un error",
   "menu-export-sync": "Mapeo Sync (.mapeodata)",
-  "menu-export-data": "Exportar como...",
+  "menu-export-data": "Exportar",
   "menu-export-geojson": "GeoJSON (.geojson)",
   "menu-export-shapefile": "Shapefile (.shp, .dbf)",
   "menu-export-data-dialog": "Guardar como..",

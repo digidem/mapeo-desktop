@@ -29,6 +29,7 @@ var TileImporter = require('./src/lib/tile-importer')
 var importer = require('./src/lib/importer')
 var locale = require('./src/lib/locale')
 var i18n = require('./src/lib/i18n')
+var exportData = require('./src/lib/export-data')
 
 if (require('electron-squirrel-startup')) {
   process.exit(0)
@@ -297,6 +298,10 @@ function createMainWindow (done) {
           win.webContents.send('select-file', file)
         }
       }
+    })
+
+    ipc.on('export-data', function (_, name, ext) {
+      exportData.openDialog(app, name, ext)
     })
 
     ipc.on('zoom-to-data-get-centroid', function () {
