@@ -224,6 +224,7 @@ class Home extends React.Component {
 
         <ConvertDialog
           open={showModal === 'convert'}
+          changeView={this.props.changeView}
           onClose={this.closeModal.bind(this)}
           features={features} />
       </MuiThemeProvider>
