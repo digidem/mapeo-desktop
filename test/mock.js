@@ -94,8 +94,8 @@ function createMockData (count, cb) {
 
   // create at least one dummy
   createObservation({
-    lon: bounds[0],
-    lat: bounds[1],
+    lon: bounds[0] / 100,
+    lat: bounds[1] / 100,
     notes: '',
     observedBy: 'you',
     type: 'observation'
@@ -127,6 +127,7 @@ function createMockData (count, cb) {
   })
 
   function createObservation (obs) {
+    if (obs.lat < -90 || obs.lat > 90 || obs.lon < -180 || obs.lon > 180) return console.error('observation has lon/lat out of range:', obs)
     var hq = hyperquest.put(base + '/media?file=' + fpath, {})
     hq.pipe(concat({ encoding: 'string' }, function (body) {
       var hq = hyperquest.post(base + '/observations', {
