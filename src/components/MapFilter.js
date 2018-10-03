@@ -40,6 +40,7 @@ class Home extends React.Component {
       mapStyle: styleUrl
     }
     self.getFeatures()
+    this.handleChangeFeatures = this.handleChangeFeatures.bind(this)
     this.zoomToDataRequest = this.zoomToDataRequest.bind(this)
     this.zoomToDataResponse = this.zoomToDataResponse.bind(this)
     this.zoomToLatLonResponse = this.zoomToLatLonResponse.bind(this)
@@ -89,27 +90,25 @@ class Home extends React.Component {
     }
   }
 
-  handleChangeFeatures () {
-    return (changedFeatures) => {
-      const { features } = this.state
-      const xorFeatures = xor(changedFeatures, features)
-      const deleted = differenceBy(xorFeatures, changedFeatures, 'id')
-      const added = differenceBy(xorFeatures, features, 'id')
-      const updated = xorFeatures.filter(f => {
-        return added.indexOf(f) === -1 &&
-          deleted.indexOf(f) === -1 &&
-          features.indexOf(f) === -1
-      })
+  handleChangeFeatures (changedFeatures) {
+    const { features } = this.state
+    const xorFeatures = xor(changedFeatures, features)
+    const deleted = differenceBy(xorFeatures, changedFeatures, 'id')
+    const added = differenceBy(xorFeatures, features, 'id')
+    const updated = xorFeatures.filter(f => {
+      return added.indexOf(f) === -1 &&
+        deleted.indexOf(f) === -1 &&
+        features.indexOf(f) === -1
+    })
 
-      var cb = function (err, resp) {
-        if (err) return this.handleError(err)
-      }
-
-      deleted.forEach(f => api.del(f, cb))
-      added.forEach(f => this.createObservation(f))
-      updated.forEach(f => this.updateObservation(f))
-      this.setState({ features: changedFeatures })
+    var cb = function (err, resp) {
+      if (err) return this.handleError(err)
     }
+
+    deleted.forEach(f => api.del(f, cb))
+    added.forEach(f => this.createObservation(f))
+    updated.forEach(f => this.updateObservation(f))
+    this.setState({ features: changedFeatures })
   }
 
   updateObservation (f) {
