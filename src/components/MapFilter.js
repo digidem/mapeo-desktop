@@ -192,9 +192,11 @@ class Home extends React.Component {
     var appBarMenuItems = []
 
     MenuItems.forEach((view, i) => {
+      var id = `menu-option-${view.name}`
       if (view.name === 'MapFilter') return
       appBarMenuItems.push(
         <MenuItem
+          id={id}
           onClick={this.onMenuItemClick.bind(this, view)}>
           {view.label}
         </MenuItem>

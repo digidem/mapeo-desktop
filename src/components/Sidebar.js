@@ -78,6 +78,7 @@ export default class Sidebar extends React.Component {
       <IconButton
         aria-owns={anchorEl ? 'simple-menu' : null}
         aria-haspopup='true'
+        title='Menu'
         onClick={this.toggleSidebar.bind(this)}>
         <MoreVertIcon />
       </IconButton>
@@ -87,7 +88,7 @@ export default class Sidebar extends React.Component {
         <ExportSidebarItem name='GeoJSON' ext='geojson' />
         <ExportSidebarItem name='ShapeFile' ext='shp' />
         {MenuItems.map((view, i) => {
-          var id = `menu-option-${i}`
+          var id = `menu-option-${view.name}`
           if (view.name === 'MapEditor') return
           return (
             <MenuItem

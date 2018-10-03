@@ -51,7 +51,7 @@ function turnOn (opts, cb) {
 
 function openSyncScreen (cb) {
   var server = this
-  if (server.interval) return cb()
+  if (server.interval) return cb && cb()
   server.interval = setInterval(function () {
     debug('announcing')
     var port = server.address().port
@@ -66,7 +66,7 @@ function openSyncScreen (cb) {
 
 function closeSyncScreen (cb) {
   var server = this
-  if (!server.interval) return cb()
+  if (!server.interval) return cb && cb()
   clearInterval(server.interval)
   server.interval = undefined
   debug('unannouncing')

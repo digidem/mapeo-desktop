@@ -3,7 +3,6 @@ const test = require('tape')
 const setup = require('./setup')
 const {
   waitForMapFilter,
-  waitForMapEditor,
   startMockDevice
 } = require('./utils')
 
@@ -14,17 +13,15 @@ test('sync-observations: mapfilter opens', function (t) {
   t.timeoutAfter(20e3)
   const app = setup.createApp()
   setup.waitForLoad(app, t)
-    .then(() => app.client.click('.menu'))
+    .then(() => app.client.click('button[title="Menu"]'))
     .then(() => setup.wait())
-    .then(() => app.client.click('#menu-option-0')) // mapeditor.. button
-    .then(() => waitForMapEditor(app))
-    .then((err) => t.notOk(err))
-    .then(() => app.client.click('.menu'))
-    .then(() => setup.wait())
-    .then(() => app.client.click('#menu-option-1')) // mapfilter.. button
+    .then(() => app.client.click('#menu-option-MapFilter'))
     .then(() => waitForMapFilter(app))
     .then(() => setup.wait())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-open'))
+    .then(() => app.client.click('button[title="Menu"]'))
+    .then(() => setup.wait())
+    .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-menu-open'))
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
 })
@@ -34,14 +31,9 @@ test('sync-observations: discovers wifi device, syncs many observations', functi
   t.timeoutAfter(30e3)
   const app = setup.createApp()
   setup.waitForLoad(app, t)
-    .then(() => app.client.click('.menu'))
+    .then(() => app.client.click('button[title="Menu"]'))
     .then(() => setup.wait())
-    .then(() => app.client.click('#menu-option-1')) // mapfilter.. button
-    .then(() => waitForMapFilter(app))
-    .then((err) => t.notOk(err))
-    .then(() => app.client.click('.menu'))
-    .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-menu-open'))
-    .then(() => app.client.click('#menu-option-2')) // sync with.. button
+    .then(() => app.client.click('#menu-option-SyncView'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-open'))
     .then(() => {
       device = startMockDevice(1000)
@@ -60,9 +52,7 @@ test('sync-observations: discovers wifi device, syncs many observations', functi
     .then(() => app.client.click('button[role="tab"]:first-of-type + button'))
     .then(() => setup.wait())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-media-view'))
-    .then(() => app.client.click('img'))
-    .then(() => app.client.waitUntilTextExists('table', 'Attachment'))
-    .then(() => app.client.waitUntilTextExists('table', 'media/original'))
+    // .then(() => app.client.click('img'))
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
 })
