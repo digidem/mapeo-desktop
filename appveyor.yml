@@ -3,7 +3,7 @@
 
 # Test against this version of Node.js
 environment:
-  nodejs_version: "6.2.1"
+  nodejs_version: "8.11.4"
 
 platform:
   - x64
