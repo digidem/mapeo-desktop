@@ -6,6 +6,14 @@ node_js:
 os:
   - osx
 
+addons:
+  apt:
+    packages:
+      - icnsutils
+      - graphicsmagick
+      - xz-utils
+      - xvfb
+
 # TODO: npm@4 was producing broken builds; maybe this works with latest npm?
 before_install:
   - npm install -g npm@3
@@ -14,8 +22,16 @@ script:
   - npm run build
   - npm run rebuild-leveldb
   - npm run lint
+  - npm run test-integration
   - node bin/package_macos.js
   - node bin/create_macos_dmg.js
+
+env:
+  - DISPLAY=":99.0"
+
+install:
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+  - npm install
 
 deploy:
   skip_cleanup: true
