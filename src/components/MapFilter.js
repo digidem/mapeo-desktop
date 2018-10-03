@@ -257,7 +257,7 @@ function observationToFeature (obs, id) {
     }
   })
 
-  feature.properties.notes = obs.notes || ' '
+  if (!feature.properties.notes) feature.properties.notes = ' '
   return feature
 }
 
