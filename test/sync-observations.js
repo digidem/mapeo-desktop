@@ -2,6 +2,7 @@ const test = require('tape')
 
 const setup = require('./setup')
 const {
+  waitForMapEditor,
   waitForMapFilter,
   startMockDevice
 } = require('./utils')
@@ -13,6 +14,16 @@ test('sync-observations: mapfilter opens', function (t) {
   t.timeoutAfter(20e3)
   const app = setup.createApp()
   setup.waitForLoad(app, t)
+    .then(() => waitForMapEditor(app))
+    .then(() => setup.screenshotCreateOrCompare(app, t, 'mapeditor-open'))
+    .then(() => app.client.click('button[title="Menu"]'))
+    .then(() => setup.wait())
+    .then(() => app.client.click('#menu-option-MapFilter'))
+    .then(() => waitForMapFilter(app))
+    .then(() => app.client.click('button[title="Menu"]')) // menu works going back and forth between views.
+    .then(() => setup.wait())
+    .then(() => app.client.click('#menu-option-MapEditor'))
+    .then(() => waitForMapEditor(app))
     .then(() => app.client.click('button[title="Menu"]'))
     .then(() => setup.wait())
     .then(() => app.client.click('#menu-option-MapFilter'))
