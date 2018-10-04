@@ -101,8 +101,10 @@ function createMockData (count, cb) {
   createObservation({
     lon: bounds[0] / 100,
     lat: bounds[1] / 100,
-    notes: '',
-    observedBy: 'you',
+    tags: {
+      notes: '',
+      observedBy: 'you'
+    },
     type: 'observation'
   })
 
@@ -123,8 +125,10 @@ function createMockData (count, cb) {
           type: 'observation',
           lat: lats[i] / 100,
           lon: lon / 100,
-          notes: '',
-          observedBy: 'you'
+          tags: {
+            notes: '',
+            observedBy: 'you'
+          }
         }
         createObservation(obs)
       })
