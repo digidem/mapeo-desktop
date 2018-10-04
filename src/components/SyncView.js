@@ -122,7 +122,6 @@ export default class SyncView extends React.Component {
 
   onClose () {
     this.props.onClose()
-    if (this.state.replicated) this.props.changeView('MapFilter')
     ipcRenderer.send('refresh-window')
   }
 
