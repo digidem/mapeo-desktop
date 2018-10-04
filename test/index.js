@@ -13,4 +13,5 @@ test('app runs', function (t) {
 
   require('./welcome')
   require('./sync-observations')
+  require('./mapfilter-ops')
 })
