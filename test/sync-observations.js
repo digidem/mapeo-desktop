@@ -47,7 +47,7 @@ test('sync-observations: discovers wifi device, syncs many observations', functi
     .then(() => app.client.click('#menu-option-SyncView'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-open'))
     .then(() => {
-      device = startMockDevice(1000)
+      device = startMockDevice(5)
     })
     .then(() => app.client.waitUntilTextExists('.info', 'WiFi'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-discovery'))
