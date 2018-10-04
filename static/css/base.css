@@ -83,6 +83,9 @@ button.big:hover:not([disabled]) {
   line-height: 1.2;
   font-size: 20px;
 }
+#welcome a {
+  color: var(--button-hover-color);
+}
 .action-buttons {
   max-width: 400px;
   display: flex;
