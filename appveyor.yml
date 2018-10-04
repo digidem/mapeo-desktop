@@ -43,8 +43,8 @@ build_script:
   - npm --version
   - npm run build
   - npm run rebuild-leveldb
-  - npm run package-win
-  - npm run installer-win
+  - npm run lint
+  - npm run dist
   - ps: $PACKAGE_VERSION = node -e "require('./package.json').version"
   - ps: $env:RELEASE = "${PACKAGE_NAME}-${PACKAGE_VERSION}"
 
