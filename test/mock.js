@@ -3,6 +3,7 @@ var mock = require('mock-data')
 var hyperquest = require('hyperquest')
 var debug = require('debug')('mapeo-mock-device')
 var path = require('path')
+var crypto = require('crypto')
 var Mapeo = require('mapeo-server')
 var blobstore = require('safe-fs-blob-store')
 var osmdb = require('osm-p2p')
@@ -10,15 +11,19 @@ var http = require('http')
 
 module.exports = createMockDevice
 
-function createMockDevice (dir) {
+function createMockDevice (dir, opts) {
+  if (!opts) opts = { name: crypto.randomBytes(8).toString('hex') }
   var osm = osmdb(path.join(dir, 'osm'))
   var media = blobstore(path.join(dir, 'media'))
-  var mapeo = Mapeo(osm, media)
+  var mapeo = Mapeo(osm, media, opts)
   var server = http.createServer(function (req, res) {
     if (!mapeo.handle(req, res)) {
       res.statusCode = 404
       res.end('404')
     }
+  })
+  server.on('error', function (err) {
+    console.trace(err)
   })
 
   server.mapeo = mapeo
@@ -175,7 +180,7 @@ if (require.main === module) {
 
   device.turnOn(port, function () {
     console.log('listening on port', device.address().port)
-    device.createMockData(1000, function () {
+    device.createMockData(50, function () {
     })
     device.openSyncScreen(function () {
       console.log('announced')
