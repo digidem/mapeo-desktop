@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.2
+
+### Bug fixes
+
+-  Welcome pages are now scrollable and in view when on tiny screens and the
+   links are now colors that match the text
+-  Syncing while on the MapFilter view no longer refreshes the page when
+   finished
+-  When closing the sync modal, the page you were on stays the same
+
+## 3.0.1
+
+### Bug fixes
+
+- Fixed a bug where some fields in an observation in the MapFilter view were
+  not editable.
+
 ## 3.0.0
 
 ### Breaking Changes
