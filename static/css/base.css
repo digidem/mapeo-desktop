@@ -75,10 +75,16 @@ button.big:hover:not([disabled]) {
   display: none;
 }
 
+#welcome {
+  overflow: auto;
+  padding: 0px;
+}
+
 #welcome h1 {
   line-height: 1.4;
   font-size: 30px;
 }
+
 #welcome h2 {
   line-height: 1.2;
   font-size: 20px;
@@ -94,9 +100,15 @@ button.big:hover:not([disabled]) {
 .intro-text {
   width: 60%;
 }
+
 #screen-1 {
   text-align: center;
   margin: auto;
+}
+
+#screen-2,
+#screen-3 {
+  padding-left: 100px;
 }
 #skip-intro {
   position: absolute;
