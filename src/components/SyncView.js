@@ -84,7 +84,8 @@ export default class SyncView extends React.Component {
     super(props)
     this.state = {
       targets: [],
-      replicated: false
+      replicated: false,
+      syncing: false
     }
     this.selectFile = this.selectFile.bind(this)
   }
@@ -92,6 +93,7 @@ export default class SyncView extends React.Component {
   replicate (target) {
     var self = this
     if (!target) return
+    self.setState({ syncing: true })
     api.start(target, function (err, body) {
       if (err) console.error(err) // TODO handle errors more gracefully
       self.setState({ replicated: true })
@@ -142,7 +144,7 @@ export default class SyncView extends React.Component {
 
   render () {
     var self = this
-    var { targets } = this.state
+    var { syncing, targets } = this.state
     if (this.props.filename) this.replicate({ filename: this.props.filename })
     var onClose = this.onClose.bind(this)
 
@@ -166,24 +168,34 @@ export default class SyncView extends React.Component {
             )
           })}
         </TargetsDiv>
-        <Form method='POST'>
-          <input type='hidden' name='source' />
-          <div className='button-group'>
-            <Button onClick={this.selectExisting}>
-              <span id='button-text'>
-                {i18n('sync-database-open-button')}&hellip;
-              </span>
-            </Button>
-            <Button onClick={this.selectNew}>
-              <span id='button-text'>
-                {i18n('sync-database-new-button')}&hellip;
-              </span>
-            </Button>
-            <Button id='sync-done' onClick={onClose}>
-              {i18n('done')}
-            </Button>
-          </div>
-        </Form>
+        { syncing ?
+          <Form method='POST'>
+            <input type='hidden' name='source' />
+            <div className='button-group'>
+              <Button onClick={this.selectExisting}>
+                <span id='button-text'>
+                  {i18n('sync-database-open-button')}&hellip;
+                </span>
+              </Button>
+              <Button onClick={this.selectNew}>
+                <span id='button-text'>
+                  {i18n('sync-database-new-button')}&hellip;
+                </span>
+              </Button>
+              <Button id='sync-done' onClick={onClose}>
+                {i18n('done')}
+              </Button>
+            </div>
+          </Form>
+          :
+          <Form method='POST'>
+            <div className='button-group'>
+              <Button id='sync-done' onClick={onClose}>
+                {i18n('cancel')}
+              </Button>
+            </div>
+          </Form>
+        }
       </Modal>
     )
   }
