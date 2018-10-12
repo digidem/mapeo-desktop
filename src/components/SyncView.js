@@ -54,7 +54,7 @@ var Target = styled.li`
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
-  &:hover {
+  &.clickable:hover {
     background-color: #eee;
     cursor: pointer;
   }
@@ -84,10 +84,12 @@ export default class SyncView extends React.Component {
     super(props)
     this.state = {
       targets: [],
-      replicated: false,
       syncing: false
     }
+    this.cancelling = false
     this.selectFile = this.selectFile.bind(this)
+    this.onClose = this.onClose.bind(this)
+    this.onCancel = this.onCancel.bind(this)
   }
 
   replicate (target) {
@@ -96,7 +98,6 @@ export default class SyncView extends React.Component {
     self.setState({ syncing: true })
     api.start(target, function (err, body) {
       if (err) console.error(err) // TODO handle errors more gracefully
-      self.setState({ replicated: true })
     })
   }
 
@@ -120,6 +121,16 @@ export default class SyncView extends React.Component {
       })
     }, 1000)
     ipcRenderer.on('select-file', this.selectFile)
+  }
+
+  onCancel () {
+    var self = this
+    if (this.cancelling) return
+    this.cancelling = true
+    api.stop(function (err) {
+      if (err) console.error(err)
+      self.props.onClose()
+    })
   }
 
   onClose () {
@@ -146,56 +157,83 @@ export default class SyncView extends React.Component {
     var self = this
     var { syncing, targets } = this.state
     if (this.props.filename) this.replicate({ filename: this.props.filename })
-    var onClose = this.onClose.bind(this)
 
-    return (
-      <Modal closeButton={false} onClose={onClose} title={i18n('sync-database-lead')}>
-        <TargetsDiv id='sync-targets'>
-          { targets.length === 0
-            ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
-            : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
-          }
-          {targets.map(function (t) {
-            var message = getMessage(t)
-            return (
-              <Target key={t.name} onClick={self.replicate.bind(self, t)}>
+    let body = <div />
+
+    var activeTargets = targets.filter(function (t) {
+      var m = getMessage(t)
+      return !m.ready
+    })
+    if (syncing) {
+      var t = activeTargets[0]
+      var message = t && getMessage(t)
+      if (t) {
+        body = (
+          <div>
+            <TargetsDiv id='sync-targets'>
+              <Target key={t.name}>
                 <div className='target'>
                   <span className='name'>{t.name}</span>
                   <span className='info'>{message.info}</span>
                 </div>
                 <div className='icon'><message.icon /></div>
               </Target>
-            )
-          })}
-        </TargetsDiv>
-        { syncing ?
-          <Form method='POST'>
+            </TargetsDiv>
+            {t.status === 'replication-complete' &&
+            <Form method='POST' className='modal-group'>
+              <div className='modal-full-size'>
+                <Button id='sync-done' onClick={self.onClose}>
+                  {i18n('button-submit')}
+                </Button>
+              </div>
+            </Form>
+            }
+          </div>
+        )
+      }
+    } else {
+      body = (
+        <div>
+          <TargetsDiv id='sync-targets'>
+            { targets.length === 0
+              ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+              : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
+            }
+            {targets.map(function (t) {
+              var message = getMessage(t)
+              return (
+                <Target className='clickable' key={t.name} onClick={self.replicate.bind(self, t)}>
+                  <div className='target'>
+                    <span className='name'>{t.name}</span>
+                    <span className='info'>{message.info}</span>
+                  </div>
+                  <div className='icon'><message.icon /></div>
+                </Target>
+              )
+            })}
+          </TargetsDiv>
+          <Form method='POST' className='modal-group'>
             <input type='hidden' name='source' />
-            <div className='button-group'>
+            <div>
               <Button onClick={this.selectExisting}>
-                <span id='button-text'>
-                  {i18n('sync-database-open-button')}&hellip;
-                </span>
+                {i18n('sync-database-open-button')}&hellip;
               </Button>
               <Button onClick={this.selectNew}>
-                <span id='button-text'>
-                  {i18n('sync-database-new-button')}&hellip;
-                </span>
+                {i18n('sync-database-new-button')}&hellip;
               </Button>
-              <Button id='sync-done' onClick={onClose}>
+              <Button id='sync-done' onClick={self.onClose}>
                 {i18n('done')}
               </Button>
             </div>
           </Form>
-          :
-          <Form method='POST'>
-            <div className='button-group'>
-              <Button id='sync-done' onClick={onClose}>
-                {i18n('cancel')}
-              </Button>
-            </div>
-          </Form>
-        }
+        </div>
+      )
+    }
+
+    return (
+      <Modal closeButton={false}
+        disableBackdropClick>
+        {body}
       </Modal>
     )
   }
@@ -233,7 +271,8 @@ var messages = {
 function getMessage (t) {
   var defaultMessage = {
     icon: SyncIcon,
-    info: i18n(`sync-${t.type}-info`)
+    info: i18n(`sync-${t.type}-info`),
+    ready: true
   }
   var message = messages[t.status] || defaultMessage
   if (t.status === 'replication-error') {
