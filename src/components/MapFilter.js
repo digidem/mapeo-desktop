@@ -121,7 +121,7 @@ class Home extends React.Component {
     const newObs = Object.assign({}, obs)
 
     // TODO: media is currently not updated, but it will be in the future
-    const WHITELIST = ['fields', 'media']
+    const WHITELIST = ['fields', 'media', 'created_at']
     Object.keys(f.properties || {}).forEach(function (key) {
       if (WHITELIST.indexOf(key) > -1) return
       newObs.tags[key] = f.properties[key]
@@ -259,6 +259,8 @@ function observationToFeature (obs, id) {
       value: `${osmServerHost}/media/original/${id}`
     }
   })
+
+  feature.properties.created_at = obs.created_at
 
   if (!feature.properties.notes) feature.properties.notes = ' '
   return feature
