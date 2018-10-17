@@ -17,6 +17,7 @@ var semver = require('semver')
 var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
 var MediaStore = require('safe-fs-blob-store')
+var isDev = require('electron-is-dev')
 
 var menuTemplate = require('./src/menu')
 var createServer = require('./src/server.js')
@@ -33,6 +34,17 @@ var exportData = require('./src/lib/export-data')
 
 if (require('electron-squirrel-startup')) {
   process.exit(0)
+}
+
+if (isDev) {
+  var {
+    default: installExtension,
+    REACT_DEVELOPER_TOOLS,
+    REDUX_DEVTOOLS
+  } = require('electron-devtools-installer')
+  installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err))
 }
 
 // HACK: enable GPU graphics acceleration on some older laptops
