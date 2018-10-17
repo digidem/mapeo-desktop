@@ -29,6 +29,10 @@ const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
 const styleUrl = `${osmServerHost}/styles/mapfilter-style/style.json`
 
+const fieldTypes = {
+  notes: FIELD_TYPE_STRING
+}
+
 class Home extends React.Component {
   constructor (props) {
     super(props)
@@ -41,6 +45,7 @@ class Home extends React.Component {
     }
     self.getFeatures()
     this.handleChangeFeatures = this.handleChangeFeatures.bind(this)
+    this.handleChangeMapPosition = this.handleChangeMapPosition.bind(this)
     this.zoomToDataRequest = this.zoomToDataRequest.bind(this)
     this.zoomToDataResponse = this.zoomToDataResponse.bind(this)
     this.zoomToLatLonResponse = this.zoomToLatLonResponse.bind(this)
@@ -208,11 +213,9 @@ class Home extends React.Component {
           mapStyle={styleUrl}
           features={features}
           mapPosition={mapPosition}
-          onChangeMapPosition={this.handleChangeMapPosition.bind(this)}
+          onChangeMapPosition={this.handleChangeMapPosition}
           onChangeFeatures={this.handleChangeFeatures}
-          fieldTypes={{
-            notes: FIELD_TYPE_STRING
-          }}
+          fieldTypes={fieldTypes}
           datasetName='mapeo'
           resizer={resizer}
           appBarMenuItems={appBarMenuItems}
