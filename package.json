@@ -101,7 +101,7 @@
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-intl": "^2.4.0",
-    "react-mapfilter": "^1.2.2",
+    "react-mapfilter": "^1.2.4",
     "rimraf": "^2.5.2",
     "run-series": "^1.1.4",
     "safe-fs-blob-store": "^1.0.0",
