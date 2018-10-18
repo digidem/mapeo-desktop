@@ -41,9 +41,10 @@
     "osm-p2p"
   ],
   "contributors": [
-    "substack",
     "Gregor MacLennan <gmaclennan@digital-democracy.org>",
-    "noffle"
+    "karissa",
+    "noffle",
+    "substack"
   ],
   "license": "MIT",
   "bugs": {
