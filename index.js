@@ -306,6 +306,7 @@ function createMainWindow (done) {
 
     ipc.on('zoom-to-data-get-centroid', function () {
       getGlobalDatasetCentroid(function (_, loc) {
+        if (!loc) return
         win.webContents.send('zoom-to-data-response', loc)
       })
     })
@@ -324,6 +325,7 @@ function createMainWindow (done) {
     win.webContents.once('did-finish-load', function () {
       win.webContents.send('indexes-loading')
       app.osm.ready(function () {
+        log('indexes READY')
         win.webContents.send('indexes-ready')
       })
     })
@@ -363,6 +365,7 @@ function handleUncaughtExceptions () {
 function getGlobalDatasetCentroid (done) {
   app.osm.stats.getMapCenter(function (err, center) {
     if (err) return log('ERROR(getGlobalDatasetCentroid):', err)
+    if (!center) return done(null, null)
     console.log('center', center)
     done(null, [center.lon, center.lat])
   })
