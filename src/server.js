@@ -4,11 +4,11 @@ var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
 var http = require('http')
 
-module.exports = function (osm, media) {
+module.exports = function (osm, media, opts) {
+  if (!opts) opts = {}
   var osmrouter = osmserver(osm)
-  var staticRoot = path.dirname(require.resolve('mapeo-styles'))
   var mapeo = mapeoserver(osm, media, {
-    staticRoot,
+    staticRoot: opts.staticRoot,
     writeFormat: 'osm-p2p-syncfile'
   })
 

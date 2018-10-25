@@ -17,6 +17,7 @@ var semver = require('semver')
 var rimraf = require('rimraf')
 var copyFileSync = require('fs-copy-file-sync')
 var MediaStore = require('safe-fs-blob-store')
+var styles = require('mapeo-styles')
 
 var menuTemplate = require('./src/menu')
 var createServer = require('./src/server.js')
@@ -87,6 +88,9 @@ series([
 
   initOsmDb,
   startupMsg('Initialized osm-p2p'),
+
+  unpackStyles,
+  startupMsg('Unpacked styles if necessary'),
 
   createServers,
   startupMsg('Started osm and tile servers'),
@@ -160,8 +164,15 @@ function versionCheckIndexes (done) {
   }
 }
 
+function unpackStyles (done) {
+  styles.unpackIfNew(userDataPath, function (err) {
+    if (err) done(err)
+    else done()
+  })
+}
+
 function createServers (done) {
-  app.server = createServer(app.osm, app.media)
+  app.server = createServer(app.osm, app.media, { staticRoot: userDataPath })
 
   var pending = 2
 
