@@ -16,7 +16,7 @@ function installStatsIndex (osm) {
         var binId = nodeToBinId(node)
         idb.get('bin/' + binId, function (err, num) {
           if (err && err.notFound) num = 0
-          else if (err) return done(err)
+          else if (err) return next(err)
           num = Number(num) + 1
           idb.put('bin/' + binId, num, next)
         })
