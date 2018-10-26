@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.1
+
+### Bug Fixes
+- Typo: change a misnamed function
+
+## 3.1.0
+
+### New Features
+- Users can now override mapfilter styles by importing into the user data folder under `styles/mapftiler-style`
+
+## 3.0.6
+
+### Cleanup
+- Remove unused appDmg dependency
+
+## 3.0.5
+
+### New Features
+- Zoom to Data is now more accurate: now it zooms to the location with the most data, rather than the middle of the dataset, using a low-resolution node density tilemap 
+
+### Bug Fixes
+- Update to the lastest Map Filter with latest fixes
+
+## 3.0.4
+
+### Bug Fixes
+- Remove electron-devtools-installer
+
+## 3.0.3
+
+### Bug Fixes
+- Fix map zooming bug in Map Filter view
+- Properly display timestamp of when a point was created
+- Update to the lastest Map Filter with latest fixes
 ## 3.0.2
 
 ### Bug fixes
