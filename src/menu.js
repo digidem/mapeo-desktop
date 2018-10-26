@@ -1,4 +1,7 @@
 var dialog = require('electron').dialog
+var path = require('path')
+var fs = require('fs')
+var pump = require('pump')
 
 var userConfig = require('./lib/user-config')
 var exportData = require('./lib/export-data')
@@ -9,6 +12,35 @@ module.exports = function (app) {
     {
       label: i18n('menu-file'),
       submenu: [
+        {
+          label: i18n('menu-import-mapbox-style'),
+          click: function (item, focusedWindow) {
+            dialog.showOpenDialog({
+              title: i18n('menu-import-mapbox-style'),
+              filters: [{ name: 'Mapbox Style' }],
+              properties: ['openFile']
+            }, function (filenames) {
+              if (!filenames) return
+              var readStream = fs.createReadStream(filenames[0])
+              var userDataPath = app.getPath('userData')
+              var writeStream = fs.createWriteStream(path.join(userDataPath, 'styles', 'mapfilter-style'))
+              pump(readStream, writeStream, cb)
+              function cb (err) {
+                if (err) {
+                  dialog.showErrorBox(
+                    i18n('menu-import-error'),
+                    i18n('menu-import-error-known') + ': ' + err
+                  )
+                } else {
+                  dialog.showMessageBox({
+                    message: i18n('menu-import-data-success'),
+                    buttons: ['OK']
+                  })
+                }
+              }
+            })
+          }
+        },
         {
           label: i18n('menu-import-tiles'),
           click: function (item, focusedWindow) {

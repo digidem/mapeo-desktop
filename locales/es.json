@@ -9,6 +9,7 @@
   "menu-file": "Archivo",
   "menu-change-language": "Cambiar idioma...",
   "menu-change-language-title": "Ingrese el idioma (e.g., 'en' or 'es')",
+  "menu-import-mapbox-style": "Importar Estilo de Mapbox...",
   "menu-import-tiles": "Importar Offline Map Tiles...",
   "menu-import-tiles-error": "No pudo importar archivo",
   "menu-import-tiles-error-known": "No pudo importar archivo por un error",
