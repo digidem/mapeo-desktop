@@ -30,7 +30,7 @@ function installStatsIndex (osm) {
   osm.stats = {
     getMapCenter: function (cb) {
       idx.ready(function () {
-        var rs = idb.createReadStream({gt: 'bin/!', lt: 'bin/~'})
+        var rs = idb.createReadStream({ gt: 'bin/!', lt: 'bin/~' })
         var mostDense = null
         rs.on('data', function (entry) {
           if (mostDense === null || Number(entry.value) > Number(mostDense.value)) {
@@ -66,4 +66,3 @@ function binIdToLatLon (binId) {
     lon: lon
   }
 }
-
