@@ -31,7 +31,7 @@ export default class LatLonDialog extends React.Component {
 
   render () {
     return (
-      <Dialog open={true} onClose={this.props.onClose}>
+      <Dialog open onClose={this.props.onClose}>
         <DialogTitle>{i18n('dialog-enter-latlon-coordinates')}</DialogTitle>
         <DialogContent>
           <FormControl>

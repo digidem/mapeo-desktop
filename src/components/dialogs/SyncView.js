@@ -223,7 +223,7 @@ export default class SyncView extends React.Component {
     }
 
     return (
-      <Dialog onClose={this.onClose} closeButton={false} open={true} disableBackdropClick>
+      <Dialog onClose={this.onClose} closeButton={false} open disableBackdropClick>
         {body}
       </Dialog>
     )
