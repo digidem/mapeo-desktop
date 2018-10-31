@@ -333,7 +333,7 @@ function createMainWindow (done) {
     var menu = Menu.buildFromTemplate(menuTemplate(app))
     Menu.setApplicationMenu(menu)
 
-    ipc.on('check-indexes', function () {
+    win.webContents.once('did-finish-load', function () {
       win.webContents.send('indexes-loading')
       app.osm.ready(function () {
         log('indexes READY')
