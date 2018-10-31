@@ -7,10 +7,10 @@ import SyncIcon from '@material-ui/icons/Sync'
 import DoneIcon from '@material-ui/icons/Done'
 import ErrorIcon from '@material-ui/icons/Error'
 
-import api from '../api'
+import api from '../../api'
+import Form from '../Form'
+import i18n from '../../lib/i18n'
 import Modal from './Modal'
-import Form from './Form'
-import i18n from '../lib/i18n'
 
 function LoadingIcon (props) {
   return <CircularProgress />
@@ -223,6 +223,7 @@ export default class SyncView extends React.Component {
 
     return (
       <Modal closeButton={false}
+        onClose={this.onClose}
         disableBackdropClick>
         {body}
       </Modal>

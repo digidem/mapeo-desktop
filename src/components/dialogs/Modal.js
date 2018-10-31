@@ -5,7 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 export default class Modal extends React.Component {
   onKeyDown (event) {
     if (event.key === 'Enter') {
-      this.submitHandler()
+      if (this.props.submitHandler) this.props.submitHandler()
     }
     if (event.key === 'Escape') {
       this.props.onClose()

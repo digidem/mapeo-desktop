@@ -4,8 +4,6 @@ import styled from 'styled-components'
 
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import i18n from '../lib/i18n'
-import ImportProgressBar from './ImportProgressBar'
-import IndexesBar from './IndexesBar'
 import MenuItems from './MenuItems'
 
 import MenuItem from '@material-ui/core/MenuItem'
@@ -27,27 +25,9 @@ export default class Sidebar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      anchorEl: null,
-      notifications: 0
+      anchorEl: null
     }
     this.handleClose = this.handleClose.bind(this)
-  }
-
-  removeNotification () {
-    this.setState({
-      notifications: Math.max(this.state.notifications - 1, 0)
-    })
-  }
-
-  addNotification () {
-    this.setState({
-      notifications: this.state.notifications + 1
-    })
-  }
-
-  componentDidMount () {
-    ipcRenderer.on('indexes-loading', this.addNotification.bind(this))
-    ipcRenderer.on('indexes-ready', this.removeNotification.bind(this))
   }
 
   onSidebarClick (view) {
@@ -62,8 +42,7 @@ export default class Sidebar extends React.Component {
 
   toggleSidebar (event) {
     this.setState({
-      anchorEl: event.currentTarget,
-      notifications: 0
+      anchorEl: event.currentTarget
     })
   }
 
@@ -83,8 +62,6 @@ export default class Sidebar extends React.Component {
         <MoreVertIcon />
       </IconButton>
       <Menu id='the-menu' anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
-        <ImportProgressBar />
-        <IndexesBar />
         <ExportSidebarItem name='GeoJSON' ext='geojson' />
         <ExportSidebarItem name='ShapeFile' ext='shp' />
         {MenuItems.map((view, i) => {

@@ -5,9 +5,9 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { ipcRenderer } from 'electron'
 
-import api from '../api'
+import api from '../../api'
+import i18n from '../../lib/i18n'
 import Modal from './Modal'
-import i18n from '../lib/i18n'
 
 export default class ConvertDialog extends React.Component {
   submitHandler (event) {
