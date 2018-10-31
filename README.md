@@ -86,35 +86,23 @@ Mapeo uses [Electron](http://electron.atom.io/). To package the Electron app as
 a native Windows `.exe` or macOS `.dmg`, execute
 
 ```
-$ npm run installer-win
+$ npm run pack
 ```
 or
 ```
-$ npm run dmg-mac
+$ npm run dist
 ```
 
 The resultant installer or DMG will be placed in the `./dist` folder.
 
-# Creating a Release
+### Deploy workflow
 
-Mapeo uses [GitHub Releases](https://help.github.com/articles/about-releases/)
-for deployment.
+1. Create a draft release on github, e.g. `vX.Y.Z`
+1. Change `version` field in `package.json` to `X.Y.Z`
+1. Commit and push modified `package.json` (repeat until release is ready)
+1. Once done, publish the release on github, which will create the tag
 
-To create a release, simply push a git tag to the repository. A convenient way
-to both advance the project by a version *and* push a tag is using the `npm
-version` command. To create a new minor version and push it to the github
-repository to initiate a build, one might run
-
-```
-$ npm version minor
-
-$ git push --tags
-```
-
-A github release will be created automatically. Simultaneously, an
-[Appveyor](appveyor.yml) build will be started to create a Windows installer,
-and a [Travis](.travis.yml) build will be started for a macOS DMG. Each will be
-added to the github release asynchronously as they complete.
+Also see https://www.electron.build/configuration/publish
 
 You'll be able to find the results on the project's [releases](../../releases/) page.
 
