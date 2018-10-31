@@ -1,13 +1,13 @@
 import React from 'react'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { ipcRenderer } from 'electron'
 
 import api from '../../api'
 import i18n from '../../lib/i18n'
-import Modal from './Modal'
 
 export default class ConvertDialog extends React.Component {
   submitHandler (event) {
@@ -35,9 +35,8 @@ export default class ConvertDialog extends React.Component {
       return (f.ref === undefined && (f.properties && f.properties.element_id === undefined))
     })
 
-    if (!open) return <div />
     return (
-      <Modal onClose={onClose}>
+      <Dialog open={open} onClose={onClose}>
         <DialogTitle>{i18n('convert-number', features.length)}</DialogTitle>
         <DialogContent>
           <p> {notAdded.length
@@ -58,7 +57,7 @@ export default class ConvertDialog extends React.Component {
             : <div />
           }
         </DialogContent>
-      </Modal>
+      </Dialog>
     )
   }
 }
