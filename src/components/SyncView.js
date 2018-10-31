@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import React from 'react'
-import { remote, ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import SyncIcon from '@material-ui/icons/Sync'
 import DoneIcon from '@material-ui/icons/Done'
 import ErrorIcon from '@material-ui/icons/Error'
@@ -11,18 +12,8 @@ import Modal from './Modal'
 import Form from './Form'
 import i18n from '../lib/i18n'
 
-const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
-
-const Loading = styled.img`
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  font-size: 24px;
-`
-
 function LoadingIcon (props) {
-  var src = `${osmServerHost}/static/spinner.png`
-  return (<Loading src={src} />)
+  return <CircularProgress />
 }
 
 var Subtitle = styled.div`
