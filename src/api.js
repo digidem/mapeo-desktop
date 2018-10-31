@@ -5,6 +5,7 @@ import querystring from 'querystring'
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
 module.exports = {
+  stop,
   unannounce,
   announce,
   getTargets,
@@ -51,6 +52,17 @@ function getTargets (cb) {
     } catch (err) {
       return cb(err)
     }
+  })
+}
+
+function stop (target, cb) {
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/stop`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    cb(null, body)
   })
 }
 

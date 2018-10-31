@@ -20,9 +20,19 @@ body {
   overflow: hidden;
 }
 
-.button-group {
+.modal-padding {
   padding: 10px;
+  background-color: --main-bg-color;
 }
+
+.modal-full-size button {
+  /* cause material-ui hates me. REFACTOR */
+  padding: 0px !important;
+  margin: 0px;
+  margin-left: 0px !important;
+  width: 100%;
+}
+
 .right {
   text-align: right;
 }
