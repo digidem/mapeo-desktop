@@ -63,6 +63,7 @@ var Target = styled.li`
     font-style: italic;
   }
   .icon {
+    padding-left: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
