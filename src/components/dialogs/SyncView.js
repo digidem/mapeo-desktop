@@ -6,11 +6,11 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import SyncIcon from '@material-ui/icons/Sync'
 import DoneIcon from '@material-ui/icons/Done'
 import ErrorIcon from '@material-ui/icons/Error'
+import Dialog from '@material-ui/core/Dialog'
 
-import api from '../api'
-import Modal from './Modal'
-import Form from './Form'
-import i18n from '../lib/i18n'
+import api from '../../api'
+import Form from '../Form'
+import i18n from '../../lib/i18n'
 
 function LoadingIcon (props) {
   return <CircularProgress />
@@ -63,6 +63,7 @@ var Target = styled.li`
     font-style: italic;
   }
   .icon {
+    padding-left: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -222,10 +223,9 @@ export default class SyncView extends React.Component {
     }
 
     return (
-      <Modal closeButton={false}
-        disableBackdropClick>
+      <Dialog onClose={this.onClose} closeButton={false} open disableBackdropClick>
         {body}
-      </Modal>
+      </Dialog>
     )
   }
 }

@@ -1,8 +1,10 @@
 import React from 'react'
 import { ipcRenderer } from 'electron'
 
-import SyncView from './SyncView'
-import LatLonDialog from './LatLonDialog'
+import ImportProgress from './dialogs/ImportProgress'
+import Indexes from './dialogs/Indexes'
+import SyncView from './dialogs/SyncView'
+import LatLonDialog from './dialogs/LatLon'
 import MapEditor from './MapEditor'
 import MapFilter from './MapFilter'
 import Welcome from './Welcome'
@@ -73,8 +75,13 @@ export default class Home extends React.Component {
     const { View, Modal } = this.state
     localStorage.setItem('lastView', View.name)
 
+    // import progress and indexes are handled differently because they
+    // will block further action with the app until the operation is
+    // complete
     return (
       <div className='full'>
+        <ImportProgress />
+        <Indexes />
         {Modal && <Modal.component
           onClose={this.closeModal.bind(this)}
           changeView={this.changeView.bind(this)}
