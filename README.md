@@ -116,4 +116,4 @@ See [downloading tiles for offline use](docs/offline_tiles.md).
 
 # License
 
-MIT
+GPLv3
