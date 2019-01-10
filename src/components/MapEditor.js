@@ -65,7 +65,12 @@ export default class MapEditor extends React.Component {
   }
 
   refreshWindow () {
-    if (this.id) this.id.flush()
+    if (this.id) {
+      var history = this.id.history()
+      var saved = history.toJSON()
+      this.id.flush()
+      history.fromJSON(saved)
+    }
   }
 
   componentDidMount () {
