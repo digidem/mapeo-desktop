@@ -5,28 +5,24 @@ node_js:
 
 os:
   - osx
+  - linux
 
-# TODO: npm@4 was producing broken builds; maybe this works with latest npm?
-before_install:
-  - npm install -g npm@3
+install:
+  - npm install
 
 script:
-  - npm run build
+  - npm rebuild
   - npm run rebuild-leveldb
-  - npm run lint
-  - node bin/package_macos.js
-  - node bin/create_macos_dmg.js
+  - npm run build
+  - npm run dist
 
 deploy:
+  provider: script
+  script: npm run dist
+  on:
+    all_branches: true
   skip_cleanup: true
-  provider: releases  # github releases
   file_glob: true
   file: "dist/Mapeo-darwin-x64/Installar_Mapeo*.dmg"
-  on:
-    tags: true
-    repo: digidem/mapeo-desktop
   api_key:
     secure: drFLl3ufKFIUyAdGDDtW8ddpEb75JydIpWobEMnIg+BlbsqdBree3AhuqkBJbO/gnyqs3XQp3tCMmsgCSj2hDVCNW0hsJ+lTzdLM0xpc85IRIYCAMf+x/4H2qIziwqNtxNI44Zuz2wVpwRmAC65mr8MqMsXqxe9ZO2udNdx/ofpkngvczHbcoYl2mhgmQPwtpV/YfVOWVtxTM0qF9zgfNdfRv/+tV44mU66ibXEgV3Lefco4TvmgAdlehwzD+tL36Idg1J4jgbnm+GK9iyhN3MO5RnUTT3mVK4gy2ovE/s3+tLSm98XdAo5+7NyqR8PwnLbuUHSpMX84jlp8vJ+vL2NvedQtCACu1LDB5pzc+vM7rf7K4B5N48VC8RYfMUUb/qtCylWd8QdqwSuSpxPV1beuWZOi7dwf03UAPjRhqGg+ATNisiyT8GnkhEg+z6AAV+dWz/dT1I6EbeotIOciy0HJ1wdCWbBve68W2aaDUSRsEOURi1YE/TYLZt77swjBHUbOrpz/udFp/Q93NH+RYlkh52VrCJ7K2KuLMLCSwsuR1IyK1e8kSCXZplph9YbZJzkk2D9hwV6SJX9vw+vmKBqz2gb02JNDmGxHVnvTZFw5U+1dzWAlMyqC+cqOBY0C668BFDJPZ/uJWDqoU+2FU0dLXx2XY7UBoup5pJUdFdw=
-
-after_deploy:
-  - node bin/release_latest.js
