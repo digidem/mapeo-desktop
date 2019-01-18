@@ -8,14 +8,12 @@ var app = electron.app
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow
 
-var os = require('os')
 var level = require('level')
 var sublevel = require('subleveldown')
 var osmdb = require('osm-p2p')
 var series = require('run-series')
 var semver = require('semver')
 var rimraf = require('rimraf')
-var copyFileSync = require('fs-copy-file-sync')
 var MediaStore = require('safe-fs-blob-store')
 var styles = require('mapeo-styles')
 
