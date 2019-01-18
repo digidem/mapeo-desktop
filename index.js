@@ -250,16 +250,8 @@ function createMainWindow (done) {
       app.translations = locale.load(lang)
     })
 
-    ipc.on('get-example-filename', function (ev) {
-      var tmpdir = os.tmpdir()
-      var example = path.join(__dirname, 'examples', 'arapaho.sync')
-      var dst = path.join(tmpdir, 'arapaho.sync')
-      copyFileSync(example, dst)
-      ev.returnValue = dst
-    })
-
     ipc.on('import-example-presets', function (ev) {
-      var filename = path.join(__dirname, 'examples', 'settings-jungle-v1.0.0.mapeosettings')
+      var filename = path.join(__dirname, 'static', 'settings-jungle-v1.0.0.mapeosettings')
       userConfig.importSettings(win, filename, function (err) {
         if (err) return log(err)
         log('Example presets imported from ' + filename)
