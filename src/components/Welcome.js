@@ -27,11 +27,6 @@ export default class Welcome extends React.Component {
     this.props.changeView('MapEditor')
   }
 
-  examplesButton () {
-    var filename = ipcRenderer.sendSync('get-example-filename')
-    this.props.changeView('MapEditor', { Modal: { name: 'SyncView', props: { filename } } })
-  }
-
   openMap () {
     this.props.changeView('MapEditor')
   }
