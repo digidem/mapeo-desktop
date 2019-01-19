@@ -160,7 +160,7 @@
   "build": {
     "appId": "org.digital-democracy.mapeo-desktop",
     "productName": "Mapeo",
-    "artifactName": "Installar_Mapeo_v${version}_${platform}.${ext}",
+    "artifactName": "Installar_Mapeo_v${version}_${os}.${ext}",
     "mac": {
       "category": "public.app-category.utilities"
     },
