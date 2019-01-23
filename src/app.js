@@ -17,7 +17,7 @@ const App = () => (
 ReactDOM.render(<App />, document.getElementById('root'))
 
 let localStorage = window.localStorage
-window.testFresh = function () {
+window.testMode = function () {
   console.log('Test mode, clearing cache')
   localStorage.removeItem('lastView')
   localStorage.removeItem('location')

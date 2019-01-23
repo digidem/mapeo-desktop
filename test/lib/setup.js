@@ -28,7 +28,7 @@ module.exports = {
 function createApp (t) {
   return new Application({
     path: electronPath,
-    args: [path.join(__dirname, '..'), '--datadir', config.TEST_DIR_MAPEO],
+    args: [path.join(__dirname, '..', '..'), '--datadir', config.TEST_DIR_MAPEO],
     env: { NODE_ENV: 'test' },
     waitTimeout: 10e3
   })
@@ -40,7 +40,7 @@ function waitForLoad (app, t, opts) {
   return app.start().then(function () {
     return app.client.waitUntilWindowLoaded()
   }).then(function () {
-    if (opts.fresh) app.webContents.executeJavaScript('testFresh()')
+    if (opts.test) return app.webContents.executeJavaScript('testMode()')
   }).then(function () {
     return app.webContents.getTitle()
   }).then(function (title) {
@@ -67,7 +67,7 @@ function endTest (app, t, err) {
 // If we already have a reference under test/screenshots, assert that they're the same
 // Otherwise, create the reference screenshot: test/screenshots/<platform>/<name>.png
 function screenshotCreateOrCompare (app, t, name) {
-  const ssDir = path.join(__dirname, 'screenshots', process.platform)
+  const ssDir = path.join(__dirname, '..', 'screenshots', process.platform)
   const ssPath = path.join(ssDir, name + '.png')
   let ssBuf
 

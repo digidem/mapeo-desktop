@@ -1,11 +1,11 @@
 const test = require('tape')
 
-const setup = require('./setup')
+const setup = require('../lib/setup')
 const {
   waitForMapEditor,
   waitForMapFilter,
   startMockDevice
-} = require('./utils')
+} = require('../lib/utils')
 
 let device
 
@@ -52,12 +52,11 @@ test('sync-observations: discovers wifi device, syncs many observations', functi
     .then(() => app.client.click('.target'))
     .then(() => app.client.waitUntilTextExists('.info', 'completed'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-complete'))
-    .then(() => device.shutdown())
-    .then(() => setup.wait())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-device-shutdown'))
     .then(() => app.client.click('#sync-done'))
     .then(() => waitForMapFilter(app))
     .then((err) => t.notOk(err))
+    .then(() => device.shutdown())
     .then(() => app.client.click('button[role="tab"]:first-of-type + button'))
     .then(() => setup.wait())
     .then(() => app.client.click('img'))

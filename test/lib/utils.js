@@ -19,8 +19,9 @@ function startMockDevice (count) {
 }
 
 function waitForMapFilter (app) {
-  return app.client.waitUntilTextExists('.mapboxgl-ctrl-attrib', 'OpenStreetMap')
+  return app.client.waitUntilTextExists('.mapboxgl-ctrl-attrib', 'OpenStreetMap', 1000)
 }
+
 function waitForMapEditor (app) {
-  return app.client.waitUntilTextExists('.attribution', 'Feedback & Contribute')
+  return app.client.waitUntilTextExists('.attribution', 'Feedback & Contribute', 1000)
 }

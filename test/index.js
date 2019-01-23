@@ -1,5 +1,5 @@
 const test = require('tape')
-const setup = require('./setup')
+const setup = require('./lib/setup')
 
 test.onFinish(setup.deleteTestDataDir)
 
@@ -7,11 +7,12 @@ test('app runs', function (t) {
   t.timeoutAfter(10e3)
   setup.resetTestDataDir()
   const app = setup.createApp()
-  setup.waitForLoad(app, t, { fresh: true })
+  setup.waitForLoad(app, t, { test: true })
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
 
-  require('./welcome')
-  require('./sync-observations')
-  require('./mapfilter-ops')
+  require('./tests/welcome')
+  require('./tests/presets')
+  require('./tests/sync-observations')
+  require('./tests/mapfilter-ops')
 })

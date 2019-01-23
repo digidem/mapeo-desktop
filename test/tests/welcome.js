@@ -1,11 +1,9 @@
 const test = require('tape')
+const setup = require('../lib/setup')
 
-const setup = require('./setup')
-const { waitForMapEditor } = require('./utils')
-
-test('welcome: presets open map', function (t) {
-  setup.resetTestDataDir()
+test('welcome: open map and load forest presets', function (t) {
   t.timeoutAfter(20e3)
+  setup.resetTestDataDir()
   const app = setup.createApp()
   setup.waitForLoad(app, t)
     .then(() => setup.wait())
@@ -17,7 +15,6 @@ test('welcome: presets open map', function (t) {
     .then(() => setup.wait())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'welcome-screen-3'))
     .then(() => app.client.click('#use-presets'))
-    .then(() => waitForMapEditor(app))
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
 })

@@ -13,6 +13,7 @@ install:
 script:
   - npm rebuild
   - npm run rebuild-leveldb
+  - npm run lint
   - npm run build
   - npm run dist
 
