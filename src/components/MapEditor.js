@@ -69,7 +69,7 @@ export default class MapEditor extends React.Component {
       var history = this.id.history()
       var saved = history.toJSON()
       this.id.flush()
-      history.fromJSON(saved)
+      if (saved) history.fromJSON(saved)
     }
   }
 
