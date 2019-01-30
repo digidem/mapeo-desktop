@@ -7,10 +7,8 @@ os:
   - osx
   - linux
 
-install:
-  - npm install
-
 script:
+  - npm install
   - npm rebuild
   - npm run rebuild-leveldb
   - npm run lint
