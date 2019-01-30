@@ -15,7 +15,17 @@ script:
   - npm run rebuild-leveldb
   - npm run lint
   - npm run build
+  - npm run test-integration
   - npm run dist
+
+addons:
+  apt:
+    packages:
+      - xvfb
+
+install:
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1600x900x24 > /dev/null 2>&1 &
 
 deploy:
   provider: script
