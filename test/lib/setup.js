@@ -26,12 +26,15 @@ module.exports = {
 // Returns a promise that resolves to a Spectron Application once the app has loaded.
 // Takes a Tape test. Makes some basic assertions to verify that the app loaded correctly.
 function createApp (t) {
-  return new Application({
+  var fakeDialog = require('spectron-fake-dialog')
+  var app = new Application({
     path: electronPath,
     args: [path.join(__dirname, '..', '..'), '--datadir', config.TEST_DIR_MAPEO],
     env: { NODE_ENV: 'test' },
     waitTimeout: 10e3
   })
+  fakeDialog.apply(app)
+  return app
 }
 
 // Starts the app, waits for it to load, returns a promise
@@ -67,6 +70,7 @@ function endTest (app, t, err) {
 // If we already have a reference under test/screenshots, assert that they're the same
 // Otherwise, create the reference screenshot: test/screenshots/<platform>/<name>.png
 function screenshotCreateOrCompare (app, t, name) {
+  if (process.env.TEST_SCREENSHOTS === 'false') return t.ok('skipping screenshot test', name)
   const ssDir = path.join(__dirname, '..', 'screenshots', process.platform)
   const ssPath = path.join(ssDir, name + '.png')
   let ssBuf

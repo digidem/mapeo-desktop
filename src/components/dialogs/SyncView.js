@@ -207,10 +207,10 @@ export default class SyncView extends React.Component {
           <Form method='POST' className='modal-group'>
             <input type='hidden' name='source' />
             <div>
-              <Button onClick={this.selectExisting}>
+              <Button id='sync-open' onClick={this.selectExisting}>
                 {i18n('sync-database-open-button')}&hellip;
               </Button>
-              <Button onClick={this.selectNew}>
+              <Button id='sync-new' onClick={this.selectNew}>
                 {i18n('sync-database-new-button')}&hellip;
               </Button>
               <Button id='sync-done' onClick={self.onClose}>

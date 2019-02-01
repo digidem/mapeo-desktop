@@ -13,6 +13,6 @@ test('app runs', function (t) {
 
   require('./tests/welcome')
   require('./tests/presets')
-  require('./tests/sync-observations')
+  require('./tests/sync')
   require('./tests/mapfilter-ops')
 })

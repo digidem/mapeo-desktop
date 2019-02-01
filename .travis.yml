@@ -7,6 +7,9 @@ os:
   - osx
   - linux
 
+env: 
+  TEST_SCREENSHOTS=false
+
 script:
   - npm rebuild
   - npm run rebuild-leveldb
