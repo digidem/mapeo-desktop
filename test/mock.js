@@ -9,6 +9,8 @@ var blobstore = require('safe-fs-blob-store')
 var osmdb = require('osm-p2p')
 var http = require('http')
 
+const MOCK_DATA = 700
+
 module.exports = createMockDevice
 
 function createMockDevice (dir, opts) {
@@ -95,7 +97,7 @@ function createMockData (count, cb) {
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
-  var fpath = encodeURIComponent(path.join(__dirname, 'image.jpg'))
+  var fpath = encodeURIComponent(path.join(__dirname, 'hi-res.jpg'))
 
   // create at least one dummy
   createObservation({
@@ -184,7 +186,7 @@ if (require.main === module) {
 
   device.turnOn(port, function () {
     console.log('listening on port', device.address().port)
-    device.createMockData(50, function () {
+    device.createMockData(MOCK_DATA, function () {
     })
     device.openSyncScreen(function () {
       console.log('announced')
