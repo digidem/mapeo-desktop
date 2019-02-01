@@ -21,9 +21,11 @@ addons:
     packages:
       - xvfb
 
-install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1600x900x24 > /dev/null 2>&1 &
+services:
+  - xvfb
+
+before_install:
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
 
 deploy:
   provider: script
