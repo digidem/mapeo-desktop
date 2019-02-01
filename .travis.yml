@@ -15,7 +15,7 @@ script:
   - npm run rebuild-leveldb
   - npm run lint
   - npm run build
-  - npm run test-integration
+  - TEST_SCREENSHOTS=false npm run test-integration
   - npm run dist
 
 addons:
