@@ -27,9 +27,12 @@ module.exports = {
 // Takes a Tape test. Makes some basic assertions to verify that the app loaded correctly.
 function createApp (t) {
   var fakeDialog = require('spectron-fake-dialog')
+  var mapeoPath = path.join(__dirname, '..', '..')
+  if (process.env.TEST_EXECUTABLE) mapeoPath = process.env.TEST_EXECUTABLE
+
   var app = new Application({
     path: electronPath,
-    args: [path.join(__dirname, '..', '..'), '--datadir', config.TEST_DIR_MAPEO],
+    args: [mapeoPath, '--datadir', config.TEST_DIR_MAPEO],
     env: { NODE_ENV: 'test' },
     waitTimeout: 10e3
   })
