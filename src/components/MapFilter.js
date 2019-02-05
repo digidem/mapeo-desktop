@@ -16,7 +16,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import api from '../api'
 import MenuItems from './MenuItems'
 import ConvertButton from './ConvertButton'
-import ConvertDialog from './dialogs/ConvertDialog'
+import ConvertDialog from './dialogs/Convert'
 
 const theme = createMuiTheme({
   palette: {
