@@ -7,14 +7,25 @@ os:
   - osx
   - linux
 
-install:
-  - npm install
+env: 
+  TEST_SCREENSHOTS=false
 
 script:
   - npm rebuild
   - npm run rebuild-leveldb
+  - npm run lint
   - npm run build
   - npm run dist
+
+addons:
+  apt:
+    packages:
+      - xvfb
+
+install:
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1280x1024x16 > /dev/null 2>&1 &
+  - npm install
 
 deploy:
   provider: script
