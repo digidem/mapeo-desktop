@@ -58,6 +58,14 @@ test('sync-observations: discovers wifi device, syncs many observations', functi
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-complete'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-sync-device-shutdown'))
     .then(() => app.client.click('#sync-done'))
+    .then(() => setup.endTest(app, t),
+      (err) => setup.endTest(app, t, err || 'error'))
+})
+
+test('sync-observations: view synced observation', function (t) {
+  t.timeoutAfter(30e3)
+  const app = setup.createApp()
+  setup.waitForLoad(app, t)
     .then(() => waitForMapFilter(app))
     .then((err) => t.notOk(err))
     .then(() => device.shutdown())
@@ -101,6 +109,24 @@ test('sync-file: load syncfile', function (t) {
     .then(() => app.client.waitUntilTextExists('.info', 'completed'))
     .then(() => app.client.click('#sync-done'))
     .then(() => waitForMapFilter(app))
+    .then(() => setup.endTest(app, t),
+      (err) => setup.endTest(app, t, err || 'error'))
+})
+
+test('sync-observations: open convert dialog', function (t) {
+  t.timeoutAfter(30e3)
+  const app = setup.createApp()
+  setup.waitForLoad(app, t)
+    .then(() => waitForMapFilter(app))
+    .then((err) => t.notOk(err))
+    .then(() => app.client.click('#convert-button'))
+    .then(() => app.client.waitUntilTextExists('#convert-dialog', '1 observations'))
+    .then(() => setup.screenshotCreateOrCompare(app, t, 'mapfilter-convert-dialog'))
+    .then(() => app.client.click('#convert-submit'))
+    .then(() => waitForMapFilter(app))
+    .then((err) => t.notOk(err))
+    .then(() => app.client.click('#convert-button'))
+    .then(() => app.client.waitUntilTextExists('#convert-dialog', 'These are all already in the Map Editor'))
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
 })

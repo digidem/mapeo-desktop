@@ -15,6 +15,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import api from '../api'
 import MenuItems from './MenuItems'
+import ConvertButton from './ConvertButton'
 import ConvertDialog from './dialogs/Convert'
 
 const theme = createMuiTheme({
@@ -90,9 +91,7 @@ class Home extends React.Component {
   }
 
   handleConvertFeaturesClick () {
-    return () => {
-      this.setState({ showModal: 'convert' })
-    }
+    this.setState({ showModal: 'convert' })
   }
 
   handleChangeFeatures (changedFeatures) {
@@ -159,7 +158,7 @@ class Home extends React.Component {
   }
 
   closeModal () {
-    return () => { this.setState({ showModal: false }) }
+    this.setState({ showModal: false })
   }
 
   getFeatures () {
@@ -207,6 +206,12 @@ class Home extends React.Component {
       )
     })
 
+    const appBarTitle = (<div>
+      <ConvertButton
+        features={features}
+        onClick={this.handleConvertFeaturesClick.bind(this)} />
+    </div>)
+
     return (<div>
       <MuiThemeProvider theme={theme}>
         <MapFilter
@@ -219,11 +224,12 @@ class Home extends React.Component {
           datasetName='mapeo'
           resizer={resizer}
           appBarMenuItems={appBarMenuItems}
-          appBarTitle='Mapeo' />
+          appBarTitle={appBarTitle} />
 
         <ConvertDialog
           open={showModal === 'convert'}
-          onClose={() => { this.setState({ showModal: false }) }}
+          changeView={this.props.changeView}
+          onClose={this.closeModal.bind(this)}
           features={features} />
       </MuiThemeProvider>
 
