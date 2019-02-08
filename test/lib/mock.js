@@ -97,7 +97,7 @@ function createMockData (count, cb) {
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
-  var fpath = encodeURIComponent(path.join(__dirname, 'hi-res.jpg'))
+  var fpath = encodeURIComponent(path.join(__dirname, '..', 'hi-res.jpg'))
 
   // create at least one dummy
   createObservation({
