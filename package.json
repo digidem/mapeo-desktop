@@ -174,7 +174,7 @@
     },
     "dmg": {
       "icon": "build/mapeo_installer.icns",
-      "title": "{productName} v{version}",
+      "title": "${productName} v${version}",
       "contents": [
         {
           "x": 438,
