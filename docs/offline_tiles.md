@@ -75,9 +75,9 @@ Copy the folder of tiles into a folder named `tiles` in Mapeo's folder in your
 application directory. Note that on Windows Settings & Data (Subfolder `Roaming`) is seperated from the application (Subfolder `local`).
 By default this is
 
-- `%APPDATA%\Roaming` on Windows
-- `$XDG_CONFIG_HOME` or `~/.config` on Linux
-- `~/Library/Application Support` on macOS
+-  **Windows**: `C:\Users\Username\Appdata\Roaming\Mapeo` (`%APPDATA%\Roaming`)
+-  **Linux**: `/home/username/.config/Mapeo` (`$XDG_CONFIG_HOME` or `~/.config`)
+-  **MacOS**:`/Users/Username/Library/Application Support` 
 
 The app folder will be `Electron` if you are in development, or `Mapeo` if you
 are working with the packaged app.
