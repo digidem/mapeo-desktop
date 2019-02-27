@@ -1,5 +1,4 @@
 var concat = require('concat-stream')
-var mock = require('mock-data')
 var hyperquest = require('hyperquest')
 var debug = require('debug')('mapeo-mock-device')
 var path = require('path')
@@ -8,8 +7,9 @@ var Mapeo = require('mapeo-server')
 var blobstore = require('safe-fs-blob-store')
 var osmdb = require('osm-p2p')
 var http = require('http')
+var generateObservations = require('./generateObservations')
 
-const MOCK_DATA = 5
+const MOCK_DATA = 500
 
 module.exports = createMockDevice
 
@@ -97,7 +97,7 @@ function createMockData (count, cb) {
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
-  var fpath = encodeURIComponent(path.join(__dirname, '..', 'hi-res.jpg'))
+  var fpath = encodeURIComponent(path.join(__dirname, 'hi-res.jpg'))
 
   // create at least one dummy
   createObservation({
@@ -110,31 +110,9 @@ function createMockData (count, cb) {
     type: 'observation'
   })
 
-  mock.generate({
-    type: 'integer',
-    count: count,
-    params: { start: bounds[0], end: bounds[2] }
-  }, function (err, lons) {
+  generateObservations(count, bounds, function (err, obs) {
     if (err) throw err
-    mock.generate({
-      type: 'integer',
-      count: count,
-      params: { start: bounds[1], end: bounds[3] }
-    }, function (err, lats) {
-      if (err) throw err
-      lons.forEach((lon, i) => {
-        var obs = {
-          type: 'observation',
-          lat: lats[i] / 100,
-          lon: lon / 100,
-          tags: {
-            notes: '',
-            observedBy: 'you'
-          }
-        }
-        createObservation(obs)
-      })
-    })
+    createObservation(obs)
   })
 
   function createObservation (obs) {
