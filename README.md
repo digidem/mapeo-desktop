@@ -53,6 +53,15 @@ $ npm run device
 This runs a mock testing device that will broadcast itself on the local
 network. This device saves it's data in tests/test-data.
 
+### Run headless server
+
+
+To run mapeo-desktop's server headlessly, run
+
+```
+$ npm run server /path/to/Mapeo/data
+```
+
 
 ### Run integration tests
 
