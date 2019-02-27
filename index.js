@@ -10,13 +10,12 @@ var BrowserWindow = electron.BrowserWindow
 
 var level = require('level')
 var sublevel = require('subleveldown')
-var osmdb = require('osm-p2p')
 var series = require('run-series')
 var semver = require('semver')
 var rimraf = require('rimraf')
-var MediaStore = require('safe-fs-blob-store')
 var styles = require('mapeo-styles')
 
+var getCore = require('./db')
 var menuTemplate = require('./src/menu')
 var createServer = require('./src/server.js')
 var createTileServer = require('./src/tile-server.js')
@@ -101,13 +100,12 @@ series([
 })
 
 function initOsmDb (done) {
-  var osm = osmdb(argv.datadir)
   log('loading datadir', argv.datadir)
-  installStatsIndex(osm)
-  var media = MediaStore(path.join(argv.datadir, 'media'))
-  app.osm = osm
-  app.media = media
-  app.importer = importer(osm)
+  var core = getCore(argv.datadir)
+  installStatsIndex(core.osm)
+  app.osm = core.osm
+  app.media = core.media
+  app.importer = importer(core.osm)
   app.tiles = TileImporter(userDataPath)
 
   log('preparing osm indexes..')

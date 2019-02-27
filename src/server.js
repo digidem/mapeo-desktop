@@ -30,3 +30,4 @@ module.exports = function (osm, media, opts) {
   server.mapeo = mapeo
   return server
 }
+

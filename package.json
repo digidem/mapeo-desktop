@@ -23,7 +23,7 @@
     "device": "rimraf \"test/lib/test-data\" && DEBUG=* node test/lib/mock.js",
     "watch": "webpack --watch",
     "start": "electron . --disable-http-cache",
-    "server": "node index.js --headless",
+    "server": "node src/cli.js",
     "dev": "electron . --debug --disable-http-cache",
     "postinstall": "electron-builder install-app-deps && npmpd",
     "rebuild-leveldb": "cd node_modules/leveldown && cross-env HOME=~/.electron-gyp node-gyp rebuild --target=2.0.7 --runtime=electron --arch=x64 --dist-url=https://atom.io/download/atom-shell",
