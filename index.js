@@ -81,6 +81,9 @@ function startupMsg (txt) {
 
 // The app startup sequence
 series([
+  createUserDataPath,
+  startupMsg('Ensured user data path exists'),
+
   versionCheckIndexes,
   startupMsg('Checked indexes version is up-to-date'),
 
@@ -99,6 +102,13 @@ series([
   if (err) log('STARTUP FAILED', err)
   else log('STARTUP success!')
 })
+
+function createUserDataPath (done) {
+  fs.access(userDataPath, (err) => {
+    if (err) fs.mkdir(userDataPath, done)
+    else done()
+  })
+}
 
 function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
