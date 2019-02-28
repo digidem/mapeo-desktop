@@ -112,10 +112,9 @@
     "tar-fs": "^1.16.0",
     "through2": "^2.0.3",
     "to2": "^1.0.0",
-    "spectron-fake-dialog": "0.0.1",
     "traverse": "^0.6.6",
     "websocket-stream": "^3.1.0",
-    "xhr": "^2.2.0",
+    "xhr": "^2.5.0",
     "xtend": "^4.0.1"
   },
   "darwinDependencies": {

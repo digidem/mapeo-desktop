@@ -13,6 +13,7 @@ import randomBytes from 'randombytes'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
+import xhr from 'xhr'
 import api from '../api'
 import MenuItems from './MenuItems'
 import ConvertButton from './ConvertButton'
@@ -28,7 +29,8 @@ const theme = createMuiTheme({
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
-const styleUrl = `${osmServerHost}/styles/mapfilter-style/style.json`
+const customStyleUrl = `${osmServerHost}/styles/mapfilter-style/style.json`
+const defaultStyleUrl = `${osmServerHost}/static/style.json`
 
 const fieldTypes = {
   notes: FIELD_TYPE_STRING
@@ -42,7 +44,7 @@ class Home extends React.Component {
       features: [],
       mapPosition: { center: [0, 0], zoom: 0 },
       showModal: false,
-      mapStyle: styleUrl
+      mapStyle: null
     }
     self.getFeatures()
     this.handleChangeFeatures = this.handleChangeFeatures.bind(this)
@@ -140,6 +142,13 @@ class Home extends React.Component {
     })
   }
 
+  componentDidMount () {
+    xhr(customStyleUrl, (err, resp, body) => {
+      if (err || resp.statusCode !== 200) this.setState({ mapStyle: defaultStyleUrl })
+      else this.setState({ mapStyle: customStyleUrl })
+    })
+  }
+
   createObservation (f, cb) {
     const newObs = {
       id: f.id || randomBytes(8).toString('hex'),
@@ -190,7 +199,7 @@ class Home extends React.Component {
   }
 
   render () {
-    const { features, showModal, mapPosition } = this.state
+    const { features, showModal, mapPosition, mapStyle } = this.state
 
     var appBarMenuItems = []
 
@@ -215,7 +224,7 @@ class Home extends React.Component {
     return (<div>
       <MuiThemeProvider theme={theme}>
         <MapFilter
-          mapStyle={styleUrl}
+          mapStyle={mapStyle}
           features={features}
           mapPosition={mapPosition}
           onChangeMapPosition={this.handleChangeMapPosition}
