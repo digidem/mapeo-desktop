@@ -85,15 +85,17 @@ export default class MapEditor extends React.Component {
       .minEditableZoom(14)
 
     this.id.version = pkg.version
-    this.customDefs = this.id.container()
-      .append('svg')
-      .style('position', 'absolute')
-      .style('width', '0px')
-      .style('height', '0px')
-      .attr('id', 'custom-defs')
-      .append('defs')
+    if (!this.customDefs) {
+      this.customDefs = this.id.container()
+        .append('svg')
+        .style('position', 'absolute')
+        .style('width', '0px')
+        .style('height', '0px')
+        .attr('id', 'custom-defs')
+        .append('defs')
 
-    this.customDefs.append('svg')
+      this.customDefs.append('svg')
+    }
 
     this.id.ui()(document.getElementById('container'), function onLoad () {
       var links = document.querySelectorAll('a[href^="http"]')
