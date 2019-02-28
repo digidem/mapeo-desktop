@@ -1,5 +1,5 @@
 const test = require('tape')
-const setup = require('../lib/setup')
+const setup = require('./lib/setup')
 
 test('welcome: open map and load forest presets', function (t) {
   t.timeoutAfter(20e3)

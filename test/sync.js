@@ -2,13 +2,13 @@ const fakeDialog = require('spectron-fake-dialog')
 const path = require('path')
 const test = require('tape')
 
-const config = require('../lib/config')
-const setup = require('../lib/setup')
+const config = require('./lib/config')
+const setup = require('./lib/setup')
 const {
   waitForMapEditor,
   waitForMapFilter,
   startMockDevice
-} = require('../lib/utils')
+} = require('./lib/utils')
 
 const testFile = path.join(config.TEST_DIR_DOWNLOAD, 'test.mapeo-jungle')
 let device

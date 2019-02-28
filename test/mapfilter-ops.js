@@ -1,9 +1,9 @@
 const test = require('tape')
 
-const setup = require('../lib/setup')
+const setup = require('./lib/setup')
 const {
   waitForMapFilter
-} = require('../lib/utils')
+} = require('./lib/utils')
 
 test('mapfilter-ops: edit feature opens in mapfilter', function (t) {
   t.timeoutAfter(20e3)

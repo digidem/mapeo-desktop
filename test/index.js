@@ -11,8 +11,8 @@ test('app runs', function (t) {
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
 
-  require('./tests/welcome')
-  require('./tests/presets')
-  require('./tests/sync')
-  require('./tests/mapfilter-ops')
+  require('./welcome')
+  require('./presets')
+  require('./sync')
+  require('./mapfilter-ops')
 })

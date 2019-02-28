@@ -1,6 +1,6 @@
 const test = require('tape')
-const setup = require('../lib/setup')
-const utils = require('../lib/utils')
+const setup = require('./lib/setup')
+const utils = require('./lib/utils')
 
 test('presets: create a point with a preset', function (t) {
   setup.resetTestDataDir()
