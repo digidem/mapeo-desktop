@@ -79,6 +79,11 @@ function startupMsg (txt) {
   }
 }
 
+startupMsg('Unpacking Styles')
+styles.unpackIfNew(userDataPath, function (err) {
+  log('[ERROR] while unpacking styles:', err)
+})
+
 // The app startup sequence
 series([
   versionCheckIndexes,
@@ -86,9 +91,6 @@ series([
 
   initOsmDb,
   startupMsg('Initialized osm-p2p'),
-
-  unpackStyles,
-  startupMsg('Unpacked styles if necessary'),
 
   createServers,
   startupMsg('Started osm and tile servers'),
@@ -160,13 +162,6 @@ function versionCheckIndexes (done) {
       idxDb.close.bind(idxDb)
     ], fin)
   }
-}
-
-function unpackStyles (done) {
-  styles.unpackIfNew(userDataPath, function (err) {
-    if (err) done(err)
-    else done()
-  })
 }
 
 function createServers (done) {
