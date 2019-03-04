@@ -210,7 +210,11 @@ function createMainWindow (done) {
 
     var INDEX = 'file://' + path.resolve(__dirname, './index.html')
     if (!win) {
-      win = new BrowserWindow({ title: APP_NAME, show: false })
+      win = new BrowserWindow({
+        title: APP_NAME,
+        show: false,
+        icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png')
+      })
       win.once('ready-to-show', () => win.show())
       if (IS_TEST) win.setSize(1000, 800, false)
       else win.maximize()
