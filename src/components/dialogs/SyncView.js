@@ -150,7 +150,40 @@ export default class SyncView extends React.Component {
     var { syncing, targets } = this.state
     if (this.props.filename) this.replicate({ filename: this.props.filename })
 
-    let body = <div />
+    let body = <div>
+      <TargetsDiv id='sync-targets'>
+        { targets.length === 0
+          ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+          : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
+        }
+        {targets.map(function (t) {
+          var message = getMessage(t)
+          return (
+            <Target className='clickable' key={t.name} onClick={self.replicate.bind(self, t)}>
+              <div className='target'>
+                <span className='name'>{t.name}</span>
+                <span className='info'>{message.info}</span>
+              </div>
+              <div className='icon'><message.icon /></div>
+            </Target>
+          )
+        })}
+      </TargetsDiv>
+      <Form method='POST' className='modal-group'>
+        <input type='hidden' name='source' />
+        <div>
+          <Button id='sync-open' onClick={this.selectExisting}>
+            {i18n('sync-database-open-button')}&hellip;
+          </Button>
+          <Button id='sync-new' onClick={this.selectNew}>
+            {i18n('sync-database-new-button')}&hellip;
+          </Button>
+          <Button id='sync-done' onClick={self.onClose}>
+            {i18n('done')}
+          </Button>
+        </div>
+      </Form>
+    </div>
 
     var activeTargets = targets.filter(function (t) {
       var m = getMessage(t)
@@ -183,43 +216,6 @@ export default class SyncView extends React.Component {
           </div>
         )
       }
-    } else {
-      body = (
-        <div>
-          <TargetsDiv id='sync-targets'>
-            { targets.length === 0
-              ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
-              : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
-            }
-            {targets.map(function (t) {
-              var message = getMessage(t)
-              return (
-                <Target className='clickable' key={t.name} onClick={self.replicate.bind(self, t)}>
-                  <div className='target'>
-                    <span className='name'>{t.name}</span>
-                    <span className='info'>{message.info}</span>
-                  </div>
-                  <div className='icon'><message.icon /></div>
-                </Target>
-              )
-            })}
-          </TargetsDiv>
-          <Form method='POST' className='modal-group'>
-            <input type='hidden' name='source' />
-            <div>
-              <Button id='sync-open' onClick={this.selectExisting}>
-                {i18n('sync-database-open-button')}&hellip;
-              </Button>
-              <Button id='sync-new' onClick={this.selectNew}>
-                {i18n('sync-database-new-button')}&hellip;
-              </Button>
-              <Button id='sync-done' onClick={self.onClose}>
-                {i18n('done')}
-              </Button>
-            </div>
-          </Form>
-        </div>
-      )
     }
 
     return (
