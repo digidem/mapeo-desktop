@@ -38,7 +38,7 @@ export default class MapEditor extends React.Component {
     ipcRenderer.on('change-language-request', self.changeLanguageRequest)
     ipcRenderer.on('refresh-window', self.refreshWindow)
     ipcRenderer.on('updated-settings', function () {
-      self.updateSettings()
+      window.location.reload()
     })
   }
 
