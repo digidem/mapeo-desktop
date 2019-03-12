@@ -125,6 +125,8 @@ export default class MapEditor extends React.Component {
       self.updateSettings()
     })
 
+    setTimeout(() => this.refreshWindow(), 1000)
+
     window.onbeforeunload = function () { self.id.save() }
   }
 
