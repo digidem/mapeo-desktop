@@ -27,6 +27,7 @@ export default class MapEditor extends React.Component {
   constructor (props) {
     super(props)
     var self = this
+    this.iDContainer = React.createRef()
     this.refreshWindow = this.refreshWindow.bind(this)
     this.zoomToDataRequest = this.zoomToDataRequest.bind(this)
     this.zoomToDataResponse = this.zoomToDataResponse.bind(this)
@@ -59,7 +60,7 @@ export default class MapEditor extends React.Component {
             openModal={this.props.openModal}
           />
         </Overlay>
-        <div id='container' />
+        <div ref={this.iDContainer} />
       </div>
     )
   }
@@ -75,7 +76,6 @@ export default class MapEditor extends React.Component {
 
   componentDidMount () {
     var self = this
-    this.mounted = true
     this.updateSettings()
 
     var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
@@ -85,6 +85,7 @@ export default class MapEditor extends React.Component {
       .minEditableZoom(14)
 
     this.id.version = pkg.version
+
     if (!this.customDefs) {
       this.customDefs = this.id.container()
         .append('svg')
@@ -97,7 +98,7 @@ export default class MapEditor extends React.Component {
       this.customDefs.append('svg')
     }
 
-    this.id.ui()(document.getElementById('container'), function onLoad () {
+    this.id.ui()(this.iDContainer.current, function onLoad () {
       var links = document.querySelectorAll('a[href^="http"]')
       links.forEach(function (link) {
         var href = link.getAttribute('href')
@@ -123,7 +124,10 @@ export default class MapEditor extends React.Component {
         latlon.text(s)
       })
       self.updateSettings()
+      setTimeout(() => self.id.flush(), 1500)
     })
+
+    setTimeout(() => this.refreshWindow(), 1000)
 
     window.onbeforeunload = function () { self.id.save() }
   }
