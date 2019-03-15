@@ -15,14 +15,15 @@ function TileImporter (userData, defaults) {
 }
 
 TileImporter.defaults = {
-  name: 'Offline Maps',
+  id: 'Offline-Maps',
+  name: 'Custom: Imported Offline Maps',
   type: 'tms', // TODO: what is this??
   overlay: false,
   default: false,
   overzoom: true,
   scaleExtent: [0, 22],
   url: 'http://localhost:5005',
-  templatePattern: '/{zoom}/{x}/{y}.png'
+  templatePattern: '/{zoom}/{x}/{y}'
 }
 
 TileImporter.prototype.go = function (tilesPath, options, cb) {
@@ -34,17 +35,17 @@ TileImporter.prototype.go = function (tilesPath, options, cb) {
   if (self.editing) return cb(new Error('Tiles importing, please wait...'))
   self.editing = true
   var imageryPath = path.join(this.userData, 'imagery.json')
-  options.id = options.name.replace(' ', '-') // what else should we normalize?
+  options.id = options.id || options.name.replace(' ', '-') // what else should we normalize?
   var tilesDest = path.join(this.userData, 'tiles', options.id)
   this.moveTiles(tilesPath, tilesDest, function (err) {
     if (err) return done(err)
     fs.readFile(imageryPath, function (err, data) {
       if (err && err.code !== 'ENOENT') return done(err)
-      var imagery = data ? JSON.parse(data) : []
+      var imagery = data ? JSON.parse(data).dataImagery : []
       var matches = imagery.filter((obj) => obj.name === options.name)
       if (matches.length) return done()
       imagery.push(self._entry(options))
-      fs.writeFile(imageryPath, JSON.stringify(imagery, null, 2), done)
+      fs.writeFile(imageryPath, JSON.stringify({dataImagery: imagery}, null, 2), done)
     })
   })
 
