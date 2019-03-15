@@ -14,7 +14,6 @@ module.exports = function (app) {
           click: function (item, focusedWindow) {
             dialog.showOpenDialog({
               title: i18n('menu-import-tiles'),
-              filters: [{ name: 'Offline Maps' }],
               properties: ['openFile', 'openDirectory']
             }, function (filenames) {
               if (!filenames) return

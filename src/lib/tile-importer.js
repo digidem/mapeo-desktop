@@ -34,19 +34,12 @@ TileImporter.prototype.go = function (tilesPath, options, cb) {
   var self = this
   if (self.editing) return cb(new Error('Tiles importing, please wait...'))
   self.editing = true
-  var imageryPath = path.join(this.userData, 'imagery.json')
   options.id = options.id || options.name.replace(' ', '-') // what else should we normalize?
-  var tilesDest = path.join(this.userData, 'tiles', options.id)
+  var tilesDest = path.join(this.userData, 'styles', options.id, 'tiles')
   this.moveTiles(tilesPath, tilesDest, function (err) {
     if (err) return done(err)
-    fs.readFile(imageryPath, function (err, data) {
-      if (err && err.code !== 'ENOENT') return done(err)
-      var imagery = data ? JSON.parse(data).dataImagery : []
-      var matches = imagery.filter((obj) => obj.name === options.name)
-      if (matches.length) return done()
-      imagery.push(self._entry(options))
-      fs.writeFile(imageryPath, JSON.stringify({dataImagery: imagery}, null, 2), done)
-    })
+    self.editing = false
+    done()
   })
 
   function done (err) {
