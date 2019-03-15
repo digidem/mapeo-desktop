@@ -180,7 +180,9 @@ export default class MapEditor extends React.Component {
     }
     if (customCss) insertCss(customCss)
     if (imagery) {
-      imagery = imagery.dataImagery
+      // iD upgraded to use 'dataImagery' in 2.14.3, this is for backwards
+      // compatibility
+      if (imagery.dataImagery) imagery = imagery.dataImagery
       imagery.forEach((img) => {
         iD.data.imagery.unshift(img)
       })
