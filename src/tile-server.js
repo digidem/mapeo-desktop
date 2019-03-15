@@ -10,7 +10,7 @@ module.exports = function () {
   var guesses = ['png', 'jpg', 'jpeg']
   var routes = guesses.map((ext) => {
     return ecstatic({
-      root: tilePath ,
+      root: tilePath,
       defaultExt: ext
     })
   })
