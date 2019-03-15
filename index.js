@@ -177,7 +177,7 @@ function createServers (done) {
 
   var tileServer = createTileServer()
   tileServer.listen(argv.tileport, function () {
-    log('tile server listening on :', app.server.address().port)
+    log('tile server listening on :', tileServer.address().port)
     if (--pending === 0) done()
   })
 }

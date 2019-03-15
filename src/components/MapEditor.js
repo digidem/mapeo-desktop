@@ -180,11 +180,10 @@ export default class MapEditor extends React.Component {
     }
     if (customCss) insertCss(customCss)
     if (imagery) {
-      imagery = imagery.map(function (i) {
-        if (!self.id) i.id = i.name
-        return i
+      imagery = imagery.dataImagery
+      imagery.forEach((img) => {
+        iD.data.imagery.unshift(img)
       })
-      iD.data.imagery = iD.data.imagery.concat(imagery)
     }
     if (icons) {
       var parser = new DOMParser()
