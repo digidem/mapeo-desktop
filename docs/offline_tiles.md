@@ -8,10 +8,17 @@ Windows users may have to infer some of the differences in the commands shown.
 ### Automatic Import
 
 Mapeo has a built-in tile importer. Go to File->Import Offline Map Tiles... and
-point Mapeo to the tiles you want to use. It accepts a `.tar` file or a
-directory.
+point Mapeo to the tiles you want to use. It accepts a directory of tiles
+organized by `/path/to/my/tiles/{zoom}/{x}/{y}`. You can change these paramters
+when you launch Mapeo desktop in the background imagery layers menu. 
 
 ![import.png](import.png)
+
+## Background imagery layers menu
+
+In the Map Editor, press 'b' to open the imagery layers menu. Choose 'Custom'
+from the bottom list.  If you used automatic import, you can use the default
+setting. You can modify the paramters based upon your setup. 
 
 ### Download the Tile Data
 
@@ -67,49 +74,3 @@ viewer and see if they look appropriate to your needs.
 Map tile providers offer these satellite images for free; please don't abuse
 their generosity by downloading more than what you need.
 
-## Tell Mapeo about the imagery
-
-If you'd like more fine-grained control of your imagery, and do not want to use our autmoatic import tool, you can manage it yourself on the filesystem.
-
-Copy the folder of tiles into a folder named `tiles` in Mapeo's folder in your
-application directory. Note that on Windows Settings & Data (Subfolder `Roaming`) is seperated from the application (Subfolder `local`).
-By default this is
-
--  **Windows**: `C:\Users\Username\Appdata\Roaming\Mapeo` (`%APPDATA%\Roaming`)
--  **Linux**: `/home/username/.config/Mapeo` (`$XDG_CONFIG_HOME` or `~/.config`)
--  **MacOS**:`/Users/Username/Library/Application Support` 
-
-The app folder will be `Electron` if you are in development, or `Mapeo` if you
-are working with the packaged app.
-
-So, e.g. on macOS, copy the folder of image tiles into: `~/Library/Application
-Support/Mapeo/tiles/guyana`. The name of the sub-folder after `tiles/` doesn't
-matter, but this helps keep your offline data separate.
-
-Now edit or create `imagery.json` in the same directory. It will contain a JSON
-array of imagery sources. Add a new entry to that array like
-
-``` json
-{
-  "name": "local guyana tiles",
-  "type": "tms",
-  "template": "http://localhost:5005/guyana/{zoom}/{x}/{y}.jpg",
-  "scaleExtent": [ 0, 22 ],
-  "overzoom": true,
-  "default": false,
-  "overlay": true
-}
-```
-
-In the example above, replace `guyana` with the name of the folder you chose
-inside of `tiles/`.
-
-## Launch Mapeo Desktop
-
-Press 'b' to open the imagery layers menu. Choose the name of the imagery you
-added from the bottom list.
-
-Navigate to where you downloaded the imagery for, and use 'b' again to open the
-menu; disable the default imagery (probably Bing) from the top list. You should
-see your offline imagery now. If so: you're ready! The imagery you're seeing is
-being loaded from your machine's local hard drive!
