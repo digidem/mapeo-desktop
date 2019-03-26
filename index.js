@@ -8,6 +8,7 @@ var app = electron.app
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow
 
+var mkdirp = require('mkdirp')
 var level = require('level')
 var sublevel = require('subleveldown')
 var osmdb = require('osm-p2p')
@@ -80,8 +81,14 @@ function startupMsg (txt) {
 }
 
 startupMsg('Unpacking Styles')
-styles.unpackIfNew(userDataPath, function (err) {
-  log('[ERROR] while unpacking styles:', err)
+mkdirp(path.join(userDataPath, 'styles'), function (err) {
+  if (err) log(err)
+  mkdirp(path.join(userDataPath, 'presets'), function (err) {
+    if (err) log(err)
+    styles.unpackIfNew(userDataPath, function (err) {
+      if (err) log('[ERROR] while unpacking styles:', err)
+    })
+  })
 })
 
 // The app startup sequence
