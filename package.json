@@ -141,6 +141,7 @@
     "npm-platform-dependencies": "0.0.12",
     "pngjs": "^3.3.3",
     "spectron": "^4.0.0",
+    "spectron-fake-dialog": "0.0.1",
     "standard": "^11.0.1",
     "tape": "^4.9.1",
     "watchify": "^3.7.0",
