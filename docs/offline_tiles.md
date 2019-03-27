@@ -9,7 +9,7 @@ Windows users may have to infer some of the differences in the commands shown.
 
 Mapeo has a built-in tile importer. Go to `File->Import Offline Map Tiles...` and
 point Mapeo to the tiles you want to use. It accepts a directory of tiles
-organized by `/{zoom}/{x}/{y}`. You can change these paramters
+organized by `/{zoom}/{x}/{y}`. You can change these parameters
 when you launch Mapeo desktop in the background imagery layers menu. 
 
 ![import.png](import.png)
@@ -25,6 +25,8 @@ Mapeo runs its own maptile server in the background. The server for tile data th
 ```
 http://localhost:5005/Offline-Maps/tiles/{zoom}/{x}/{y}
 ```
+
+It will try to use `.jpg`, `.png`, and `.jpeg` extensions. It does not yet support `asar` or `.mbtiles` formats directly, [https://github.com/digidem/mapeo-desktop/issues/103](PRs welcome).
 
 ### Download the Tile Data
 
