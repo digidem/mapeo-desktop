@@ -7,7 +7,7 @@ Windows users may have to infer some of the differences in the commands shown.
 
 ### Automatic Import
 
-Mapeo has a built-in tile importer. Go to File->Import Offline Map Tiles... and
+Mapeo has a built-in tile importer. Go to `File->Import Offline Map Tiles...` and
 point Mapeo to the tiles you want to use. It accepts a directory of tiles
 organized by `/path/to/my/tiles/{zoom}/{x}/{y}`. You can change these paramters
 when you launch Mapeo desktop in the background imagery layers menu. 
@@ -18,11 +18,17 @@ when you launch Mapeo desktop in the background imagery layers menu.
 
 In the Map Editor, press 'b' to open the imagery layers menu. Choose 'Custom'
 from the bottom list.  If you used automatic import, you can use the default
-setting. You can modify the paramters based upon your setup. 
+setting. You can modify the paramters based upon your setup.
+
+Mapeo runs its own maptile server in the background. The server for tile data that is imported from the `File->Import Offline Map  Tiles...` should be:
+
+```
+http://localhost:5005/Offline-Maps/tiles/{zoom}/{x}/{y}
+```
 
 ### Download the Tile Data
 
-Need tile data? First, make sure you have [npm](https://www.npmjs.com/get-npm) installed.
+If you don't have tile data already, you can use a commandline tool that we created to do this. First, make sure you have [npm](https://www.npmjs.com/get-npm) installed.
 
 Next, install [tile-dl](https://github.com/noffle/tile-dl):
 
