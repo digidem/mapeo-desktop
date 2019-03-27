@@ -9,7 +9,7 @@ Windows users may have to infer some of the differences in the commands shown.
 
 Mapeo has a built-in tile importer. Go to `File->Import Offline Map Tiles...` and
 point Mapeo to the tiles you want to use. It accepts a directory of tiles
-organized by `/path/to/my/tiles/{zoom}/{x}/{y}`. You can change these paramters
+organized by `/{zoom}/{x}/{y}`. You can change these paramters
 when you launch Mapeo desktop in the background imagery layers menu. 
 
 ![import.png](import.png)
