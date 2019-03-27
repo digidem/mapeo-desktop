@@ -26,7 +26,7 @@ Mapeo runs its own maptile server in the background. The server for tile data th
 http://localhost:5005/Offline-Maps/tiles/{zoom}/{x}/{y}
 ```
 
-It will try to use `.jpg`, `.png`, and `.jpeg` extensions. It does not yet support `asar` or `.mbtiles` formats directly, [https://github.com/digidem/mapeo-desktop/issues/103](PRs welcome).
+It will try to use `.jpg`, `.png`, and `.jpeg` extensions. It does not yet support `asar` or `.mbtiles` formats directly, [PRs welcome](https://github.com/digidem/mapeo-desktop/issues/103).
 
 ### Download the Tile Data
 
