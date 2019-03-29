@@ -93,7 +93,7 @@ mkdirp(path.join(userDataPath, 'styles'), function (err) {
 
 // The app startup sequence
 series([
-  versionCheckIndexes,
+  // versionCheckIndexes,
   startupMsg('Checked indexes version is up-to-date'),
 
   initOsmDb,
@@ -112,7 +112,7 @@ series([
 function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
   log('loading datadir', argv.datadir)
-  installStatsIndex(osm)
+  // installStatsIndex(osm)
   var media = MediaStore(path.join(argv.datadir, 'media'))
   app.osm = osm
   app.media = media
@@ -330,11 +330,11 @@ function createMainWindow (done) {
     Menu.setApplicationMenu(menu)
 
     win.webContents.once('did-finish-load', function () {
-      win.webContents.send('indexes-loading')
-      app.osm.ready(function () {
-        log('indexes READY')
-        win.webContents.send('indexes-ready')
-      })
+      //win.webContents.send('indexes-loading')
+      //app.osm.ready(function () {
+      //  log('indexes READY')
+      // win.webContents.send('indexes-ready')
+      //})
     })
 
     // Emitted when the window is closed.
@@ -370,10 +370,12 @@ function handleUncaughtExceptions () {
 }
 
 function getGlobalDatasetCentroid (done) {
+  /*
   app.osm.stats.getMapCenter(function (err, center) {
     if (err) return log('ERROR(getGlobalDatasetCentroid):', err)
     if (!center) return done(null, null)
     console.log('center', center)
     done(null, [center.lon, center.lat])
   })
+  */
 }
