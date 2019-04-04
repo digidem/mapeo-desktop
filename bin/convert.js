@@ -1,19 +1,24 @@
 var hyperlog = require('hyperlog')
 var level = require('level')
+var path = require('path')
 var Osmdb = require('osm-p2p')
 var Mapeo = require('mapeo-core')
 var geojson = require('osm-p2p-geojson')
-var exportGeojson = require('./src/lib/export-geojson')
 var collect = require('collect-stream')
+
+var exportGeojson = require('../src/lib/export-geojson')
+var Config = require('../src/lib/user-config')
 
 /* converts data from hyperlog to hypercore */
 
 module.exports = convert
-function convert (input, output) {
-  console.log(input, output)
+function convert (userDataPath, output) {
   var osm = Osmdb(output)
   var mapeo = new Mapeo(osm)
-  var log = hyperlog(level(input), {valueEncoding: 'json'})
+  var log = hyperlog(
+    level(path.join(userDataPath, 'data', 'log')),
+    {valueEncoding: 'json'}
+  )
   var rs = log.createReadStream()
   rs.on('data', function (data) {
     var val = data.value.v
@@ -28,7 +33,9 @@ function convert (input, output) {
   })
   rs.on('end', function () {
     console.log('adding osm data')
-    var stream = exportGeojson(osm)
+    var config = new Config(userDataPath)
+    var presets = config.getSettings('presets')
+    var stream = exportGeojson(osm, presets)
     collect(stream, function (err, data) {
       if (err) throw err
       var fc = JSON.parse(data)
