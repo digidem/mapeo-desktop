@@ -172,7 +172,10 @@ function versionCheckIndexes (done) {
 }
 
 function createServers (done) {
+  // TODO: refactor this crapp
   app.server = createServer(app.osm, app.media, { staticRoot: userDataPath })
+  app.mapeo = app.server.mapeo
+  app.mapeo.config = new Config(app.getPath('userData'))
 
   var pending = 2
 
@@ -190,7 +193,7 @@ function createServers (done) {
 }
 
 function createMainWindow (done) {
-  var config = new Config()
+  var config = app.mapeo.config
   app.translations = locale.load()
   if (!argv.headless) {
     if (!appIsReady) {
@@ -329,7 +332,7 @@ function createMainWindow (done) {
       win.webContents.send('refresh-window')
     })
 
-    var menu = Menu.buildFromTemplate(menuTemplate(app, config))
+    var menu = Menu.buildFromTemplate(menuTemplate(app))
     Menu.setApplicationMenu(menu)
 
     win.webContents.once('did-finish-load', function () {

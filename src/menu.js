@@ -3,7 +3,7 @@ var dialog = require('electron').dialog
 var exportData = require('./lib/export-data')
 var i18n = require('./lib/i18n')
 
-module.exports = function (app, config) {
+module.exports = function (app) {
   var template = [
     {
       label: i18n('menu-file'),
@@ -42,7 +42,7 @@ module.exports = function (app, config) {
               properties: ['openFile']
             }, function (filenames) {
               if (!filenames) return
-              config.importSettings(filenames[0], function (err) {
+              app.mapeo.config.importSettings(filenames[0], function (err) {
                 if (err) {
                   dialog.showErrorBox(
                     i18n('menu-import-configuration-error'),
