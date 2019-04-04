@@ -17,7 +17,7 @@ var semver = require('semver')
 var rimraf = require('rimraf')
 var MediaStore = require('safe-fs-blob-store')
 var styles = require('mapeo-styles') // TODO: @mapeo/styles
-var Config = require('@mapeo/config')
+var Settings = require('@mapeo/settings')
 
 var menuTemplate = require('./src/menu')
 var createServer = require('./src/server.js')
@@ -175,7 +175,7 @@ function createServers (done) {
   // TODO: refactor this crapp
   app.server = createServer(app.osm, app.media, { staticRoot: userDataPath })
   app.mapeo = app.server.mapeo
-  app.mapeo.config = new Config(app.getPath('userData'))
+  app.mapeo.settings = new Settings(app.getPath('userData'))
 
   var pending = 2
 
@@ -193,7 +193,7 @@ function createServers (done) {
 }
 
 function createMainWindow (done) {
-  var config = app.mapeo.config
+  var settings = app.mapeo.settings
   app.translations = locale.load()
   if (!argv.headless) {
     if (!appIsReady) {
@@ -237,7 +237,7 @@ function createMainWindow (done) {
     var ipc = electron.ipcMain
 
     ipc.on('get-user-data', function (event, type) {
-      var data = config.getSettings(type)
+      var data = settings.getSettings(type)
       if (!data) console.warn('unhandled event', type)
       event.returnValue = data
     })
@@ -260,7 +260,7 @@ function createMainWindow (done) {
 
     ipc.on('import-example-presets', function (ev) {
       var filename = path.join(__dirname, 'static', 'settings-jungle-v1.0.0.mapeosettings')
-      config.importSettings(filename, function (err) {
+      settings.importSettings(filename, function (err) {
         if (err) return log(err)
         win.webContents.send('updated-settings')
         log('Example presets imported from ' + filename)
@@ -269,7 +269,7 @@ function createMainWindow (done) {
 
     ipc.on('import-settings', function (ev, filename) {
       console.log('importing settings')
-      config.importSettings(filename, function (err) {
+      settings.importSettings(filename, function (err) {
         if (err) return log(err)
         win.webContents.send('updated-settings')
         log('Example presets imported from ' + filename)
@@ -277,7 +277,7 @@ function createMainWindow (done) {
     })
 
     ipc.on('save-file', function () {
-      var metadata = config.getSettings('metadata')
+      var metadata = settings.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showSaveDialog({
         title: i18n('save-db-dialog'),
@@ -294,7 +294,7 @@ function createMainWindow (done) {
     })
 
     ipc.on('open-file', function () {
-      var metadata = config.getSettings('metadata')
+      var metadata = settings.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showOpenDialog({
         title: i18n('open-db-dialog'),

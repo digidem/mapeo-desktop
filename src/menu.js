@@ -42,7 +42,7 @@ module.exports = function (app) {
               properties: ['openFile']
             }, function (filenames) {
               if (!filenames) return
-              app.mapeo.config.importSettings(filenames[0], function (err) {
+              app.mapeo.settings.importSettings(filenames[0], function (err) {
                 if (err) {
                   dialog.showErrorBox(
                     i18n('menu-import-configuration-error'),

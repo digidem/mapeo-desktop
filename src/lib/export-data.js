@@ -30,7 +30,7 @@ function openDialog (app, name, ext) {
 }
 
 function exportData (mapeo, filename, done) {
-  var presets = mapeo.config.getSettings('presets') || {}
+  var presets = mapeo.settings.getSettings('presets') || {}
   var ext = path.extname(filename)
   switch (ext) {
     case '.geojson': return pump(exportGeoJson(mapeo.api.osm, presets), fs.createWriteStream(filename), done)
