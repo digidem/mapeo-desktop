@@ -9,16 +9,44 @@ var collect = require('collect-stream')
 var exportGeojson = require('../src/lib/export-geojson')
 var Config = require('../src/lib/user-config')
 
-/* converts data from hyperlog to hypercore */
+/*
+ *
+ * TODO:
+ * - [x] user-config goes to @mapeo/config
+ * - [ ] create @mapeo/migrate which requires both the old version of osm-p2p
+ *   and new one
+ * - [ ] move this script there
+ */
 
-module.exports = convert
-function convert (userDataPath, output) {
-  var osm = Osmdb(output)
-  var mapeo = new Mapeo(osm)
+/*
+ * Converts mapeo data from hyperlog to kappa-core
+ *
+ *  node bin/convert.js <user-data-path> <presets file> <output-folder>
+ *
+ *  Example:
+ *  $ node bin/convert.js ~/.config/Mapeo /path/to/sinangoe-6.0.mapeosettings output/
+ */
+
+module.exports = main
+function main (userDataPath, settingsFile, output) {
+  var config = new Config(userDataPath)
+
   var log = hyperlog(
     level(path.join(userDataPath, 'data', 'log')),
     {valueEncoding: 'json'}
   )
+  var mapeo = new Mapeo(Osmdb(output))
+
+  config.importSettings(settingsFile, function (err) {
+    if (err) throw err
+
+    // this makes me think mapeo-core should know about presets
+    var presets = config.getSettings('presets')
+    convert(log, mapeo, presets)
+  })
+}
+
+function convert (log, mapeo, presets) {
   var rs = log.createReadStream()
   rs.on('data', function (data) {
     var val = data.value.v
@@ -33,9 +61,7 @@ function convert (userDataPath, output) {
   })
   rs.on('end', function () {
     console.log('adding osm data')
-    var config = new Config(userDataPath)
-    var presets = config.getSettings('presets')
-    var stream = exportGeojson(osm, presets)
+    var stream = exportGeojson(log, presets)
     collect(stream, function (err, data) {
       if (err) throw err
       var fc = JSON.parse(data)
@@ -51,6 +77,7 @@ function convert (userDataPath, output) {
       importer.on('end', function () {
         console.log('done adding osm data')
       })
+      // TODO: copy media over? Create a syncfile?
     })
   })
 }
@@ -115,4 +142,4 @@ function transformObservationSchema1 (obs) {
   return newObs
 }
 
-convert.apply(null, process.argv.slice(2))
+main.apply(null, process.argv.slice(2))
