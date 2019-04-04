@@ -24,7 +24,7 @@ var createTileServer = require('./src/tile-server.js')
 
 var appSettings = require('./app-settings.json')
 var installStatsIndex = require('./src/lib/osm-stats')
-var userConfig = require('./src/lib/user-config')
+var Config = require('./src/lib/user-config')
 var TileImporter = require('./src/lib/tile-importer')
 var importer = require('./src/lib/importer')
 var locale = require('./src/lib/locale')
@@ -190,6 +190,7 @@ function createServers (done) {
 }
 
 function createMainWindow (done) {
+  var config = new Config()
   app.translations = locale.load()
   if (!argv.headless) {
     if (!appIsReady) {
@@ -233,7 +234,7 @@ function createMainWindow (done) {
     var ipc = electron.ipcMain
 
     ipc.on('get-user-data', function (event, type) {
-      var data = userConfig.getSettings(type)
+      var data = config.getSettings(type)
       if (!data) console.warn('unhandled event', type)
       event.returnValue = data
     })
@@ -256,22 +257,24 @@ function createMainWindow (done) {
 
     ipc.on('import-example-presets', function (ev) {
       var filename = path.join(__dirname, 'static', 'settings-jungle-v1.0.0.mapeosettings')
-      userConfig.importSettings(win, filename, function (err) {
+      config.importSettings(filename, function (err) {
         if (err) return log(err)
+        win.webContents.send('updated-settings')
         log('Example presets imported from ' + filename)
       })
     })
 
     ipc.on('import-settings', function (ev, filename) {
       console.log('importing settings')
-      userConfig.importSettings(win, filename, function (err) {
+      config.importSettings(filename, function (err) {
         if (err) return log(err)
+        win.webContents.send('updated-settings')
         log('Example presets imported from ' + filename)
       })
     })
 
     ipc.on('save-file', function () {
-      var metadata = userConfig.getSettings('metadata')
+      var metadata = config.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showSaveDialog({
         title: i18n('save-db-dialog'),
@@ -288,7 +291,7 @@ function createMainWindow (done) {
     })
 
     ipc.on('open-file', function () {
-      var metadata = userConfig.getSettings('metadata')
+      var metadata = config.getSettings('metadata')
       var ext = metadata ? metadata.dataset_id : 'mapeodata'
       electron.dialog.showOpenDialog({
         title: i18n('open-db-dialog'),
@@ -326,7 +329,7 @@ function createMainWindow (done) {
       win.webContents.send('refresh-window')
     })
 
-    var menu = Menu.buildFromTemplate(menuTemplate(app))
+    var menu = Menu.buildFromTemplate(menuTemplate(app, config))
     Menu.setApplicationMenu(menu)
 
     win.webContents.once('did-finish-load', function () {

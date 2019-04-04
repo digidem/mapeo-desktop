@@ -1,10 +1,9 @@
 var dialog = require('electron').dialog
 
-var userConfig = require('./lib/user-config')
 var exportData = require('./lib/export-data')
 var i18n = require('./lib/i18n')
 
-module.exports = function (app) {
+module.exports = function (app, config) {
   var template = [
     {
       label: i18n('menu-file'),
@@ -43,14 +42,15 @@ module.exports = function (app) {
               properties: ['openFile']
             }, function (filenames) {
               if (!filenames) return
-              userConfig.importSettings(focusedWindow, filenames[0], onError)
-              function onError (err) {
-                if (!err) return
-                dialog.showErrorBox(
-                  i18n('menu-import-configuration-error'),
-                  i18n('menu-import-configuration-error-known') + ': ' + err
-                )
-              }
+              config.importSettings(filenames[0], function (err) {
+                if (err) {
+                  dialog.showErrorBox(
+                    i18n('menu-import-configuration-error'),
+                    i18n('menu-import-configuration-error-known') + ': ' + err
+                  )
+                }
+                focusedWindow.webContents.send('updated-settings')
+              })
             })
           }
         },
