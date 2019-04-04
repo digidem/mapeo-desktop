@@ -1,9 +1,10 @@
 var path = require('path')
-var mapeoserver = require('mapeo-server')
+var mapeoserver = require('mapeo-server') // TODO: @mapeo/server
 var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
 var http = require('http')
 
+// TODO: mapeo-server take a 'mapeo' instance which is a mapeo-core instead
 module.exports = function (osm, media, opts) {
   if (!opts) opts = {}
   var osmrouter = osmserver(osm)

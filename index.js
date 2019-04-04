@@ -16,7 +16,8 @@ var series = require('run-series')
 var semver = require('semver')
 var rimraf = require('rimraf')
 var MediaStore = require('safe-fs-blob-store')
-var styles = require('mapeo-styles')
+var styles = require('mapeo-styles') // TODO: @mapeo/styles
+var Config = require('@mapeo/config')
 
 var menuTemplate = require('./src/menu')
 var createServer = require('./src/server.js')
@@ -24,7 +25,6 @@ var createTileServer = require('./src/tile-server.js')
 
 var appSettings = require('./app-settings.json')
 var installStatsIndex = require('./src/lib/osm-stats')
-var Config = require('./src/lib/user-config')
 var TileImporter = require('./src/lib/tile-importer')
 var importer = require('./src/lib/importer')
 var locale = require('./src/lib/locale')
