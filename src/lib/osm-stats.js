@@ -1,52 +1,92 @@
-var Index = require('hyperlog-index')
-var sub = require('subleveldown')
+var through = require('through2')
 
-module.exports = installStatsIndex
-
-function installStatsIndex (osm) {
-  var idb = sub(osm.db, 'stat2')
-  var idx = Index({
-    log: osm.log,
-    db: idb,
-    map: function (row, next) {
-      if (row.value.k && row.value.v && row.value.v.type === 'node') {
-        var node = row.value.v
+function createIndex (ldb) {
+  return {
+    maxBatch: 100,
+    map: function (nodes, next) {
+      var bins = {}
+      var pending = 1
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i]
+        console.log('map', node)
+        if (!node.value) continue
+        if (typeof node.value.lat !== 'number' || typeof node.value.lon !== 'number') continue
 
         // update density map
-        var binId = nodeToBinId(node)
-        idb.get('bin/' + binId, function (err, num) {
+        var binId = nodeToBinId(node.value)
+        pending++
+        ldb.get('bin/' + binId, function (err, num) {
           if (err && err.notFound) num = 0
           else if (err) return next(err)
-          num = Number(num) + 1
-          idb.put('bin/' + binId, num, next)
+          num = bins[binId] !== undefined ? bins[binId] : Number(num) + 1
+          bins[binId] = num
+          if (!--pending) finish()
         })
-      } else {
-        next()
       }
-    }
-  })
+      if (!--pending) finish()
 
-  // install 'stats' property into osm object
-  osm.stats = {
-    getMapCenter: function (cb) {
-      idx.ready(function () {
-        var rs = idb.createReadStream({ gt: 'bin/!', lt: 'bin/~' })
-        var mostDense = null
-        rs.on('data', function (entry) {
-          if (mostDense === null || Number(entry.value) > Number(mostDense.value)) {
-            mostDense = entry
-          }
-        })
-        rs.once('end', function () {
-          if (!mostDense) return cb(null, null)
-          var center = binIdToLatLon(mostDense.key.substring(4))
-          cb(null, center)
-        })
-        rs.once('error', cb)
+      function finish () {
+        var keys = Object.keys(bins)
+        var ops = []
+        for (var i = 0; i < keys.length; i++) {
+          ops.push({
+            type: 'put',
+            key: 'bin/' + keys[i],
+            value: bins[keys[i]]
+          })
+        }
+        console.log('batch', ops)
+        if (ops.length > 0) ldb.batch(ops, next)
+        else next()
+      }
+    },
+    storeState: function (state, cb) {
+      ldb.put('state', state, { valueEncoding: 'binary' }, cb)
+    },
+    fetchState: function (cb) {
+      ldb.get('state', { valueEncoding: 'binary' }, function (err, state) {
+        if (err && err.notFound) cb()
+        else if (err) cb(err)
+        else cb(null, state)
       })
+    },
+    clearIndex: function (cb) {
+      // TODO: mutex to prevent other view APIs from running?
+      var batch = []
+      ldb.createKeyStream()
+        .pipe(through(function (key, _, next) {
+          batch.push({ type: 'del', key: key })
+          next()
+        }, function (flush) {
+          ldb.batch(batch, function () {
+            flush()
+            cb()
+          })
+        }))
+    },
+    api: {
+      getMapCenter: function (core, cb) {
+        this.ready(function () {
+          var rs = ldb.createReadStream({ gt: 'bin/!', lt: 'bin/~' })
+          var mostDense = null
+          rs.on('data', function (entry) {
+            if (mostDense === null || Number(entry.value) > Number(mostDense.value)) {
+              mostDense = entry
+            }
+          })
+          rs.once('end', function () {
+            if (!mostDense) return cb(null, null)
+            var center = binIdToLatLon(mostDense.key.substring(4))
+            cb(null, center)
+          })
+          rs.once('error', cb)
+        })
+      }
     }
   }
 }
+
+module.exports = createIndex
 
 function nodeToBinId (node) {
   var lat = Number(node.lat)
