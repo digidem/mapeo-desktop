@@ -99,17 +99,6 @@ function createMockData (count, cb) {
   var base = `http://localhost:${port}`
   var fpath = encodeURIComponent(path.join(__dirname, '..', 'hi-res.jpg'))
 
-  // create at least one dummy
-  createObservation({
-    lon: bounds[0] / 100,
-    lat: bounds[1] / 100,
-    tags: {
-      notes: '',
-      observedBy: 'you'
-    },
-    type: 'observation'
-  })
-
   mock.generate({
     type: 'integer',
     count: count,
@@ -127,9 +116,10 @@ function createMockData (count, cb) {
           type: 'observation',
           lat: lats[i] / 100,
           lon: lon / 100,
+          timestamp: new Date(),
           tags: {
             notes: '',
-            observedBy: 'you'
+            observedBy: 'user-' + Math.floor(Math.random() * 10)
           }
         }
         createObservation(obs)
