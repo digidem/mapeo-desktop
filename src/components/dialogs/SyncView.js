@@ -4,7 +4,6 @@ import React from 'react'
 import { ipcRenderer } from 'electron'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import SyncIcon from '@material-ui/icons/Sync'
-import DoneIcon from '@material-ui/icons/Done'
 import ErrorIcon from '@material-ui/icons/Error'
 import Dialog from '@material-ui/core/Dialog'
 
