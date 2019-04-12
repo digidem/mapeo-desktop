@@ -39,31 +39,32 @@ var TargetsDiv = styled.div`
 `
 
 var Target = styled.li`
-  min-width: 300px;
+  min-width: 250px;
   padding: 20px;
   border-bottom: 1px solid grey;
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
+  align-items: center;
   &.clickable:hover {
     background-color: #eee;
     cursor: pointer;
   }
   .target {
     display: flex;
+    align-items: center;
     flex-direction: column;
     vertical-align: middle;
     font-weight: bold;
     font-size: 16px;
   }
   .info {
-    padding-left: 10px;
     font-weight: normal;
     font-size: 14px;
     font-style: italic;
   }
   .icon {
-    padding-left: 20px;
+    min-width: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -201,7 +202,7 @@ export default class SyncView extends React.Component {
                   <span className='name'>{t.name}</span>
                   <span className='info'>{message.info}</span>
                 </div>
-                <div className='icon'><message.icon /></div>
+                {message.icon && <div className='icon'><message.icon /></div>}
               </Target>
             </TargetsDiv>
             {t.status === 'replication-complete' &&
@@ -230,11 +231,9 @@ export default class SyncView extends React.Component {
 // so the function isn't called for every row
 var messages = {
   'replication-complete': {
-    icon: DoneIcon,
     info: i18n('replication-complete')
   },
   'replication-data-complete': {
-    icon: DoneIcon,
     info: i18n('replication-complete')
   },
   'replication-started': {
