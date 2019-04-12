@@ -220,6 +220,7 @@ class Home extends React.Component {
         features={features}
         onClick={this.handleConvertFeaturesClick.bind(this)} />
     </div>)
+    if (!mapStyle) return <div>Loading..</div>
 
     return (<div>
       <MuiThemeProvider theme={theme}>
