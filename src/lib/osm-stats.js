@@ -1,6 +1,6 @@
 var through = require('through2')
 
-function createIndex (ldb) {
+function createZoomToDataIndex (ldb) {
   return {
     maxBatch: 100,
     map: function (nodes, next) {
@@ -14,14 +14,18 @@ function createIndex (ldb) {
 
         // update density map
         var binId = nodeToBinId(node.value)
-        pending++
-        ldb.get('bin/' + binId, function (err, num) {
-          if (err && err.notFound) num = 0
-          else if (err) return next(err)
-          num = bins[binId] !== undefined ? bins[binId] : Number(num) + 1
-          bins[binId] = num
-          if (!--pending) finish()
-        })
+        if (bins[binId]) {
+          bins[binId]++
+        } else {
+          pending++
+          ldb.get(binId, function (err, num) {
+            if (err && err.notFound) num = 0
+            else if (err) return next(err)
+            if (bins[binId]) bins[binId]++
+            else bins[binId] = num + 1
+            if (!--pending) finish()
+          })
+        }
       }
       if (!--pending) finish()
 
@@ -31,7 +35,7 @@ function createIndex (ldb) {
         for (var i = 0; i < keys.length; i++) {
           ops.push({
             type: 'put',
-            key: 'bin/' + keys[i],
+            key: keys[i],
             value: bins[keys[i]]
           })
         }
@@ -65,9 +69,13 @@ function createIndex (ldb) {
         }))
     },
     api: {
-      getMapCenter: function (core, cb) {
+      getMapCenter: function (core, type, cb) {
+        if (typeof type === 'function' && !cb) {
+          cb = type
+          type = 'node'
+        }
         this.ready(function () {
-          var rs = ldb.createReadStream({ gt: 'bin/!', lt: 'bin/~' })
+          var rs = ldb.createReadStream({ gt: 'ztd/'+type+'!', lt: 'ztd/'+type+'~' })
           var mostDense = null
           rs.on('data', function (entry) {
             if (mostDense === null || Number(entry.value) > Number(mostDense.value)) {
@@ -86,7 +94,7 @@ function createIndex (ldb) {
   }
 }
 
-module.exports = createIndex
+module.exports = createZoomToDataIndex
 
 function nodeToBinId (node) {
   var lat = Number(node.lat)
@@ -95,10 +103,11 @@ function nodeToBinId (node) {
   if (Number.isNaN(lon) || lon === undefined || lon === null) return null
   var latbin = Math.round(lat * 50) / 50
   var lonbin = Math.round(lon * 50) / 50
-  return latbin + ',' + lonbin
+  return 'ztd/' + node.type + '/' + latbin + ',' + lonbin
 }
 
 function binIdToLatLon (binId) {
+  binId = binId.split('/')[2]
   var lat = Number(binId.split(',')[0])
   var lon = Number(binId.split(',')[1])
   return {
