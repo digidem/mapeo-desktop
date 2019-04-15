@@ -373,7 +373,7 @@ function handleUncaughtExceptions () {
 }
 
 function getGlobalDatasetCentroid (done) {
-  app.osm.core.api.stats.getMapCenter(function (err, center) {
+  app.osm.core.api.stats.getMapCenter('node', function (err, center) {
     if (err) return log('ERROR(getGlobalDatasetCentroid):', err)
     if (!center) return done(null, null)
     console.log('center', center)
