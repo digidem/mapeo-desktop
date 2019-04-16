@@ -1,5 +1,5 @@
 var path = require('path')
-var mapeoserver = require('mapeo-server')
+var MapeoServer = require('mapeo-server')
 var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
 var http = require('http')
@@ -7,7 +7,7 @@ var http = require('http')
 module.exports = function (osm, media, opts) {
   if (!opts) opts = {}
   var osmrouter = osmserver(osm)
-  var mapeo = mapeoserver(osm, media, {
+  var mapeo = MapeoServer(osm, media, {
     staticRoot: opts.staticRoot,
     writeFormat: 'osm-p2p-syncfile'
   })

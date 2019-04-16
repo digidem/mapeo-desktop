@@ -6,8 +6,10 @@ const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
 module.exports = {
   stop,
-  unannounce,
-  announce,
+  destroy,
+  leave,
+  listen,
+  join,
   getTargets,
   start,
   createMedia,
@@ -18,10 +20,10 @@ module.exports = {
   convert
 }
 
-function unannounce (cb) {
+function destroy (cb) {
   var opts = {
     method: 'GET',
-    url: `${osmServerHost}/sync/unannounce`
+    url: `${osmServerHost}/sync/destroy`
   }
   xhr(opts, function (err, res, body) {
     if (err) return cb(err)
@@ -29,10 +31,33 @@ function unannounce (cb) {
   })
 }
 
-function announce (cb) {
+function leave (cb) {
   var opts = {
     method: 'GET',
-    url: `${osmServerHost}/sync/announce`
+    url: `${osmServerHost}/sync/leave`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    return cb(null, body)
+  })
+}
+
+function join (cb) {
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/join`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    return cb(null, body)
+  })
+}
+
+
+function listen (cb) {
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/listen`
   }
   xhr(opts, function (err, res, body) {
     if (err) return cb(err)
@@ -43,12 +68,14 @@ function announce (cb) {
 function getTargets (cb) {
   var opts = {
     method: 'GET',
-    url: `${osmServerHost}/sync/targets`
+    url: `${osmServerHost}/sync/peers`
   }
   xhr(opts, function (err, res, body) {
     if (err) return cb(err)
     try {
-      return cb(null, JSON.parse(body))
+      var data = JSON.parse(body)
+      if (data.topic === 'peers') return cb(null, data.message)
+      else return cb(new Error('unknown response', data))
     } catch (err) {
       return cb(err)
     }

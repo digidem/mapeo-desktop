@@ -14,10 +14,11 @@ const MOCK_DATA = 5
 module.exports = createMockDevice
 
 function createMockDevice (dir, opts) {
-  if (!opts) opts = { name: crypto.randomBytes(8).toString('hex') }
+  if (!opts) opts = {}
   var osm = osmdb(path.join(dir, 'osm'))
   var media = blobstore(path.join(dir, 'media'))
   var mapeo = Mapeo(osm, media, opts)
+  mapeo.api.core.sync.setName(crypto.randomBytes(8).toString('hex'))
   var server = http.createServer(function (req, res) {
     if (!mapeo.handle(req, res)) {
       res.statusCode = 404
@@ -56,34 +57,31 @@ function turnOn (opts, cb) {
   server.listen(port, cb)
 }
 
+function call (url, cb) {
+  var hq2 = hyperquest.get(url, {})
+  hq2.pipe(concat({ encoding: 'string' }, function (body) {
+    debug('announced', body)
+    if (cb) return cb(body)
+  }))
+  hq2.end()
+}
+
 function openSyncScreen (cb) {
   var server = this
-  if (server.interval) return cb && cb()
-  server.interval = setInterval(function () {
-    debug('announcing')
-    var port = server.address().port
-    var hq2 = hyperquest.get(`http://localhost:${port}/sync/announce`, {})
-    hq2.pipe(concat({ encoding: 'string' }, function (body) {
-      debug('announced', body)
-      if (cb) return cb(body)
-    }))
-    hq2.end()
-  }, 2000)
+  var port = server.address().port
+  debug('announcing')
+  call(`http://localhost:${port}/sync/listen`, function () {
+    call(`http://localhost:${port}/sync/join`, cb)
+  })
 }
 
 function closeSyncScreen (cb) {
   var server = this
-  if (!server.interval) return cb && cb()
-  clearInterval(server.interval)
-  server.interval = undefined
   debug('unannouncing')
   var port = server.address().port
-  var hq2 = hyperquest.get(`http://localhost:${port}/sync/unannounce`, {})
-  hq2.pipe(concat({ encoding: 'string' }, function (body) {
-    debug('unannounced', body)
-    if (cb) return cb(body)
-  }))
-  hq2.end()
+  call(`http://localhost:${port}/sync/leave`, function () {
+    call(`http://localhost:${port}/sync/destroy`, cb)
+  })
 }
 
 function createMockData (count, cb) {
@@ -159,8 +157,6 @@ function createMockData (count, cb) {
 
 function shutdown (cb) {
   var server = this
-  clearInterval(server.interval)
-  server.interval = undefined
   server.closed = true
   server.on('close', function () {
     server.mapeo.api.close(cb)
