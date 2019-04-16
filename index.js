@@ -314,8 +314,10 @@ function createMainWindow (done) {
       exportData.openDialog(app, name, ext)
     })
 
-    ipc.on('zoom-to-data-get-centroid', function () {
-      getGlobalDatasetCentroid(function (_, loc) {
+    ipc.on('zoom-to-data-get-centroid', function (_, type) {
+      console.log('zoom to data', type)
+      getDatasetCentroid(type, function (_, loc) {
+        console.log(loc)
         if (!loc) return
         win.webContents.send('zoom-to-data-response', loc)
       })
@@ -372,11 +374,10 @@ function handleUncaughtExceptions () {
   })
 }
 
-function getGlobalDatasetCentroid (done) {
-  app.osm.core.api.stats.getMapCenter('node', function (err, center) {
+function getDatasetCentroid (type, done) {
+  app.osm.core.api.stats.getMapCenter(type, function (err, center) {
     if (err) return log('ERROR(getGlobalDatasetCentroid):', err)
     if (!center) return done(null, null)
-    console.log('center', center)
     done(null, [center.lon, center.lat])
   })
 }

@@ -77,13 +77,14 @@ class Home extends React.Component {
   }
 
   zoomToDataResponse (_, loc) {
+    console.log('zooming', loc)
     this.setState({
       mapPosition: { center: loc, zoom: 14 }
     })
   }
 
   zoomToDataRequest () {
-    ipcRenderer.send('zoom-to-data-get-centroid')
+    ipcRenderer.send('zoom-to-data-get-centroid', 'observation')
   }
 
   handleDatasetChange () {
