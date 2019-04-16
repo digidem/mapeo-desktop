@@ -1,4 +1,5 @@
 var path = require('path')
+var os = require('os')
 var MapeoServer = require('mapeo-server')
 var ecstatic = require('ecstatic')
 var osmserver = require('osm-p2p-server')
@@ -11,6 +12,9 @@ module.exports = function (osm, media, opts) {
     staticRoot: opts.staticRoot,
     writeFormat: 'osm-p2p-syncfile'
   })
+
+  mapeo.api.core.sync.setName(`Mapeo Desktop ${os.hostname()}`)
+  mapeo.api.core.sync.listen()
 
   var server = http.createServer(function (req, res) {
     var staticHandler = ecstatic({
