@@ -95,7 +95,7 @@ export default class SyncView extends React.Component {
 
   componentWillUnmount () {
     if (this.interval) clearInterval(this.interval)
-    api.unannounce(function (err) {
+    api.destroy(function (err) {
       if (err) console.error(err)
     })
     ipcRenderer.removeListener('select-file', this.selectFile)
@@ -108,10 +108,13 @@ export default class SyncView extends React.Component {
         if (err) return console.error(err)
         self.setState({ targets })
       })
-      api.announce(function (err) {
+    }, 1000)
+    api.listen(function (err) {
+      if (err) console.error(err)
+      api.join(function (err) {
         if (err) console.error(err)
       })
-    }, 1000)
+    })
     ipcRenderer.on('select-file', this.selectFile)
   }
 
