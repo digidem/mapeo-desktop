@@ -141,7 +141,7 @@ export default class MapEditor extends React.Component {
   }
 
   zoomToDataRequest () {
-    ipcRenderer.send('zoom-to-data-get-centroid')
+    ipcRenderer.send('zoom-to-data-get-centroid', 'node')
   }
 
   zoomToDataResponse (_, loc) {
