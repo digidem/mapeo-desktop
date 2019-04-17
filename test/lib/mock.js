@@ -1,5 +1,6 @@
 var concat = require('concat-stream')
 var mock = require('mock-data')
+var mkdirp = require('mkdirp')
 var hyperquest = require('hyperquest')
 var debug = require('debug')('mapeo-mock-device')
 var path = require('path')
@@ -15,6 +16,8 @@ module.exports = createMockDevice
 
 function createMockDevice (dir, opts) {
   if (!opts) opts = {}
+  mkdirp.sync(path.join(dir, 'osm'))
+  mkdirp.sync(path.join(dir, 'media'))
   var osm = osmdb(path.join(dir, 'osm'))
   var media = blobstore(path.join(dir, 'media'))
   var mapeo = Mapeo(osm, media, opts)
