@@ -107,7 +107,7 @@ function nodeToBinId (node) {
 }
 
 function binIdToLatLon (binId) {
-  binId = binId.split('/')[2]
+  binId = binId.split('/')[1]
   var lat = Number(binId.split(',')[0])
   var lon = Number(binId.split(',')[1])
   return {

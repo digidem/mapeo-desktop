@@ -77,7 +77,6 @@ class Home extends React.Component {
   }
 
   zoomToDataResponse (_, loc) {
-    console.log('zooming', loc)
     this.setState({
       mapPosition: { center: loc, zoom: 14 }
     })
