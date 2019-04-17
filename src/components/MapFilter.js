@@ -2,6 +2,7 @@ import React from 'react'
 import MapFilter from 'react-mapfilter'
 import { ipcRenderer, remote } from 'electron'
 import {
+  FIELD_TYPE_DATE,
   FIELD_TYPE_STRING
 } from 'react-mapfilter/es5/constants'
 import xor from 'lodash/xor'
@@ -33,6 +34,8 @@ const customStyleUrl = `${osmServerHost}/styles/mapfilter-style/style.json`
 const defaultStyleUrl = `${osmServerHost}/static/style.json`
 
 const fieldTypes = {
+  created_at: FIELD_TYPE_DATE,
+  timestamp: FIELD_TYPE_DATE,
   notes: FIELD_TYPE_STRING
 }
 
@@ -122,9 +125,7 @@ class Home extends React.Component {
     const newObs = Object.assign({}, obs)
 
     // TODO: media is currently not updated, but it will be in the future
-    const WHITELIST = ['fields', 'media', 'timestamp']
     Object.keys(f.properties || {}).forEach(function (key) {
-      if (WHITELIST.indexOf(key) > -1) return
       newObs.tags[key] = f.properties[key]
     })
 
@@ -268,6 +269,7 @@ function observationToFeature (obs, id) {
   })
 
   feature.properties.timestamp = obs.timestamp
+  feature.properties.created_at = obs.created_at
 
   if (!feature.properties.notes) feature.properties.notes = ' '
   return feature
