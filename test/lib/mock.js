@@ -29,6 +29,11 @@ function createMockDevice (dir, opts) {
     console.trace(err)
   })
 
+  server.on('close', function () {
+    console.log('closing mapeo')
+    server.mapeo.api.close()
+  })
+
   server.mapeo = mapeo
   server.shutdown = shutdown
   server.shutdown.bind(server)
@@ -54,7 +59,9 @@ function turnOn (opts, cb) {
   }
   var port = opts.port || DEFAULT_PORT
 
-  server.listen(port, cb)
+  server.listen(port, function () {
+    server.mapeo.api.core.sync.listen(cb)
+  })
 }
 
 function call (url, cb) {
@@ -70,18 +77,14 @@ function openSyncScreen (cb) {
   var server = this
   var port = server.address().port
   debug('announcing')
-  call(`http://localhost:${port}/sync/listen`, function () {
-    call(`http://localhost:${port}/sync/join`, cb)
-  })
+  call(`http://localhost:${port}/sync/join`, cb)
 }
 
 function closeSyncScreen (cb) {
   var server = this
   debug('unannouncing')
   var port = server.address().port
-  call(`http://localhost:${port}/sync/leave`, function () {
-    call(`http://localhost:${port}/sync/destroy`, cb)
-  })
+  call(`http://localhost:${port}/sync/leave`, cb)
 }
 
 function createMockData (count, cb) {
@@ -157,11 +160,9 @@ function createMockData (count, cb) {
 
 function shutdown (cb) {
   var server = this
-  server.closed = true
-  server.on('close', function () {
-    server.mapeo.api.close(cb)
+  server.mapeo.api.close(function () {
+    server.close(cb)
   })
-  server.close()
 }
 
 if (require.main === module) {
