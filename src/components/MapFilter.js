@@ -122,17 +122,10 @@ class Home extends React.Component {
     const newObs = Object.assign({}, obs)
 
     // TODO: media is currently not updated, but it will be in the future
-    const WHITELIST = ['fields', 'media', 'created_at']
+    const WHITELIST = ['fields', 'media', 'timestamp']
     Object.keys(f.properties || {}).forEach(function (key) {
       if (WHITELIST.indexOf(key) > -1) return
       newObs.tags[key] = f.properties[key]
-    })
-
-    // Mapeo Mobile currently expects field definitions as a property on tags
-    ;(obs.tags.fields || []).forEach(function (field, i) {
-      if (!f.properties || f.properties[field.id] === undefined) return
-      newObs.tags.fields[i].answer = f.properties[field.id]
-      newObs.tags.fields[i].answered = true
     })
 
     api.update(newObs, (err, obs) => {
@@ -262,9 +255,7 @@ function observationToFeature (obs, id) {
     }
   }
 
-  const WHITELIST = ['fields']
   Object.keys(obs.tags || {}).forEach(function (key) {
-    if (WHITELIST.indexOf(key) > -1) return
     feature.properties[key] = obs.tags[key]
   })
 
@@ -276,7 +267,7 @@ function observationToFeature (obs, id) {
     }
   })
 
-  feature.properties.created_at = obs.created_at
+  feature.properties.timestamp = obs.timestamp
 
   if (!feature.properties.notes) feature.properties.notes = ' '
   return feature
