@@ -45,7 +45,7 @@ class Home extends React.Component {
     var self = this
     self.state = {
       features: [],
-      mapPosition: { center: [0, 0], zoom: 0 },
+      mapPosition: {},
       showModal: false,
       mapStyle: null
     }
@@ -225,7 +225,7 @@ class Home extends React.Component {
           onChangeMapPosition={this.handleChangeMapPosition}
           onChangeFeatures={this.handleChangeFeatures}
           fieldTypes={fieldTypes}
-          datasetName='mapeo'
+          datasetName='Mapeo-Mobile'
           resizer={resizer}
           appBarMenuItems={appBarMenuItems}
           appBarTitle={appBarTitle} />
