@@ -11,28 +11,10 @@ module.exports = function (app) {
       submenu: [
         {
           label: i18n('menu-import-tiles'),
-          click: function (item, focusedWindow) {
-            dialog.showOpenDialog({
-              title: i18n('menu-import-tiles'),
-              properties: ['openFile', 'openDirectory']
-            }, function (filenames) {
-              if (!filenames) return
-              app.tiles.go(filenames[0], cb)
-              function cb (err) {
-                if (err) {
-                  dialog.showErrorBox(
-                    i18n('menu-import-tiles-error'),
-                    i18n('menu-import-tiles-error-known') + ': ' + err
-                  )
-                } else {
-                  dialog.showMessageBox({
-                    message: i18n('menu-import-data-success'),
-                    buttons: ['OK']
-                  })
-                }
-              }
-            })
-          }
+          submenu: [
+            importDataMenu(app, i18n('menu-import-tiles-file'), 'openFile'),
+            importDataMenu(app, i18n('menu-import-tiles-directory'), 'openDirectory')
+          ]
         },
         {
           label: i18n('menu-import-configuration'),
@@ -292,5 +274,40 @@ module.exports = function (app) {
 function exportDataMenu (app, name, ext) {
   return function (item, focusedWindow) {
     exportData.openDialog(app, name, ext)
+  }
+}
+
+function importDataMenu (app, ext, property) {
+  return {
+    label: ext,
+    click: function (item, focusedWindow) {
+      var opts = {
+        title: i18n('menu-import-tiles'),
+        properties: [property]
+      }
+      if (property === 'openFile') {
+        opts.filters = [
+          { name: 'Electron Asar', extensions: ['asar'] },
+          { name: 'Tar', extensions: ['tar'] }
+        ]
+      }
+      dialog.showOpenDialog(opts, function (filenames) {
+        if (!filenames) return cb(new Error('Could not get any filenames'))
+        app.tiles.go(filenames[0], cb)
+        function cb (err) {
+          if (err) {
+            dialog.showErrorBox(
+              i18n('menu-import-tiles-error'),
+              i18n('menu-import-tiles-error-known') + ': ' + err
+            )
+          } else {
+            dialog.showMessageBox({
+              message: i18n('menu-import-data-success'),
+              buttons: ['OK']
+            })
+          }
+        }
+      })
+    }
   }
 }
