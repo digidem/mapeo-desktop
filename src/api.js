@@ -1,5 +1,6 @@
 import xhr from 'xhr'
 import { remote } from 'electron'
+import hyperquest from 'hyperquest'
 import querystring from 'querystring'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
@@ -10,7 +11,7 @@ module.exports = {
   leave,
   listen,
   join,
-  getTargets,
+  peers,
   start,
   createMedia,
   create,
@@ -65,7 +66,7 @@ function listen (cb) {
   })
 }
 
-function getTargets (cb) {
+function peers (cb) {
   var opts = {
     method: 'GET',
     url: `${osmServerHost}/sync/peers`
@@ -93,15 +94,12 @@ function stop (target, cb) {
   })
 }
 
-function start (target, cb) {
-  var opts = {
+function start (target, opts) {
+  var hq = hyperquest({
     method: 'GET',
-    url: `${osmServerHost}/sync/start?${querystring.stringify(target)}`
-  }
-  xhr(opts, function (err, res, body) {
-    if (err) return cb(err)
-    cb(null, body)
+    uri: `${osmServerHost}/sync/start?${querystring.stringify(target)}&interval=${opts.interval}`
   })
+  return hq
 }
 
 function createMedia (buf, cb) {

@@ -4,7 +4,6 @@ import React from 'react'
 import { ipcRenderer } from 'electron'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import SyncIcon from '@material-ui/icons/Sync'
-import ErrorIcon from '@material-ui/icons/Error'
 import Dialog from '@material-ui/core/Dialog'
 
 import api from '../../api'
@@ -75,8 +74,8 @@ export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      targets: [],
-      syncing: false
+      peers: [],
+      progress: {}
     }
     this.cancelling = false
     this.selectFile = this.selectFile.bind(this)
@@ -87,10 +86,22 @@ export default class SyncView extends React.Component {
   replicate (target) {
     var self = this
     if (!target) return
-    self.setState({ syncing: true })
-    api.start(target, function (err, body) {
-      if (err) console.error(err) // TODO handle errors more gracefully
+    var name = target.filename || target.host
+    var progress = this.state.progress
+    var stream = api.start(target, {interval: 1000})
+    // this.openConnections[target.id] = stream
+    // TODO: allow closing the sync screen during replication
+    // keep track of open connections and clean them up when the sync screen
+    // closes. for now this is disallowed
+    stream.on('data', (data) => {
+      var progress = this.state.progress
+      progress[name] = { target, data }
+      this.setState({ progress })
     })
+    progress[name] = {
+      'topic': 'replication-waiting'
+    }
+    self.setState({ progress })
   }
 
   componentWillUnmount () {
@@ -101,9 +112,9 @@ export default class SyncView extends React.Component {
   componentDidMount () {
     var self = this
     this.interval = setInterval(function () {
-      api.getTargets(function (err, targets) {
+      api.peers(function (err, peers) {
         if (err) return console.error(err)
-        self.setState({ targets })
+        self.setState({ peers })
       })
     }, 1000)
     api.join(function (err) {
@@ -114,6 +125,7 @@ export default class SyncView extends React.Component {
 
   onCancel () {
     var self = this
+    // TODO: expose this through the UI
     if (this.cancelling) return
     this.cancelling = true
     api.stop(function (err) {
@@ -123,6 +135,10 @@ export default class SyncView extends React.Component {
   }
 
   onClose () {
+    // TODO: allow closing the sync screen during replication
+    // right now, assumes all streams are done replicating and progress tracker
+    // can be cleaned up
+    this.setState({progress: {}})
     this.props.onClose()
     ipcRenderer.send('refresh-window')
   }
@@ -144,24 +160,35 @@ export default class SyncView extends React.Component {
 
   render () {
     var self = this
-    var { syncing, targets } = this.state
     if (this.props.filename) this.replicate({ filename: this.props.filename })
+    var syncing = false
 
+    var views = this.state.peers.map((peer) => {
+      var progress = this.state.progress[peer.name]
+      if (!progress) {
+        // not currently replicating. wifi target is available to begin
+        // replication.
+        return getView(peer, { topic: 'replication-wifi' })
+      }
+      syncing = true
+      var target = peer || progress.target
+      return getView(target, progress.data)
+    })
     let body = <div>
       <TargetsDiv id='sync-targets'>
-        { targets.length === 0
+        { views.length === 0
           ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
           : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
         }
-        {targets.map(function (t) {
-          var message = getMessage(t)
+        {views.map(function (view) {
+          var target = view.target
           return (
-            <Target className='clickable' key={t.name} onClick={self.replicate.bind(self, t)}>
+            <Target key={target.name} onClick={self.replicate.bind(self, target)}>
               <div className='target'>
-                <span className='name'>{t.name}</span>
-                <span className='info'>{message.info}</span>
+                <span className='name'>{target.name}</span>
+                <span className='info'>{view.info}</span>
               </div>
-              <div className='icon'><message.icon /></div>
+              <div className='icon'><view.icon /></div>
             </Target>
           )
         })}
@@ -175,45 +202,14 @@ export default class SyncView extends React.Component {
           <Button id='sync-new' onClick={this.selectNew}>
             {i18n('sync-database-new-button')}&hellip;
           </Button>
-          <Button id='sync-done' onClick={self.onClose}>
-            {i18n('done')}
-          </Button>
+          {syncing === false &&
+            <Button id='sync-done' onClick={self.onClose}>
+                {i18n('done')}
+              </Button>
+          }
         </div>
       </Form>
     </div>
-
-    var activeTargets = targets.filter(function (t) {
-      var m = getMessage(t)
-      return !m.ready
-    })
-    if (syncing) {
-      var t = activeTargets[0]
-      var message = t && getMessage(t)
-      if (t) {
-        body = (
-          <div>
-            <TargetsDiv id='sync-targets'>
-              <Target key={t.name}>
-                <div className='target'>
-                  <span className='name'>{t.name}</span>
-                  <span className='info'>{message.info}</span>
-                </div>
-                {message.icon && <div className='icon'><message.icon /></div>}
-              </Target>
-            </TargetsDiv>
-            {t.status === 'replication-complete' &&
-            <Form method='POST' className='modal-group'>
-              <div className='modal-full-size'>
-                <Button id='sync-done' onClick={self.onClose}>
-                  {i18n('button-submit')}
-                </Button>
-              </div>
-            </Form>
-            }
-          </div>
-        )
-      }
-    }
 
     return (
       <Dialog onClose={this.onClose} closeButton={false} open disableBackdropClick>
@@ -229,8 +225,9 @@ var messages = {
   'replication-complete': {
     info: i18n('replication-complete')
   },
-  'replication-data-complete': {
-    info: i18n('replication-complete')
+  'replication-waiting': {
+    icon: LoadingIcon,
+    info: i18n('replication-started')
   },
   'replication-started': {
     icon: LoadingIcon,
@@ -240,28 +237,14 @@ var messages = {
     icon: LoadingIcon,
     info: i18n('replication-progress')
   },
-  'media-connected': {
-    icon: LoadingIcon,
-    info: i18n('replication-progress')
-  },
-  'osm-connected': {
-    icon: LoadingIcon,
-    info: i18n('replication-progress')
+  'replication-wifi': {
+    icon: SyncIcon,
+    info: i18n(`sync-wifi-info`),
+    ready: true
   }
 }
 
-function getMessage (t) {
-  var defaultMessage = {
-    icon: SyncIcon,
-    info: i18n(`sync-${t.type}-info`),
-    ready: true
-  }
-  var message = messages[t.status] || defaultMessage
-  if (t.status === 'replication-error') {
-    message = {
-      icon: ErrorIcon,
-      info: t.message
-    }
-  }
-  return message
+function getView (target, data) {
+  if (data.topic === 'replication-error') throw new Error(data.message) // TODO: proper error messages
+  return Object.assign({target, data}, messages[data.topic])
 }
