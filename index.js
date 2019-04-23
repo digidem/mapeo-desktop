@@ -93,7 +93,6 @@ mkdirp(path.join(userDataPath, 'styles'), function (err) {
 
 // The app startup sequence
 series([
-  // versionCheckIndexes,
   startupMsg('Checked indexes version is up-to-date'),
 
   initOsmDb,
@@ -125,53 +124,6 @@ function initOsmDb (done) {
   log('preparing osm indexes..')
 
   done()
-}
-
-// Regenerate osm indexes if needed
-function versionCheckIndexes (done) {
-  var dir = argv.datadir
-  var idxDb = level(path.join(dir, 'index'))
-  var versionDb = sublevel(idxDb, 'versions')
-
-  versionDb.get('kdb-index', function (err, version) {
-    if (err && err.notFound) version = '1.0.0'
-    else if (err) return versionDb.close(function (_) { done(err) }) // cleanup!
-
-    idxDb.close(function (_) {
-      if (semver.major(appSettings.indexes.kdb.version) > semver.major(version)) {
-        log('kdb index must be regenerated (have=' + version + ', needed=' + appSettings.indexes.kdb.version + ')')
-
-        // TODO(noffle): in the future, let's be smarter about selectively wiping sub-indexes as needed
-        series([wipeAllIndexes, writeUpToDateVersions], done)
-      } else {
-        log('indexes are up to date!')
-        done()
-      }
-    })
-  })
-
-  function wipeAllIndexes (fin) {
-    // swallow errors; the indexes might not exist in the first place
-    console.log('wiping indexes')
-    series([
-      function (done) {
-        rimraf(path.join(dir, 'index'), function (_) { done() })
-      },
-      function (done) {
-        fs.unlink(path.join(dir, 'kdb'), function (_) { done() })
-      }
-    ], fin)
-  }
-
-  function writeUpToDateVersions (fin) {
-    console.log('writing new index versions')
-    var idxDb = level(path.join(dir, 'index'))
-    var versionDb = sublevel(idxDb, 'versions')
-    series([
-      function (done) { versionDb.put('kdb-index', appSettings.indexes.kdb.version, done) },
-      idxDb.close.bind(idxDb)
-    ], fin)
-  }
 }
 
 function createServers (done) {
