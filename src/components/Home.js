@@ -39,7 +39,7 @@ export default class Home extends React.Component {
     })
 
     ipcRenderer.on('error', function (ev, message) {
-      self.openModal('Error', message)
+      self.openModal('Error', {message})
     })
   }
 
