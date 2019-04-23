@@ -205,6 +205,10 @@ function createMainWindow (done) {
       win.webContents.send('import-progress', path.basename(filename), index, total)
     })
 
+    ipc.on('error', function (ev, message) {
+      win.webContents.send('error', message)
+    })
+
     ipc.on('set-locale', function (ev, lang) {
       app.translations = locale.load(lang)
     })

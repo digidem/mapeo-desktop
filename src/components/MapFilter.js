@@ -110,11 +110,7 @@ class Home extends React.Component {
         features.indexOf(f) === -1
     })
 
-    var cb = function (err, resp) {
-      if (err) return this.handleError(err)
-    }
-
-    deleted.forEach(f => api.del(f, cb))
+    deleted.forEach(f => this.deleteObservation(f))
     added.forEach(f => this.createObservation(f))
     updated.forEach(f => this.updateObservation(f))
     this.setState({ features: changedFeatures })
@@ -143,7 +139,14 @@ class Home extends React.Component {
     })
   }
 
-  createObservation (f, cb) {
+  deleteObservation (f) {
+    api.del({id: f.id}, (err, resp, obs) => {
+      if (err) return this.handleError(err)
+      delete this._observationsById[f.id]
+    })
+  }
+
+  createObservation (f) {
     const newObs = {
       id: f.id || randomBytes(8).toString('hex'),
       type: 'observation',
@@ -181,6 +184,7 @@ class Home extends React.Component {
   handleError (err) {
     // TODO: Show some kind of error message in the UI
     console.error(err)
+    ipcRenderer.send('error', err.message)
   }
 
   handleChangeMapPosition (mapPosition) {
