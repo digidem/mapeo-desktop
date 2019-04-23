@@ -20,7 +20,7 @@
     "lint": "standard",
     "test": "npm run lint && npm run test-integration",
     "test-integration": "tape test",
-    "device": "rimraf \"test/lib/test-data\" && DEBUG=* node test/lib/mock.js",
+    "device": "rimraf \"bin/test-data\" && DEBUG=* node bin/mock.js",
     "watch": "webpack --watch",
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",

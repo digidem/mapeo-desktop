@@ -169,10 +169,12 @@ function shutdown (cb) {
 }
 
 if (require.main === module) {
-  var dir = path.join(__dirname, 'test-data')
+  var args = process.argv.splice(2)
+  var dir = args[0] || path.join(__dirname, 'test-data')
   var device = createMockDevice(dir)
 
-  var port = process.argv.splice(2)[0] || DEFAULT_PORT
+  var port = args[1] || DEFAULT_PORT
+  console.log(port, dir)
 
   device.turnOn(port, function () {
     console.log('listening on port', device.address().port)

@@ -7,7 +7,7 @@ const path = require('path')
 const PNG = require('pngjs').PNG
 const rimraf = require('rimraf')
 
-const createMockDevice = require('./mock')
+const createMockDevice = require('../../bin/mock')
 const config = require('./config')
 
 module.exports = {

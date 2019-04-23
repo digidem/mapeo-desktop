@@ -4,3 +4,4 @@ dist
 examples/.dat
 static/build.js
 test/lib/test-data
+bin/test-data
