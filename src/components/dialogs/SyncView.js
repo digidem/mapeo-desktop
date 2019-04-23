@@ -119,7 +119,7 @@ export default class SyncView extends React.Component {
         if (err) return console.error(err)
         self.setState({ peers })
       })
-    }, 1000)
+    }, 2000)
     api.join(function (err) {
       if (err) console.error(err)
     })
@@ -172,7 +172,6 @@ export default class SyncView extends React.Component {
     var progressing = Object.values(this.state.progress).map((progress) => getView(progress.target, progress.data))
     var complete = progressing.filter((s) => s.complete)
     var syncing = progressing.filter((s) => !s.complete)
-    console.log('rendering')
     let body = <div>
       <TargetsDiv id='sync-targets'>
         { available.length === 0
@@ -197,12 +196,14 @@ export default class SyncView extends React.Component {
           var target = view.target
           var progress = view.data.message
           function calcProgress (val) {
+            if (val.sofar === val.total) return 100
             if (val.total === 0) return 0
             return Math.floor((val.sofar / val.total) * 100)
           }
           if (progress) {
             var dbCompleted = calcProgress(progress.db)
             var mediaCompleted = calcProgress(progress.media)
+            var diff = 10 // faking this.
           }
 
           return (
@@ -210,8 +211,8 @@ export default class SyncView extends React.Component {
               <div className='target'>
                 <span className='name'>{target.name}</span>
                 <span className='info'>{view.info}</span>
-                { dbCompleted > 0 && <LinearProgress value={dbCompleted} />}
-                { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} />}
+                { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted + diff} />}
+                { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted + diff} />}
               </div>
             </Target>
           )
