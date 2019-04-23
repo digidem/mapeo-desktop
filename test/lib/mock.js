@@ -10,7 +10,7 @@ var blobstore = require('safe-fs-blob-store')
 var osmdb = require('osm-p2p')
 var http = require('http')
 
-const MOCK_DATA = 5
+const MOCK_DATA = 500
 
 module.exports = createMockDevice
 

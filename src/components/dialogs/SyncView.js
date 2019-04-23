@@ -87,7 +87,7 @@ export default class SyncView extends React.Component {
     if (!target) return
     target.name = target.filename || target.name
     var progress = this.state.progress
-    var stream = api.start(target, {interval: 1000})
+    var stream = api.start(target, {interval: 3000})
     // this.openConnections[target.id] = stream
     // TODO: allow closing the sync screen during replication
     // keep track of open connections and clean them up when the sync screen
@@ -172,6 +172,7 @@ export default class SyncView extends React.Component {
     var progressing = Object.values(this.state.progress).map((progress) => getView(progress.target, progress.data))
     var complete = progressing.filter((s) => s.complete)
     var syncing = progressing.filter((s) => !s.complete)
+    console.log('rendering')
     let body = <div>
       <TargetsDiv id='sync-targets'>
         { available.length === 0
@@ -179,7 +180,7 @@ export default class SyncView extends React.Component {
           : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
         }
         {available.map(function (view) {
-          if (!view) return <div />
+          if (!view) return
           var target = view.target
           return (
             <Target className='clickable' key={target.name} onClick={self.replicate.bind(self, target)}>
@@ -194,12 +195,14 @@ export default class SyncView extends React.Component {
 
         {syncing.map(function (view) {
           var target = view.target
-          if (view.data.message) {
-            var progress = view.data.message
-            var dbCompleted = Math.floor((progress.db.sofar / progress.db.total) * 100)
-            var mediaCompleted = Math.floor((progress.db.sofar / progress.media.total) * 100)
-            var dbBuffer = progress.db.total - progress.db.sofar
-            var mediaBuffer = progress.media.total - progress.media.sofar
+          var progress = view.data.message
+          function calcProgress (val) {
+            if (val.total === 0) return 0
+            return Math.floor((val.sofar / val.total) * 100)
+          }
+          if (progress) {
+            var dbCompleted = calcProgress(progress.db)
+            var mediaCompleted = calcProgress(progress.media)
           }
 
           return (
@@ -207,9 +210,9 @@ export default class SyncView extends React.Component {
               <div className='target'>
                 <span className='name'>{target.name}</span>
                 <span className='info'>{view.info}</span>
+                { dbCompleted > 0 && <LinearProgress value={dbCompleted} />}
+                { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} />}
               </div>
-              { progress && <LinearProgress variant='buffer' value={mediaCompleted} valueBuffer={mediaBuffer} />}
-              { progress && <LinearProgress color='secondary' variant='buffer' value={dbCompleted} valueBuffer={dbBuffer} /> }
             </Target>
           )
         })}
@@ -217,7 +220,7 @@ export default class SyncView extends React.Component {
         {complete.map(function (view) {
           var target = view.target
           return (
-            <Target key={target.name + '-syncing'}>
+            <Target key={target.name + '-complete'}>
               <div className='target'>
                 <span className='name'>{target.name}</span>
                 <span className='info'>{view.info}</span>
