@@ -5,6 +5,7 @@ import { ipcRenderer } from 'electron'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import SyncIcon from '@material-ui/icons/Sync'
 import Dialog from '@material-ui/core/Dialog'
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import api from '../../api'
 import Form from '../Form'
@@ -27,7 +28,6 @@ var TargetsDiv = styled.div`
   .loading {
     background-color: white;
     color: grey;
-    text-align: center;
     font-style: italic;
     font-size: 24px;
     display: flex;
@@ -50,7 +50,6 @@ var Target = styled.li`
   }
   .target {
     display: flex;
-    align-items: center;
     flex-direction: column;
     vertical-align: middle;
     font-weight: bold;
@@ -86,7 +85,7 @@ export default class SyncView extends React.Component {
   replicate (target) {
     var self = this
     if (!target) return
-    var name = target.filename || target.host
+    target.name = target.filename || target.name
     var progress = this.state.progress
     var stream = api.start(target, {interval: 1000})
     // this.openConnections[target.id] = stream
@@ -94,12 +93,16 @@ export default class SyncView extends React.Component {
     // keep track of open connections and clean them up when the sync screen
     // closes. for now this is disallowed
     stream.on('data', (data) => {
+      data = JSON.parse(data.toString())
       var progress = this.state.progress
-      progress[name] = { target, data }
+      progress[target.name] = { target, data }
       this.setState({ progress })
     })
-    progress[name] = {
-      'topic': 'replication-waiting'
+    progress[target.name] = {
+      target: target,
+      data: {
+        'topic': 'replication-waiting'
+      }
     }
     self.setState({ progress })
   }
@@ -161,34 +164,64 @@ export default class SyncView extends React.Component {
   render () {
     var self = this
     if (this.props.filename) this.replicate({ filename: this.props.filename })
-    var syncing = false
-
-    var views = this.state.peers.map((peer) => {
+    var available = this.state.peers.map((peer) => {
       var progress = this.state.progress[peer.name]
-      if (!progress) {
-        // not currently replicating. wifi target is available to begin
-        // replication.
-        return getView(peer, { topic: 'replication-wifi' })
-      }
-      syncing = true
-      var target = peer || progress.target
-      return getView(target, progress.data)
+      if (!progress) return getView(peer, { topic: 'replication-wifi' })
+      return false
     })
+    var progressing = Object.values(this.state.progress).map((progress) => getView(progress.target, progress.data))
+    var complete = progressing.filter((s) => s.complete)
+    var syncing = progressing.filter((s) => !s.complete)
     let body = <div>
       <TargetsDiv id='sync-targets'>
-        { views.length === 0
+        { available.length === 0
           ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
           : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
         }
-        {views.map(function (view) {
+        {available.map(function (view) {
+          if (!view) return <div />
           var target = view.target
           return (
-            <Target key={target.name} onClick={self.replicate.bind(self, target)}>
+            <Target className='clickable' key={target.name} onClick={self.replicate.bind(self, target)}>
               <div className='target'>
                 <span className='name'>{target.name}</span>
                 <span className='info'>{view.info}</span>
               </div>
               <div className='icon'><view.icon /></div>
+            </Target>
+          )
+        })}
+
+        {syncing.map(function (view) {
+          var target = view.target
+          if (view.data.message) {
+            var progress = view.data.message
+            var dbCompleted = Math.floor((progress.db.sofar / progress.db.total) * 100)
+            var mediaCompleted = Math.floor((progress.db.sofar / progress.media.total) * 100)
+            var dbBuffer = progress.db.total - progress.db.sofar
+            var mediaBuffer = progress.media.total - progress.media.sofar
+          }
+
+          return (
+            <Target key={target.name + '-syncing'}>
+              <div className='target'>
+                <span className='name'>{target.name}</span>
+                <span className='info'>{view.info}</span>
+              </div>
+              { progress && <LinearProgress variant='buffer' value={mediaCompleted} valueBuffer={mediaBuffer} />}
+              { progress && <LinearProgress color='secondary' variant='buffer' value={dbCompleted} valueBuffer={dbBuffer} /> }
+            </Target>
+          )
+        })}
+
+        {complete.map(function (view) {
+          var target = view.target
+          return (
+            <Target key={target.name + '-syncing'}>
+              <div className='target'>
+                <span className='name'>{target.name}</span>
+                <span className='info'>{view.info}</span>
+              </div>
             </Target>
           )
         })}
@@ -202,10 +235,10 @@ export default class SyncView extends React.Component {
           <Button id='sync-new' onClick={this.selectNew}>
             {i18n('sync-database-new-button')}&hellip;
           </Button>
-          {syncing === false &&
-            <Button id='sync-done' onClick={self.onClose}>
-                {i18n('done')}
-              </Button>
+          {syncing.length === 0 &&
+          <Button id='sync-done' onClick={self.onClose}>
+            {i18n('done')}
+          </Button>
           }
         </div>
       </Form>
@@ -223,7 +256,8 @@ export default class SyncView extends React.Component {
 // so the function isn't called for every row
 var messages = {
   'replication-complete': {
-    info: i18n('replication-complete')
+    info: i18n('replication-complete'),
+    complete: true
   },
   'replication-waiting': {
     icon: LoadingIcon,
