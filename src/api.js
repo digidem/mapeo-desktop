@@ -12,6 +12,7 @@ module.exports = {
   listen,
   join,
   peers,
+  peerStream,
   start,
   createMedia,
   create,
@@ -66,6 +67,14 @@ function listen (cb) {
   })
 }
 
+function peerStream (opts) {
+  if (!opts) opts = { interval: 1000}
+  return hyperquest({
+    method: 'GET',
+    uri: `${osmServerHost}/sync/peers?interval=${opts.interval}`
+  })
+}
+
 function peers (cb) {
   var opts = {
     method: 'GET',
@@ -95,11 +104,10 @@ function stop (target, cb) {
 }
 
 function start (target, opts) {
-  var hq = hyperquest({
+  return hyperquest({
     method: 'GET',
     uri: `${osmServerHost}/sync/start?${querystring.stringify(target)}&interval=${opts.interval}`
   })
-  return hq
 }
 
 function createMedia (buf, cb) {
