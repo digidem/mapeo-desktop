@@ -82,6 +82,10 @@ export default class SyncView extends React.Component {
     this.onCancel = this.onCancel.bind(this)
   }
 
+  handleError (err) {
+    ipcRenderer.send('error', err.message)
+  }
+
   replicate (target) {
     var self = this
     if (!target) return
@@ -161,15 +165,20 @@ export default class SyncView extends React.Component {
     this.replicate({ filename })
   }
 
+  _getView (target, data) {
+    if (data.topic === 'replication-error') this.handleError(new Error(data.message))
+    return Object.assign({target, data}, messages[data.topic])
+  }
+
   render () {
     var self = this
     if (this.props.filename) this.replicate({ filename: this.props.filename })
     var available = this.state.peers.map((peer) => {
       var progress = this.state.progress[peer.name]
-      if (!progress) return getView(peer, { topic: 'replication-wifi' })
+      if (!progress) return this._getView(peer, { topic: 'replication-wifi' })
       return false
     })
-    var progressing = Object.values(this.state.progress).map((progress) => getView(progress.target, progress.data))
+    var progressing = Object.values(this.state.progress).map((progress) => this._getView(progress.target, progress.data))
     var complete = progressing.filter((s) => s.complete)
     var syncing = progressing.filter((s) => !s.complete)
     let body = <div>
@@ -282,7 +291,3 @@ var messages = {
   }
 }
 
-function getView (target, data) {
-  if (data.topic === 'replication-error') throw new Error(data.message) // TODO: proper error messages
-  return Object.assign({target, data}, messages[data.topic])
-}
