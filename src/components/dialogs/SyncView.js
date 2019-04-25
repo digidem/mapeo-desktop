@@ -4,10 +4,11 @@ import React from 'react'
 import { ipcRenderer } from 'electron'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import SyncIcon from '@material-ui/icons/Sync'
+import ErrorIcon from '@material-ui/icons/Error'
 import Dialog from '@material-ui/core/Dialog'
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from '@material-ui/core/LinearProgress'
 
-import api from '../../api'
+import SyncManager from '../../lib/sync-manager'
 import Form from '../Form'
 import i18n from '../../lib/i18n'
 
@@ -36,7 +37,7 @@ var TargetsDiv = styled.div`
   }
 `
 
-var Target = styled.li`
+var TargetItem = styled.li`
   min-width: 250px;
   padding: 20px;
   border-bottom: 1px solid grey;
@@ -55,7 +56,7 @@ var Target = styled.li`
     font-weight: bold;
     font-size: 16px;
   }
-  .info {
+  .message {
     font-weight: normal;
     font-size: 14px;
     font-style: italic;
@@ -73,79 +74,42 @@ export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      peers: [],
-      progress: {}
+      peers: []
     }
-    this.cancelling = false
+    this.sync = new SyncManager()
     this.selectFile = this.selectFile.bind(this)
     this.onClose = this.onClose.bind(this)
-    this.onCancel = this.onCancel.bind(this)
+    this.onPeers = this.onPeers.bind(this)
+    this.onError = this.onError.bind(this)
   }
 
-  handleError (err) {
+  onError (err) {
     ipcRenderer.send('error', err.message)
   }
 
-  replicate (target) {
-    var self = this
-    if (!target) return
-    target.name = target.filename || target.name
-    var progress = this.state.progress
-    var stream = api.start(target, {interval: 3000})
-    // this.openConnections[target.id] = stream
-    // TODO: allow closing the sync screen during replication
-    // keep track of open connections and clean them up when the sync screen
-    // closes. for now this is disallowed
-    stream.on('data', (data) => {
-      data = JSON.parse(data.toString())
-      var progress = this.state.progress
-      progress[target.name] = { target, data }
-      this.setState({ progress })
-    })
-    progress[target.name] = {
-      target: target,
-      data: {
-        'topic': 'replication-waiting'
-      }
-    }
-    self.setState({ progress })
+  onPeers (peers) {
+    this.setState({ peers })
   }
 
   componentWillUnmount () {
-    if (this.interval) clearInterval(this.interval)
+    this.sync.leave()
+    this.sync.removeListener('peers', this.onPeers)
+    this.sync.removeListener('error', this.onError)
     ipcRenderer.removeListener('select-file', this.selectFile)
   }
 
   componentDidMount () {
-    var self = this
-    this.interval = setInterval(function () {
-      api.peers(function (err, peers) {
-        if (err) return console.error(err)
-        self.setState({ peers })
-      })
-    }, 2000)
-    api.join(function (err) {
-      if (err) console.error(err)
-    })
+    this.sync.on('peers', this.onPeers)
+    this.sync.on('error', this.onError)
+    this.sync.join()
     ipcRenderer.on('select-file', this.selectFile)
-  }
-
-  onCancel () {
-    var self = this
-    // TODO: expose this through the UI
-    if (this.cancelling) return
-    this.cancelling = true
-    api.stop(function (err) {
-      if (err) console.error(err)
-      self.props.onClose()
-    })
   }
 
   onClose () {
     // TODO: allow closing the sync screen during replication
     // right now, assumes all streams are done replicating and progress tracker
     // can be cleaned up
-    this.setState({progress: {}})
+    this.sync.clearState()
     this.props.onClose()
     ipcRenderer.send('refresh-window')
   }
@@ -162,132 +126,118 @@ export default class SyncView extends React.Component {
 
   selectFile (event, filename) {
     if (!filename) return
-    this.replicate({ filename })
-  }
-
-  _getView (target, data) {
-    if (data.topic === 'replication-error') this.handleError(new Error(data.message))
-    return Object.assign({target, data}, messages[data.topic])
+    this.sync.start({ filename })
   }
 
   render () {
     var self = this
-    if (this.props.filename) this.replicate({ filename: this.props.filename })
-    var available = this.state.peers.map((peer) => {
-      var progress = this.state.progress[peer.name]
-      if (!progress) return this._getView(peer, { topic: 'replication-wifi' })
-      return false
-    })
-    var progressing = Object.values(this.state.progress).map((progress) => this._getView(progress.target, progress.data))
-    var complete = progressing.filter((s) => s.complete)
-    var syncing = progressing.filter((s) => !s.complete)
-    let body = <div>
-      <TargetsDiv id='sync-targets'>
-        { available.length === 0
-          ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
-          : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
-        }
-        {available.map(function (view) {
-          if (!view) return
-          var target = view.target
-          return (
-            <Target className='clickable' key={target.name} onClick={self.replicate.bind(self, target)}>
-              <div className='target'>
-                <span className='name'>{target.name}</span>
-                <span className='info'>{view.info}</span>
-              </div>
-              <div className='icon'><view.icon /></div>
-            </Target>
-          )
-        })}
-
-        {syncing.map(function (view) {
-          var target = view.target
-          var progress = view.data.message
-          function calcProgress (val) {
-            if (val.sofar === val.total) return 100
-            if (val.total === 0) return 0
-            return Math.floor((val.sofar / val.total) * 100)
-          }
-          if (progress) {
-            var dbCompleted = calcProgress(progress.db)
-            var mediaCompleted = calcProgress(progress.media)
-            var diff = 10 // faking this.
-          }
-
-          return (
-            <Target key={target.name + '-syncing'}>
-              <div className='target'>
-                <span className='name'>{target.name}</span>
-                <span className='info'>{view.info}</span>
-                { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted + diff} />}
-                { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted + diff} />}
-              </div>
-            </Target>
-          )
-        })}
-
-        {complete.map(function (view) {
-          var target = view.target
-          return (
-            <Target key={target.name + '-complete'}>
-              <div className='target'>
-                <span className='name'>{target.name}</span>
-                <span className='info'>{view.info}</span>
-              </div>
-            </Target>
-          )
-        })}
-      </TargetsDiv>
-      <Form method='POST' className='modal-group'>
-        <input type='hidden' name='source' />
-        <div>
-          <Button id='sync-open' onClick={this.selectExisting}>
-            {i18n('sync-database-open-button')}&hellip;
-          </Button>
-          <Button id='sync-new' onClick={this.selectNew}>
-            {i18n('sync-database-new-button')}&hellip;
-          </Button>
-          {syncing.length === 0 &&
-          <Button id='sync-done' onClick={self.onClose}>
-            {i18n('done')}
-          </Button>
-          }
-        </div>
-      </Form>
-    </div>
-
+    const { peers } = this.state
+    if (this.props.filename) this.sync.start({ filename: this.props.filename })
+    var wifiPeers = this.sync.wifiPeers(peers)
     return (
       <Dialog onClose={this.onClose} closeButton={false} open disableBackdropClick>
-        {body}
+        <TargetsDiv id='sync-targets'>
+          { wifiPeers.length === 0
+            ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+            : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
+          }
+          {peers.map((peer) => {
+            return <Target target={peer.target} info={peer.info}
+              onStartClick={() => this.sync.start(peer.target)}
+              onCancelClick={() => this.sync.cancel(peer.target)} />
+          })}
+        </TargetsDiv>
+        <Form method='POST' className='modal-group'>
+          <input type='hidden' name='source' />
+          <div>
+            <Button id='sync-open' onClick={this.selectExisting}>
+              {i18n('sync-database-open-button')}&hellip;
+            </Button>
+            <Button id='sync-new' onClick={this.selectNew}>
+              {i18n('sync-database-new-button')}&hellip;
+            </Button>
+            <Button id='sync-done' onClick={self.onClose}>
+              {i18n('done')}
+            </Button>
+          </div>
+        </Form>
       </Dialog>
     )
+  }
+}
+var VIEWS = {
+  'replication-complete': {
+    message: i18n('replication-complete'),
+    complete: true
+  },
+  'replication-error': {
+    icon: ErrorIcon
+  },
+  'replication-waiting': {
+    icon: LoadingIcon,
+    message: i18n('replication-started')
+  },
+  'replication-started': {
+    icon: LoadingIcon,
+    message: i18n('replication-started')
+  },
+  'replication-progress': {
+    icon: LoadingIcon,
+    message: i18n('replication-progress')
+  },
+  'replication-wifi-ready': {
+    icon: SyncIcon,
+    message: i18n(`sync-wifi-info`),
+    ready: true
   }
 }
 
 // turn the messages into strings once
 // so the function isn't called for every row
-var messages = {
-  'replication-complete': {
-    info: i18n('replication-complete'),
-    complete: true
-  },
-  'replication-waiting': {
-    icon: LoadingIcon,
-    info: i18n('replication-started')
-  },
-  'replication-started': {
-    icon: LoadingIcon,
-    info: i18n('replication-started')
-  },
-  'replication-progress': {
-    icon: LoadingIcon,
-    info: i18n('replication-progress')
-  },
-  'replication-wifi': {
-    icon: SyncIcon,
-    info: i18n(`sync-wifi-info`),
-    ready: true
+class Target extends React.PureComponent {
+  calcProgress (val) {
+    if (val.sofar === val.total) return 100
+    if (val.total === 0) return 0
+    return Math.floor((val.sofar / val.total) * 100)
+  }
+
+  getView () {
+    const {target, info} = this.props
+    var status = info.topic
+    var view = VIEWS[status]
+    if (!view) view = {}
+    view.message = view.message || info.message
+    console.log(view)
+    return view
+  }
+
+  render () {
+    const {target, info} = this.props
+    var status = info.topic
+    var message = info.message
+
+    if (status === 'replication-progress' && message) {
+      var dbCompleted = this.calcProgress(message.db)
+      var mediaCompleted = this.calcProgress(message.media)
+      var diff = 10 // faking this.
+    }
+    var view = this.getView()
+    console.log(view)
+
+    return (
+      <TargetItem
+        className={view.ready ? 'clickable' : ''}
+        key={target.name}
+        onClick={this.props.onStartClick}>
+        <div className='target'>
+          <span className='name'>{target.name}</span>
+          <span className='message'>{view.message}</span>
+          { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted + diff} />}
+          { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted + diff} />}
+        </div>
+        {view.icon && <div className='icon'><view.icon /></div>}
+      </TargetItem>
+    )
   }
 }
 
