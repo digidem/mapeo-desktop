@@ -8,9 +8,9 @@ import ErrorIcon from '@material-ui/icons/Error'
 import Dialog from '@material-ui/core/Dialog'
 import LinearProgress from '@material-ui/core/LinearProgress'
 
-import SyncManager from '../../lib/sync-manager'
+import SyncManager from '../../sync-manager'
 import Form from '../Form'
-import i18n from '../../lib/i18n'
+import i18n from '../../../i18n'
 
 function LoadingIcon (props) {
   return <CircularProgress />
@@ -202,7 +202,7 @@ class Target extends React.PureComponent {
   }
 
   getView () {
-    const {target, info} = this.props
+    const {info} = this.props
     var status = info.topic
     var view = VIEWS[status]
     if (!view) view = {}
@@ -222,7 +222,6 @@ class Target extends React.PureComponent {
       var diff = 10 // faking this.
     }
     var view = this.getView()
-    console.log(view)
 
     return (
       <TargetItem

@@ -3,7 +3,7 @@ const merge = require('lodash/merge')
 const path = require('path')
 const app = require('electron').app
 
-var log = require('../lib/log').Node()
+var log = require('../log').Node()
 
 module.exports = {
   load: load

@@ -1,7 +1,6 @@
 #!/usr/bin/env electron
 
 var path = require('path')
-var fs = require('fs')
 var minimist = require('minimist')
 var electron = require('electron')
 var app = electron.app
@@ -9,27 +8,23 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow
 
 var mkdirp = require('mkdirp')
-var level = require('level')
 var sublevel = require('subleveldown')
 var osmdb = require('osm-p2p')
 var series = require('run-series')
-var semver = require('semver')
-var rimraf = require('rimraf')
 var MediaStore = require('safe-fs-blob-store')
 var styles = require('mapeo-styles')
 
-var menuTemplate = require('./src/menu')
-var createServer = require('./src/server.js')
-var createTileServer = require('./src/tile-server.js')
+var menuTemplate = require('./src/main/menu')
+var createServer = require('./src/main/server.js')
+var createTileServer = require('./src/main/tile-server.js')
 
-var appSettings = require('./app-settings.json')
-var installStatsIndex = require('./src/lib/osm-stats')
-var userConfig = require('./src/lib/user-config')
-var TileImporter = require('./src/lib/tile-importer')
-var importer = require('./src/lib/importer')
-var locale = require('./src/lib/locale')
-var i18n = require('./src/lib/i18n')
-var exportData = require('./src/lib/export-data')
+var installStatsIndex = require('./src/main/osm-stats')
+var userConfig = require('./src/main/user-config')
+var TileImporter = require('./src/main/tile-importer')
+var exportData = require('./src/main/export-data')
+var importer = require('./src/main/importer')
+var locale = require('./src/main/locale')
+var i18n = require('./src/i18n')
 
 if (require('electron-squirrel-startup')) {
   process.exit(0)
@@ -41,7 +36,7 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 var APP_NAME = app.getName()
 var IS_TEST = process.env.NODE_ENV === 'test'
 
-var log = require('./src/lib/log').Node()
+var log = require('./src/log').Node()
 
 var win = null
 

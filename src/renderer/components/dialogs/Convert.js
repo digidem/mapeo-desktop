@@ -8,7 +8,7 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import parallel from 'run-parallel'
 
 import api from '../../api'
-import i18n from '../../lib/i18n'
+import i18n from '../../../i18n'
 
 export default class ConvertDialog extends React.Component {
   constructor (props) {

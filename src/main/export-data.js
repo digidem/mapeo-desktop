@@ -5,7 +5,7 @@ var fs = require('fs')
 
 var exportGeoJson = require('./export-geojson')
 var exportShapefile = require('./export-shapefile')
-var i18n = require('./i18n')
+var i18n = require('../i18n')
 
 module.exports = {
   exportData,

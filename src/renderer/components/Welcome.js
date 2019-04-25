@@ -2,7 +2,7 @@ import Parser from 'html-react-parser'
 import { ipcRenderer } from 'electron'
 import React from 'react'
 
-import _i18n from '../lib/i18n'
+import _i18n from '../../i18n'
 import View from './View'
 
 function i18n (id) {
