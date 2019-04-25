@@ -15,6 +15,33 @@ function LoadingIcon (props) {
   return <CircularProgress />
 }
 
+// turn the messages into strings once
+// so the function isn't called for every row
+const MESSAGES = {
+  'replication-complete': {
+    info: i18n('replication-complete'),
+    complete: true
+  },
+  'replication-waiting': {
+    icon: LoadingIcon,
+    info: i18n('replication-started')
+  },
+  'replication-started': {
+    icon: LoadingIcon,
+    info: i18n('replication-started')
+  },
+  'replication-progress': {
+    icon: LoadingIcon,
+    info: i18n('replication-progress')
+  },
+  'replication-wifi': {
+    icon: SyncIcon,
+    info: i18n(`sync-wifi-info`),
+    ready: true
+  }
+}
+
+
 var Subtitle = styled.div`
   background-color: var(--main-bg-color);
   color: white;
@@ -87,42 +114,57 @@ export default class SyncView extends React.Component {
     if (!target) return
     target.name = target.filename || target.name
     var progress = this.state.progress
-    var stream = api.start(target, {interval: 3000})
-    // this.openConnections[target.id] = stream
-    // TODO: allow closing the sync screen during replication
-    // keep track of open connections and clean them up when the sync screen
-    // closes. for now this is disallowed
-    stream.on('data', (data) => {
-      data = JSON.parse(data.toString())
-      var progress = this.state.progress
-      progress[target.name] = { target, data }
-      this.setState({ progress })
-    })
     progress[target.name] = {
       target: target,
       data: {
-        'topic': 'replication-waiting'
+        topic: 'replication-waiting'
       }
     }
+    api.start(target, (err, data) => {
+      if (err) this.handleError(new Error('Error while syncing with ' + target.name + ': ' + err))
+      progress[target.name] = {
+        target: target,
+        data: {
+          topic: 'replication-complete'
+        }
+      }
+      self.setState({ progress })
+    })
     self.setState({ progress })
   }
 
+  handleError (err) {
+    ipcRenderer.send('error', err)
+  }
+
   componentWillUnmount () {
-    if (this.interval) clearInterval(this.interval)
+    if (this.peerStream) this.peerStream.destroy()
     ipcRenderer.removeListener('select-file', this.selectFile)
   }
 
   componentDidMount () {
     var self = this
-    this.interval = setInterval(function () {
-      api.peers(function (err, peers) {
-        if (err) return console.error(err)
-        self.setState({ peers })
+    this.peerStream = api.peerStream()
+    this.peerStream.on('error', this.handleError)
+    this.peerStream.on('data', (data) => {
+      try {
+        var json = JSON.parse(data.toString())
+      } catch (err) {
+        this.handleError(err)
+      }
+      var peers = json.message
+      var progress = this.state.progress
+      peers.forEach((peer) => {
+        if (peer.progress) {
+          progress[peer.name] = {
+            target: peer,
+            data: peer.progress
+          }
+        }
       })
-    }, 2000)
-    api.join(function (err) {
-      if (err) console.error(err)
+      self.setState({ peers, progress })
     })
+    api.join((err) => err && this.handleError(err))
     ipcRenderer.on('select-file', this.selectFile)
   }
 
@@ -161,15 +203,20 @@ export default class SyncView extends React.Component {
     this.replicate({ filename })
   }
 
+  _getView (target, data) {
+    if (data.topic === 'replication-error') return this.handleError(data.message)
+    return Object.assign({target, data}, MESSAGES[data.topic])
+  }
+
   render () {
     var self = this
     if (this.props.filename) this.replicate({ filename: this.props.filename })
     var available = this.state.peers.map((peer) => {
       var progress = this.state.progress[peer.name]
-      if (!progress) return getView(peer, { topic: 'replication-wifi' })
+      if (!progress) return this._getView(peer, { topic: 'replication-wifi' })
       return false
     })
-    var progressing = Object.values(this.state.progress).map((progress) => getView(progress.target, progress.data))
+    var progressing = Object.values(this.state.progress).map((progress) => this._getView(progress.target, progress.data))
     var complete = progressing.filter((s) => s.complete)
     var syncing = progressing.filter((s) => !s.complete)
     let body = <div>
@@ -256,33 +303,3 @@ export default class SyncView extends React.Component {
   }
 }
 
-// turn the messages into strings once
-// so the function isn't called for every row
-var messages = {
-  'replication-complete': {
-    info: i18n('replication-complete'),
-    complete: true
-  },
-  'replication-waiting': {
-    icon: LoadingIcon,
-    info: i18n('replication-started')
-  },
-  'replication-started': {
-    icon: LoadingIcon,
-    info: i18n('replication-started')
-  },
-  'replication-progress': {
-    icon: LoadingIcon,
-    info: i18n('replication-progress')
-  },
-  'replication-wifi': {
-    icon: SyncIcon,
-    info: i18n(`sync-wifi-info`),
-    ready: true
-  }
-}
-
-function getView (target, data) {
-  if (data.topic === 'replication-error') throw new Error(data.message) // TODO: proper error messages
-  return Object.assign({target, data}, messages[data.topic])
-}
