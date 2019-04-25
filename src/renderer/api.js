@@ -11,6 +11,7 @@ module.exports = {
   leave,
   listen,
   join,
+  clear,
   peers,
   peerStream,
   start,
@@ -108,6 +109,14 @@ function start (target, opts) {
     method: 'GET',
     uri: `${osmServerHost}/sync/start?${querystring.stringify(target)}&interval=${opts.interval}`
   })
+}
+
+function clear (cb) {
+  var opts = {
+    url: `${osmServerHost}/sync/clear`,
+    method: 'GET'
+  }
+  xhr(opts, cb)
 }
 
 function createMedia (buf, cb) {
