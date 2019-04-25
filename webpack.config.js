@@ -2,7 +2,7 @@ const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/renderer/app.js',
   target: 'electron-renderer',
   externals: [nodeExternals()],
   output: {

@@ -3,7 +3,7 @@ import { ipcRenderer, shell } from 'electron'
 import styled from 'styled-components'
 
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import i18n from '../lib/i18n'
+import i18n from '../../i18n'
 import MenuItems from './MenuItems'
 
 import MenuItem from '@material-ui/core/MenuItem'

@@ -1,5 +1,5 @@
 import events from 'events'
-import api from '../api'
+import api from './api'
 
 const WIFI_READY = { topic: 'replication-wifi-ready' }
 
@@ -75,6 +75,7 @@ class SyncManager extends events.EventEmitter {
       peers.map((peer) => {
         if (!peer.name) return this.handleError(new Error('No name for this peer why? This should never happen.', peer))
         var progress = this.progress[peer.name]
+        console.log(progress)
         state[peer.name] = {
           info: (progress && progress.info) || WIFI_READY,
           target: peer

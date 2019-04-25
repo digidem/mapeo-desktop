@@ -9,7 +9,7 @@ import FormControl from '@material-ui/core/FormControl'
 import React from 'react'
 import { ipcRenderer } from 'electron'
 
-import i18n from '../../lib/i18n'
+import i18n from '../../../i18n'
 
 export default class LatLonDialog extends React.Component {
   submitHandler (event) {
