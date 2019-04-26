@@ -142,9 +142,9 @@ export default class SyncView extends React.Component {
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
           {peers.map((peer) => {
-            return <Target target={peer.target} info={peer.info}
-              onStartClick={() => this.sync.start(peer.target)}
-              onCancelClick={() => this.sync.cancel(peer.target)} />
+            return <Target peer={peer}
+              onStartClick={() => this.sync.start(peer)}
+              onCancelClick={() => this.sync.cancel(peer)} />
           })}
         </TargetsDiv>
         <Form method='POST' className='modal-group'>
@@ -202,37 +202,35 @@ class Target extends React.PureComponent {
   }
 
   getView () {
-    const {info} = this.props
-    var status = info.topic
-    var view = VIEWS[status]
+    const {peer} = this.props
+    var state = peer.state
+    var view = VIEWS[state.topic]
     if (!view) view = {}
-    view.message = view.message || info.message
-    console.log(view)
+    view.message = view.message || state.message
     return view
   }
 
   render () {
-    const {target, info} = this.props
-    var status = info.topic
-    var message = info.message
+    const {peer} = this.props
+    var state = peer.state
+    var message = state.message
 
-    if (status === 'replication-progress' && message) {
+    if (state.topic === 'replication-progress' && message) {
       var dbCompleted = this.calcProgress(message.db)
       var mediaCompleted = this.calcProgress(message.media)
-      var diff = 10 // faking this.
     }
     var view = this.getView()
 
     return (
       <TargetItem
         className={view.ready ? 'clickable' : ''}
-        key={target.name}
+        key={peer.name}
         onClick={this.props.onStartClick}>
         <div className='target'>
-          <span className='name'>{target.name}</span>
+          <span className='name'>{peer.name}</span>
           <span className='message'>{view.message}</span>
-          { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted + diff} />}
-          { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted + diff} />}
+          { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted} />}
+          { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted} />}
         </div>
         {view.icon && <div className='icon'><view.icon /></div>}
       </TargetItem>
