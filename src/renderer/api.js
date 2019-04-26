@@ -105,6 +105,7 @@ function stop (target, cb) {
 }
 
 function start (target, opts) {
+  if (!opts) opts = {}
   return hyperquest({
     method: 'GET',
     uri: `${osmServerHost}/sync/start?${querystring.stringify(target)}&interval=${opts.interval}`
