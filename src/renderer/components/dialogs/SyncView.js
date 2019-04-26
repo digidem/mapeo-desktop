@@ -134,6 +134,7 @@ export default class SyncView extends React.Component {
     const { peers } = this.state
     if (this.props.filename) this.sync.start({ filename: this.props.filename })
     var wifiPeers = this.sync.wifiPeers(peers)
+    var syncing = false
     return (
       <Dialog onClose={this.onClose} closeButton={false} open disableBackdropClick>
         <TargetsDiv id='sync-targets'>
@@ -142,6 +143,7 @@ export default class SyncView extends React.Component {
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
           {peers.map((peer) => {
+            syncing = (peer.state.topic !== 'replication-wifi-ready' && peer.state.topic !== 'replication-complete')
             return <Target peer={peer}
               onStartClick={() => this.sync.start(peer)}
               onCancelClick={() => this.sync.cancel(peer)} />
@@ -156,7 +158,7 @@ export default class SyncView extends React.Component {
             <Button id='sync-new' onClick={this.selectNew}>
               {i18n('sync-database-new-button')}&hellip;
             </Button>
-            <Button id='sync-done' onClick={self.onClose}>
+            <Button id='sync-done' onClick={self.onClose} disabled={syncing}>
               {i18n('done')}
             </Button>
           </div>

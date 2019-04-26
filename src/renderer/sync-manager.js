@@ -35,6 +35,14 @@ class SyncManager extends events.EventEmitter {
     api.leave(this.handleError)
   }
 
+  destroy (cb) {
+    api.destroy(this.handleError)
+  }
+
+  listen (cb) {
+    api.listen(this.handleError)
+  }
+
   cancel (target) {
     api.stop(target, this.handleError)
   }
