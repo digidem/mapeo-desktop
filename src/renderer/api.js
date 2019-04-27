@@ -11,7 +11,7 @@ module.exports = {
   leave,
   listen,
   join,
-  clear,
+  clearState,
   peers,
   peerStream,
   start,
@@ -112,9 +112,9 @@ function start (target, opts) {
   })
 }
 
-function clear (cb) {
+function clearState (cb) {
   var opts = {
-    url: `${osmServerHost}/sync/clear`,
+    url: `${osmServerHost}/sync/clearState`,
     method: 'GET'
   }
   xhr(opts, cb)
