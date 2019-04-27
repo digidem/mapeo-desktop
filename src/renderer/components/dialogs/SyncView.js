@@ -69,6 +69,9 @@ var TargetItem = styled.div`
     flex-direction: column;
     justify-content: center;
   }
+  .progress {
+    width: 100%;
+  }
 }
 `
 
@@ -191,9 +194,7 @@ var TOPICS = {
   }
 }
 
-// turn the messages into strings once
-// so the function isn't called for every row
-class Target extends React.PureComponent {
+class Target extends React.Component {
   calcProgress (val) {
     if (val.sofar === val.total) return 100
     if (val.total === 0) return 0
@@ -274,9 +275,11 @@ class View extends React.Component {
           <span className='name'>{name}</span>
           <span className='message'>{view.message}</span>
           {lastCompletedDate && <span className='completed'>Last completed {new Date(lastCompletedDate).toLocaleString()}</span>}
+          <div className='progress'>
+            { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted} />}
+            { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted} />}
+          </div>
         </div>
-        { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted} />}
-        { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted} />}
         { view.icon && <div className='icon'><view.icon /></div> }
       </div>
     )

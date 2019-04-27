@@ -21,7 +21,7 @@ function createMockDevice (dir, opts) {
   var osm = osmdb(path.join(dir, 'osm'))
   var media = blobstore(path.join(dir, 'media'))
   var mapeo = Mapeo(osm, media, opts)
-  mapeo.api.core.sync.setName(crypto.randomBytes(8).toString('hex'))
+  mapeo.api.core.sync.setName('My Fake Android Device #1')
   var server = http.createServer(function (req, res) {
     if (!mapeo.handle(req, res)) {
       res.statusCode = 404
