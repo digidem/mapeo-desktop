@@ -37,15 +37,17 @@ var TargetsDiv = styled.div`
   }
 `
 
-var TargetItem = styled.li`
-  min-width: 250px;
-  padding: 20px;
-  border-bottom: 1px solid grey;
-  display: flex;
-  justify-content: space-between;
-  vertical-align: middle;
-  align-items: center;
-  &.clickable:hover {
+var TargetItem = styled.div`
+  .view {
+    border-bottom: 1px solid grey;
+    min-width: 250px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    vertical-align: middle;
+    align-items: center;
+  }
+  .clickable:hover {
     background-color: #eee;
     cursor: pointer;
   }
@@ -56,7 +58,7 @@ var TargetItem = styled.li`
     font-weight: bold;
     font-size: 16px;
   }
-  .message {
+  .message, .completed {
     font-weight: normal;
     font-size: 14px;
     font-style: italic;
@@ -109,7 +111,6 @@ export default class SyncView extends React.Component {
     // TODO: allow closing the sync screen during replication
     // right now, assumes all streams are done replicating and progress tracker
     // can be cleaned up
-    this.sync.clearState()
     this.props.onClose()
     ipcRenderer.send('refresh-window')
   }
@@ -134,7 +135,7 @@ export default class SyncView extends React.Component {
     const { peers } = this.state
     if (this.props.filename) this.sync.start({ filename: this.props.filename })
     var wifiPeers = this.sync.wifiPeers(peers)
-    var syncing = false
+    var disabled = false
     return (
       <Dialog onClose={this.onClose} closeButton={false} open disableBackdropClick>
         <TargetsDiv id='sync-targets'>
@@ -143,7 +144,9 @@ export default class SyncView extends React.Component {
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
           {peers.map((peer) => {
-            syncing = (peer.state.topic !== 'replication-wifi-ready' && peer.state.topic !== 'replication-complete')
+            disabled = (peer.state.topic !== 'replication-wifi-ready' &&
+              peer.state.topic !== 'replication-complete' &&
+              peer.state.topic !== 'replication-error')
             return <Target peer={peer}
               onStartClick={() => this.sync.start(peer)}
               onCancelClick={() => this.sync.cancel(peer)} />
@@ -158,7 +161,7 @@ export default class SyncView extends React.Component {
             <Button id='sync-new' onClick={this.selectNew}>
               {i18n('sync-database-new-button')}&hellip;
             </Button>
-            <Button id='sync-done' onClick={self.onClose} disabled={syncing}>
+            <Button id='sync-done' onClick={self.onClose} disabled={disabled}>
               {i18n('done')}
             </Button>
           </div>
@@ -167,14 +170,8 @@ export default class SyncView extends React.Component {
     )
   }
 }
-var VIEWS = {
-  'replication-complete': {
-    message: i18n('replication-complete'),
-    complete: true
-  },
-  'replication-error': {
-    icon: ErrorIcon
-  },
+
+var TOPICS = {
   'replication-waiting': {
     icon: LoadingIcon,
     message: i18n('replication-started')
@@ -203,15 +200,6 @@ class Target extends React.PureComponent {
     return Math.floor((val.sofar / val.total) * 100)
   }
 
-  getView () {
-    const {peer} = this.props
-    var state = peer.state
-    var view = VIEWS[state.topic]
-    if (!view) view = {}
-    view.message = view.message || state.message
-    return view
-  }
-
   render () {
     const {peer} = this.props
     var state = peer.state
@@ -221,22 +209,76 @@ class Target extends React.PureComponent {
       var dbCompleted = this.calcProgress(message.db)
       var mediaCompleted = this.calcProgress(message.media)
     }
-    var view = this.getView()
 
     return (
       <TargetItem
-        className={view.ready ? 'clickable' : ''}
         key={peer.name}
         onClick={this.props.onStartClick}>
-        <div className='target'>
-          <span className='name'>{peer.name}</span>
-          <span className='message'>{view.message}</span>
-          { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted} />}
-          { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted} />}
-        </div>
-        {view.icon && <div className='icon'><view.icon /></div>}
+        <View
+          topic={peer.state.topic}
+          message={peer.state.messsage}
+          name={peer.name}
+          dbCompleted={dbCompleted}
+          mediaCompleted={mediaCompleted}
+          lastCompletedDate={peer.state.lastCompletedDate}
+        />
       </TargetItem>
     )
   }
 }
 
+function getView (topic, message) {
+  var view
+
+  switch (topic) {
+    case 'replication-complete':
+      var time = message ? new Date(message).toLocaleTimeString() : ''
+      view = {
+        message: i18n('replication-complete', time),
+        complete: true
+      }
+      break
+    case 'replication-error':
+      view = {
+        icon: ErrorIcon,
+        message: message
+      }
+      break
+    default:
+      view = TOPICS[topic]
+  }
+
+  return view
+}
+
+class View extends React.Component {
+  render () {
+    const {
+      name,
+      topic,
+      message,
+      dbCompleted,
+      mediaCompleted,
+      lastCompletedDate
+    } = this.props
+
+    var view = getView(topic, message)
+
+    if (!view) {
+      view = {}
+      console.error('this is bad, there was no view available for peer')
+    }
+    return (
+      <div className={view.ready ? 'view clickable' : 'view'}>
+        <div className='target'>
+          <span className='name'>{name}</span>
+          <span className='message'>{view.message}</span>
+          {lastCompletedDate && <span className='completed'>Last completed {new Date(lastCompletedDate).toLocaleString()}</span>}
+        </div>
+        { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted} />}
+        { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted} />}
+        { view.icon && <div className='icon'><view.icon /></div> }
+      </div>
+    )
+  }
+}
