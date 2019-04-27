@@ -2,7 +2,7 @@ const mkdirp = require('mkdirp')
 const pump = require('pump')
 const path = require('path')
 const tar = require('tar-fs')
-const asar = require('asar')
+const mirror = require('mirror-folder')
 const fs = require('fs')
 
 module.exports = TileImporter
@@ -22,7 +22,7 @@ TileImporter.defaults = {
   default: false,
   overzoom: true,
   scaleExtent: [0, 22],
-  url: 'http://localhost:5000',
+  url: 'http://localhost:5005',
   templatePattern: '/{zoom}/{x}/{y}'
 }
 
@@ -74,33 +74,30 @@ TileImporter.prototype._extractTar = function (tilesPath, destPath, cb) {
   pump(read, extract, cb)
 }
 
-TileImporter.prototype.moveTiles = function (tilesPath, tilesDest, cb) {
-  fs.stat(tilesPath, (err, stat) => {
+TileImporter.prototype.moveTiles = function (tilesPath, dir, cb) {
+  var self = this
+  if (path.extname(tilesPath) === '.tar') return this._extractTar(tilesPath, dir, cb)
+  if (path.extname(tilesPath) === '.mbtiles') {
+    var destFile = path.join(dir, path.basename(tilesPath))
+    return fs.copyFile(tilesPath, destFile, cb)
+  }
+  fs.stat(tilesPath, function (err, stat) {
     if (err) return cb(err)
-    mkdirp(tilesDest, (err) => {
-      if (err) return cb(err)
-      if (path.extname(tilesPath) === '.asar') {
-        var filename = path.basename(tilesPath)
-        return fs.copyFile(tilesPath, path.join(tilesDest, filename), cb)
-      }
-      if (stat.isDirectory()) {
-        var styleId = path.basename(tilesDest)
-        return this._createAsar(tilesPath, path.join(tilesDest, styleId + '.asar'), cb)
-      }
-      if (path.extname(tilesPath) === '.tar') {
-        this._extractTar(tilesPath, tilesDest, cb)
-      } else return cb(new Error('Must be a .tar, .asar, or directory with tiles.'))
-    })
+    if (stat.isDirectory()) {
+      return self._moveDirectory(tilesPath, dir, cb)
+    } else return cb(new Error('Tiles be a .tar, .mbtiles, or directory.'))
   })
 }
 
-TileImporter.prototype._createAsar = function (tilesPath, destFile, cb) {
-  console.log('creating asar', tilesPath, destFile)
-  try {
-    asar.createPackage(tilesPath, destFile).then(cb)
-  } catch (err) {
-    console.error('Got error when creating asar', err)
-    return cb(err)
+TileImporter.prototype._moveDirectory = function (tilesPath, dir, cb) {
+  fs.stat(dir, function (err, stats) {
+    if (err) mkdirp(dir, done)
+    else done()
+  })
+
+  function done (err) {
+    if (err) return cb(err)
+    mirror(tilesPath, dir, cb)
   }
 }
 
