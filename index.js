@@ -20,6 +20,7 @@ var styles = require('mapeo-styles')
 
 var menuTemplate = require('./src/menu')
 var createServer = require('./src/server.js')
+var createTileServer = require('./src/tile-server.js')
 
 var appSettings = require('./app-settings.json')
 var installStatsIndex = require('./src/lib/osm-stats')
@@ -29,9 +30,6 @@ var importer = require('./src/lib/importer')
 var locale = require('./src/lib/locale')
 var i18n = require('./src/lib/i18n')
 var exportData = require('./src/lib/export-data')
-
-// because we are dealing with asar files as actual files
-process.noAsar = true
 
 if (require('electron-squirrel-startup')) {
   process.exit(0)
@@ -101,8 +99,8 @@ series([
   initOsmDb,
   startupMsg('Initialized osm-p2p'),
 
-  startMapeoServer,
-  startupMsg('Started mapeo-server'),
+  createServers,
+  startupMsg('Started osm and tile servers'),
 
   createMainWindow,
   startupMsg('Created app window')
@@ -173,13 +171,21 @@ function versionCheckIndexes (done) {
   }
 }
 
-function startMapeoServer (done) {
+function createServers (done) {
   app.server = createServer(app.osm, app.media, { staticRoot: userDataPath })
+
+  var pending = 2
 
   app.server.listen(argv.port, '127.0.0.1', function () {
     global.osmServerHost = '127.0.0.1:' + app.server.address().port
     log(global.osmServerHost)
-    done()
+    if (--pending === 0) done()
+  })
+
+  var tileServer = createTileServer()
+  tileServer.listen(argv.tileport, function () {
+    log('tile server listening on :', tileServer.address().port)
+    if (--pending === 0) done()
   })
 }
 

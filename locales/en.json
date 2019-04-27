@@ -7,8 +7,6 @@
   "replication-started": "Syncronization has begun, waiting for response...",
   "replication-progress": "Syncronizing: In progress...",
   "menu-file": "File",
-  "menu-import-tiles-file": "File (.asar, .tar)",
-  "menu-import-tiles-directory": "Directory of tiles",
   "menu-change-language": "Change language...",
   "menu-change-language-title": "Enter the language (e.g., 'en' or 'es')",
   "menu-import-tiles": "Import Offline Map Tiles...",
