@@ -17,10 +17,6 @@ class SyncManager extends events.EventEmitter {
     })
   }
 
-  clearState () {
-    api.clearState(this.handleError)
-  }
-
   handleError (err) {
     if (err) this.emit('error', err)
   }
