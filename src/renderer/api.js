@@ -55,7 +55,6 @@ function join (cb) {
   })
 }
 
-
 function listen (cb) {
   var opts = {
     method: 'GET',
@@ -68,7 +67,7 @@ function listen (cb) {
 }
 
 function peerStream (opts) {
-  if (!opts) opts = { interval: 1000}
+  if (!opts) opts = { interval: 1000 }
   return hyperquest({
     method: 'GET',
     uri: `${osmServerHost}/sync/peers?interval=${opts.interval}`

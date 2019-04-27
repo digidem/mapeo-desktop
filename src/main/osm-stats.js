@@ -75,7 +75,7 @@ function createZoomToDataIndex (ldb) {
           type = 'node'
         }
         this.ready(function () {
-          var rs = ldb.createReadStream({ gt: 'ztd/'+type+'!', lt: 'ztd/'+type+'~' })
+          var rs = ldb.createReadStream({ gt: 'ztd/' + type + '!', lt: 'ztd/' + type + '~' })
           var mostDense = null
           rs.on('data', function (entry) {
             if (mostDense === null || Number(entry.value) > Number(mostDense.value)) {

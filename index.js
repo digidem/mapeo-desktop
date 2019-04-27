@@ -288,7 +288,7 @@ function createMainWindow (done) {
       win.webContents.send('indexes-loading')
       app.osm.ready(function () {
         log('indexes READY')
-       win.webContents.send('indexes-ready')
+        win.webContents.send('indexes-ready')
       })
     })
 
