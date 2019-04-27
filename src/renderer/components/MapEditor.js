@@ -6,8 +6,8 @@ import { ipcRenderer, remote, shell } from 'electron'
 import styled from 'styled-components'
 
 import Sidebar from './Sidebar'
-import i18n from '../lib/i18n'
-import pkg from '../../package.json'
+import i18n from '../../i18n'
+import pkg from '../../../package.json'
 
 let iD = window.iD
 let DOMParser = window.DOMParser
@@ -141,7 +141,7 @@ export default class MapEditor extends React.Component {
   }
 
   zoomToDataRequest () {
-    ipcRenderer.send('zoom-to-data-get-centroid')
+    ipcRenderer.send('zoom-to-data-get-centroid', 'node')
   }
 
   zoomToDataResponse (_, loc) {

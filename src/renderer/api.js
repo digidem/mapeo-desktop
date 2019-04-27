@@ -1,14 +1,18 @@
 import xhr from 'xhr'
 import { remote } from 'electron'
+import hyperquest from 'hyperquest'
 import querystring from 'querystring'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
 module.exports = {
   stop,
-  unannounce,
-  announce,
-  getTargets,
+  destroy,
+  leave,
+  listen,
+  join,
+  peers,
+  peerStream,
   start,
   createMedia,
   create,
@@ -18,10 +22,10 @@ module.exports = {
   convert
 }
 
-function unannounce (cb) {
+function destroy (cb) {
   var opts = {
     method: 'GET',
-    url: `${osmServerHost}/sync/unannounce`
+    url: `${osmServerHost}/sync/destroy`
   }
   xhr(opts, function (err, res, body) {
     if (err) return cb(err)
@@ -29,10 +33,10 @@ function unannounce (cb) {
   })
 }
 
-function announce (cb) {
+function leave (cb) {
   var opts = {
     method: 'GET',
-    url: `${osmServerHost}/sync/announce`
+    url: `${osmServerHost}/sync/leave`
   }
   xhr(opts, function (err, res, body) {
     if (err) return cb(err)
@@ -40,15 +44,47 @@ function announce (cb) {
   })
 }
 
-function getTargets (cb) {
+function join (cb) {
   var opts = {
     method: 'GET',
-    url: `${osmServerHost}/sync/targets`
+    url: `${osmServerHost}/sync/join`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    return cb(null, body)
+  })
+}
+
+function listen (cb) {
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/listen`
+  }
+  xhr(opts, function (err, res, body) {
+    if (err) return cb(err)
+    return cb(null, body)
+  })
+}
+
+function peerStream (opts) {
+  if (!opts) opts = { interval: 1000 }
+  return hyperquest({
+    method: 'GET',
+    uri: `${osmServerHost}/sync/peers?interval=${opts.interval}`
+  })
+}
+
+function peers (cb) {
+  var opts = {
+    method: 'GET',
+    url: `${osmServerHost}/sync/peers`
   }
   xhr(opts, function (err, res, body) {
     if (err) return cb(err)
     try {
-      return cb(null, JSON.parse(body))
+      var data = JSON.parse(body)
+      if (data.topic === 'peers') return cb(null, data.message)
+      else return cb(new Error('unknown response', data))
     } catch (err) {
       return cb(err)
     }
@@ -66,14 +102,11 @@ function stop (target, cb) {
   })
 }
 
-function start (target, cb) {
-  var opts = {
+function start (target, opts) {
+  if (!opts) opts = {}
+  return hyperquest({
     method: 'GET',
-    url: `${osmServerHost}/sync/start?${querystring.stringify(target)}`
-  }
-  xhr(opts, function (err, res, body) {
-    if (err) return cb(err)
-    cb(null, body)
+    uri: `${osmServerHost}/sync/start?${querystring.stringify(target)}&interval=${opts.interval}`
   })
 }
 

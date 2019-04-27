@@ -1,23 +1,26 @@
 var concat = require('concat-stream')
 var mock = require('mock-data')
+var mkdirp = require('mkdirp')
 var hyperquest = require('hyperquest')
 var debug = require('debug')('mapeo-mock-device')
 var path = require('path')
-var crypto = require('crypto')
 var Mapeo = require('mapeo-server')
 var blobstore = require('safe-fs-blob-store')
 var osmdb = require('osm-p2p')
 var http = require('http')
 
-const MOCK_DATA = 5
+const MOCK_DATA = 500
 
 module.exports = createMockDevice
 
 function createMockDevice (dir, opts) {
-  if (!opts) opts = { name: crypto.randomBytes(8).toString('hex') }
+  if (!opts) opts = {}
+  mkdirp.sync(path.join(dir, 'osm'))
+  mkdirp.sync(path.join(dir, 'media'))
   var osm = osmdb(path.join(dir, 'osm'))
   var media = blobstore(path.join(dir, 'media'))
   var mapeo = Mapeo(osm, media, opts)
+  mapeo.api.core.sync.setName('My Fake Android Device #1')
   var server = http.createServer(function (req, res) {
     if (!mapeo.handle(req, res)) {
       res.statusCode = 404
@@ -26,6 +29,11 @@ function createMockDevice (dir, opts) {
   })
   server.on('error', function (err) {
     console.trace(err)
+  })
+
+  server.on('close', function () {
+    console.log('closing mapeo')
+    server.mapeo.api.close()
   })
 
   server.mapeo = mapeo
@@ -53,37 +61,32 @@ function turnOn (opts, cb) {
   }
   var port = opts.port || DEFAULT_PORT
 
-  server.listen(port, cb)
+  server.listen(port, function () {
+    server.mapeo.api.core.sync.listen(cb)
+  })
+}
+
+function call (url, cb) {
+  var hq2 = hyperquest.get(url, {})
+  hq2.pipe(concat({ encoding: 'string' }, function (body) {
+    debug('announced', body)
+    if (cb) return cb(body)
+  }))
+  hq2.end()
 }
 
 function openSyncScreen (cb) {
   var server = this
-  if (server.interval) return cb && cb()
-  server.interval = setInterval(function () {
-    debug('announcing')
-    var port = server.address().port
-    var hq2 = hyperquest.get(`http://localhost:${port}/sync/announce`, {})
-    hq2.pipe(concat({ encoding: 'string' }, function (body) {
-      debug('announced', body)
-      if (cb) return cb(body)
-    }))
-    hq2.end()
-  }, 2000)
+  var port = server.address().port
+  debug('announcing')
+  call(`http://localhost:${port}/sync/join`, cb)
 }
 
 function closeSyncScreen (cb) {
   var server = this
-  if (!server.interval) return cb && cb()
-  clearInterval(server.interval)
-  server.interval = undefined
   debug('unannouncing')
   var port = server.address().port
-  var hq2 = hyperquest.get(`http://localhost:${port}/sync/unannounce`, {})
-  hq2.pipe(concat({ encoding: 'string' }, function (body) {
-    debug('unannounced', body)
-    if (cb) return cb(body)
-  }))
-  hq2.end()
+  call(`http://localhost:${port}/sync/leave`, cb)
 }
 
 function createMockData (count, cb) {
@@ -97,7 +100,7 @@ function createMockData (count, cb) {
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
-  var fpath = encodeURIComponent(path.join(__dirname, '..', 'hi-res.jpg'))
+  var fpath = encodeURIComponent(path.join(__dirname, '..', 'test', 'hi-res.jpg'))
 
   mock.generate({
     type: 'integer',
@@ -159,20 +162,18 @@ function createMockData (count, cb) {
 
 function shutdown (cb) {
   var server = this
-  clearInterval(server.interval)
-  server.interval = undefined
-  server.closed = true
-  server.on('close', function () {
-    server.mapeo.api.close(cb)
+  server.mapeo.api.close(function () {
+    server.close(cb)
   })
-  server.close()
 }
 
 if (require.main === module) {
-  var dir = path.join(__dirname, 'test-data')
+  var args = process.argv.splice(2)
+  var dir = args[0] || path.join(__dirname, 'test-data')
   var device = createMockDevice(dir)
 
-  var port = process.argv.splice(2)[0] || DEFAULT_PORT
+  var port = args[1] || DEFAULT_PORT
+  console.log(port, dir)
 
   device.turnOn(port, function () {
     console.log('listening on port', device.address().port)

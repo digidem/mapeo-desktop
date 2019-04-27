@@ -2,6 +2,7 @@ import React from 'react'
 import MapFilter from 'react-mapfilter'
 import { ipcRenderer, remote } from 'electron'
 import {
+  FIELD_TYPE_DATE,
   FIELD_TYPE_STRING
 } from 'react-mapfilter/es5/constants'
 import xor from 'lodash/xor'
@@ -33,6 +34,8 @@ const customStyleUrl = `${osmServerHost}/styles/mapfilter-style/style.json`
 const defaultStyleUrl = `${osmServerHost}/static/style.json`
 
 const fieldTypes = {
+  created_at: FIELD_TYPE_DATE,
+  timestamp: FIELD_TYPE_DATE,
   notes: FIELD_TYPE_STRING
 }
 
@@ -42,7 +45,7 @@ class Home extends React.Component {
     var self = this
     self.state = {
       features: [],
-      mapPosition: { center: [0, 0], zoom: 0 },
+      mapPosition: {},
       showModal: false,
       mapStyle: null
     }
@@ -83,7 +86,7 @@ class Home extends React.Component {
   }
 
   zoomToDataRequest () {
-    ipcRenderer.send('zoom-to-data-get-centroid')
+    ipcRenderer.send('zoom-to-data-get-centroid', 'observation')
   }
 
   handleDatasetChange () {
@@ -107,11 +110,7 @@ class Home extends React.Component {
         features.indexOf(f) === -1
     })
 
-    var cb = function (err, resp) {
-      if (err) return this.handleError(err)
-    }
-
-    deleted.forEach(f => api.del(f, cb))
+    deleted.forEach(f => this.deleteObservation(f))
     added.forEach(f => this.createObservation(f))
     updated.forEach(f => this.updateObservation(f))
     this.setState({ features: changedFeatures })
@@ -122,17 +121,8 @@ class Home extends React.Component {
     const newObs = Object.assign({}, obs)
 
     // TODO: media is currently not updated, but it will be in the future
-    const WHITELIST = ['fields', 'media', 'created_at']
     Object.keys(f.properties || {}).forEach(function (key) {
-      if (WHITELIST.indexOf(key) > -1) return
       newObs.tags[key] = f.properties[key]
-    })
-
-    // Mapeo Mobile currently expects field definitions as a property on tags
-    ;(obs.tags.fields || []).forEach(function (field, i) {
-      if (!f.properties || f.properties[field.id] === undefined) return
-      newObs.tags.fields[i].answer = f.properties[field.id]
-      newObs.tags.fields[i].answered = true
     })
 
     api.update(newObs, (err, obs) => {
@@ -149,7 +139,14 @@ class Home extends React.Component {
     })
   }
 
-  createObservation (f, cb) {
+  deleteObservation (f) {
+    api.del({id: f.id}, (err, resp, obs) => {
+      if (err) return this.handleError(err)
+      delete this._observationsById[f.id]
+    })
+  }
+
+  createObservation (f) {
     const newObs = {
       id: f.id || randomBytes(8).toString('hex'),
       type: 'observation',
@@ -187,6 +184,7 @@ class Home extends React.Component {
   handleError (err) {
     // TODO: Show some kind of error message in the UI
     console.error(err)
+    ipcRenderer.send('error', err.message)
   }
 
   handleChangeMapPosition (mapPosition) {
@@ -231,7 +229,7 @@ class Home extends React.Component {
           onChangeMapPosition={this.handleChangeMapPosition}
           onChangeFeatures={this.handleChangeFeatures}
           fieldTypes={fieldTypes}
-          datasetName='mapeo'
+          datasetName='Mapeo-Mobile'
           resizer={resizer}
           appBarMenuItems={appBarMenuItems}
           appBarTitle={appBarTitle} />
@@ -262,9 +260,7 @@ function observationToFeature (obs, id) {
     }
   }
 
-  const WHITELIST = ['fields']
   Object.keys(obs.tags || {}).forEach(function (key) {
-    if (WHITELIST.indexOf(key) > -1) return
     feature.properties[key] = obs.tags[key]
   })
 
@@ -276,6 +272,7 @@ function observationToFeature (obs, id) {
     }
   })
 
+  feature.properties.timestamp = obs.timestamp
   feature.properties.created_at = obs.created_at
 
   if (!feature.properties.notes) feature.properties.notes = ' '

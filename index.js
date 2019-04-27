@@ -1,7 +1,6 @@
 #!/usr/bin/env electron
 
 var path = require('path')
-var fs = require('fs')
 var minimist = require('minimist')
 var electron = require('electron')
 var app = electron.app
@@ -9,27 +8,23 @@ var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow
 
 var mkdirp = require('mkdirp')
-var level = require('level')
 var sublevel = require('subleveldown')
 var osmdb = require('osm-p2p')
 var series = require('run-series')
-var semver = require('semver')
-var rimraf = require('rimraf')
 var MediaStore = require('safe-fs-blob-store')
 var styles = require('mapeo-styles')
 
-var menuTemplate = require('./src/menu')
-var createServer = require('./src/server.js')
-var createTileServer = require('./src/tile-server.js')
+var menuTemplate = require('./src/main/menu')
+var createServer = require('./src/main/server.js')
+var createTileServer = require('./src/main/tile-server.js')
 
-var appSettings = require('./app-settings.json')
-var installStatsIndex = require('./src/lib/osm-stats')
-var userConfig = require('./src/lib/user-config')
-var TileImporter = require('./src/lib/tile-importer')
-var importer = require('./src/lib/importer')
-var locale = require('./src/lib/locale')
-var i18n = require('./src/lib/i18n')
-var exportData = require('./src/lib/export-data')
+var installStatsIndex = require('./src/main/osm-stats')
+var userConfig = require('./src/main/user-config')
+var TileImporter = require('./src/main/tile-importer')
+var exportData = require('./src/main/export-data')
+var importer = require('./src/main/importer')
+var locale = require('./src/main/locale')
+var i18n = require('./src/i18n')
 
 if (require('electron-squirrel-startup')) {
   process.exit(0)
@@ -41,7 +36,7 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 var APP_NAME = app.getName()
 var IS_TEST = process.env.NODE_ENV === 'test'
 
-var log = require('./src/lib/log').Node()
+var log = require('./src/log').Node()
 
 var win = null
 
@@ -93,7 +88,6 @@ mkdirp(path.join(userDataPath, 'styles'), function (err) {
 
 // The app startup sequence
 series([
-  versionCheckIndexes,
   startupMsg('Checked indexes version is up-to-date'),
 
   initOsmDb,
@@ -112,7 +106,10 @@ series([
 function initOsmDb (done) {
   var osm = osmdb(argv.datadir)
   log('loading datadir', argv.datadir)
-  installStatsIndex(osm)
+
+  var idb = sublevel(osm.index, 'stats')
+  osm.core.use('stats', installStatsIndex(idb))
+
   var media = MediaStore(path.join(argv.datadir, 'media'))
   app.osm = osm
   app.media = media
@@ -122,53 +119,6 @@ function initOsmDb (done) {
   log('preparing osm indexes..')
 
   done()
-}
-
-// Regenerate osm indexes if needed
-function versionCheckIndexes (done) {
-  var dir = argv.datadir
-  var idxDb = level(path.join(dir, 'index'))
-  var versionDb = sublevel(idxDb, 'versions')
-
-  versionDb.get('kdb-index', function (err, version) {
-    if (err && err.notFound) version = '1.0.0'
-    else if (err) return versionDb.close(function (_) { done(err) }) // cleanup!
-
-    idxDb.close(function (_) {
-      if (semver.major(appSettings.indexes.kdb.version) > semver.major(version)) {
-        log('kdb index must be regenerated (have=' + version + ', needed=' + appSettings.indexes.kdb.version + ')')
-
-        // TODO(noffle): in the future, let's be smarter about selectively wiping sub-indexes as needed
-        series([wipeAllIndexes, writeUpToDateVersions], done)
-      } else {
-        log('indexes are up to date!')
-        done()
-      }
-    })
-  })
-
-  function wipeAllIndexes (fin) {
-    // swallow errors; the indexes might not exist in the first place
-    console.log('wiping indexes')
-    series([
-      function (done) {
-        rimraf(path.join(dir, 'index'), function (_) { done() })
-      },
-      function (done) {
-        fs.unlink(path.join(dir, 'kdb'), function (_) { done() })
-      }
-    ], fin)
-  }
-
-  function writeUpToDateVersions (fin) {
-    console.log('writing new index versions')
-    var idxDb = level(path.join(dir, 'index'))
-    var versionDb = sublevel(idxDb, 'versions')
-    series([
-      function (done) { versionDb.put('kdb-index', appSettings.indexes.kdb.version, done) },
-      idxDb.close.bind(idxDb)
-    ], fin)
-  }
 }
 
 function createServers (done) {
@@ -250,6 +200,10 @@ function createMainWindow (done) {
       win.webContents.send('import-progress', path.basename(filename), index, total)
     })
 
+    ipc.on('error', function (ev, message) {
+      win.webContents.send('error', message)
+    })
+
     ipc.on('set-locale', function (ev, lang) {
       app.translations = locale.load(lang)
     })
@@ -311,8 +265,9 @@ function createMainWindow (done) {
       exportData.openDialog(app, name, ext)
     })
 
-    ipc.on('zoom-to-data-get-centroid', function () {
-      getGlobalDatasetCentroid(function (_, loc) {
+    ipc.on('zoom-to-data-get-centroid', function (_, type) {
+      getDatasetCentroid(type, function (_, loc) {
+        console.log(_, loc)
         if (!loc) return
         win.webContents.send('zoom-to-data-response', loc)
       })
@@ -369,11 +324,12 @@ function handleUncaughtExceptions () {
   })
 }
 
-function getGlobalDatasetCentroid (done) {
-  app.osm.stats.getMapCenter(function (err, center) {
-    if (err) return log('ERROR(getGlobalDatasetCentroid):', err)
-    if (!center) return done(null, null)
+function getDatasetCentroid (type, done) {
+  log('STATUS(getDatasetCentroid):', type)
+  app.osm.core.api.stats.getMapCenter(type, function (err, center) {
+    if (err) return log('ERROR(getDatasetCentroid):', err)
     console.log('center', center)
+    if (!center) return done(null, null)
     done(null, [center.lon, center.lat])
   })
 }

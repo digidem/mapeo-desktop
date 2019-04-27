@@ -5,6 +5,7 @@ import ImportProgress from './dialogs/ImportProgress'
 import Indexes from './dialogs/Indexes'
 import SyncView from './dialogs/SyncView'
 import LatLonDialog from './dialogs/LatLon'
+import Error from './dialogs/Error'
 import MapEditor from './MapEditor'
 import MapFilter from './MapFilter'
 import Welcome from './Welcome'
@@ -36,6 +37,10 @@ export default class Home extends React.Component {
     ipcRenderer.on('open-latlon-dialog', function () {
       self.openModal('LatLonDialog')
     })
+
+    ipcRenderer.on('error', function (ev, message) {
+      self.openModal('Error', {message})
+    })
   }
 
   getView (name) {
@@ -49,6 +54,8 @@ export default class Home extends React.Component {
         return SyncView
       case 'LatLonDialog':
         return LatLonDialog
+      case 'Error':
+        return Error
       default:
         return MapFilter
     }
