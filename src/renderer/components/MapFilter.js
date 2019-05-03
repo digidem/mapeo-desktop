@@ -63,7 +63,7 @@ class Home extends React.Component {
   }
 
   refresh () {
-    this.getFeatures()
+    window.location.reload()
   }
 
   componentWillUnmount () {
