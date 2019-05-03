@@ -2,19 +2,38 @@ import events from 'events'
 import api from './api'
 
 class SyncManager extends events.EventEmitter {
+  constructor () {
+    super()
+    this.handleError = this.handleError.bind(this)
+  }
+
   start (target, opts) {
     if (!target) return this.handleError(new Error('target required, got null'))
     if (!opts) opts = {}
     target.name = target.filename || target.name
-    this._emitPeers()
     api.start(target)
   }
 
   _emitPeers () {
-    this.peers((err, peers) => {
-      if (err) return this.handleError(err)
-      this.emit('peers', peers)
-    })
+    var stream = this.stream = api.peerStream()
+    var ondata = (data) => {
+      try {
+        var peers = JSON.parse(data)
+        this.emit('peers', peers.message)
+      } catch (err) {
+        onend(err)
+      }
+    }
+    var onend = (err) => {
+      if (err) this.handleError(err)
+      stream.removeListener('data', ondata)
+      stream.removeListener('error', onend)
+      stream.removeListener('end', onend)
+    }
+
+    stream.on('data', ondata)
+    stream.on('error', onend)
+    stream.on('end', onend)
   }
 
   handleError (err) {
@@ -23,12 +42,12 @@ class SyncManager extends events.EventEmitter {
 
   join () {
     api.join(this.handleError)
-    this.interval = setInterval(this._emitPeers.bind(this), 2000)
+    this._emitPeers()
   }
 
   leave () {
-    if (this.interval) clearInterval(this.interval)
     api.leave(this.handleError)
+    if (this.stream) this.stream.destroy()
   }
 
   destroy (cb) {
@@ -45,10 +64,6 @@ class SyncManager extends events.EventEmitter {
 
   wifiPeers (peers) {
     return peers.filter((p) => p.info && p.info.topic === 'replication-wifi-ready')
-  }
-
-  peers (cb) {
-    api.peers(cb)
   }
 }
 

@@ -2,19 +2,14 @@ import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import React from 'react'
 import { ipcRenderer } from 'electron'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import SyncIcon from '@material-ui/icons/Sync'
 import ErrorIcon from '@material-ui/icons/Error'
 import Dialog from '@material-ui/core/Dialog'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import SyncManager from '../../sync-manager'
 import Form from '../Form'
 import i18n from '../../../i18n'
-
-function LoadingIcon (props) {
-  return <CircularProgress />
-}
 
 var Subtitle = styled.div`
   background-color: var(--main-bg-color);
@@ -111,9 +106,6 @@ export default class SyncView extends React.Component {
   }
 
   onClose () {
-    // TODO: allow closing the sync screen during replication
-    // right now, assumes all streams are done replicating and progress tracker
-    // can be cleaned up
     this.props.onClose()
     ipcRenderer.send('refresh-window')
   }
@@ -176,15 +168,12 @@ export default class SyncView extends React.Component {
 
 var TOPICS = {
   'replication-waiting': {
-    icon: LoadingIcon,
     message: i18n('replication-started')
   },
   'replication-started': {
-    icon: LoadingIcon,
     message: i18n('replication-started')
   },
   'replication-progress': {
-    icon: LoadingIcon,
     message: i18n('replication-progress')
   },
   'replication-wifi-ready': {
@@ -207,20 +196,22 @@ class Target extends React.Component {
     var message = state.message
 
     if (state.topic === 'replication-progress' && message) {
-      var dbCompleted = this.calcProgress(message.db)
-      var mediaCompleted = this.calcProgress(message.media)
+      var progress = this.calcProgress({
+        sofar: message.db.sofar + message.media.sofar,
+        total: message.db.total + message.media.total
+      })
+      console.log(progress)
     }
 
     return (
       <TargetItem
-        key={peer.name}
-        onClick={this.props.onStartClick}>
+        key={peer.name}>
         <View
           topic={peer.state.topic}
           message={peer.state.messsage}
           name={peer.name}
-          dbCompleted={dbCompleted}
-          mediaCompleted={mediaCompleted}
+          onStartClick={this.props.onStartClick}
+          progress={progress}
           lastCompletedDate={peer.state.lastCompletedDate}
         />
       </TargetItem>
@@ -253,15 +244,36 @@ function getView (topic, message) {
 }
 
 class View extends React.Component {
+  constructor () {
+    super()
+    this.state = {
+      syncing: false
+    }
+    this.progress = 0
+  }
+
+  handleClick () {
+    this.props.onStartClick()
+    this.setState({syncing: true})
+  }
+
   render () {
-    const {
+    var {
       name,
       topic,
       message,
-      dbCompleted,
-      mediaCompleted,
+      progress,
       lastCompletedDate
     } = this.props
+
+    if (this.state.syncing) {
+      if (topic !== 'replication-wifi-ready') this.setState({syncing: false})
+      else topic = 'replication-started'
+    }
+
+    if (topic === 'replication-started') {
+      progress = (this.progress + 1) % 10 // fake progress
+    }
 
     var view = getView(topic, message)
 
@@ -269,18 +281,20 @@ class View extends React.Component {
       view = {}
       console.error('this is bad, there was no view available for peer')
     }
+
     return (
-      <div className={view.ready ? 'view clickable' : 'view'}>
+      <div className={view.ready ? 'view clickable' : 'view'} onClick={this.handleClick.bind(this)}>
         <div className='target'>
           <span className='name'>{name}</span>
           <span className='message'>{view.message}</span>
           {lastCompletedDate && <span className='completed'>Last completed {new Date(lastCompletedDate).toLocaleString()}</span>}
-          <div className='progress'>
-            { dbCompleted > 0 && <LinearProgress value={dbCompleted} variant='buffer' valueBuffer={dbCompleted} />}
-            { mediaCompleted > 0 && <LinearProgress color='secondary' value={mediaCompleted} variant='buffer' valueBuffer={mediaCompleted} />}
-          </div>
         </div>
         { view.icon && <div className='icon'><view.icon /></div> }
+        { progress > 0 && <div className='icon'>
+          <span className='message'>{progress}%</span>
+          <CircularProgress color='primary' value={progress} variant='determinate'>${progress}% </CircularProgress>
+          </div>
+        }
       </div>
     )
   }
