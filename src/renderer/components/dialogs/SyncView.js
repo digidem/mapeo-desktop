@@ -293,7 +293,7 @@ class View extends React.Component {
         { progress > 0 && <div className='icon'>
           <span className='message'>{progress}%</span>
           <CircularProgress color='primary' value={progress} variant='determinate'>${progress}% </CircularProgress>
-          </div>
+        </div>
         }
       </div>
     )
