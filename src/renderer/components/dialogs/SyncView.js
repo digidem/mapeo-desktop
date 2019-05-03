@@ -99,6 +99,7 @@ export default class SyncView extends React.Component {
   }
 
   componentDidMount () {
+    this.opened = Date.now()
     this.sync.on('peers', this.onPeers)
     this.sync.on('error', this.onError)
     this.sync.join()
@@ -139,6 +140,7 @@ export default class SyncView extends React.Component {
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
           {peers.map((peer) => {
+            if (peer.state.topic === 'replication-complete' && peer.state.lastCompletedDate < this.opened) return
             disabled = (peer.state.topic !== 'replication-wifi-ready' &&
               peer.state.topic !== 'replication-complete' &&
               peer.state.topic !== 'replication-error')
@@ -197,8 +199,8 @@ class Target extends React.Component {
 
     if (state.topic === 'replication-progress' && message) {
       var progress = this.calcProgress({
-        sofar: message.db.sofar + message.media.sofar,
-        total: message.db.total + message.media.total
+        sofar: message.db.sofar + (message.media.sofar * 50),
+        total: message.db.total + (message.media.total * 50)
       })
       console.log(progress)
     }

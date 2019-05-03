@@ -278,8 +278,6 @@ function createMainWindow (done) {
     })
 
     ipc.on('refresh-window', function () {
-      // LOL this is bad
-      app.server.mapeo.api.core.sync.clear()
       win.webContents.send('refresh-window')
     })
 
