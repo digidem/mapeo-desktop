@@ -74,7 +74,8 @@ export default class SyncView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      peers: []
+      peers: [],
+      errors: {}
     }
     this.sync = new SyncManager()
     this.selectFile = this.selectFile.bind(this)
@@ -88,7 +89,24 @@ export default class SyncView extends React.Component {
   }
 
   onPeers (peers) {
-    this.setState({ peers })
+    let errors = this.state.errors
+    peers = peers.map((peer) => {
+      if (peer.state && peer.state.topic === 'replication-error') {
+        errors[peer.id] = peer.state.message
+      }
+
+      if (peer.state.lastCompletedDate > this.opened) {
+        peer.state.topic = 'replication-complete'
+      }
+
+      if (errors[peer.id]) {
+        peer.state.topic = 'replication-error'
+        peer.state.message = errors[peer.id]
+      }
+      return peer
+    })
+
+    this.setState({ peers, errors })
   }
 
   componentWillUnmount () {
@@ -140,9 +158,6 @@ export default class SyncView extends React.Component {
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
           {peers.map((peer) => {
-            if (peer.state.lastCompletedDate > this.opened) {
-              peer.state.topic = 'replication-complete'
-            }
             disabled = (peer.state.topic !== 'replication-wifi-ready' &&
               peer.state.topic !== 'replication-complete' &&
               peer.state.topic !== 'replication-error')
