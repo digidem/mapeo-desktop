@@ -219,7 +219,6 @@ class Target extends React.Component {
         sofar: message.db.sofar + (message.media.sofar * 50),
         total: message.db.total + (message.media.total * 50)
       })
-      console.log(progress)
     }
 
     return (
