@@ -140,7 +140,9 @@ export default class SyncView extends React.Component {
             : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
           }
           {peers.map((peer) => {
-            if (peer.state.topic === 'replication-complete' && peer.state.lastCompletedDate < this.opened) return
+            if (peer.state.lastCompletedDate > this.opened) {
+              peer.state.topic = 'replication-complete'
+            }
             disabled = (peer.state.topic !== 'replication-wifi-ready' &&
               peer.state.topic !== 'replication-complete' &&
               peer.state.topic !== 'replication-error')
