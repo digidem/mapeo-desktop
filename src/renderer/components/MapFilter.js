@@ -284,8 +284,12 @@ function observationToFeature (obs, id) {
 
 function resizer (src, size) {
   const parsedUrl = url.parse(src)
-  // Don't resize local images
-  if (parsedUrl.hostname === 'localhost' || parsedUrl.hostname === '127.0.0.1') return src
+  // Try to find thumbnail size
+  if (parsedUrl.hostname === 'localhost' || parsedUrl.hostname === '127.0.0.1') {
+    var modifier = '/preview/'
+    if (size > 0 && size < 250) modifier = '/thumbnail/'
+    return src.replace('/original/', modifier)
+  }
   return 'https://resizer.digital-democracy.org/{width}/{height}/{url}'
     .replace('{width}', size)
     .replace('{height}', size)
