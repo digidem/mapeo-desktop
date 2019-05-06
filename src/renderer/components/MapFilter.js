@@ -199,6 +199,8 @@ class Home extends React.Component {
   render () {
     const { features, showModal, mapPosition, mapStyle } = this.state
 
+    const locale = 'es'
+
     var appBarMenuItems = []
 
     MenuItems.forEach((view, i) => {
@@ -223,6 +225,7 @@ class Home extends React.Component {
     return (<div>
       <MuiThemeProvider theme={theme}>
         <MapFilter
+          locale={locale}
           mapStyle={mapStyle}
           features={features}
           mapPosition={mapPosition}

@@ -1,15 +1,15 @@
 const MenuItems = [
   {
     name: 'MapEditor',
-    label: 'Map Editor'
+    label: 'Editor de Mapas'
   },
   {
     name: 'MapFilter',
-    label: 'Map Filter'
+    label: 'Filtrar'
   },
   {
     name: 'SyncView',
-    label: 'Sync with...',
+    label: 'Sync',
     modal: true
   }
 ]

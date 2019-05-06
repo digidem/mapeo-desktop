@@ -10,19 +10,19 @@ module.exports = {
 }
 
 function load (lang) {
-  var english = read('en')
+  var spanish = read('es')
   var locale = lang || app.getLocale()
   locale = locale.split('-')[0]
   var messages
   try {
     var translations = read(locale)
-    messages = merge(english, translations)
+    messages = merge(spanish, translations)
   } catch (err) {
     log('Problem loading messages for locale ' + locale, err)
-    log('Falling back to en locale')
+    log('Falling back to es locale')
 
-    locale = 'en'
-    messages = english
+    locale = 'es'
+    messages = spanish
   }
   return messages
 }
