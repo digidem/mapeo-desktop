@@ -100,7 +100,9 @@ function createMockData (count, cb) {
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
-  var fpath = encodeURIComponent(path.join(__dirname, '..', 'test', 'hi-res.jpg'))
+  var original = path.join(__dirname, '..', 'test', 'media', 'original.jpg')
+  var thumbnail = path.join(__dirname, '..', 'test', 'media', 'thumbnail.jpg')
+  var preview = path.join(__dirname, '..', 'test', 'media', 'preview.jpg')
 
   mock.generate({
     type: 'integer',
@@ -132,7 +134,7 @@ function createMockData (count, cb) {
 
   function createObservation (obs) {
     if (obs.lat < -90 || obs.lat > 90 || obs.lon < -180 || obs.lon > 180) return console.error('observation has lon/lat out of range:', obs)
-    var hq = hyperquest.put(base + '/media?file=' + fpath, {})
+    var hq = hyperquest.post(base + '/media')
     hq.pipe(concat({ encoding: 'string' }, function (body) {
       var hq = hyperquest.post(base + '/observations', {
         headers: { 'content-type': 'application/json' }
@@ -156,7 +158,7 @@ function createMockData (count, cb) {
       hq.end(JSON.stringify(obs))
     }))
 
-    hq.end()
+    hq.end(JSON.stringify({original, thumbnail, preview}))
   }
 }
 
