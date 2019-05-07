@@ -161,7 +161,7 @@ export default class SyncView extends React.Component {
             disabled = (peer.state.topic !== 'replication-wifi-ready' &&
               peer.state.topic !== 'replication-complete' &&
               peer.state.topic !== 'replication-error')
-            return <Target peer={peer}
+            return <Target peer={peer} key={peer.id}
               onStartClick={() => this.sync.start(peer)}
               onCancelClick={() => this.sync.cancel(peer)} />
           })}
@@ -222,11 +222,10 @@ class Target extends React.Component {
     }
 
     return (
-      <TargetItem
-        key={peer.name}>
-        <View
+      <TargetItem>
+        <TargetView
           topic={peer.state.topic}
-          message={peer.state.messsage}
+          message={peer.state.message}
           name={peer.name}
           onStartClick={this.props.onStartClick}
           progress={progress}
@@ -261,9 +260,9 @@ function getView (topic, message) {
   return view
 }
 
-class View extends React.Component {
-  constructor () {
-    super()
+class TargetView extends React.Component {
+  constructor (props) {
+    super(props)
     this.state = {
       syncing: false
     }
@@ -276,21 +275,21 @@ class View extends React.Component {
   }
 
   render () {
-    var {
+    const {
       name,
-      topic,
       message,
-      progress,
       lastCompletedDate
     } = this.props
 
+    var topic = this.props.topic
+
     if (this.state.syncing) {
-      if (topic !== 'replication-wifi-ready') this.setState({syncing: false})
+      if (this.props.topic !== 'replication-wifi-ready') this.setState({syncing: false})
       else topic = 'replication-started'
     }
 
-    if (topic === 'replication-started') {
-      progress = (this.progress + 1) % 10 // fake progress
+    if (this.props.topic === 'replication-started') {
+      var progress = (this.props.progress + 1) % 10 // fake progress
     }
 
     var view = getView(topic, message)
