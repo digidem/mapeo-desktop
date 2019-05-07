@@ -203,6 +203,19 @@ var TOPICS = {
 }
 
 class Target extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      syncing: false
+    }
+    this.progress = 0
+  }
+
+  handleClick () {
+    this.props.onStartClick()
+    this.setState({syncing: true})
+  }
+
   calcProgress (val) {
     if (val.sofar === val.total) return 100
     if (val.total === 0) return 0
@@ -214,8 +227,18 @@ class Target extends React.Component {
     var state = peer.state
     var message = state.message
 
-    if (state.topic === 'replication-progress' && message) {
-      var progress = this.calcProgress({
+    var topic = peer.state.topic
+
+    if (this.state.syncing) {
+      if (this.props.topic !== 'replication-wifi-ready') this.setState({syncing: false})
+      else topic = 'replication-started'
+    }
+    var progress
+
+    if (topic === 'replication-started') {
+      progress = (this.progress + 1) % 10 // fake progress
+    } else if (peer.state.topic === 'replication-progress' && message) {
+      progress = this.calcProgress({
         sofar: message.db.sofar + (message.media.sofar * 50),
         total: message.db.total + (message.media.total * 50)
       })
@@ -224,10 +247,10 @@ class Target extends React.Component {
     return (
       <TargetItem>
         <TargetView
-          topic={peer.state.topic}
+          topic={topic}
           message={peer.state.message}
           name={peer.name}
-          onStartClick={this.props.onStartClick}
+          onStartClick={this.handleClick.bind(this)}
           progress={progress}
           lastCompletedDate={peer.state.lastCompletedDate}
         />
@@ -260,37 +283,15 @@ function getView (topic, message) {
   return view
 }
 
-class TargetView extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      syncing: false
-    }
-    this.progress = 0
-  }
-
-  handleClick () {
-    this.props.onStartClick()
-    this.setState({syncing: true})
-  }
-
+class TargetView extends React.PureComponent {
   render () {
     const {
       name,
       message,
+      topic,
+      progress,
       lastCompletedDate
     } = this.props
-
-    var topic = this.props.topic
-
-    if (this.state.syncing) {
-      if (this.props.topic !== 'replication-wifi-ready') this.setState({syncing: false})
-      else topic = 'replication-started'
-    }
-
-    if (this.props.topic === 'replication-started') {
-      var progress = (this.props.progress + 1) % 10 // fake progress
-    }
 
     var view = getView(topic, message)
 
@@ -300,7 +301,7 @@ class TargetView extends React.Component {
     }
 
     return (
-      <div className={view.ready ? 'view clickable' : 'view'} onClick={this.handleClick.bind(this)}>
+      <div className={view.ready ? 'view clickable' : 'view'} onClick={this.props.onStartClick}>
         <div className='target'>
           <span className='name'>{name}</span>
           <span className='message'>{view.message}</span>
