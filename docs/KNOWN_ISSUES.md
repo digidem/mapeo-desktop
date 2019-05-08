@@ -6,6 +6,8 @@
 
 ## Sync
 
+* Sync files must use the `.mapeodata` extension. No other extensions will be
+  allowed.
 * Sync progress sometimes jumps to 100% before sync is complete.
 * Sync errors are in english
 
