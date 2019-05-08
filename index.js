@@ -76,6 +76,8 @@ function startupMsg (txt) {
 }
 
 startupMsg('Unpacking Styles')
+// This is necessary to make sure that the styles and presets directory
+// are writable by the user
 mkdirp(path.join(userDataPath, 'styles'), function (err) {
   if (err) log(err)
   mkdirp(path.join(userDataPath, 'presets'), function (err) {

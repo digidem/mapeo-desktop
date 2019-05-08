@@ -182,7 +182,6 @@ class Home extends React.Component {
   }
 
   handleError (err) {
-    // TODO: Show some kind of error message in the UI
     console.error(err)
     ipcRenderer.send('error', err.message)
   }
@@ -199,6 +198,7 @@ class Home extends React.Component {
   render () {
     const { features, showModal, mapPosition, mapStyle } = this.state
 
+    // TODO: get from parent component (Home.js/app.js)
     const locale = 'es'
 
     var appBarMenuItems = []
