@@ -132,7 +132,7 @@ class Home extends React.Component {
     })
   }
 
-  componentDidMount () {
+  componentWillMount () {
     xhr(customStyleUrl, (err, resp, body) => {
       if (err || resp.statusCode !== 200) this.setState({ mapStyle: defaultStyleUrl })
       else this.setState({ mapStyle: customStyleUrl })
