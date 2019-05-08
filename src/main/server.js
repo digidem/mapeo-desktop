@@ -18,7 +18,7 @@ module.exports = function (osm, media, opts) {
 
   var server = http.createServer(function (req, res) {
     var staticHandler = ecstatic({
-      root: path.join(__dirname, '..', 'static'),
+      root: path.join(__dirname, '..', '..', 'static'),
       baseDir: 'static'
     })
 
