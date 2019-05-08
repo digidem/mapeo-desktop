@@ -8,8 +8,11 @@
 
 * Sync files must use the `.mapeodata` extension. No other extensions will be
   allowed.
-* Sync progress sometimes jumps to 100% before sync is complete.
-* Sync errors are in english
+* Progress sometimes jumps to 100% before sync is complete.
+* Errors are in english
+* Sync has issues displaying progress when more than one device or (or file,
+  and a device) are available to sync. Only sync with one device (or file) at
+  a time.
 
 ## Export/Import Data
 
