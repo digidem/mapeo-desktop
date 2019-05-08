@@ -190,7 +190,7 @@ class Home extends React.Component {
   }
 
   render () {
-    const { features, showModal, mapPosition, mapStyle } = this.state
+    const { features, mapPosition, mapStyle } = this.state
 
     // TODO: get from parent component (Home.js/app.js)
     const locale = 'es'
