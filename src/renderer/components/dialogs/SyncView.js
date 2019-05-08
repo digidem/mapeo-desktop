@@ -162,8 +162,8 @@ export default class SyncView extends React.Component {
               peer.state.topic !== 'replication-complete' &&
               peer.state.topic !== 'replication-error')
             return <Target peer={peer} key={peer.id}
-              onStartClick={() => this.sync.start(peer)}
-              onCancelClick={() => this.sync.cancel(peer)} />
+              onStartClick={this.sync.start}
+              onCancelClick={this.sync.cancel} />
           })}
         </TargetsDiv>
         <Form method='POST' className='modal-group'>
@@ -208,11 +208,10 @@ class Target extends React.Component {
     this.state = {
       syncing: false
     }
-    this.progress = 0
   }
 
-  handleClick () {
-    this.props.onStartClick()
+  handleClick (peer) {
+    this.props.onStartClick(peer)
     this.setState({syncing: true})
   }
 
@@ -235,9 +234,7 @@ class Target extends React.Component {
     }
     var progress
 
-    if (topic === 'replication-started') {
-      progress = (this.progress + 1) % 10 // fake progress
-    } else if (peer.state.topic === 'replication-progress' && message) {
+    if (peer.state.topic === 'replication-progress' && message) {
       progress = this.calcProgress({
         sofar: message.db.sofar + (message.media.sofar * 50),
         total: message.db.total + (message.media.total * 50)
@@ -250,7 +247,7 @@ class Target extends React.Component {
           topic={topic}
           message={peer.state.message}
           name={peer.name}
-          onStartClick={this.handleClick.bind(this)}
+          onStartClick={this.handleClick.bind(this, peer)}
           progress={progress}
           lastCompletedDate={peer.state.lastCompletedDate}
         />
@@ -308,7 +305,7 @@ class TargetView extends React.PureComponent {
           {lastCompletedDate && <span className='completed'>Last completed {new Date(lastCompletedDate).toLocaleString()}</span>}
         </div>
         { view.icon && <div className='icon'><view.icon /></div> }
-        { progress > 0 && <div className='icon'>
+        { progress > 0 && progress < 100 && <div className='icon'>
           <span className='message'>{progress}%</span>
           <CircularProgress color='primary' value={progress} variant='determinate'>${progress}% </CircularProgress>
         </div>
