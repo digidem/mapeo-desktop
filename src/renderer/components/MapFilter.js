@@ -271,7 +271,7 @@ function resizer (src, size) {
   // Try to find thumbnail size
   if (parsedUrl.hostname === 'localhost' || parsedUrl.hostname === '127.0.0.1') {
     var modifier = '/preview/'
-    if (size > 0 && size < 250) modifier = '/thumbnail/'
+    if (size > 0 && size <= 400) modifier = '/thumbnail/'
     return src.replace('/original/', modifier)
   }
   return 'https://resizer.digital-democracy.org/{width}/{height}/{url}'
