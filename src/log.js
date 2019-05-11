@@ -29,7 +29,7 @@ function setupNodeLogger () {
   var electron = require('electron')
 
   // create log dir
-  var logDir = path.join(electron.app.getPath('userData'), 'data', 'logs')
+  var logDir = path.join(electron.app.getPath('userData'), 'logs')
   mkdir.sync(logDir)
 
   // get electron app data dir

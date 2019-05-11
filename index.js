@@ -57,7 +57,7 @@ var userDataPath = app.getPath('userData')
 var argv = minimist(process.argv.slice(2), {
   default: {
     port: 5000,
-    datadir: path.join(userDataPath, 'data-kappa'),
+    datadir: path.join(userDataPath, 'database'),
     tileport: 5005
   },
   boolean: [ 'headless', 'debug' ],
@@ -100,12 +100,14 @@ series([
 
   createMainWindow,
   startupMsg('Created app window')
+
 ], function (err) {
   if (err) log('STARTUP FAILED', err)
   else log('STARTUP success!')
 })
 
 function initOsmDb (done) {
+  mkdirp.sync(argv.datadir)
   var osm = osmdb(argv.datadir)
   log('loading datadir', argv.datadir)
 
