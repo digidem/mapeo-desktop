@@ -9,6 +9,7 @@ import Error from './dialogs/Error'
 import MapEditor from './MapEditor'
 import MapFilter from './MapFilter'
 import Welcome from './Welcome'
+import Loading from './Loading'
 
 let localStorage = window.localStorage
 let location = window.location
@@ -17,12 +18,11 @@ export default class Home extends React.Component {
   constructor (props) {
     super(props)
     var self = this
-    var lastView = localStorage.getItem('lastView')
     self.state = {
       Modal: false,
       View: {
-        name: lastView,
-        component: self.getView(lastView),
+        name: 'Loading',
+        component: Loading,
         props: {}
       }
     }
@@ -61,6 +61,11 @@ export default class Home extends React.Component {
     }
   }
 
+  componentDidMount () {
+    var lastView = localStorage.getItem('lastView')
+    this.changeView(lastView)
+  }
+
   changeView (name, state) {
     var component = this.getView(name)
     var View = { name, component }
@@ -80,7 +85,7 @@ export default class Home extends React.Component {
 
   render () {
     const { View, Modal } = this.state
-    localStorage.setItem('lastView', View.name)
+    if (View.name !== 'Loading') localStorage.setItem('lastView', View.name)
 
     // import progress and indexes are handled differently because they
     // will block further action with the app until the operation is

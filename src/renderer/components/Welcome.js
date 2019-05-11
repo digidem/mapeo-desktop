@@ -3,7 +3,6 @@ import { ipcRenderer } from 'electron'
 import React from 'react'
 
 import _i18n from '../../i18n'
-import View from './View'
 
 function i18n (id) {
   var text = _i18n(id)
@@ -36,7 +35,7 @@ export default class Welcome extends React.Component {
 
     var openMap = this.openMap.bind(this)
 
-    return (<View id='welcome'>
+    return (<div id='welcome' className='mapeo-container'>
       <div id='skip-intro' onClick={openMap}>Skip intro</div>
       {screen === 'screen-1'
         ? (<div id='screen-1'>
@@ -73,7 +72,7 @@ export default class Welcome extends React.Component {
             </div>
           </div>
       }
-    </View>
+    </div>
     )
   }
 }

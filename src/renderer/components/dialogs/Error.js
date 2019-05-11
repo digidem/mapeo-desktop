@@ -9,7 +9,7 @@ export default class LatLonDialog extends React.Component {
       <Dialog open onClose={this.props.onClose}>
         <DialogTitle>Error</DialogTitle>
         <DialogContent>
-          {this.props.message}
+          {this.props.message} // TODO: escape this html for displaying newlines
         </DialogContent>
       </Dialog>
     )

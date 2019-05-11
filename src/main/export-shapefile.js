@@ -7,7 +7,6 @@ module.exports = function (osm, filename, done) {
   GeoJSONStream.on('error', done)
   GeoJSONStream.pipe(concat((geojson) => {
     shapefile.fromGeoJson(JSON.parse(geojson), filename).then(function (filenames) {
-      console.log('data has been exported at', filenames)
       done(null, filenames)
     })
   }))
