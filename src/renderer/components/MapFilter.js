@@ -28,6 +28,11 @@ const theme = createMuiTheme({
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
+const DONT_UPDATE_PROPS = [
+  'created_at',
+  'timestamp'
+]
+
 const customStyleUrl = `${osmServerHost}/styles/mapfilter-style/style.json`
 const defaultStyleUrl = `${osmServerHost}/static/style.json`
 
@@ -114,9 +119,8 @@ class Home extends React.Component {
     const obs = this._observationsById[f.id]
     const newObs = Object.assign({}, obs)
 
-    // TODO: media is currently not updated, but it will be in the future
     Object.keys(f.properties || {}).forEach(function (key) {
-      newObs.tags[key] = f.properties[key]
+      if (DONT_UPDATE_PROPS.indexOf(key) === -1) newObs.tags[key] = f.properties[key]
     })
 
     api.update(newObs, (err, obs) => {
