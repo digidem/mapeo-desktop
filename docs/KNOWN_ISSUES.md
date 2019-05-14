@@ -1,5 +1,9 @@
 # Known Issues
 
+## Language
+
+* MapFilter is always in Spanish.
+
 ## Filter
 
 * Filters cannot be modified from the settings screen.
