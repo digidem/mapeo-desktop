@@ -23,7 +23,7 @@ setting. You can modify the paramters based upon your setup.
 Mapeo runs its own maptile server in the background. The server for tile data that is imported from the `File->Import Offline Map  Tiles...` should be:
 
 ```
-http://localhost:5005/Offline-Maps/tiles/{zoom}/{x}/{y}
+http://localhost:5005/styles/default/tiles/{zoom}/{x}/{y}
 ```
 
 It will try to use `.jpg`, `.png`, and `.jpeg` extensions. It does not yet support `asar` or `.mbtiles` formats directly, [PRs welcome](https://github.com/digidem/mapeo-desktop/issues/103).

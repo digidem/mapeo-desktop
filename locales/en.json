@@ -9,6 +9,8 @@
   "menu-file": "File",
   "menu-change-language": "Change language...",
   "menu-change-language-title": "Enter the language (e.g., 'en' or 'es')",
+  "menu-import-tiles-file": "File (.asar, .tar)",
+  "menu-import-tiles-directory": "Directory of tiles",
   "menu-import-tiles": "Import Offline Map Tiles...",
   "menu-import-tiles-error": "Could not import tiles",
   "menu-import-tiles-error-known": "Could not import tiles because of an error",

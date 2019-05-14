@@ -3,8 +3,11 @@ var dialog = require('electron').dialog
 var userConfig = require('./user-config')
 var exportData = require('./export-data')
 var i18n = require('../i18n')
+var logger = require('../log')
+var log
 
 module.exports = function (app) {
+  log = logger.Node()
   var template = [
     {
       label: i18n('menu-file'),
@@ -12,19 +15,26 @@ module.exports = function (app) {
         {
           label: i18n('menu-import-tiles'),
           click: function (item, focusedWindow) {
-            dialog.showOpenDialog({
+            var opts = {
               title: i18n('menu-import-tiles'),
-              properties: ['openFile', 'openDirectory']
-            }, function (filenames) {
+              properties: ['openFile'],
+              filters: [
+                { name: 'Electron Asar', extensions: ['asar'] },
+                { name: 'Tar', extensions: ['tar'] }
+              ]
+            }
+            dialog.showOpenDialog(opts, function (filenames) {
               if (!filenames) return
               app.tiles.go(filenames[0], cb)
               function cb (err) {
                 if (err) {
+                  log('[IMPORT TILES] error', err)
                   dialog.showErrorBox(
                     i18n('menu-import-tiles-error'),
                     i18n('menu-import-tiles-error-known') + ': ' + err
                   )
                 } else {
+                  log('[IMPORT TILES] success')
                   dialog.showMessageBox({
                     message: i18n('menu-import-data-success'),
                     buttons: ['OK']

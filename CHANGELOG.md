@@ -33,6 +33,11 @@ change your URL from `/Offline-Maps/...` to `/styles/Offline-Maps/...`.
   `styles/default`, instead of `styles/mapfilter-style`. This will make feature
 parity between mobile and desktop.
 
+
+- Presets require a namespace now, which is `default`. If you don't see your
+  presets from a previous installation, you'll need to re-import the
+configuration file from **File->Import configuration**
+
 ### Bug Fixes
 
 - Map Filter should work much faster and more reliably now, a number of bug

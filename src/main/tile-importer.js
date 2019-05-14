@@ -1,28 +1,32 @@
+const logger = require('../log')
 const mkdirp = require('mkdirp')
 const pump = require('pump')
 const path = require('path')
 const tar = require('tar-fs')
-const mirror = require('mirror-folder')
+const asar = require('asar')
 const fs = require('fs')
+
+var log = null
 
 module.exports = TileImporter
 
 function TileImporter (userData, defaults) {
   if (!(this instanceof TileImporter)) return new TileImporter(userData, defaults)
+  log = logger.Node()
   this.editing = false
   this.defaults = Object.assign({}, TileImporter.defaults, defaults)
   this.userData = userData
 }
 
 TileImporter.defaults = {
-  id: 'Offline-Maps',
+  id: 'default',
   name: 'Custom: Imported Offline Maps',
   type: 'tms', // TODO: what is this??
   overlay: false,
   default: false,
   overzoom: true,
   scaleExtent: [0, 22],
-  url: 'http://localhost:5005',
+  url: 'http://localhost:5000',
   templatePattern: '/{zoom}/{x}/{y}'
 }
 
@@ -43,7 +47,7 @@ TileImporter.prototype.go = function (tilesPath, options, cb) {
   })
 
   function done (err) {
-    console.error(err)
+    log('ERROR(tile-importer)', err)
     self.editing = false
     cb(err)
   }
@@ -74,30 +78,33 @@ TileImporter.prototype._extractTar = function (tilesPath, destPath, cb) {
   pump(read, extract, cb)
 }
 
-TileImporter.prototype.moveTiles = function (tilesPath, dir, cb) {
-  var self = this
-  if (path.extname(tilesPath) === '.tar') return this._extractTar(tilesPath, dir, cb)
-  if (path.extname(tilesPath) === '.mbtiles') {
-    var destFile = path.join(dir, path.basename(tilesPath))
-    return fs.copyFile(tilesPath, destFile, cb)
-  }
-  fs.stat(tilesPath, function (err, stat) {
+TileImporter.prototype.moveTiles = function (tilesPath, tilesDest, cb) {
+  fs.stat(tilesPath, (err, stat) => {
     if (err) return cb(err)
-    if (stat.isDirectory()) {
-      return self._moveDirectory(tilesPath, dir, cb)
-    } else return cb(new Error('Tiles format not accepted'))
+    mkdirp(tilesDest, (err) => {
+      if (err) return cb(err)
+      if (path.extname(tilesPath) === '.asar') {
+        var filename = path.basename(tilesPath)
+        return fs.copyFile(tilesPath, path.join(tilesDest, filename), cb)
+      }
+      if (stat.isDirectory()) {
+        var styleId = path.basename(tilesDest)
+        return this._createAsar(tilesPath, path.join(tilesDest, styleId + '.asar'), cb)
+      }
+      if (path.extname(tilesPath) === '.tar') {
+        this._extractTar(tilesPath, tilesDest, cb)
+      } else return cb(new Error('Must be a .tar, .asar, or directory with tiles.'))
+    })
   })
 }
 
-TileImporter.prototype._moveDirectory = function (tilesPath, dir, cb) {
-  fs.stat(dir, function (err, stats) {
-    if (err) mkdirp(dir, done)
-    else done()
-  })
-
-  function done (err) {
-    if (err) return cb(err)
-    mirror(tilesPath, dir, cb)
+TileImporter.prototype._createAsar = function (tilesPath, destFile, cb) {
+  log('creating asar', tilesPath, destFile)
+  try {
+    asar.createPackage(tilesPath, destFile).then(cb)
+  } catch (err) {
+    log('ERROR(tile-importer): Got error when creating asar', err)
+    return cb(err)
   }
 }
 

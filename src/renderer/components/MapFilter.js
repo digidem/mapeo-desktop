@@ -33,7 +33,7 @@ const DONT_UPDATE_PROPS = [
   'timestamp'
 ]
 
-const customStyleUrl = `${osmServerHost}/styles/mapfilter-style/style.json`
+const customStyleUrl = `${osmServerHost}/styles/default/style.json`
 const defaultStyleUrl = `${osmServerHost}/static/style.json`
 
 const fieldTypes = {

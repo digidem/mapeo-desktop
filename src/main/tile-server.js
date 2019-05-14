@@ -4,7 +4,7 @@ var app = require('electron').app
 var path = require('path')
 var series = require('run-series')
 
-var tilePath = path.join(app.getPath('userData'), 'styles')
+var tilePath = path.join(app.getPath('userData'))
 
 module.exports = function () {
   var guesses = ['png', 'jpg', 'jpeg']
