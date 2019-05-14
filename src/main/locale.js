@@ -2,14 +2,14 @@ const fs = require('fs')
 const merge = require('lodash/merge')
 const path = require('path')
 const app = require('electron').app
-
-var log = require('../log').Node()
+const logger = require('../log')
 
 module.exports = {
   load: load
 }
 
 function load (lang) {
+  var log = logger.Node()
   var spanish = read('es')
   var locale = lang || app.getLocale()
   locale = locale.split('-')[0]

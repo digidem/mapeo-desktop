@@ -13,6 +13,7 @@
 }
 
 body {
+  margin: 0px;
   font: normal 12px/1.6667 "-apple-system", BlinkMacSystemFont,
         "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
         "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
@@ -41,6 +42,25 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.mapeo-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: var(--main-bg-color);
+  color: white;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  h1, h2 {
+    color: white;
+    font-weight: bold;
+  }
+  img {
+    width: 150px;
+  }
 }
 
 @media print {
