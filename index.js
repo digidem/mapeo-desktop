@@ -45,7 +45,7 @@ var userDataPath = app.getPath('userData')
 var argv = minimist(process.argv.slice(2), {
   default: {
     port: 5000,
-    datadir: path.join(userDataPath, 'database'),
+    datadir: path.join(userDataPath, 'kappa.db'),
     tileport: 5005
   },
   boolean: [ 'headless', 'debug' ],
