@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.0-beta
+
+### New Features
+
+- **Database upgrade to Kappa**, which brings speed and reliability improvements.
+  This also means that your existing data will need to be migrated, which
+currently is a manual process. Please see the
+[mapeo-migrate](http://github.com/digidem/mapeo-migrate) repository for details
+on how to migrate your data.
+
+- **Import from asar files** You can now import `asar` files and `tar` files
+  directly. Raw directories are no longer supported from the Import Files menu,
+but you can import them in the filesystem under `styles/default/tiles`
+
+- **Sync progress** will now be shown in the Sync screen.
+
+- **Faster Startup** Mapeo should load much faster now.
+
+### Breaking Changes
+
+- Spanish by default.
+
+- Map tiles and aerial imagery now must be referenced from under a `styles`
+  directory. If you were using background imagery in 3.x, you will need to
+change your URL from `/Offline-Maps/...` to `/styles/Offline-Maps/...`. 
+
+- You can override mapfilter styles by importing into the user data folder
+  `styles/default`, instead of `styles/mapfilter-style`. This will make feature
+parity between mobile and desktop.
+
+### Bug Fixes
+
+- Map Filter should work much faster and more reliably now, a number of bug
+  fixes were introduced.
+
+### Known Issues
+
+- See the [KNOWN_ISSUES.md](/docs/KNOWN_ISSUES.md) file for the complete set of
+  known issues. 
+ 
 ## 3.1.1
 
 ### Bug Fixes
@@ -11,7 +51,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 3.1.0
 
 ### New Features
-- Users can now override mapfilter styles by importing into the user data folder under `styles/mapftiler-style`
+- Users can now override mapfilter styles by importing into the user data folder under `styles/mapfilter-style`
 
 ## 3.0.6
 
