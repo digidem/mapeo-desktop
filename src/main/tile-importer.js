@@ -85,7 +85,7 @@ TileImporter.prototype.moveTiles = function (tilesPath, dir, cb) {
     if (err) return cb(err)
     if (stat.isDirectory()) {
       return self._moveDirectory(tilesPath, dir, cb)
-    } else return cb(new Error('Tiles be a .tar, .mbtiles, or directory.'))
+    } else return cb(new Error('Tiles format not accepted'))
   })
 }
 
