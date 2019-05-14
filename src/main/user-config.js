@@ -1,11 +1,13 @@
 var fs = require('fs')
 var tar = require('tar-fs')
 var pump = require('pump')
+var mkdirp = require('mkdirp')
 var path = require('path')
 var app = require('electron').app
 var userDataPath = app.getPath('userData')
-var cssPath = path.join(userDataPath, 'style.css')
-var iconsPath = path.join(userDataPath, 'icons.svg')
+var defaultPath = path.join(userDataPath, 'presets', 'default')
+var cssPath = path.join(defaultPath, 'style.css')
+var iconsPath = path.join(defaultPath, 'icons.svg')
 
 var SETTINGS_FILES = [
   'presets.json',
@@ -38,7 +40,8 @@ function readFile (filepath) {
 
 function importSettings (win, settingsFile, cb) {
   var source = fs.createReadStream(settingsFile)
-  var dest = tar.extract(userDataPath, {
+  mkdirp.sync(defaultPath)
+  var dest = tar.extract(defaultPath, {
     ignore: function (name) {
       return SETTINGS_FILES.indexOf(path.basename(name)) < 0
     }
@@ -58,9 +61,9 @@ function getSettings (type) {
       return readFile(iconsPath)
     case 'presets':
     case 'imagery':
-      return readJsonSync(path.join(userDataPath, type + '.json'))
+      return readJsonSync(path.join(defaultPath, type + '.json'))
     case 'metadata':
-      var data = readJsonSync(path.join(userDataPath, type + '.json'))
+      var data = readJsonSync(path.join(defaultPath, type + '.json'))
       return Object.assign(METADATA_DEFAULTS, data)
     default:
       return null

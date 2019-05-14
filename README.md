@@ -112,7 +112,23 @@ See [downloading tiles for offline use](docs/offline_tiles.md).
 
 # Custom Presets
 
-(coming soon)
+Presets must be placed in this folder:
+
+```txt
+%USERDATA%/Mapeo/presets/default
+```
+
+This folder (`default`) should contain these files directly in under this
+`default` folder (i.e. no sub-folder with a different name):
+
+```txt
+presets.json
+icons/
+  myIcon-medium@1x.png
+  myIcon-medium@2x.png
+  myIcon-medium@3x.png
+  ...etc
+```
 
 # License
 
