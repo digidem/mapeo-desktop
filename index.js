@@ -208,6 +208,7 @@ function notifyReady (done) {
 
 function handleUncaughtExceptions () {
   process.on('uncaughtException', function (error) {
+    log = logger.Node()
     log('uncaughtException in Node:', error)
     if (app && win) win.webContents.send('error', error.stack)
   })
