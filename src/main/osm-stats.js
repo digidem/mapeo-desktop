@@ -8,7 +8,6 @@ function createZoomToDataIndex (ldb) {
       var pending = 1
       for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i]
-        console.log('map', node)
         if (!node.value) continue
         if (typeof node.value.lat !== 'number' || typeof node.value.lon !== 'number') continue
 
@@ -39,7 +38,6 @@ function createZoomToDataIndex (ldb) {
             value: bins[keys[i]]
           })
         }
-        console.log('batch', ops)
         if (ops.length > 0) ldb.batch(ops, next)
         else next()
       }
