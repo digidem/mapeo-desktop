@@ -38,6 +38,19 @@ var log = null
 var win = null
 var splash = null
 
+var shouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
+  // Someone tried to run a second instance, we should focus our window.
+  if (win) {
+    if (win.isMinimized()) win.restore()
+    win.focus()
+  }
+})
+
+if (shouldQuit) {
+  app.quit()
+  process.exit(0)
+}
+
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
 var userDataPath = app.getPath('userData')
