@@ -28,6 +28,6 @@ function load (lang) {
 }
 
 function read (locale) {
-  var localePath = path.join(__dirname, '..', '..', 'locales', locale + '.json')
+  var localePath = path.resolve(__dirname, '..', '..', 'locales', locale + '.json')
   return JSON.parse(fs.readFileSync(localePath, 'utf-8'))
 }

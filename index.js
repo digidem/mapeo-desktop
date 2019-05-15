@@ -31,7 +31,6 @@ if (require('electron-squirrel-startup')) {
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 
-process.noAsar = true
 // Set up global node exception handler
 handleUncaughtExceptions()
 

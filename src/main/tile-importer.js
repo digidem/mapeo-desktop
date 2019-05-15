@@ -85,7 +85,12 @@ TileImporter.prototype.moveTiles = function (tilesPath, tilesDest, cb) {
       if (err) return cb(err)
       if (path.extname(tilesPath) === '.asar') {
         var filename = path.basename(tilesPath)
-        return fs.copyFile(tilesPath, path.join(tilesDest, filename), cb)
+        // because electron treats asar as a folder, not a file.
+        process.noAsar = true
+        return fs.copyFile(tilesPath, path.join(tilesDest, filename), (err) => {
+          process.noAsar = false
+          return cb(err)
+        })
       }
       if (stat.isDirectory()) {
         var styleId = path.basename(tilesDest)
