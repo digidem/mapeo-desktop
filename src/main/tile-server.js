@@ -3,10 +3,12 @@ var ecstatic = require('ecstatic')
 var app = require('electron').app
 var path = require('path')
 var series = require('run-series')
+var logger = require('../log')
 
 var tilePath = path.join(app.getPath('userData'))
 
 module.exports = function () {
+  var log = logger.Node()
   var guesses = ['png', 'jpg', 'jpeg']
   var routes = guesses.map((ext) => {
     return ecstatic({
@@ -19,7 +21,7 @@ module.exports = function () {
       return (done) => route(req, res, done)
     })
     series(tasks, function (err) {
-      if (err) console.error(err)
+      if (err) log('ERROR(tile-server):', err)
       res.statusCode = 404
       res.end('Not Found')
     })
