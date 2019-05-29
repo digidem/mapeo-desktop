@@ -87,20 +87,6 @@ module.exports = function (app) {
             })
           },
           visible: true
-        },
-        {
-          label: i18n('menu-export-data'),
-          submenu: [
-            {
-              label: i18n('menu-export-geojson'),
-              click: exportDataMenu(app, 'GeoJSON', 'geojson')
-            },
-            {
-              label: i18n('menu-export-shapefile'),
-              click: exportDataMenu(app, 'Shapefile', 'shp')
-            }
-          ],
-          visible: true
         }
       ]
     },
@@ -292,10 +278,4 @@ module.exports = function (app) {
     )
   }
   return template
-}
-
-function exportDataMenu (app, name, ext) {
-  return function (item, focusedWindow) {
-    exportData.openDialog(app, name, ext)
-  }
 }
