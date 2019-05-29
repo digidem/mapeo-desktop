@@ -187,6 +187,7 @@ function initDirectories (done) {
 
 function createServers (done) {
   app.server = createServer(app.osm, app.media, { staticRoot: userDataPath })
+  app.mapeo = app.server.mapeo.api.core
   ipc(win)
 
   var pending = 2

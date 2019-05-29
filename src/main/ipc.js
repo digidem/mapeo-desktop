@@ -5,7 +5,6 @@ var locale = require('./locale')
 var i18n = require('../i18n')
 
 var userConfig = require('./user-config')
-var Importer = require('./importer')
 var exportData = require('./export-data')
 var logger = require('../log')
 
@@ -99,17 +98,17 @@ module.exports = function (win) {
     win.webContents.send('refresh-window')
   })
 
-  var importer = Importer(app.osm)
+  var importer = app.mapeo.importer
 
-  importer.on('import-error', function (err, filename) {
+  importer.on('error', function (err, filename) {
     win.webContents.send('import-error', err, path.basename(filename))
   })
 
-  importer.on('import-complete', function (filename) {
+  importer.on('complete', function (filename) {
     win.webContents.send('import-complete', path.basename(filename))
   })
 
-  importer.on('import-progress', function (filename, index, total) {
+  importer.on('progress', function (filename, index, total) {
     win.webContents.send('import-progress', path.basename(filename), index, total)
   })
 

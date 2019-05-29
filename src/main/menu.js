@@ -1,7 +1,6 @@
 var dialog = require('electron').dialog
 
 var userConfig = require('./user-config')
-var exportData = require('./export-data')
 var i18n = require('../i18n')
 var logger = require('../log')
 var log
@@ -75,7 +74,7 @@ module.exports = function (app) {
             }, function (filenames) {
               if (!filenames) return
               var filename = filenames[0]
-              app.importer.importFromFile(filename, function (err) {
+              app.mapeo.importer.importFromFile(filename, function (err) {
                 if (err) {
                   dialog.showErrorBox('Error', i18n('menu-import-data-error') + err)
                 } else {

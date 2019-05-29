@@ -1,10 +1,6 @@
 var dialog = require('electron').dialog
-var path = require('path')
-var pump = require('pump')
-var fs = require('fs')
 
-var exportGeoJson = require('./export-geojson')
-var exportShapefile = require('./export-shapefile')
+var userConfig = require('./user-config')
 var i18n = require('../i18n')
 
 module.exports = {
@@ -30,17 +26,7 @@ function openDialog (app, name, ext) {
 }
 
 function exportData (mapeo, filename, done) {
-  var ext = path.extname(filename)
-  switch (ext) {
-    case '.geojson': return pump(exportGeoJson(mapeo.api.osm), fs.createWriteStream(filename), done)
-    case '.shp': return exportShapefile(mapeo.api.osm, filename, done)
-    case '.mapeodata': return exportSyncfile(mapeo.api.sync, filename, done)
-    default: return done(new Error('Extension not supported'))
-  }
-}
-
-function exportSyncfile (sync, filename, done) {
-  var progress = sync.replicateFromFile(filename)
-  progress.on('error', done)
-  progress.on('end', done)
+  var core = mapeo.api.core
+  var presets = userConfig.getSettings('presets') || {}
+  core.exportData(filename, { presets }, done)
 }
