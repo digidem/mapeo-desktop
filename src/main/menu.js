@@ -98,10 +98,6 @@ module.exports = function (app) {
             {
               label: i18n('menu-export-shapefile'),
               click: exportDataMenu(app, 'Shapefile', 'shp')
-            },
-            {
-              label: i18n('menu-export-sync'),
-              click: exportDataMenu(app, 'Mapeo Sync File', 'mapeodata')
             }
           ],
           visible: true
