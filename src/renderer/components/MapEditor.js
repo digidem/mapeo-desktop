@@ -38,7 +38,7 @@ export default class MapEditor extends React.Component {
     ipcRenderer.on('zoom-to-latlon-response', self.zoomToLatLonResponse)
     ipcRenderer.on('change-language-request', self.changeLanguageRequest)
     ipcRenderer.on('refresh-window', self.refreshWindow)
-    ipcRenderer.on('updated-settings', function () {
+    ipcRenderer.on('force-refresh-window', function () {
       window.location.reload()
     })
   }
@@ -71,6 +71,7 @@ export default class MapEditor extends React.Component {
       var saved = history.toJSON()
       this.id.flush()
       if (saved) history.fromJSON(saved)
+      ipcRenderer.send('zoom-to-data-get-centroid', 'node')
     }
   }
 

@@ -48,7 +48,7 @@ function importSettings (win, settingsFile, cb) {
   })
   pump(source, dest, function (err) {
     if (err) return cb(err)
-    win.webContents.send('updated-settings')
+    win.webContents.send('force-refresh-window')
     cb()
   })
 }

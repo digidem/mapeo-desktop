@@ -1,7 +1,7 @@
 var dialog = require('electron').dialog
 
+var debug = require('debug')('mapeo-desktop')
 var userConfig = require('./user-config')
-var exportData = require('./export-data')
 var i18n = require('../i18n')
 var logger = require('../log')
 var log
@@ -75,36 +75,10 @@ module.exports = function (app) {
             }, function (filenames) {
               if (!filenames) return
               var filename = filenames[0]
-              app.importer.importFromFile(filename, function (err) {
-                if (err) {
-                  dialog.showErrorBox('Error', i18n('menu-import-data-error') + err)
-                } else {
-                  dialog.showMessageBox({
-                    message: i18n('menu-import-data-success'),
-                    buttons: ['OK']
-                  })
-                }
-              })
+              debug('[IMPORTING]', filename)
+              app.mapeo.importer.importFromFile(filename)
             })
           },
-          visible: true
-        },
-        {
-          label: i18n('menu-export-data'),
-          submenu: [
-            {
-              label: i18n('menu-export-geojson'),
-              click: exportDataMenu(app, 'GeoJSON', 'geojson')
-            },
-            {
-              label: i18n('menu-export-shapefile'),
-              click: exportDataMenu(app, 'Shapefile', 'shp')
-            },
-            {
-              label: i18n('menu-export-sync'),
-              click: exportDataMenu(app, 'Mapeo Sync File', 'mapeodata')
-            }
-          ],
           visible: true
         }
       ]
@@ -297,10 +271,4 @@ module.exports = function (app) {
     )
   }
   return template
-}
-
-function exportDataMenu (app, name, ext) {
-  return function (item, focusedWindow) {
-    exportData.openDialog(app, name, ext)
-  }
 }
