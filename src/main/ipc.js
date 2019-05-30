@@ -78,8 +78,8 @@ module.exports = function (win) {
     }
   })
 
-  ipc.on('export-data', function (_, name, ext) {
-    exportData.openDialog(app, name, ext)
+  ipc.on('export-data', function (_, name, format) {
+    exportData(app, name, format)
   })
 
   ipc.on('zoom-to-data-get-centroid', function (_, type) {

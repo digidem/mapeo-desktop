@@ -62,8 +62,8 @@ export default class Sidebar extends React.Component {
         <MoreVertIcon />
       </IconButton>
       <Menu id='the-menu' anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
-        <ExportSidebarItem name='GeoJSON' ext='geojson' />
-        <ExportSidebarItem name='ShapeFile' ext='shp' />
+        <ExportSidebarItem name='GeoJSON' format='geojson' />
+        <ExportSidebarItem name='ShapeFile' format='shapefile' />
         {MenuItems.map((view, i) => {
           var id = `menu-option-${view.name}`
           if (view.name === 'MapEditor') return
@@ -83,10 +83,10 @@ export default class Sidebar extends React.Component {
 
 class ExportSidebarItem extends React.Component {
   render () {
-    const { name, ext } = this.props
+    const { name, format } = this.props
 
     function onClick () {
-      ipcRenderer.send('export-data', name, ext)
+      ipcRenderer.send('export-data', name, format)
     }
     var label = `${i18n('menu-export-data')} ${name}...`
     return <MenuItem onClick={onClick}>{label}</MenuItem>
