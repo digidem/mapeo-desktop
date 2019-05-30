@@ -28,7 +28,7 @@ module.exports = function (win) {
   })
 
   ipc.on('import-example-presets', function (ev) {
-    var filename = path.join(__dirname, 'static', 'settings-jungle-v1.0.0.mapeosettings')
+    var filename = path.join(__dirname, '..', '..', 'static', 'settings-jungle-v1.0.0.mapeosettings')
     userConfig.importSettings(win, filename, function (err) {
       if (err) return log(err)
       log('Example presets imported from ' + filename)
