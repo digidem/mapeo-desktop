@@ -5,11 +5,12 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 
 export default class LatLonDialog extends React.Component {
   render () {
+    // TODO: escape this html for displaying newlines
     return (
       <Dialog open onClose={this.props.onClose}>
         <DialogTitle>Error</DialogTitle>
         <DialogContent>
-          {this.props.message} // TODO: escape this html for displaying newlines
+          {this.props.message}
         </DialogContent>
       </Dialog>
     )

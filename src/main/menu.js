@@ -1,5 +1,6 @@
 var dialog = require('electron').dialog
 
+var debug = require('debug')('mapeo-desktop')
 var userConfig = require('./user-config')
 var i18n = require('../i18n')
 var logger = require('../log')
@@ -74,16 +75,8 @@ module.exports = function (app) {
             }, function (filenames) {
               if (!filenames) return
               var filename = filenames[0]
-              app.mapeo.importer.importFromFile(filename, function (err) {
-                if (err) {
-                  dialog.showErrorBox('Error', i18n('menu-import-data-error') + err)
-                } else {
-                  dialog.showMessageBox({
-                    message: i18n('menu-import-data-success'),
-                    buttons: ['OK']
-                  })
-                }
-              })
+              debug('[IMPORTING]', filename)
+              app.mapeo.importer.importFromFile(filename)
             })
           },
           visible: true

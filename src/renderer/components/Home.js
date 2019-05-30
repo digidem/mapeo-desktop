@@ -87,12 +87,12 @@ export default class Home extends React.Component {
     const { View, Modal } = this.state
     if (View.name !== 'Loading') localStorage.setItem('lastView', View.name)
 
-    // import progress and indexes are handled differently because they
-    // will block further action with the app until the operation is
+    // XXX(KM): import progress and indexes are handled differently because
+    // they will block further action with the app until the operation is
     // complete
     return (
       <div className='full'>
-        <ImportProgress />
+        <ImportProgress openModal={this.openModal.bind(this)} />
         <Indexes />
         {Modal && <Modal.component
           onClose={this.closeModal.bind(this)}

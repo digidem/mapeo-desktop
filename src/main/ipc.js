@@ -94,6 +94,10 @@ module.exports = function (win) {
     win.webContents.send('zoom-to-latlon-response', lat, lon)
   })
 
+  ipc.on('force-refresh-window', function () {
+    win.webContents.send('force-refresh-window')
+  })
+
   ipc.on('refresh-window', function () {
     win.webContents.send('refresh-window')
   })
@@ -101,7 +105,7 @@ module.exports = function (win) {
   var importer = app.mapeo.importer
 
   importer.on('error', function (err, filename) {
-    win.webContents.send('import-error', err, path.basename(filename))
+    win.webContents.send('import-error', err.toString())
   })
 
   importer.on('complete', function (filename) {
