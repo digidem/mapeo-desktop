@@ -23,6 +23,15 @@ const Overlay = styled.div`
   }
 `
 
+const Main = styled.div`
+  flex: 1;
+`
+const Stretch = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`
+
 export default class MapEditor extends React.Component {
   constructor (props) {
     super(props)
@@ -53,15 +62,17 @@ export default class MapEditor extends React.Component {
 
   render () {
     return (
-      <div className='full'>
-        <Overlay>
-          <Sidebar
-            changeView={this.props.changeView}
-            openModal={this.props.openModal}
-          />
-        </Overlay>
-        <div ref={this.iDContainer} />
-      </div>
+      <Main>
+        <Stretch>
+          <Overlay>
+            <Sidebar
+              changeView={this.props.changeView}
+              openModal={this.props.openModal}
+            />
+          </Overlay>
+          <div ref={this.iDContainer} />
+        </Stretch>
+      </Main>
     )
   }
 

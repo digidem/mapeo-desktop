@@ -58,6 +58,7 @@
     "@material-ui/core": "^1.5.1",
     "@material-ui/icons": "^3.0.1",
     "JSONStream": "^1.3.5",
+    "appdmg": "^0.4.5",
     "application-config": "^1.0.1",
     "application-config-path": "^0.1.0",
     "asar": "^1.0.0",

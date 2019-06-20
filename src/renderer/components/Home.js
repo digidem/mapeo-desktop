@@ -10,6 +10,7 @@ import MapEditor from './MapEditor'
 import MapFilter from './MapFilter'
 import Welcome from './Welcome'
 import Loading from './Loading'
+import SidebarV2 from './SidebarV2'
 
 let localStorage = window.localStorage
 let location = window.location
@@ -91,7 +92,7 @@ export default class Home extends React.Component {
     // they will block further action with the app until the operation is
     // complete
     return (
-      <div className='full'>
+      <div className='full-container'>
         <ImportProgress openModal={this.openModal.bind(this)} />
         <Indexes />
         {Modal && <Modal.component
@@ -99,6 +100,10 @@ export default class Home extends React.Component {
           changeView={this.changeView.bind(this)}
           {...this.state.Modal.props}
         />}
+        <SidebarV2
+          changeView={this.changeView.bind(this)}
+          openModal={this.openModal.bind(this)}
+        />
         <View.component
           changeView={this.changeView.bind(this)}
           openModal={this.openModal.bind(this)}
