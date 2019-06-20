@@ -72,6 +72,19 @@ body {
   }
 }
 
+.menu-item {
+  padding: 1vw 2vw;
+}
+
+.menu-item-icon {
+  width: 14px;
+  margin-right: 0.5vw;
+}
+
+.menu-item:hover {
+  background-color: #33335C;
+}
+
 @media print {
   .full {
     position: static;
