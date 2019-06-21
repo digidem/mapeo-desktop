@@ -151,7 +151,7 @@ export default class SyncView extends React.Component {
     var wifiPeers = this.sync.wifiPeers(peers)
     var disabled = false
     return (
-      <Dialog onClose={this.onClose} closeButton={false} open disableBackdropClick>
+      <Dialog onClose={this.onClose} closebutton='false' open disableBackdropClick>
         <TargetsDiv id='sync-targets'>
           { wifiPeers.length === 0
             ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>

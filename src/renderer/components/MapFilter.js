@@ -199,20 +199,6 @@ class Home extends React.Component {
     // TODO: get from parent component (Home.js/app.js)
     const locale = 'es'
 
-    var appBarMenuItems = []
-
-    MenuItems.forEach((view, i) => {
-      var id = `menu-option-${view.name}`
-      if (view.name === 'MapFilter') return
-      appBarMenuItems.push(
-        <MenuItem
-          id={id}
-          onClick={this.onMenuItemClick.bind(this, view)}>
-          {view.label}
-        </MenuItem>
-      )
-    })
-
     if (!mapStyle) return <div>Loading..</div>
 
     return (<div>
@@ -228,7 +214,7 @@ class Home extends React.Component {
           datasetName='Mapeo-Mobile'
           resizer={resizer}
           appBarTitle='Filtrar'
-          appBarMenuItems={appBarMenuItems} />
+        />
 
       </MuiThemeProvider>
 
