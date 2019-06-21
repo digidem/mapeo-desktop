@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {LocationOn} from '@material-ui/icons/'
 
 import MenuItems from './MenuItems'
 
@@ -10,12 +11,16 @@ const Main = styled.div`
   color: white;
 `
 
-const Logo = styled.h1`
-  font-family: 'Rubik', sans-serif;
-  font-weight: 500;
-  font-size: 2em;
+const Logo = styled.div`
   padding: 0 1.5em;
   margin-bottom: 0.5em;
+  display: flex;
+  align-items: center;
+  h1 {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    font-size: 2em;
+  }
 `
 
 const MenuItem = styled.li`
@@ -27,7 +32,8 @@ const MenuItem = styled.li`
     background-color: #33335C;
   }
   img {
-    width: 14px;
+    width: 1em;
+    height: 1em;
     margin-right: 1em;
   }
 `
@@ -42,7 +48,8 @@ export default class SidebarV2 extends React.Component {
     return (
       <Main>
         <Logo>
-          Mapeo
+          <LocationOn style={{marginLeft: '-0.25em', marginRight: '0.25em'}} />
+          <h1>Mapeo</h1>
         </Logo>
         <ul>
           {MenuItems.map((view, i) => {
