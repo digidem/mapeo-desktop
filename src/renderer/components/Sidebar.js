@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import i18n from '../../i18n'
-import MenuItems from './MenuItems'
 
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
@@ -64,17 +63,6 @@ export default class Sidebar extends React.Component {
       <Menu id='the-menu' anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
         <ExportSidebarItem name='GeoJSON' format='geojson' />
         <ExportSidebarItem name='ShapeFile' format='shapefile' />
-        {MenuItems.map((view, i) => {
-          var id = `menu-option-${view.name}`
-          if (view.name === 'MapEditor') return
-          return (
-            <MenuItem
-              id={id}
-              key={i}
-              onClick={this.onSidebarClick.bind(this, view)}>
-              {view.label}
-            </MenuItem>)
-        })}
       </Menu>
     </FixedTopMenu>
     )

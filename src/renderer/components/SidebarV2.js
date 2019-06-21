@@ -4,16 +4,32 @@ import styled from 'styled-components'
 import MenuItems from './MenuItems'
 
 const Main = styled.div`
-  padding-top: 5vw;
-  width: 30vw;
-  flex: 1;
+  padding-top: 3em;
+  width: 15em;
   background-color: #000033;
   color: white;
 `
 
 const Logo = styled.h1`
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
   font-size: 2em;
-  font-weight: 700;
+  padding: 0 1.5em;
+  margin-bottom: 0.5em;
+`
+
+const MenuItem = styled.li`
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
+  font-size: 1em;
+  padding: 0.75em 1.5em;
+  :hover {
+    background-color: #33335C;
+  }
+  img {
+    width: 14px;
+    margin-right: 1em;
+  }
 `
 
 export default class SidebarV2 extends React.Component {
@@ -28,18 +44,17 @@ export default class SidebarV2 extends React.Component {
         <Logo>
           Mapeo
         </Logo>
-        <ul id='the-menu'>
+        <ul>
           {MenuItems.map((view, i) => {
             var id = `menu-option-${view.name}`
             return (
-              <li
+              <MenuItem
                 id={id}
-                class='menu-item'
                 key={i}
                 onClick={this.onSidebarClick.bind(this, view)}>
-                <img src={`static/${view.icon}`} className='menu-item-icon' />
+                <img src={`static/${view.icon}`} />
                 {view.label}
-              </li>)
+              </MenuItem>)
           })}
         </ul>
       </Main>
