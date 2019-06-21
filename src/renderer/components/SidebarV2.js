@@ -1,8 +1,10 @@
 import React from 'react'
+import { ipcRenderer } from 'electron'
 import styled from 'styled-components'
-import {LocationOn} from '@material-ui/icons/'
+import {LocationOn, SaveAlt} from '@material-ui/icons/'
 
 import MenuItems from './MenuItems'
+import i18n from '../../i18n'
 
 const Main = styled.div`
   padding-top: 3em;
@@ -28,6 +30,8 @@ const MenuItem = styled.li`
   font-weight: 400;
   font-size: 1em;
   padding: 0.75em 1.5em;
+  display: flex;
+  align-items: center;
   :hover {
     background-color: #33335C;
   }
@@ -38,6 +42,28 @@ const MenuItem = styled.li`
   }
 `
 
+const svgStyles = {
+  marginLeft: '-0.25em',
+  marginRight: '0.25em'
+}
+
+class ExportSidebarItem extends React.Component {
+  render () {
+    const { name, format } = this.props
+
+    function onClick () {
+      ipcRenderer.send('export-data', name, format)
+    }
+    var label = `${i18n('menu-export-data')} ${name}...`
+    return (
+      <MenuItem onClick={onClick}>
+        <SaveAlt style={svgStyles} />
+        {label}
+      </MenuItem>
+    )
+  }
+}
+
 export default class SidebarV2 extends React.Component {
   onSidebarClick (view) {
     if (view.modal) return this.props.openModal(view.name)
@@ -45,10 +71,11 @@ export default class SidebarV2 extends React.Component {
   }
 
   render () {
+    const {viewName} = this.props
     return (
       <Main>
         <Logo>
-          <LocationOn style={{marginLeft: '-0.25em', marginRight: '0.25em'}} />
+          <LocationOn style={svgStyles} />
           <h1>Mapeo</h1>
         </Logo>
         <ul>
@@ -63,6 +90,12 @@ export default class SidebarV2 extends React.Component {
                 {view.label}
               </MenuItem>)
           })}
+          {viewName === 'MapEditor' &&
+            <ExportSidebarItem name='GeoJSON' format='geojson' />
+          }
+          {viewName === 'MapEditor' &&
+            <ExportSidebarItem name='ShapeFile' format='shapefile' />
+          }
         </ul>
       </Main>
     )

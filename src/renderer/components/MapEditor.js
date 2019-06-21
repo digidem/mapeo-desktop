@@ -5,23 +5,11 @@ import Dialogs from 'dialogs'
 import { ipcRenderer, remote, shell } from 'electron'
 import styled from 'styled-components'
 
-import Sidebar from './Sidebar'
 import i18n from '../../i18n'
 import pkg from '../../../package.json'
 
 let iD = window.iD
 let DOMParser = window.DOMParser
-
-const Overlay = styled.div`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  .menu {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-`
 
 const Main = styled.div`
   flex: 1;
@@ -64,12 +52,6 @@ export default class MapEditor extends React.Component {
     return (
       <Main>
         <Stretch>
-          <Overlay>
-            <Sidebar
-              changeView={this.props.changeView}
-              openModal={this.props.openModal}
-            />
-          </Overlay>
           <div ref={this.iDContainer} />
         </Stretch>
       </Main>

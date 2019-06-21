@@ -101,6 +101,7 @@ export default class Home extends React.Component {
           {...this.state.Modal.props}
         />}
         <SidebarV2
+          viewName={View.name}
           changeView={this.changeView.bind(this)}
           openModal={this.openModal.bind(this)}
         />
