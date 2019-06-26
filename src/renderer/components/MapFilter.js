@@ -9,14 +9,12 @@ import xor from 'lodash/xor'
 import differenceBy from 'lodash/differenceBy'
 import url from 'url'
 
-import MenuItem from '@material-ui/core/MenuItem'
 import randomBytes from 'randombytes'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import xhr from 'xhr'
 import api from '../api'
-import MenuItems from './MenuItems'
 
 const theme = createMuiTheme({
   palette: {

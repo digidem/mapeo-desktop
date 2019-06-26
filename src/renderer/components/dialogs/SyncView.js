@@ -4,23 +4,43 @@ import React from 'react'
 import { ipcRenderer } from 'electron'
 import SyncIcon from '@material-ui/icons/Sync'
 import ErrorIcon from '@material-ui/icons/Error'
-import Dialog from '@material-ui/core/Dialog'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import SyncManager from '../../sync-manager'
 import Form from '../Form'
 import i18n from '../../../i18n'
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#39527b'
+    }
+  }
+})
+
+const Container = styled.div`
+  flex: 1;
+`
+
+const Nav = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`
+
 var Subtitle = styled.div`
-  background-color: var(--main-bg-color);
-  color: white;
-  vertical-align: middle;
+  font-size: 2em;
   padding: 5px 20px;
 `
 
 var TargetsDiv = styled.div`
-  background-color: white
+  background-color: white;
   color: black;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
   .loading {
     background-color: white;
     color: grey;
@@ -145,42 +165,42 @@ export default class SyncView extends React.Component {
   }
 
   render () {
-    var self = this
     const { peers } = this.state
     if (this.props.filename) this.sync.start({ filename: this.props.filename })
     var wifiPeers = this.sync.wifiPeers(peers)
-    var disabled = false
+    // var disabled = false
     return (
-      <Dialog onClose={this.onClose} closebutton='false' open disableBackdropClick>
-        <TargetsDiv id='sync-targets'>
-          { wifiPeers.length === 0
-            ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
-            : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
-          }
-          {peers.map((peer) => {
-            disabled = (peer.state.topic !== 'replication-wifi-ready' &&
-              peer.state.topic !== 'replication-complete' &&
-              peer.state.topic !== 'replication-error')
-            return <Target peer={peer} key={peer.id}
-              onStartClick={this.sync.start}
-              onCancelClick={this.sync.cancel} />
-          })}
-        </TargetsDiv>
-        <Form method='POST' className='modal-group'>
-          <input type='hidden' name='source' />
-          <div>
-            <Button id='sync-open' onClick={this.selectExisting}>
-              {i18n('sync-database-open-button')}&hellip;
-            </Button>
-            <Button id='sync-new' onClick={this.selectNew}>
-              {i18n('sync-database-new-button')}&hellip;
-            </Button>
-            <Button id='sync-done' onClick={self.onClose} disabled={disabled}>
-              {i18n('done')}
-            </Button>
-          </div>
-        </Form>
-      </Dialog>
+      <Container>
+        <MuiThemeProvider theme={theme}>
+          <Nav>
+            <Form method='POST' style={{display: 'inline-block'}}>
+              <input type='hidden' name='source' />
+              <div>
+                <Button id='sync-open' onClick={this.selectExisting}>
+                  {i18n('sync-database-open-button')}&hellip;
+                </Button>
+                <Button id='sync-new' onClick={this.selectNew}>
+                  {i18n('sync-database-new-button')}&hellip;
+                </Button>
+              </div>
+            </Form>
+          </Nav>
+          <TargetsDiv id='sync-targets'>
+            { wifiPeers.length === 0
+              ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+              : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
+            }
+            {peers.map((peer) => {
+              // disabled = (peer.state.topic !== 'replication-wifi-ready' &&
+              //   peer.state.topic !== 'replication-complete' &&
+              //   peer.state.topic !== 'replication-error')
+              return <Target peer={peer} key={peer.id}
+                onStartClick={this.sync.start}
+                onCancelClick={this.sync.cancel} />
+            })}
+          </TargetsDiv>
+        </MuiThemeProvider>
+      </Container>
     )
   }
 }

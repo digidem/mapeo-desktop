@@ -12,7 +12,6 @@ const MenuItems = [
   {
     name: 'SyncView',
     label: 'Sync',
-    modal: true,
     icon: 'mapeo-icon-sync-selected-@2x.png'
   }
 ]
