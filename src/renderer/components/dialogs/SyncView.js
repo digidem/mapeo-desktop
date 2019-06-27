@@ -26,7 +26,7 @@ const Container = styled.div`
 const Nav = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `
 
 var Subtitle = styled.div`
@@ -34,8 +34,8 @@ var Subtitle = styled.div`
   padding: 5px 20px;
 `
 
-var TargetsDiv = styled.div`
-  background-color: white;
+const SearchingDiv = styled.div`
+  background-color: #EAEAEA;
   color: black;
   display: flex;
   height: 100%;
@@ -52,10 +52,22 @@ var TargetsDiv = styled.div`
   }
 `
 
+var TargetsDiv = styled.div`
+  background-color: #EAEAEA;
+  color: black;
+  display: flex;
+  height: 100%;
+
+}
+`
+
 var TargetItem = styled.div`
   .view {
-    border-bottom: 1px solid grey;
-    min-width: 250px;
+    margin: 2vw;
+    background-color: #fff;
+    border: 1px solid #EAEAEA;
+    width: 250px;
+    height: 250px
     padding: 20px;
     display: flex;
     justify-content: space-between;
@@ -63,7 +75,7 @@ var TargetItem = styled.div`
     align-items: center;
   }
   .clickable:hover {
-    background-color: #eee;
+    border-color: #2752d1;
     cursor: pointer;
   }
   .target {
@@ -168,11 +180,13 @@ export default class SyncView extends React.Component {
     const { peers } = this.state
     if (this.props.filename) this.sync.start({ filename: this.props.filename })
     var wifiPeers = this.sync.wifiPeers(peers)
-    // var disabled = false
+    console.log('Wifi Peers ', wifiPeers)
+    console.log('Peers ', peers)
     return (
       <Container>
         <MuiThemeProvider theme={theme}>
           <Nav>
+            <div>Available Devices via Wi-Fi</div>
             <Form method='POST' style={{display: 'inline-block'}}>
               <input type='hidden' name='source' />
               <div>
@@ -185,20 +199,21 @@ export default class SyncView extends React.Component {
               </div>
             </Form>
           </Nav>
-          <TargetsDiv id='sync-targets'>
-            { wifiPeers.length === 0
-              ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
-              : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
-            }
-            {peers.map((peer) => {
-              // disabled = (peer.state.topic !== 'replication-wifi-ready' &&
-              //   peer.state.topic !== 'replication-complete' &&
-              //   peer.state.topic !== 'replication-error')
-              return <Target peer={peer} key={peer.id}
-                onStartClick={this.sync.start}
-                onCancelClick={this.sync.cancel} />
-            })}
-          </TargetsDiv>
+          {peers.length === 0
+            ? (
+              <SearchingDiv>
+                <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+              </SearchingDiv>
+            ) : (
+              <TargetsDiv id='sync-targets'>
+                {peers.map((peer) => {
+                  return <Target peer={peer} key={peer.id}
+                    onStartClick={this.sync.start}
+                    onCancelClick={this.sync.cancel} />
+                })}
+              </TargetsDiv>
+            )
+          }
         </MuiThemeProvider>
       </Container>
     )
