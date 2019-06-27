@@ -65,6 +65,7 @@
   "sync-file-info": "por Archivo",
   "sync-searching-targets": "Buscando otros dispotivos",
   "sync-available-devices": "Dispotivos listos",
+  "sync-searching-tip": "Asegúrese de que los dispositivos estén encendidos y conectados a la misma red wi-fi.",
   "welcome-screen-1-title": "Bienvenido a Mapeo",
   "welcome-screen-1-subtitle": "Offline collaborative mapping",
   "welcome-screen-1-next-button": "Get started",

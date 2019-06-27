@@ -46,17 +46,12 @@ const SearchingDiv = styled.div`
   background-color: #EAEAEA;
   color: black;
   display: flex;
+  flex-direction: column;
   height: 100%;
   align-items: center;
   justify-content: center;
-  .loading {
-    background-color: white;
-    color: grey;
-    font-style: italic;
-    font-size: 24px;
+  .title {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
   }
 `
 
@@ -205,7 +200,7 @@ export default class SyncView extends React.Component {
       <Container>
         <MuiThemeProvider theme={theme}>
           <Nav>
-            <div><span className='bold'>Available Devices</span> via Wi-Fi</div>
+            <div><span className='bold'>{i18n('sync-available-devices')}</span> {i18n('sync-wifi-info')}</div>
             <Form method='POST' style={{display: 'inline-block'}}>
               <input type='hidden' name='source' />
               <div>
@@ -221,7 +216,15 @@ export default class SyncView extends React.Component {
           {peers.length === 0
             ? (
               <SearchingDiv>
-                <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+                <div className='title'>
+                  <CircularProgress />
+                  <Subtitle>
+                    {i18n('sync-searching-targets')}&hellip;
+                  </Subtitle>
+                </div>
+                <div>
+                  {i18n('sync-searching-tip')}
+                </div>
               </SearchingDiv>
             ) : (
               <TargetsDiv id='sync-targets'>
