@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import React from 'react'
 import { ipcRenderer } from 'electron'
-import SyncIcon from '@material-ui/icons/Sync'
+import FlashOnIcon from '@material-ui/icons/FlashOn'
 import ErrorIcon from '@material-ui/icons/Error'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
@@ -15,6 +15,9 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#39527b'
+    },
+    secondary: {
+      main: '#fff'
     }
   }
 })
@@ -24,9 +27,14 @@ const Container = styled.div`
 `
 
 const Nav = styled.div`
-  width: 100%;
+  width: 98%;
+  padding: 0.5em 1em;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  .bold {
+    font-weight: 600;
+  }
 `
 
 var Subtitle = styled.div`
@@ -57,12 +65,12 @@ var TargetsDiv = styled.div`
   color: black;
   display: flex;
   height: 100%;
-
 }
 `
 
 var TargetItem = styled.div`
   .view {
+    position: relative;
     margin: 2vw;
     background-color: #fff;
     border: 1px solid #EAEAEA;
@@ -70,9 +78,9 @@ var TargetItem = styled.div`
     height: 250px
     padding: 20px;
     display: flex;
-    justify-content: space-between;
-    vertical-align: middle;
+    justify-content: center;
     align-items: center;
+    text-align: center;
   }
   .clickable:hover {
     border-color: #2752d1;
@@ -90,16 +98,30 @@ var TargetItem = styled.div`
     font-size: 14px;
     font-style: italic;
   }
-  .icon {
-    min-width: 50px;
+  /* .icon {
+    position: absolute;
+    bottom: 1vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
+  } */
   .progress {
     width: 100%;
   }
 }
+`
+
+const TargetIconContainer = styled.div`
+  border: solid 1px #EAEAEA;
+  border-radius: 6px;
+  padding: 0.5em 1em;
+  display: flex;
+  position: absolute;
+  bottom: 1vw;
+  font-weight: 600;
+  .icon {
+    margin-right: 0.5em;
+  }
 `
 
 export default class SyncView extends React.Component {
@@ -179,21 +201,18 @@ export default class SyncView extends React.Component {
   render () {
     const { peers } = this.state
     if (this.props.filename) this.sync.start({ filename: this.props.filename })
-    var wifiPeers = this.sync.wifiPeers(peers)
-    console.log('Wifi Peers ', wifiPeers)
-    console.log('Peers ', peers)
     return (
       <Container>
         <MuiThemeProvider theme={theme}>
           <Nav>
-            <div>Available Devices via Wi-Fi</div>
+            <div><span className='bold'>Available Devices</span> via Wi-Fi</div>
             <Form method='POST' style={{display: 'inline-block'}}>
               <input type='hidden' name='source' />
               <div>
-                <Button id='sync-open' onClick={this.selectExisting}>
+                <Button variant='outlined' id='sync-open' onClick={this.selectExisting}>
                   {i18n('sync-database-open-button')}&hellip;
                 </Button>
-                <Button id='sync-new' onClick={this.selectNew}>
+                <Button variant='outlined' id='sync-new' onClick={this.selectNew}>
                   {i18n('sync-database-new-button')}&hellip;
                 </Button>
               </div>
@@ -231,7 +250,8 @@ var TOPICS = {
     message: i18n('replication-progress')
   },
   'replication-wifi-ready': {
-    icon: SyncIcon,
+    icon: FlashOnIcon,
+    iconLabel: 'Sync',
     message: i18n(`sync-wifi-info`),
     ready: true
   }
@@ -324,14 +344,12 @@ class TargetView extends React.PureComponent {
       progress,
       lastCompletedDate
     } = this.props
-
     var view = getView(topic, message)
 
     if (!view) {
       view = {}
       console.error('this is bad, there was no view available for peer')
     }
-
     return (
       <div className={view.ready ? 'view clickable' : 'view'} onClick={this.props.onStartClick}>
         <div className='target'>
@@ -339,12 +357,30 @@ class TargetView extends React.PureComponent {
           <span className='message'>{view.message}</span>
           {lastCompletedDate && <span className='completed'>Last completed {new Date(lastCompletedDate).toLocaleString()}</span>}
         </div>
-        { view.icon && <div className='icon'><view.icon /></div> }
-        { progress > 0 && progress < 100 && <div className='icon'>
-          <span className='message'>{progress}%</span>
-          <CircularProgress color='primary' value={progress} variant='determinate'>${progress}% </CircularProgress>
-        </div>
-        }
+        { view.icon && (
+          <TargetIconContainer>
+            <div className='icon'>
+              <view.icon />
+            </div>
+            <div>{view.iconLabel}</div>
+          </TargetIconContainer>
+        ) }
+        {progress > 0 && progress < 100 && (
+          <TargetIconContainer style={{backgroundColor: 'blue', color: 'white'}}>
+            <div className='icon'>
+              <CircularProgress
+                color='secondary'
+                size={15}
+                value={progress}
+                variant='determinate'>
+                ${progress}%
+              </CircularProgress>
+            </div>
+            <div className='message'>
+              Syncing
+            </div>
+          </TargetIconContainer>
+        )}
       </div>
     )
   }
