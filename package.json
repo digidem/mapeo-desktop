@@ -29,7 +29,7 @@
     "rebuild-leveldb": "cd node_modules/leveldown && cross-env HOME=~/.electron-gyp node-gyp rebuild --target=2.0.7 --runtime=electron --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "license-check": "license-check"
   },
-  "license": "GPL-v3.0",
+  "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/digidem/mapeo-desktop.git"
