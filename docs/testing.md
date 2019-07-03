@@ -5,7 +5,7 @@ This is a script we can use to manually test Mapeo Desktop.
 1. Create an observation with a photo on Mapeo Mobile.
 2. Sync from Mapeo Mobile to Mapeo Desktop.
 
-    1. See that both devices are able to find eachother.
+    1. See that both devices are able to find each other.
     2. See that both 'progress' and 'complete' text is visible.
     3. When you hit 'OK', the Map Filter interface opens and new data is visible.
     
