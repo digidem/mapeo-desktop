@@ -1,14 +1,32 @@
-sudo: false
+
 language: node_js
 node_js:
   - '8'
+  # Please enable these matrix values after bug #228 is fixed
+  #- '10'
+  #- '12'
 
-os:
-  - osx
-  - linux
+env:
+  global:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
-env: 
-  TEST_SCREENSHOTS=false
+matrix:
+  allow_failures:
+    - os: windows
+  include:
+    - os: linux
+    - os: osx
+      osx_image: xcode10.2
+    - os: windows
+      cache:
+        - npm: false
+
+install:
+  # Adjust TravisCI build config to handle Windows Build timeouts caused by npm eperm errors.
+  # https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
+  # https://travis-ci.community/t/eperm-operation-not-permitted-nodejs-electron/2571
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then travis_wait 30 npm install; else npm install; fi
 
 script:
   - npm rebuild
@@ -16,16 +34,6 @@ script:
   - npm run lint
   - npm run build
   - npm run dist
-
-addons:
-  apt:
-    packages:
-      - xvfb
-
-install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1280x1024x16 > /dev/null 2>&1 &
-  - npm install
 
 deploy:
   provider: script
