@@ -1,31 +1,36 @@
-sudo: false
+
 language: node_js
 node_js:
   - '8'
+  # Please enable these matrix values after bug #228 is fixed
+  #- '10'
+  #- '12'
 
-os:
-  - osx
-  - linux
+env:
+  global:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
-env: 
-  TEST_SCREENSHOTS=false
+matrix:
+  allow_failures:
+    - os: osx
+      osx_image: xcode10.2
+    - os: linux
+    - os: windows
+
+cache:
+  npm: true
+  directories:
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 
 script:
+  - npm install
   - npm rebuild
   - npm run rebuild-leveldb
   - npm run lint
   - npm run build
   - npm run dist
-
-addons:
-  apt:
-    packages:
-      - xvfb
-
-install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1280x1024x16 > /dev/null 2>&1 &
-  - npm install
 
 deploy:
   provider: script
