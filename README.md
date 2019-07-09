@@ -85,6 +85,8 @@ or keyboard while the tests are running.
 Mapeo uses [Electron](http://electron.atom.io/). To package the Electron app as
 a native Windows `.exe` or macOS `.dmg`, execute
 
+Please generate a GitHub access token from https://github.com/settings/tokens/new and assign it to an environment variable with ```export GH_TOKEN="<TOKEN_HERE>```
+
 ```
 $ npm run pack
 ```
