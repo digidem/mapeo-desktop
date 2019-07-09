@@ -18,7 +18,7 @@ when you launch Mapeo desktop in the background imagery layers menu.
 
 In the Map Editor, press 'b' to open the imagery layers menu. Choose 'Custom'
 from the bottom list.  If you used automatic import, you can use the default
-setting. You can modify the paramters based upon your setup.
+setting. You can modify the parameters based upon your setup.
 
 Mapeo runs its own maptile server in the background. The server for tile data that is imported from the `File->Import Offline Map  Tiles...` should be:
 
