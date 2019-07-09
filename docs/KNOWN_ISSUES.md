@@ -10,3 +10,7 @@
   allowed. 
 * Errors are in english
 
+## Builds 
+
+* Mapeo-desktop is tested with Node.js 8. You might experience some issues when using it with Node.js 10 or later (See https://github.com/digidem/mapeo-desktop/issues/228 )
+
