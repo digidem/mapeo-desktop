@@ -130,6 +130,15 @@ icons/
   ...etc
 ```
 
+# Community
+
+Connect with the Mapeo community for support & to contribute!
+
+- **Mailing List** (English): https://lists.riseup.net/www/info/mapeo-en
+- **Mailing List** (Spanish): https://lists.riseup.net/www/info/mapeo-es
+- **IRC** (channel #ddem): https://kiwiirc.com/nextclient/irc.freenode.net/
+- **Slack**: http://slack.digital-democracy.org
+
 # License
 
 GPLv3
