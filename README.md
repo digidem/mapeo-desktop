@@ -134,10 +134,10 @@ icons/
 
 Connect with the Mapeo community for support & to contribute!
 
-- **Mailing List** (English): https://lists.riseup.net/www/info/mapeo-en
-- **Mailing List** (Spanish): https://lists.riseup.net/www/info/mapeo-es
-- **IRC** (channel #ddem): https://kiwiirc.com/nextclient/irc.freenode.net/
-- **Slack**: http://slack.digital-democracy.org
+- [**Mailing List**](https://lists.riseup.net/www/info/mapeo-en) (English)
+- [**Mailing List**](https://lists.riseup.net/www/info/mapeo-es) (Spanish)
+- [**IRC**](https://kiwiirc.com/nextclient/irc.freenode.net/) (channel #ddem)
+- [**Slack**](http://slack.digital-democracy.org)
 
 # License
 
