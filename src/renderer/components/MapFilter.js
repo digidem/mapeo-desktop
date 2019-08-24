@@ -10,7 +10,7 @@ import differenceBy from 'lodash/differenceBy'
 import url from 'url'
 
 import MenuItem from '@material-ui/core/MenuItem'
-import randomBytes from 'randombytes'
+import { randomBytes } from 'crypto'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 

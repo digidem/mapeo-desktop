@@ -92,7 +92,6 @@
     "osm-p2p-server": "^4.0.0",
     "prop-types": "^15.6.0",
     "pump": "^1.0.3",
-    "randombytes": "^2.0.6",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-intl": "^2.7.2",
