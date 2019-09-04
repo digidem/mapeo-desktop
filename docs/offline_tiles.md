@@ -63,7 +63,7 @@ $ tile-dl -t "$(cat url_template)" --lon=-122.2632601 --lat=37.8027446 \
 ```
 On Windows
 ``` cmd
-tile-dl -t %url_template% --lon=-122.2632601 --lat=37.8027446 --radius 0.1 --zoom 12 --output tiles/{z}/{x}/{y}.png
+tile-dl -t %url_template% --lon=-122.2632601 --lat=37.8027446 --radius 0.1 --zoom 12 --output "tiles/{z}/{x}/{y}.png"
 ```
 
 This example downloads the area around Oakland, California. You can tweak the
