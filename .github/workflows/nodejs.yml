@@ -24,10 +24,8 @@ jobs:
         npm run build
       env:
         CI: true
-        NODE_ENV: production
     - name: pack installers
       run: |
         npm run pack
       env:
         CI: true
-        
