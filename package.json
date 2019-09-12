@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "mapeo-desktop",
   "description": "Mapping and monitoring in remote environments.",
   "productName": "Mapeo",
@@ -26,7 +27,9 @@
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
     "postinstall": "electron-builder install-app-deps && npmpd",
-    "license-check": "license-check"
+    "license-check": "license-check",
+    "release": "standard-version",
+    "release:beta": "standard-version --prerelease beta"
   },
   "license": "GPL-3.0",
   "repository": {
@@ -135,6 +138,7 @@
     "spectron": "^4.0.0",
     "spectron-fake-dialog": "0.0.1",
     "standard": "^11.0.1",
+    "standard-version": "^7.0.0",
     "tape": "^4.9.1",
     "watchify": "^3.7.0",
     "webpack": "^3.12.0",

@@ -15,47 +15,38 @@ This project is under active development and we are testing it out in the field 
 
 For a mobile application that is compatible with Mapeo Desktop, see [Mapeo Mobile](https://github.com/digidem/mapeo-mobile).
 
-# Getting Started
+## Getting Started
 
-To clone and install all dependencies and start the program, execute
+To clone and install all dependencies and start a process to re-build the app whenever you change a file:
 
-```
-$ git clone git@github.com:digidem/mapeo-desktop.git
-$ cd mapeo-desktop
-$ npm install
-$ npm run build
-$ npm run rebuild-leveldb
-$ npm rebuild
-$ npm start
+```sh
+git clone git@github.com:digidem/mapeo-desktop.git
+cd mapeo-desktop
+npm install
+npm run watch
 ```
 
-# Local Development
+Then, in another terminal, run the app in development mode:
 
-To run the application with debugging enabled, execute
-
+```sh
+npm run dev
 ```
-$ npm run dev
-```
-
-In another terminal, run `npm run watch` to automatically generate the
-front-end bundle every time it is changed.
 
 ## Testing
 
 ### Run a mock device
 
-```
-$ npm run device
+```sh
+npm run device
 ```
 
 This runs a mock testing device that will broadcast itself on the local
 network. This device saves it's data in tests/test-data.
 
-
 ### Run integration tests
 
-```
-$ npm run test-integration
+```sh
+npm run test-integration
 ```
 
 The integration tests use Spectron and Tape. They click through the app, taking screenshots and
@@ -78,41 +69,52 @@ For Windows, you'll need Windows 10 with a 1366x768 screen.
 When running integration tests, keep the mouse on the edge of the screen and don't touch the mouse
 or keyboard while the tests are running.
 
-# Packaging
+## Building locally
 
 Mapeo uses [Electron](http://electron.atom.io/). To package the Electron app as
 a native Windows `.exe` or macOS `.dmg`, execute
 
-```
-$ npm run pack
-```
-
-The resultant installer or DMG will be placed in the `./dist` folder.
-
-If you want to build the binaries and also publish to GitHub, use
-
-```
-$ npm run dist
+```sh
+npm run pack
 ```
 
-For this, you'll need to generate a GitHub access token from https://github.com/settings/tokens/new and assign it to an environment variable with ```export GH_TOKEN="<TOKEN_HERE>```.
+The resultant installer or DMG will be placed in the `./dist` folder. You can only build Mapeo for the platform you run this command on, e.g. you need to run this on a Mac in order to build the Mac version of Mapeo.
 
-### Deploy workflow
+## Contributing
 
-1. Create a draft release on github, e.g. `vX.Y.Z`
-1. Change `version` field in `package.json` to `X.Y.Z`
-1. Commit and push modified `package.json` (repeat until release is ready)
-1. Once done, publish the release on github, which will create the tag
+Any development should be done on a branch or a fork, then create a Pull Request to the `master` branch. When ready to merge choose "Rebase" and enter a commit message that follows the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/#examples) specification, which at it's most basic is:
 
-Also see https://www.electron.build/configuration/publish
+* Any new feature: start the commit message with `feat: `
+* Any bugfix: start the commit message with `fix: `
+* Anything else: start the commit message with `chore: `
 
-You'll be able to find the results on the project's [releases](../../releases/) page.
+These commit messages are important because they help others understand the changes and they are used to generate the [CHANGELOG](CHANGELOG.md).
 
-# Custom Imagery
+Each Pull Request should only include a single fix or feature.
+
+## Deploy workflow
+
+Every push to Github is built automatically on Windows, Mac and Linux. The output of these builds can be seen in [the Actions tab](https://github.com/digidem/mapeo-desktop/actions). Each build creates installers which can be downloaded from the "Artifacts" button in the top-right of the logs of each build. These installers should only be used for internal testing. They will likely be unstable.
+
+When you are ready to create a release, you need to create a git tag and update the [Changelog](CHANGELOG.md). The best way to do this is by running:
+
+```sh
+npm run release
+```
+
+This will use the commit messages to update the changelog and bump the version number. Then push the commit and tag to Github:
+
+```sh
+git push --follow-tags origin master
+```
+
+This will trigger a build that will upload the installers to the [releases](releases/) page.
+
+## Custom Imagery
 
 See [downloading tiles for offline use](docs/offline_tiles.md).
 
-# Custom Presets
+## Custom Presets
 
 Presets must be placed in this folder:
 
@@ -132,7 +134,7 @@ icons/
   ...etc
 ```
 
-# Community
+## Community
 
 Connect with the Mapeo community for support & to contribute!
 
@@ -141,6 +143,6 @@ Connect with the Mapeo community for support & to contribute!
 - [**IRC**](https://kiwiirc.com/nextclient/irc.freenode.net/) (channel #ddem)
 - [**Slack**](http://slack.digital-democracy.org)
 
-# License
+## License
 
 GPLv3
