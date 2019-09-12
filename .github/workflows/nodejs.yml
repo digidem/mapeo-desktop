@@ -1,0 +1,33 @@
+name: Node CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macOS-10.14, windows-2016, ubuntu-18.04]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 8.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 8.x
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run lint
+        npm run build
+      env:
+        CI: true
+        NODE_ENV: production
+    - name: pack installers
+      run: |
+        npm run pack
+      env:
+        CI: true
+        
