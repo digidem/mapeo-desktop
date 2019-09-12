@@ -1,8 +1,6 @@
 # Mapeo Desktop
 
-Mac/Linux   | Windows    |
-------------|------------|
-[![Build Status](https://travis-ci.org/digidem/mapeo-desktop.svg?branch=master)](https://travis-ci.org/digidem/mapeo-desktop) | [![Appveyor Status](https://ci.appveyor.com/api/projects/status/gmaclennan/ecuador-map-editor?branch=master&svg=true)](https://ci.appveyor.com/project/gmaclennan/ecuador-map-editor)
+[![Build Status](https://github.com/digidem/mapeo-desktop/workflows/Node%20CD/badge.svg)](https://github.com/digidem/mapeo-desktop/actions)
 
 An offline map editing application for indigenous territory mapping in remote
 environments. It uses [osm-p2p](https://github.com/digidem/osm-p2p-db) for
