@@ -90,7 +90,6 @@ function openWindow () {
   var SPLASH = 'file://' + path.join(__dirname, './splash.html')
   if (!win) {
     win = new BrowserWindow({
-      titleBarStyle: 'hidden',
       title: APP_NAME,
       show: false,
       alwaysOnTop: false,
