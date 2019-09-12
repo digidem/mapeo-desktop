@@ -32,6 +32,8 @@ jobs:
       env:
         CI: true
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        CSC_LINK: ${{ secrets.CSC_LINK }}
+        CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
     - name: Cleanup artifacts
       run: |
         npx rimraf "dist/!(*.exe|*.deb|*.AppImage|*.dmg)"
