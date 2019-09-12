@@ -26,7 +26,6 @@
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
     "postinstall": "electron-builder install-app-deps && npmpd",
-    "rebuild-leveldb": "cd node_modules/leveldown && cross-env HOME=~/.electron-gyp node-gyp rebuild --target=2.0.18 --runtime=electron --dist-url=https://atom.io/download/atom-shell",
     "license-check": "license-check"
   },
   "license": "GPL-3.0",
