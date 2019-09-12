@@ -32,6 +32,9 @@ jobs:
       env:
         CI: true
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    - name: Cleanup artifacts
+      run: |
+        npx rimraf "dist/!(*.exe|*.deb|*.AppImage|*.dmg)"
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
