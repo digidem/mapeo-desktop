@@ -1,4 +1,4 @@
-name: Node CI
+name: Node CD
 
 on: [push]
 
@@ -24,8 +24,8 @@ jobs:
         npm run build
       env:
         CI: true
-    - name: pack installers
+    - name: Publish
       run: |
-        npm run pack
+        npm run dist
       env:
         CI: true
