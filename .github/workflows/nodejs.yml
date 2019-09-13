@@ -23,6 +23,7 @@ jobs:
       run: |
         npm install
         npm run lint
+        npm run rebuild-leveldb
         npm run build
       env:
         CI: true
