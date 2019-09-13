@@ -44,6 +44,10 @@ jobs:
         CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
         WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
         WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+    - name: Update release notes
+      if: contains(github.ref, '/tags/')
+      run: |
+        npm run gh-release
     - name: Cleanup artifacts
       run: |
         npx rimraf "dist/!(*.exe|*.deb|*.AppImage|*.dmg)"

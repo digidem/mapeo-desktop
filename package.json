@@ -30,7 +30,8 @@
     "rebuild-leveldb": "electron-rebuild -o leveldown",
     "license-check": "license-check",
     "release": "standard-version",
-    "release:beta": "standard-version --prerelease beta"
+    "release:beta": "standard-version --prerelease beta",
+    "gh-release": "gh-release"
   },
   "license": "GPL-3.0",
   "repository": {
@@ -132,6 +133,7 @@
     "electron-builder": "^20.8.1",
     "electron-rebuild": "^1.8.6",
     "fs-extra": "^0.30.0",
+    "gh-release": "^3.5.0",
     "hubfs.js": "^1.0.0",
     "license-check": "^1.1.5",
     "mock-data": "^1.5.5",
@@ -189,10 +191,12 @@
         }
       ]
     },
-    "publish": [{
-      "provider": "github",
-      "releaseType": "release"
-    }],
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ],
     "files": [
       "**/*",
       "!**/node_modules/osm-p2p-db/benchmark${/*}",
