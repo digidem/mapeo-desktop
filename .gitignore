@@ -5,3 +5,4 @@ examples/.dat
 static/build.js
 test/lib/test-data
 bin/test-data
+package-lock.json
