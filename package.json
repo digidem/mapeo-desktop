@@ -26,7 +26,8 @@
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
-    "postinstall": "electron-builder install-app-deps && npmpd && electron-rebuild",
+    "postinstall": "electron-builder install-app-deps && npmpd",
+    "rebuild-leveldb": "electron-rebuild -o leveldown",
     "license-check": "license-check",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta"
