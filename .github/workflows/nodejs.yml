@@ -12,6 +12,10 @@ jobs:
         os: [macOS-10.14, windows-2016, ubuntu-18.04]
 
     steps:
+    - name: Context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
