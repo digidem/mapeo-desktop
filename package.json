@@ -189,6 +189,10 @@
         }
       ]
     },
+    "publish": [{
+      "provider": "github",
+      "releaseType": "release"
+    }],
     "files": [
       "**/*",
       "!**/node_modules/osm-p2p-db/benchmark${/*}",
