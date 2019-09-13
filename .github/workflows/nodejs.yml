@@ -25,9 +25,11 @@ jobs:
     - name: Lint
       run: |
         npm run lint
-    - name: Build
+    - name: Rebuild native deps for Electron
       run: |
         npm run rebuild-leveldb
+    - name: Build frontend
+      run: |
         npm run build
       env:
         CI: true
