@@ -1,7 +1,23 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [4.1.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v4.0.1-beta...v4.1.0-beta.0) (2019-09-13)
+
+
+### Bug Fixes
+
+* Fix Windows build
+* Fix ability to drag/move window on Mac
+* Fix "generando indices" never completing after failed sync
+* New Mapeo-Core: only show most recently edited observation if two different people have edited the same observation on different devices
+* Latest updates to MapFilter
+* Fix import progress
+
+### New Features
+
+* Mac app is signed, no need to right-click to open on first install
+* Export ShapeFile from MapEditor
 
 ## 4.0.1-beta
 
@@ -27,7 +43,7 @@ but you can import them in the filesystem under `styles/default/tiles`
 
 - Map tiles and aerial imagery now must be referenced from under a `styles`
   directory. If you were using background imagery in 3.x, you will need to
-change your URL from `/Offline-Maps/...` to `/styles/Offline-Maps/...`. 
+change your URL from `/Offline-Maps/...` to `/styles/Offline-Maps/...`.
 
 - You can override mapfilter styles by importing into the user data folder
   `styles/default`, instead of `styles/mapfilter-style`. This will make feature
@@ -46,8 +62,8 @@ configuration file from **File->Import configuration**
 ### Known Issues
 
 - See the [KNOWN_ISSUES.md](/docs/KNOWN_ISSUES.md) file for the complete set of
-  known issues. 
- 
+  known issues.
+
 ## 3.1.1
 
 ### Bug Fixes
@@ -66,7 +82,7 @@ configuration file from **File->Import configuration**
 ## 3.0.5
 
 ### New Features
-- Zoom to Data is now more accurate: now it zooms to the location with the most data, rather than the middle of the dataset, using a low-resolution node density tilemap 
+- Zoom to Data is now more accurate: now it zooms to the location with the most data, rather than the middle of the dataset, using a low-resolution node density tilemap
 
 ### Bug Fixes
 - Update to the lastest Map Filter with latest fixes
@@ -104,12 +120,12 @@ configuration file from **File->Import configuration**
 ### Breaking Changes
 
 - The new syncfile format created by Mapeo 3.0.0 is not compatible with older
-  versions of Mapeo Desktop. 
+  versions of Mapeo Desktop.
 
 ### New Features
 
-- **Two-way syncronization with Mapeo Mobile.** You can now export and import a file that will syncronize your media, observations, and places between both Desktop and Mobile. 
-- Switch more easily between the Editor and Filter views with an improved menu 
+- **Two-way syncronization with Mapeo Mobile.** You can now export and import a file that will syncronize your media, observations, and places between both Desktop and Mobile.
+- Switch more easily between the Editor and Filter views with an improved menu
 
 ### Bug Fixes
 
