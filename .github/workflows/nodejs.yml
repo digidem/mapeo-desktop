@@ -38,6 +38,7 @@ jobs:
         npm run dist
       env:
         CI: true
+        GITHUB_CI_REF: ${{ github.ref }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         CSC_LINK: ${{ secrets.CSC_LINK }}
         CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
