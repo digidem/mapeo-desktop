@@ -19,10 +19,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 8.x
-    - name: npm install, build, and test
+    - name: npm install
       run: |
         npm install
+    - name: Lint
+      run: |
         npm run lint
+    - name: Build
+      run: |
         npm run rebuild-leveldb
         npm run build
       env:
