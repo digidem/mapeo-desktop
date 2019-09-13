@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.1...v4.1.0-beta.2) (2019-09-13)
+
+
+### Features
+
+* Add Windows Code signing ([7627e7b](https://github.com/digidem/mapeo-desktop/commit/7627e7b))
+
 ## [4.1.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.0...v4.1.0-beta.1) (2019-09-13)
 
 ## [4.1.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v4.0.1-beta...v4.1.0-beta.0) (2019-09-13)
