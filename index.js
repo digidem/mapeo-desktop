@@ -13,6 +13,10 @@ var osmdb = require('osm-p2p')
 var series = require('run-series')
 var MediaStore = require('safe-fs-blob-store')
 var styles = require('mapeo-styles')
+const {
+  default: installExtension,
+  REACT_DEVELOPER_TOOLS
+} = require('electron-devtools-installer')
 
 var ipc = require('./src/main/ipc')
 var menuTemplate = require('./src/main/menu')
@@ -104,6 +108,10 @@ function openWindow () {
     })
     splash.loadURL(SPLASH)
   }
+
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err))
 
   app.translations = locale.load('es')
   win.loadURL(INDEX)

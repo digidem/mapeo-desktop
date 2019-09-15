@@ -1,6 +1,6 @@
 var electron = require('electron')
 
-module.exports = function i18n (str, num) {
+export default function i18n (str, num) {
   // TODO: make compatible with transifex
   var messages = electron.remote
     ? electron.remote.app.translations
