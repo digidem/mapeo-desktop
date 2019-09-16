@@ -42,7 +42,10 @@ var log = null
 var win = null
 var splash = null
 
-var shouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
+var shouldQuit = app.makeSingleInstance(function (
+  commandLine,
+  workingDirectory
+) {
   // Someone tried to run a second instance, we should focus our window.
   if (win) {
     if (win.isMinimized()) win.restore()
@@ -65,7 +68,7 @@ var argv = minimist(process.argv.slice(2), {
     datadir: path.join(userDataPath, 'kappa.db'),
     tileport: 5005
   },
-  boolean: [ 'headless', 'debug' ],
+  boolean: ['headless', 'debug'],
   alias: {
     p: 'port',
     t: 'tileport',
@@ -97,6 +100,7 @@ function openWindow () {
       title: APP_NAME,
       show: false,
       alwaysOnTop: false,
+      titleBarStyle: 'hidden',
       icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png')
     })
     splash = new BrowserWindow({
@@ -141,20 +145,22 @@ function startupMsg (txt) {
 
 function startSequence () {
   // The app startup sequence
-  series([
-    initDirectories,
-    startupMsg('Initialized osm-p2p'),
+  series(
+    [
+      initDirectories,
+      startupMsg('Initialized osm-p2p'),
 
-    createServers,
-    startupMsg('Started osm and tile servers'),
+      createServers,
+      startupMsg('Started osm and tile servers'),
 
-    notifyReady,
-    startupMsg('Notified the frontend that backend is ready')
-
-  ], function (err) {
-    if (err) log('STARTUP FAILED', err)
-    else log('STARTUP success!')
-  })
+      notifyReady,
+      startupMsg('Notified the frontend that backend is ready')
+    ],
+    function (err) {
+      if (err) log('STARTUP FAILED', err)
+      else log('STARTUP success!')
+    }
+  )
 }
 
 function initDirectories (done) {

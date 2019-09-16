@@ -28,10 +28,7 @@ const theme = createMuiTheme({
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
-const DONT_UPDATE_PROPS = [
-  'created_at',
-  'timestamp'
-]
+const DONT_UPDATE_PROPS = ['created_at', 'timestamp']
 
 const customStyleUrl = `${osmServerHost}/styles/default/style.json`
 const defaultStyleUrl = `${osmServerHost}/static/style.json`
@@ -73,7 +70,10 @@ class Home extends React.Component {
     ipcRenderer.removeListener('refresh-window', this.refresh)
     ipcRenderer.removeListener('zoom-to-data-request', this.zoomToDataRequest)
     ipcRenderer.removeListener('zoom-to-data-response', this.zoomToDataResponse)
-    ipcRenderer.removeListener('zoom-to-latlon-response', this.zoomToLatLonResponse)
+    ipcRenderer.removeListener(
+      'zoom-to-latlon-response',
+      this.zoomToLatLonResponse
+    )
   }
 
   zoomToLatLonResponse (_, lat, lon) {
@@ -93,7 +93,7 @@ class Home extends React.Component {
   }
 
   handleDatasetChange () {
-    return (e) => {
+    return e => {
       this.setState({ formId: e.target.value })
     }
   }
@@ -104,9 +104,11 @@ class Home extends React.Component {
     const deleted = differenceBy(xorFeatures, changedFeatures, 'id')
     const added = differenceBy(xorFeatures, features, 'id')
     const updated = xorFeatures.filter(f => {
-      return added.indexOf(f) === -1 &&
+      return (
+        added.indexOf(f) === -1 &&
         deleted.indexOf(f) === -1 &&
         features.indexOf(f) === -1
+      )
     })
 
     deleted.forEach(f => this.deleteObservation(f))
@@ -120,7 +122,7 @@ class Home extends React.Component {
     const newObs = Object.assign({}, obs)
 
     Object.keys(f.properties || {}).forEach(function (key) {
-      if (DONT_UPDATE_PROPS.indexOf(key) === -1) newObs.tags[key] = f.properties[key]
+      if (DONT_UPDATE_PROPS.indexOf(key) === -1) { newObs.tags[key] = f.properties[key] }
     })
 
     api.update(newObs, (err, obs) => {
@@ -132,13 +134,12 @@ class Home extends React.Component {
 
   componentWillMount () {
     xhr(customStyleUrl, (err, resp, body) => {
-      if (err || resp.statusCode !== 200) this.setState({ mapStyle: defaultStyleUrl })
-      else this.setState({ mapStyle: customStyleUrl })
+      if (err || resp.statusCode !== 200) { this.setState({ mapStyle: defaultStyleUrl }) } else this.setState({ mapStyle: customStyleUrl })
     })
   }
 
   deleteObservation (f) {
-    api.del({id: f.id}, (err, resp, obs) => {
+    api.del({ id: f.id }, (err, resp, obs) => {
       if (err) return this.handleError(err)
       delete this._observationsById[f.id]
     })
@@ -170,7 +171,10 @@ class Home extends React.Component {
     api.list(function (err, resp) {
       if (err) return self.handleError(err)
       const observations = JSON.parse(resp.body)
-      const byId = self._observationsById = observations.reduce(observationIdReducer, {})
+      const byId = (self._observationsById = observations.reduce(
+        observationIdReducer,
+        {}
+      ))
       // the byId reducer removes forks, so use that for the features array
       const features = Object.keys(byId)
         .map(key => byId[key])
@@ -205,9 +209,7 @@ class Home extends React.Component {
       var id = `menu-option-${view.name}`
       if (view.name === 'MapFilter') return
       appBarMenuItems.push(
-        <MenuItem
-          id={id}
-          onClick={this.onMenuItemClick.bind(this, view)}>
+        <MenuItem id={id} onClick={this.onMenuItemClick.bind(this, view)}>
           {view.label}
         </MenuItem>
       )
@@ -215,24 +217,25 @@ class Home extends React.Component {
 
     if (!mapStyle) return <div>Loading..</div>
 
-    return (<div>
-      <MuiThemeProvider theme={theme}>
-        <MapFilter
-          locale={locale}
-          mapStyle={mapStyle}
-          features={features}
-          mapPosition={mapPosition}
-          onChangeMapPosition={this.handleChangeMapPosition}
-          onChangeFeatures={this.handleChangeFeatures}
-          fieldTypes={fieldTypes}
-          datasetName='Mapeo-Mobile'
-          resizer={resizer}
-          appBarTitle='Filtrar'
-          appBarMenuItems={appBarMenuItems} />
-
-      </MuiThemeProvider>
-
-    </div>)
+    return (
+      <div>
+        <MuiThemeProvider theme={theme}>
+          <MapFilter
+            locale={locale}
+            mapStyle={mapStyle}
+            features={features}
+            mapPosition={mapPosition}
+            onChangeMapPosition={this.handleChangeMapPosition}
+            onChangeFeatures={this.handleChangeFeatures}
+            fieldTypes={fieldTypes}
+            datasetName='Mapeo-Mobile'
+            resizer={resizer}
+            appBarTitle='Filtrar'
+            appBarMenuItems={appBarMenuItems}
+          />
+        </MuiThemeProvider>
+      </div>
+    )
   }
 }
 
@@ -273,7 +276,10 @@ function observationToFeature (obs, id) {
 function resizer (src, size) {
   const parsedUrl = url.parse(src)
   // Try to find thumbnail size
-  if (parsedUrl.hostname === 'localhost' || parsedUrl.hostname === '127.0.0.1') {
+  if (
+    parsedUrl.hostname === 'localhost' ||
+    parsedUrl.hostname === '127.0.0.1'
+  ) {
     var modifier = '/preview/'
     if (size > 0 && size <= 400) modifier = '/thumbnail/'
     return src.replace('/original/', modifier)
@@ -297,4 +303,4 @@ function observationIdReducer (acc, obs) {
   return acc
 }
 
-module.exports = Home
+export default Home

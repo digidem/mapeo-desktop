@@ -1,106 +1,62 @@
 import React from 'react'
-import insertCss from 'insert-css'
-import merge from 'lodash/merge'
-import Dialogs from 'dialogs'
 import { ipcRenderer, remote, shell } from 'electron'
-import styled from 'styled-components'
+import iD from 'id-mapeo'
+import debounce from 'lodash/debounce'
 
-import Sidebar from './Sidebar'
-import i18n from '../../i18n'
+import i18n from '../i18n'
 import pkg from '../../../package.json'
 
-let iD = window.iD
-let DOMParser = window.DOMParser
+const MapEditor = () => {
+  const ref = React.useRef()
+  const id = React.useRef()
 
-const Overlay = styled.div`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  .menu {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-`
+  const zoomToData = React.useCallback((_, loc) => {
+    console.log(_, loc)
+    if (!id.current) return
+    id.current.map().centerZoomEase(loc, 14, 1000)
+  }, [])
 
-export default class MapEditor extends React.Component {
-  constructor (props) {
-    super(props)
-    var self = this
-    this.iDContainer = React.createRef()
-    this.refreshWindow = this.refreshWindow.bind(this)
-    this.zoomToDataRequest = this.zoomToDataRequest.bind(this)
-    this.zoomToDataResponse = this.zoomToDataResponse.bind(this)
-    this.zoomToLatLonResponse = this.zoomToLatLonResponse.bind(this)
-    this.changeLanguageRequest = this.changeLanguageRequest.bind(this)
-    ipcRenderer.on('zoom-to-data-request', this.zoomToDataRequest)
-    ipcRenderer.on('zoom-to-data-response', self.zoomToDataResponse)
-    ipcRenderer.on('zoom-to-latlon-response', self.zoomToLatLonResponse)
-    ipcRenderer.on('change-language-request', self.changeLanguageRequest)
-    ipcRenderer.on('refresh-window', self.refreshWindow)
-    ipcRenderer.on('force-refresh-window', function () {
-      window.location.reload()
-    })
-  }
+  React.useEffect(
+    function setupListeners () {
+      ipcRenderer.on('zoom-to-data-response', zoomToData)
+      ipcRenderer.on('zoom-to-latlon-response', zoomToData)
+      return () => {
+        ipcRenderer.removeListener('zoom-to-data-response', zoomToData)
+        ipcRenderer.removeListener('zoom-to-latlon-response', zoomToData)
+      }
+    },
+    [zoomToData]
+  )
 
-  componentWillUnmount () {
-    ipcRenderer.removeListener('zoom-to-data-request', this.zoomToDataRequest)
-    ipcRenderer.removeListener('zoom-to-data-response', this.zoomToDataResponse)
-    ipcRenderer.removeListener('zoom-to-latlon-response', this.zoomToLatLonResponse)
-    ipcRenderer.removeListener('change-language-request', this.changeLanguageRequest)
-    ipcRenderer.removeListener('refresh-window', this.refreshWindow)
-  }
+  React.useEffect(function saveLocation () {
+    var prevhash = localStorage.getItem('location')
+    if (prevhash) location.hash = prevhash
 
-  render () {
-    return (
-      <div className='full'>
-        <Overlay>
-          <Sidebar
-            changeView={this.props.changeView}
-            openModal={this.props.openModal}
-          />
-        </Overlay>
-        <div ref={this.iDContainer} />
-      </div>
-    )
-  }
+    const onHashChange = debounce(() => {
+      localStorage.setItem('location', window.location.hash)
+    }, 200)
 
-  refreshWindow () {
-    if (this.id) {
-      var history = this.id.history()
-      var saved = history.toJSON()
-      this.id.flush()
-      if (saved) history.fromJSON(saved)
-      ipcRenderer.send('zoom-to-data-get-centroid', 'node')
+    window.addEventListener('hashchange', onHashChange)
+
+    return () => {
+      window.removeEventListener('hashchange', onHashChange)
     }
-  }
+  }, [])
 
-  componentDidMount () {
-    var self = this
-    this.updateSettings()
+  React.useLayoutEffect(function initIdEditor () {
+    if (!ref.current) return
 
     var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
-    this.id = iD.Context()
+    id.current = window.id = iD
+      .coreContext()
       .assetPath('node_modules/id-mapeo/dist/')
       .preauth({ url: serverUrl })
       .minEditableZoom(14)
 
-    this.id.version = pkg.version
+    id.current.version = pkg.version
 
-    if (!this.customDefs) {
-      this.customDefs = this.id.container()
-        .append('svg')
-        .style('position', 'absolute')
-        .style('width', '0px')
-        .style('height', '0px')
-        .attr('id', 'custom-defs')
-        .append('defs')
-
-      this.customDefs.append('svg')
-    }
-
-    this.id.ui()(this.iDContainer.current, function onLoad () {
-      var links = document.querySelectorAll('a[href^="http"]')
+    id.current.ui()(ref.current, function onLoad () {
+      var links = document.querySelectorAll('.id-container a[href^="http"]')
       links.forEach(function (link) {
         var href = link.getAttribute('href')
         link.onclick = function (event) {
@@ -110,92 +66,80 @@ export default class MapEditor extends React.Component {
         }
       })
 
-      var contributeBtn = document.querySelector('.overlay-layer-attribution a')
-      if (contributeBtn) contributeBtn.innerHTML = i18n('feedback-contribute-button')
+      var contributeBtn = document.querySelector(
+        '.id-container .overlay-layer-attribution a'
+      )
+      if (contributeBtn) {
+        contributeBtn.innerHTML = i18n('feedback-contribute-button')
+      }
 
       // Update label on map move
-      var aboutList = self.id.container().select('#about-list')
-      var map = self.id.map()
-      var latlon = aboutList.append('li')
+      var aboutList = id.current.container().select('#about-list')
+      var map = id.current.map()
+      var latlon = aboutList
+        .append('li')
         .append('span')
         .text(latlonToPosString(map.center()))
-      self.id.container().on('mousemove', function () {
+      id.current.container().on('mousemove', function () {
         var pos = map.mouseCoordinates()
         var s = latlonToPosString(pos)
         latlon.text(s)
       })
-      self.updateSettings()
-      setTimeout(() => self.id.flush(), 1500)
+      // setTimeout(() => id.current.flush(), 1500)
     })
+  }, [])
 
-    setTimeout(() => this.refreshWindow(), 1000)
-
-    window.onbeforeunload = function () { self.id.save() }
-  }
-
-  zoomToLatLonResponse (_, lat, lon) {
-    var self = this
-    self.id.map().centerEase([lat, lon], 1000)
-    setTimeout(function () {
-      self.id.map().zoom(15)
-    }, 1000)
-  }
-
-  zoomToDataRequest () {
-    ipcRenderer.send('zoom-to-data-get-centroid', 'node')
-  }
-
-  zoomToDataResponse (_, loc) {
-    var self = this
-    var zoom = 14
-    self.id.map().centerEase(loc, 1000)
-    setTimeout(function () {
-      self.id.map().zoom(zoom)
-    }, 1000)
-  }
-
-  changeLanguageRequest () {
-    var self = this
-    var dialogs = Dialogs()
-    dialogs.prompt(i18n('menu-change-language-title'), function (locale) {
-      if (locale) {
-        self.setState({ locale })
-        ipcRenderer.send('set-locale', locale)
-        self.id.ui().restart(locale)
-      }
-    })
-  }
-
-  updateSettings () {
-    var self = this
-    var presets = ipcRenderer.sendSync('get-user-data', 'presets')
-    var customCss = ipcRenderer.sendSync('get-user-data', 'css')
-    var imagery = ipcRenderer.sendSync('get-user-data', 'imagery')
-    var icons = ipcRenderer.sendSync('get-user-data', 'icons')
-
-    if (presets) {
-      if (!self.id) {
-        presets.fields = merge(iD.data.presets.fields, presets.fields)
-        iD.data.presets = presets
-      }
-    }
-    if (customCss) insertCss(customCss)
-    if (imagery) {
-      // iD upgraded to use 'dataImagery' in 2.14.3, this is for backwards
-      // compatibility
-      if (imagery.dataImagery) imagery = imagery.dataImagery
-      imagery.forEach((img) => {
-        iD.data.imagery.unshift(img)
-      })
-    }
-    if (icons) {
-      var parser = new DOMParser()
-      var iconsSvg = parser.parseFromString(icons, 'image/svg+xml').documentElement
-      var defs = self.customDefs && self.customDefs.node()
-      if (defs) defs.replaceChild(iconsSvg, defs.firstChild)
-    }
-  }
+  return (
+    <div className='id-container'>
+      <div ref={ref} />
+    </div>
+  )
 }
+
+export default MapEditor
+
+// refreshWindow () {
+//   if (this.id) {
+//     var history = this.id.history()
+//     var saved = history.toJSON()
+//     this.id.flush()
+//     if (saved) history.fromJSON(saved)
+//     ipcRenderer.send('zoom-to-data-get-centroid', 'node')
+//   }
+// }
+
+// zoomToLatLonResponse (_, lat, lon) {
+//   var self = this
+//   self.id.map().centerEase([lat, lon], 1000)
+//   setTimeout(function () {
+//     self.id.map().zoom(15)
+//   }, 1000)
+// }
+
+// zoomToDataRequest () {
+//   ipcRenderer.send('zoom-to-data-get-centroid', 'node')
+// }
+
+// zoomToDataResponse (_, loc) {
+//   var self = this
+//   var zoom = 14
+//   self.id.map().centerEase(loc, 1000)
+//   setTimeout(function () {
+//     self.id.map().zoom(zoom)
+//   }, 1000)
+// }
+
+// changeLanguageRequest () {
+//   var self = this
+//   var dialogs = Dialogs()
+//   dialogs.prompt(i18n('menu-change-language-title'), function (locale) {
+//     if (locale) {
+//       self.setState({ locale })
+//       ipcRenderer.send('set-locale', locale)
+//       self.id.ui().restart(locale)
+//     }
+//   })
+// }
 
 function latlonToPosString (pos) {
   pos[0] = (Math.floor(pos[0] * 1000000) / 1000000).toString()

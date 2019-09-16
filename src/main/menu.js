@@ -1,4 +1,4 @@
-var dialog = require('electron').dialog
+var { dialog, app } = require('electron')
 
 var debug = require('debug')('mapeo-desktop')
 var userConfig = require('./user-config')
@@ -47,37 +47,48 @@ module.exports = function (app) {
         {
           label: i18n('menu-import-configuration'),
           click: function (item, focusedWindow) {
-            dialog.showOpenDialog({
-              title: i18n('menu-import-configuration-dialog'),
-              filters: [{ name: 'Mapeo Settings', extensions: ['mapeosettings'] }],
-              properties: ['openFile']
-            }, function (filenames) {
-              if (!filenames) return
-              userConfig.importSettings(focusedWindow, filenames[0], onError)
-              function onError (err) {
-                if (!err) return
-                dialog.showErrorBox(
-                  i18n('menu-import-configuration-error'),
-                  i18n('menu-import-configuration-error-known') + ': ' + err
-                )
+            dialog.showOpenDialog(
+              {
+                title: i18n('menu-import-configuration-dialog'),
+                filters: [
+                  { name: 'Mapeo Settings', extensions: ['mapeosettings'] }
+                ],
+                properties: ['openFile']
+              },
+              function (filenames) {
+                if (!filenames) return
+                userConfig.importSettings(focusedWindow, filenames[0], onError)
+                function onError (err) {
+                  if (!err) return
+                  dialog.showErrorBox(
+                    i18n('menu-import-configuration-error'),
+                    i18n('menu-import-configuration-error-known') + ': ' + err
+                  )
+                }
               }
-            })
+            )
           }
         },
         {
           label: i18n('menu-import-data'),
           click: function (item, focusedWindow) {
             // TODO: handle multiple files
-            dialog.showOpenDialog({
-              title: i18n('menu-import-data-dialog'),
-              filters: [{ name: 'GeoJSON', extensions: ['geojson'] }, { name: 'Shape', extensions: ['shp'] }],
-              properties: ['openFile']
-            }, function (filenames) {
-              if (!filenames) return
-              var filename = filenames[0]
-              debug('[IMPORTING]', filename)
-              app.mapeo.importer.importFromFile(filename)
-            })
+            dialog.showOpenDialog(
+              {
+                title: i18n('menu-import-data-dialog'),
+                filters: [
+                  { name: 'GeoJSON', extensions: ['geojson'] },
+                  { name: 'Shape', extensions: ['shp'] }
+                ],
+                properties: ['openFile']
+              },
+              function (filenames) {
+                if (!filenames) return
+                var filename = filenames[0]
+                debug('[IMPORTING]', filename)
+                app.mapeo.importer.importFromFile(filename)
+              }
+            )
           },
           visible: true
         }
@@ -178,7 +189,16 @@ module.exports = function (app) {
         {
           label: i18n('menu-zoom-to-data'),
           click: function (item, focusedWindow) {
-            focusedWindow.webContents.send('zoom-to-data-request')
+            getDatasetCentroid('node', function (_, loc) {
+              log('RESPONSE(getDatasetCentroid):', loc)
+              if (!loc) return
+              focusedWindow.webContents.send('zoom-to-data-response', loc)
+            })
+            getDatasetCentroid('observation', function (_, loc) {
+              log('RESPONSE(getDatasetCentroid):', loc)
+              if (!loc) return
+              focusedWindow.webContents.send('zoom-to-data-response', loc)
+            })
           },
           visible: true
         },
@@ -210,8 +230,7 @@ module.exports = function (app) {
     {
       label: i18n('menu-help'),
       role: 'help',
-      submenu: [
-      ]
+      submenu: []
     }
   ]
 
@@ -255,7 +274,9 @@ module.exports = function (app) {
         {
           label: i18n('menu-quit') + ' ' + name,
           accelerator: 'Command+Q',
-          click: function () { app.quit() }
+          click: function () {
+            app.quit()
+          }
         }
       ]
     })
@@ -271,4 +292,13 @@ module.exports = function (app) {
     )
   }
   return template
+}
+
+function getDatasetCentroid (type, done) {
+  log('STATUS(getDatasetCentroid):', type)
+  app.osm.core.api.stats.getMapCenter(type, function (err, center) {
+    if (err) return log('ERROR(getDatasetCentroid):', err)
+    if (!center) return done(null, null)
+    done(null, [center.lon, center.lat])
+  })
 }

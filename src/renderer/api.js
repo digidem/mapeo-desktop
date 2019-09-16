@@ -5,7 +5,7 @@ import querystring from 'querystring'
 
 const osmServerHost = 'http://' + remote.getGlobal('osmServerHost')
 
-module.exports = {
+export default {
   stop,
   destroy,
   leave,
@@ -106,7 +106,9 @@ function start (target, opts) {
   if (!opts) opts = {}
   return hyperquest({
     method: 'GET',
-    uri: `${osmServerHost}/sync/start?${querystring.stringify(target)}&interval=${opts.interval}`
+    uri: `${osmServerHost}/sync/start?${querystring.stringify(
+      target
+    )}&interval=${opts.interval}`
   })
 }
 
