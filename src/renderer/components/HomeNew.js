@@ -37,7 +37,7 @@ const Sidebar = styled.div`
 
 const Logo = styled.div`
   padding: 0 24px 0 18px;
-  margin: 0;
+  margin: 0 0 12px 0;
   display: flex;
   align-items: center;
   height: 64px;
