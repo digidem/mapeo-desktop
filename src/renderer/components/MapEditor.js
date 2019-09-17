@@ -184,7 +184,9 @@ export default class MapEditor extends React.Component {
       // iD upgraded to use 'dataImagery' in 2.14.3, this is for backwards
       // compatibility
       if (imagery.dataImagery) imagery = imagery.dataImagery
-      imagery.forEach((img) => {
+      imagery.forEach((img, idx) => {
+        // Add id
+        img.id = img.name + '_' + idx
         iD.data.imagery.unshift(img)
       })
     }
