@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0-beta.4](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.3...v4.1.0-beta.4) (2019-09-17)
+
+
+### Bug Fixes
+
+* Fix sync error by updating mapeo-server ([e3b44ba](https://github.com/digidem/mapeo-desktop/commit/e3b44ba))
+
 ## [4.1.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.2...v4.1.0-beta.3) (2019-09-17)
 
 
