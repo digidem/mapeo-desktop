@@ -83,6 +83,7 @@
     "id-mapeo": "^3.0.0",
     "inherits": "^2.0.3",
     "insert-css": "^1.0.0",
+    "ky": "^0.14.0",
     "lodash": "^4.17.4",
     "mapeo-server": "^16.0.0",
     "mapeo-styles": "^3.0.0",

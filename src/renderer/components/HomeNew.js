@@ -160,7 +160,6 @@ export default function Home () {
       </Sidebar>
       <TabContent>
         <TabPanel value={value} index={0}>
-          {' '}
           <MapEditor />
         </TabPanel>
         <TabPanel value={value} index={1}>

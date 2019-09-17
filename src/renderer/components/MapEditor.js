@@ -6,6 +6,9 @@ import debounce from 'lodash/debounce'
 import i18n from '../i18n'
 import pkg from '../../../package.json'
 
+mapboxgl.accessToken =
+  'pk.eyJ1IjoiYWxpeWEiLCJhIjoiY2lzZDVhbjM2MDAwcTJ1cGY4YTN6YmY4cSJ9.NxK9jMmYZsA32ol_IZGs5g'
+
 const MapEditor = () => {
   const ref = React.useRef()
   const id = React.useRef()
@@ -45,6 +48,7 @@ const MapEditor = () => {
 
   React.useLayoutEffect(function initIdEditor () {
     if (!ref.current) return
+    let resizeObserver
 
     var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
     id.current = window.id = iD
@@ -56,6 +60,31 @@ const MapEditor = () => {
     id.current.version = pkg.version
 
     id.current.ui()(ref.current, function onLoad () {
+      const mapboxLayer = id.current
+        .container()
+        .select('#map')
+        .insert('div', ':first-child')
+        .attr('class', 'layer layer-mapbox')
+        .attr('style', 'transform: translateZ(0);')
+
+      var mapboxMap = new mapboxgl.Map({
+        container: mapboxLayer.node(),
+        style: 'mapbox://styles/aliya/cjmuf98i90rcr2snlj8xp5ear', // stylesheet location
+        center: [-74.5, 40], // starting position [lng, lat]
+        zoom: 9 // starting zoom
+      })
+
+      id.current.map().on('move', map => {
+        mapboxMap.setCenter(map.center())
+        mapboxMap.setZoom(map.zoom() - 1)
+      })
+
+      // resizeObserver = new ResizeObserver(() => {
+      //   mapboxMap.resize()
+      // })
+
+      // resizeObserver.observe(mapboxLayer.node())
+
       var links = document.querySelectorAll('.id-container a[href^="http"]')
       links.forEach(function (link) {
         var href = link.getAttribute('href')
@@ -87,6 +116,10 @@ const MapEditor = () => {
       })
       // setTimeout(() => id.current.flush(), 1500)
     })
+
+    return () => {
+      // if (resizeObserver) resizeObserver.remove()
+    }
   }, [])
 
   return (
