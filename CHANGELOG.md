@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.2...v4.1.0-beta.3) (2019-09-17)
+
+
+### Bug Fixes
+
+* Fix errors with background imagery when using custom backgrounds ([e45278d](https://github.com/digidem/mapeo-desktop/commit/e45278d))
+* update to latest iD with fix for slowdown at startup ([14416e9](https://github.com/digidem/mapeo-desktop/commit/14416e9))
+
 ## [4.1.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.1...v4.1.0-beta.2) (2019-09-13)
 
 
