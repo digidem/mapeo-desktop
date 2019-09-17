@@ -1,10 +1,9 @@
 name: Node CD
 
-on: [push]
+on: [push, create]
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -12,53 +11,53 @@ jobs:
         os: [macOS-10.14, windows-2016, ubuntu-18.04]
 
     steps:
-    - name: Context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-    - name: Use Node.js 8.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 8.x
-    - name: npm install
-      run: |
-        npm ci
-    - name: Lint
-      run: |
-        npm run lint
-    - name: Rebuild native deps for Electron
-      run: |
-        npm run rebuild-leveldb
-    - name: Build frontend
-      run: |
-        npm run build
-      env:
-        CI: true
-    - name: Publish
-      run: |
-        npm run dist
-      env:
-        CI: true
-        GITHUB_CI_REF: ${{ github.ref }}
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        CSC_LINK: ${{ secrets.CSC_LINK }}
-        CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-        WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
-        WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
-    - name: Update release notes
-      if: contains(github.ref, '/tags/')
-      run: |
-        npm run gh-release
-      env:
-        GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
-    - name: Cleanup artifacts
-      run: |
-        npx rimraf "dist/!(*.exe|*.deb|*.AppImage|*.dmg)"
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{ matrix.os }}
-        path: dist
+      - name: Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Use Node.js 8.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 8.x
+      - name: npm install
+        run: |
+          npm ci
+      - name: Lint
+        run: |
+          npm run lint
+      - name: Rebuild native deps for Electron
+        run: |
+          npm run rebuild-leveldb
+      - name: Build frontend
+        run: |
+          npm run build
+        env:
+          CI: true
+      - name: Publish
+        run: |
+          npm run dist
+        env:
+          CI: true
+          GITHUB_CI_REF: ${{ github.ref }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+      - name: Update release notes
+        if: contains(github.ref, '/tags/')
+        run: |
+          npm run gh-release
+        env:
+          GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Cleanup artifacts
+        run: |
+          npx rimraf "dist/!(*.exe|*.deb|*.AppImage|*.dmg)"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ matrix.os }}
+          path: dist
