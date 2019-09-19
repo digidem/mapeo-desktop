@@ -74,6 +74,7 @@
     "ecstatic": "^2.2.1",
     "electron-debug": "^1.0.0",
     "electron-is-dev": "^1.0.1",
+    "electron-log": "^3.0.8",
     "electron-squirrel-startup": "^1.0.0",
     "end-of-stream": "^1.1.0",
     "fs-copy-file-sync": "^1.0.1",
