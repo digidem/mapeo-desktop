@@ -28,10 +28,6 @@ var installStatsIndex = require('./src/main/osm-stats')
 var TileImporter = require('./src/main/tile-importer')
 var locale = require('./src/main/locale')
 
-if (require('electron-squirrel-startup')) {
-  process.exit(0)
-}
-
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 
@@ -42,20 +38,19 @@ var log = null
 var win = null
 var splash = null
 
-var shouldQuit = app.makeSingleInstance(function (
-  commandLine,
-  workingDirectory
-) {
-  // Someone tried to run a second instance, we should focus our window.
-  if (win) {
-    if (win.isMinimized()) win.restore()
-    win.focus()
-  }
-})
+var gotTheLock = app.requestSingleInstanceLock()
 
-if (shouldQuit) {
-  app.quit()
+if (!gotTheLock) {
+  // Didn't get a lock, because another instance is open, so we quit
   process.exit(0)
+} else {
+  app.on('second-instance', () => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+  })
 }
 
 // Path to `userData`, operating system specific, see
@@ -101,7 +96,10 @@ function openWindow () {
       show: false,
       alwaysOnTop: false,
       titleBarStyle: 'hidden',
-      icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png')
+      icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png'),
+      webPreferences: {
+        nodeIntegration: true
+      }
     })
     splash = new BrowserWindow({
       width: 810,
