@@ -23,6 +23,7 @@ var menuTemplate = require('./src/main/menu')
 var createServer = require('./src/main/server.js')
 var createTileServer = require('./src/main/tile-server.js')
 var logger = require('./src/log')
+var windowStateKeeper = require('./src/main/window-state')
 
 var installStatsIndex = require('./src/main/osm-stats')
 var TileImporter = require('./src/main/tile-importer')
@@ -90,8 +91,17 @@ function openWindow () {
   var APP_NAME = app.getName()
   var INDEX = 'file://' + path.join(__dirname, './index.html')
   var SPLASH = 'file://' + path.join(__dirname, './splash.html')
+  var mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 800
+  })
+
   if (!win) {
     win = new BrowserWindow({
+      x: mainWindowState.x,
+      y: mainWindowState.y,
+      width: mainWindowState.width,
+      height: mainWindowState.height,
       title: APP_NAME,
       show: false,
       alwaysOnTop: false,
@@ -101,6 +111,7 @@ function openWindow () {
         nodeIntegration: true
       }
     })
+    mainWindowState.manage(win)
     splash = new BrowserWindow({
       width: 810,
       height: 610,
@@ -221,7 +232,6 @@ function notifyReady (done) {
     setTimeout(() => {
       var IS_TEST = process.env.NODE_ENV === 'test'
       if (IS_TEST) win.setSize(1000, 800, false)
-      else win.maximize()
       if (argv.debug) win.webContents.openDevTools()
       splash.destroy()
       win.show()

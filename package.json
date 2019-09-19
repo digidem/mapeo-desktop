@@ -76,6 +76,7 @@
     "electron-is-dev": "^1.0.1",
     "electron-log": "^3.0.8",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^5.0.0",
     "end-of-stream": "^1.1.0",
     "fs-copy-file-sync": "^1.0.1",
     "glob": "^7.1.2",
