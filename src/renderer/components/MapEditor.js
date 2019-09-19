@@ -11,7 +11,6 @@ const MapEditor = () => {
   const id = React.useRef()
 
   const zoomToData = React.useCallback((_, loc) => {
-    console.log(_, loc)
     if (!id.current) return
     id.current.map().centerZoomEase(loc, 14, 1000)
   }, [])

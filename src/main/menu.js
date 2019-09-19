@@ -3,11 +3,9 @@ var { dialog, app } = require('electron')
 var debug = require('debug')('mapeo-desktop')
 var userConfig = require('./user-config')
 var i18n = require('../i18n')
-var logger = require('../log')
-var log
+const { log } = require('electron-log')
 
 module.exports = function (app) {
-  log = logger.Node()
   var template = [
     {
       label: i18n('menu-file'),

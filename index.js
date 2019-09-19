@@ -22,7 +22,7 @@ var ipc = require('./src/main/ipc')
 var menuTemplate = require('./src/main/menu')
 var createServer = require('./src/main/server.js')
 var createTileServer = require('./src/main/tile-server.js')
-var logger = require('./src/log')
+var { log } = require('electron-log')
 var windowStateKeeper = require('./src/main/window-state')
 
 var installStatsIndex = require('./src/main/osm-stats')
@@ -35,7 +35,6 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 // Set up global node exception handler
 handleUncaughtExceptions()
 
-var log = null
 var win = null
 var splash = null
 
@@ -173,7 +172,6 @@ function startSequence () {
 }
 
 function initDirectories (done) {
-  log = logger.Node()
   startupMsg('Unpacking Styles')
   // This is necessary to make sure that the styles and presets directory
   // are writable by the user
@@ -242,7 +240,6 @@ function notifyReady (done) {
 
 function handleUncaughtExceptions () {
   process.on('uncaughtException', function (error) {
-    log = logger.Node()
     log('uncaughtException in Node:', error)
     if (app && win) win.webContents.send('error', error.stack)
   })

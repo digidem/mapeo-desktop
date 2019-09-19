@@ -6,10 +6,9 @@ var i18n = require('../i18n')
 
 var userConfig = require('./user-config')
 var exportData = require('./export-data')
-var logger = require('../log')
+var { log } = require('electron-log')
 
 module.exports = function (win) {
-  var log = logger.Node()
   var ipc = ipcMain
 
   ipc.on('get-user-data', function (event, type) {

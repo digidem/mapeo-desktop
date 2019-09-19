@@ -2,14 +2,13 @@ const fs = require('fs')
 const merge = require('lodash/merge')
 const path = require('path')
 const app = require('electron').app
-const logger = require('../log')
+const { log } = require('electron-log')
 
 module.exports = {
   load: load
 }
 
 function load (lang) {
-  var log = logger.Node()
   var spanish = read('es')
   var locale = lang || app.getLocale()
   locale = locale.split('-')[0]
@@ -28,6 +27,12 @@ function load (lang) {
 }
 
 function read (locale) {
-  var localePath = path.resolve(__dirname, '..', '..', 'locales', locale + '.json')
+  var localePath = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    'locales',
+    locale + '.json'
+  )
   return JSON.parse(fs.readFileSync(localePath, 'utf-8'))
 }
