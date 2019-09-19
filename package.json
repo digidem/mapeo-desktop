@@ -26,7 +26,7 @@
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
-    "postinstall": "patch-package && electron-builder install-app-deps && npmpd",
+    "postinstall": "patch-package && electron-builder install-app-deps",
     "rebuild-leveldb": "electron-rebuild -o leveldown",
     "license-check": "license-check",
     "release": "standard-version",
@@ -119,9 +119,6 @@
     "xhr": "^2.5.0",
     "xtend": "^4.0.1"
   },
-  "darwinDependencies": {
-    "appdmg": "0.4.5"
-  },
   "devDependencies": {
     "@babel/cli": "^7.6.0",
     "@babel/core": "^7.6.0",
@@ -150,7 +147,6 @@
     "hubfs.js": "^1.0.0",
     "license-check": "^1.1.5",
     "mock-data": "^1.5.5",
-    "npm-platform-dependencies": "^0.1.0",
     "patch-package": "^6.2.0",
     "pngjs": "^3.3.3",
     "spectron": "^4.0.0",
