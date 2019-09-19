@@ -7,6 +7,7 @@ var app = electron.app
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow
 
+const debug = require('electron-debug')
 var mkdirp = require('mkdirp')
 var sublevel = require('subleveldown')
 var osmdb = require('osm-p2p')
@@ -22,7 +23,7 @@ var ipc = require('./src/main/ipc')
 var menuTemplate = require('./src/main/menu')
 var createServer = require('./src/main/server.js')
 var createTileServer = require('./src/main/tile-server.js')
-var { log } = require('electron-log')
+var { log, catchErrors } = require('electron-log')
 var windowStateKeeper = require('./src/main/window-state')
 
 var installStatsIndex = require('./src/main/osm-stats')
@@ -32,8 +33,12 @@ var locale = require('./src/main/locale')
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 
-// Set up global node exception handler
-handleUncaughtExceptions()
+// Setup some handy dev tools shortcuts (only activates in dev mode)
+// See https://github.com/sindresorhus/electron-debug
+debug({ showDevTools: false })
+
+// Handle uncaught errors
+catchErrors({ onError: handleError })
 
 var win = null
 var splash = null
@@ -238,9 +243,7 @@ function notifyReady (done) {
   })
 }
 
-function handleUncaughtExceptions () {
-  process.on('uncaughtException', function (error) {
-    log('uncaughtException in Node:', error)
-    if (app && win) win.webContents.send('error', error.stack)
-  })
+function handleError (error) {
+  log('uncaughtException in Node:', error)
+  if (app && win) win.webContents.send('error', error.stack)
 }
