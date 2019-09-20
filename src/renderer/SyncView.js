@@ -2,48 +2,83 @@ import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import React from 'react'
 import { ipcRenderer } from 'electron'
-import SyncIcon from '@material-ui/icons/Sync'
+import FlashOnIcon from '@material-ui/icons/FlashOn'
 import ErrorIcon from '@material-ui/icons/Error'
-import Dialog from '@material-ui/core/Dialog'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import SyncManager from '../../sync-manager'
 import Form from '../Form'
 import i18n from '../../../i18n'
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#39527b'
+    },
+    secondary: {
+      main: '#fff'
+    }
+  }
+})
+
+const Container = styled.div`
+  flex: 1;
+`
+
+const Nav = styled.div`
+  width: 98%;
+  padding: 0.5em 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .bold {
+    font-weight: 600;
+  }
+`
+
 var Subtitle = styled.div`
-  background-color: var(--main-bg-color);
-  color: white;
-  vertical-align: middle;
+  font-size: 2em;
   padding: 5px 20px;
 `
 
-var TargetsDiv = styled.div`
-  background-color: white;
+const SearchingDiv = styled.div`
+  background-color: #eaeaea;
   color: black;
-  .loading {
-    background-color: white;
-    color: grey;
-    font-style: italic;
-    font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  .title {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
   }
+`
+
+var TargetsDiv = styled.div`
+  background-color: #EAEAEA;
+  color: black;
+  display: flex;
+  height: 100%;
+}
 `
 
 var TargetItem = styled.div`
   .view {
-    border-bottom: 1px solid grey;
-    min-width: 250px;
+    position: relative;
+    margin: 2vw;
+    background-color: #fff;
+    border: 1px solid #EAEAEA;
+    width: 250px;
+    height: 250px
     padding: 20px;
     display: flex;
-    justify-content: space-between;
-    vertical-align: middle;
+    justify-content: center;
     align-items: center;
+    text-align: center;
   }
   .clickable:hover {
-    background-color: #eee;
+    border-color: #2752d1;
     cursor: pointer;
   }
   .target {
@@ -58,16 +93,30 @@ var TargetItem = styled.div`
     font-size: 14px;
     font-style: italic;
   }
-  .icon {
-    min-width: 50px;
+  /* .icon {
+    position: absolute;
+    bottom: 1vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
+  } */
   .progress {
     width: 100%;
   }
 }
+`
+
+const TargetIconContainer = styled.div`
+  border: solid 1px #eaeaea;
+  border-radius: 6px;
+  padding: 0.5em 1em;
+  display: flex;
+  position: absolute;
+  bottom: 1vw;
+  font-weight: 600;
+  .icon {
+    margin-right: 0.5em;
+  }
 `
 
 export default class SyncView extends React.Component {
@@ -89,7 +138,7 @@ export default class SyncView extends React.Component {
   }
 
   onPeers (peers) {
-    const errors = this.state.errors
+    let errors = this.state.errors
     peers = peers.map(peer => {
       if (peer.state && peer.state.topic === 'replication-error') {
         errors[peer.id] = peer.state.message
@@ -145,54 +194,60 @@ export default class SyncView extends React.Component {
   }
 
   render () {
-    var self = this
     const { peers } = this.state
     if (this.props.filename) this.sync.start({ filename: this.props.filename })
-    var wifiPeers = this.sync.wifiPeers(peers)
-    var disabled = false
     return (
-      <Dialog
-        onClose={this.onClose}
-        closeButton={false}
-        open
-        disableBackdropClick
-      >
-        <TargetsDiv id='sync-targets'>
-          {wifiPeers.length === 0 ? (
-            <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+      <Container>
+        <MuiThemeProvider theme={theme}>
+          <Nav>
+            <div>
+              <span className='bold'>{i18n('sync-available-devices')}</span>{' '}
+              {i18n('sync-wifi-info')}
+            </div>
+            <Form method='POST' style={{ display: 'inline-block' }}>
+              <input type='hidden' name='source' />
+              <div>
+                <Button
+                  variant='outlined'
+                  id='sync-open'
+                  onClick={this.selectExisting}
+                >
+                  {i18n('sync-database-open-button')}&hellip;
+                </Button>
+                <Button
+                  variant='outlined'
+                  id='sync-new'
+                  onClick={this.selectNew}
+                >
+                  {i18n('sync-database-new-button')}&hellip;
+                </Button>
+              </div>
+            </Form>
+          </Nav>
+          {peers.length === 0 ? (
+            <SearchingDiv>
+              <div className='title'>
+                <CircularProgress />
+                <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+              </div>
+              <div>{i18n('sync-searching-tip')}</div>
+            </SearchingDiv>
           ) : (
-            <Subtitle>{i18n('sync-available-devices')}</Subtitle>
+            <TargetsDiv id='sync-targets'>
+              {peers.map(peer => {
+                return (
+                  <Target
+                    peer={peer}
+                    key={peer.id}
+                    onStartClick={this.sync.start}
+                    onCancelClick={this.sync.cancel}
+                  />
+                )
+              })}
+            </TargetsDiv>
           )}
-          {peers.map(peer => {
-            disabled =
-              peer.state.topic !== 'replication-wifi-ready' &&
-              peer.state.topic !== 'replication-complete' &&
-              peer.state.topic !== 'replication-error'
-            return (
-              <Target
-                peer={peer}
-                key={peer.id}
-                onStartClick={this.sync.start}
-                onCancelClick={this.sync.cancel}
-              />
-            )
-          })}
-        </TargetsDiv>
-        <Form method='POST' className='modal-group'>
-          <input type='hidden' name='source' />
-          <div>
-            <Button id='sync-open' onClick={this.selectExisting}>
-              {i18n('sync-database-open-button')}&hellip;
-            </Button>
-            <Button id='sync-new' onClick={this.selectNew}>
-              {i18n('sync-database-new-button')}&hellip;
-            </Button>
-            <Button id='sync-done' onClick={self.onClose} disabled={disabled}>
-              {i18n('done')}
-            </Button>
-          </div>
-        </Form>
-      </Dialog>
+        </MuiThemeProvider>
+      </Container>
     )
   }
 }
@@ -208,8 +263,9 @@ var TOPICS = {
     message: i18n('replication-progress')
   },
   'replication-wifi-ready': {
-    icon: SyncIcon,
-    message: i18n('sync-wifi-info'),
+    icon: FlashOnIcon,
+    iconLabel: 'Sync',
+    message: i18n(`sync-wifi-info`),
     ready: true
   }
 }
@@ -241,9 +297,7 @@ class Target extends React.Component {
     var topic = peer.state.topic
 
     if (this.state.syncing) {
-      if (this.props.topic !== 'replication-wifi-ready') {
-        this.setState({ syncing: false })
-      } else topic = 'replication-started'
+      if (this.props.topic !== 'replication-wifi-ready') { this.setState({ syncing: false }) } else topic = 'replication-started'
     }
     var progress
 
@@ -296,14 +350,12 @@ function getView (topic, message) {
 class TargetView extends React.PureComponent {
   render () {
     const { name, message, topic, progress, lastCompletedDate } = this.props
-
     var view = getView(topic, message)
 
     if (!view) {
       view = {}
       console.error('this is bad, there was no view available for peer')
     }
-
     return (
       <div
         className={view.ready ? 'view clickable' : 'view'}
@@ -319,21 +371,29 @@ class TargetView extends React.PureComponent {
           )}
         </div>
         {view.icon && (
-          <div className='icon'>
-            <view.icon />
-          </div>
+          <TargetIconContainer>
+            <div className='icon'>
+              <view.icon />
+            </div>
+            <div>{view.iconLabel}</div>
+          </TargetIconContainer>
         )}
         {progress > 0 && progress < 100 && (
-          <div className='icon'>
-            <span className='message'>{progress}%</span>
-            <CircularProgress
-              color='primary'
-              value={progress}
-              variant='determinate'
-            >
-              ${progress}%{' '}
-            </CircularProgress>
-          </div>
+          <TargetIconContainer
+            style={{ backgroundColor: 'blue', color: 'white' }}
+          >
+            <div className='icon'>
+              <CircularProgress
+                color='secondary'
+                size={15}
+                value={progress}
+                variant='determinate'
+              >
+                ${progress}%
+              </CircularProgress>
+            </div>
+            <div className='message'>Syncing</div>
+          </TargetIconContainer>
         )}
       </div>
     )
