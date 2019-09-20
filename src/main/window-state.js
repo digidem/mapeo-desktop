@@ -1,9 +1,8 @@
 'use strict'
 
 const electron = require('electron')
-const Store = require('electron-store')
 
-const store = new Store({ name: 'window-position' })
+const store = require('../store')
 
 const defaults = {
   maximize: true,

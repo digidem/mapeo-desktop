@@ -14,7 +14,18 @@ import {
 import MapEditor from './MapEditor'
 import LatLonDialog from './dialogs/LatLon'
 import TitleBarShim from './TitleBarShim'
-import MapFilter from './MapFilter'
+// import MapFilter from './MapFilter'
+import { defineMessages, useIntl } from 'react-intl'
+import createPersistedState from '../hooks/createPersistedState'
+
+const m = defineMessages({
+  // MapEditor tab label
+  mapeditor: 'Territory',
+  // MapFilter tab label
+  mapfilter: 'Observations',
+  // Synchronize tab label
+  sync: 'Synchronize'
+})
 
 const transitionDuration = 100
 
@@ -95,10 +106,10 @@ function TabPanel (props) {
   const { children, value, index } = props
 
   const transitionStyles = {
-    entering: { opacity: 1, visibility: 'visible' },
+    entering: { opacity: 1, display: 'block' },
     entered: { opacity: 1 },
     exiting: { opacity: 0 },
-    exited: { opacity: 0, visibility: 'hidden' }
+    exited: { opacity: 0, display: 'none' }
   }
 
   return (
@@ -110,34 +121,20 @@ function TabPanel (props) {
   )
 }
 
+const useTabIndex = createPersistedState('currentView')
+
 export default function Home () {
   const [dialog, setDialog] = React.useState()
-  const [value, setValue] = React.useState(0)
-
-  function closeDialog () {
-    setDialog(null)
-  }
-
-  function handleChange (event, newValue) {
-    setValue(newValue)
-  }
+  const [tabIndex, setTabIndex] = useTabIndex(0)
+  const { formatMessage: t } = useIntl()
 
   React.useEffect(() => {
-    const lastView = localStorage.getItem('lastViewIndex')
-    if (lastView) setValue(+lastView)
     const openLatLonDialog = () => setDialog('LatLon')
     ipcRenderer.on('open-latlon-dialog', openLatLonDialog)
     return () => {
       ipcRenderer.removeListener('open-latlon-dialog', openLatLonDialog)
     }
   }, [])
-
-  React.useEffect(
-    () => {
-      localStorage.setItem('lastViewIndex', value)
-    },
-    [value]
-  )
 
   return (
     <Root>
@@ -150,24 +147,24 @@ export default function Home () {
         <StyledTabs
           orientation='vertical'
           variant='scrollable'
-          value={value}
-          onChange={handleChange}
+          value={tabIndex}
+          onChange={(e, value) => setTabIndex(value)}
         >
-          <StyledTab icon={<MapIcon />} label='Territorio' />
-          <StyledTab icon={<ObservationIcon />} label='Observaciones' />
-          <StyledTab icon={<SyncIcon />} label='Sincronizar' />
+          <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
+          <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
+          <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
         </StyledTabs>
       </Sidebar>
       <TabContent>
-        <TabPanel value={value} index={0}>
-          {' '}
+        <TabPanel value={tabIndex} index={0}>
           <MapEditor />
         </TabPanel>
-        <TabPanel value={value} index={1}>
-          <MapFilter />
-        </TabPanel>
+        <TabPanel value={tabIndex} index={1} />
       </TabContent>
-      <LatLonDialog open={dialog === 'LatLon'} onClose={closeDialog} />
+      <LatLonDialog
+        open={dialog === 'LatLon'}
+        onClose={() => setDialog(null)}
+      />
     </Root>
   )
 }
