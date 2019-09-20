@@ -8,16 +8,19 @@
       "@babel/preset-env",
       {
         targets: {
-          electron: "2.0.0",
+          electron: "6.0.0"
         },
         // Only use polyfills necessary for target env
         useBuiltIns: "usage",
         corejs: 3,
-        shippedProposals: true,
-      },
-    ],
+        shippedProposals: true
+      }
+    ]
   ],
   plugins: [
+    // Allows simpler defineMessages with react-intl
+    // https://github.com/akameco/babel-plugin-react-intl-auto
+    ["react-intl-auto", { filebase: true, removePrefix: "src.renderer" }],
     // Reduces bundle size by sharing babel helpers between files
     ["@babel/plugin-transform-runtime", { corejs: 3 }],
     // Allows directly declaring props and methods on a class instead of
@@ -29,7 +32,7 @@
     // https://exploringjs.com/es6/ch_oop-besides-classes.html#sec_assigning-vs-defining-properties
     [
       "@babel/plugin-proposal-object-rest-spread",
-      { loose: true, useBuiltIns: true },
-    ],
-  ],
+      { loose: true, useBuiltIns: true }
+    ]
+  ]
 }
