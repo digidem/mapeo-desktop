@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'start',
     gridGap: 30,
     padding: 20,
-    backgroundColor: '#F6F6F6',
     flex: 1
   }
 }))

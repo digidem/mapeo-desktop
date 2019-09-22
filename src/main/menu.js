@@ -1,20 +1,85 @@
-var { dialog, app } = require('electron')
+const { defineMessages } = require('react-intl')
+const { dialog, app, Menu } = require('electron')
 
-var debug = require('debug')('mapeo-desktop')
-var userConfig = require('./user-config')
-var i18n = require('../i18n')
-const { log } = require('electron-log')
+const userConfig = require('./user-config')
+const i18n = require('./i18n')
+const logger = require('electron-timber')
+const t = i18n.t
 
-module.exports = function (app) {
+const m = defineMessages({
+  'menu-file': 'File',
+  'menu-change-language': 'Change language...',
+  'menu-change-language-title': "Enter the language (e.g., 'en' or 'es')",
+  'menu-import-tiles-file': 'File (.asar, .tar)',
+  'menu-import-tiles-directory': 'Directory of tiles',
+  'menu-import-tiles': 'Import Offline Map Tiles...',
+  'menu-import-tiles-error': 'Could not import tiles',
+  'menu-import-tiles-error-known': 'Could not import tiles because of an error',
+  'menu-import-configuration': 'Import Configuration...',
+  'menu-import-configuration-title': 'Select configuration file',
+  'menu-import-configuration-error': 'Could not import configuration',
+  'menu-import-configuration-error-known':
+    'Could not import configuration because of an error',
+  'menu-export-data': 'Export',
+  'menu-export-sync': 'Mapeo Sync (.mapeodata)',
+  'menu-export-geojson': 'GeoJSON (.geojson)',
+  'menu-export-shapefile': 'Shapefile (.shp, .dbf)',
+  'menu-export-data-dialog': 'Save as...',
+  'menu-export-data-error': 'Error on export',
+  'menu-export-data-success': 'Export complete!',
+  'menu-visualization': 'Visualization',
+  'menu-visualization-reload': 'Reload page',
+  'menu-visualization-fullscreen': 'Go to Fullscreen',
+  'menu-visualization-devtools': 'Open developer tools',
+  'menu-zoom-to-data': 'Zoom to data',
+  'menu-zoom-to-latlon': 'Zoom to Coordinates..',
+  'menu-window': 'Window',
+  'menu-help': 'Help',
+  'menu-about': 'About',
+  'menu-services': 'Services',
+  'menu-hide': 'Hide',
+  'menu-show-all': 'Show all',
+  'menu-hide-others': 'Hide others',
+  'menu-quit': 'Quit',
+  'menu-bring-to-front': 'Bring all to the front',
+  'menu-minimize': 'Minimize',
+  'menu-close': 'Close',
+  'menu-edit': 'Edit',
+  'menu-undo': 'Undo',
+  'menu-redo': 'Redo',
+  'menu-cut': 'Cut',
+  'menu-copy': 'Copy',
+  'menu-paste': 'Paste',
+  'menu-selectall': 'Select all',
+  'menu-import-data': 'Import data...',
+  'menu-import-data-dialog': 'Choose a file to import...',
+  'menu-import-data-success': 'Import complete!',
+  'menu-import-data-error': 'Error on import'
+})
+
+module.exports = async function createMenu (context) {
+  await app.ready()
+
+  function setMenu () {
+    var menu = Menu.buildFromTemplate(menuTemplate(context))
+    Menu.setApplicationMenu(menu)
+  }
+
+  setMenu()
+  // Re-add the menu every time the locale changes
+  i18n.on('locale-change', () => setMenu())
+}
+
+function menuTemplate (context) {
   var template = [
     {
-      label: i18n('menu-file'),
+      label: t(m['menu-file']),
       submenu: [
         {
-          label: i18n('menu-import-tiles'),
+          label: t(m['menu-import-tiles']),
           click: function (item, focusedWindow) {
             var opts = {
-              title: i18n('menu-import-tiles'),
+              title: t(m['menu-import-tiles']),
               properties: ['openFile'],
               filters: [
                 { name: 'Electron Asar', extensions: ['asar'] },
@@ -26,15 +91,15 @@ module.exports = function (app) {
               app.tiles.go(filenames[0], cb)
               function cb (err) {
                 if (err) {
-                  log('[IMPORT TILES] error', err)
+                  logger.error('[IMPORT TILES] error', err)
                   dialog.showErrorBox(
-                    i18n('menu-import-tiles-error'),
-                    i18n('menu-import-tiles-error-known') + ': ' + err
+                    t(m['menu-import-tiles-error']),
+                    t(m['menu-import-tiles-error-known']) + ': ' + err
                   )
                 } else {
-                  log('[IMPORT TILES] success')
+                  logger.log('[IMPORT TILES] success')
                   dialog.showMessageBox({
-                    message: i18n('menu-import-data-success'),
+                    message: t(m['menu-import-data-success']),
                     buttons: ['OK']
                   })
                 }
@@ -43,11 +108,11 @@ module.exports = function (app) {
           }
         },
         {
-          label: i18n('menu-import-configuration'),
+          label: t(m['menu-import-configuration']),
           click: function (item, focusedWindow) {
             dialog.showOpenDialog(
               {
-                title: i18n('menu-import-configuration-dialog'),
+                title: t(m['menu-import-configuration-dialog']),
                 filters: [
                   { name: 'Mapeo Settings', extensions: ['mapeosettings'] }
                 ],
@@ -59,8 +124,8 @@ module.exports = function (app) {
                 function onError (err) {
                   if (!err) return
                   dialog.showErrorBox(
-                    i18n('menu-import-configuration-error'),
-                    i18n('menu-import-configuration-error-known') + ': ' + err
+                    t(m['menu-import-configuration-error']),
+                    t(m['menu-import-configuration-error-known']) + ': ' + err
                   )
                 }
               }
@@ -68,12 +133,12 @@ module.exports = function (app) {
           }
         },
         {
-          label: i18n('menu-import-data'),
+          label: t(m['menu-import-data']),
           click: function (item, focusedWindow) {
             // TODO: handle multiple files
             dialog.showOpenDialog(
               {
-                title: i18n('menu-import-data-dialog'),
+                title: t(m['menu-import-data-dialog']),
                 filters: [
                   { name: 'GeoJSON', extensions: ['geojson'] },
                   { name: 'Shape', extensions: ['shp'] }
@@ -83,7 +148,7 @@ module.exports = function (app) {
               function (filenames) {
                 if (!filenames) return
                 var filename = filenames[0]
-                debug('[IMPORTING]', filename)
+                logger.log('[IMPORTING]', filename)
                 app.mapeo.importer.importFromFile(filename)
               }
             )
@@ -93,16 +158,16 @@ module.exports = function (app) {
       ]
     },
     {
-      label: i18n('menu-edit'),
+      label: t(m['menu-edit']),
       submenu: [
         {
-          label: i18n('undo'),
+          label: t('undo'),
           accelerator: 'CmdOrCtrl+Z',
           role: 'undo',
           visible: false
         },
         {
-          label: i18n('redo'),
+          label: t('redo'),
           accelerator: 'Shift+CmdOrCtrl+Z',
           role: 'redo',
           visible: false
@@ -111,32 +176,32 @@ module.exports = function (app) {
           type: 'separator'
         },
         {
-          label: i18n('cut'),
+          label: t('cut'),
           accelerator: 'CmdOrCtrl+X',
           role: 'cut'
         },
         {
-          label: i18n('copy'),
+          label: t('copy'),
           accelerator: 'CmdOrCtrl+C',
           role: 'copy'
         },
         {
-          label: i18n('paste'),
+          label: t('paste'),
           accelerator: 'CmdOrCtrl+V',
           role: 'paste'
         },
         {
-          label: i18n('selectall'),
+          label: t('selectall'),
           accelerator: 'CmdOrCtrl+A',
           role: 'selectall'
         }
       ]
     },
     {
-      label: i18n('menu-visualization'),
+      label: t(m['menu-visualization']),
       submenu: [
         {
-          label: i18n('menu-change-language'),
+          label: t(m['menu-change-language']),
           click: function (item, focusedWindow) {
             if (focusedWindow) {
               focusedWindow.webContents.send('change-language-request')
@@ -144,7 +209,7 @@ module.exports = function (app) {
           }
         },
         {
-          label: i18n('menu-visualization-reload'),
+          label: t(m['menu-visualization-reload']),
           accelerator: 'CmdOrCtrl+R',
           click: function (item, focusedWindow) {
             if (focusedWindow) {
@@ -154,7 +219,7 @@ module.exports = function (app) {
           visible: false
         },
         {
-          label: i18n('menu-visualization-fullscreen'),
+          label: t(m['menu-visualization-fullscreen']),
           accelerator: (function () {
             if (process.platform === 'darwin') {
               return 'Ctrl+Command+F'
@@ -169,7 +234,7 @@ module.exports = function (app) {
           }
         },
         {
-          label: i18n('menu-visualization-devtools'),
+          label: t(m['menu-visualization-devtools']),
           accelerator: (function () {
             if (process.platform === 'darwin') {
               return 'Alt+Command+I'
@@ -185,15 +250,15 @@ module.exports = function (app) {
           visible: true
         },
         {
-          label: i18n('menu-zoom-to-data'),
+          label: t(m['menu-zoom-to-data']),
           click: function (item, focusedWindow) {
             getDatasetCentroid('node', function (_, loc) {
-              log('RESPONSE(getDatasetCentroid):', loc)
+              logger.log('RESPONSE(getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-response', loc)
             })
             getDatasetCentroid('observation', function (_, loc) {
-              log('RESPONSE(getDatasetCentroid):', loc)
+              logger.log('RESPONSE(getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-response', loc)
             })
@@ -201,7 +266,7 @@ module.exports = function (app) {
           visible: true
         },
         {
-          label: i18n('menu-zoom-to-latlon'),
+          label: t(m['menu-zoom-to-latlon']),
           click: function (item, focusedWindow) {
             focusedWindow.webContents.send('open-latlon-dialog')
           },
@@ -210,23 +275,23 @@ module.exports = function (app) {
       ]
     },
     {
-      label: i18n('menu-window'),
+      label: t(m['menu-window']),
       role: 'window',
       submenu: [
         {
-          label: i18n('menu-minimize'),
+          label: t(m['menu-minimize']),
           accelerator: 'CmdOrCtrl+M',
           role: 'minimize'
         },
         {
-          label: i18n('menu-close'),
+          label: t(m['menu-close']),
           accelerator: 'CmdOrCtrl+W',
           role: 'close'
         }
       ]
     },
     {
-      label: i18n('menu-help'),
+      label: t(m['menu-help']),
       role: 'help',
       submenu: []
     }
@@ -238,14 +303,14 @@ module.exports = function (app) {
       label: name,
       submenu: [
         {
-          label: i18n('menu-about') + ' ' + name,
+          label: t(m['menu-about']) + ' ' + name,
           role: 'about'
         },
         {
           type: 'separator'
         },
         {
-          label: i18n('menu-services'),
+          label: t(m['menu-services']),
           role: 'services',
           submenu: []
         },
@@ -253,24 +318,24 @@ module.exports = function (app) {
           type: 'separator'
         },
         {
-          label: i18n('menu-hide') + ' ' + name,
+          label: t(m['menu-hide']) + ' ' + name,
           accelerator: 'Command+H',
           role: 'hide'
         },
         {
-          label: i18n('menu-hide-others'),
+          label: t(m['menu-hide-others']),
           accelerator: 'Command+Alt+H',
           role: 'hideothers'
         },
         {
-          label: i18n('menu-show-all'),
+          label: t(m['menu-show-all']),
           role: 'unhide'
         },
         {
           type: 'separator'
         },
         {
-          label: i18n('menu-quit') + ' ' + name,
+          label: t(m['menu-quit']) + ' ' + name,
           accelerator: 'Command+Q',
           click: function () {
             app.quit()
@@ -284,18 +349,17 @@ module.exports = function (app) {
         type: 'separator'
       },
       {
-        label: i18n('menu-bring-to-front'),
+        label: t(m['menu-bring-to-front']),
         role: 'front'
       }
     )
   }
-  return template
 }
 
 function getDatasetCentroid (type, done) {
-  log('STATUS(getDatasetCentroid):', type)
+  logger.log('STATUS(getDatasetCentroid):', type)
   app.osm.core.api.stats.getMapCenter(type, function (err, center) {
-    if (err) return log('ERROR(getDatasetCentroid):', err)
+    if (err) return logger.error('ERROR(getDatasetCentroid):', err)
     if (!center) return done(null, null)
     done(null, [center.lon, center.lat])
   })

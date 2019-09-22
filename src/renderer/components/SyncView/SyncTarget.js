@@ -9,28 +9,26 @@ import SyncButton from './SyncButton'
 import DateDistance from '../DateDistance'
 import { defineMessages, useIntl } from 'react-intl'
 
-export const peerStatus = {
-  READY: 'ready',
-  PROGRESS: 'progress',
-  ERROR: 'error',
-  COMPLETE: 'complete'
-}
-
 const m = defineMessages({
   // Message shown when there is an error while syncing
   errorMsg: 'Syncronization Error',
   // Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'
-  lastSync: 'Last synchronized:'
+  lastSync: 'Last synchronized:',
+  // Prompt of how many database objects have synced
+  database: 'Database: {sofar} / {total}',
+  // Prompt for how many media items have synced
+  media: 'Photos: {sofar} / {total}'
 })
 
-const SyncTargetView = ({
+const SyncTarget = ({
   // Unique identifier for the peer
   id,
   // User friendly peer name
   name = 'Android Phone',
   // See above peerStatus
   status,
-  // Sync progress, between 0 to 1
+  // Sync progress object, with props `percent`, `mediaSofar`, `mediaTotal`,
+  // `dbSofar`, `dbTotal`
   progress,
   // The time of last completed sync in milliseconds since UNIX Epoch
   lastCompleted,
@@ -40,7 +38,7 @@ const SyncTargetView = ({
   onClick
 }) => {
   const cx = useStyles()
-  const { formatMessage: t } = useIntl()
+  const { formatMessage: t, formatNumber } = useIntl()
   return (
     <Paper className={cx.root}>
       <div className={cx.wrapper}>
@@ -59,21 +57,39 @@ const SyncTargetView = ({
           <Typography variant='h5' component='h2'>
             {status === 'error' ? t(m.errorMsg) : name}
           </Typography>
-          {lastCompleted && (
-            <Typography className={cx.lastSync}>
-              {t(m.lastSync)}
+          {status === 'progress' && progress ? (
+            <Typography className={cx.progress} align='center'>
+              {t(m.database, {
+                sofar: formatNumber(progress.dbSofar),
+                total: formatNumber(progress.dbTotal)
+              })}
               <br />
-              <DateDistance date={lastCompleted} />
+              {t(m.media, {
+                sofar: formatNumber(progress.mediaSofar),
+                total: formatNumber(progress.mediaTotal)
+              })}
             </Typography>
+          ) : (
+            lastCompleted && (
+              <Typography className={cx.lastSync}>
+                {t(m.lastSync)}
+                <br />
+                <DateDistance date={lastCompleted} />
+              </Typography>
+            )
           )}
         </div>
-        <SyncButton onClick={onClick} variant={status} progress={progress} />
+        <SyncButton
+          onClick={onClick}
+          variant={status}
+          progress={progress && progress.percent}
+        />
       </div>
     </Paper>
   )
 }
 
-export default SyncTargetView
+export default SyncTarget
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -106,5 +122,8 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
     left: 0,
     padding: '10%'
+  },
+  progress: {
+    fontVariantNumeric: 'tabular-nums'
   }
 }))

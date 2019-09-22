@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import DoneIcon from '@material-ui/icons/Check'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -32,18 +32,33 @@ const ProgressBackground = styled.div`
   display: flex;
 `
 
-const ProgressIcon = ({ progress }) => (
-  <ProgressBackground>
-    <CircularProgress
-      variant={progress ? 'static' : 'indeterminate'}
-      disableShrink
-      value={progress}
-      color='inherit'
-      size={32}
-      thickness={5}
-    />
-  </ProgressBackground>
-)
+const ProgressIcon = ({ progress }) => {
+  const [awaitingCompletion, setAwaitingCompletion] = useState(false)
+  const cx = useStyles()
+  // After 3 seconds of being frozen at 100%, show an indeterminate spinner -->
+  // give the user something to hope for (it should complete eventually)
+  useEffect(
+    () => {
+      if (Math.round(progress * 100) < 100) return
+      const timeoutId = setTimeout(() => setAwaitingCompletion(true), 3000)
+      return () => clearTimeout(timeoutId)
+    },
+    [progress]
+  )
+
+  return (
+    <ProgressBackground>
+      <CircularProgress
+        variant={progress && !awaitingCompletion ? 'static' : 'indeterminate'}
+        value={progress * 100}
+        color='inherit'
+        size={32}
+        thickness={5}
+        className={cx.progressCircle}
+      />
+    </ProgressBackground>
+  )
+}
 
 const StyledButton = ({ className, ...props }) => {
   const classes = useStyles()
@@ -73,7 +88,7 @@ const SyncButton = ({ progress, onClick, variant = 'ready' }) => {
     case 'progress':
       return (
         <StyledButton disabled onClick={onClick} className={classes.progress}>
-          {progress ? progress.toFixed(0) + '%' : t(m.starting)}
+          {progress ? (progress * 100).toFixed(0) + '%' : t(m.starting)}
           <ProgressIcon progress={progress} className={classes.icon} />
         </StyledButton>
       )
@@ -102,5 +117,10 @@ const useStyles = makeStyles(theme => ({
     minWidth: 150,
     fontVariantNumeric: 'tabular-nums',
     fontWeight: 600
+  },
+  progressCircle: {
+    '& .MuiCircularProgress-circleStatic': {
+      transitionDuration: '50ms'
+    }
   }
 }))

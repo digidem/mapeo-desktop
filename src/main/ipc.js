@@ -6,7 +6,7 @@ var i18n = require('../i18n')
 
 var userConfig = require('./user-config')
 var exportData = require('./export-data')
-var { log } = require('electron-log')
+var logger = require('electron-timber')
 
 module.exports = function (win) {
   var ipc = ipcMain
@@ -34,15 +34,15 @@ module.exports = function (win) {
       'settings-jungle-v1.0.0.mapeosettings'
     )
     userConfig.importSettings(win, filename, function (err) {
-      if (err) return log(err)
-      log('Example presets imported from ' + filename)
+      if (err) return logger.error(err)
+      logger.log('Example presets imported from ' + filename)
     })
   })
 
   ipc.on('import-settings', function (ev, filename) {
     userConfig.importSettings(win, filename, function (err) {
-      if (err) return log(err)
-      log('Example presets imported from ' + filename)
+      if (err) return logger.error(err)
+      logger.log('Example presets imported from ' + filename)
     })
   })
 
@@ -101,7 +101,7 @@ module.exports = function (win) {
 
   ipc.on('zoom-to-data-get-centroid', function (_, type) {
     getDatasetCentroid(type, function (_, loc) {
-      log('RESPONSE(getDatasetCentroid):', loc)
+      logger.log('RESPONSE(getDatasetCentroid):', loc)
       if (!loc) return
       win.webContents.send('zoom-to-data-response', loc)
     })
@@ -139,9 +139,9 @@ module.exports = function (win) {
   })
 
   function getDatasetCentroid (type, done) {
-    log('STATUS(getDatasetCentroid):', type)
+    logger.log('STATUS(getDatasetCentroid):', type)
     app.osm.core.api.stats.getMapCenter(type, function (err, center) {
-      if (err) return log('ERROR(getDatasetCentroid):', err)
+      if (err) return logger.error('ERROR(getDatasetCentroid):', err)
       if (!center) return done(null, null)
       done(null, [center.lon, center.lat])
     })

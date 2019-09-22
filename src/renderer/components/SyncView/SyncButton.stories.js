@@ -17,9 +17,9 @@ export const progress = () => {
     () => {
       const id = setTimeout(
         () => {
-          setProgress(p => (p + 5) % 100)
+          setProgress(p => (p + 0.05) % 1.05)
         },
-        progress === 0 ? 2000 : 200
+        progress === 0 || progress === 1 ? 4000 : 200
       )
       return () => clearTimeout(id)
     },
@@ -36,6 +36,10 @@ export const progress = () => {
 
 export const progressWaiting = () => (
   <SyncButton variant='progress' progress={0} onClick={action('clicked')} />
+)
+
+export const progressHalfway = () => (
+  <SyncButton variant='progress' progress={0.5} onClick={action('clicked')} />
 )
 
 export const complete = () => (

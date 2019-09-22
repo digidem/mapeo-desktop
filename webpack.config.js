@@ -1,13 +1,13 @@
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
-var LiveReloadPlugin = require('webpack-livereload-plugin')
+// var LiveReloadPlugin = require('webpack-livereload-plugin')
 
 module.exports = {
   mode: 'development',
   entry: './src/renderer/app.js',
   target: 'electron-renderer',
   externals: [nodeExternals()],
-  plugins: [new LiveReloadPlugin()],
+  // plugins: [new LiveReloadPlugin()],
   output: {
     filename: 'build.js',
     path: path.resolve(__dirname, 'static'),

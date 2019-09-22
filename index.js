@@ -23,7 +23,7 @@ var ipc = require('./src/main/ipc')
 var menuTemplate = require('./src/main/menu')
 var createServer = require('./src/main/server.js')
 var createTileServer = require('./src/main/tile-server.js')
-var { log, catchErrors } = require('electron-log')
+var logger = require('electron-timber')
 var windowStateKeeper = require('./src/main/window-state')
 
 var installStatsIndex = require('./src/main/osm-stats')
@@ -38,7 +38,7 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 debug({ showDevTools: false })
 
 // Handle uncaught errors
-catchErrors({ onError: handleError })
+// catchErrors({ onError: handleError })
 
 var win = null
 var splash = null
@@ -79,10 +79,14 @@ var argv = minimist(process.argv.slice(2), {
 if (argv.headless) startSequence()
 else app.once('ready', openWindow)
 
-app.on('before-quit', function () {
+app.on('before-quit', function (e) {
   if (!app.server) return
-  app.server.mapeo.api.close(function () {
-    app.server.close()
+  // Cancel quit and wait for server to close
+  e.preventDefault()
+  // Server close will gracefully close databases and wait for pending sync
+  // TODO: Show the user that a sync is pending finishing
+  app.server.close(function () {
+    app.exit()
   })
 })
 
@@ -127,8 +131,8 @@ function openWindow () {
   }
 
   installExtension(REACT_DEVELOPER_TOOLS)
-    .then(name => console.log(`Added Extension:  ${name}`))
-    .catch(err => console.log('An error occurred: ', err))
+    .then(name => logger.log(`Added Extension:  ${name}`))
+    .catch(err => logger.log('An error occurred: ', err))
 
   app.translations = locale.load('es')
   win.loadURL(INDEX)
@@ -151,7 +155,7 @@ function openWindow () {
 
 function startupMsg (txt) {
   return function (done) {
-    console.log('[STARTUP] ' + txt)
+    logger.log('[STARTUP] ' + txt)
     done()
   }
 }
@@ -170,8 +174,8 @@ function startSequence () {
       startupMsg('Notified the frontend that backend is ready')
     ],
     function (err) {
-      if (err) log('STARTUP FAILED', err)
-      else log('STARTUP success!')
+      if (err) logger.error('STARTUP FAILED', err)
+      else logger.log('STARTUP success!')
     }
   )
 }
@@ -184,11 +188,11 @@ function initDirectories (done) {
   mkdirp.sync(path.join(userDataPath, 'presets'))
   mkdirp.sync(argv.datadir)
   styles.unpackIfNew(userDataPath, function (err) {
-    if (err) log('[ERROR] while unpacking styles:', err)
+    if (err) logger.error('[ERROR] while unpacking styles:', err)
   })
 
   var osm = osmdb(argv.datadir)
-  log('loading datadir', argv.datadir)
+  logger.log('loading datadir', argv.datadir)
 
   var idb = sublevel(osm.index, 'stats')
   osm.core.use('stats', installStatsIndex(idb))
@@ -199,10 +203,10 @@ function initDirectories (done) {
   app.tiles = TileImporter(userDataPath)
 
   win.webContents.once('did-finish-load', function () {
-    log('preparing osm indexes..')
+    logger.log('preparing osm indexes..')
     win.webContents.send('indexes-loading')
     app.osm.ready(function () {
-      log('indexes READY')
+      logger.log('indexes READY')
       win.webContents.send('indexes-ready')
     })
   })
@@ -211,21 +215,26 @@ function initDirectories (done) {
 }
 
 function createServers (done) {
-  app.server = createServer(app.osm, app.media, { staticRoot: userDataPath })
-  app.mapeo = app.server.mapeo.api.core
+  app.server = createServer(
+    app.osm,
+    app.media,
+    win.webContents.send.bind(win.webContents),
+    { staticRoot: userDataPath }
+  )
+  app.mapeo = app.server.mapeo
   ipc(win)
 
   var pending = 2
 
   app.server.listen(argv.port, '127.0.0.1', function () {
     global.osmServerHost = '127.0.0.1:' + app.server.address().port
-    log(global.osmServerHost)
+    logger.log(global.osmServerHost)
     if (--pending === 0) done()
   })
 
   var tileServer = createTileServer()
   tileServer.listen(argv.tileport, function () {
-    log('tile server listening on :', tileServer.address().port)
+    logger.log('tile server listening on :', tileServer.address().port)
     if (--pending === 0) done()
   })
 }
@@ -244,6 +253,6 @@ function notifyReady (done) {
 }
 
 function handleError (error) {
-  log('uncaughtException in Node:', error)
+  logger.error('uncaughtException in Node:', error)
   if (app && win) win.webContents.send('error', error.stack)
 }

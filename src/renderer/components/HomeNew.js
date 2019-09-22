@@ -17,6 +17,7 @@ import TitleBarShim from './TitleBarShim'
 // import MapFilter from './MapFilter'
 import { defineMessages, useIntl } from 'react-intl'
 import createPersistedState from '../hooks/createPersistedState'
+import SyncView from './SyncView'
 
 const m = defineMessages({
   // MapEditor tab label
@@ -102,8 +103,15 @@ const StyledPanel = styled.div`
   transition: opacity ${transitionDuration}ms ease-out;
 `
 
+const focusStates = {
+  entering: 'focusing',
+  entered: 'focused',
+  exiting: 'blurring',
+  exited: 'blurred'
+}
+
 function TabPanel (props) {
-  const { children, value, index } = props
+  const { value, index, component: Component } = props
 
   const transitionStyles = {
     entering: { opacity: 1, display: 'block' },
@@ -114,8 +122,10 @@ function TabPanel (props) {
 
   return (
     <Transition in={value === index} timeout={transitionDuration}>
-      {state => (
-        <StyledPanel style={transitionStyles[state]}>{children}</StyledPanel>
+      {transitionState => (
+        <StyledPanel style={transitionStyles[transitionState]}>
+          {Component && <Component focusState={focusStates[transitionState]} />}
+        </StyledPanel>
       )}
     </Transition>
   )
@@ -156,10 +166,9 @@ export default function Home () {
         </StyledTabs>
       </Sidebar>
       <TabContent>
-        <TabPanel value={tabIndex} index={0}>
-          <MapEditor />
-        </TabPanel>
+        <TabPanel value={tabIndex} index={0} component={MapEditor} />
         <TabPanel value={tabIndex} index={1} />
+        <TabPanel value={tabIndex} index={2} component={SyncView} />
       </TabContent>
       <LatLonDialog
         open={dialog === 'LatLon'}

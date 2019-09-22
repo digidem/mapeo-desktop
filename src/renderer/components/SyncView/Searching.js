@@ -109,7 +109,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2)
   },
   searchingWrapper: {
-    backgroundColor: '#EAEAEA',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

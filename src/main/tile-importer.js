@@ -1,4 +1,4 @@
-const { log } = require('electron-log')
+const logger = require('electron-timber')
 const mkdirp = require('mkdirp')
 const pump = require('pump')
 const path = require('path')
@@ -46,7 +46,7 @@ TileImporter.prototype.go = function (tilesPath, options, cb) {
   })
 
   function done (err) {
-    log('ERROR(tile-importer)', err)
+    logger.error('ERROR(tile-importer)', err)
     self.editing = false
     cb(err)
   }
@@ -109,11 +109,11 @@ TileImporter.prototype.moveTiles = function (tilesPath, tilesDest, cb) {
 }
 
 TileImporter.prototype._createAsar = function (tilesPath, destFile, cb) {
-  log('creating asar', tilesPath, destFile)
+  logger.log('creating asar', tilesPath, destFile)
   try {
     asar.createPackage(tilesPath, destFile).then(cb)
   } catch (err) {
-    log('ERROR(tile-importer): Got error when creating asar', err)
+    logger.error('ERROR(tile-importer): Got error when creating asar', err)
     return cb(err)
   }
 }

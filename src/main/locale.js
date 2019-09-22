@@ -2,7 +2,7 @@ const fs = require('fs')
 const merge = require('lodash/merge')
 const path = require('path')
 const app = require('electron').app
-const { log } = require('electron-log')
+const logger = require('electron-timber')
 
 module.exports = {
   load: load
@@ -17,8 +17,8 @@ function load (lang) {
     var translations = read(locale)
     messages = merge(spanish, translations)
   } catch (err) {
-    log('Problem loading messages for locale ' + locale, err)
-    log('Falling back to es locale')
+    logger.log('Problem loading messages for locale ' + locale, err)
+    logger.log('Falling back to es locale')
 
     locale = 'es'
     messages = spanish

@@ -3,7 +3,7 @@ var ecstatic = require('ecstatic')
 var app = require('electron').app
 var path = require('path')
 var series = require('run-series')
-const { log } = require('electron-log')
+const logger = require('electron-timber')
 
 var tilePath = path.join(app.getPath('userData'))
 
@@ -20,7 +20,7 @@ module.exports = function () {
       return done => route(req, res, done)
     })
     series(tasks, function (err) {
-      if (err) log('ERROR(tile-server):', err)
+      if (err) logger.error('ERROR(tile-server):', err)
       res.statusCode = 404
       res.end('Not Found')
     })
