@@ -1,5 +1,4 @@
-import { EventEmitter } from 'events'
-
+const { EventEmitter } = require('events')
 const { app } = require('electron')
 const logger = require('electron-timber')
 
@@ -26,11 +25,11 @@ class I18n extends EventEmitter {
     const locale = this.locale
     const messages = translations[locale] || translations[this.genericLocale]
     if (!messages) {
-      logger.info('No translations for locale "' + locale + '"')
+      logger.log('No translations for locale "' + locale + '"')
       return defaultMessage || '[No translation]'
     }
     if (!messages[id]) {
-      logger.info('No translations for me "' + locale + '"')
+      logger.log('No translations for me "' + locale + '"')
       return defaultMessage || '[No translation]'
     }
   }
@@ -42,4 +41,4 @@ class I18n extends EventEmitter {
   }
 }
 
-export default new I18n('en')
+module.exports = new I18n('en')

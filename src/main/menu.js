@@ -58,7 +58,7 @@ const m = defineMessages({
 })
 
 module.exports = async function createMenu (context) {
-  await app.ready()
+  await app.whenReady()
 
   function setMenu () {
     var menu = Menu.buildFromTemplate(menuTemplate(context))
@@ -354,6 +354,8 @@ function menuTemplate (context) {
       }
     )
   }
+
+  return template
 }
 
 function getDatasetCentroid (type, done) {

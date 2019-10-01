@@ -20,7 +20,7 @@
   plugins: [
     // Allows simpler defineMessages with react-intl
     // https://github.com/akameco/babel-plugin-react-intl-auto
-    ["react-intl-auto", { filebase: true, removePrefix: "src.renderer" }],
+    ["react-intl-auto", { filebase: true, removePrefix: "src" }],
     // Reduces bundle size by sharing babel helpers between files
     ["@babel/plugin-transform-runtime", { corejs: 3 }],
     // Allows directly declaring props and methods on a class instead of

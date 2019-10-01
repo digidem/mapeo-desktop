@@ -3,12 +3,17 @@ import { ipcRenderer, remote, shell } from 'electron'
 import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 
-import i18n from '../i18n'
 import pkg from '../../../package.json'
+import { defineMessages, useIntl } from 'react-intl'
+
+const m = defineMessages({
+  'feedback-contribute-button': 'Feedback & Contribute'
+})
 
 const MapEditor = () => {
   const ref = React.useRef()
   const id = React.useRef()
+  const { FormatMessage: t } = useIntl()
 
   const zoomToData = React.useCallback((_, loc) => {
     if (!id.current) return
@@ -42,51 +47,54 @@ const MapEditor = () => {
     }
   }, [])
 
-  React.useLayoutEffect(function initIdEditor () {
-    if (!ref.current) return
+  React.useLayoutEffect(
+    function initIdEditor () {
+      if (!ref.current) return
 
-    var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
-    id.current = window.id = iD
-      .coreContext()
-      .assetPath('node_modules/id-mapeo/dist/')
-      .preauth({ url: serverUrl })
-      .minEditableZoom(14)
+      var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
+      id.current = window.id = iD
+        .coreContext()
+        .assetPath('node_modules/id-mapeo/dist/')
+        .preauth({ url: serverUrl })
+        .minEditableZoom(14)
 
-    id.current.version = pkg.version
+      id.current.version = pkg.version
 
-    id.current.ui()(ref.current, function onLoad () {
-      var links = document.querySelectorAll('.id-container a[href^="http"]')
-      links.forEach(function (link) {
-        var href = link.getAttribute('href')
-        link.onclick = function (event) {
-          event.preventDefault()
-          shell.openExternal(href)
-          return false
+      id.current.ui()(ref.current, function onLoad () {
+        var links = document.querySelectorAll('.id-container a[href^="http"]')
+        links.forEach(function (link) {
+          var href = link.getAttribute('href')
+          link.onclick = function (event) {
+            event.preventDefault()
+            shell.openExternal(href)
+            return false
+          }
+        })
+
+        var contributeBtn = document.querySelector(
+          '.id-container .overlay-layer-attribution a'
+        )
+        if (contributeBtn) {
+          contributeBtn.innerHTML = t(m['feedback-contribute-button'])
         }
-      })
 
-      var contributeBtn = document.querySelector(
-        '.id-container .overlay-layer-attribution a'
-      )
-      if (contributeBtn) {
-        contributeBtn.innerHTML = i18n('feedback-contribute-button')
-      }
-
-      // Update label on map move
-      var aboutList = id.current.container().select('#about-list')
-      var map = id.current.map()
-      var latlon = aboutList
-        .append('li')
-        .append('span')
-        .text(latlonToPosString(map.center()))
-      id.current.container().on('mousemove', function () {
-        var pos = map.mouseCoordinates()
-        var s = latlonToPosString(pos)
-        latlon.text(s)
+        // Update label on map move
+        var aboutList = id.current.container().select('#about-list')
+        var map = id.current.map()
+        var latlon = aboutList
+          .append('li')
+          .append('span')
+          .text(latlonToPosString(map.center()))
+        id.current.container().on('mousemove', function () {
+          var pos = map.mouseCoordinates()
+          var s = latlonToPosString(pos)
+          latlon.text(s)
+        })
+        // setTimeout(() => id.current.flush(), 1500)
       })
-      // setTimeout(() => id.current.flush(), 1500)
-    })
-  }, [])
+    },
+    [t]
+  )
 
   return (
     <div className='id-container'>

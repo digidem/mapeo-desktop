@@ -1,25 +1,78 @@
 {
-  "components.SyncView.SyncAppBar.newSyncfile": {
-    "description": "Button to create a new sync file",
+  "renderer.components.HomeNew.mapeditor": {
+    "description": "MapEditor tab label",
     "message": ""
   },
-  "components.SyncView.SyncAppBar.selectSyncfile": {
-    "description": "Button to sync from an existing sync file",
+  "renderer.components.HomeNew.mapfilter": {
+    "description": "MapFilter tab label",
     "message": ""
   },
-  "components.SyncView.SyncAppBar.subtitle": {
+  "renderer.components.HomeNew.sync": {
+    "description": "Synchronize tab label",
     "message": ""
   },
-  "components.SyncView.SyncAppBar.title": {
-    "description": "Title of sync screen",
+  "renderer.components.MapEditor.feedback-contribute-button": {
     "message": ""
   },
-  "components.SyncView.index.searchingHint": {
+  "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
     "message": ""
   },
-  "components.SyncView.index.searchingTitle": {
+  "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.subtitle": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": ""
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": ""
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": ""
   }
 }

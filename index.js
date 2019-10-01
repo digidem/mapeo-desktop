@@ -20,7 +20,7 @@ const {
 } = require('electron-devtools-installer')
 
 var ipc = require('./src/main/ipc')
-var menuTemplate = require('./src/main/menu')
+var createMenu = require('./src/main/menu')
 var createServer = require('./src/main/server.js')
 var createTileServer = require('./src/main/tile-server.js')
 var logger = require('electron-timber')
@@ -137,8 +137,7 @@ function openWindow () {
   app.translations = locale.load('es')
   win.loadURL(INDEX)
 
-  var menu = Menu.buildFromTemplate(menuTemplate(app))
-  Menu.setApplicationMenu(menu)
+  createMenu(app)
 
   // Emitted when the window is closed.
   win.on('closed', function () {
