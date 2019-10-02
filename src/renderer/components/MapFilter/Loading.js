@@ -6,26 +6,21 @@ import { Typography } from '@material-ui/core'
 import Loader from '../Loader'
 
 const m = defineMessages({
-  // Title on sync screen when searching for devices
-  searchingTitle: 'Searching…',
-  // Hint on sync screen when searching on wifi for devices
-  searchingHint:
-    'Make sure devices are turned on and connected to the same wifi network'
+  // Displayed whilst observations and presets load
+  loading: 'Loading…'
 })
 
 const Searching = () => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
   return (
-    <div className={cx.searchingWrapper}>
-      <div className={cx.searching}>
+    <div className={cx.root}>
+      <div className={cx.container}>
         <Loader />
-        <div className={cx.searchingText}>
-          <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
-            {t(m.searchingTitle)}
+        <div className={cx.text}>
+          <Typography gutterBottom variant='h2' className={cx.loadingTitle}>
+            {t(m.loading)}
           </Typography>
-
-          <Typography>{t(m.searchingHint)}</Typography>
         </div>
       </div>
     </div>
@@ -35,11 +30,11 @@ const Searching = () => {
 export default Searching
 
 const useStyles = makeStyles(theme => ({
-  searchingText: {
+  text: {
     maxWidth: 300,
     marginLeft: theme.spacing(2)
   },
-  searchingWrapper: {
+  root: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -47,13 +42,13 @@ const useStyles = makeStyles(theme => ({
     alignSelf: 'stretch',
     justifySelf: 'stretch'
   },
-  searching: {
+  container: {
     color: '#00052b',
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'center'
   },
-  searchingTitle: {
+  loadingTitle: {
     fontSize: '2em',
     fontWeight: 400
   }

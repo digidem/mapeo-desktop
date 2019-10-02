@@ -14,7 +14,7 @@ import {
 import MapEditor from './MapEditor'
 import LatLonDialog from './dialogs/LatLon'
 import TitleBarShim from './TitleBarShim'
-// import MapFilter from './MapFilter'
+import MapFilter from './MapFilter'
 import { defineMessages, useIntl } from 'react-intl'
 import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
@@ -36,6 +36,12 @@ const Root = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
+  @media only print {
+    display: block;
+    height: auto;
+    width: auto;
+    overflow: visible;
+  }
 `
 
 const Sidebar = styled.div`
@@ -45,6 +51,9 @@ const Sidebar = styled.div`
   -webkit-user-select: none;
   background-color: #000033;
   color: white;
+  @media only print {
+    display: none;
+  }
 `
 
 const Logo = styled.div`
@@ -101,6 +110,11 @@ const StyledPanel = styled.div`
   width: 100%;
   height: 100%;
   transition: opacity ${transitionDuration}ms ease-out;
+  @media only print {
+    position: relative;
+    width: auto;
+    height: auto;
+  }
 `
 
 const focusStates = {
@@ -167,7 +181,7 @@ export default function Home () {
       </Sidebar>
       <TabContent>
         <TabPanel value={tabIndex} index={0} component={MapEditor} />
-        <TabPanel value={tabIndex} index={1} />
+        <TabPanel value={tabIndex} index={1} component={MapFilter} />
         <TabPanel value={tabIndex} index={2} component={SyncView} />
       </TabContent>
       <LatLonDialog

@@ -13,7 +13,7 @@ const m = defineMessages({
 const MapEditor = () => {
   const ref = React.useRef()
   const id = React.useRef()
-  const { FormatMessage: t } = useIntl()
+  const { formatMessage: t } = useIntl()
 
   const zoomToData = React.useCallback((_, loc) => {
     if (!id.current) return

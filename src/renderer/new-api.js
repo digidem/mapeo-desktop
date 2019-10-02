@@ -89,14 +89,9 @@ export function Api ({ baseUrl }) {
      * PUT and POST methods
      */
 
-    updateObservation: function updateObservation (id, value, options) {
+    updateObservation: function updateObservation (id, value) {
       const valueForServer = {
         ...value,
-        // work around for a quirk in the api right now, we should probably change
-        // this to accept a links array. An array is needed if you want to merge
-        // existing forks
-        version: options.links[0],
-        userId: options.userId,
         type: 'observation',
         schemaVersion: 3,
         id
