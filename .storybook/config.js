@@ -8,16 +8,20 @@ import theme from '../src/renderer/theme'
 import '../static/css/base.css'
 
 const messages = {
-  en: {},
-  es: {},
-  pt: {}
+  en: require('../translations/en.json'),
+  es: require('../translations/es.json'),
+  pt: require('../translations/pt.json')
+}
+
+const MyIntlProvider = props => {
+  return <IntlProvider {...props} messages={messages[props.locale]} />
 }
 
 addParameters({
   i18n: {
-    provider: IntlProvider,
+    provider: MyIntlProvider,
     providerProps: {
-      messages
+      textComponent: React.Fragment
     },
     supportedLocales: ['en', 'es', 'pt'],
     providerLocaleKey: 'locale'

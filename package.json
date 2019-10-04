@@ -34,7 +34,7 @@
     "gh-release": "gh-release",
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
-    "extract-messages": "extract-messages --locales=es,en,pt --output locales --descriptions 'src/**/*.js'"
+    "extract-messages": "extract-messages --locales=es,en,pt --output messages/renderer --descriptions 'src/**/*.js'"
   },
   "license": "GPL-3.0",
   "repository": {

@@ -14,6 +14,48 @@
   "renderer.components.MapEditor.feedback-contribute-button": {
     "message": "Feedback & Contribute"
   },
+  "renderer.components.MapFilter.FilterPanel.filterHeader": {
+    "message": "Filter by…"
+  },
+  "renderer.components.MapFilter.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Loading…"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "Map Description"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "Save"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "Map Style"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "Add terms & limitations about how this data can be used"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "Terms & Limitations"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Export a map to share online"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "Map Title"
+  },
+  "renderer.components.MapFilter.Toolbar.exportButton": {
+    "message": "Export data"
+  },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
     "message": "Make sure devices are turned on and connected to the same wifi network"
