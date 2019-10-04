@@ -25,7 +25,6 @@ var windowStateKeeper = require('./src/main/window-state')
 
 var installStatsIndex = require('./src/main/osm-stats')
 var TileImporter = require('./src/main/tile-importer')
-var locale = require('./src/main/locale')
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
@@ -139,7 +138,6 @@ function openWindow () {
       .catch(err => logger.log('An error occurred: ', err))
   }
 
-  app.translations = locale.load('es')
   win.loadURL(INDEX)
 
   createMenu(app)

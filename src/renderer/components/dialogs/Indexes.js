@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import LinearProgress from '@material-ui/core/LinearProgress'
 
-import i18n from '../../../i18n'
+import i18n from '../../i18n'
 
 export default class IndexesDialog extends React.Component {
   constructor (props) {

@@ -9,7 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 import SyncManager from '../../sync-manager'
 import Form from '../Form'
-import i18n from '../../../i18n'
+import i18n from '../../i18n'
 
 var Subtitle = styled.div`
   background-color: var(--main-bg-color);

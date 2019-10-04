@@ -1,8 +1,7 @@
 var path = require('path')
 var { dialog, app, ipcMain } = require('electron')
 
-var locale = require('./locale')
-var i18n = require('../i18n')
+var i18n = require('./i18n')
 
 var userConfig = require('./user-config')
 var exportData = require('./export-data')
@@ -22,7 +21,7 @@ module.exports = function (win) {
   })
 
   ipc.on('set-locale', function (ev, lang) {
-    app.translations = locale.load(lang)
+    app.translations = i18n.setLocale(lang)
   })
 
   ipc.on('import-example-presets', function (ev) {
@@ -51,7 +50,7 @@ module.exports = function (win) {
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
     dialog.showSaveDialog(
       {
-        title: i18n('save-db-dialog'),
+        title: i18n.t('save-db-dialog'),
         defaultPath: 'database.' + ext,
         filters: [
           {
@@ -74,7 +73,7 @@ module.exports = function (win) {
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
     dialog.showOpenDialog(
       {
-        title: i18n('open-db-dialog'),
+        title: i18n.t('open-db-dialog'),
         properties: ['openFile'],
         filters: [
           {
