@@ -34,7 +34,7 @@ module.exports = function (osm, media, sendIpc, opts) {
     var m = osmRouter.handle(req, res) || mapeoRouter.handle(req, res)
     if (!m) {
       staticHandler(req, res, function (err) {
-        if (err) console.error(err)
+        if (err) logger.error(err)
         res.statusCode = 404
         res.end('Not Found')
       })
@@ -52,10 +52,18 @@ module.exports = function (osm, media, sendIpc, opts) {
 
   server.listen = function listen (...args) {
     mapeoCore.sync.listen(() => {
-      mapeoCore.sync.on('peer', throttledSendPeerUpdate)
+      mapeoCore.sync.on('peer', onNewPeer)
       mapeoCore.sync.on('down', throttledSendPeerUpdate)
       ipcMain.on('sync-start', startSync)
       origListen.apply(server, args)
+    })
+  }
+
+  function onNewPeer (peer) {
+    throttledSendPeerUpdate(peer)
+    if (!peer.sync) { return logger.error('Could not monitor peer, missing sync property') }
+    peer.sync.once('sync-start', () => {
+      watchSync(peer.sync)
     })
   }
 
@@ -68,15 +76,11 @@ module.exports = function (osm, media, sendIpc, opts) {
     sendIpc('peer-update', peers)
   }
 
-  function startSync (event, target = {}) {
-    logger.log('Sync start request:', target)
-    if (!target.host || !target.port) return
+  function watchSync (sync) {
     const startTime = Date.now()
-    const sync = mapeoCore.sync.replicate(target, { deviceType: 'mobile' })
     sync.on('error', onerror)
     sync.on('progress', throttledSendPeerUpdate)
     sync.on('end', onend)
-    sendPeerUpdate()
 
     function onerror (err) {
       logger.error(err)
@@ -96,8 +100,17 @@ module.exports = function (osm, media, sendIpc, opts) {
     }
   }
 
+  function startSync (event, target = {}) {
+    logger.log('Sync start request:', target)
+    if (!target.host || !target.port) return
+
+    const sync = mapeoCore.sync.replicate(target, { deviceType: 'mobile' })
+    sendPeerUpdate()
+    watchSync(sync)
+  }
+
   server.close = function close (cb) {
-    mapeoCore.sync.removeListener('peer', throttledSendPeerUpdate)
+    mapeoCore.sync.removeListener('peer', onNewPeer)
     mapeoCore.sync.removeListener('down', throttledSendPeerUpdate)
     ipcMain.removeListener('start-sync', startSync)
     onReplicationComplete(() => {

@@ -39,6 +39,7 @@ const SyncTarget = ({
 }) => {
   const cx = useStyles()
   const { formatMessage: t, formatNumber } = useIntl()
+  // TODO need to render device name in error screen
   return (
     <Paper className={cx.root}>
       <div className={cx.wrapper}>
