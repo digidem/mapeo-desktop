@@ -27,7 +27,7 @@ export function Api ({ baseUrl }) {
     const start = Date.now()
     promise
       .then(data => {
-        logger.log(prefix, Date.now() - start + 'ms', data)
+        logger.log(prefix, Date.now() - start + 'ms')
       })
       .catch(error => {
         logger.error(prefix, error)
