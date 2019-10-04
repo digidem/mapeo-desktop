@@ -25,7 +25,7 @@
   "menu-export-data-dialog": "Save as...",
   "menu-export-data-error": "Error on export",
   "menu-export-data-success": "Export complete!",
-  "menu-visualization": "Visualization",
+  "menu-visualization": "View",
   "menu-visualization-reload": "Reload page",
   "menu-visualization-fullscreen": "Go to Fullscreen",
   "menu-visualization-devtools": "Open developer tools",
