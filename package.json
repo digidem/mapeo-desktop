@@ -80,7 +80,7 @@
     "dom-helpers": "^3.3.1",
     "ecstatic": "^2.2.1",
     "electron-debug": "^1.5.0",
-    "electron-is-dev": "^1.0.1",
+    "electron-is-dev": "^1.1.0",
     "electron-log": "^3.0.8",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^5.0.0",

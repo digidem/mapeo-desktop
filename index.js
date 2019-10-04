@@ -3,6 +3,7 @@
 var path = require('path')
 var minimist = require('minimist')
 var electron = require('electron')
+const isDev = require('electron-is-dev')
 var app = electron.app
 var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow
@@ -14,10 +15,6 @@ var osmdb = require('osm-p2p')
 var series = require('run-series')
 var MediaStore = require('safe-fs-blob-store')
 var styles = require('mapeo-styles')
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS
-} = require('electron-devtools-installer')
 
 var ipc = require('./src/main/ipc')
 var createMenu = require('./src/main/menu')
@@ -130,9 +127,17 @@ function openWindow () {
     splash.loadURL(SPLASH)
   }
 
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then(name => logger.log(`Added Extension:  ${name}`))
-    .catch(err => logger.log('An error occurred: ', err))
+  if (isDev) {
+    try {
+      var {
+        default: installExtension,
+        REACT_DEVELOPER_TOOLS
+      } = require('electron-devtools-installer')
+    } catch (e) {}
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then(name => logger.log(`Added Extension:  ${name}`))
+      .catch(err => logger.log('An error occurred: ', err))
+  }
 
   app.translations = locale.load('es')
   win.loadURL(INDEX)
