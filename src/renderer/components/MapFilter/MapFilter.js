@@ -7,7 +7,11 @@ import logger from 'electron-timber'
 import Toolbar from './Toolbar'
 import FilterPanel from './FilterPanel'
 import Loading from './Loading'
+import MapStyleProvider from './MapStyleProvider'
 import api from '../../new-api'
+
+const MAPBOX_ACCESS_TOKEN =
+  'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 
 /**
  * Using normal state for this causes performance issues because it causes React
@@ -76,6 +80,7 @@ function usePresets () {
           .filter(p => p.geometry.includes('point'))
           // Replace field ids with full field definitions
           .map(p => addFieldDefinitions(p, fields))
+        console.log(presetsWithFields)
         setLoading(false)
         setPresets(presetsWithFields)
         setFields(fields)
@@ -189,20 +194,25 @@ const MapFilter = () => {
           presets={presets}
           getMediaUrl={api.getMediaUrl}
         />
-        <FilterView
-          view={view}
-          filter={filter}
-          observations={observations}
-          presets={presets}
-          onUpdateObservation={updateObservation}
-          getMediaUrl={api.getMediaUrl}
-          getIconUrl={api.getIconUrl}
-          mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
-          onMapMove={setPosition}
-          initialMapPosition={
-            position.current == null ? undefined : position.current
-          }
-        />
+        <MapStyleProvider>
+          {styleUrl => (
+            <FilterView
+              view={view}
+              filter={filter}
+              observations={observations}
+              presets={presets}
+              onUpdateObservation={updateObservation}
+              getMediaUrl={api.getMediaUrl}
+              getIconUrl={api.getIconUrl}
+              mapStyle={styleUrl}
+              mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
+              onMapMove={setPosition}
+              initialMapPosition={
+                position.current == null ? undefined : position.current
+              }
+            />
+          )}
+        </MapStyleProvider>
       </div>
     </div>
   )
@@ -247,7 +257,7 @@ const useStyles = makeStyles(theme => ({
 
 function addFieldDefinitions (preset, fields) {
   const fieldDefs = Array.isArray(preset.fields)
-    ? preset.fields.map(fieldId => fields.get(fieldId))
+    ? preset.fields.map(fieldId => fields.find(field => field.id === fieldId))
     : []
   return {
     ...preset,

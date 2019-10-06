@@ -74,7 +74,7 @@ export function Api ({ baseUrl }) {
     },
 
     getMapStyle: function getMapStyle (id) {
-      return get(`styles/${id}/style.json`)
+      return get(`styles/${id}/style.json?${startupTime}`)
     },
 
     /**
