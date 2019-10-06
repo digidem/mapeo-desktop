@@ -56,6 +56,15 @@
   "renderer.components.MapFilter.Toolbar.exportButton": {
     "message": ""
   },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": ""
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": ""
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": ""
+  },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
     "message": ""

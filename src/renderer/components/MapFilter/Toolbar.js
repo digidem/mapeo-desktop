@@ -15,7 +15,10 @@ import clsx from 'clsx'
 import MapExportDialog from './MapExportDialog'
 
 const m = defineMessages({
-  exportButton: 'Export data'
+  exportButton: 'Export data',
+  mapTabLabel: 'Map',
+  mediaTabLabel: 'Media',
+  reportTabLabel: 'Report'
 })
 
 const TabItem = ({ selected, ...props }) => {
@@ -58,7 +61,7 @@ const MapFilterToolbar = ({
               onClick={handleChange('map')}
             >
               <MapIcon />
-              <span className={cx.tabLabel}>Map</span>
+              <span className={cx.tabLabel}>{t(m.mapTabLabel)}</span>
             </TabItem>
             <TabItem
               aria-label='media view'
@@ -66,7 +69,7 @@ const MapFilterToolbar = ({
               onClick={handleChange('media')}
             >
               <MediaIcon />
-              <span className={cx.tabLabel}>Media</span>
+              <span className={cx.tabLabel}>{t(m.mediaTabLabel)}</span>
             </TabItem>
             <TabItem
               aria-label='report view'
@@ -74,7 +77,7 @@ const MapFilterToolbar = ({
               onClick={handleChange('report')}
             >
               <ReportIcon />
-              <span className={cx.tabLabel}>Report</span>
+              <span className={cx.tabLabel}>{t(m.reportTabLabel)}</span>
             </TabItem>
           </div>
           <Tooltip title={t(m.exportButton)}>

@@ -56,6 +56,15 @@
   "renderer.components.MapFilter.Toolbar.exportButton": {
     "message": "Export data"
   },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Map"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Media"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Report"
+  },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
     "message": "Make sure devices are turned on and connected to the same wifi network"

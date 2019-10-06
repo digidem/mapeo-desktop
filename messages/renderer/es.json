@@ -19,7 +19,7 @@
   },
   "renderer.components.MapFilter.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
-    "message": ""
+    "message": "Cargando…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
@@ -54,67 +54,76 @@
     "message": "Título de este mapa"
   },
   "renderer.components.MapFilter.Toolbar.exportButton": {
-    "message": ""
+    "message": "Exportar"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Mapa"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Fotos"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Informe"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": ""
+    "message": "Asegurar que los equipos están encendidos y conectados a la misma red de wifi"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
-    "message": ""
+    "message": "Buscando…"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
-    "message": ""
+    "message": "Crear nuevo archivo de sincronización"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
-    "message": ""
+    "message": "Sincronizar con archivo"
   },
   "renderer.components.SyncView.SyncAppBar.subtitle": {
-    "message": ""
+    "message": "por wifi"
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
-    "message": ""
+    "message": "Equipo disponibles"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
-    "message": ""
+    "message": "Completo"
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
-    "message": ""
+    "message": "Reintentar"
   },
   "renderer.components.SyncView.SyncButton.starting": {
     "description": "Displayed when sync is starting",
-    "message": ""
+    "message": "Iniciando…"
   },
   "renderer.components.SyncView.SyncButton.sync": {
     "description": "Button to sync a device",
-    "message": ""
+    "message": "Sincronizar"
   },
   "renderer.components.SyncView.SyncTarget.database": {
     "description": "Prompt of how many database objects have synced",
-    "message": ""
+    "message": "Datos: {sofar} / {total}"
   },
   "renderer.components.SyncView.SyncTarget.errorMsg": {
     "description": "Message shown when there is an error while syncing",
-    "message": ""
+    "message": "Error de sicronización"
   },
   "renderer.components.SyncView.SyncTarget.lastSync": {
     "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
-    "message": ""
+    "message": "Ultima sincronización"
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
-    "message": ""
+    "message": "Fotos: {sofar} / {total}"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
-    "message": ""
+    "message": "Ir"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
-    "message": ""
+    "message": "Ingresar coordenadas"
   }
 }
