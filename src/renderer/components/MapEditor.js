@@ -10,6 +10,8 @@ const m = defineMessages({
   'feedback-contribute-button': 'Feedback & Contribute'
 })
 
+const { localStorage, location } = window
+
 const MapEditor = () => {
   const ref = React.useRef()
   const id = React.useRef()
