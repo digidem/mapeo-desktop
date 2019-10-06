@@ -61,7 +61,9 @@ module.exports = function (osm, media, sendIpc, opts) {
 
   function onNewPeer (peer) {
     throttledSendPeerUpdate(peer)
-    if (!peer.sync) { return logger.error('Could not monitor peer, missing sync property') }
+    if (!peer.sync) {
+      return logger.error('Could not monitor peer, missing sync property')
+    }
     peer.sync.once('sync-start', () => {
       watchSync(peer.sync)
     })
@@ -91,6 +93,7 @@ module.exports = function (osm, media, sendIpc, opts) {
 
     function onend (err) {
       if (err) logger.error(err)
+      sendIpc('sync-complete')
       const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2)
       logger.log('Sync completed in ' + syncDurationSecs + ' seconds')
       sync.removeListener('error', onerror)

@@ -129,6 +129,13 @@ export function Api ({ baseUrl }) {
       }
     },
 
+    addSyncListener: function addSyncListener (handler) {
+      ipcRenderer.on('sync-complete', handler)
+      return {
+        remove: () => ipcRenderer.removeListener('sync-complete', handler)
+      }
+    },
+
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin () {
       logger.log('Join sync')

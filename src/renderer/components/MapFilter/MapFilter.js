@@ -102,6 +102,7 @@ function usePresets () {
 }
 
 function useObservations () {
+  const isMounted = useRef(true)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
   const [observations, setObservations] = useState([])
@@ -129,17 +130,31 @@ function useObservations () {
     [observations]
   )
 
-  useEffect(() => {
+  function loadObservations () {
     api
       .getObservations()
       .then(obs => {
+        if (!isMounted.current) return
         setObservations(obs)
         setLoading(false)
       })
       .catch(err => {
+        if (!isMounted.current) return
         setError(err)
         setLoading(false)
       })
+  }
+
+  useEffect(() => {
+    const subscription = api.addSyncListener(() => {
+      loadObservations()
+    })
+    return () => subscription.remove()
+  }, [])
+
+  useEffect(() => {
+    loadObservations()
+    return () => (isMounted.current = false)
   }, [])
 
   return useMemo(
