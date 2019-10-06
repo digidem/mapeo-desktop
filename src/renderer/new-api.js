@@ -164,7 +164,7 @@ export function Api ({ baseUrl }) {
     },
 
     // Return the url for a media attachment
-    getMediaUrl: function getMediaUrl (attachmentId, size) {
+    getMediaUrl: function getMediaUrl (attachmentId, size = 'preview') {
       return `${baseUrl}media/${size}/${attachmentId}`
     },
 

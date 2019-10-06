@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { MapView, ReportView, MediaView } from 'react-mapfilter'
 import debounce from 'lodash/debounce'
-import { defineMessages } from 'react-intl'
 import logger from 'electron-timber'
 
 import Toolbar from './Toolbar'
@@ -169,7 +168,8 @@ const MapFilter = () => {
     )
   }
 
-  console.log(position.current)
+  if (observationsError) console.error(observationsError)
+  if (presetsError) console.error(presetsError)
 
   return (
     <div className={cx.root}>
@@ -181,7 +181,14 @@ const MapFilter = () => {
         fields={fields}
       />
       <div className={cx.right}>
-        <Toolbar view={view} onChange={setView} />
+        <Toolbar
+          view={view}
+          onChange={setView}
+          observations={observations}
+          filter={filter}
+          presets={presets}
+          getMediaUrl={api.getMediaUrl}
+        />
         <FilterView
           view={view}
           filter={filter}

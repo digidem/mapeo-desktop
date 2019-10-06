@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import MapIcon from '@material-ui/icons/Map'
@@ -12,6 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import ExportIcon from '@material-ui/icons/SaveAlt'
 import { defineMessages, useIntl } from 'react-intl'
 import clsx from 'clsx'
+import MapExportDialog from './MapExportDialog'
 
 const m = defineMessages({
   exportButton: 'Export data'
@@ -28,46 +29,74 @@ const TabItem = ({ selected, ...props }) => {
   )
 }
 
-const MapFilterToolbar = ({ view, onChange }) => {
+const MapFilterToolbar = ({
+  view,
+  onChange,
+  observations,
+  filter,
+  presets,
+  getMediaUrl
+}) => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
+  const [mapExportOpen, setMapExportOpen] = useState(false)
+
   const handleChange = view => e => onChange(view)
   return (
-    <AppBar position='static' color='inherit' elevation={0} className={cx.root}>
-      <Toolbar className={cx.toolbar}>
-        <div className={cx.tabGroup}>
-          <TabItem
-            aria-label='map view'
-            selected={view === 'map'}
-            onClick={handleChange('map')}
-          >
-            <MapIcon />
-            <span className={cx.tabLabel}>Map</span>
-          </TabItem>
-          <TabItem
-            aria-label='media view'
-            selected={view === 'media'}
-            onClick={handleChange('media')}
-          >
-            <MediaIcon />
-            <span className={cx.tabLabel}>Media</span>
-          </TabItem>
-          <TabItem
-            aria-label='report view'
-            selected={view === 'report'}
-            onClick={handleChange('report')}
-          >
-            <ReportIcon />
-            <span className={cx.tabLabel}>Report</span>
-          </TabItem>
-        </div>
-        <Tooltip title={t(m.exportButton)}>
-          <IconButton aria-label='export' color='inherit'>
-            <ExportIcon />
-          </IconButton>
-        </Tooltip>
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar
+        position='static'
+        color='inherit'
+        elevation={0}
+        className={cx.root}
+      >
+        <Toolbar className={cx.toolbar}>
+          <div className={cx.tabGroup}>
+            <TabItem
+              aria-label='map view'
+              selected={view === 'map'}
+              onClick={handleChange('map')}
+            >
+              <MapIcon />
+              <span className={cx.tabLabel}>Map</span>
+            </TabItem>
+            <TabItem
+              aria-label='media view'
+              selected={view === 'media'}
+              onClick={handleChange('media')}
+            >
+              <MediaIcon />
+              <span className={cx.tabLabel}>Media</span>
+            </TabItem>
+            <TabItem
+              aria-label='report view'
+              selected={view === 'report'}
+              onClick={handleChange('report')}
+            >
+              <ReportIcon />
+              <span className={cx.tabLabel}>Report</span>
+            </TabItem>
+          </div>
+          <Tooltip title={t(m.exportButton)}>
+            <IconButton
+              aria-label='export'
+              color='inherit'
+              onClick={() => setMapExportOpen(true)}
+            >
+              <ExportIcon />
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+      </AppBar>
+      <MapExportDialog
+        open={mapExportOpen}
+        observations={observations}
+        getMediaUrl={getMediaUrl}
+        presets={presets}
+        filter={filter}
+        onClose={() => setMapExportOpen(false)}
+      />
+    </>
   )
 }
 
