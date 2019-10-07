@@ -31,6 +31,8 @@
   "renderer.components.SyncView.SyncTarget.errorMsg": "",
   "renderer.components.SyncView.SyncTarget.lastSync": "",
   "renderer.components.SyncView.SyncTarget.media": "",
+  "renderer.components.SyncView.index.createSyncFileDialog": "",
+  "renderer.components.SyncView.index.openSyncFileDialog": "",
   "renderer.components.dialogs.LatLon.button-submit": "",
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": ""
 }

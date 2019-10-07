@@ -31,6 +31,8 @@
   "renderer.components.SyncView.SyncTarget.errorMsg": "Syncronization Error",
   "renderer.components.SyncView.SyncTarget.lastSync": "Last synchronized:",
   "renderer.components.SyncView.SyncTarget.media": "Photos: {sofar} / {total}",
+  "renderer.components.SyncView.index.createSyncFileDialog": "Create a new database to syncronize",
+  "renderer.components.SyncView.index.openSyncFileDialog": "Select a database to syncronize",
   "renderer.components.dialogs.LatLon.button-submit": "Submit",
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": "Enter Coordinates"
 }

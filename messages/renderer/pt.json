@@ -120,6 +120,12 @@
     "description": "Prompt for how many media items have synced",
     "message": ""
   },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": ""
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": ""
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": ""
   },

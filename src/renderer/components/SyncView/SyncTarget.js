@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import PhoneIcon from '@material-ui/icons/PhoneAndroid'
 import LaptopIcon from '@material-ui/icons/Laptop'
+import FileIcon from '@material-ui/icons/Usb'
 import ErrorIcon from '@material-ui/icons/Error'
 import Paper from '@material-ui/core/Paper'
 import { Typography } from '@material-ui/core'
@@ -33,7 +34,7 @@ const SyncTarget = ({
   // The time of last completed sync in milliseconds since UNIX Epoch
   lastCompleted,
   errorMsg,
-  // "mobile" or "desktop"
+  // "mobile" or "desktop" or "file"
   deviceType,
   onClick
 }) => {
@@ -52,6 +53,8 @@ const SyncTarget = ({
             />
           ) : deviceType === 'desktop' ? (
             <LaptopIcon fontSize='inherit' className={cx.icon} />
+          ) : deviceType === 'file' ? (
+            <FileIcon fontSize='inherit' className={cx.icon} />
           ) : (
             <PhoneIcon fontSize='inherit' className={cx.icon} />
           )}

@@ -120,6 +120,12 @@
     "description": "Prompt for how many media items have synced",
     "message": "Photos: {sofar} / {total}"
   },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Create a new database to syncronize"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Select a database to syncronize"
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"
   },

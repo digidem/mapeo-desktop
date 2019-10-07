@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
+import logger from 'electron-timber'
+import { makeStyles } from '@material-ui/core'
+import { remote } from 'electron'
+import { useIntl, defineMessages } from 'react-intl'
+import path from 'path'
 
 import api from '../../new-api'
 import Searching from './Searching'
 import SyncAppBar from './SyncAppBar'
 import SyncTarget from './SyncTarget'
 import SyncGrid from './SyncGrid'
-import logger from 'electron-timber'
-import { makeStyles } from '@material-ui/core'
 
 export const peerStatus = {
   READY: 'ready',
@@ -15,14 +18,59 @@ export const peerStatus = {
   COMPLETE: 'complete'
 }
 
+const m = defineMessages({
+  openSyncFileDialog: 'Select a database to syncronize',
+  createSyncFileDialog: 'Create a new database to syncronize'
+})
+
+const fileDialogFilters = [
+  {
+    name: 'Mapeo Data (*.mapeodata)',
+    extensions: ['mapeodata', 'mapeo-jungle', 'sync', 'zip']
+  }
+]
+
 const SyncView = ({ focusState }) => {
   const cx = useStyles()
   const listenForSyncPeers = focusState === 'focused'
   const [peers, syncPeer] = usePeers(listenForSyncPeers)
+  const { formatMessage: t } = useIntl()
   logger.log('render peers', peers)
+
+  const handleClickSelectSyncfile = () => {
+    remote.dialog.showOpenDialog(
+      {
+        title: t(m.openSyncFileDialog),
+        properties: ['openFile'],
+        filters: fileDialogFilters
+      },
+      filenames => {
+        if (typeof filenames === 'undefined' || filenames.length !== 1) return
+        syncPeer(filenames[0], { file: true })
+      }
+    )
+  }
+
+  const handleClickNewSyncfile = () => {
+    remote.dialog.showSaveDialog(
+      {
+        title: t(m.openSyncFileDialog),
+        defaultPath: 'database.mapeodata',
+        filters: fileDialogFilters
+      },
+      filename => {
+        if (!filename) return
+        syncPeer(filename, { file: true })
+      }
+    )
+  }
+
   return (
     <div className={cx.root}>
-      <SyncAppBar />
+      <SyncAppBar
+        onClickSelectSyncfile={handleClickSelectSyncfile}
+        onClickNewSyncfile={handleClickNewSyncfile}
+      />
       {peers.length === 0 ? (
         <Searching />
       ) : (
@@ -119,8 +167,9 @@ function usePeers (listen) {
   )
 
   const syncPeer = useCallback(
-    peerId => {
+    (peerId, opts) => {
       logger.log('Request sync start', peerId, serverPeers)
+      if (opts && opts.file) return api.syncStart({ filename: peerId })
       const peer = serverPeers.find(peer => peer.id === peerId)
       // Peer could have vanished in the moment the button was pressed
       if (peer) {
@@ -171,11 +220,14 @@ function getPeersStatus ({ serverPeers = [], syncErrors, syncRequests, since }) 
     }
     return {
       id: serverPeer.id,
-      name: serverPeer.name,
+      name: serverPeer.filename
+        ? path.basename(serverPeer.name)
+        : serverPeer.name,
       status: status,
       lastCompleted: complete || state.lastCompletedDate,
       error: syncErrors.get(serverPeer.id),
-      progress: getPeerProgress(serverPeer.state)
+      progress: getPeerProgress(serverPeer.state),
+      deviceType: serverPeer.filename ? 'file' : serverPeer.deviceType
     }
   })
 }
