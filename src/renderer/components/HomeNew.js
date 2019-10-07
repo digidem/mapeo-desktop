@@ -128,10 +128,10 @@ function TabPanel (props) {
   const { value, index, component: Component } = props
 
   const transitionStyles = {
-    entering: { opacity: 1, display: 'block' },
-    entered: { opacity: 1 },
+    entering: { opacity: 1, zIndex: 1, display: 'block' },
+    entered: { opacity: 1, zIndex: 1, display: 'block' },
     exiting: { opacity: 0 },
-    exited: { opacity: 0, display: 'none' }
+    exited: { opacity: 0, display: 'block' }
   }
 
   return (
