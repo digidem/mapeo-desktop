@@ -80,7 +80,6 @@ function usePresets () {
           .filter(p => p.geometry.includes('point'))
           // Replace field ids with full field definitions
           .map(p => addFieldDefinitions(p, fields))
-        console.log(presetsWithFields)
         setLoading(false)
         setPresets(presetsWithFields)
         setFields(fields)
