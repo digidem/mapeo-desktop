@@ -126,7 +126,6 @@ const EditDialogContent = ({
         const imageId = point.properties.image
         if (!imageId) return
         const imageStream = request(getMediaUrl(imageId, 'original'))
-        console.log(getMediaUrl(imageId))
         imageStream.on('error', console.error)
         archive.append(imageStream, { name: 'images/' + imageId })
       })

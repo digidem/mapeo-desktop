@@ -10,15 +10,21 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import ExportIcon from '@material-ui/icons/SaveAlt'
-import { defineMessages, useIntl } from 'react-intl'
+import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import clsx from 'clsx'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+
 import MapExportDialog from './MapExportDialog'
+import GeoJsonExportDialog from './GeoJsonExportDialog'
 
 const m = defineMessages({
   exportButton: 'Export data',
   mapTabLabel: 'Map',
   mediaTabLabel: 'Media',
-  reportTabLabel: 'Report'
+  reportTabLabel: 'Report',
+  exportMap: 'Export Webmap…',
+  exportGeoJson: 'Export GeoJSON…'
 })
 
 const TabItem = ({ selected, ...props }) => {
@@ -42,7 +48,17 @@ const MapFilterToolbar = ({
 }) => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
-  const [mapExportOpen, setMapExportOpen] = useState(false)
+  const [dialog, setDialog] = useState(null)
+  const [menuAnchor, setMenuAnchor] = React.useState(null)
+
+  const handleExportClick = event => {
+    setMenuAnchor(event.currentTarget)
+  }
+
+  const handleMenuItemClick = id => () => {
+    setMenuAnchor(null)
+    setDialog(id)
+  }
 
   const handleChange = view => e => onChange(view)
   return (
@@ -84,20 +100,44 @@ const MapFilterToolbar = ({
             <IconButton
               aria-label='export'
               color='inherit'
-              onClick={() => setMapExportOpen(true)}
+              onClick={handleExportClick}
+              aria-controls='export-menu'
+              aria-haspopup='true'
             >
               <ExportIcon />
             </IconButton>
           </Tooltip>
+          <Menu
+            id='export-menu'
+            anchorEl={menuAnchor}
+            keepMounted
+            open={Boolean(menuAnchor)}
+            onClose={handleMenuItemClick(null)}
+          >
+            <MenuItem onClick={handleMenuItemClick('map')}>
+              <FormattedMessage {...m.exportMap} />
+            </MenuItem>
+            <MenuItem onClick={handleMenuItemClick('geojson')}>
+              <FormattedMessage {...m.exportGeoJson} />
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <MapExportDialog
-        open={mapExportOpen}
+        open={dialog === 'map'}
+        onClose={() => setDialog(null)}
         observations={observations}
-        getMediaUrl={getMediaUrl}
-        presets={presets}
         filter={filter}
-        onClose={() => setMapExportOpen(false)}
+        presets={presets}
+        getMediaUrl={getMediaUrl}
+      />
+      <GeoJsonExportDialog
+        open={dialog === 'geojson'}
+        onClose={() => setDialog(null)}
+        observations={observations}
+        filter={filter}
+        presets={presets}
+        getMediaUrl={getMediaUrl}
       />
     </>
   )

@@ -17,6 +17,27 @@
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
     "message": "Filter by…"
   },
+  "renderer.components.MapFilter.GeoJsonExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.exportAll": {
+    "message": "All {count} observations"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.exportFiltered": {
+    "message": "Only {count} currently filtered observations"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.filteredOrAll": {
+    "message": "Export all observations or currently filtered data"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.save": {
+    "description": "Save button",
+    "message": "Save"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Export Observations to GeoJSON"
+  },
   "renderer.components.MapFilter.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
     "message": "Loading…"
@@ -55,6 +76,12 @@
   },
   "renderer.components.MapFilter.Toolbar.exportButton": {
     "message": "Export data"
+  },
+  "renderer.components.MapFilter.Toolbar.exportGeoJson": {
+    "message": "Export GeoJSON…"
+  },
+  "renderer.components.MapFilter.Toolbar.exportMap": {
+    "message": "Export Webmap…"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Map"
