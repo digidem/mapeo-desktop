@@ -35,7 +35,7 @@ function menuTemplate (context) {
               ]
             }
             dialog.showOpenDialog(opts, function (filenames) {
-              if (!filenames) return
+              if (!filenames || !filenames.length) return
               app.tiles.go(filenames[0], cb)
               function cb (err) {
                 if (err) {
@@ -67,7 +67,7 @@ function menuTemplate (context) {
                 properties: ['openFile']
               },
               function (filenames) {
-                if (!filenames) return
+                if (!filenames || !filenames.length) return
                 userConfig.importSettings(focusedWindow, filenames[0], onError)
                 function onError (err) {
                   if (!err) return
@@ -94,7 +94,7 @@ function menuTemplate (context) {
                 properties: ['openFile']
               },
               function (filenames) {
-                if (!filenames) return
+                if (!filenames || !filenames.length) return
                 var filename = filenames[0]
                 logger.log('[IMPORTING]', filename)
                 app.mapeo.importer.importFromFile(filename)
