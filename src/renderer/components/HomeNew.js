@@ -154,9 +154,12 @@ export default function Home () {
 
   React.useEffect(() => {
     const openLatLonDialog = () => setDialog('LatLon')
+    const refreshPage = () => window.location.reload()
     ipcRenderer.on('open-latlon-dialog', openLatLonDialog)
+    ipcRenderer.on('force-refresh-window', refreshPage)
     return () => {
       ipcRenderer.removeListener('open-latlon-dialog', openLatLonDialog)
+      ipcRenderer.removeListener('force-refresh-window', openLatLonDialog)
     }
   }, [])
 
