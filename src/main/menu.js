@@ -164,7 +164,7 @@ function menuTemplate (context) {
               focusedWindow.reload()
             }
           },
-          visible: false
+          visible: true
         },
         {
           label: t('menu-visualization-fullscreen'),
