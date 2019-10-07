@@ -122,11 +122,11 @@ module.exports = function (osm, media, sendIpc, opts) {
   }
 
   function onReplicationComplete (cb) {
-    // Wait for up to 10 minutes for replication to complete
+    // Wait for up to 5 minutes for replication to complete
     const timeoutId = setTimeout(() => {
       mapeoCore.sync.removeListener('down', checkIfDone)
       cb()
-    }, 10 * 60 * 1000)
+    }, 5 * 60 * 1000)
 
     checkIfDone()
 

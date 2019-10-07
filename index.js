@@ -79,9 +79,28 @@ app.on('before-quit', function (e) {
   if (!app.server) return
   // Cancel quit and wait for server to close
   e.preventDefault()
+
+  var CLOSING = 'file://' + path.join(__dirname, './closing.html')
+  var closingWin = new BrowserWindow({
+    width: 600,
+    height: 400,
+    frame: false,
+    show: false,
+    alwaysOnTop: true
+  })
+  closingWin.loadURL(CLOSING)
+  const closingTimeoutId = setTimeout(() => {
+    closingWin.show()
+  }, 300)
+
   // Server close will gracefully close databases and wait for pending sync
   // TODO: Show the user that a sync is pending finishing
   app.server.close(function () {
+    clearTimeout(closingTimeoutId)
+    try {
+      closingWin.close()
+    } catch (e) {}
+    closingWin = null
     app.exit()
   })
 })
@@ -217,12 +236,14 @@ function initDirectories (done) {
 }
 
 function createServers (done) {
-  app.server = createServer(
-    app.osm,
-    app.media,
-    win.webContents.send.bind(win.webContents),
-    { staticRoot: userDataPath }
-  )
+  function ipcSend (...args) {
+    try {
+      win.webContents.send.apply(win.webContents, args)
+    } catch (e) {}
+  }
+  app.server = createServer(app.osm, app.media, ipcSend, {
+    staticRoot: userDataPath
+  })
   app.mapeo = app.server.mapeo
   ipc(win)
 
