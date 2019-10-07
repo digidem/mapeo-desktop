@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { MapView, ReportView, MediaView } from 'react-mapfilter'
+import { ipcRenderer } from 'electron'
 import debounce from 'lodash/debounce'
 import logger from 'electron-timber'
 
@@ -51,6 +52,21 @@ function usePositionRef () {
 
 const FilterView = ({ view, ...props }) => {
   const cx = useStyles()
+  const mapRef = useRef()
+
+  useEffect(() => {
+    function zoomToData (_, loc) {
+      if (!mapRef.current || typeof mapRef.current.flyTo !== 'function') return
+      mapRef.current.flyTo({
+        center: loc,
+        zoom: 14
+      })
+    }
+    ipcRenderer.on('zoom-to-data-observation', zoomToData)
+    return () => {
+      ipcRenderer.removeListener('zoom-to-data-observation', zoomToData)
+    }
+  }, [])
 
   return (
     <div className={cx.viewWrapper}>
@@ -59,7 +75,7 @@ const FilterView = ({ view, ...props }) => {
       ) : view === 'media' ? (
         <MediaView {...props} />
       ) : (
-        <MapView {...props} />
+        <MapView ref={mapRef} {...props} />
       )}
     </div>
   )
@@ -148,7 +164,9 @@ function useObservations () {
     const subscription = api.addSyncListener(() => {
       loadObservations()
     })
-    return () => subscription.remove()
+    return () => {
+      subscription.remove()
+    }
   }, [])
 
   useEffect(() => {

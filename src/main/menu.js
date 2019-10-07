@@ -203,12 +203,12 @@ function menuTemplate (context) {
             getDatasetCentroid('node', function (_, loc) {
               logger.log('RESPONSE(getDatasetCentroid):', loc)
               if (!loc) return
-              focusedWindow.webContents.send('zoom-to-data-response', loc)
+              focusedWindow.webContents.send('zoom-to-data-node', loc)
             })
             getDatasetCentroid('observation', function (_, loc) {
               logger.log('RESPONSE(getDatasetCentroid):', loc)
               if (!loc) return
-              focusedWindow.webContents.send('zoom-to-data-response', loc)
+              focusedWindow.webContents.send('zoom-to-data-observation', loc)
             })
           },
           visible: true

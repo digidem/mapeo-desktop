@@ -25,7 +25,7 @@ const LatLonDialog = ({ onClose, open }) => {
     if (match) {
       var pt = [parseFloat(match[1].trim()), parseFloat(match[2].trim())]
       ipcRenderer.send('zoom-to-latlon-request', pt[0], pt[1])
-      self.props.onClose()
+      onClose()
     }
     if (event) {
       event.preventDefault()
