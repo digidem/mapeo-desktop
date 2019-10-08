@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Mapeo</title>
-    <link rel='stylesheet' href='static/css/id.css'>
-    <link rel='stylesheet' href='static/css/base.css'>
-
-    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"/>
-    <meta name='apple-mobile-web-app-capable' content='yes'/>
-    <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'/>
-    <script src='node_modules/id-mapeo/dist/iD.js'></script>
+    <link rel="stylesheet" href="node_modules/id-mapeo/dist/iD.css" />
+    <link rel="stylesheet" href="node_modules/mapbox-gl/dist/mapbox-gl.css" />
+    <link rel="stylesheet" href="static/css/base.css" />
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <script src="http://localhost:35729/livereload.js"></script>
   </head>
   <body>
-    <div id="root" class="full"></div>
+    <div id="root"></div>
     <script>
       require('./static/build.js')
     </script>

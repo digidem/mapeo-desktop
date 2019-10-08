@@ -1,6 +1,6 @@
 name: Node CD
 
-on: [push, create]
+on: [push]
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
           node-version: 8.x
       - name: npm install
         run: |
-          npm ci
+          npm install
       - name: Lint
         run: |
           npm run lint

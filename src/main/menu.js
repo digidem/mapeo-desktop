@@ -1,22 +1,33 @@
-var dialog = require('electron').dialog
+const { dialog, app, Menu } = require('electron')
 
-var debug = require('debug')('mapeo-desktop')
-var userConfig = require('./user-config')
-var i18n = require('../i18n')
-var logger = require('../log')
-var log
+const userConfig = require('./user-config')
+const i18n = require('./i18n')
+const logger = require('electron-timber')
+const t = i18n.t
 
-module.exports = function (app) {
-  log = logger.Node()
+module.exports = async function createMenu (context) {
+  await app.whenReady()
+
+  function setMenu () {
+    var menu = Menu.buildFromTemplate(menuTemplate(context))
+    Menu.setApplicationMenu(menu)
+  }
+
+  setMenu()
+  // Re-add the menu every time the locale changes
+  i18n.on('locale-change', () => setMenu())
+}
+
+function menuTemplate (context) {
   var template = [
     {
-      label: i18n('menu-file'),
+      label: t('menu-file'),
       submenu: [
         {
-          label: i18n('menu-import-tiles'),
+          label: t('menu-import-tiles'),
           click: function (item, focusedWindow) {
             var opts = {
-              title: i18n('menu-import-tiles'),
+              title: t('menu-import-tiles'),
               properties: ['openFile'],
               filters: [
                 { name: 'Electron Asar', extensions: ['asar'] },
@@ -24,19 +35,19 @@ module.exports = function (app) {
               ]
             }
             dialog.showOpenDialog(opts, function (filenames) {
-              if (!filenames) return
+              if (!filenames || !filenames.length) return
               app.tiles.go(filenames[0], cb)
               function cb (err) {
                 if (err) {
-                  log('[IMPORT TILES] error', err)
+                  logger.error('[IMPORT TILES] error', err)
                   dialog.showErrorBox(
-                    i18n('menu-import-tiles-error'),
-                    i18n('menu-import-tiles-error-known') + ': ' + err
+                    t('menu-import-tiles-error'),
+                    t('menu-import-tiles-error-known') + ': ' + err
                   )
                 } else {
-                  log('[IMPORT TILES] success')
+                  logger.log('[IMPORT TILES] success')
                   dialog.showMessageBox({
-                    message: i18n('menu-import-data-success'),
+                    message: t('menu-import-data-success'),
                     buttons: ['OK']
                   })
                 }
@@ -45,55 +56,66 @@ module.exports = function (app) {
           }
         },
         {
-          label: i18n('menu-import-configuration'),
+          label: t('menu-import-configuration'),
           click: function (item, focusedWindow) {
-            dialog.showOpenDialog({
-              title: i18n('menu-import-configuration-dialog'),
-              filters: [{ name: 'Mapeo Settings', extensions: ['mapeosettings'] }],
-              properties: ['openFile']
-            }, function (filenames) {
-              if (!filenames) return
-              userConfig.importSettings(focusedWindow, filenames[0], onError)
-              function onError (err) {
-                if (!err) return
-                dialog.showErrorBox(
-                  i18n('menu-import-configuration-error'),
-                  i18n('menu-import-configuration-error-known') + ': ' + err
-                )
+            dialog.showOpenDialog(
+              {
+                title: t('menu-import-configuration-dialog'),
+                filters: [
+                  { name: 'Mapeo Settings', extensions: ['mapeosettings'] }
+                ],
+                properties: ['openFile']
+              },
+              function (filenames) {
+                if (!filenames || !filenames.length) return
+                userConfig.importSettings(focusedWindow, filenames[0], onError)
+                function onError (err) {
+                  if (!err) return
+                  dialog.showErrorBox(
+                    t('menu-import-configuration-error'),
+                    t('menu-import-configuration-error-known') + ': ' + err
+                  )
+                }
               }
-            })
+            )
           }
         },
         {
-          label: i18n('menu-import-data'),
+          label: t('menu-import-data'),
           click: function (item, focusedWindow) {
             // TODO: handle multiple files
-            dialog.showOpenDialog({
-              title: i18n('menu-import-data-dialog'),
-              filters: [{ name: 'GeoJSON', extensions: ['geojson'] }, { name: 'Shape', extensions: ['shp'] }],
-              properties: ['openFile']
-            }, function (filenames) {
-              if (!filenames) return
-              var filename = filenames[0]
-              debug('[IMPORTING]', filename)
-              app.mapeo.importer.importFromFile(filename)
-            })
+            dialog.showOpenDialog(
+              {
+                title: t('menu-import-data-dialog'),
+                filters: [
+                  { name: 'GeoJSON', extensions: ['geojson'] },
+                  { name: 'Shape', extensions: ['shp'] }
+                ],
+                properties: ['openFile']
+              },
+              function (filenames) {
+                if (!filenames || !filenames.length) return
+                var filename = filenames[0]
+                logger.log('[IMPORTING]', filename)
+                app.mapeo.importer.importFromFile(filename)
+              }
+            )
           },
           visible: true
         }
       ]
     },
     {
-      label: i18n('menu-edit'),
+      label: t('menu-edit'),
       submenu: [
         {
-          label: i18n('undo'),
+          label: t('menu-undo'),
           accelerator: 'CmdOrCtrl+Z',
           role: 'undo',
           visible: false
         },
         {
-          label: i18n('redo'),
+          label: t('menu-redo'),
           accelerator: 'Shift+CmdOrCtrl+Z',
           role: 'redo',
           visible: false
@@ -102,32 +124,32 @@ module.exports = function (app) {
           type: 'separator'
         },
         {
-          label: i18n('cut'),
+          label: t('menu-cut'),
           accelerator: 'CmdOrCtrl+X',
           role: 'cut'
         },
         {
-          label: i18n('copy'),
+          label: t('menu-copy'),
           accelerator: 'CmdOrCtrl+C',
           role: 'copy'
         },
         {
-          label: i18n('paste'),
+          label: t('menu-paste'),
           accelerator: 'CmdOrCtrl+V',
           role: 'paste'
         },
         {
-          label: i18n('selectall'),
+          label: t('menu-selectall'),
           accelerator: 'CmdOrCtrl+A',
           role: 'selectall'
         }
       ]
     },
     {
-      label: i18n('menu-visualization'),
+      label: t('menu-visualization'),
       submenu: [
         {
-          label: i18n('menu-change-language'),
+          label: t('menu-change-language'),
           click: function (item, focusedWindow) {
             if (focusedWindow) {
               focusedWindow.webContents.send('change-language-request')
@@ -135,17 +157,17 @@ module.exports = function (app) {
           }
         },
         {
-          label: i18n('menu-visualization-reload'),
+          label: t('menu-visualization-reload'),
           accelerator: 'CmdOrCtrl+R',
           click: function (item, focusedWindow) {
             if (focusedWindow) {
               focusedWindow.reload()
             }
           },
-          visible: false
+          visible: true
         },
         {
-          label: i18n('menu-visualization-fullscreen'),
+          label: t('menu-visualization-fullscreen'),
           accelerator: (function () {
             if (process.platform === 'darwin') {
               return 'Ctrl+Command+F'
@@ -160,7 +182,7 @@ module.exports = function (app) {
           }
         },
         {
-          label: i18n('menu-visualization-devtools'),
+          label: t('menu-visualization-devtools'),
           accelerator: (function () {
             if (process.platform === 'darwin') {
               return 'Alt+Command+I'
@@ -176,14 +198,23 @@ module.exports = function (app) {
           visible: true
         },
         {
-          label: i18n('menu-zoom-to-data'),
+          label: t('menu-zoom-to-data'),
           click: function (item, focusedWindow) {
-            focusedWindow.webContents.send('zoom-to-data-request')
+            getDatasetCentroid('node', function (_, loc) {
+              logger.log('RESPONSE(getDatasetCentroid):', loc)
+              if (!loc) return
+              focusedWindow.webContents.send('zoom-to-data-node', loc)
+            })
+            getDatasetCentroid('observation', function (_, loc) {
+              logger.log('RESPONSE(getDatasetCentroid):', loc)
+              if (!loc) return
+              focusedWindow.webContents.send('zoom-to-data-observation', loc)
+            })
           },
           visible: true
         },
         {
-          label: i18n('menu-zoom-to-latlon'),
+          label: t('menu-zoom-to-latlon'),
           click: function (item, focusedWindow) {
             focusedWindow.webContents.send('open-latlon-dialog')
           },
@@ -192,26 +223,25 @@ module.exports = function (app) {
       ]
     },
     {
-      label: i18n('menu-window'),
+      label: t('menu-window'),
       role: 'window',
       submenu: [
         {
-          label: i18n('menu-minimize'),
+          label: t('menu-minimize'),
           accelerator: 'CmdOrCtrl+M',
           role: 'minimize'
         },
         {
-          label: i18n('menu-close'),
+          label: t('menu-close'),
           accelerator: 'CmdOrCtrl+W',
           role: 'close'
         }
       ]
     },
     {
-      label: i18n('menu-help'),
+      label: t('menu-help'),
       role: 'help',
-      submenu: [
-      ]
+      submenu: []
     }
   ]
 
@@ -221,14 +251,14 @@ module.exports = function (app) {
       label: name,
       submenu: [
         {
-          label: i18n('menu-about') + ' ' + name,
+          label: t('menu-about') + ' ' + name,
           role: 'about'
         },
         {
           type: 'separator'
         },
         {
-          label: i18n('menu-services'),
+          label: t('menu-services'),
           role: 'services',
           submenu: []
         },
@@ -236,26 +266,28 @@ module.exports = function (app) {
           type: 'separator'
         },
         {
-          label: i18n('menu-hide') + ' ' + name,
+          label: t('menu-hide') + ' ' + name,
           accelerator: 'Command+H',
           role: 'hide'
         },
         {
-          label: i18n('menu-hide-others'),
+          label: t('menu-hide-others'),
           accelerator: 'Command+Alt+H',
           role: 'hideothers'
         },
         {
-          label: i18n('menu-show-all'),
+          label: t('menu-show-all'),
           role: 'unhide'
         },
         {
           type: 'separator'
         },
         {
-          label: i18n('menu-quit') + ' ' + name,
+          label: t('menu-quit') + ' ' + name,
           accelerator: 'Command+Q',
-          click: function () { app.quit() }
+          click: function () {
+            app.quit()
+          }
         }
       ]
     })
@@ -265,10 +297,20 @@ module.exports = function (app) {
         type: 'separator'
       },
       {
-        label: i18n('menu-bring-to-front'),
+        label: t('menu-bring-to-front'),
         role: 'front'
       }
     )
   }
+
   return template
+}
+
+function getDatasetCentroid (type, done) {
+  logger.log('STATUS(getDatasetCentroid):', type)
+  app.osm.core.api.stats.getMapCenter(type, function (err, center) {
+    if (err) return logger.error('ERROR(getDatasetCentroid):', err)
+    if (!center) return done(null, null)
+    done(null, [center.lon, center.lat])
+  })
 }

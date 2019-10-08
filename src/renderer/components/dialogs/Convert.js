@@ -8,7 +8,7 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import parallel from 'run-parallel'
 
 import api from '../../api'
-import i18n from '../../../i18n'
+const t = () => {}
 
 export default class ConvertDialog extends React.Component {
   constructor (props) {
@@ -57,7 +57,10 @@ export default class ConvertDialog extends React.Component {
   notAdded () {
     var features = this.props.features
     return features.filter(function (f) {
-      return (f.ref === undefined && (f.properties && f.properties.element_id === undefined))
+      return (
+        f.ref === undefined &&
+        (f.properties && f.properties.element_id === undefined)
+      )
     })
   }
 
@@ -71,16 +74,20 @@ export default class ConvertDialog extends React.Component {
 
     return (
       <Dialog id='convert-dialog' open={open} onClose={onClose}>
-        {progress ? (<div>
-          <DialogTitle>{i18n('convert-progress', percentage)}</DialogTitle>
-          <LinearProgress variant='determinate' value={percentage} />
-        </div>)
-          : (<div>
-            <DialogTitle>{i18n('convert-number', features.length)}</DialogTitle>
+        {progress ? (
+          <div>
+            <DialogTitle>{t('convert-progress', percentage)}</DialogTitle>
+            <LinearProgress variant='determinate' value={percentage} />
+          </div>
+        ) : (
+          <div>
+            <DialogTitle>{t('convert-number', features.length)}</DialogTitle>
             <DialogContent>
-              <p> {notAdded.length
-                ? i18n('convert-detail', notAdded.length)
-                : i18n('convert-nothing', features.length)}
+              <p>
+                {' '}
+                {notAdded.length
+                  ? t('convert-detail', notAdded.length)
+                  : t('convert-nothing', features.length)}
               </p>
               <DialogActions>
                 <Button
@@ -88,13 +95,14 @@ export default class ConvertDialog extends React.Component {
                   id='convert-submit'
                   color='primary'
                   variant='contained'
-                  onClick={this.submitHandler}>
-                  {i18n('button-submit')}
+                  onClick={this.submitHandler}
+                >
+                  {t('button-submit')}
                 </Button>
               </DialogActions>
             </DialogContent>
-          </div>)
-        }
+          </div>
+        )}
       </Dialog>
     )
   }

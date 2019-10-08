@@ -1,7 +1,7 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
-import i18n from '../../i18n'
+import { t } from '../i18n'
 
 const ConvertButton = function ({ onClick, features }) {
   function click () {
@@ -11,7 +11,7 @@ const ConvertButton = function ({ onClick, features }) {
   return (
     <Paper>
       <Button id='convert-button' color='default' onClick={click}>
-        {i18n('convert-button')}
+        {t('convert-button')}
       </Button>
     </Paper>
   )

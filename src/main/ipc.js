@@ -1,15 +1,13 @@
 var path = require('path')
 var { dialog, app, ipcMain } = require('electron')
 
-var locale = require('./locale')
-var i18n = require('../i18n')
+var i18n = require('./i18n')
 
 var userConfig = require('./user-config')
 var exportData = require('./export-data')
-var logger = require('../log')
+var logger = require('electron-timber')
 
 module.exports = function (win) {
-  var log = logger.Node()
   var ipc = ipcMain
 
   ipc.on('get-user-data', function (event, type) {
@@ -23,34 +21,46 @@ module.exports = function (win) {
   })
 
   ipc.on('set-locale', function (ev, lang) {
-    app.translations = locale.load(lang)
+    app.translations = i18n.setLocale(lang)
   })
 
   ipc.on('import-example-presets', function (ev) {
-    var filename = path.join(__dirname, '..', '..', 'static', 'settings-jungle-v1.0.0.mapeosettings')
+    var filename = path.join(
+      __dirname,
+      '..',
+      '..',
+      'static',
+      'settings-jungle-v1.0.0.mapeosettings'
+    )
     userConfig.importSettings(win, filename, function (err) {
-      if (err) return log(err)
-      log('Example presets imported from ' + filename)
+      if (err) return logger.error(err)
+      logger.log('Example presets imported from ' + filename)
     })
   })
 
   ipc.on('import-settings', function (ev, filename) {
     userConfig.importSettings(win, filename, function (err) {
-      if (err) return log(err)
-      log('Example presets imported from ' + filename)
+      if (err) return logger.error(err)
+      logger.log('Example presets imported from ' + filename)
     })
   })
 
   ipc.on('save-file', function () {
     var metadata = userConfig.getSettings('metadata')
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
-    dialog.showSaveDialog({
-      title: i18n('save-db-dialog'),
-      defaultPath: 'database.' + ext,
-      filters: [
-        { name: 'Mapeo Data (*.' + ext + ')', extensions: ['mapeodata', 'mapeo-jungle', ext] }
-      ]
-    }, onopen)
+    dialog.showSaveDialog(
+      {
+        title: i18n.t('save-db-dialog'),
+        defaultPath: 'database.' + ext,
+        filters: [
+          {
+            name: 'Mapeo Data (*.' + ext + ')',
+            extensions: ['mapeodata', 'mapeo-jungle', ext]
+          }
+        ]
+      },
+      onopen
+    )
 
     function onopen (filename) {
       if (typeof filename === 'undefined') return
@@ -61,13 +71,19 @@ module.exports = function (win) {
   ipc.on('open-file', function () {
     var metadata = userConfig.getSettings('metadata')
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
-    dialog.showOpenDialog({
-      title: i18n('open-db-dialog'),
-      properties: [ 'openFile' ],
-      filters: [
-        { name: 'Mapeo Data (*.' + ext + ')', extensions: ['mapeodata', 'mapeo-jungle', ext, 'sync', 'zip'] }
-      ]
-    }, onopen)
+    dialog.showOpenDialog(
+      {
+        title: i18n.t('open-db-dialog'),
+        properties: ['openFile'],
+        filters: [
+          {
+            name: 'Mapeo Data (*.' + ext + ')',
+            extensions: ['mapeodata', 'mapeo-jungle', ext, 'sync', 'zip']
+          }
+        ]
+      },
+      onopen
+    )
 
     function onopen (filenames) {
       if (typeof filenames === 'undefined') return
@@ -84,14 +100,14 @@ module.exports = function (win) {
 
   ipc.on('zoom-to-data-get-centroid', function (_, type) {
     getDatasetCentroid(type, function (_, loc) {
-      log('RESPONSE(getDatasetCentroid):', loc)
+      logger.log('RESPONSE(getDatasetCentroid):', loc)
       if (!loc) return
       win.webContents.send('zoom-to-data-response', loc)
     })
   })
 
-  ipc.on('zoom-to-latlon-request', function (_, lat, lon) {
-    win.webContents.send('zoom-to-latlon-response', lat, lon)
+  ipc.on('zoom-to-latlon-request', function (_, lon, lat) {
+    win.webContents.send('zoom-to-latlon-response', [lon, lat])
   })
 
   ipc.on('force-refresh-window', function () {
@@ -113,13 +129,18 @@ module.exports = function (win) {
   })
 
   importer.on('progress', function (filename, index, total) {
-    win.webContents.send('import-progress', path.basename(filename), index, total)
+    win.webContents.send(
+      'import-progress',
+      path.basename(filename),
+      index,
+      total
+    )
   })
 
   function getDatasetCentroid (type, done) {
-    log('STATUS(getDatasetCentroid):', type)
+    logger.log('STATUS(getDatasetCentroid):', type)
     app.osm.core.api.stats.getMapCenter(type, function (err, center) {
-      if (err) return log('ERROR(getDatasetCentroid):', err)
+      if (err) return logger.error('ERROR(getDatasetCentroid):', err)
       if (!center) return done(null, null)
       done(null, [center.lon, center.lat])
     })

@@ -1,0 +1,162 @@
+{
+  "renderer.components.HomeNew.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "Territory"
+  },
+  "renderer.components.HomeNew.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "Observations"
+  },
+  "renderer.components.HomeNew.sync": {
+    "description": "Synchronize tab label",
+    "message": "Synchronize"
+  },
+  "renderer.components.MapEditor.feedback-contribute-button": {
+    "message": "Feedback & Contribute"
+  },
+  "renderer.components.MapFilter.FilterPanel.filterHeader": {
+    "message": "Filter by…"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.exportAll": {
+    "message": "All {count} observations"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.exportFiltered": {
+    "message": "Only {count} currently filtered observations"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.filteredOrAll": {
+    "message": "Export all observations or currently filtered data"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.save": {
+    "description": "Save button",
+    "message": "Save"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Export Observations to GeoJSON"
+  },
+  "renderer.components.MapFilter.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Loading…"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "Map Description"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "Save"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "Map Style"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "Add terms & limitations about how this data can be used"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "Terms & Limitations"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Export a map to share online"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "Map Title"
+  },
+  "renderer.components.MapFilter.Toolbar.exportButton": {
+    "message": "Export data"
+  },
+  "renderer.components.MapFilter.Toolbar.exportGeoJson": {
+    "message": "Export GeoJSON…"
+  },
+  "renderer.components.MapFilter.Toolbar.exportMap": {
+    "message": "Export Webmap…"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Map"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Media"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Report"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "Make sure devices are turned on and connected to the same wifi network"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Searching…"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Create new syncfile…"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "Sync from a file…"
+  },
+  "renderer.components.SyncView.SyncAppBar.subtitle": {
+    "message": "via Wi-Fi"
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "Available Devices"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "Complete"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "Retry"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "Starting…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "Synchronize"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "Database: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "Syncronization Error"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "Last synchronized:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "Photos: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Create a new database to syncronize"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Select a database to syncronize"
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "Submit"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "Enter Coordinates"
+  }
+}

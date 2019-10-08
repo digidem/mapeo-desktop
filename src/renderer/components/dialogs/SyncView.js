@@ -9,7 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 import SyncManager from '../../sync-manager'
 import Form from '../Form'
-import i18n from '../../../i18n'
+import i18n from '../../i18n'
 
 var Subtitle = styled.div`
   background-color: var(--main-bg-color);
@@ -19,7 +19,7 @@ var Subtitle = styled.div`
 `
 
 var TargetsDiv = styled.div`
-  background-color: white
+  background-color: white;
   color: black;
   .loading {
     background-color: white;
@@ -89,8 +89,8 @@ export default class SyncView extends React.Component {
   }
 
   onPeers (peers) {
-    let errors = this.state.errors
-    peers = peers.map((peer) => {
+    const errors = this.state.errors
+    peers = peers.map(peer => {
       if (peer.state && peer.state.topic === 'replication-error') {
         errors[peer.id] = peer.state.message
       }
@@ -151,19 +151,31 @@ export default class SyncView extends React.Component {
     var wifiPeers = this.sync.wifiPeers(peers)
     var disabled = false
     return (
-      <Dialog onClose={this.onClose} closeButton={false} open disableBackdropClick>
+      <Dialog
+        onClose={this.onClose}
+        closeButton={false}
+        open
+        disableBackdropClick
+      >
         <TargetsDiv id='sync-targets'>
-          { wifiPeers.length === 0
-            ? <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
-            : <Subtitle>{i18n('sync-available-devices')}</Subtitle>
-          }
-          {peers.map((peer) => {
-            disabled = (peer.state.topic !== 'replication-wifi-ready' &&
+          {wifiPeers.length === 0 ? (
+            <Subtitle>{i18n('sync-searching-targets')}&hellip;</Subtitle>
+          ) : (
+            <Subtitle>{i18n('sync-available-devices')}</Subtitle>
+          )}
+          {peers.map(peer => {
+            disabled =
+              peer.state.topic !== 'replication-wifi-ready' &&
               peer.state.topic !== 'replication-complete' &&
-              peer.state.topic !== 'replication-error')
-            return <Target peer={peer} key={peer.id}
-              onStartClick={this.sync.start}
-              onCancelClick={this.sync.cancel} />
+              peer.state.topic !== 'replication-error'
+            return (
+              <Target
+                peer={peer}
+                key={peer.id}
+                onStartClick={this.sync.start}
+                onCancelClick={this.sync.cancel}
+              />
+            )
           })}
         </TargetsDiv>
         <Form method='POST' className='modal-group'>
@@ -197,7 +209,7 @@ var TOPICS = {
   },
   'replication-wifi-ready': {
     icon: SyncIcon,
-    message: i18n(`sync-wifi-info`),
+    message: i18n('sync-wifi-info'),
     ready: true
   }
 }
@@ -212,7 +224,7 @@ class Target extends React.Component {
 
   handleClick (peer) {
     this.props.onStartClick(peer)
-    this.setState({syncing: true})
+    this.setState({ syncing: true })
   }
 
   calcProgress (val) {
@@ -222,22 +234,23 @@ class Target extends React.Component {
   }
 
   render () {
-    const {peer} = this.props
+    const { peer } = this.props
     var state = peer.state
     var message = state.message
 
     var topic = peer.state.topic
 
     if (this.state.syncing) {
-      if (this.props.topic !== 'replication-wifi-ready') this.setState({syncing: false})
-      else topic = 'replication-started'
+      if (this.props.topic !== 'replication-wifi-ready') {
+        this.setState({ syncing: false })
+      } else topic = 'replication-started'
     }
     var progress
 
     if (peer.state.topic === 'replication-progress' && message) {
       progress = this.calcProgress({
-        sofar: message.db.sofar + (message.media.sofar * 50),
-        total: message.db.total + (message.media.total * 50)
+        sofar: message.db.sofar + message.media.sofar * 50,
+        total: message.db.total + message.media.total * 50
       })
     }
 
@@ -282,13 +295,7 @@ function getView (topic, message) {
 
 class TargetView extends React.PureComponent {
   render () {
-    const {
-      name,
-      message,
-      topic,
-      progress,
-      lastCompletedDate
-    } = this.props
+    const { name, message, topic, progress, lastCompletedDate } = this.props
 
     var view = getView(topic, message)
 
@@ -298,18 +305,36 @@ class TargetView extends React.PureComponent {
     }
 
     return (
-      <div className={view.ready ? 'view clickable' : 'view'} onClick={this.props.onStartClick}>
+      <div
+        className={view.ready ? 'view clickable' : 'view'}
+        onClick={this.props.onStartClick}
+      >
         <div className='target'>
           <span className='name'>{name}</span>
           <span className='message'>{view.message}</span>
-          {lastCompletedDate && <span className='completed'>Last completed {new Date(lastCompletedDate).toLocaleString()}</span>}
+          {lastCompletedDate && (
+            <span className='completed'>
+              Last completed {new Date(lastCompletedDate).toLocaleString()}
+            </span>
+          )}
         </div>
-        { view.icon && <div className='icon'><view.icon /></div> }
-        { progress > 0 && progress < 100 && <div className='icon'>
-          <span className='message'>{progress}%</span>
-          <CircularProgress color='primary' value={progress} variant='determinate'>${progress}% </CircularProgress>
-        </div>
-        }
+        {view.icon && (
+          <div className='icon'>
+            <view.icon />
+          </div>
+        )}
+        {progress > 0 && progress < 100 && (
+          <div className='icon'>
+            <span className='message'>{progress}%</span>
+            <CircularProgress
+              color='primary'
+              value={progress}
+              variant='determinate'
+            >
+              ${progress}%{' '}
+            </CircularProgress>
+          </div>
+        )}
       </div>
     )
   }

@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import LinearProgress from '@material-ui/core/LinearProgress'
 
-import i18n from '../../../i18n'
+import i18n from '../../i18n'
 
 export default class IndexesDialog extends React.Component {
   constructor (props) {
@@ -18,7 +18,7 @@ export default class IndexesDialog extends React.Component {
     this.indexesReady = this.indexesReady.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     ipcRenderer.on('indexes-loading', this.indexesLoading)
     ipcRenderer.on('indexes-ready', this.indexesReady)
     ipcRenderer.send('check-indexes')
@@ -38,16 +38,17 @@ export default class IndexesDialog extends React.Component {
   }
 
   render () {
-    return <Dialog
-      disableBackdropClick
-      disableEscapeKeyDown
-      open={this.state.loading}>
-      <DialogTitle>
-        {i18n('generating-indexes-body')}
-      </DialogTitle>
-      <DialogContent>
-        <LinearProgress />
-      </DialogContent>
-    </Dialog>
+    return (
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        open={this.state.loading}
+      >
+        <DialogTitle>{i18n('generating-indexes-body')}</DialogTitle>
+        <DialogContent>
+          <LinearProgress />
+        </DialogContent>
+      </Dialog>
+    )
   }
 }

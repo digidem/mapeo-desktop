@@ -1,0 +1,162 @@
+{
+  "renderer.components.HomeNew.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "Territorio"
+  },
+  "renderer.components.HomeNew.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "Observaciones"
+  },
+  "renderer.components.HomeNew.sync": {
+    "description": "Synchronize tab label",
+    "message": "Síncronizar"
+  },
+  "renderer.components.MapEditor.feedback-contribute-button": {
+    "message": ""
+  },
+  "renderer.components.MapFilter.FilterPanel.filterHeader": {
+    "message": "Filtrar datos…"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.exportAll": {
+    "message": "Todas las observaciones ({count})"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.exportFiltered": {
+    "message": "Solamente las observaciones filtradas actualmente ({count})"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.filteredOrAll": {
+    "message": "Exportar todas las observaciones o solamente las observaciones filtradas"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.save": {
+    "description": "Save button",
+    "message": "Guardar"
+  },
+  "renderer.components.MapFilter.GeoJsonExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Exportar las observaciones a GeoJSON"
+  },
+  "renderer.components.MapFilter.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Cargando…"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "Descripción de este mapa"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "Guardar"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": ""
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": ""
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": ""
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Exportar un mapa para compartir en el internet"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "Título de este mapa"
+  },
+  "renderer.components.MapFilter.Toolbar.exportButton": {
+    "message": "Exportar"
+  },
+  "renderer.components.MapFilter.Toolbar.exportGeoJson": {
+    "message": "Exportar GeoJSON…"
+  },
+  "renderer.components.MapFilter.Toolbar.exportMap": {
+    "message": "Exportar mapa para Web…"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Mapa"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Fotos"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Informe"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "Asegurar que los equipos están encendidos y conectados a la misma red de wifi"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Buscando…"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Crear nuevo archivo de sincronización"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "Sincronizar con archivo"
+  },
+  "renderer.components.SyncView.SyncAppBar.subtitle": {
+    "message": "por wifi"
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "Equipo disponibles"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "Completo"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "Reintentar"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "Iniciando…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "Sincronizar"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "Datos: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "Error de sicronización"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "Ultima sincronización"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "Fotos: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Crear nuevo base de datos para sincronizar"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Seleccionar base de datos para sincronizar"
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "Ir"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "Ingresar coordenadas"
+  }
+}
