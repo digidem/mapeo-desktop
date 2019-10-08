@@ -62,7 +62,7 @@ const MapFilterToolbar = ({
 
   const handleChange = view => e => onChange(view)
   return (
-    <>
+    <React.Fragment>
       <AppBar
         position='static'
         color='inherit'
@@ -139,7 +139,7 @@ const MapFilterToolbar = ({
         presets={presets}
         getMediaUrl={getMediaUrl}
       />
-    </>
+    </React.Fragment>
   )
 }
 

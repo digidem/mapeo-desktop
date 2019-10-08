@@ -5,7 +5,6 @@ var minimist = require('minimist')
 var electron = require('electron')
 const isDev = require('electron-is-dev')
 var app = electron.app
-var Menu = electron.Menu
 var BrowserWindow = electron.BrowserWindow
 
 const debug = require('electron-debug')
@@ -275,7 +274,7 @@ function notifyReady (done) {
   })
 }
 
-function handleError (error) {
-  logger.error('uncaughtException in Node:', error)
-  if (app && win) win.webContents.send('error', error.stack)
-}
+// function handleError (error) {
+//   logger.error('uncaughtException in Node:', error)
+//   if (app && win) win.webContents.send('error', error.stack)
+// }

@@ -5,16 +5,13 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { TextField, DialogContentText } from '@material-ui/core'
+import { DialogContentText } from '@material-ui/core'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
-// import archiver from 'archiver'
-import logger from 'electron-timber'
 import fs from 'fs'
 import path from 'path'
 import { remote } from 'electron'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
@@ -229,34 +226,3 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 0
   }
 }))
-
-function observationsToGeoJson (observations = [], getPreset) {
-  const features = observations.map(obs => {
-    const preset = getPreset(obs)
-    const title = preset ? preset.name : 'Observación'
-    const description = obs.tags && (obs.tags.notes || obs.tags.note)
-    const date = obs.created_at
-    const image =
-      obs.attachments && obs.attachments.length > 0
-        ? obs.attachments[obs.attachments.length - 1].id
-        : undefined
-    const coords = obs.lon != null && obs.lat != null && [obs.lon, obs.lat]
-    return {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: coords
-      },
-      properties: {
-        title,
-        description,
-        date,
-        image
-      }
-    }
-  })
-  return {
-    type: 'FeatureCollection',
-    features
-  }
-}
