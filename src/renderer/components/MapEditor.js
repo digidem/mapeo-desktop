@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
 
 import pkg from '../../../package.json'
+import api from '../new-api'
 import { defineMessages, useIntl } from 'react-intl'
 
 const m = defineMessages({
@@ -35,6 +36,21 @@ const MapEditor = () => {
     },
     [zoomToData]
   )
+
+  React.useEffect(() => {
+    function refreshWindow () {
+      if (!id.current) return
+      var history = id.current.history()
+      var saved = history.toJSON()
+      id.current.flush()
+      if (saved) history.fromJSON(saved)
+      ipcRenderer.send('zoom-to-data-get-centroid', 'node')
+    }
+    const subscription = api.addSyncListener(() => refreshWindow())
+    return () => {
+      subscription.remove()
+    }
+  }, [])
 
   React.useEffect(function saveLocation () {
     var prevhash = localStorage.getItem('location')
