@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.1](https://github.com/digidem/mapeo-desktop/compare/v4.1.0...v4.1.1) (2019-10-09)
+
+
+### Bug Fixes
+
+* skip release notes upload - it was breaking release process ([da5cd58](https://github.com/digidem/mapeo-desktop/commit/da5cd58))
+
 ## [4.1.0](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.4...v4.1.0) (2019-10-09)
 
 
