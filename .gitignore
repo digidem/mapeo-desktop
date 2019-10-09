@@ -6,3 +6,4 @@ static/build.js
 test/lib/test-data
 bin/test-data
 /translations
+package-lock.json
