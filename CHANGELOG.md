@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.4...v4.1.0) (2019-10-09)
+
+
+### Bug Fixes
+
+* argh I'll get these build scripts right eventually ([efcc0a3](https://github.com/digidem/mapeo-desktop/commit/efcc0a3))
+* cleanup i18n ([335211c](https://github.com/digidem/mapeo-desktop/commit/335211c))
+* Fix build error (npm ci) ([0a9834b](https://github.com/digidem/mapeo-desktop/commit/0a9834b))
+* Fix cancelling import from File menu causing crash ([60531b3](https://github.com/digidem/mapeo-desktop/commit/60531b3))
+* Fix localization of Menu ([348dfeb](https://github.com/digidem/mapeo-desktop/commit/348dfeb))
+* Fix map view appearing wrong size on first load ([e485657](https://github.com/digidem/mapeo-desktop/commit/e485657))
+* fix package.json scripts to work on Windows ([c876b12](https://github.com/digidem/mapeo-desktop/commit/c876b12))
+* include peer deps ([00a1a76](https://github.com/digidem/mapeo-desktop/commit/00a1a76))
+* only install dev tools in dev environment ([b9a67e5](https://github.com/digidem/mapeo-desktop/commit/b9a67e5))
+* refresh iD editor after sync ([7200e87](https://github.com/digidem/mapeo-desktop/commit/7200e87))
+* refresh page after preset import ([33dd768](https://github.com/digidem/mapeo-desktop/commit/33dd768))
+* Show sync progress when sync is initiated by other side ([627dc20](https://github.com/digidem/mapeo-desktop/commit/627dc20))
+* Show window while waiting for sync to complete ([7435f59](https://github.com/digidem/mapeo-desktop/commit/7435f59))
+* update iD to fix build error ([2878139](https://github.com/digidem/mapeo-desktop/commit/2878139))
+* update osm-p2p-server to work with Electron v6 ([bf64e07](https://github.com/digidem/mapeo-desktop/commit/bf64e07))
+* Zoom to data now works in both MapEditor and Observation views ([fa4bdb0](https://github.com/digidem/mapeo-desktop/commit/fa4bdb0))
+
+
+### Features
+
+* Add custom presets to iD, support Mapeo syntax for presets ([0bb1d4d](https://github.com/digidem/mapeo-desktop/commit/0bb1d4d))
+* add GeoJSON export with choice of filtered or all ([529efec](https://github.com/digidem/mapeo-desktop/commit/529efec))
+* Add map export dialog ([5d3ccbd](https://github.com/digidem/mapeo-desktop/commit/5d3ccbd))
+* Add react-intl i18n support ([954229a](https://github.com/digidem/mapeo-desktop/commit/954229a))
+* Add sync button + storybook ([f47dffb](https://github.com/digidem/mapeo-desktop/commit/f47dffb))
+* Add sync tab components ([c1af588](https://github.com/digidem/mapeo-desktop/commit/c1af588))
+* Add tabs sidebar UI ([8580f3d](https://github.com/digidem/mapeo-desktop/commit/8580f3d))
+* Add translations ([3254bd0](https://github.com/digidem/mapeo-desktop/commit/3254bd0))
+* Add translations / i18n ([e87d62b](https://github.com/digidem/mapeo-desktop/commit/e87d62b))
+* reload observations after sync ([f09243e](https://github.com/digidem/mapeo-desktop/commit/f09243e))
+* Remember window size and position ([cca4bc7](https://github.com/digidem/mapeo-desktop/commit/cca4bc7))
+* Show reload menu ([a22e448](https://github.com/digidem/mapeo-desktop/commit/a22e448))
+* sync with file ([0a92f4a](https://github.com/digidem/mapeo-desktop/commit/0a92f4a))
+* Translations ([a38678c](https://github.com/digidem/mapeo-desktop/commit/a38678c))
+* Update Home with persisted state and translations ([16c4d6d](https://github.com/digidem/mapeo-desktop/commit/16c4d6d))
+* Upgrade to electron v6 and electron-builder v21 ([c3796db](https://github.com/digidem/mapeo-desktop/commit/c3796db))
+* Use electron-log instead of custom solution ([c3e3da0](https://github.com/digidem/mapeo-desktop/commit/c3e3da0))
+* Use new MapFitler ([8e008b4](https://github.com/digidem/mapeo-desktop/commit/8e008b4))
+* Work with offline maps ([a314abd](https://github.com/digidem/mapeo-desktop/commit/a314abd))
+
 ## [4.1.0-beta.4](https://github.com/digidem/mapeo-desktop/compare/v4.1.0-beta.3...v4.1.0-beta.4) (2019-09-17)
 
 
