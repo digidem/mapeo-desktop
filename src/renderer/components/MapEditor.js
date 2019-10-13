@@ -77,7 +77,7 @@ const MapEditor = () => {
         .coreContext()
         .assetPath('node_modules/id-mapeo/dist/')
         .preauth({ url: serverUrl })
-        .minEditableZoom(14)
+        .minEditableZoom(window.localStorage.getItem('minEditableZoom') || 14)
 
       id.current.version = pkg.version
 
