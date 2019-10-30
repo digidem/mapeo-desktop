@@ -89,7 +89,7 @@ test('sync-file: create syncfile', function (t) {
     .then(() => setup.wait())
     .then(() => app.client.click('#menu-option-SyncView'))
     .then(() => setup.wait())
-    .then(() => fakeDialog.mock([{method: 'showSaveDialog', value: [testFile]}]))
+    .then(() => fakeDialog.mock([{ method: 'showSaveDialog', value: [testFile] }]))
     .then(() => app.client.click('#sync-new'))
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
@@ -104,7 +104,7 @@ test('sync-file: load syncfile', function (t) {
     .then(() => setup.wait())
     .then(() => app.client.click('#menu-option-SyncView'))
     .then(() => setup.wait())
-    .then(() => fakeDialog.mock([{method: 'showOpenDialog', value: [testFile]}]))
+    .then(() => fakeDialog.mock([{ method: 'showOpenDialog', value: [testFile] }]))
     .then(() => app.client.click('#sync-open'))
     .then(() => app.client.waitUntilTextExists('.info', 'completed'))
     .then(() => app.client.click('#sync-done'))

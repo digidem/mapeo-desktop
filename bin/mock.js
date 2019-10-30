@@ -158,7 +158,7 @@ function createMockData (count, cb) {
       hq.end(JSON.stringify(obs))
     }))
 
-    hq.end(JSON.stringify({original, thumbnail, preview}))
+    hq.end(JSON.stringify({ original, thumbnail, preview }))
   }
 }
 
