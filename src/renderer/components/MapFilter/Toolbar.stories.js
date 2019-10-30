@@ -2,7 +2,7 @@
 import React from 'react'
 import { StylesProvider } from '@material-ui/styles'
 
-import MapFilterToolbar from './Toolbar'
+// import MapFilterToolbar from './Toolbar'
 
 export default {
   title: 'MapFilter/components/Toolbar',
@@ -11,11 +11,11 @@ export default {
   ]
 }
 
-export const defaultStory = () => {
-  const [view, setView] = React.useState('map')
-  return <MapFilterToolbar view={view} onChange={setView} />
-}
+// export const defaultStory = () => {
+//   const [view, setView] = React.useState('map')
+//   return <MapFilterToolbar view={view} onChange={setView} />
+// }
 
-defaultStory.story = {
-  name: 'default'
-}
+// defaultStory.story = {
+//   name: 'default'
+// }
