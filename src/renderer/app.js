@@ -5,7 +5,7 @@ import { IntlProvider } from 'react-intl'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import theme from './theme'
-import Home from './components/HomeNew'
+import Home from './components/Home'
 
 const locale = navigator.language.slice(0, 2)
 

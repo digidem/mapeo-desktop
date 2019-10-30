@@ -1,13 +1,13 @@
 {
-  "renderer.components.HomeNew.mapeditor": {
+  "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
     "message": "Territorio"
   },
-  "renderer.components.HomeNew.mapfilter": {
+  "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
     "message": "Observaciones"
   },
-  "renderer.components.HomeNew.sync": {
+  "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
     "message": "Síncronizar"
   },
