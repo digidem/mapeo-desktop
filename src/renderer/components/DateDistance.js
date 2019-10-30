@@ -1,49 +1,61 @@
-import { useState, useEffect } from 'react'
-import { useIntl } from 'react-intl'
+import React from 'react'
+import { FormattedDate, FormattedRelativeTime } from 'react-intl'
 
-const second = 1000
-const minute = 60 * second
-const hour = 60 * minute
-const day = 24 * hour
 // We use relative dates for anything within the last 7 days, and then absolute
 // dates for anything else.
-const USE_WORDS_WITHIN = 7 * 24 * 60 * 60 * 1000 // 7 days
+const USE_WORDS_WITHIN_SECONDS = 4 * 24 * 60 * 60 // 4 days
+const MINUTE = 60
+const HOUR = 60 * 60
+const DAY = 60 * 60 * 24
 
-const DateDistance = ({ date = Date.now() }) => {
-  const { formatRelativeTime, formatDate } = useIntl()
-  const [distance, setDistance] = useState(Date.now() - date)
+const DateDistance = ({ date = new Date(), style }) => {
+  // Round distance to nearest 10 seconds
+  const distanceInSeconds = Math.floor((Date.now() - date) / 10000) * 10
 
-  useEffect(
-    () => {
-      if (distance > day) return
-      const timeout = distance < hour ? 30 * second : hour
-      const timeoutId = setTimeout(() => {
-        setDistance(Date.now() - date)
-      }, timeout)
-      return () => clearTimeout(timeoutId)
-    },
-    [date, distance]
-  )
+  const absValue = Math.abs(distanceInSeconds)
 
-  let text
-  if (distance < minute) {
-    text = 'ahorita'
-  } else if (distance <= hour) {
-    text = formatRelativeTime(Math.round(-distance / minute), 'minute', {
-      numeric: 'auto'
-    })
-  } else if (distance <= day) {
-    text = formatRelativeTime(Math.round(-distance / hour), 'hour', {
-      numeric: 'auto'
-    })
-  } else if (distance <= USE_WORDS_WITHIN) {
-    text = formatRelativeTime(Math.round(-distance / day), 'day', {
-      numeric: 'auto'
-    })
+  if (absValue > USE_WORDS_WITHIN_SECONDS) {
+    return (
+      <FormattedDate
+        value={date}
+        day='numeric'
+        month='long'
+        year='numeric'
+        hour='2-digit'
+        minute='2-digit'
+      />
+    )
+  } else if (absValue < MINUTE) {
+    return (
+      <FormattedRelativeTime
+        value={-distanceInSeconds}
+        numeric='auto'
+        updateIntervalInSeconds={5}
+      />
+    )
+  } else if (absValue < HOUR) {
+    return (
+      <FormattedRelativeTime
+        value={-Math.round(distanceInSeconds / MINUTE)}
+        unit='minute'
+        updateIntervalInSeconds={30}
+      />
+    )
+  } else if (absValue < DAY) {
+    return (
+      <FormattedRelativeTime
+        value={-Math.round(distanceInSeconds / HOUR)}
+        unit='hour'
+      />
+    )
   } else {
-    text = formatDate(date)
+    return (
+      <FormattedRelativeTime
+        value={-Math.round(distanceInSeconds / DAY)}
+        unit='day'
+      />
+    )
   }
-  return text
 }
 
 export default DateDistance
