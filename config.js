@@ -1,4 +1,3 @@
-var appConfig = require('application-config')('Mapeo')
 var path = require('path')
 
 var APP_NAME = 'Mapeo'
@@ -17,8 +16,6 @@ module.exports = {
   // AUTO_UPDATE_URL: 'https://webtorrent.io/desktop/update' +
   //  '?version=' + APP_VERSION + '&platform=' + process.platform,
 
-  CONFIG_PATH: getConfigPath(),
-
   GITHUB_URL: 'https://github.com/digidem/mapeo-desktop',
   GITHUB_URL_RAW: 'https://raw.githubusercontent.com/digidem/mapeo-desktop/master',
 
@@ -28,10 +25,6 @@ module.exports = {
   STATIC_PATH: path.join(__dirname, 'static'),
 
   WINDOW_MAIN: 'file://' + path.join(__dirname, 'renderer', 'main.html')
-}
-
-function getConfigPath () {
-  return path.dirname(appConfig.filePath)
 }
 
 function isProduction () {
