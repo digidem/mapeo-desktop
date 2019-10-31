@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/digidem/mapeo-desktop/compare/v4.2.0...v4.3.0) (2019-10-31)
+
+
+### Features
+
+* Add ability to delete observations (click 3 vertical-dots icon on Observation Dialog) ([e5879df](https://github.com/digidem/mapeo-desktop/commit/e5879df52f54ccf03712de4ae42ae0a954d8cbe3))
+* Add an error boundary to catch errors and show helpful message ([7a1f42f](https://github.com/digidem/mapeo-desktop/commit/7a1f42ff406b75feed69a4c69a05b6970b50d02a))
+* Add version number to left-panel ([7887da4](https://github.com/digidem/mapeo-desktop/commit/7887da4a0f68f60a17e092f3e4c89fab37b403a3))
+
+
+### Bug Fixes
+
+* Avoid crash on close if app has crashed before iD loads ([541d141](https://github.com/digidem/mapeo-desktop/commit/541d14153c96bd8e7105d5300523da762441f925))
+* Fix date distance i18n ([b738ec2](https://github.com/digidem/mapeo-desktop/commit/b738ec2e576c0dfebccd8afd35a251c35fc4cc53))
+* Fix strange bug causing Map accessToken error, resulting in crash ([7a3a08d](https://github.com/digidem/mapeo-desktop/commit/7a3a08d936fb6a41a59d250ba7a53dc95ded2db4))
+
 ## [4.2.0](https://github.com/digidem/mapeo-desktop/compare/v4.1.1...v4.2.0) (2019-10-13)
 
 
