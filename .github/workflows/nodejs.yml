@@ -55,7 +55,8 @@ jobs:
       #     GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Cleanup artifacts
         run: |
-          npx rimraf "dist/!(*.exe|*.deb|*.AppImage|*.dmg)"
+          npx rimraf 'dist/!(*.exe|*.deb|*.AppImage|*.dmg)'
+        shell: bash
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
