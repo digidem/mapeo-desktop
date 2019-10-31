@@ -131,7 +131,7 @@ const MapEditor = () => {
         // Electron does not prompt the user on this event, and iD saves changes
         // to local storage anyway, so we can just ignore it
         window.onbeforeunload = e => {
-          if (!id.current) return
+          if (!id.current || typeof id.current.context !== 'function') return
           id.current.context().save()
           // This guarantees that the unload continues
           delete e.returnValue
