@@ -74,6 +74,12 @@
     "description": "Label for field to enter map title",
     "message": ""
   },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": ""
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": ""
+  },
   "renderer.components.MapFilter.Toolbar.exportButton": {
     "message": ""
   },

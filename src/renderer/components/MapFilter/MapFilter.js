@@ -4,13 +4,22 @@ import { MapView, ReportView, MediaView } from 'react-mapfilter'
 import { ipcRenderer } from 'electron'
 import debounce from 'lodash/debounce'
 import logger from 'electron-timber'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import mapboxgl from 'mapbox-gl'
+import ErrorBoundary from 'react-error-boundary'
+import { Typography } from '@material-ui/core'
 
 import Toolbar from './Toolbar'
 import FilterPanel from './FilterPanel'
 import Loading from './Loading'
 import MapStyleProvider from './MapStyleProvider'
 import api from '../../new-api'
+
+const m = defineMessages({
+  errorTitle: 'Oh dear! An error has occurred',
+  errorDescription:
+    'The details below will be useful for finding a way to fix this…'
+})
 
 // This is very strange. Something to do with the bundling is stopping this
 // being set from within the react-mapbox-gl library. We need to set this here
@@ -54,6 +63,29 @@ function usePositionRef () {
   return useMemo(() => [position, setPosition], [setPosition])
 }
 
+const MyFallbackComponent = ({ componentStack, error }) => {
+  const cx = useStyles()
+  return (
+    <div className={cx.errorFallback}>
+      <Typography variant='h4' component='h1'>
+        <FormattedMessage {...m.errorTitle} />
+      </Typography>
+      <Typography>
+        <FormattedMessage {...m.errorDescription} />
+      </Typography>
+      <br />
+      <Typography variant='h6' component='h2'>
+        Error:
+      </Typography>
+      <Typography>{error.toString()}</Typography>
+      <Typography variant='h6' component='h2'>
+        Stacktrace:
+      </Typography>
+      <pre>{componentStack}</pre>
+    </div>
+  )
+}
+
 const FilterView = ({ view, ...props }) => {
   const cx = useStyles()
   const mapRef = useRef()
@@ -72,17 +104,17 @@ const FilterView = ({ view, ...props }) => {
     }
   }, [])
 
-  console.log(props)
-
   return (
     <div className={cx.viewWrapper}>
-      {view === 'report' ? (
-        <ReportView {...props} />
-      ) : view === 'media' ? (
-        <MediaView {...props} />
-      ) : (
-        <MapView ref={mapRef} {...props} />
-      )}
+      <ErrorBoundary FallbackComponent={MyFallbackComponent}>
+        {view === 'report' ? (
+          <ReportView {...props} />
+        ) : view === 'media' ? (
+          <MediaView {...props} />
+        ) : (
+          <MapView ref={mapRef} {...props} />
+        )}
+      </ErrorBoundary>
     </div>
   )
 }
@@ -285,7 +317,11 @@ const useStyles = makeStyles(theme => ({
       display: 'block'
     }
   },
-
+  errorFallback: {
+    backgroundColor: '#C00',
+    color: '#FFF',
+    padding: 10
+  },
   viewWrapper: {
     position: 'relative',
     flex: 1,

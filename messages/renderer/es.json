@@ -74,6 +74,12 @@
     "description": "Label for field to enter map title",
     "message": "Título de este mapa"
   },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "Los detalles abajo (en Inglés) pueden apoyar a resolver este error"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "Disculpas, hay un error"
+  },
   "renderer.components.MapFilter.Toolbar.exportButton": {
     "message": "Exportar"
   },
