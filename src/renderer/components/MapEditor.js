@@ -4,7 +4,6 @@ import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
 
-import pkg from '../../../package.json'
 import api from '../new-api'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -78,8 +77,6 @@ const MapEditor = () => {
         .assetPath('node_modules/id-mapeo/dist/')
         .preauth({ url: serverUrl })
         .minEditableZoom(window.localStorage.getItem('minEditableZoom') || 14)
-
-      id.current.version = pkg.version
 
       if (!customDefs.current) {
         customDefs.current = id.current

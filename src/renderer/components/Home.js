@@ -11,6 +11,7 @@ import {
   OfflineBolt as SyncIcon
 } from '@material-ui/icons'
 
+import pkg from '../../../package.json'
 import MapEditor from './MapEditor'
 import LatLonDialog from './dialogs/LatLon'
 import TitleBarShim from './TitleBarShim'
@@ -117,6 +118,13 @@ const StyledPanel = styled.div`
   }
 `
 
+const Version = styled.div`
+  align-self: flex-start;
+  margin: auto 10px 10px 10px;
+  font-size: 0.8rem;
+  color: #aaaaaa;
+`
+
 const focusStates = {
   entering: 'focusing',
   entered: 'focused',
@@ -181,6 +189,7 @@ export default function Home () {
           <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
           <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
         </StyledTabs>
+        <Version>Mapeo v{pkg.version}</Version>
       </Sidebar>
       <TabContent>
         <TabPanel value={tabIndex} index={0} component={MapEditor} />
