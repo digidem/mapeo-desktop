@@ -183,6 +183,26 @@ function useObservations () {
     [observations]
   )
 
+  const deleteObservation = useCallback(
+    id => {
+      api
+        .deleteObservation(id)
+        .then(() => {
+          const index = observations.findIndex(o => o.id === id)
+          if (index === -1) throw new Error('Observation not found')
+          const updatedObservations = [
+            ...observations.slice(0, index),
+            ...observations.slice(index + 1)
+          ]
+          setObservations(updatedObservations)
+        })
+        .catch(err => {
+          logger.error('error deleting observation', err)
+        })
+    },
+    [observations]
+  )
+
   function loadObservations () {
     api
       .getObservations()
@@ -213,8 +233,11 @@ function useObservations () {
   }, [])
 
   return useMemo(
-    () => [{ loading, error, observations }, { updateObservation }],
-    [loading, error, observations, updateObservation]
+    () => [
+      { loading, error, observations },
+      { updateObservation, deleteObservation }
+    ],
+    [loading, error, observations, updateObservation, deleteObservation]
   )
 }
 
@@ -226,7 +249,7 @@ const MapFilter = () => {
 
   const [
     { observationsLoading, observationsError, observations },
-    { updateObservation }
+    { updateObservation, deleteObservation }
   ] = useObservations()
   const {
     presets,
@@ -272,6 +295,7 @@ const MapFilter = () => {
               observations={observations}
               presets={presets}
               onUpdateObservation={updateObservation}
+              onDeleteObservation={deleteObservation}
               getMediaUrl={api.getMediaUrl}
               getIconUrl={api.getIconUrl}
               mapStyle={styleUrl}
