@@ -4,6 +4,7 @@ import { MapView, ReportView, MediaView } from 'react-mapfilter'
 import { ipcRenderer } from 'electron'
 import debounce from 'lodash/debounce'
 import logger from 'electron-timber'
+import mapboxgl from 'mapbox-gl'
 
 import Toolbar from './Toolbar'
 import FilterPanel from './FilterPanel'
@@ -11,8 +12,11 @@ import Loading from './Loading'
 import MapStyleProvider from './MapStyleProvider'
 import api from '../../new-api'
 
-const MAPBOX_ACCESS_TOKEN =
-  'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
+// This is very strange. Something to do with the bundling is stopping this
+// being set from within the react-mapbox-gl library. We need to set this here
+// to force mapbox to understand the accessToken is set
+const MAPBOX_ACCESS_TOKEN = (mapboxgl.accessToken =
+  'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg')
 
 /**
  * Using normal state for this causes performance issues because it causes React
@@ -67,6 +71,8 @@ const FilterView = ({ view, ...props }) => {
       ipcRenderer.removeListener('zoom-to-data-observation', zoomToData)
     }
   }, [])
+
+  console.log(props)
 
   return (
     <div className={cx.viewWrapper}>

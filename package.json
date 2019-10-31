@@ -89,7 +89,7 @@
     "insert-css": "^1.0.0",
     "ky": "^0.14.0",
     "lodash": "^4.17.4",
-    "mapbox-gl": "^1.4.0",
+    "mapbox-gl": "^1.4.1",
     "mapeo-server": "^16.1.1",
     "mapeo-styles": "^3.0.0",
     "minimist": "^1.2.0",
