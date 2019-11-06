@@ -11,6 +11,78 @@ const m = defineMessages({
   'feedback-contribute-button': 'Feedback & Contribute'
 })
 
+// iD Editor style overrides
+insertCss(`
+  .id-container .header {
+    height: 64px;
+  }
+  .id-container .pane {
+    bottom: 0;
+  }
+  .id-container .pane {
+    display: none;
+  }
+  .id-container .entity-editor-pane .inspector-body, .id-container .selection-list-pane .inspector-body {
+    top: 64px;
+  }
+  .id-container #bar {
+    height: 64px;
+    background-color: white;
+    padding: 0 8px 0 8px;
+    align-items: center;
+  }
+  .id-container #bar .toolbar-item .item-label {
+    display: none;
+  }
+  .id-container #bar .toolbar-item .item-content {
+    flex: 1;
+    display: inline-flex;
+    border-radius: 4px;
+  }
+  .id-container #bar .toolbar-item.sidebar-toggle {
+    display: none;
+  }
+  .id-container #bar > .toolbar-item.spacer:nth-child(2) {
+    display: none;
+  }
+  .id-container button.bar-button {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: rgba(0,0,0,0);
+    height: 44px;
+    font-family: Rubik, sans-serif;
+    font-weight: 500;
+    line-height: 1.75;
+    font-size: 0.875rem;
+    padding: 0 16px;
+  }
+  .id-container [dir='ltr'] .add-point .tooltip {
+    left: 0 !important;
+  }
+  .id-container [dir='ltr'] .add-point .tooltip .tooltip-arrow {
+    left: 20px;
+  }
+  .id-container button.bar-button.active {
+    background-color: #7092ff;
+  }
+  .id-container button.bar-button:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .id-container button.bar-button:not(:first-child) {
+    border-left: 1px solid transparent;
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .id-container .joined > *:last-child {
+    border-right-width: 1px;
+  }
+  .id-container button.save .count {
+    min-width: auto;
+    padding-left: 8px
+  }
+`)
+
 const { localStorage, location } = window
 
 const MapEditor = () => {

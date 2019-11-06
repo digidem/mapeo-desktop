@@ -84,7 +84,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   toolbar: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    padding: '0 12px'
   },
   tabItem: {
     height: '44px',
