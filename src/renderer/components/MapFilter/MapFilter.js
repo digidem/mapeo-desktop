@@ -14,6 +14,9 @@ import FilterPanel from './FilterPanel'
 import Loading from './Loading'
 import MapStyleProvider from './MapStyleProvider'
 import api from '../../new-api'
+import MapExportDialog from './MapExportDialog'
+import GeoJsonExportDialog from './GeoJsonExportDialog'
+import ExportButton from './ExportButton'
 
 const m = defineMessages({
   errorTitle: 'Oh dear! An error has occurred',
@@ -246,6 +249,7 @@ const MapFilter = () => {
   const [view, setView] = useState('map')
   const [filter, setFilter] = useState(null)
   const [position, setPosition] = usePositionRef()
+  const [dialog, setDialog] = useState(null)
 
   const [
     { observationsLoading, observationsError, observations },
@@ -282,10 +286,7 @@ const MapFilter = () => {
         <Toolbar
           view={view}
           onChange={setView}
-          observations={observations}
-          filter={filter}
-          presets={presets}
-          getMediaUrl={api.getMediaUrl}
+          actionRight={<ExportButton onExport={setDialog} />}
         />
         <MapStyleProvider>
           {styleUrl => (
@@ -308,6 +309,22 @@ const MapFilter = () => {
           )}
         </MapStyleProvider>
       </div>
+      <MapExportDialog
+        open={dialog === 'map'}
+        onClose={() => setDialog(null)}
+        observations={observations}
+        filter={filter}
+        presets={presets}
+        getMediaUrl={api.getMediaUrl}
+      />
+      <GeoJsonExportDialog
+        open={dialog === 'geojson'}
+        onClose={() => setDialog(null)}
+        observations={observations}
+        filter={filter}
+        presets={presets}
+        getMediaUrl={api.getMediaUrl}
+      />
     </div>
   )
 }

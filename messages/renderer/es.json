@@ -14,6 +14,15 @@
   "renderer.components.MapEditor.feedback-contribute-button": {
     "message": ""
   },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "Exportar Datos"
+  },
+  "renderer.components.MapFilter.ExportButton.exportGeoJson": {
+    "message": "Exportar GeoJSON…"
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "Exportar mapa para Web…"
+  },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
     "message": "Filtrar datos…"
   },
@@ -79,15 +88,6 @@
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Disculpas, hay un error"
-  },
-  "renderer.components.MapFilter.Toolbar.exportButton": {
-    "message": "Exportar"
-  },
-  "renderer.components.MapFilter.Toolbar.exportGeoJson": {
-    "message": "Exportar GeoJSON…"
-  },
-  "renderer.components.MapFilter.Toolbar.exportMap": {
-    "message": "Exportar mapa para Web…"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"

@@ -14,6 +14,15 @@
   "renderer.components.MapEditor.feedback-contribute-button": {
     "message": ""
   },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": ""
+  },
+  "renderer.components.MapFilter.ExportButton.exportGeoJson": {
+    "message": ""
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": ""
+  },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
     "message": ""
   },
@@ -78,15 +87,6 @@
     "message": ""
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
-    "message": ""
-  },
-  "renderer.components.MapFilter.Toolbar.exportButton": {
-    "message": ""
-  },
-  "renderer.components.MapFilter.Toolbar.exportGeoJson": {
-    "message": ""
-  },
-  "renderer.components.MapFilter.Toolbar.exportMap": {
     "message": ""
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
