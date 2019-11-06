@@ -52,6 +52,7 @@ const Sidebar = styled.div`
   -webkit-user-select: none;
   background-color: #000033;
   color: white;
+  z-index: 99;
   @media only print {
     display: none;
   }
