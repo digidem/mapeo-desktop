@@ -4,6 +4,7 @@ var path = require('path')
 var minimist = require('minimist')
 var electron = require('electron')
 const isDev = require('electron-is-dev')
+const contextMenu = require('electron-context-menu')
 var app = electron.app
 var BrowserWindow = electron.BrowserWindow
 
@@ -37,6 +38,13 @@ debug({ showDevTools: false })
 
 var win = null
 var splash = null
+
+contextMenu({
+  showLookUpSelection: false,
+  showCopyImage: true,
+  showSaveImageAs: true,
+  showInspectElement: isDev
+})
 
 var gotTheLock = app.requestSingleInstanceLock()
 
