@@ -71,7 +71,7 @@ const SyncView = ({ focusState }) => {
         onClickSelectSyncfile={handleClickSelectSyncfile}
         onClickNewSyncfile={handleClickNewSyncfile}
       />
-      {peers.length === 0 ? (
+      {peers.length === 0 && focusState === 'focused' ? (
         <Searching />
       ) : (
         <SyncGrid>
