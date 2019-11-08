@@ -74,7 +74,6 @@
     "@material-ui/core": "^4.5.2",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "^4.5.2",
-    "archiver": "^3.1.1",
     "asar": "^1.0.0",
     "clsx": "^1.0.4",
     "core-js": "^3.3.5",
@@ -95,6 +94,7 @@
     "mapeo-styles": "^3.0.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
+    "once": "^1.4.0",
     "osm-p2p": "^4.0.0",
     "osm-p2p-server": "^5.0.0",
     "pump": "^1.0.3",
@@ -105,12 +105,14 @@
     "react-mapfilter": "^3.0.0-beta.12",
     "react-transition-group": "^4.3.0",
     "request": "^2.88.0",
+    "run-parallel-limit": "^1.0.5",
     "run-series": "^1.1.4",
     "safe-fs-blob-store": "^1.0.0",
     "styled-components": "^3.4.4",
     "subleveldown": "^3.0.1",
     "tar-fs": "^1.16.0",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "yazl": "^2.5.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",

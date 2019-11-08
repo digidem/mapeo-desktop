@@ -7,14 +7,15 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { TextField, DialogContentText } from '@material-ui/core'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
-import archiver from 'archiver'
 import logger from 'electron-timber'
 import fs from 'fs'
 import path from 'path'
-import request from 'request'
 import { remote } from 'electron'
+import pump from 'pump'
 
 import ViewWrapper from 'react-mapfilter/commonjs/ViewWrapper'
+
+import createZip from '../../create-zip'
 
 const msgs = defineMessages({
   // Title for webmaps export dialog
@@ -79,58 +80,40 @@ const EditDialogContent = ({
           path.basename(filepath, '.mapeomap') + '.mapeomap'
         )
         createArchive(filepathWithExtension, err => {
-          console.log('done', err)
+          if (err) {
+            logger.error('Failed to create archive', err)
+          } else {
+            logger.log('Successfully created map archive')
+          }
           handleClose()
         })
       }
     )
 
     function createArchive (filepath, cb) {
-      var output = fs.createWriteStream(filepath)
+      const output = fs.createWriteStream(filepath)
 
-      var archive = archiver('zip', {
-        zlib: { level: 9 } // Sets the compression level.
-      })
-
-      output.on('end', function () {
-        console.log('Data has been drained')
-      })
-
-      // listen for all archive data to be written
-      // 'close' event is fired only when a file descriptor is involved
-      output.on('close', function () {
-        logger.log('Exported map ' + archive.pointer() + ' total bytes')
-        cb()
-      })
-
-      archive.on('warning', err => {
-        if (err.code === 'ENOENT') {
-          logger.warn(err)
-        } else {
-          cb(err)
+      const localFiles = [
+        {
+          data: JSON.stringify(points, null, 2),
+          metadataPath: 'points.json'
+        },
+        {
+          data: JSON.stringify(metadata, null, 2),
+          metadataPath: 'metadata.json'
         }
-      })
+      ]
 
-      archive.on('error', err => {
-        cb(err)
-      })
+      const remoteFiles = points.features
+        .filter(point => point.properties.image)
+        .map(point => ({
+          url: getMediaUrl(point.properties.image, 'original'),
+          metadataPath: 'images/' + point.properties.image
+        }))
 
-      archive.pipe(output)
+      const archive = createZip(localFiles, remoteFiles)
 
-      archive.append(JSON.stringify(points, null, 2), { name: 'points.json' })
-      archive.append(JSON.stringify(metadata, null, 2), {
-        name: 'metadata.json'
-      })
-
-      points.features.forEach(point => {
-        const imageId = point.properties.image
-        if (!imageId) return
-        const imageStream = request(getMediaUrl(imageId, 'original'))
-        imageStream.on('error', console.error)
-        archive.append(imageStream, { name: 'images/' + imageId })
-      })
-
-      archive.finalize()
+      pump(archive, output, cb)
     }
   }
 
