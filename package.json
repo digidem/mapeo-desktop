@@ -87,6 +87,7 @@
     "electron-store": "^5.0.0",
     "electron-timber": "^0.5.1",
     "flat": "^5.0.0",
+    "fs-write-stream-atomic": "^1.0.10",
     "html-react-parser": "^0.9.1",
     "id-mapeo": "^3.1.1",
     "insert-css": "^1.0.0",

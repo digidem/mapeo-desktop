@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import { TextField, DialogContentText } from '@material-ui/core'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import logger from 'electron-timber'
-import fs from 'fs'
+import fsWriteStreamAtomic from 'fs-write-stream-atomic'
 import path from 'path'
 import { remote } from 'electron'
 import pump from 'pump'
@@ -71,7 +71,7 @@ const EditDialogContent = ({
       {
         title: 'Guardar Mapa',
         defaultPath: 'mapa-para-web',
-        filters: [{ extensions: ['mapeomap'] }]
+        filters: [{ name: 'Mapeo Webmap Package', extensions: ['mapeomap'] }]
       },
       filepath => {
         const filepathWithExtension = path.join(
@@ -90,7 +90,7 @@ const EditDialogContent = ({
     )
 
     function createArchive (filepath, cb) {
-      const output = fs.createWriteStream(filepath)
+      const output = fsWriteStreamAtomic(filepath)
 
       const localFiles = [
         {

@@ -20,6 +20,7 @@ import { fromLatLon } from 'utm'
 import { remote } from 'electron'
 import path from 'path'
 import fs from 'fs'
+import fsWriteStreamAtomic from 'fs-write-stream-atomic'
 import pump from 'pump'
 
 import createZip from '../../create-zip'
@@ -109,19 +110,17 @@ const ExportDialogContent = ({
         break
     }
 
-    const saveExt = '.' + (values.photos === 'none' ? ext : 'zip')
-
+    const saveExt = values.photos === 'none' ? ext : 'zip'
     remote.dialog.showSaveDialog(
       {
         title: t(msgs.title),
-        defaultPath: t(msgs.defaultExportFilename),
-        filters: [{ extensions: [saveExt] }]
+        defaultPath: t(msgs.defaultExportFilename) + '.' + saveExt,
+        filters: [{ name: saveExt + ' files', extensions: [saveExt] }]
       },
       filepath => {
-        console.log('saveExtg', saveExt, path.basename(filepath, saveExt))
         const filepathWithExtension = path.join(
           path.dirname(filepath),
-          path.basename(filepath, saveExt) + saveExt
+          path.basename(filepath, '.' + saveExt) + '.' + saveExt
         )
         onSelectFile(filepathWithExtension)
       }
@@ -153,7 +152,7 @@ const ExportDialogContent = ({
         url: getMediaUrl(id, values.photos),
         metadataPath: 'images/' + id
       }))
-      const output = fs.createWriteStream(filepath)
+      const output = fsWriteStreamAtomic(filepath)
       const archive = createZip(localFiles, remoteFiles)
 
       pump(archive, output, err => {
