@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/digidem/mapeo-desktop/compare/v4.3.0...v4.4.0) (2019-11-08)
+
+
+### Features
+
+* **UI:** Style toolbar in iD Editor to match MapFilter toolbar ([e39509d](https://github.com/digidem/mapeo-desktop/commit/e39509d59de0e64bcfac1103a03c0ac3aab6cbb6))
+* 🚀 Export observations to GeoJSON, CSV, Smart CSV with option to include photos ([67b7b81](https://github.com/digidem/mapeo-desktop/commit/67b7b811e9e2155d1a7764ab30cb9ea987fe7e75))
+* Add right-click menu for copy/paste text and save/copy image ([4416740](https://github.com/digidem/mapeo-desktop/commit/4416740652a1713a6ce8750a6d9e3605b2dd4679))
+
+
+### Bug Fixes
+
+* **perf:** Don't show searching animation when sync tab is hidden ([4bbe8e0](https://github.com/digidem/mapeo-desktop/commit/4bbe8e0f5aba1a602a01ab37292ab5c80723571c))
+* **UX:** Fix sidebar buttons not working when iD is showing a dialog ([4f477f4](https://github.com/digidem/mapeo-desktop/commit/4f477f4f73154015f58f64d3f01c24a8dfb4efb7))
+* Disable form inputs during export saving TODO: Add progress bar ([c2ebc3a](https://github.com/digidem/mapeo-desktop/commit/c2ebc3ae92f7cf023aa3b330cf23e21118479ecf))
+* Don't include broken files for missing images in Webmap export ([5ec2554](https://github.com/digidem/mapeo-desktop/commit/5ec2554cca8ff27ce11bb388a9e6e1840ec260c4))
+* Save exports with atomic write stream to avoid problems with half-written files ([cb8acee](https://github.com/digidem/mapeo-desktop/commit/cb8acee70f10d15cf87466da9e12e630d4bf32e3))
+* Use Windows line-endings in exported text files ([089e774](https://github.com/digidem/mapeo-desktop/commit/089e7748c00e6e480f8b3b0b7d48a56a661b39e7))
+
 ## [4.3.0](https://github.com/digidem/mapeo-desktop/compare/v4.2.0...v4.3.0) (2019-10-31)
 
 
