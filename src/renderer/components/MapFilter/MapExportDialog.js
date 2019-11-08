@@ -135,6 +135,7 @@ const EditDialogContent = ({
           variant='outlined'
           onChange={e => setTitle(e.target.value)}
           margin='normal'
+          disabled={saving}
         />
         <TextField
           label={formatMessage(msgs.descriptionLabel)}
@@ -145,6 +146,7 @@ const EditDialogContent = ({
           multiline
           variant='outlined'
           margin='normal'
+          disabled={saving}
           onChange={e => setDescription(e.target.value)}
         />
         {/**

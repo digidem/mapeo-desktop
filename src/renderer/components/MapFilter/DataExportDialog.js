@@ -187,6 +187,7 @@ const ExportDialogContent = ({
                 value={values.format}
                 onChange={handleChange('format')}
                 className={classes.select}
+                disabled={saving}
               >
                 <MenuItem value='geojson'>GeoJSON</MenuItem>
                 <MenuItem value='csv'>CSV</MenuItem>
@@ -203,6 +204,7 @@ const ExportDialogContent = ({
                 value={values.include}
                 onChange={handleChange('include')}
                 className={classes.select}
+                disabled={saving}
               >
                 <MenuItem value='all'>
                   <FormattedMessage
@@ -233,6 +235,7 @@ const ExportDialogContent = ({
                 value={values.photos}
                 onChange={handleChange('photos')}
                 className={classes.select}
+                disabled={saving}
               >
                 <MenuItem value='none'>
                   <FormattedMessage {...msgs.includePhotosNone} />
