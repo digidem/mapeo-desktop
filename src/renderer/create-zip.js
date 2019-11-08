@@ -57,7 +57,10 @@ export default function createZip (localFiles, remoteFiles) {
   run(tasks, concurrency, (...args) => {
     console.log('Downloaded images in ' + (Date.now() - start) + 'ms')
     if (missing.length) {
-      zipfile.addBuffer(Buffer.from(missing.join('\n') + '\n'), 'missing.txt')
+      zipfile.addBuffer(
+        Buffer.from(missing.join('\r\n') + '\r\n'),
+        'missing.txt'
+      )
     }
     zipfile.end()
   })
