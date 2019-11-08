@@ -13,6 +13,12 @@ export default {
   ]
 }
 
+function getMediaUrl (id) {
+  const size = 400
+  const idx = parseInt(id, 16)
+  return `https://picsum.photos/id/${+idx % 80}/${size}/${size}`
+}
+
 export const defaultStory = () => {
   return (
     <DataExportDialog
@@ -20,6 +26,7 @@ export const defaultStory = () => {
       onClose={action('close')}
       onSave={action('save')}
       observations={exampleObservations}
+      getMediaUrl={getMediaUrl}
     />
   )
 }
@@ -30,6 +37,11 @@ defaultStory.story = {
 
 export const noData = () => {
   return (
-    <DataExportDialog open onClose={action('close')} onSave={action('save')} />
+    <DataExportDialog
+      open
+      onClose={action('close')}
+      onSave={action('save')}
+      getMediaUrl={getMediaUrl}
+    />
   )
 }
