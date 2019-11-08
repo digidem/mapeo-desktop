@@ -14,37 +14,74 @@
   "renderer.components.MapEditor.feedback-contribute-button": {
     "message": ""
   },
+  "renderer.components.MapFilter.DataExportDialog.cancel": {
+    "description": "cancel button",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.close": {
+    "description": "Close button (shown if user has no data to export)",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.format": {
+    "description": "Label for data format selector",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.noData": {
+    "description": "Shown when there is no data to export",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.save": {
+    "description": "Save button",
+    "message": ""
+  },
+  "renderer.components.MapFilter.DataExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": ""
+  },
   "renderer.components.MapFilter.ExportButton.exportButton": {
     "message": ""
   },
-  "renderer.components.MapFilter.ExportButton.exportGeoJson": {
+  "renderer.components.MapFilter.ExportButton.exportData": {
     "message": ""
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": ""
   },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
-    "message": ""
-  },
-  "renderer.components.MapFilter.GeoJsonExportDialog.cancel": {
-    "description": "cancel button",
-    "message": ""
-  },
-  "renderer.components.MapFilter.GeoJsonExportDialog.exportAll": {
-    "message": ""
-  },
-  "renderer.components.MapFilter.GeoJsonExportDialog.exportFiltered": {
-    "message": ""
-  },
-  "renderer.components.MapFilter.GeoJsonExportDialog.filteredOrAll": {
-    "message": ""
-  },
-  "renderer.components.MapFilter.GeoJsonExportDialog.save": {
-    "description": "Save button",
-    "message": ""
-  },
-  "renderer.components.MapFilter.GeoJsonExportDialog.title": {
-    "description": "Title for webmaps export dialog",
     "message": ""
   },
   "renderer.components.MapFilter.Loading.loading": {

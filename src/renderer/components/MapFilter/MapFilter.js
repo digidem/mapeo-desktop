@@ -15,7 +15,7 @@ import Loading from './Loading'
 import MapStyleProvider from './MapStyleProvider'
 import api from '../../new-api'
 import MapExportDialog from './MapExportDialog'
-import GeoJsonExportDialog from './GeoJsonExportDialog'
+import DataExportDialog from './DataExportDialog'
 import ExportButton from './ExportButton'
 
 const m = defineMessages({
@@ -317,8 +317,8 @@ const MapFilter = () => {
         presets={presets}
         getMediaUrl={api.getMediaUrl}
       />
-      <GeoJsonExportDialog
-        open={dialog === 'geojson'}
+      <DataExportDialog
+        open={dialog === 'data'}
         onClose={() => setDialog(null)}
         observations={observations}
         filter={filter}

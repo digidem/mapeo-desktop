@@ -39,7 +39,6 @@ const msgs = defineMessages({
 // const defaultMapStyle = 'mapbox://styles/mapbox/outdoors-v11'
 
 const EditDialogContent = ({
-  open,
   observations,
   getPreset,
   getMediaUrl,
@@ -118,44 +117,37 @@ const EditDialogContent = ({
   }
 
   return (
-    <Dialog
-      fullWidth
-      open={open}
-      onClose={handleClose}
-      scroll='body'
-      aria-labelledby='responsive-dialog-title'
-    >
-      <form noValidate autoComplete='off'>
-        <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
-          <FormattedMessage {...msgs.title} />
-        </DialogTitle>
+    <form noValidate autoComplete='off'>
+      <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
+        <FormattedMessage {...msgs.title} />
+      </DialogTitle>
 
-        <DialogContent className={classes.content}>
-          <DialogContentText>
-            {`Vas a exportar ${
-              observations.length
-            } puntos a un mapa para compartir por internet.`}
-          </DialogContentText>
-          <TextField
-            label={formatMessage(msgs.titleLabel)}
-            value={title}
-            fullWidth
-            variant='outlined'
-            onChange={e => setTitle(e.target.value)}
-            margin='normal'
-          />
-          <TextField
-            label={formatMessage(msgs.descriptionLabel)}
-            value={description}
-            fullWidth
-            rows={3}
-            rowsMax={6}
-            multiline
-            variant='outlined'
-            margin='normal'
-            onChange={e => setDescription(e.target.value)}
-          />
-          {/**
+      <DialogContent className={classes.content}>
+        <DialogContentText>
+          {`Vas a exportar ${
+            observations.length
+          } puntos a un mapa para compartir por internet.`}
+        </DialogContentText>
+        <TextField
+          label={formatMessage(msgs.titleLabel)}
+          value={title}
+          fullWidth
+          variant='outlined'
+          onChange={e => setTitle(e.target.value)}
+          margin='normal'
+        />
+        <TextField
+          label={formatMessage(msgs.descriptionLabel)}
+          value={description}
+          fullWidth
+          rows={3}
+          rowsMax={6}
+          multiline
+          variant='outlined'
+          margin='normal'
+          onChange={e => setDescription(e.target.value)}
+        />
+        {/**
             <TextField
             label={formatMessage(msgs.termsLabel)}
             helperText={formatMessage(msgs.termsHint)}
@@ -189,24 +181,23 @@ const EditDialogContent = ({
             onChange={e => setMapStyle(e.target.value)}
           />
           */}
-        </DialogContent>
+      </DialogContent>
 
-        <DialogActions>
-          <Button disabled={saving} onClick={handleClose}>
-            {formatMessage(msgs.cancel)}
-          </Button>
-          <Button
-            disabled={saving}
-            onClick={handleSave}
-            color='primary'
-            variant='contained'
-            type='submit'
-          >
-            {formatMessage(msgs.save)}
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+      <DialogActions>
+        <Button disabled={saving} onClick={handleClose}>
+          {formatMessage(msgs.cancel)}
+        </Button>
+        <Button
+          disabled={saving}
+          onClick={handleSave}
+          color='primary'
+          variant='contained'
+          type='submit'
+        >
+          {formatMessage(msgs.save)}
+        </Button>
+      </DialogActions>
+    </form>
   )
 }
 
@@ -215,24 +206,37 @@ export default function EditDialog ({
   presets,
   filter,
   getMediaUrl,
+  onClose,
+  open,
   ...otherProps
 }) {
   return (
-    <ViewWrapper
-      observations={observations}
-      presets={presets}
-      filter={filter}
-      getMediaUrl={getMediaUrl}
+    <Dialog
+      fullWidth
+      open={open}
+      onClose={onClose}
+      scroll='body'
+      aria-labelledby='responsive-dialog-title'
     >
-      {({ onClickObservation, filteredObservations, getPreset }) => (
-        <EditDialogContent
-          observations={filteredObservations}
-          getPreset={getPreset}
+      {open && (
+        <ViewWrapper
+          observations={observations}
+          presets={presets}
+          filter={filter}
           getMediaUrl={getMediaUrl}
-          {...otherProps}
-        />
+        >
+          {({ onClickObservation, filteredObservations, getPreset }) => (
+            <EditDialogContent
+              observations={filteredObservations}
+              getPreset={getPreset}
+              getMediaUrl={getMediaUrl}
+              onClose={onClose}
+              {...otherProps}
+            />
+          )}
+        </ViewWrapper>
       )}
-    </ViewWrapper>
+    </Dialog>
   )
 }
 

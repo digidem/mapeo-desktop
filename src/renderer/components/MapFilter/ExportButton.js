@@ -1,7 +1,7 @@
 import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
-import ExportIcon from '@material-ui/icons/SaveAlt'
+import ExportIcon from '@material-ui/icons/MoreVert'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -9,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 const m = defineMessages({
   exportButton: 'Export data',
   exportMap: 'Export Webmap…',
-  exportGeoJson: 'Export GeoJSON…'
+  exportData: 'Export Data…'
 })
 
 const ExportButton = ({ onExport }) => {
@@ -47,8 +47,8 @@ const ExportButton = ({ onExport }) => {
         <MenuItem onClick={handleMenuItemClick('map')}>
           <FormattedMessage {...m.exportMap} />
         </MenuItem>
-        <MenuItem onClick={handleMenuItemClick('geojson')}>
-          <FormattedMessage {...m.exportGeoJson} />
+        <MenuItem onClick={handleMenuItemClick('data')}>
+          <FormattedMessage {...m.exportData} />
         </MenuItem>
       </Menu>
     </>
