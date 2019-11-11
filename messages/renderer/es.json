@@ -12,7 +12,7 @@
     "message": "Síncronizar"
   },
   "renderer.components.MapEditor.feedback-contribute-button": {
-    "message": ""
+    "message": "Feedback & Contribute"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
@@ -102,15 +102,15 @@
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": ""
+    "message": "Map Style"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": ""
+    "message": "Add terms & limitations about how this data can be used"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": ""
+    "message": "Terms & Limitations"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
