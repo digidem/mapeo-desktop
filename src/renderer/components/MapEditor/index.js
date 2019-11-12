@@ -1,11 +1,13 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { ipcRenderer, remote, shell } from 'electron'
 import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
 
-import api from '../new-api'
+import api from '../../new-api'
 import { defineMessages, useIntl } from 'react-intl'
+import ExportButton from './ExportButton'
 
 const m = defineMessages({
   'feedback-contribute-button': 'Feedback & Contribute'
@@ -86,10 +88,11 @@ insertCss(`
 const { localStorage, location } = window
 
 const MapEditor = () => {
-  const ref = React.useRef()
+  const rootRef = React.useRef()
   const id = React.useRef()
   const customDefs = React.useRef()
   const { formatMessage: t } = useIntl()
+  const [toolbarEl, setToolbarEl] = React.useState()
 
   const zoomToData = React.useCallback((_, loc) => {
     if (!id.current) return
@@ -140,7 +143,7 @@ const MapEditor = () => {
 
   React.useLayoutEffect(
     function initIdEditor () {
-      if (!ref.current) return
+      if (!rootRef.current) return
       updateSettings()
 
       var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
@@ -163,7 +166,7 @@ const MapEditor = () => {
         customDefs.current.append('svg')
       }
 
-      id.current.ui()(ref.current, function onLoad () {
+      id.current.ui()(rootRef.current, function onLoad () {
         var links = document.querySelectorAll('.id-container a[href^="http"]')
         links.forEach(function (link) {
           var href = link.getAttribute('href')
@@ -180,6 +183,11 @@ const MapEditor = () => {
         if (contributeBtn) {
           contributeBtn.innerHTML = t(m['feedback-contribute-button'])
         }
+
+        // Add custom buttons to toolbar
+        const toolbar = id.current.container().select('#bar')
+        toolbar.append('div').attr('class', 'toolbar-item spacer')
+        setToolbarEl(toolbar.append('div').node())
 
         // Update label on map move
         var aboutList = id.current.container().select('#about-list')
@@ -246,7 +254,8 @@ const MapEditor = () => {
 
   return (
     <div className='id-container'>
-      <div ref={ref} />
+      <div ref={rootRef} />
+      {toolbarEl && ReactDOM.createPortal(<ExportButton />, toolbarEl)}
     </div>
   )
 }

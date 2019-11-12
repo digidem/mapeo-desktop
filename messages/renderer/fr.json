@@ -64,7 +64,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
     "description": "Default filename for exported data",
-    "message": "mapeo-data"
+    "message": "mapeo-observation-data"
   },
   "renderer.components.MapFilter.DataExportDialog.exportAll": {
     "message": "All {count} observations"
@@ -113,10 +113,10 @@
     "message": "Export Observations"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "Export data"
+    "message": "Export Observation Data"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
-    "message": "Export Data…"
+    "message": "Export Observations…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "Export Webmap…"

@@ -8,6 +8,8 @@ var http = require('http')
 var logger = require('electron-timber')
 var throttle = require('lodash/throttle')
 
+var userConfig = require('./user-config')
+
 module.exports = function (osm, media, sendIpc, opts) {
   if (!opts) opts = {}
   var osmRouter = createOsmRouter(osm)
@@ -55,6 +57,7 @@ module.exports = function (osm, media, sendIpc, opts) {
       mapeoCore.sync.on('peer', onNewPeer)
       mapeoCore.sync.on('down', throttledSendPeerUpdate)
       ipcMain.on('sync-start', startSync)
+      ipcMain.on('export-data', exportData)
       origListen.apply(server, args)
     })
   }
@@ -112,10 +115,18 @@ module.exports = function (osm, media, sendIpc, opts) {
     watchSync(sync)
   }
 
+  function exportData (event, { filename, format, id }) {
+    const presets = userConfig.getSettings('presets') || {}
+    mapeoCore.exportData(filename, { format, presets }, err => {
+      sendIpc('export-data-' + id, err)
+    })
+  }
+
   server.close = function close (cb) {
     mapeoCore.sync.removeListener('peer', onNewPeer)
     mapeoCore.sync.removeListener('down', throttledSendPeerUpdate)
     ipcMain.removeListener('start-sync', startSync)
+    ipcMain.removeListener('export-data', exportData)
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb))
     })

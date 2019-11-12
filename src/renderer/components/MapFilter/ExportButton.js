@@ -7,9 +7,9 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
 const m = defineMessages({
-  exportButton: 'Export data',
+  exportButton: 'Export Observation Data',
   exportMap: 'Export Webmap…',
-  exportData: 'Export Data…'
+  exportData: 'Export Observations…'
 })
 
 const ExportButton = ({ onExport }) => {
