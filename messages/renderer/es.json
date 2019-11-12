@@ -13,7 +13,7 @@
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
-    "message": "Cerrar"
+    "message": "Close"
   },
   "renderer.components.MapEditor.ExportButton.defaultFilename": {
     "description": "Default filename for map export",
@@ -142,15 +142,15 @@
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": "Estilo de mapa"
+    "message": "Map Style"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": "Añadir términos y limitaciones sobre cómo se pueden utilizar estos datos"
+    "message": "Add terms & limitations about how this data can be used"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": "Términos y limitaciones"
+    "message": "Terms & Limitations"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
