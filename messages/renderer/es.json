@@ -30,7 +30,7 @@
     "message": "Todas las observaciones ({count})"
   },
   "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
-    "message": "{count} observationes filtradas"
+    "message": "{count} observaciones filtradas"
   },
   "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
@@ -62,7 +62,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.noData": {
     "description": "Shown when there is no data to export",
-    "message": "No tienes datos para exportar todavía"
+    "message": "No tienes datos para exportar todavía."
   },
   "renderer.components.MapFilter.DataExportDialog.save": {
     "description": "Save button",
@@ -121,7 +121,7 @@
     "message": "Título de este mapa"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
-    "message": "Los detalles abajo (en Inglés) pueden apoyar a resolver este error"
+    "message": "Los detalles abajo (en Inglés) pueden apoyar a resolver este error…"
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Disculpas, hay un error"
@@ -137,7 +137,7 @@
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "Asegurar que los equipos están encendidos y conectados a la misma red de wifi"
+    "message": "Asegurar que los equipos están encendidos y conectados a la misma red WiFi"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
@@ -145,14 +145,14 @@
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
-    "message": "Crear nuevo archivo de sincronización"
+    "message": "Crear nuevo archivo de sincronización…"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
-    "message": "Sincronizar con archivo"
+    "message": "Sincronizar con archivo…"
   },
   "renderer.components.SyncView.SyncAppBar.subtitle": {
-    "message": "por wifi"
+    "message": "por WiFi"
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
@@ -180,11 +180,11 @@
   },
   "renderer.components.SyncView.SyncTarget.errorMsg": {
     "description": "Message shown when there is an error while syncing",
-    "message": "Error de sicronización"
+    "message": "Error de sincronización"
   },
   "renderer.components.SyncView.SyncTarget.lastSync": {
     "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
-    "message": "Ultima sincronización"
+    "message": "Ultima sincronización:"
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
