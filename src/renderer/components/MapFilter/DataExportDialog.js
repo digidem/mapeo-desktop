@@ -53,7 +53,7 @@ const msgs = defineMessages({
   // Label for select option to include preview size photos in export
   includePhotosPreview: 'Preview size photos',
   // Default filename for exported data
-  defaultExportFilename: 'mapeo-data'
+  defaultExportFilename: 'mapeo-observation-data'
 })
 
 const ExportDialogContent = ({

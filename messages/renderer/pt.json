@@ -11,8 +11,48 @@
     "description": "Synchronize tab label",
     "message": "Synchronize"
   },
-  "renderer.components.MapEditor.feedback-contribute-button": {
-    "message": "Feedback & Contribute"
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": ""
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": ""
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": ""
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",

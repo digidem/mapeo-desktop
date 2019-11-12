@@ -4,7 +4,6 @@ var { dialog, app, ipcMain } = require('electron')
 var i18n = require('./i18n')
 
 var userConfig = require('./user-config')
-var exportData = require('./export-data')
 var logger = require('electron-timber')
 
 module.exports = function (win) {
@@ -92,10 +91,6 @@ module.exports = function (win) {
         win.webContents.send('select-file', file)
       }
     }
-  })
-
-  ipc.on('export-data', function (_, name, format) {
-    exportData(app, name, format)
   })
 
   ipc.on('zoom-to-data-get-centroid', function (_, type) {

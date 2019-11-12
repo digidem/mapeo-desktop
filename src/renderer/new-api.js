@@ -4,6 +4,7 @@ import ky from 'ky/umd'
 import logger from 'electron-timber'
 
 const BASE_URL = 'http://' + remote.getGlobal('osmServerHost') + '/'
+let id = 0
 
 export function Api ({ baseUrl }) {
   // We append this to requests for presets and map styles, in order to override
@@ -156,6 +157,23 @@ export function Api ({ baseUrl }) {
     // Start sync with a peer
     syncStart: function syncStart (target) {
       ipcRenderer.send('sync-start', target)
+    },
+
+    exportData: function (filename, { format = 'geojson' } = {}) {
+      const channelId = id++
+      ipcRenderer.send('export-data', {
+        filename,
+        format,
+        id: channelId
+      })
+      return new Promise((resolve, reject) => {
+        ipcRenderer.once('export-data-' + channelId, (event, err) => {
+          if (err) {
+            logger.error('Export error', err)
+            reject(err)
+          } else resolve()
+        })
+      })
     },
 
     /**
