@@ -322,7 +322,17 @@ function convertPresets (presets) {
 
   Object.keys(fields).forEach(fieldId => {
     const field = fields[fieldId]
-    const type = field.type === 'select_one' ? 'combo' : field.type
+    let type
+    switch (field.type) {
+      case 'select_one':
+        type = 'combo'
+        break
+      case 'select_multiple':
+        type = 'text'
+        break
+      default:
+        type = field.type
+    }
 
     fields[fieldId] = {
       ...field,
