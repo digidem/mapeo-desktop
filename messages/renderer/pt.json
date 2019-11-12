@@ -1,205 +1,205 @@
 {
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
-    "message": ""
+    "message": "Territory"
   },
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
-    "message": ""
+    "message": "Observations"
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
-    "message": ""
+    "message": "Synchronize"
   },
   "renderer.components.MapEditor.feedback-contribute-button": {
-    "message": ""
+    "message": "Feedback & Contribute"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
-    "message": ""
+    "message": "Cancel"
   },
   "renderer.components.MapFilter.DataExportDialog.close": {
     "description": "Close button (shown if user has no data to export)",
-    "message": ""
+    "message": "Close"
   },
   "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
     "description": "Default filename for exported data",
-    "message": ""
+    "message": "mapeo-data"
   },
   "renderer.components.MapFilter.DataExportDialog.exportAll": {
-    "message": ""
+    "message": "All {count} observations"
   },
   "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
-    "message": ""
+    "message": "{count} filtered observations"
   },
   "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
-    "message": ""
+    "message": "Only filtered data or all data?"
   },
   "renderer.components.MapFilter.DataExportDialog.format": {
     "description": "Label for data format selector",
-    "message": ""
+    "message": "Data format"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotos": {
     "description": "Label for select to include photos in export",
-    "message": ""
+    "message": "Also export photos?"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
-    "message": ""
+    "message": "Export will be a zip file including data and photos"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
-    "message": ""
+    "message": "No Photos"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
-    "message": ""
+    "message": "Full size photos"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": ""
+    "message": "Preview size photos"
   },
   "renderer.components.MapFilter.DataExportDialog.noData": {
     "description": "Shown when there is no data to export",
-    "message": ""
+    "message": "You don't yet have any data to export."
   },
   "renderer.components.MapFilter.DataExportDialog.save": {
     "description": "Save button",
-    "message": ""
+    "message": "Save"
   },
   "renderer.components.MapFilter.DataExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": ""
+    "message": "Export Observations"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": ""
+    "message": "Export data"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
-    "message": ""
+    "message": "Export Data…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
-    "message": ""
+    "message": "Export Webmap…"
   },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
-    "message": ""
+    "message": "Filter by…"
   },
   "renderer.components.MapFilter.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
-    "message": ""
+    "message": "Loading…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
-    "message": ""
+    "message": "Cancel"
   },
   "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
     "description": "Label for field to enter map description",
-    "message": ""
+    "message": "Map Description"
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
-    "message": ""
+    "message": "Save"
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": ""
+    "message": "Map Style"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": ""
+    "message": "Add terms & limitations about how this data can be used"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": ""
+    "message": "Terms & Limitations"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": ""
+    "message": "Export a map to share online"
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
-    "message": ""
+    "message": "Map Title"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
-    "message": ""
+    "message": "The details below will be useful for finding a way to fix this…"
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
-    "message": ""
+    "message": "Oh dear! An error has occurred"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
-    "message": ""
+    "message": "Map"
   },
   "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
-    "message": ""
+    "message": "Media"
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
-    "message": ""
+    "message": "Report"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": ""
+    "message": "Make sure devices are turned on and connected to the same wifi network"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
-    "message": ""
+    "message": "Searching…"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
-    "message": ""
+    "message": "Create new syncfile…"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
-    "message": ""
+    "message": "Sync from a file…"
   },
   "renderer.components.SyncView.SyncAppBar.subtitle": {
-    "message": ""
+    "message": "via Wi-Fi"
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
-    "message": ""
+    "message": "Available Devices"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
-    "message": ""
+    "message": "Complete"
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
-    "message": ""
+    "message": "Retry"
   },
   "renderer.components.SyncView.SyncButton.starting": {
     "description": "Displayed when sync is starting",
-    "message": ""
+    "message": "Starting…"
   },
   "renderer.components.SyncView.SyncButton.sync": {
     "description": "Button to sync a device",
-    "message": ""
+    "message": "Synchronize"
   },
   "renderer.components.SyncView.SyncTarget.database": {
     "description": "Prompt of how many database objects have synced",
-    "message": ""
+    "message": "Database: {sofar} / {total}"
   },
   "renderer.components.SyncView.SyncTarget.errorMsg": {
     "description": "Message shown when there is an error while syncing",
-    "message": ""
+    "message": "Syncronization Error"
   },
   "renderer.components.SyncView.SyncTarget.lastSync": {
     "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
-    "message": ""
+    "message": "Last synchronized:"
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
-    "message": ""
+    "message": "Photos: {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
-    "message": ""
+    "message": "Create a new database to syncronize"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
-    "message": ""
+    "message": "Select a database to syncronize"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
-    "message": ""
+    "message": "Submit"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
-    "message": ""
+    "message": "Enter Coordinates"
   }
 }
