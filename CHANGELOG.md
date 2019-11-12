@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.5.0](https://github.com/digidem/mapeo-desktop/compare/v4.4.0...v4.5.0) (2019-11-12)
+
+
+### Features
+
+* Add button to MapEditor for exporting GeoJSON of map data (#254)
+* Add support for read-only multi-select fields ([01c0eea](https://github.com/digidem/mapeo-desktop/commit/01c0eeaeeb9dd95bec91acf5b93f310b9638bec4))
+
 ## [4.4.0](https://github.com/digidem/mapeo-desktop/compare/v4.3.0...v4.4.0) (2019-11-08)
 
 
