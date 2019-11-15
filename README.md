@@ -108,7 +108,7 @@ This will use the commit messages to update the changelog and bump the version n
 git push --follow-tags origin master
 ```
 
-This will trigger a build that will upload the installers to the [releases](releases/) page.
+This will trigger a build that will upload the installers to the [releases](https://github.com/digidem/mapeo-desktop/releases) page.
 
 ## Custom Imagery
 
