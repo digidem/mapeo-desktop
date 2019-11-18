@@ -93,7 +93,7 @@ app.on('before-quit', function (e) {
     height: 400,
     frame: false,
     show: false,
-    alwaysOnTop: true
+    alwaysOnTop: false
   })
   closingWin.loadURL(CLOSING)
   const closingTimeoutId = setTimeout(() => {
