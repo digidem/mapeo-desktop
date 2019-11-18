@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.5.1](https://github.com/digidem/mapeo-desktop/compare/v4.5.0...v4.5.1) (2019-11-18)
+
+
+### Bug Fixes
+
+* **MapFilter:** Fix translation of Delete Observation menu item ([8f71205](https://github.com/digidem/mapeo-desktop/commit/8f712058ebc3a000f2e1e73b8f6906ccd20f4b8e))
+* Don't force "syncing during close" menu to be on top of other windows ([74c2ac6](https://github.com/digidem/mapeo-desktop/commit/74c2ac6d372bb12ab42b3e177f5566931795a78b))
+
 ## [4.5.0](https://github.com/digidem/mapeo-desktop/compare/v4.4.0...v4.5.0) (2019-11-12)
 
 
