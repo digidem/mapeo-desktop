@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.0...v5.0.0-beta.1) (2019-11-19)
+
+
+### Bug Fixes
+
+* scrolling is now possible in sync screen ([259f167](https://github.com/digidem/mapeo-desktop/commit/259f1677945efd463e17413e6939a1cfbb5dca0e))
+
 ## [5.0.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v4.5.2...v5.0.0-beta.0) (2019-11-19)
 
 
