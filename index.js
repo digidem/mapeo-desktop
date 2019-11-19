@@ -1,6 +1,7 @@
 #!/usr/bin/env electron
 
 var path = require('path')
+var fs = require('fs')
 var minimist = require('minimist')
 var electron = require('electron')
 const isDev = require('electron-is-dev')
@@ -208,6 +209,28 @@ function startSequence () {
   )
 }
 
+const projectKey = getEncryptionKey()
+
+function getEncryptionKey () {
+  let projectKey
+  try {
+    const metadata = JSON.parse(
+      fs.readFileSync(
+        path.join(userDataPath, 'presets/default/metadata.json'),
+        'utf8'
+      )
+    )
+    projectKey = metadata.projectKey
+    if (projectKey) {
+      logger.log('Found projectKey starting with ', projectKey.slice(0, 4))
+    } else logger.log("No projectKey found, using default 'mapeo' key")
+  } catch (err) {
+    // An undefined projectKey is fine, the fallback is to sync with any other mapeo
+    logger.log("No projectKey found, using default 'mapeo' key")
+  }
+  return projectKey
+}
+
 function initDirectories (done) {
   startupMsg('Unpacking Styles')
   // This is necessary to make sure that the styles and presets directory
@@ -219,7 +242,10 @@ function initDirectories (done) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
   })
 
-  var osm = osmdb(argv.datadir)
+  var osm = osmdb({
+    dir: argv.datadir,
+    encryptionKey: projectKey
+  })
   logger.log('loading datadir', argv.datadir)
 
   var idb = sublevel(osm.index, 'stats')
