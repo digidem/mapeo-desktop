@@ -21,9 +21,6 @@ insertCss(`
   .id-container .pane {
     bottom: 0;
   }
-  .id-container .pane {
-    display: none;
-  }
   .id-container .entity-editor-pane .inspector-body, .id-container .selection-list-pane .inspector-body {
     top: 64px;
   }
@@ -82,6 +79,17 @@ insertCss(`
   .id-container button.save .count {
     min-width: auto;
     padding-left: 8px
+  }
+  .id-container #bar .mapeo-toolbar-item.mapeo-spacer {
+    width: 100%;
+    flex-grow: 2;
+  }
+  .id-container #bar .mapeo-toolbar-item {
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: column wrap;
+    justify-content: center;
+    position: relative;
   }
 `)
 
@@ -186,7 +194,7 @@ const MapEditor = () => {
 
         // Add custom buttons to toolbar
         const toolbar = id.current.container().select('#bar')
-        toolbar.append('div').attr('class', 'toolbar-item spacer')
+        toolbar.append('div').attr('class', 'mapeo-toolbar-item mapeo-spacer')
         setToolbarEl(toolbar.append('div').node())
 
         // Update label on map move
