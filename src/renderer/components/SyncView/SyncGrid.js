@@ -11,6 +11,7 @@ export default SyncGrid
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'grid',
+    overflowY: 'scroll',
     gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
     alignItems: 'start',
     alignContent: 'start',
