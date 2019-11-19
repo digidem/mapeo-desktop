@@ -57,6 +57,8 @@ module.exports = function (osm, media, sendIpc, opts) {
       mapeoCore.sync.on('peer', onNewPeer)
       mapeoCore.sync.on('down', throttledSendPeerUpdate)
       ipcMain.on('sync-start', startSync)
+      ipcMain.on('sync-join', joinSync)
+      ipcMain.on('sync-leave', leaveSync)
       ipcMain.on('export-data', exportData)
       origListen.apply(server, args)
     })
@@ -115,6 +117,30 @@ module.exports = function (osm, media, sendIpc, opts) {
     watchSync(sync)
   }
 
+  function joinSync () {
+    try {
+      logger.log(
+        'Joining swarm',
+        opts.projectKey && opts.projectKey.slice(0, 4)
+      )
+      mapeoCore.sync.join(opts.projectKey)
+    } catch (e) {
+      logger.error('sync join error', e)
+    }
+  }
+
+  function leaveSync () {
+    try {
+      logger.log(
+        'Leaving swarm',
+        opts.projectKey && opts.projectKey.slice(0, 4)
+      )
+      mapeoCore.sync.leave(opts.projectKey)
+    } catch (e) {
+      logger.error('sync leave error', e)
+    }
+  }
+
   function exportData (event, { filename, format, id }) {
     const presets = userConfig.getSettings('presets') || {}
     mapeoCore.exportData(filename, { format, presets }, err => {
@@ -126,6 +152,8 @@ module.exports = function (osm, media, sendIpc, opts) {
     mapeoCore.sync.removeListener('peer', onNewPeer)
     mapeoCore.sync.removeListener('down', throttledSendPeerUpdate)
     ipcMain.removeListener('start-sync', startSync)
+    ipcMain.removeListener('export-data', exportData)
+    ipcMain.removeListener('sync-leave', leaveSync)
     ipcMain.removeListener('export-data', exportData)
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb))

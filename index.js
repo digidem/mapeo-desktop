@@ -275,7 +275,8 @@ function createServers (done) {
     } catch (e) {}
   }
   app.server = createServer(app.osm, app.media, ipcSend, {
-    staticRoot: userDataPath
+    staticRoot: userDataPath,
+    projectKey: projectKey
   })
   app.mapeo = app.server.mapeo
   ipc(win)

@@ -140,13 +140,13 @@ export function Api ({ baseUrl }) {
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin () {
       logger.log('Join sync')
-      req.get('sync/join')
+      ipcRenderer.send('sync-join')
     },
 
     // Stop listening for sync peers and stop advertising
     syncLeave: function syncLeave () {
       logger.log('Leave sync')
-      req.get('sync/leave')
+      ipcRenderer.send('sync-leave')
     },
 
     // Get a list of discovered sync peers
