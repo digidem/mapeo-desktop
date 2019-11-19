@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v4.5.2...v5.0.0-beta.0) (2019-11-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* New sync protocol incompatible with Mapeo Mobile v1 and Desktop v4
+
+### Features
+
+* Add error messages for incompatible mapeo versions ([5947908](https://github.com/digidem/mapeo-desktop/commit/59479083d57d48cfdaa67e3569bda81a3d571448))
+* Encrypt sync with projectKey ([5268909](https://github.com/digidem/mapeo-desktop/commit/5268909feceebd5684edbef5f62369905a713cbf))
+* Only sync with peers with matching projectKey ([f442fec](https://github.com/digidem/mapeo-desktop/commit/f442fecb58ddc23ff8f27fb5de886dc049b76c27))
+
+
+### Bug Fixes
+
+* add ES translations for sync errors ([3999e7e](https://github.com/digidem/mapeo-desktop/commit/3999e7eaa98f578bbd7891a6c3ead66bfd97db30))
+
+
+* New sync protocol incompatible with Mapeo Mobile v1 and Desktop v4 ([e2923a3](https://github.com/digidem/mapeo-desktop/commit/e2923a374b91f1e978854be28be5d5a219957e37))
+
 ### [4.5.2](https://github.com/digidem/mapeo-desktop/compare/v4.5.1...v4.5.2) (2019-11-19)
 
 
