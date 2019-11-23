@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2019-11-23)
+
+
+### Bug Fixes
+
+* Fix filter error ([cc59d0e](https://github.com/digidem/mapeo-desktop/commit/cc59d0eeaced13766482804a44b6593e4fb40568))
+
 ## [5.0.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.0...v5.0.0-beta.1) (2019-11-19)
 
 
