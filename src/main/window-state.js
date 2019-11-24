@@ -9,7 +9,8 @@ const defaults = {
   fullscreen: true,
   defaultWidth: 800,
   defaultHeight: 600,
-  isMaximized: true
+  isMaximized: true,
+  show: false
 }
 
 /**

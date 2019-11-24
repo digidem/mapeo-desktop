@@ -1,30 +1,26 @@
 #!/usr/bin/env electron
 
-var path = require('path')
-var minimist = require('minimist')
-var electron = require('electron')
+const path = require('path')
+const minimist = require('minimist')
+const electron = require('electron')
 const isDev = require('electron-is-dev')
 const contextMenu = require('electron-context-menu')
-var app = electron.app
-var BrowserWindow = electron.BrowserWindow
-
 const debug = require('electron-debug')
-var mkdirp = require('mkdirp')
-var sublevel = require('subleveldown')
-var osmdb = require('osm-p2p')
-var series = require('run-series')
-var MediaStore = require('safe-fs-blob-store')
-var styles = require('mapeo-styles')
+const mkdirp = require('mkdirp')
+const series = require('run-series')
+const styles = require('mapeo-styles')
+const logger = require('electron-timber')
 
-var ipc = require('./src/main/ipc')
-var createMenu = require('./src/main/menu')
-var createServer = require('./src/main/server.js')
-var createTileServer = require('./src/main/tile-server.js')
-var logger = require('electron-timber')
-var windowStateKeeper = require('./src/main/window-state')
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
 
-var installStatsIndex = require('./src/main/osm-stats')
-var TileImporter = require('./src/main/tile-importer')
+const mapeoRpc = require('./src/main/mapeo-rpc')
+const ipc = require('./src/main/ipc')
+const createMenu = require('./src/main/menu')
+const createMapeoServer = require('./src/main/server')
+const createTileServer = require('./src/main/tile-server')
+const windowStateKeeper = require('./src/main/window-state')
+const TileImporter = require('./src/main/tile-importer')
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
@@ -218,43 +214,26 @@ function initDirectories (done) {
   styles.unpackIfNew(userDataPath, function (err) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
   })
-
-  var osm = osmdb(argv.datadir)
-  logger.log('loading datadir', argv.datadir)
-
-  var idb = sublevel(osm.index, 'stats')
-  osm.core.use('stats', installStatsIndex(idb))
-
-  var media = MediaStore(path.join(argv.datadir, 'media'))
-  app.osm = osm
-  app.media = media
-  app.tiles = TileImporter(userDataPath)
-
-  win.webContents.once('did-finish-load', function () {
-    logger.log('preparing osm indexes..')
-    win.webContents.send('indexes-loading')
-    app.osm.ready(function () {
-      logger.log('indexes READY')
-      win.webContents.send('indexes-ready')
-    })
-  })
-
   done()
 }
 
 function createServers (done) {
-  function ipcSend (...args) {
-    try {
-      win.webContents.send.apply(win.webContents, args)
-    } catch (e) {}
-  }
-  app.server = createServer(app.osm, app.media, ipcSend, {
+  // TODO: refactor tiles API.
+  // Should this be it's own module to be re-used in Mm?
+  app.tiles = TileImporter(userDataPath)
+
+  ipc(win)
+  app.mapeo = mapeoRpc(win, argv)
+  app.server = createMapeoServer(app.mapeo, {
     staticRoot: userDataPath
   })
-  app.mapeo = app.server.mapeo
-  ipc(win)
 
-  var pending = 2
+  var pending = 3
+
+  app.mapeo.sync.listen(() => {
+    logger.log('MapeoSync: listening')
+    if (--pending === 0) done()
+  })
 
   app.server.listen(argv.port, '127.0.0.1', function () {
     global.osmServerHost = '127.0.0.1:' + app.server.address().port
