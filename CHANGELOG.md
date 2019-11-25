@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2019-11-25)
+
+
+### Bug Fixes
+
+* Fix syncfile when using projectKey ([9323194](https://github.com/digidem/mapeo-desktop/commit/93231946f7be201d68f4eeacc86106751ae2d6a0))
+
 ## [5.0.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2019-11-23)
 
 
