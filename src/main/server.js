@@ -112,7 +112,10 @@ module.exports = function (osm, media, sendIpc, opts) {
     logger.log('Sync start request:', target)
     // if (!target.host || !target.port || !target.filename) return
 
-    const sync = mapeoCore.sync.replicate(target, { deviceType: 'mobile' })
+    const sync = mapeoCore.sync.replicate(target, {
+      deviceType: 'mobile',
+      projectKey: opts.projectKey
+    })
     sendPeerUpdate()
     watchSync(sync)
   }
