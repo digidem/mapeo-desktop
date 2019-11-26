@@ -2,14 +2,14 @@ const fs = require('fs')
 const path = require('path')
 const throttle = require('lodash/throttle')
 const logger = require('electron-timber')
-const createMapeoServer = require('./src/main/server')
 const randombytes = require('randombytes')
 const os = require('os')
 const MapeoCore = require('@mapeo/core')
 const sublevel = require('subleveldown')
 
-const installStatsIndex = require('./osm-stats')
-const userConfig = require('./user-config')
+const createMapeoServer = require('./main/server')
+const installStatsIndex = require('./main/osm-stats')
+const userConfig = require('./main/user-config')
 
 const errors = MapeoCore.errors
 
@@ -64,14 +64,14 @@ class MapeoRPC {
 
   listen (userDataPath, port, cb) {
     logger.log('mapeo initializing', userDataPath)
-    this.server = createMapeoServer(this.mapeo, {
+    this.server = createMapeoServer(this.mapeo.osm, {
       staticRoot: userDataPath
     })
     this.mapeo.sync.listen(() => {
       logger.log('mapeo-core sync server is listening')
-      this.server.listen(port, '127.0.0.1', function () {
+      this.server.listen(port, '127.0.0.1', () => {
         logger.log('mapeo-server + osm-p2p-server: listening')
-        cb()
+        cb(this.server.address().port)
       })
     })
   }
@@ -130,6 +130,7 @@ class MapeoRPC {
   }
 
   exportData ({ filename, format, id }) {
+    // TODO: userConfig should be platform independent
     const presets = userConfig.getSettings('presets') || {}
     this.mapeo.exportData(filename, { format, presets }, err => {
       this.ipcSend('export-data-' + id, err)
@@ -268,5 +269,5 @@ var manifest = {
   mediaPost: 'async'
 }
 
-var api = rpc.exportAPI('mapeo', manifest, MapeoRPC)
+// var api = rpc.exportAPI('mapeo', manifest, MapeoRPC)
 

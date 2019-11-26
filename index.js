@@ -15,7 +15,7 @@ const logger = require('electron-timber')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
-const mapeoRpc = require('./src/main/mapeo-rpc')
+const MapeoRpc = require('./src/mapeo-worker')
 const miscellaneousIpc = require('./src/main/ipc')
 const createMenu = require('./src/main/menu')
 const createTileServer = require('./src/main/tile-server')
@@ -224,9 +224,11 @@ function createServers (done) {
   app.tiles = TileImporter(userDataPath)
 
   function ipcSend (command, payload) {
-    ipcRenderer.send('message-from-worker-to-UI', {
-      command: command, payload: payload
-    })
+    if (win && win.webContents) {
+      win.webContents.send('message-from-worker-to-UI', {
+        command: command, payload: payload
+      })
+    }
   }
 
   // TODO: rename/refactor
@@ -234,9 +236,11 @@ function createServers (done) {
 
   // TODO: run this in a separate window.
   // TODO: see internal code at src/mapeo-worker.js
-  app.mapeo = mapeoRpc(argv.datadir, ipcSend)
+  app.mapeo = new MapeoRpc(argv.datadir, ipcSend)
 
   var pending = 2
+
+  logger.log('initializing mapeo', userDataPath, argv.port)
 
   app.mapeo.listen(userDataPath, argv.port, (port) => {
     global.osmServerHost = '127.0.0.1:' + port
