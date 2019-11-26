@@ -17,6 +17,12 @@ module.exports = function (win) {
     }
   }
 
+
+
+  ipcMain.on('message-from-worker', (event, arg) => {
+    ipcSend('message-from-mapeo', arg)
+  })
+
   ipcMain.on('get-user-data', function (event, type) {
     var data = userConfig.getSettings(type)
     if (!data) console.warn('unhandled event', type)

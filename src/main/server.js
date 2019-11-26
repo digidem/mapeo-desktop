@@ -5,10 +5,10 @@ var createOsmRouter = require('osm-p2p-server')
 var http = require('http')
 var logger = require('electron-timber')
 
-module.exports = function (mapeo, opts) {
+module.exports = function (osm, opts) {
   if (!opts) opts = {}
-  var osmRouter = createOsmRouter(mapeo.osm)
-  var mapeoRouter = createMapeoRouter(mapeo, opts)
+  var osmRouter = createOsmRouter(osm)
+  var mapeoRouter = createMapeoRouter(opts)
 
   var server = http.createServer(function (req, res) {
     logger.log(req.method + ': ' + req.url)
@@ -26,11 +26,6 @@ module.exports = function (mapeo, opts) {
         res.end('Not Found')
       })
     }
-  })
-
-  // XXX: should this code be in mapeo-server?
-  server.on('close', () => {
-    mapeo.close()
   })
 
   return server

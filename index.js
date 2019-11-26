@@ -1,5 +1,6 @@
 #!/usr/bin/env electron
 
+const { ipcRenderer } = require('electron')
 const path = require('path')
 const minimist = require('minimist')
 const electron = require('electron')
@@ -15,9 +16,8 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
 const mapeoRpc = require('./src/main/mapeo-rpc')
-const ipc = require('./src/main/ipc')
+const miscellaneousIpc = require('./src/main/ipc')
 const createMenu = require('./src/main/menu')
-const createMapeoServer = require('./src/main/server')
 const createTileServer = require('./src/main/tile-server')
 const windowStateKeeper = require('./src/main/window-state')
 const TileImporter = require('./src/main/tile-importer')
@@ -30,6 +30,7 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 debug({ showDevTools: false })
 
 // Handle uncaught errors
+// XXX(KM): why aren't we enabling this?
 // catchErrors({ onError: handleError })
 
 var win = null
@@ -189,10 +190,10 @@ function startSequence () {
   series(
     [
       initDirectories,
-      startupMsg('Initialized osm-p2p'),
+      startupMsg('Initialized directories'),
 
       createServers,
-      startupMsg('Started osm and tile servers'),
+      startupMsg('Started http servers and mapeo-rpc'),
 
       notifyReady,
       startupMsg('Notified the frontend that backend is ready')
@@ -222,21 +223,23 @@ function createServers (done) {
   // Should this be it's own module to be re-used in Mm?
   app.tiles = TileImporter(userDataPath)
 
-  ipc(win)
-  app.mapeo = mapeoRpc(win, argv)
-  app.server = createMapeoServer(app.mapeo, {
-    staticRoot: userDataPath
-  })
+  function ipcSend (command, payload) {
+    ipcRenderer.send('message-from-worker-to-UI', {
+      command: command, payload: payload
+    })
+  }
 
-  var pending = 3
+  // TODO: rename/refactor
+  miscellaneousIpc(win)
 
-  app.mapeo.sync.listen(() => {
-    logger.log('MapeoSync: listening')
-    if (--pending === 0) done()
-  })
+  // TODO: run this in a separate window.
+  // TODO: see internal code at src/mapeo-worker.js
+  app.mapeo = mapeoRpc(argv.datadir, ipcSend)
 
-  app.server.listen(argv.port, '127.0.0.1', function () {
-    global.osmServerHost = '127.0.0.1:' + app.server.address().port
+  var pending = 2
+
+  app.mapeo.listen(userDataPath, argv.port, (port) => {
+    global.osmServerHost = '127.0.0.1:' + port
     logger.log(global.osmServerHost)
     if (--pending === 0) done()
   })
