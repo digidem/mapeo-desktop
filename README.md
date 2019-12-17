@@ -23,6 +23,7 @@ To clone and install all dependencies and start a process to re-build the app wh
 git clone git@github.com:digidem/mapeo-desktop.git
 cd mapeo-desktop
 npm install
+npm run build:translations
 npm run watch
 ```
 
