@@ -37,6 +37,9 @@ npm run dev
 
 ### Run a mock device
 
+1. Open `/bin/mock.js`
+2. Change the variable `userDataPath` to the one on your machin
+
 ```sh
 npm run device
 ```
