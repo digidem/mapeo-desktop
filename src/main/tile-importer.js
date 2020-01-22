@@ -82,6 +82,7 @@ TileImporter.prototype.moveTiles = function (tilesPath, tilesDest, cb) {
     if (err) return cb(err)
     mkdirp(tilesDest, err => {
       if (err) return cb(err)
+      // TODO: deprecate asar support
       if (path.extname(tilesPath) === '.asar') {
         var filename = path.basename(tilesPath)
         // because electron treats asar as a folder, not a file.

@@ -30,7 +30,6 @@ function menuTemplate (context) {
               title: t('menu-import-tiles'),
               properties: ['openFile'],
               filters: [
-                { name: 'Electron Asar', extensions: ['asar'] },
                 { name: 'Tar', extensions: ['tar'] }
               ]
             }
