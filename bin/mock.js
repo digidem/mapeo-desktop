@@ -8,8 +8,11 @@ var Mapeo = require('mapeo-server')
 var blobstore = require('safe-fs-blob-store')
 var osmdb = require('osm-p2p')
 var http = require('http')
+var config = require('../src/main/user-config')
 
 const MOCK_DATA = 500
+
+const userDataPath = // ENTER YOUR USER DATA PATH HERE, e.g., /home/username/.config/Mapeo
 
 module.exports = createMockDevice
 
@@ -17,7 +20,9 @@ function createMockDevice (dir, opts) {
   if (!opts) opts = {}
   mkdirp.sync(path.join(dir, 'osm'))
   mkdirp.sync(path.join(dir, 'media'))
-  var osm = osmdb(path.join(dir, 'osm'))
+  opts.projectKey = config.getEncryptionKey(userDataPath)
+  console.log('projectKey', opts.projectKey)
+  var osm = osmdb(path.join(dir, 'osm'), { encryptionKey: opts.projectKey })
   var media = blobstore(path.join(dir, 'media'))
   var mapeo = Mapeo(osm, media, opts)
   mapeo.api.core.sync.setName('My Fake Android Device #1')

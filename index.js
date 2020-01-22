@@ -1,7 +1,6 @@
 #!/usr/bin/env electron
 
 var path = require('path')
-var fs = require('fs')
 var minimist = require('minimist')
 var electron = require('electron')
 const isDev = require('electron-is-dev')
@@ -16,12 +15,13 @@ var osmdb = require('osm-p2p')
 var series = require('run-series')
 var MediaStore = require('safe-fs-blob-store')
 var styles = require('mapeo-styles')
+var logger = require('electron-timber')
 
+var config = require('./src/main/user-config')
 var ipc = require('./src/main/ipc')
 var createMenu = require('./src/main/menu')
 var createServer = require('./src/main/server.js')
 var createTileServer = require('./src/main/tile-server.js')
-var logger = require('electron-timber')
 var windowStateKeeper = require('./src/main/window-state')
 
 var installStatsIndex = require('./src/main/osm-stats')
@@ -209,27 +209,7 @@ function startSequence () {
   )
 }
 
-const projectKey = getEncryptionKey()
-
-function getEncryptionKey () {
-  let projectKey
-  try {
-    const metadata = JSON.parse(
-      fs.readFileSync(
-        path.join(userDataPath, 'presets/default/metadata.json'),
-        'utf8'
-      )
-    )
-    projectKey = metadata.projectKey
-    if (projectKey) {
-      logger.log('Found projectKey starting with ', projectKey.slice(0, 4))
-    } else logger.log("No projectKey found, using default 'mapeo' key")
-  } catch (err) {
-    // An undefined projectKey is fine, the fallback is to sync with any other mapeo
-    logger.log("No projectKey found, using default 'mapeo' key")
-  }
-  return projectKey
-}
+const projectKey = config.getEncryptionKey(userDataPath)
 
 function initDirectories (done) {
   startupMsg('Unpacking Styles')

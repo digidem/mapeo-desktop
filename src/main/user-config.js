@@ -4,10 +4,7 @@ var pump = require('pump')
 var mkdirp = require('mkdirp')
 var path = require('path')
 var app = require('electron').app
-var userDataPath = app.getPath('userData')
-var defaultPath = path.join(userDataPath, 'presets', 'default')
-var cssPath = path.join(defaultPath, 'style.css')
-var iconsPath = path.join(defaultPath, 'icons.svg')
+var logger = console
 
 var SETTINGS_FILES = [
   'presets.json',
@@ -40,6 +37,8 @@ function readFile (filepath) {
 
 function importSettings (win, settingsFile, cb) {
   var source = fs.createReadStream(settingsFile)
+  var userDataPath = app.getPath('userData')
+  var defaultPath = path.join(userDataPath, 'presets', 'default')
   mkdirp.sync(defaultPath)
   var dest = tar.extract(defaultPath, {
     ignore: function (name) {
@@ -54,6 +53,11 @@ function importSettings (win, settingsFile, cb) {
 }
 
 function getSettings (type) {
+  var userDataPath = app.getPath('userData')
+  var defaultPath = path.join(userDataPath, 'presets', 'default')
+  var cssPath = path.join(defaultPath, 'style.css')
+  var iconsPath = path.join(defaultPath, 'icons.svg')
+
   switch (type) {
     case 'css':
       return readFile(cssPath)
@@ -70,7 +74,29 @@ function getSettings (type) {
   }
 }
 
+function getEncryptionKey (userDataPath) {
+  let projectKey
+  try {
+    const metadata = JSON.parse(
+      fs.readFileSync(
+        path.join(userDataPath, 'presets/default/metadata.json'),
+        'utf8'
+      )
+    )
+    projectKey = metadata.projectKey
+    if (projectKey) {
+      logger.log('Found projectKey starting with ', projectKey.slice(0, 4))
+    } else logger.log("No projectKey found, using default 'mapeo' key")
+  } catch (err) {
+    // An undefined projectKey is fine, the fallback is to sync with any other mapeo
+    logger.log("No projectKey found, using default 'mapeo' key")
+    return null
+  }
+  return projectKey
+}
+
 module.exports = {
   importSettings: importSettings,
-  getSettings: getSettings
+  getSettings: getSettings,
+  getEncryptionKey: getEncryptionKey
 }
