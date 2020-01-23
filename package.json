@@ -80,6 +80,7 @@
     "core-js": "^3.3.5",
     "d3-dsv": "^1.1.1",
     "date-fns": "^2.1.0",
+    "discovery-swarm": "6.0.0",
     "ecstatic": "^2.2.1",
     "electron-context-menu": "^0.15.0",
     "electron-debug": "^1.5.0",
