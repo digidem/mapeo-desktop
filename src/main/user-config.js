@@ -9,14 +9,6 @@ var defaultPath = path.join(userDataPath, 'presets', 'default')
 var cssPath = path.join(defaultPath, 'style.css')
 var iconsPath = path.join(defaultPath, 'icons.svg')
 
-var SETTINGS_FILES = [
-  'presets.json',
-  'style.css',
-  'imagery.json',
-  'icons.svg',
-  'metadata.json'
-]
-
 var METADATA_DEFAULTS = {
   dataset_id: 'mapeodata'
 }
@@ -41,11 +33,7 @@ function readFile (filepath) {
 function importSettings (win, settingsFile, cb) {
   var source = fs.createReadStream(settingsFile)
   mkdirp.sync(defaultPath)
-  var dest = tar.extract(defaultPath, {
-    ignore: function (name) {
-      return SETTINGS_FILES.indexOf(path.basename(name)) < 0
-    }
-  })
+  var dest = tar.extract(defaultPath)
   pump(source, dest, function (err) {
     if (err) return cb(err)
     win.webContents.send('force-refresh-window')
