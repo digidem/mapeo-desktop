@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
+* fixes some bugs in multifeed and osm-p2p-syncfile
 * hackily fixes react dependency bug ([b6d8eac](https://github.com/digidem/mapeo-desktop/commit/b6d8eac09d6d64a3e9c0a7ac4d23a930242f3050))
 * pin discovery-swarm to 6 for now until sync works ([#264](https://github.com/digidem/mapeo-desktop/issues/264)) ([9793880](https://github.com/digidem/mapeo-desktop/commit/97938806154365c4aa6617a60918ec41203065b6))
 * Remove asar from the import menu ([#262](https://github.com/digidem/mapeo-desktop/issues/262)) ([b2e0924](https://github.com/digidem/mapeo-desktop/commit/b2e0924b0a8bf29101091a49bcecab77754249e9))
