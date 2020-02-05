@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.2](https://github.com/digidem/mapeo-desktop/compare/v5.0.1...v5.0.2) (2020-02-05)
+
+*  Fix a bug in Observations view that would prevent displaying Mapeo. Reverts ([b6d8eac](https://github.com/digidem/mapeo-desktop/commit/b6d8eac09d6d64a3e9c0a7ac4d23a930242f3050))
+
 ### [5.0.1](https://github.com/digidem/mapeo-desktop/compare/v5.0.0...v5.0.1) (2020-02-04)
 
 
