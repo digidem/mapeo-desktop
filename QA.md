@@ -23,13 +23,13 @@ Some steps to follow before tagging a release, to ensure that the core features 
 
 ## Sync File
 
-1. Create a Sync File in MAPEO Desktop:filter
+1. Create a Sync File in MAPEO Desktop:observations
     1. Click on the three menu dots at the top-right of the screen.
     2. Select 'Sync With..'
     3. Select 'New Database..' and create the new syncfile somewhere temporary.
     4. Wait for sync to complete. You should see 'Syncronization has completed successfully'
     5. Click OK
-2. Open SyncFile In MAPEO Desktop:filter from a computer with a fresh or different data folder 
+2. Open SyncFile In MAPEO Desktop:observations from a computer with a fresh or different data folder 
     1. Click on the three menu dots at the top-right of the screen.
     2. Select 'Sync With..'
     3. Select 'Synchronize from a file..' and select the syncfile from last time.
@@ -65,7 +65,7 @@ Some steps to follow before tagging a release, to ensure that the core features 
     5. Click 'Reports' and see that the filtered observations show up in the report
     interface.
 
-## Transfer :filter data to  to :editor
+## Transfer :filter data to  :territory
 
 1. Go to the Map Editor interface.
 2. Click 'Visualization->Zoom to Data'
@@ -84,7 +84,7 @@ Some steps to follow before tagging a release, to ensure that the core features 
 
 [full testing script required]
 
-## Create Map Data in MAPEO Desktop:editor
+## Create Map Data in MAPEO Desktop:territory
 
 1. Create point
 2. Create path
@@ -92,13 +92,13 @@ Some steps to follow before tagging a release, to ensure that the core features 
 
 ## Sync File
 
-1. Create a Sync File in MAPEO Desktop:editor
+1. Create a Sync File in MAPEO Desktop:territory
     1. Click on the three menu dots at the top-right of the screen.
     2. Select 'Sync With..'
     3. Select 'New Database..' and create the new syncfile somewhere temporary.
     4. Wait for sync to complete. You should see 'Syncronization has completed successfully'
     5. Click OK
-2. Open SyncFile In MAPEO Desktop:editor from a computer with a fresh or different data folder 
+2. Open SyncFile In MAPEO Desktop:territory from a computer with a fresh or different data folder 
     1. Click on the three menu dots at the top-right of the screen.
     2. Select 'Sync With..'
     3. Select 'Synchronize from a file..' and select the syncfile from last time.
