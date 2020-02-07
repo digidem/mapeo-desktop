@@ -60,7 +60,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WEBSITE_GH_TOKEN }}
       - name: Cleanup artifacts
         run: |
-          npx rimraf 'dist/!(*.exe|*.deb|*.AppImage|*.dmg)'
+          npx rimraf@2 'dist/!(*.exe|*.deb|*.AppImage|*.dmg)'
         shell: bash
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
