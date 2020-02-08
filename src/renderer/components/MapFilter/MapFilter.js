@@ -222,9 +222,11 @@ function useObservations () {
   }
 
   useEffect(() => {
-    const subscription = api.addSyncListener(() => {
-      loadObservations()
-    })
+    const subscription = api.addDataChangedListener(
+      'territory-edit',
+      () => {
+        loadObservations()
+      })
     return () => {
       subscription.remove()
     }

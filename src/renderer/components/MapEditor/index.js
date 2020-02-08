@@ -128,7 +128,10 @@ const MapEditor = () => {
       if (saved) history.fromJSON(saved)
       ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
     }
-    const subscription = api.addSyncListener(() => refreshWindow())
+    const subscription = api.addDataChangedListener(
+      'observation-edit',
+      () => refreshWindow()
+    )
     return () => {
       subscription.remove()
     }
