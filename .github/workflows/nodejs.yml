@@ -31,6 +31,9 @@ jobs:
       - name: Rebuild native deps for Electron
         run: |
           npm run rebuild-leveldb
+      - name: Module list
+        run: |
+          npm ls || true
       - name: Build frontend
         run: |
           npm run build
