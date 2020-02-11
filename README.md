@@ -37,8 +37,9 @@ npm run dev
 
 ### Run a mock device
 
+
 ```sh
-npm run device
+DEBUG=* node `/bin/mock.js` --settings /path/to/my/file.mapeosettings
 ```
 
 This runs a mock testing device that will broadcast itself on the local

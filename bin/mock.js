@@ -8,18 +8,65 @@ var Mapeo = require('mapeo-server')
 var blobstore = require('safe-fs-blob-store')
 var osmdb = require('osm-p2p')
 var http = require('http')
+var Settings = require('@mapeo/settings')
+var argv = require('minimist')(process.argv.slice(2))
 
-const MOCK_DATA = 500
+const MOCK_DATA = 5
+const DEFAULT_PORT = 5006
+
+let settings, projectKey
 
 module.exports = createMockDevice
 
-function createMockDevice (dir, opts) {
+if (require.main === module) {
+  var userDataPath = argv._[0] || path.join(__dirname, 'test-data')
+  var port = argv._[1] || argv.port || DEFAULT_PORT
+  var presets = argv.settings
+  settings = new Settings(userDataPath)
+  if (!presets) main()
+  else {
+    settings.importSettings(presets, function (err) {
+      if (err) throw err
+      main()
+    })
+  }
+}
+
+function main () {
+  var device = createMockDevice(userDataPath)
+
+  device.turnOn(port, function () {
+    console.log('listening on port', device.address().port)
+    device.createMockData(MOCK_DATA, function () {
+    })
+    device.openSyncScreen(function () {
+      console.log('announced')
+    })
+  })
+
+  process.on('SIGINT', function () {
+    debug('shutting down')
+    device.shutdown(function () {
+      console.log('device finished shut down')
+      process.exit()
+    })
+  })
+}
+
+function createMockDevice (userDataPath, opts) {
   if (!opts) opts = {}
-  mkdirp.sync(path.join(dir, 'osm'))
-  mkdirp.sync(path.join(dir, 'media'))
-  var osm = osmdb(path.join(dir, 'osm'))
-  var media = blobstore(path.join(dir, 'media'))
+  mkdirp.sync(path.join(userDataPath, 'osm'))
+  mkdirp.sync(path.join(userDataPath, 'media'))
+  projectKey = settings.getEncryptionKey(userDataPath)
+  opts.projectKey = projectKey
+  console.log('osmdb using projectKey', projectKey)
+  var osm = osmdb({
+    dir: path.join(userDataPath, 'osm'),
+    encryptionKey: projectKey
+  })
+  var media = blobstore(path.join(userDataPath, 'media'))
   var mapeo = Mapeo(osm, media, opts)
+
   mapeo.api.core.sync.setName('My Fake Android Device #1')
   var server = http.createServer(function (req, res) {
     if (!mapeo.handle(req, res)) {
@@ -50,8 +97,6 @@ function createMockDevice (dir, opts) {
   return server
 }
 
-var DEFAULT_PORT = 5006
-
 function turnOn (opts, cb) {
   var server = this
   if (typeof opts === 'number' || typeof opts === 'string') opts = { port: opts }
@@ -66,27 +111,17 @@ function turnOn (opts, cb) {
   })
 }
 
-function call (url, cb) {
-  var hq2 = hyperquest.get(url, {})
-  hq2.pipe(concat({ encoding: 'string' }, function (body) {
-    debug('announced', body)
-    if (cb) return cb(body)
-  }))
-  hq2.end()
-}
-
 function openSyncScreen (cb) {
   var server = this
-  var port = server.address().port
-  debug('announcing')
-  call(`http://localhost:${port}/sync/join`, cb)
+  // TODO: LOL fix this nonsense
+  console.log('joining projectKey', projectKey)
+  server.mapeo.api.core.sync.join(projectKey)
 }
 
 function closeSyncScreen (cb) {
   var server = this
-  debug('unannouncing')
-  var port = server.address().port
-  call(`http://localhost:${port}/sync/leave`, cb)
+  // TODO: i am thoroughly embarassed
+  server.mapeo.api.core.sync.leave(projectKey)
 }
 
 function createMockData (count, cb) {
@@ -103,6 +138,9 @@ function createMockData (count, cb) {
   var original = path.join(__dirname, '..', 'test', 'media', 'original.jpg')
   var thumbnail = path.join(__dirname, '..', 'test', 'media', 'thumbnail.jpg')
   var preview = path.join(__dirname, '..', 'test', 'media', 'preview.jpg')
+
+  var presets = settings.getSettings('presets')
+  var categories = presets && presets.presets ? Object.keys(presets.presets) : []
 
   mock.generate({
     type: 'integer',
@@ -123,6 +161,7 @@ function createMockData (count, cb) {
           lon: lon / 100,
           timestamp: new Date(),
           tags: {
+            categoryId: categories[Math.floor(Math.random(0, 1) * categories.length - 1)],
             notes: '',
             observedBy: 'user-' + Math.floor(Math.random() * 10)
           }
@@ -166,31 +205,5 @@ function shutdown (cb) {
   var server = this
   server.mapeo.api.close(function () {
     server.close(cb)
-  })
-}
-
-if (require.main === module) {
-  var args = process.argv.splice(2)
-  var dir = args[0] || path.join(__dirname, 'test-data')
-  var device = createMockDevice(dir)
-
-  var port = args[1] || DEFAULT_PORT
-  console.log(port, dir)
-
-  device.turnOn(port, function () {
-    console.log('listening on port', device.address().port)
-    device.createMockData(MOCK_DATA, function () {
-    })
-    device.openSyncScreen(function () {
-      console.log('announced')
-    })
-  })
-
-  process.on('SIGINT', function () {
-    debug('shutting down')
-    device.shutdown(function () {
-      console.log('device finished shut down')
-      process.exit()
-    })
   })
 }
