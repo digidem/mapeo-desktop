@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.5](https://github.com/digidem/mapeo-desktop/compare/v5.0.3...v5.0.5) (2020-02-10)
+
+
+### Bug Fixes
+
+* add package-lock.json ([#282](https://github.com/digidem/mapeo-desktop/issues/282)) ([304da18](https://github.com/digidem/mapeo-desktop/commit/304da1893ba723a0f51307ca7630b86697e7bc83))
+* Fix flickering of devices in sync screen ([#264](https://github.com/digidem/mapeo-desktop/issues/264)) ([#280](https://github.com/digidem/mapeo-desktop/issues/280)) ([9643fd5](https://github.com/digidem/mapeo-desktop/commit/9643fd5bd987c929ef8b423f9dda2e647a5879de))
+
+### [5.0.5](https://github.com/digidem/mapeo-desktop/compare/v5.0.3...v5.0.5) (2020-02-10)
+
+
+### Bug Fixes
+
+* add package-lock.json ([#282](https://github.com/digidem/mapeo-desktop/issues/282)) ([304da18](https://github.com/digidem/mapeo-desktop/commit/304da1893ba723a0f51307ca7630b86697e7bc83))
+* Fix flickering of devices in sync screen ([#264](https://github.com/digidem/mapeo-desktop/issues/264)) ([#280](https://github.com/digidem/mapeo-desktop/issues/280)) ([9643fd5](https://github.com/digidem/mapeo-desktop/commit/9643fd5bd987c929ef8b423f9dda2e647a5879de))
+
+### [5.0.4](https://github.com/digidem/mapeo-desktop/compare/v5.0.3...v5.0.4) (2020-02-07)
+
+
+### Bug Fixes
+
+* Fix flickering of devices in sync screen ([#264](https://github.com/digidem/mapeo-desktop/issues/264)) ([#280](https://github.com/digidem/mapeo-desktop/issues/280)) ([9643fd5](https://github.com/digidem/mapeo-desktop/commit/9643fd5bd987c929ef8b423f9dda2e647a5879de))
+
+### [5.0.3](https://github.com/digidem/mapeo-desktop/compare/v5.0.1...v5.0.2) (2020-02-05)
+
+* Fix a bug in Sync view that would cause flickering during discovery phase for
+  other devices.
+
 ### [5.0.2](https://github.com/digidem/mapeo-desktop/compare/v5.0.1...v5.0.2) (2020-02-05)
 
 *  Fix a bug in Observations view that would prevent displaying Mapeo. Reverts ([b6d8eac](https://github.com/digidem/mapeo-desktop/commit/b6d8eac09d6d64a3e9c0a7ac4d23a930242f3050))
