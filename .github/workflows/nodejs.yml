@@ -16,8 +16,6 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
       - name: Use Node.js 8.x
         uses: actions/setup-node@v1
         with:
