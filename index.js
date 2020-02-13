@@ -27,9 +27,6 @@ var windowStateKeeper = require('./src/main/window-state')
 var installStatsIndex = require('./src/main/osm-stats')
 var TileImporter = require('./src/main/tile-importer')
 
-// HACK: enable GPU graphics acceleration on some older laptops
-app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
-
 // Setup some handy dev tools shortcuts (only activates in dev mode)
 // See https://github.com/sindresorhus/electron-debug
 debug({ showDevTools: false })
