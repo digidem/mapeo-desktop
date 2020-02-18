@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.6](https://github.com/digidem/mapeo-desktop/compare/v5.0.5...v5.0.6) (2020-02-13)
+
+
+### Bug Fixes
+
+* bump id-mapeo so builds run on windows ([7143779](https://github.com/digidem/mapeo-desktop/commit/7143779593f8dd172ea5fb4b8e1c5acd678645c3))
+* import all settings files fixes [#271](https://github.com/digidem/mapeo-desktop/issues/271) ([#272](https://github.com/digidem/mapeo-desktop/issues/272)) ([f01d2b9](https://github.com/digidem/mapeo-desktop/commit/f01d2b9b04f47e10ca92dfc3448412540ce64bd0))
+
 ### [5.0.5](https://github.com/digidem/mapeo-desktop/compare/v5.0.3...v5.0.5) (2020-02-10)
 
 
