@@ -1,5 +1,5 @@
 var path = require('path')
-var { app, ipcMain } = require('electron')
+var { dialog, app, ipcMain } = require('electron')
 var logger = require('electron-timber')
 
 var userConfig = require('./user-config')
@@ -16,12 +16,6 @@ module.exports = function (win) {
       logger.error('exception win.webContents.send', args, e.stack)
     }
   }
-
-
-
-  ipcMain.on('message-from-worker', (event, arg) => {
-    ipcSend('message-from-mapeo', arg)
-  })
 
   ipcMain.on('get-user-data', function (event, type) {
     var data = userConfig.getSettings(type)
@@ -56,6 +50,55 @@ module.exports = function (win) {
       if (err) return logger.error(err)
       logger.log('Example presets imported from ' + filename)
     })
+  })
+
+  ipcMain.on('save-file', function () {
+    var metadata = userConfig.getSettings('metadata')
+    var ext = metadata ? metadata.dataset_id : 'mapeodata'
+    dialog.showSaveDialog(
+      {
+        title: i18n.t('save-db-dialog'),
+        defaultPath: 'database.' + ext,
+        filters: [
+          {
+            name: 'Mapeo Data (*.' + ext + ')',
+            extensions: ['mapeodata', 'mapeo-jungle', ext]
+          }
+        ]
+      },
+      onopen
+    )
+
+    function onopen (filename) {
+      if (typeof filename === 'undefined') return
+      win.webContents.send('select-file', filename)
+    }
+  })
+
+  ipcMain.on('open-file', function () {
+    var metadata = userConfig.getSettings('metadata')
+    var ext = metadata ? metadata.dataset_id : 'mapeodata'
+    dialog.showOpenDialog(
+      {
+        title: i18n.t('open-db-dialog'),
+        properties: ['openFile'],
+        filters: [
+          {
+            name: 'Mapeo Data (*.' + ext + ')',
+            extensions: ['mapeodata', 'mapeo-jungle', ext, 'sync', 'zip']
+          }
+        ]
+      },
+      onopen
+    )
+
+    function onopen (filenames) {
+      if (typeof filenames === 'undefined') return
+      if (filenames.length === 1) {
+        var file = filenames[0]
+        win.webContents.send('select-file', file)
+      }
+    }
   })
 
   ipcMain.on('zoom-to-latlon-request', function (_, lon, lat) {

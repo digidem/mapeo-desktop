@@ -5,11 +5,11 @@ const i18n = require('./i18n')
 const logger = require('electron-timber')
 const t = i18n.t
 
-module.exports = async function createMenu (context) {
+module.exports = async function createMenu (ipc) {
   await app.whenReady()
 
   function setMenu () {
-    var menu = Menu.buildFromTemplate(menuTemplate(context))
+    var menu = Menu.buildFromTemplate(menuTemplate(ipc))
     Menu.setApplicationMenu(menu)
   }
 
@@ -18,7 +18,7 @@ module.exports = async function createMenu (context) {
   i18n.on('locale-change', () => setMenu())
 }
 
-function menuTemplate (context) {
+function menuTemplate (ipc) {
   var template = [
     {
       label: t('menu-file'),
@@ -35,7 +35,7 @@ function menuTemplate (context) {
             }
             dialog.showOpenDialog(opts, function (filenames) {
               if (!filenames || !filenames.length) return
-              app.tiles.go(filenames[0], cb)
+              ipc.send('import-tiles', filenames[0], cb)
               function cb (err) {
                 if (err) {
                   logger.error('[IMPORT TILES] error', err)
@@ -96,7 +96,7 @@ function menuTemplate (context) {
                 if (!filenames || !filenames.length) return
                 var filename = filenames[0]
                 logger.log('[IMPORTING]', filename)
-                app.mapeo.importer.importFromFile(filename)
+                ipc.send('import-data', filename)
               }
             )
           },
@@ -199,13 +199,13 @@ function menuTemplate (context) {
         {
           label: t('menu-zoom-to-data'),
           click: function (item, focusedWindow) {
-            getDatasetCentroid('node', function (_, loc) {
-              logger.log('RESPONSE(getDatasetCentroid):', loc)
+            ipc.send('zoom-to-data-get-centroid', 'node', function (_, loc) {
+              logger.log('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-node', loc)
             })
-            getDatasetCentroid('observation', function (_, loc) {
-              logger.log('RESPONSE(getDatasetCentroid):', loc)
+            ipc.send('zoom-to-data-get-centroid', 'observation', function (_, loc) {
+              logger.log('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-observation', loc)
             })
@@ -303,13 +303,4 @@ function menuTemplate (context) {
   }
 
   return template
-}
-
-function getDatasetCentroid (type, done) {
-  logger.log('STATUS(getDatasetCentroid):', type)
-  app.osm.core.api.stats.getMapCenter(type, function (err, center) {
-    if (err) return logger.error('ERROR(getDatasetCentroid):', err)
-    if (!center) return done(null, null)
-    done(null, [center.lon, center.lat])
-  })
 }

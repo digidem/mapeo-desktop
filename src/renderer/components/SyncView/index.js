@@ -208,6 +208,7 @@ function getPeersStatus ({
   since,
   formatMessage
 }) {
+  console.log('get peers status', serverPeers, syncErrors)
   return serverPeers.map(serverPeer => {
     let status = peerStatus.READY
     let errorMsg

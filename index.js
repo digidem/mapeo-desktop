@@ -1,6 +1,5 @@
 #!/usr/bin/env electron
 
-const { ipcRenderer } = require('electron')
 const path = require('path')
 const minimist = require('minimist')
 const electron = require('electron')
@@ -11,16 +10,15 @@ const mkdirp = require('mkdirp')
 const series = require('run-series')
 const styles = require('mapeo-styles')
 const logger = require('electron-timber')
+const { fork } = require('child_process')
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
-const MapeoRpc = require('./src/mapeo-worker')
+const middleware = require('./src/middleware')
 const miscellaneousIpc = require('./src/main/ipc')
 const createMenu = require('./src/main/menu')
-const createTileServer = require('./src/main/tile-server')
 const windowStateKeeper = require('./src/main/window-state')
-const TileImporter = require('./src/main/tile-importer')
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
@@ -35,13 +33,10 @@ debug({ showDevTools: false })
 
 var win = null
 var splash = null
-
-contextMenu({
-  showLookUpSelection: false,
-  showCopyImage: true,
-  showSaveImageAs: true,
-  showInspectElement: isDev
-})
+var bg = null
+var mainWindowState = null
+var serverProcess = null
+var ipc = new middleware.Client()
 
 var gotTheLock = app.requestSingleInstanceLock()
 
@@ -79,77 +74,24 @@ var argv = minimist(process.argv.slice(2), {
 if (argv.headless) startSequence()
 else app.once('ready', openWindow)
 
-app.on('before-quit', function (e) {
-  if (!app.server) return
-  // Cancel quit and wait for server to close
-  e.preventDefault()
-
-  var CLOSING = 'file://' + path.join(__dirname, './closing.html')
-  var closingWin = new BrowserWindow({
-    width: 600,
-    height: 400,
-    frame: false,
-    show: false,
-    alwaysOnTop: false
-  })
-  closingWin.loadURL(CLOSING)
-  const closingTimeoutId = setTimeout(() => {
-    closingWin.show()
-  }, 300)
-
-  // Server close will gracefully close databases and wait for pending sync
-  // TODO: Show the user that a sync is pending finishing
-  app.server.close(function () {
-    clearTimeout(closingTimeoutId)
-    try {
-      closingWin.close()
-    } catch (e) {}
-    closingWin = null
-    app.exit()
-  })
-})
-
-// Quit when all windows are closed.
+app.on('before-quit', beforeQuit)
 app.on('window-all-closed', function () {
   app.quit()
 })
 
 function openWindow () {
-  var APP_NAME = app.getName()
-  var INDEX = 'file://' + path.join(__dirname, './index.html')
-  var SPLASH = 'file://' + path.join(__dirname, './splash.html')
-  var mainWindowState = windowStateKeeper({
-    defaultWidth: 1000,
-    defaultHeight: 800
-  })
+  // TODO: get a socket name that isn't open ..
+  var _socketName = 'mapeo1'
+  logger.log('got socket', _socketName)
+  ipc.connect(_socketName)
 
   if (!win) {
-    win = new BrowserWindow({
-      x: mainWindowState.x,
-      y: mainWindowState.y,
-      width: mainWindowState.width,
-      height: mainWindowState.height,
-      title: APP_NAME,
-      show: false,
-      alwaysOnTop: false,
-      titleBarStyle: 'hidden',
-      icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png'),
-      webPreferences: {
-        nodeIntegration: true
-      }
-    })
-    mainWindowState.manage(win)
-    splash = new BrowserWindow({
-      width: 810,
-      height: 610,
-      transparent: true,
-      frame: false,
-      alwaysOnTop: true
-    })
-    splash.loadURL(SPLASH)
+    win = createWindow(_socketName)
+    splash = createSplashWindow()
   }
 
   if (isDev) {
+    bg = createBgWindow(_socketName)
     try {
       var {
         default: installExtension,
@@ -159,11 +101,10 @@ function openWindow () {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(name => logger.log(`Added Extension:  ${name}`))
       .catch(err => logger.log('An error occurred: ', err))
+  } else {
+    createBackgroundProcess(_socketName)
   }
-
-  win.loadURL(INDEX)
-
-  createMenu(app)
+  createMenu(ipc)
 
   // Emitted when the window is closed.
   win.on('closed', function () {
@@ -172,6 +113,7 @@ function openWindow () {
     // when you should delete the corresponding element.
     win = null
     splash = null
+    bg = null
     app.quit()
   })
 
@@ -193,7 +135,7 @@ function startSequence () {
       startupMsg('Initialized directories'),
 
       createServers,
-      startupMsg('Started http servers and mapeo-rpc'),
+      startupMsg('Started node-ipc servers'),
 
       notifyReady,
       startupMsg('Notified the frontend that backend is ready')
@@ -215,59 +157,166 @@ function initDirectories (done) {
   styles.unpackIfNew(userDataPath, function (err) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
   })
-  // TODO: run this in a separate window.
-  // TODO: see internal code at src/mapeo-worker.js
-  function ipcSend (command, payload) {
-    if (win && win.webContents) {
-      win.webContents.send('message-from-worker-to-UI', {
-        command: command, payload: payload
-      })
-    }
-  }
-  app.mapeo = new MapeoRpc({
-    userDataPath,
-    datadir: argv.datadir,
-    ipcSend
-  })
-
   done()
 }
 
 function createServers (done) {
-  // TODO: refactor tiles API.
-  // Should this be it's own module to be re-used in Mm?
-  app.tiles = TileImporter(userDataPath)
-
   // TODO: rename/refactor
   miscellaneousIpc(win)
 
-  var pending = 2
-
   logger.log('initializing mapeo', userDataPath, argv.port)
+  var opts = {
+    userDataPath,
+    datadir: argv.datadir,
+    port: argv.port,
+    tileport: argv.tileport
+  }
 
-  app.mapeo.listen(userDataPath, argv.port, (port) => {
+  ipc.send('listen', opts, function (err, port) {
+    if (err) throw new Error('fatal: could not get port', err)
+    logger.log('listen port got back', port)
     global.osmServerHost = '127.0.0.1:' + port
     logger.log(global.osmServerHost)
-    if (--pending === 0) done()
-  })
-
-  var tileServer = createTileServer()
-  tileServer.listen(argv.tileport, function () {
-    logger.log('tile server listening on :', tileServer.address().port)
-    if (--pending === 0) done()
+    done()
   })
 }
 
 function notifyReady (done) {
-  win.webContents.once('did-finish-load', function () {
+  win.webContents.on('did-finish-load', () => {
     setTimeout(() => {
-      var IS_TEST = process.env.NODE_ENV === 'test'
-      if (IS_TEST) win.setSize(1000, 800, false)
-      if (argv.debug) win.webContents.openDevTools()
       splash.destroy()
       win.show()
       done()
     }, 1000)
+  })
+}
+
+function createWindow (socketName) {
+  var APP_NAME = app.getName()
+  var INDEX = 'file://' + path.join(__dirname, './index.html')
+  mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 800
+  })
+
+  var win = new BrowserWindow({
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    title: APP_NAME,
+    show: false,
+    alwaysOnTop: false,
+    titleBarStyle: 'hidden',
+    icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png'),
+    webPreferences: {
+      nodeIntegration: true,
+      preload: path.resolve(__dirname, 'src', 'middleware', 'client-preload.js')
+    }
+  })
+  mainWindowState.manage(win)
+
+  win.loadURL(INDEX)
+
+  win.webContents.on('did-finish-load', () => {
+    if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
+    if (argv.debug) win.webContents.openDevTools()
+    win.webContents.send('set-socket', {
+      name: socketName
+    })
+  })
+  return win
+}
+
+// Create a hidden background window
+function createBgWindow (socketName) {
+  var win = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: 700,
+    height: 700,
+    show: argv.debug,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+  console.log('loading bg window')
+  var BG = 'file://' + path.join(__dirname, '/background.html')
+  win.loadURL(BG)
+  win.webContents.on('did-finish-load', () => {
+    if (argv.debug) bg.webContents.openDevTools()
+    win.webContents.send('set-socket', {
+      name: socketName
+    })
+  })
+  win.on('closed', () => {
+    console.log('background window closed')
+    app.quit()
+  })
+  return win
+}
+
+function createSplashWindow () {
+  var SPLASH = 'file://' + path.join(__dirname, './splash.html')
+  var splash = new BrowserWindow({
+    width: 810,
+    height: 610,
+    transparent: true,
+    show: true,
+    frame: false,
+    alwaysOnTop: true
+  })
+  splash.loadURL(SPLASH)
+  return splash
+}
+
+function createBackgroundProcess (socketName) {
+  serverProcess = fork(path.join(__dirname, '/background.js'), [
+    '--subprocess',
+    app.getVersion(),
+    socketName
+  ])
+
+  serverProcess.on('message', msg => {
+    console.log(msg)
+  })
+}
+
+contextMenu({
+  showLookUpSelection: false,
+  showCopyImage: true,
+  showSaveImageAs: true,
+  showInspectElement: isDev
+})
+
+function beforeQuit (e) {
+  // Cancel quit and wait for server to close
+  e.preventDefault()
+
+  var CLOSING = 'file://' + path.join(__dirname, './closing.html')
+  var closingWin = new BrowserWindow({
+    width: 600,
+    height: 400,
+    frame: false,
+    show: false,
+    alwaysOnTop: false
+  })
+  closingWin.loadURL(CLOSING)
+  const closingTimeoutId = setTimeout(() => {
+    closingWin.show()
+  }, 300)
+
+  // 'close' event will gracefully close databases and wait for pending sync
+  // TODO: Show the user that a sync is pending finishing
+  console.log('ipc.send close')
+  ipc.send('close', null, () => {
+    console.log('closed')
+    clearTimeout(closingTimeoutId)
+    if (serverProcess) serverProcess.kill()
+    try { closingWin.close() } catch (e) {}
+    closingWin = null
+    serverProcess = null
+    app.exit()
   })
 }
 

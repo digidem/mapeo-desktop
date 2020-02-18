@@ -5,10 +5,15 @@ var createOsmRouter = require('osm-p2p-server')
 var http = require('http')
 var logger = require('electron-timber')
 
-module.exports = function (osm, opts) {
+module.exports = function (osm, media, opts) {
   if (!opts) opts = {}
   var osmRouter = createOsmRouter(osm)
-  var mapeoRouter = createMapeoRouter(opts)
+
+  var mapeoRouter = createMapeoRouter(osm, media, {
+    staticRoot: opts.staticRoot,
+    writeFormat: 'osm-p2p-syncfile',
+    deviceType: 'desktop'
+  })
 
   var server = http.createServer(function (req, res) {
     logger.log(req.method + ': ' + req.url)
@@ -27,6 +32,9 @@ module.exports = function (osm, opts) {
       })
     }
   })
+
+  // TODO(KM): leaky abstraction
+  server.mapeoRouter = mapeoRouter
 
   return server
 }
