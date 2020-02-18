@@ -2,6 +2,100 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.6](https://github.com/digidem/mapeo-desktop/compare/v5.0.5...v5.0.6) (2020-02-13)
+
+
+### Bug Fixes
+
+* bump id-mapeo so builds run on windows ([7143779](https://github.com/digidem/mapeo-desktop/commit/7143779593f8dd172ea5fb4b8e1c5acd678645c3))
+* import all settings files fixes [#271](https://github.com/digidem/mapeo-desktop/issues/271) ([#272](https://github.com/digidem/mapeo-desktop/issues/272)) ([f01d2b9](https://github.com/digidem/mapeo-desktop/commit/f01d2b9b04f47e10ca92dfc3448412540ce64bd0))
+
+### [5.0.5](https://github.com/digidem/mapeo-desktop/compare/v5.0.3...v5.0.5) (2020-02-10)
+
+
+### Bug Fixes
+
+* add package-lock.json ([#282](https://github.com/digidem/mapeo-desktop/issues/282)) ([304da18](https://github.com/digidem/mapeo-desktop/commit/304da1893ba723a0f51307ca7630b86697e7bc83))
+* Fix flickering of devices in sync screen ([#264](https://github.com/digidem/mapeo-desktop/issues/264)) ([#280](https://github.com/digidem/mapeo-desktop/issues/280)) ([9643fd5](https://github.com/digidem/mapeo-desktop/commit/9643fd5bd987c929ef8b423f9dda2e647a5879de))
+
+### [5.0.5](https://github.com/digidem/mapeo-desktop/compare/v5.0.3...v5.0.5) (2020-02-10)
+
+
+### Bug Fixes
+
+* add package-lock.json ([#282](https://github.com/digidem/mapeo-desktop/issues/282)) ([304da18](https://github.com/digidem/mapeo-desktop/commit/304da1893ba723a0f51307ca7630b86697e7bc83))
+* Fix flickering of devices in sync screen ([#264](https://github.com/digidem/mapeo-desktop/issues/264)) ([#280](https://github.com/digidem/mapeo-desktop/issues/280)) ([9643fd5](https://github.com/digidem/mapeo-desktop/commit/9643fd5bd987c929ef8b423f9dda2e647a5879de))
+
+### [5.0.4](https://github.com/digidem/mapeo-desktop/compare/v5.0.3...v5.0.4) (2020-02-07)
+
+
+### Bug Fixes
+
+* Fix flickering of devices in sync screen ([#264](https://github.com/digidem/mapeo-desktop/issues/264)) ([#280](https://github.com/digidem/mapeo-desktop/issues/280)) ([9643fd5](https://github.com/digidem/mapeo-desktop/commit/9643fd5bd987c929ef8b423f9dda2e647a5879de))
+
+### [5.0.3](https://github.com/digidem/mapeo-desktop/compare/v5.0.1...v5.0.2) (2020-02-05)
+
+* Fix a bug in Sync view that would cause flickering during discovery phase for
+  other devices.
+
+### [5.0.2](https://github.com/digidem/mapeo-desktop/compare/v5.0.1...v5.0.2) (2020-02-05)
+
+*  Fix a bug in Observations view that would prevent displaying Mapeo. Reverts ([b6d8eac](https://github.com/digidem/mapeo-desktop/commit/b6d8eac09d6d64a3e9c0a7ac4d23a930242f3050))
+
+### [5.0.1](https://github.com/digidem/mapeo-desktop/compare/v5.0.0...v5.0.1) (2020-02-04)
+
+
+### Bug Fixes
+
+* fixes some bugs in multifeed and osm-p2p-syncfile
+* hackily fixes react dependency bug ([b6d8eac](https://github.com/digidem/mapeo-desktop/commit/b6d8eac09d6d64a3e9c0a7ac4d23a930242f3050))
+* pin discovery-swarm to 6 for now until sync works ([#264](https://github.com/digidem/mapeo-desktop/issues/264)) ([9793880](https://github.com/digidem/mapeo-desktop/commit/97938806154365c4aa6617a60918ec41203065b6))
+* Remove asar from the import menu ([#262](https://github.com/digidem/mapeo-desktop/issues/262)) ([b2e0924](https://github.com/digidem/mapeo-desktop/commit/b2e0924b0a8bf29101091a49bcecab77754249e9))
+
+## [5.0.0](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.3...v5.0.0) (2019-11-25)
+
+## [5.0.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2019-11-25)
+
+
+### Bug Fixes
+
+* Fix syncfile when using projectKey ([9323194](https://github.com/digidem/mapeo-desktop/commit/93231946f7be201d68f4eeacc86106751ae2d6a0))
+
+## [5.0.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2019-11-23)
+
+
+### Bug Fixes
+
+* Fix filter error ([cc59d0e](https://github.com/digidem/mapeo-desktop/commit/cc59d0eeaced13766482804a44b6593e4fb40568))
+
+## [5.0.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v5.0.0-beta.0...v5.0.0-beta.1) (2019-11-19)
+
+
+### Bug Fixes
+
+* scrolling is now possible in sync screen ([259f167](https://github.com/digidem/mapeo-desktop/commit/259f1677945efd463e17413e6939a1cfbb5dca0e))
+
+## [5.0.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v4.5.2...v5.0.0-beta.0) (2019-11-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* New sync protocol incompatible with Mapeo Mobile v1 and Desktop v4
+
+### Features
+
+* Add error messages for incompatible mapeo versions ([5947908](https://github.com/digidem/mapeo-desktop/commit/59479083d57d48cfdaa67e3569bda81a3d571448))
+* Encrypt sync with projectKey ([5268909](https://github.com/digidem/mapeo-desktop/commit/5268909feceebd5684edbef5f62369905a713cbf))
+* Only sync with peers with matching projectKey ([f442fec](https://github.com/digidem/mapeo-desktop/commit/f442fecb58ddc23ff8f27fb5de886dc049b76c27))
+
+
+### Bug Fixes
+
+* add ES translations for sync errors ([3999e7e](https://github.com/digidem/mapeo-desktop/commit/3999e7eaa98f578bbd7891a6c3ead66bfd97db30))
+
+
+* New sync protocol incompatible with Mapeo Mobile v1 and Desktop v4 ([e2923a3](https://github.com/digidem/mapeo-desktop/commit/e2923a374b91f1e978854be28be5d5a219957e37))
+
 ### [4.5.2](https://github.com/digidem/mapeo-desktop/compare/v4.5.1...v4.5.2) (2019-11-19)
 
 

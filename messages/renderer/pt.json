@@ -233,6 +233,14 @@
   "renderer.components.SyncView.index.createSyncFileDialog": {
     "message": "Create a new database to syncronize"
   },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": ""
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": ""
+  },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Select a database to syncronize"
   },

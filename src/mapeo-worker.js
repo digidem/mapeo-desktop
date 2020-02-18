@@ -5,21 +5,34 @@ const logger = require('electron-timber')
 const randombytes = require('randombytes')
 const os = require('os')
 const MapeoCore = require('@mapeo/core')
+const Settings = require('@mapeo/settings')
 const sublevel = require('subleveldown')
 
 const createMapeoServer = require('./main/server')
 const installStatsIndex = require('./main/osm-stats')
-const userConfig = require('./main/user-config')
 
 const errors = MapeoCore.errors
 
 const expectedMediaFormats = ['original', 'preview', 'thumbnail']
 
 class MapeoRPC {
-  constructor (datadir, ipcSend) {
-    // TODO: bind all the things since they're being passed
-    // around a lot to various event listeners...
-    this.mapeo = createMapeo(datadir)
+  constructor ({ datadir, userDataPath, ipcSend }) {
+    this.config = new Settings(userDataPath)
+    var opts = {
+      id: 'MapeoDesktop_' + randombytes(8).toString('hex'),
+      writeFormat: 'osm-p2p-syncfile',
+      deviceType: 'desktop',
+      encryptionKey: this.config.getEncryptionKey()
+    }
+
+    this.mapeo = new MapeoCore(datadir, path.join(datadir, 'media'), opts)
+    // hostname often includes a TLD, which we remove
+    const computerName = (os.hostname() || 'Mapeo Desktop').split('.')[0]
+    this.mapeo.sync.setName(computerName)
+
+    var idb = sublevel(this.mapeo.osm.index, 'stats')
+    this.mapeo.osm.core.use('stats', installStatsIndex(idb))
+
     this.ipcSend = ipcSend
     this.ipcSend('indexes-loading')
     this.mapeo.osm.ready(() => {
@@ -130,8 +143,7 @@ class MapeoRPC {
   }
 
   exportData ({ filename, format, id }) {
-    // TODO: userConfig should be platform independent
-    const presets = userConfig.getSettings('presets') || {}
+    const presets = this.config.getSettings('presets') || {}
     this.mapeo.exportData(filename, { format, presets }, err => {
       this.ipcSend('export-data-' + id, err)
     })
@@ -229,24 +241,6 @@ class MapeoRPC {
 }
 
 module.exports = MapeoRPC
-
-function createMapeo (datadir) {
-  var opts = {
-    id: 'MapeoDesktop_' + randombytes(8).toString('hex'),
-    writeFormat: 'osm-p2p-syncfile',
-    deviceType: 'desktop'
-  }
-
-  var mapeo = new MapeoCore(datadir, path.join(datadir, 'media'), opts)
-  // hostname often includes a TLD, which we remove
-  const computerName = (os.hostname() || 'Mapeo Desktop').split('.')[0]
-  mapeo.sync.setName(computerName)
-
-  var idb = sublevel(mapeo.osm.index, 'stats')
-  mapeo.osm.core.use('stats', installStatsIndex(idb))
-
-  return mapeo
-}
 
 
 // TODO: create RPC wrapper

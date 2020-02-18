@@ -215,6 +215,21 @@ function initDirectories (done) {
   styles.unpackIfNew(userDataPath, function (err) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
   })
+  // TODO: run this in a separate window.
+  // TODO: see internal code at src/mapeo-worker.js
+  function ipcSend (command, payload) {
+    if (win && win.webContents) {
+      win.webContents.send('message-from-worker-to-UI', {
+        command: command, payload: payload
+      })
+    }
+  }
+  app.mapeo = new MapeoRpc({
+    userDataPath,
+    datadir: argv.datadir,
+    ipcSend
+  })
+
   done()
 }
 
@@ -223,20 +238,8 @@ function createServers (done) {
   // Should this be it's own module to be re-used in Mm?
   app.tiles = TileImporter(userDataPath)
 
-  function ipcSend (command, payload) {
-    if (win && win.webContents) {
-      win.webContents.send('message-from-worker-to-UI', {
-        command: command, payload: payload
-      })
-    }
-  }
-
   // TODO: rename/refactor
   miscellaneousIpc(win)
-
-  // TODO: run this in a separate window.
-  // TODO: see internal code at src/mapeo-worker.js
-  app.mapeo = new MapeoRpc(argv.datadir, ipcSend)
 
   var pending = 2
 
