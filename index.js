@@ -39,6 +39,7 @@ debug({ showDevTools: false })
 
 var win = null
 var splash = null
+const IS_TEST = process.env.NODE_ENV === 'test'
 
 contextMenu({
   showLookUpSelection: false,
@@ -85,8 +86,10 @@ else app.once('ready', openWindow)
 
 app.on('before-quit', function (e) {
   if (!app.server) return
+  if (IS_TEST) return app.exit()
   // Cancel quit and wait for server to close
   e.preventDefault()
+  app.exit()
 
   var CLOSING = 'file://' + path.join(__dirname, './closing.html')
   var closingWin = new BrowserWindow({
@@ -119,7 +122,7 @@ app.on('window-all-closed', function () {
 })
 
 function openWindow () {
-  var APP_NAME = app.getName()
+  var APP_NAME = app.name
   var INDEX = 'file://' + path.join(__dirname, './index.html')
   var SPLASH = 'file://' + path.join(__dirname, './splash.html')
   var mainWindowState = windowStateKeeper({
@@ -143,14 +146,16 @@ function openWindow () {
       }
     })
     mainWindowState.manage(win)
-    splash = new BrowserWindow({
-      width: 810,
-      height: 610,
-      transparent: true,
-      frame: false,
-      alwaysOnTop: true
-    })
-    splash.loadURL(SPLASH)
+    if (!IS_TEST) {
+      splash = new BrowserWindow({
+        width: 810,
+        height: 610,
+        transparent: true,
+        frame: false,
+        alwaysOnTop: true
+      })
+      splash.loadURL(SPLASH)
+    }
   }
 
   if (isDev) {
@@ -279,12 +284,11 @@ function createServers (done) {
 function notifyReady (done) {
   win.webContents.once('did-finish-load', function () {
     setTimeout(() => {
-      var IS_TEST = process.env.NODE_ENV === 'test'
       if (IS_TEST) win.setSize(1000, 800, false)
-      if (argv.debug) win.webContents.openDevTools()
+      if (!IS_TEST && argv.debug) win.webContents.openDevTools()
 
       win.maximize()
-      splash.destroy()
+      if (splash) splash.destroy()
       win.show()
       done()
     }, 1000)

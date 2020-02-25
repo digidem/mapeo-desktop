@@ -1,8 +1,9 @@
-const Application = require('spectron').Application
+const spectron = require('spectron')
+const child = require('child_process');
 const cpFile = require('cp-file')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
-const electronPath = require('electron')
+const electron = require('electron')
 const path = require('path')
 const PNG = require('pngjs').PNG
 const rimraf = require('rimraf')
@@ -27,31 +28,49 @@ module.exports = {
 // Takes a Tape test. Makes some basic assertions to verify that the app loaded correctly.
 function createApp (t) {
   var fakeDialog = require('spectron-fake-dialog')
-  var mapeoPath = path.join(__dirname, '..', '..')
+  var mapeoPath = path.join(__dirname, '..', '..', 'index.js')
   if (process.env.TEST_EXECUTABLE) mapeoPath = process.env.TEST_EXECUTABLE
 
-  var app = new Application({
-    path: electronPath,
+  const app = new spectron.Application({
+    path: electron,
     args: [mapeoPath, '--datadir', config.TEST_DIR_MAPEO],
-    env: { NODE_ENV: 'test' },
-    waitTimeout: 10e3
+    env: {
+      NODE_ENV: 'test',
+      RUNNING_IN_SPECTRON: true
+    },
+    waitTimeout: 20e3
   })
   fakeDialog.apply(app)
+  process.on('SIGTERM', () => endTest(app))
   return app
 }
 
 // Starts the app, waits for it to load, returns a promise
 function waitForLoad (app, t, opts) {
-  if (!opts) opts = {}
-  return app.start().then(function () {
-    return app.client.waitUntilWindowLoaded()
-  }).then(function () {
-    if (opts.test) return app.webContents.executeJavaScript('testMode()')
-  }).then(function () {
-    return app.webContents.getTitle()
-  }).then(function (title) {
-    t.equal(title, 'Mapeo', 'title loaded')
-  })
+  return app.start()
+    .then(function () {
+      app.client.getMainProcessLogs().then(function (logs) {
+        logs.forEach(function (log) {
+          console.log(log)
+        })
+      })
+      app.client.waitUntilWindowLoaded()
+    }).then(() => {
+      // Switch to the main window
+      app.client.switchWindow('Mapeo')
+    }).then(() => {
+      app.client.waitUntilWindowLoaded()
+    })
+    .then(() => wait(4000))
+    .then(() => {
+      app.browserWindow.focus()
+      app.browserWindow
+        .isVisible()
+        .then(isVisible => {
+          t.ok(isVisible, 'isVisible')
+        })
+    })
+    .then(() => app)
 }
 
 // Returns a promise that resolves after 'ms' milliseconds. Default: 1 second
@@ -64,9 +83,14 @@ function wait (ms) {
 
 // Quit the app, end the test, either in success (!err) or failure (err)
 function endTest (app, t, err) {
-  return app.stop().then(function () {
-    t.end(err)
-  })
+  if (app && app.isRunning()) {
+    return app.stop().then(() => {
+      child.exec('pkill -f mapeo-desktop/index.js')
+      t && t.end()
+    }).catch(function (err) {
+      console.error(err)
+    })
+  }
 }
 
 // Takes a screenshot of the app
