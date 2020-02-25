@@ -5,8 +5,8 @@ const electron = require('electron')
 const store = require('../store')
 
 const defaults = {
-  maximize: true,
-  fullscreen: true,
+  maximize: false,
+  fullscreen: false,
   defaultWidth: 800,
   defaultHeight: 600,
   isMaximized: true

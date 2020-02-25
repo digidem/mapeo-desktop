@@ -1,5 +1,5 @@
 :root {
-  --main-bg-color: rgb(57, 82, 123);
+  --main-bg-color: rgba(51, 102, 255);
   --secondary-bg-color: blue;
   --main-bg-color-alpha: rgba(57, 82, 123, 0.5);
   --visible-z-index: 100;
