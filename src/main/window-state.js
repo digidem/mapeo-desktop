@@ -78,7 +78,7 @@ module.exports = function (options) {
     const isValid =
       state && (hasBounds() || state.isMaximized || state.isFullScreen)
     if (!isValid) {
-      state = null
+      state = defaults
       return
     }
 
@@ -118,6 +118,7 @@ module.exports = function (options) {
       store.set('state', state)
     } catch (err) {
       // Don't care
+      state = defaults
     }
   }
 
@@ -166,7 +167,7 @@ module.exports = function (options) {
   try {
     state = store.get('state', defaults)
   } catch (err) {
-    // Don't care
+    state = defaults
   }
 
   // Check state validity
