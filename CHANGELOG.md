@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.7](https://github.com/digidem/mapeo-desktop/compare/v5.0.5...v5.0.7) (2020-02-28)
+
+
+### Bug Fixes
+
+* bump id-mapeo so builds run on windows ([7143779](https://github.com/digidem/mapeo-desktop/commit/7143779593f8dd172ea5fb4b8e1c5acd678645c3))
+* import all settings files fixes [#271](https://github.com/digidem/mapeo-desktop/issues/271) ([#272](https://github.com/digidem/mapeo-desktop/issues/272)) ([f01d2b9](https://github.com/digidem/mapeo-desktop/commit/f01d2b9b04f47e10ca92dfc3448412540ce64bd0))
+* only one window at a time during startup. ([#284](https://github.com/digidem/mapeo-desktop/issues/284)) ([c3efcd2](https://github.com/digidem/mapeo-desktop/commit/c3efcd2e070272c992b18c9a571923ea5b03d3e1)), closes [#283](https://github.com/digidem/mapeo-desktop/issues/283)
+* sometimes the app would fail to load on Windows ([#300](https://github.com/digidem/mapeo-desktop/issues/300)) ([38e50c3](https://github.com/digidem/mapeo-desktop/commit/38e50c3a843fead5ab8692cc8230773fddf35683))
+
 ### [5.0.6](https://github.com/digidem/mapeo-desktop/compare/v5.0.5...v5.0.6) (2020-02-13)
 
 
