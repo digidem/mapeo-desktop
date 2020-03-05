@@ -282,6 +282,8 @@ function notifyReady (done) {
       var IS_TEST = process.env.NODE_ENV === 'test'
       if (IS_TEST) win.setSize(1000, 800, false)
       if (argv.debug) win.webContents.openDevTools()
+
+      win.maximize()
       splash.destroy()
       win.show()
       done()
