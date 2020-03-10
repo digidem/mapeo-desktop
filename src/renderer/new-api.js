@@ -56,6 +56,7 @@ function Api ({ baseUrl, mapeo, ipc }) {
     return logRequest('<POST: ' + url, req.post(url, { json: data }).json())
   }
 
+
   // All public methods
   const api = {
     /**
@@ -111,6 +112,13 @@ function Api ({ baseUrl, mapeo, ipc }) {
         schemaVersion: 3
       }
       return post('observations', valueForServer)
+    },
+
+    createReport: function (observations) {
+      const valueForServer = {
+        observations
+      }
+      return post('report', valueForServer)
     },
 
     /**
@@ -198,7 +206,8 @@ function Api ({ baseUrl, mapeo, ipc }) {
     // Return the url to a map style
     getMapStyleUrl: function getMapStyleUrl (id) {
       return `${baseUrl}styles/${id}/style.json?${startupTime}`
-    }
+    },
+
   }
 
   return api
