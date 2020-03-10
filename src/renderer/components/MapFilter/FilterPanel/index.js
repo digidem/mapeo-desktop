@@ -1,7 +1,7 @@
 import React from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import MuiToolbar from '@material-ui/core/Toolbar'
-import { FilterPanel } from 'react-mapfilter'
+import FilterPanel from './FilterPanel'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -33,6 +33,7 @@ const LeftPanel = props => {
 }
 
 export default LeftPanel
+export { LeftPanel as FilterPanel }
 
 const useStyles = makeStyles({
   root: {
