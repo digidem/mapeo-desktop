@@ -1,17 +1,14 @@
 // @flow
 import React, { useEffect, useState, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 
-import ReportViewPDF, {
-  type ReportViewPDFProps
-} from '../ReportViewPDF/ReportView'
 import ViewWrapper, { type CommonViewProps } from '../ViewWrapper'
 import Toolbar from '../internal/Toolbar'
 import PrintButton from './PrintButton'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
+import api from '../../../new-api'
 
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
@@ -75,48 +72,33 @@ const ReportView = ({
       filter={filter}
       getMediaUrl={getMediaUrl}>
       {({ onClickObservation, filteredObservations, getPreset, getMedia }) => {
+        var link = 'http://www.africau.edu/images/default/sample.pdf'
 
-        // Get preset with fields filtered out
-        const getPresetWithFilteredFields = (
-          observation: Observation
-        ): PresetWithAdditionalFields => {
-          const preset = getPreset(observation)
-          return {
-            ...preset,
-            fields: preset.fields.filter(hiddenFieldsFilter(fieldState)),
-            additionalFields: preset.additionalFields.filter(
-              hiddenFieldsFilter(fieldState)
-            )
-          }
-        }
+        const observations = filteredObservations.map(obs => {
+          obs.preset = getPreset(obs)
+          obs.attachments = obs.attachments.map((att) => {
+            att.media = getMedia(obs)
+            return att
+          })
+          return obs
+        })
 
-        var PDF = () => <ReportViewPDF
-          observations={filteredObservations}
-          getPreset={getPresetWithFilteredFields}
-          getMedia={getMedia}
-          paperSize={paperSize}
-          {...otherProps}
-        />
+        var promise = api.createReport(observations, fieldState)
+        promise.then((link) => {
+          console.log(link)
+        })
 
         return (
           <div className={cx.root}>
             <Toolbar>
-              {isClient && (<PDFDownloadLink
-                document={<PDF />}
-                filename={Date.now() + '.pdf'}>
-                {({ blob, url, loading, error }) => (
-                  !loading && <PrintButton />
-                )}
-              </PDFDownloadLink>
-              )}
+              <a href="{link}" download>
+                <PrintButton />
+              </a>
               <HideFieldsButton
                 fieldState={fieldState}
                 onFieldStateUpdate={setFieldState}
               />
             </Toolbar>
-            {isClient && (<PDFViewer width="100%" height="100%">
-              <PDF />
-            </PDFViewer>)}
           </div>
         )
       }}
@@ -126,17 +108,6 @@ const ReportView = ({
 
 export default ReportView
 
-function hiddenFieldsFilter(fieldState: FieldState) {
-  return function(field: Field): boolean {
-    const state = fieldState.find(fs => {
-      const id = JSON.stringify(
-        Array.isArray(field.key) ? field.key : [field.key]
-      )
-      return fs.id === id
-    })
-    return state ? !state.hidden : true
-  }
-}
 
 const useStyles = makeStyles(theme => ({
   root: {

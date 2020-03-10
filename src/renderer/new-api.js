@@ -56,6 +56,7 @@ function Api ({ baseUrl, ipc }) {
     return logRequest('<POST: ' + url, req.post(url, { json: data }).json())
   }
 
+
   // All public methods
   const api = {
     /**
@@ -104,6 +105,13 @@ function Api ({ baseUrl, ipc }) {
         schemaVersion: 3
       }
       return post('observations', valueForServer)
+    },
+
+    createReport: function (observations) {
+      const valueForServer = {
+        observations
+      }
+      return post('report', valueForServer)
     },
 
     /**

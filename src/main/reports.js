@@ -1,89 +1,48 @@
-// @flow
-
-import React from 'react'
-import {
+var React = require('react')
+var { FormattedTime, IntlProvider } = require('react-intl')
+var {
   Page,
   Text,
   View,
   Image,
   Document,
-  StyleSheet,
-  Font
-} from '@react-pdf/renderer'
-import type { Observation } from 'mapeo-schema'
-import { FormattedTime, IntlProvider } from 'react-intl'
+  StyleSheet
+} = require('@react-pdf/renderer')
 
-// import ReportFeature from './ReportFeature'
-// import ReportPageContent from './ReportPageContent'
-import { isEmptyValue } from '../utils/helpers'
-import { get } from '../utils/get_set'
+var { isEmptyValue } = require('../renderer/components/MapFilter/utils/helpers')
+var { get } = require('../renderer/components/MapFilter/utils/get_set')
+var FormattedFieldname = require('../renderer/components/MapFilter/internal/FormattedFieldname')
+var FormattedValue = require('../renderer/components/MapFilter/internal/FormattedValue')
+var FormattedLocation = require('../renderer/components/MapFilter/internal/FormattedLocation')
 
-import type {
-  PaperSize,
-  CameraOptions,
-  CommonViewContentProps,
-  PresetWithAdditionalFields,
-  Primitive
-} from '../types'
-import FormattedFieldname from '../internal/FormattedFieldname'
-import FormattedValue from '../internal/FormattedValue'
-import FormattedLocation from '../internal/FormattedLocation'
+var crypto = require('crypto')
 
-export type ReportViewPDFProps = {
-  /** Called with
-   * [CameraOptions](https://docs.mapbox.com/mapbox-gl-js/api/#cameraoptions)
-   * with properties `center`, `zoom`, `bearing`, `pitch` */
-  onMapMove?: CameraOptions => any,
-  /** Initial position of the map - an object with properties `center`, `zoom`,
-   * `bearing`, `pitch`. If this is not set then the map will by default zoom to
-   * the bounds of the observations. If you are going to unmount and re-mount
-   * this component (e.g. within tabs) then you will want to use onMove to store
-   * the position in state, and pass it as initialPosition for when the map
-   * re-mounts. */
-  initialMapPosition?: $Shape<CameraOptions>,
-  /** Mapbox access token */
-  mapboxAccessToken: string,
-  /** Mapbox style url */
-  mapStyle?: any
+const PdfContext = React.createContext(false)
+
+class Report {
+  constructor (observations) {
+    this.id = crypto.randomBytes(32)
+    this.pdf = this._createPDF(observations)
+  }
+
+  _createPDF (observations) {
+    return (<PdfContext.Provider value={true}>
+      <IntlProvider>
+        <Document>
+          {observations.map(observation => (
+            <FeaturePage
+              key={observation.id}
+              observation={observation}
+              preset={observation.preset}
+            />
+          ))}
+        </Document>
+      </IntlProvider>
+    </PdfContext.Provider>)
+  }
 }
 
-type Props = {
-  ...$Exact<ReportViewPDFProps>,
-  ...$Exact<CommonViewContentProps>,
-  /** Paper size for report */
-  paperSize?: PaperSize,
-  /** Render for printing (for screen display only visible observations are
-   * rendered, for performance reasons) */
-  print?: boolean
-}
-
-Font.register({
-  family: 'SourceSansPro',
-  fonts: [
-    { src: 'fonts/SourceSansPro-Regular.ttf' }, // font-style: normal, font-weight: normal
-    { src: 'fonts/SourceSansPro-Italic.ttf', fontStyle: 'italic' },
-    { src: 'fonts/SourceSansPro-Bold.ttf', fontWeight: 700 },
-    {
-      src: 'fonts/SourceSansPro-BoldItalic.ttf',
-      fontStyle: 'italic',
-      fontWeight: 700
-    },
-    { src: 'fonts/SourceSansPro-Light.ttf', fontWeight: 300 },
-    {
-      src: 'fonts/SourceSansPro-LightItalic.ttf',
-      fontStyle: 'italic',
-      fontWeight: 300
-    }
-  ]
-})
-
-const FeaturePage = ({
-  observation,
-  preset = {}
-}: {
-  observation: Observation,
-  preset?: PresetWithAdditionalFields
-}) => {
+const FeaturePage = (observation, preset) => {
   const coords =
     typeof observation.lon === 'number' && typeof observation.lat === 'number'
       ? {
@@ -130,7 +89,7 @@ const FeaturePage = ({
             ))}
           <Text style={styles.details}>Detalles</Text>
           {fields.map(field => {
-            const value: Primitive | Array<Primitive> = get(tags, field.key)
+            const value = get(tags, field.key)
             if (isEmptyValue(value)) return null
             return (
               <View key={field.id} style={styles.field} wrap={false}>
@@ -156,28 +115,10 @@ const FeaturePage = ({
           )}
         </View>
       </View>
-      <View style={styles.footer} fixed></View>
+      <View style={styles.footer} fixed />
     </Page>
   )
 }
-
-export const PdfContext = React.createContext<boolean>(false)
-
-const ReportViewPDF = ({
-  observations,
-  paperSize = 'a4',
-  mapboxAccessToken,
-  mapStyle
-}: Props) => {
-  return (
-    <PdfContext.Provider value={true}>
-      <IntlProvider>
-      </IntlProvider>
-    </PdfContext.Provider>
-  )
-}
-
-export default ReportViewPDF
 
 const styles = StyleSheet.create({
   page: {
@@ -262,3 +203,6 @@ const styles = StyleSheet.create({
   }
 
 })
+
+module.exports = Report
+
