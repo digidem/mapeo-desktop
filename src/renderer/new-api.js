@@ -56,7 +56,6 @@ function Api ({ baseUrl, mapeo, ipc }) {
     return logRequest('<POST: ' + url, req.post(url, { json: data }).json())
   }
 
-
   // All public methods
   const api = {
     /**
@@ -114,16 +113,8 @@ function Api ({ baseUrl, mapeo, ipc }) {
       return post('observations', valueForServer)
     },
 
-    createReport: function (
-      observations, fieldState, mapboxglAccessToken, mapStyle
-    ) {
-      const valueForServer = {
-        observations,
-        fieldState,
-        mapboxglAccessToken,
-        mapStyle
-      }
-      return post('report', valueForServer)
+    createReport: function (args) {
+      return post('report', args)
     },
 
     /**

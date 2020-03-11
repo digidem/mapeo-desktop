@@ -156,8 +156,9 @@ function startSequence () {
 
 function initDirectories (done) {
   startupMsg('Unpacking Styles')
-  // This is necessary to make sure that the styles and presets directory
+  // This is necessary to make sure that the directories
   // are writable by the user
+  mkdirp.sync(path.join(userDataPath, 'reports'))
   mkdirp.sync(path.join(userDataPath, 'styles'))
   mkdirp.sync(path.join(userDataPath, 'presets'))
   mkdirp.sync(argv.datadir)

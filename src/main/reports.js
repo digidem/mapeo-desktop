@@ -32,7 +32,6 @@ module.exports = {
             <FeaturePage
               key={observation.id}
               observation={observation}
-              preset={observation.preset}
             />
           ))}
         </Document>
@@ -41,7 +40,7 @@ module.exports = {
   }
 }
 
-const FeaturePage = (observation, preset) => {
+const FeaturePage = (observation) => {
   const coords =
     typeof observation.lon === 'number' && typeof observation.lat === 'number'
       ? {
@@ -53,9 +52,12 @@ const FeaturePage = (observation, preset) => {
     typeof observation.created_at === 'string'
       ? new Date(observation.created_at)
       : undefined
+
+  const preset = observation.preset
   const fields = preset.fields && preset.fields.concat(preset.additionalFields)
   const tags = observation.tags || {}
   const note = tags.note || tags.notes
+
   return (
     <Page size="A4" style={styles.page}>
       <View style={styles.header} fixed />

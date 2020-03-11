@@ -11,7 +11,7 @@ var http = require('http')
 var Settings = require('@mapeo/settings')
 var argv = require('minimist')(process.argv.slice(2))
 
-const MOCK_DATA = 5
+const MOCK_DATA = require('../fixtures/observations.json')
 const DEFAULT_PORT = 5006
 
 let settings, projectKey
@@ -37,7 +37,7 @@ function main () {
 
   device.turnOn(port, function () {
     console.log('listening on port', device.address().port)
-    device.createMockData(MOCK_DATA, function () {
+    device.createMockData(function () {
     })
     device.openSyncScreen(function () {
       console.log('announced')
@@ -124,14 +124,7 @@ function closeSyncScreen (cb) {
   server.mapeo.api.core.sync.leave(projectKey)
 }
 
-function createMockData (count, cb) {
-  if (!cb) {
-    cb = count
-    count = 1
-  }
-  var bounds = [-78.3155, -3.3493, -74.9871, 0.6275]
-  bounds = bounds.map((b) => b * 100)
-
+function createMockData (cb) {
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
@@ -139,36 +132,10 @@ function createMockData (count, cb) {
   var thumbnail = path.join(__dirname, '..', 'test', 'media', 'thumbnail.jpg')
   var preview = path.join(__dirname, '..', 'test', 'media', 'preview.jpg')
 
-  var presets = settings.getSettings('presets')
-  var categories = presets && presets.presets ? Object.keys(presets.presets) : []
-
-  mock.generate({
-    type: 'integer',
-    count: count,
-    params: { start: bounds[0], end: bounds[2] }
-  }, function (err, lons) {
-    if (err) throw err
-    mock.generate({
-      type: 'integer',
-      count: count,
-      params: { start: bounds[1], end: bounds[3] }
-    }, function (err, lats) {
-      if (err) throw err
-      lons.forEach((lon, i) => {
-        var obs = {
-          type: 'observation',
-          lat: lats[i] / 100,
-          lon: lon / 100,
-          timestamp: new Date(),
-          tags: {
-            categoryId: categories[Math.floor(Math.random(0, 1) * categories.length - 1)],
-            notes: '',
-            observedBy: 'user-' + Math.floor(Math.random() * 10)
-          }
-        }
-        createObservation(obs)
-      })
-    })
+  MOCK_DATA.map((observation) => {
+    observation.type = 'observation'
+    delete observation.attachments
+    createObservation(observation)
   })
 
   function createObservation (obs) {

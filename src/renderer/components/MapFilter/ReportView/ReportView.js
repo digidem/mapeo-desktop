@@ -27,14 +27,14 @@ const ReportView = ({
   observations,
   onUpdateObservation,
   onDeleteObservation,
+  mapboxAccessToken,
+  mapStyle,
   presets,
   filter,
   getMediaUrl,
   ...otherProps
 }: Props) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
-  const cx = useStyles()
-  const [paperSize, setPaperSize] = useState('a4')
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
@@ -66,7 +66,6 @@ const ReportView = ({
       filter={filter}
       getMediaUrl={getMediaUrl}>
       {({ onClickObservation, filteredObservations, getPreset, getMedia }) => {
-        var link = 'http://www.africau.edu/images/default/sample.pdf'
 
          const getPresetWithFilteredFields = (
           observation: Observation
@@ -90,26 +89,54 @@ const ReportView = ({
           return obs
         })
 
-        var promise = api.createReport(observations, fieldState)
-        promise.then((link) => {
-          console.log(link)
-        })
-
-        return (
-          <div className={cx.root}>
-            <Toolbar>
-              <a href="{link}" download>
-                <PrintButton />
-              </a>
-              <HideFieldsButton
-                fieldState={fieldState}
-                onFieldStateUpdate={setFieldState}
-              />
-            </Toolbar>
-          </div>
-        )
+        // ReportPageContent defined below...
+        return <ReportPageContent
+          mapStyle={mapStyle}
+          mapboxAccessToken={mapboxAccessToken}
+          fieldState={fieldState}
+          onFieldStateUpdate={setFieldState}
+          observations={observations}
+        />
       }}
     </ViewWrapper>
+  )
+}
+
+const ReportPageContent = ({
+  observations,
+  fieldState,
+  onFieldStateUpdate,
+  mapboxAccessToken,
+  mapStyle
+}) => {
+  const cx = useStyles()
+  const [filename, setFilename] = useState()
+
+  useEffect(() => {
+    var promise = api.createReport({
+      observations,
+      fieldState,
+      mapboxAccessToken,
+      mapStyle
+    })
+    promise.then((_filename) => {
+      setFilename(_filename)
+    })
+  }, [])
+
+  return (
+    <div className={cx.root}>
+      <Toolbar>
+        {filename && <a href={filename} download>
+          <PrintButton />
+        </a>}
+        <HideFieldsButton
+          fieldState={fieldState}
+          onFieldStateUpdate={onFieldStateUpdate}
+        />
+      </Toolbar>
+      <iframe width="100%" height="100%" src={filename} />
+    </div>
   )
 }
 
