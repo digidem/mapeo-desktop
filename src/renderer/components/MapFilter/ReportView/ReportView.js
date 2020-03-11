@@ -10,12 +10,10 @@ import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
 import api from '../../../new-api'
 
-import type { Observation } from 'mapeo-schema'
-import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
+import type { FieldState, Field } from '../types'
 
 type Props = {
-  ...$Exact<CommonViewProps>,
-  ...$Exact<ReportViewPDFProps>
+  ...$Exact<CommonViewProps>
 }
 
 const hiddenTags = {
@@ -107,7 +105,6 @@ const ReportView = ({
 }
 
 export default ReportView
-
 
 const useStyles = makeStyles(theme => ({
   root: {

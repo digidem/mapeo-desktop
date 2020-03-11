@@ -107,9 +107,14 @@ function Api ({ baseUrl, ipc }) {
       return post('observations', valueForServer)
     },
 
-    createReport: function (observations) {
+    createReport: function (
+      observations, fieldState, mapboxglAccessToken, mapStyle
+    ) {
       const valueForServer = {
-        observations
+        observations,
+        fieldState,
+        mapboxglAccessToken,
+        mapStyle
       }
       return post('report', valueForServer)
     },
