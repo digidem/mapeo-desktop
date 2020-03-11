@@ -1,6 +1,10 @@
 const React = require('react')
 const path = require('path')
+const fs = require('fs')
+const body = require('body/json')
+const { app } = require('electron')
 const { FormattedTime, IntlProvider } = require('react-intl')
+const crypto = require('crypto')
 
 const {
   render,
@@ -18,26 +22,73 @@ const FormattedFieldname = require('../renderer/components/MapFilter/internal/Fo
 const FormattedValue = require('../renderer/components/MapFilter/internal/FormattedValue')
 const FormattedLocation = require('../renderer/components/MapFilter/internal/FormattedLocation')
 
+const reportsDirectory = path.join(app.getPath('userData'), 'reports')
 const PdfContext = React.createContext(false)
 
-module.exports = {
-  save: (pdf, filename) => {
-    render(pdf, filename)
-  },
-  createPDF: (observations) => {
-    return (<PdfContext.Provider value={true}>
-      <IntlProvider>
-        <Document>
-          {observations.map(observation => (
-            <FeaturePage
-              key={observation.id}
-              observation={observation}
-            />
-          ))}
-        </Document>
-      </IntlProvider>
-    </PdfContext.Provider>)
+function middleware (req, res) {
+  var match = req.url.match(/\/report\/(.*)/)
+  if (match) {
+    var id = match[1]
+    var report = new Report(id)
+    report.createReadStream().pipe(res)
+    return true
   }
+
+  if (req.url === '/report' && req.method === 'POST') {
+    body(req, { limit: '50mb' }, function (err, body) {
+      if (err) return res.end(JSON.stringify({ error: err.toString() }))
+      const observations = body.observations
+      console.log('getting request', observations.length, 'observations')
+      console.log('observation example:', JSON.stringify(observations[0], null, 2))
+
+      var report = new Report()
+      report.create(observations)
+      report.save()
+      console.log('created', report.id)
+      res.end(JSON.stringify(report.id))
+    })
+  }
+}
+
+class Report {
+  constructor (id) {
+    if (!id) this.id = crypto.randomBytes(16).toString('hex')
+    this.filepath = path.join(reportsDirectory, id + '.pdf')
+  }
+
+  createReadStream () {
+    return fs.createReadStream(this.filepath)
+  }
+
+  create (observations) {
+    // TODO: to improve performance,
+    // 1. generate hash based on observations content,
+    // 2. use hashed id to check if PDF has already been created
+    //  -> if so, use that
+    //  -> if not, generate new
+    this.observations = observations
+    this.pdf = ReportPDF(this.observations)
+  }
+
+  save () {
+    console.log('saving ', this.filepath)
+    render(this.pdf, this.filepath)
+  }
+}
+
+function ReportPDF (observations) {
+  return (<PdfContext.Provider value={true}>
+    <IntlProvider>
+      <Document>
+        {observations.map(observation => (
+          <FeaturePage
+            key={observation.id}
+            observation={observation}
+          />
+        ))}
+      </Document>
+    </IntlProvider>
+  </PdfContext.Provider>)
 }
 
 const FeaturePage = ({
@@ -206,3 +257,6 @@ const styles = StyleSheet.create({
 
 })
 
+module.exports = {
+  Report, middleware
+}

@@ -7,7 +7,6 @@ import Toolbar from '../internal/Toolbar'
 import PrintButton from './PrintButton'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
-import { defaultGetPreset } from '../utils/helpers'
 import getStats from '../stats'
 import api from '../../../new-api'
 
@@ -67,8 +66,7 @@ const ReportView = ({
       filter={filter}
       getMediaUrl={getMediaUrl}>
       {({ onClickObservation, filteredObservations, getPreset, getMedia }) => {
-
-         const getPresetWithFilteredFields = (
+        const getPresetWithFilteredFields = (
           observation: Observation
         ): PresetWithAdditionalFields => {
           const preset = getPreset(observation)
@@ -82,8 +80,7 @@ const ReportView = ({
         }
 
         const observations = filteredObservations.map(obs => {
-          // obs.preset = getPresetWithFilteredFields(obs)
-          obs.preset = defaultGetPreset(obs)
+          obs.preset = getPresetWithFilteredFields(obs)
           obs.attachments = obs.attachments.map((att) => {
             att.media = getMedia(obs)
             return att
@@ -112,7 +109,7 @@ const ReportPageContent = ({
   mapStyle
 }) => {
   const cx = useStyles()
-  const [filename, setFilename] = useState()
+  const [reportId, setReportId] = useState()
 
   useEffect(() => {
     var promise = api.createReport({
@@ -121,15 +118,19 @@ const ReportPageContent = ({
       mapboxAccessToken,
       mapStyle
     })
-    promise.then((_filename) => {
-      setFilename(_filename)
+    promise.then((_reportId) => {
+      console.log('got back reportId:', reportId)
+      if (_reportId) setReportId(_reportId)
+      // TODO: what to do when reportId is undefined?
     })
   }, [])
+
+  var link = `/report/${reportId}`
 
   return (
     <div className={cx.root}>
       <Toolbar>
-        {filename && <a href={filename} download>
+        {reportId && <a href={link} download>
           <PrintButton />
         </a>}
         <HideFieldsButton
@@ -137,7 +138,7 @@ const ReportPageContent = ({
           onFieldStateUpdate={onFieldStateUpdate}
         />
       </Toolbar>
-      <iframe width="100%" height="100%" src={filename} />
+      <iframe width="100%" height="100%" src={link} />
     </div>
   )
 }
@@ -164,6 +165,6 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     bottom: 0,
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   }
 }))

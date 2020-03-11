@@ -18,7 +18,7 @@ import DataExportDialog from './DataExportDialog'
 import ExportButton from './ExportButton'
 import MapView from './MapView'
 import ReportView from './ReportView'
-//import MediaView from './MediaView'
+import MediaView from './MediaView'
 
 const m = defineMessages({
   errorTitle: 'Oh dear! An error has occurred',
@@ -108,18 +108,14 @@ const FilterView = ({ view, ...props }) => {
       ipcRenderer.removeListener('zoom-to-data-observation', zoomToData)
     }
   }, [])
-  /*
-   *
-        ) : view === 'media' ? (
-          <MediaView {...props} />
-        ) : (
-        */
 
   return (
     <div className={cx.viewWrapper}>
       <ErrorBoundary FallbackComponent={MyFallbackComponent}>
         {view === 'report' ? (
           <ReportView {...props} />
+        ) : view === 'media' ? (
+          <MediaView {...props} />
         ) : (
           <MapView ref={mapRef} {...props} />
         )}
