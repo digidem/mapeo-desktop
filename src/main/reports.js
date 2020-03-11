@@ -1,6 +1,9 @@
-var React = require('react')
-var { FormattedTime, IntlProvider } = require('react-intl')
-var {
+const React = require('react')
+const { FormattedTime, IntlProvider } = require('react-intl')
+const path = require('path')
+
+const {
+  render,
   Page,
   Text,
   View,
@@ -9,13 +12,13 @@ var {
   StyleSheet
 } = require('@react-pdf/renderer')
 
-var { isEmptyValue } = require('../renderer/components/MapFilter/utils/helpers')
-var { get } = require('../renderer/components/MapFilter/utils/get_set')
-var FormattedFieldname = require('../renderer/components/MapFilter/internal/FormattedFieldname')
-var FormattedValue = require('../renderer/components/MapFilter/internal/FormattedValue')
-var FormattedLocation = require('../renderer/components/MapFilter/internal/FormattedLocation')
+const { isEmptyValue } = require('../renderer/components/MapFilter/utils/helpers')
+const { get } = require('../renderer/components/MapFilter/utils/get_set')
+const FormattedFieldname = require('../renderer/components/MapFilter/internal/FormattedFieldname')
+const FormattedValue = require('../renderer/components/MapFilter/internal/FormattedValue')
+const FormattedLocation = require('../renderer/components/MapFilter/internal/FormattedLocation')
 
-var crypto = require('crypto')
+const crypto = require('crypto')
 
 const PdfContext = React.createContext(false)
 
@@ -23,6 +26,7 @@ class Report {
   constructor (observations) {
     this.id = crypto.randomBytes(32)
     this.pdf = this._createPDF(observations)
+    render(this.pdf, path.join(datadir, this.id + '.pdf'))
   }
 
   _createPDF (observations) {
@@ -59,7 +63,7 @@ const FeaturePage = (observation, preset) => {
   const note = tags.note || tags.notes
   return (
     <Page size="A4" style={styles.page}>
-      <View style={styles.header} fixed></View>
+      <View style={styles.header} fixed />
       <View style={styles.pageContent}>
         <View style={styles.columnLeft}>
           <Text style={styles.presetName}>{preset.name || 'Observation'}</Text>
