@@ -1,6 +1,6 @@
 const React = require('react')
-const { FormattedTime, IntlProvider } = require('react-intl')
 const path = require('path')
+const { FormattedTime, IntlProvider } = require('react-intl')
 
 const {
   render,
@@ -18,18 +18,13 @@ const FormattedFieldname = require('../renderer/components/MapFilter/internal/Fo
 const FormattedValue = require('../renderer/components/MapFilter/internal/FormattedValue')
 const FormattedLocation = require('../renderer/components/MapFilter/internal/FormattedLocation')
 
-const crypto = require('crypto')
-
 const PdfContext = React.createContext(false)
 
-class Report {
-  constructor (observations) {
-    this.id = crypto.randomBytes(32)
-    this.pdf = this._createPDF(observations)
-    render(this.pdf, path.join(datadir, this.id + '.pdf'))
-  }
-
-  _createPDF (observations) {
+module.exports = {
+  save: (pdf, filename) => {
+    render(pdf, filename)
+  },
+  createPDF: (observations) => {
     return (<PdfContext.Provider value={true}>
       <IntlProvider>
         <Document>
@@ -58,7 +53,7 @@ const FeaturePage = (observation, preset) => {
     typeof observation.created_at === 'string'
       ? new Date(observation.created_at)
       : undefined
-  const fields = preset.fields.concat(preset.additionalFields)
+  const fields = preset.fields && preset.fields.concat(preset.additionalFields)
   const tags = observation.tags || {}
   const note = tags.note || tags.notes
   return (
@@ -92,7 +87,7 @@ const FeaturePage = (observation, preset) => {
               </Text>
             ))}
           <Text style={styles.details}>Detalles</Text>
-          {fields.map(field => {
+          {fields && fields.map(field => {
             const value = get(tags, field.key)
             if (isEmptyValue(value)) return null
             return (
@@ -134,8 +129,7 @@ const styles = StyleSheet.create({
   },
   pageContent: {
     flex: 1,
-    flexDirection: 'row',
-    fontFamily: 'SourceSansPro'
+    flexDirection: 'row'
   },
   columnLeft: {
     flex: 2,
@@ -207,6 +201,4 @@ const styles = StyleSheet.create({
   }
 
 })
-
-module.exports = Report
 

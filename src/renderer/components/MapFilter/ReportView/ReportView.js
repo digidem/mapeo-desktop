@@ -10,7 +10,8 @@ import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
 import api from '../../../new-api'
 
-import type { FieldState, Field } from '../types'
+import type { Observation } from 'mapeo-schema'
+import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
 
 type Props = {
   ...$Exact<CommonViewProps>
@@ -34,11 +35,6 @@ const ReportView = ({
   const stats = useMemo(() => getStats(observations || []), [observations])
   const cx = useStyles()
   const [paperSize, setPaperSize] = useState('a4')
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
@@ -72,8 +68,21 @@ const ReportView = ({
       {({ onClickObservation, filteredObservations, getPreset, getMedia }) => {
         var link = 'http://www.africau.edu/images/default/sample.pdf'
 
+         const getPresetWithFilteredFields = (
+          observation: Observation
+        ): PresetWithAdditionalFields => {
+          const preset = getPreset(observation)
+          return {
+            ...preset,
+            fields: preset.fields.filter(hiddenFieldsFilter(fieldState)),
+            additionalFields: preset.additionalFields.filter(
+              hiddenFieldsFilter(fieldState)
+            )
+          }
+        }
+
         const observations = filteredObservations.map(obs => {
-          obs.preset = getPreset(obs)
+          obs.preset = getPresetWithFilteredFields(obs)
           obs.attachments = obs.attachments.map((att) => {
             att.media = getMedia(obs)
             return att
@@ -102,6 +111,18 @@ const ReportView = ({
       }}
     </ViewWrapper>
   )
+}
+
+function hiddenFieldsFilter (fieldState: FieldState) {
+  return function (field: Field): boolean {
+    const state = fieldState.find(fs => {
+      const id = JSON.stringify(
+        Array.isArray(field.key) ? field.key : [field.key]
+      )
+      return fs.id === id
+    })
+    return state ? !state.hidden : true
+  }
 }
 
 export default ReportView
