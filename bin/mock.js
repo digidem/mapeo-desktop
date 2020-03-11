@@ -11,7 +11,7 @@ var http = require('http')
 var Settings = require('@mapeo/settings')
 var argv = require('minimist')(process.argv.slice(2))
 
-const MOCK_DATA = require('../fixtures/observations.json')
+const MOCK_DATA = require('../fixtures/observations.json').slice(0,5)
 const DEFAULT_PORT = 5006
 
 let settings, projectKey

@@ -40,7 +40,9 @@ module.exports = {
   }
 }
 
-const FeaturePage = (observation) => {
+const FeaturePage = ({
+  observation
+}) => {
   const coords =
     typeof observation.lon === 'number' && typeof observation.lat === 'number'
       ? {
@@ -54,7 +56,7 @@ const FeaturePage = (observation) => {
       : undefined
 
   const preset = observation.preset
-  const fields = preset.fields && preset.fields.concat(preset.additionalFields)
+  const fields = preset.fields.concat(preset.additionalFields)
   const tags = observation.tags || {}
   const note = tags.note || tags.notes
 
@@ -89,8 +91,8 @@ const FeaturePage = (observation) => {
               </Text>
             ))}
           <Text style={styles.details}>Detalles</Text>
-          {fields && fields.map(field => {
-            const value = get(tags, field.key)
+          {fields.map(field => {
+            const value = get(tags, field.key, 'field')
             if (isEmptyValue(value)) return null
             return (
               <View key={field.id} style={styles.field} wrap={false}>
