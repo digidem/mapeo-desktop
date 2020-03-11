@@ -7,6 +7,7 @@ import Toolbar from '../internal/Toolbar'
 import PrintButton from './PrintButton'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
+import { defaultGetPreset } from '../utils/helpers'
 import getStats from '../stats'
 import api from '../../../new-api'
 
@@ -81,7 +82,8 @@ const ReportView = ({
         }
 
         const observations = filteredObservations.map(obs => {
-          obs.preset = getPresetWithFilteredFields(obs)
+          // obs.preset = getPresetWithFilteredFields(obs)
+          obs.preset = defaultGetPreset(obs)
           obs.attachments = obs.attachments.map((att) => {
             att.media = getMedia(obs)
             return att
