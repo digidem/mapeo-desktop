@@ -47,6 +47,7 @@ function middleware (req, res) {
       console.log('created', report.id)
       res.end(JSON.stringify(report.id))
     })
+    return true
   }
 }
 
@@ -68,6 +69,7 @@ class Report {
     //  -> if not, generate new
     this.observations = observations
     this.pdf = ReportPDF(this.observations)
+    console.log('made a report')
   }
 
   save () {
