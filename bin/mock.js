@@ -12,6 +12,7 @@ var Settings = require('@mapeo/settings')
 var argv = require('minimist')(process.argv.slice(2))
 
 const DEFAULT_MOCK_DATA = 5
+const MOCK_DATA = require('../fixtures/observations.json')
 const DEFAULT_PORT = 5006
 
 let settings, projectKey
@@ -44,6 +45,9 @@ function main (opts) {
     console.log('listening on port', device.address().port)
     if (opts.count) {
       device.createMockData(opts, function () {
+      })
+    } else {
+      device.createMockData({ observations: MOCK_DATA }, function () {
       })
     }
     device.openSyncScreen(function () {
@@ -126,13 +130,22 @@ function closeSyncScreen (cb) {
   server.mapeo.api.core.sync.leave(projectKey)
 }
 
-function createMockData ({ count, obsOnly }, cb) {
+function createMockData ({ count, obsOnly, observations }, cb) {
   var bounds = [-78.3155, -3.3493, -74.9871, 0.6275]
   bounds = bounds.map((b) => b * 100)
 
   var server = this
   var port = server.address().port
   var base = `http://localhost:${port}`
+
+  if (observations) {
+    observations.map((observation) => {
+      observation.type = 'observation'
+      delete observation.attachments
+      createObservation(observation)
+    })
+    return
+  }
 
   var presets = settings.getSettings('presets')
   var categories = presets && presets.presets ? Object.keys(presets.presets) : []
