@@ -22,10 +22,9 @@ const FormattedFieldname = require('../renderer/components/MapFilter/internal/Fo
 const FormattedValue = require('../renderer/components/MapFilter/internal/FormattedValue')
 const FormattedLocation = require('../renderer/components/MapFilter/internal/FormattedLocation')
 
-const reportsDirectory = path.join(app.getPath('userData'), 'reports')
-const PdfContext = React.createContext(false)
+export const PdfContext = React.createContext(false)
 
-function middleware (req, res) {
+export function middleware (req, res) {
   var match = req.url.match(/\/report\/(.*)/)
   if (match) {
     var id = match[1]
@@ -44,16 +43,17 @@ function middleware (req, res) {
       var report = new Report()
       report.create(observations)
       report.save()
-      console.log('created', report.id)
+      console.log('created report', report.id)
       res.end(JSON.stringify(report.id))
     })
     return true
   }
 }
 
-class Report {
+export class Report {
   constructor (id) {
     if (!id) this.id = crypto.randomBytes(16).toString('hex')
+    const reportsDirectory = path.join(app.getPath('userData'), 'reports')
     this.filepath = path.join(reportsDirectory, id + '.pdf')
   }
 
@@ -145,15 +145,15 @@ const FeaturePage = ({
             ))}
           <Text style={styles.details}>Detalles</Text>
           {fields.map(field => {
-            const value = get(tags, field.key, 'field')
+            const value = get(tags, field.key)
             if (isEmptyValue(value)) return null
             return (
               <View key={field.id} style={styles.field} wrap={false}>
                 <Text style={styles.fieldLabel}>
-                  <FormattedFieldname field={field} />
+                  <FormattedFieldname field='test' />
                 </Text>
                 <Text style={styles.fieldValue}>
-                  <FormattedValue field={field} value={value} />
+                  <FormattedValue field='test' value={value} />
                 </Text>
               </View>
             )
@@ -259,6 +259,3 @@ const styles = StyleSheet.create({
 
 })
 
-module.exports = {
-  Report, middleware
-}

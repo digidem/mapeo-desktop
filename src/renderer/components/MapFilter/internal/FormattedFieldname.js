@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl'
 import { Text } from '@react-pdf/renderer'
 import { getLocalizedFieldProp, fieldKeyToLabel } from '../utils/strings'
 import type { Field } from '../types'
-import { PdfContext } from '../ReportViewPDF/ReportView'
+import { PdfContext } from '../../../../main/reports'
 
 const styles = {
   groupText: {
