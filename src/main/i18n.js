@@ -1,6 +1,7 @@
 const { EventEmitter } = require('events')
 const { app } = require('electron')
 const logger = require('../logger')
+const store = require('../store')
 
 const translations = {
   en: require('../../messages/main/en.json'),
@@ -48,6 +49,7 @@ class I18n extends EventEmitter {
     this.locale = newLocale
     this.genericLocale = newLocale.split('-')[0]
     this.emit('locale-change', newLocale)
+    store.set('locale', newLocale)
   }
 }
 
@@ -55,5 +57,9 @@ const i18n = new I18n('en')
 module.exports = i18n
 
 app.once('ready', () => {
-  i18n.setLocale(app.getLocale())
+  try {
+    i18n.setLocale(store.get('locale'))
+  } catch (err) {
+    i18n.setLocale(app.getLocale())
+  }
 })
