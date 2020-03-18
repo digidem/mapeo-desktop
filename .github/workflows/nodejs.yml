@@ -12,8 +12,10 @@ jobs:
         include:
           - os: windows-latest
             platform: x32
+            name: windows-latest-32
           - os: windows-latest
             platform: x64
+            name: windows-latest-64
 
     steps:
       - name: Context
@@ -70,5 +72,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.os }}
+          name: ${{ matrix.name }}
           path: dist
