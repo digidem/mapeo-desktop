@@ -8,7 +8,12 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            platform: x32
+          - os: windows-latest
+            platform: x64
 
     steps:
       - name: Context
