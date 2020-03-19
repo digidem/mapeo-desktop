@@ -33,21 +33,19 @@ gh.readFile(config.filename, { ref: config.branches[0] }, function (err, data) {
   }
   var version = config.version
   var macLine = `/mapeo/latest/mac https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_mac.dmg 302`
-  var windows32Line = `/mapeo/latest/win32 https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_win32.exe 302`
-  var windows64Line = `/mapeo/latest/win64 https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_win64.exe 302`
+  var windowsLine = `/mapeo/latest/windows https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_win.exe 302`
   var linuxLine = `/mapeo/latest/linux https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_linux.deb 302`
   var res = []
   data
     .toString()
     .split('\n')
     .map(function (line) {
-      if (line.length > 0 && !line.match(/mapeo\/latest\/(mac|win32|win64|linux)/)) {
+      if (line.length > 0 && !line.match(/mapeo\/latest\/(mac|windows|linux)/)) {
         res.push(line.trim())
       }
     })
   res.push(macLine)
-  res.push(windows32Line)
-  res.push(windows64Line)
+  res.push(windowsLine)
   res.push(linuxLine)
   data = res.join('\n') + '\n'
 
