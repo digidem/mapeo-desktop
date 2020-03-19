@@ -11,7 +11,7 @@ jobs:
         config: 
           - { os: macos-latest, arch: x64, name: macos-latest }
           - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
-          - { os: windows-latest, arch: ia32, platform: x86, name: windows-latest-32 }
+          - { os: windows-latest, arch: ia32, platform: win32, name: windows-latest-32 }
           - { os: windows-latest, arch: x64,  platform: x64, name: windows-latest-64 }
 
     steps:
@@ -29,7 +29,7 @@ jobs:
           architecture: ${{matrix.config.platform}} 
       - name: npm install
         run: |
-          npm install
+          npm_config_arch=${{matrix.config.arch}} npm install
       - name: Lint
         run: |
           npm run lint
