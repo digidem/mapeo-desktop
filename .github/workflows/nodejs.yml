@@ -11,10 +11,8 @@ jobs:
         config: 
           - { os: macos-latest, arch: x64, name: macos-latest }
           - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
-          - { os: windows-latest, arch: ia32, platform: win32, name: windows-latest-32-1 }
-          - { os: windows-latest, arch: x64,  platform: x64, name: windows-latest-64 }
-          - { os: windows-latest, arch: ia32, platform: ia32, name: windows-latest-32-2 }
-          - { os: windows-latest, arch: ia32, platform: x86, name: windows-latest-32-3 }
+          - { os: windows-latest, arch: x64, platform: x64, name: windows-latest }
+          - { os: windows-latest, arch: ia32, platform: win32, name: windows-latest-32 }
 
     steps:
       - name: Context
@@ -34,6 +32,11 @@ jobs:
           npm install
         env:
           npm_config_arch: ${{matrix.config.arch}} 
+      - name: Build leveldb
+        if: contains(matrix.config.name, 'windows-latest-32')
+        run: | 
+          npm install --global --production windows-build-tool
+          npm install leveldown --build-from-source
       - name: Lint
         run: |
           npm run lint
