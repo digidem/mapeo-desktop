@@ -31,7 +31,9 @@ jobs:
           architecture: ${{matrix.config.platform}} 
       - name: npm install
         run: |
-          npm_config_arch=${{matrix.config.arch}} npm install
+          npm install
+        env:
+          npm_config_arch: ${{matrix.config.arch}} 
       - name: Lint
         run: |
           npm run lint
