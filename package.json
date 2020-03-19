@@ -20,7 +20,7 @@
     "check:prod-unused": "dependency-check package.json --entry index.js --entry src/renderer/app.js --no-dev --detective precinct -i electron -i electron-devtools-installer --unused -i @babel/runtime -i @fortawesome/fontawesome-svg-core -i date-fns -i html-react-parser -i mapbox-gl",
     "check:dev": "dependency-check package.json --entry index.js --entry 'test/**.js' --entry src/renderer/app.js --entry 'stories/**.js' --detective precinct",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --publish=onTag",
+    "dist": "electron-builder --ia32 --x64 --publish=onTag",
     "build": "npm-run-all -s build:translations build:js",
     "build:js": "webpack",
     "build:translations": "node bin/build-translations.js",
@@ -195,13 +195,8 @@
       "category": "public.app-category.utilities"
     },
     "win": {
-      "target": {
-        "target": "nsis",
-        "arch": [
-          "x64",
-          "ia32"
-        ]
-      }
+      "target": "NSIS",
+      "asar": false
     },
     "linux": {
       "target": [
