@@ -20,7 +20,7 @@
     "check:prod-unused": "dependency-check package.json --entry index.js --entry src/renderer/app.js --no-dev --detective precinct -i electron -i electron-devtools-installer --unused -i @babel/runtime -i @fortawesome/fontawesome-svg-core -i date-fns -i html-react-parser -i mapbox-gl",
     "check:dev": "dependency-check package.json --entry index.js --entry 'test/**.js' --entry src/renderer/app.js --entry 'stories/**.js' --detective precinct",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --ia32 --x64 --publish=onTag",
+    "dist": "electron-builder --publish=onTag",
     "build": "npm-run-all -s build:translations build:js",
     "build:js": "webpack",
     "build:translations": "node bin/build-translations.js",
@@ -33,7 +33,6 @@
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
     "postinstall": "patch-package && electron-builder install-app-deps",
-    "rebuild-leveldb": "electron-rebuild -o leveldown",
     "license-check": "license-check",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta",
@@ -145,7 +144,6 @@
     "electron": "^6.0.10",
     "electron-builder": "^21.2.0",
     "electron-devtools-installer": "^2.2.4",
-    "electron-rebuild": "^1.8.6",
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
@@ -195,8 +193,7 @@
       "category": "public.app-category.utilities"
     },
     "win": {
-      "target": "NSIS",
-      "asar": false
+      "target": "NSIS"
     },
     "linux": {
       "target": [

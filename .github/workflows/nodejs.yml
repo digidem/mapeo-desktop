@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
         config: 
-          - { os: macos-latest, name: macos-latest }
-          - { os: ubuntu-latest, name: ubuntu-latest }
-          - { os: windows-latest, platform: x86, name: windows-latest-32 }
-          - { os: windows-latest, platform: x64, name: windows-latest-64 }
+          - { os: macos-latest, arch: x64, name: macos-latest }
+          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
+          - { os: windows-latest, arch: ia32, platform: x86, name: windows-latest-32 }
+          - { os: windows-latest, arch: x64,  platform: x64, name: windows-latest-64 }
 
     steps:
       - name: Context
@@ -33,9 +33,6 @@ jobs:
       - name: Lint
         run: |
           npm run lint
-      - name: Rebuild native deps for Electron
-        run: |
-          npm run rebuild-leveldb
       - name: Build frontend
         run: |
           npm run build
@@ -43,7 +40,7 @@ jobs:
           CI: true
       - name: Publish
         run: |
-          npm run dist
+          npm run dist -- --${{matrix.config.arch}}
         env:
           CI: true
           GITHUB_CI_REF: ${{ github.ref }}
