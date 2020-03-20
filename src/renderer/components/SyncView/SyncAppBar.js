@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Wifi, WifiOff } from '@material-ui/icons'
 import { defineMessages, useIntl } from 'react-intl'
 import wifi from 'node-wifi'
-import { Tooltip } from '@material-ui/core'
 
 wifi.init({
   iface: null
