@@ -40,9 +40,6 @@ jobs:
           npm run build
         env:
           CI: true
-      - name: Build leveldb
-        run: | 
-          npm run rebuild-leveldb
       - name: Publish
         run: |
           npm run dist 
