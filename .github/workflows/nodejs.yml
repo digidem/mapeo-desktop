@@ -32,6 +32,9 @@ jobs:
           npm install
         env:
           npm_config_arch: ${{matrix.config.arch}} 
+      - name: npm run rebuild-deps
+        run: |
+          npm run rebuild-deps -- -a ${{matrix.config.arch}}
       - name: Lint
         run: |
           npm run lint
