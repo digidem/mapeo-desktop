@@ -34,7 +34,7 @@
     "dev": "electron . --debug --disable-http-cache",
     "postinstall": "patch-package && electron-builder install-app-deps",
     "license-check": "license-check",
-    "rebuild-leveldb", "cd node_modules/leveldown && cross-env HOME=~/.electron-gyp node-gyp rebuild --target=2.0.7 --runtime=electron --dist-url=https://atom.io/download/atom-shell",
+    "rebuild-leveldb": "cd node_modules/leveldown && cross-env HOME=~/.electron-gyp node-gyp rebuild --target=2.0.7 --runtime=electron --dist-url=https://atom.io/download/atom-shell",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta",
     "gh-release": "gh-release",
