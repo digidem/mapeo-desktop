@@ -193,6 +193,7 @@
       "category": "public.app-category.utilities"
     },
     "win": {
+      "asar": false,
       "target": "NSIS"
     },
     "linux": {
