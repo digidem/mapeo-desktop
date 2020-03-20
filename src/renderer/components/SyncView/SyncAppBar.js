@@ -17,6 +17,7 @@ const m = defineMessages({
   // Title of sync screen
   title: 'Available Devices',
   subtitle: 'via Wi-Fi',
+  disconnected: 'Disconnected',
   // Button to sync from an existing sync file
   selectSyncfile: 'Sync from a file…',
   // Button to create a new sync file
@@ -49,15 +50,13 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
             ) : (
               <WifiOff className={cx.wifiIcon} />
             )}
-            {currentConnection && (
-              <Typography
-                variant='overline'
-                component='span'
-                className={cx.wifiName}
-              >
-                {currentConnection.ssid}
-              </Typography>
-            )}
+            <Typography
+              variant='overline'
+              component='span'
+              className={cx.wifiName}
+            >
+              {currentConnection ? currentConnection.ssid : t(m.disconnected)}
+            </Typography>
           </span>
         </div>
         <Button
