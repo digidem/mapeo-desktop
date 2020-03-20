@@ -11,7 +11,7 @@
   },
   "main": "index.js",
   "engine": {
-    "node": "8.11.4"
+    "node": "12.4"
   },
   "scripts": {
     "clean": "rimraf \"dist/\"",
