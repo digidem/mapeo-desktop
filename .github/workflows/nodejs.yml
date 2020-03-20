@@ -35,6 +35,12 @@ jobs:
       - name: Lint
         run: |
           npm run lint
+      - name: Rebuild leveldb for election
+        if: contains(matrix.config.os, 'windows')
+        run: |
+          npm install --global node-gyp@latest
+          for /f "delims=" %P in ('npm prefix -g') do npm config set node_gyp "%P\node_modules\node-gyp\bin\node-gyp.js"
+          npm run rebuild-leveldb
       - name: Build frontend
         run: |
           npm run build
