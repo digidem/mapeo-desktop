@@ -32,11 +32,6 @@ jobs:
           npm install
         env:
           npm_config_arch: ${{matrix.config.arch}} 
-      - name: Build leveldb
-        if: contains(matrix.config.name, 'windows-latest-32')
-        run: | 
-          npm install --global --production windows-build-tool
-          npm install leveldown --build-from-source
       - name: Lint
         run: |
           npm run lint
@@ -45,6 +40,9 @@ jobs:
           npm run build
         env:
           CI: true
+      - name: Build leveldb
+        run: | 
+          npm run rebuild-leveldb
       - name: Publish
         run: |
           npm run dist -- --${{matrix.config.arch}}
