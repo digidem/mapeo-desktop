@@ -11,10 +11,8 @@ jobs:
         config: 
           - { os: macos-latest, arch: x64, name: macos-latest }
           - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
-          - { os: windows-latest, arch: x64, platform: x64, name: windows-latest }
-          - { os: windows-latest, arch: ia32, platform: x86, name: windows-latest-32 }
-          - { os: windows-latest, arch: ia32, platform: win32, name: windows-latest-32-1 }
-          - { os: windows-latest, arch: ia32, platform: ia32, name: windows-latest-32-2 }
+          - { os: windows-latest, arch: x64, name: windows-latest }
+          - { os: windows-latest, arch: ia32, name: windows-latest-32 }
 
     steps:
       - name: Context
@@ -28,21 +26,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.4
-          architecture: ${{matrix.config.platform}} 
+          architecture: ${{matrix.config.arch}} 
       - name: npm install
         run: |
           npm install
-    #   env:
-      #   npm_config_arch: ${{matrix.config.arch}} 
+        env:
+          npm_config_arch: ${{matrix.config.arch}} 
       - name: Lint
         run: |
           npm run lint
-      - name: Rebuild leveldb for election
-        if: contains(matrix.config.os, 'windows')
-        run: |
-          npm install --global node-gyp@latest
-          npm config set node_gyp 
-          npm run rebuild-leveldb
       - name: Build frontend
         run: |
           npm run build
@@ -53,7 +45,7 @@ jobs:
           npm run rebuild-leveldb
       - name: Publish
         run: |
-          npm run dist -- --${{matrix.config.arch}}
+          npm run dist 
         env:
           CI: true
           GITHUB_CI_REF: ${{ github.ref }}
