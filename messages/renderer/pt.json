@@ -194,9 +194,6 @@
     "description": "Button to sync from an existing sync file",
     "message": "Sync from a file…"
   },
-  "renderer.components.SyncView.SyncAppBar.subtitle": {
-    "message": "via Wi-Fi"
-  },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
     "message": "Available Devices"

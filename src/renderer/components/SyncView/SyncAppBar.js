@@ -15,7 +15,6 @@ wifi.init({
 const m = defineMessages({
   // Title of sync screen
   title: 'Available Devices',
-  subtitle: 'via Wi-Fi',
   disconnected: 'Disconnected',
   // Button to sync from an existing sync file
   selectSyncfile: 'Sync from a file…',
