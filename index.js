@@ -144,11 +144,12 @@ function openWindow () {
     })
     mainWindowState.manage(win)
     splash = new BrowserWindow({
-      width: 810,
-      height: 610,
+      width: 450,
+      height: 410,
+      center: true,
       transparent: true,
-      frame: false,
-      alwaysOnTop: true
+      resizable: false,
+      frame: false
     })
     splash.loadURL(SPLASH)
   }
