@@ -37,12 +37,11 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
   // Check connection every 2 seconds
   useEffect(() => {
     const intervalCheck = setInterval(() => {
-      wifi
-        .getCurrentConnections()
-        .then((conn) => setCurrentConnection(conn && conn[0]))
+      wifi.getCurrentConnections().then((conn) => setCurrentConnection(conn && conn[0]))
     }, 2000)
     return () => clearInterval(intervalCheck)
   }, [])
+
   return (
     <AppBar position='static' color='default' elevation={0} className={cx.root}>
       <Toolbar>
