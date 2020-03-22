@@ -7,15 +7,23 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Wifi, WifiOff } from '@material-ui/icons'
 import { defineMessages, useIntl } from 'react-intl'
 import wifi from 'node-wifi'
+import { Tooltip } from '@material-ui/core'
 
 wifi.init({
   iface: null
 })
 
+const getWifiConnectionColor = (connection) => {
+  if (!connection) return '#888'
+  if (connection.quality < 30) return 'red'
+  if (connection.quality < 60) return 'orange'
+}
+
 const m = defineMessages({
   // Title of sync screen
   title: 'Available Devices',
   disconnected: 'Disconnected',
+  quality: 'Quality: {quality}%',
   // Button to sync from an existing sync file
   selectSyncfile: 'Sync from a file…',
   // Button to create a new sync file
@@ -42,20 +50,30 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
           <Typography variant='h6' component='h1' className={cx.title}>
             {t(m.title)}
           </Typography>
-          <span className={cx.wifi}>
-            {currentConnection ? (
-              <Wifi className={cx.wifiIcon} />
-            ) : (
-              <WifiOff className={cx.wifiIcon} />
-            )}
-            <Typography
-              variant='overline'
-              component='span'
-              className={cx.wifiName}
+          {currentConnection ? (
+            <Tooltip
+              title={t(m.quality, {
+                quality: Math.min(100, currentConnection.quality).toFixed(0)
+              })}
             >
-              {currentConnection ? currentConnection.ssid : t(m.disconnected)}
-            </Typography>
-          </span>
+              <span className={cx.wifi}>
+                <Wifi
+                  className={cx.wifiIcon}
+                  style={{ color: getWifiConnectionColor(currentConnection) }}
+                />
+                <Typography variant='overline' component='span' className={cx.wifiName}>
+                  {currentConnection.ssid}
+                </Typography>
+              </span>
+            </Tooltip>
+          ) : (
+            <span className={cx.wifi}>
+              <WifiOff className={cx.wifiIcon} />
+              <Typography variant='overline' component='span' className={cx.wifiName}>
+                {t(m.disconnected)}
+              </Typography>
+            </span>
+          )}
         </div>
         <Button
           onClick={onClickSelectSyncfile}
