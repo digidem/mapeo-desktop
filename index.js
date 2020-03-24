@@ -184,6 +184,11 @@ function createServers (done) {
 function notifyReady (done) {
   win.webContents.on('did-finish-load', () => {
     setTimeout(() => {
+      var IS_TEST = process.env.NODE_ENV === 'test'
+      if (IS_TEST) win.setSize(1000, 800, false)
+      if (argv.debug) win.webContents.openDevTools()
+
+      win.maximize()
       splash.destroy()
       win.show()
       done()
@@ -198,7 +203,6 @@ function createWindow (socketName) {
     defaultWidth: 1000,
     defaultHeight: 800
   })
-
   var win = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -259,13 +263,13 @@ function createBgWindow (socketName) {
 function createSplashWindow () {
   var SPLASH = 'file://' + path.join(__dirname, './splash.html')
   var splash = new BrowserWindow({
-    width: 810,
-    height: 610,
-    transparent: true,
-    show: true,
-    frame: false,
-    alwaysOnTop: true
-  })
+      width: 450,
+      height: 410,
+      center: true,
+      transparent: true,
+      resizable: false,
+      frame: false
+    })
   splash.loadURL(SPLASH)
   return splash
 }
