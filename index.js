@@ -271,7 +271,8 @@ function createSplashWindow () {
 }
 
 function createBackgroundProcess (socketName) {
-  serverProcess = fork(path.join(__dirname, '/background.js'), [
+  console.log('creating background process')
+  serverProcess = fork(path.join(__dirname, 'src', 'middleware', 'background.js'), [
     '--subprocess',
     app.getVersion(),
     socketName

@@ -6,7 +6,6 @@ let isDev, version
 if (process.argv[2] === '--subprocess') {
   isDev = false
   version = process.argv[3]
-
   const socketName = process.argv[4]
   console.log('initing', socketName)
   ipc.init(socketName, serverHandlers)

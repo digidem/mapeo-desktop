@@ -3,7 +3,7 @@ var createMapeoRouter = require('mapeo-server')
 var ecstatic = require('ecstatic')
 var createOsmRouter = require('osm-p2p-server')
 var http = require('http')
-var logger = require('electron-timber')
+var logger = console
 
 module.exports = function (osm, media, opts) {
   if (!opts) opts = {}

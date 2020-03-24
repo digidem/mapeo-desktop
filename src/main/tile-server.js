@@ -1,7 +1,7 @@
 var http = require('http')
 var ecstatic = require('ecstatic')
 var series = require('run-series')
-const logger = require('electron-timber')
+var logger = console
 
 module.exports = function (userDataPath) {
   var guesses = ['png', 'jpg', 'jpeg']

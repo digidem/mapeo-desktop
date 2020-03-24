@@ -1,4 +1,4 @@
-const logger = require('electron-timber')
+const logger = console
 const mkdirp = require('mkdirp')
 const pump = require('pump')
 const path = require('path')

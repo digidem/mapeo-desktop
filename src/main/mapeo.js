@@ -1,6 +1,6 @@
 const path = require('path')
 const throttle = require('lodash/throttle')
-const logger = require('electron-timber')
+const logger = console
 const MediaStore = require('safe-fs-blob-store')
 const osmdb = require('osm-p2p')
 const os = require('os')
