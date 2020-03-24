@@ -4,6 +4,7 @@ import { StylesProvider, ThemeProvider } from '@material-ui/styles'
 import { IntlProvider } from 'react-intl'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
+import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
 
@@ -42,7 +43,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 const localStorage = window.localStorage
 window.testMode = function () {
-  console.log('Test mode, clearing cache')
+  logger.log('Test mode, clearing cache')
   localStorage.removeItem('lastView')
   localStorage.removeItem('location')
 }

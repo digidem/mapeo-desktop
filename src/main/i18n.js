@@ -1,6 +1,6 @@
 const { EventEmitter } = require('events')
 const { app } = require('electron')
-const logger = require('electron-timber')
+const logger = require('../logger')
 
 const translations = {
   en: require('../../messages/main/en.json'),

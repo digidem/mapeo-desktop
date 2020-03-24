@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
-import logger from 'electron-timber'
 import { makeStyles } from '@material-ui/core'
 import { remote } from 'electron'
 import { useIntl, defineMessages } from 'react-intl'
 import path from 'path'
 
+import logger from '../../../logger'
 import api from '../../new-api'
 import Searching from './Searching'
 import SyncAppBar from './SyncAppBar'
@@ -208,7 +208,7 @@ function getPeersStatus ({
   since,
   formatMessage
 }) {
-  console.log('get peers status', serverPeers, syncErrors)
+  logger.log('get peers status', serverPeers, syncErrors)
   return serverPeers.map(serverPeer => {
     let status = peerStatus.READY
     let errorMsg

@@ -1,6 +1,7 @@
 const Mapeo = require('./mapeo')
 const createTileServer = require('./tile-server')
-const ipc = require('../middleware/background-ipc')
+const ipc = require('hoist')
+const logger = require('../logger')
 
 var mapeo
 var handlers = {}
@@ -9,7 +10,7 @@ handlers.close = async () => {
   return new Promise((resolve, reject) => {
     if (!mapeo) return reject(new Error('oops: mapeo not open'))
     mapeo.close(function (err) {
-      console.log('now its done', err)
+      logger.log('now its done', err)
       if (err) return reject(err)
       resolve()
     })
@@ -20,18 +21,18 @@ handlers.listen = async ({ datadir, userDataPath, port, tileport }) => {
   mapeo = new Mapeo({ datadir, userDataPath, ipcSend: ipc.send })
 
   return new Promise((resolve, reject) => {
-    console.log('listening')
+    logger.log('listening')
     var pending = 2
 
     // TODO(KM): combine mapeo/server and tile server
     mapeo.listen(port, function () {
-      console.log('got port, resolving', mapeo.server.address().port)
+      logger.log('got port, resolving', mapeo.server.address().port)
       if (--pending === 0) resolve(mapeo.server.address().port)
     })
 
     var tileServer = createTileServer(userDataPath)
     tileServer.listen(tileport, function () {
-      console.log('tile server listening on :', tileServer.address().port)
+      logger.log('tile server listening on :', tileServer.address().port)
       if (--pending === 0) resolve(mapeo.server.address().port)
     })
   })
@@ -63,7 +64,7 @@ handlers['sync-leave'] = async () => {
 }
 
 handlers['export-data'] = async (args) => {
-  console.log('did i get this', args)
+  logger.log('did i get this', args)
   return new Promise((resolve, reject) => {
     mapeo.exportData(args, function (err) {
       if (err) return reject(err)
@@ -75,7 +76,7 @@ handlers['export-data'] = async (args) => {
 handlers['zoom-to-data-get-centroid'] = async (type) => {
   return new Promise((resolve, reject) => {
     mapeo.getDatasetCentroid(type, function (err, loc) {
-      console.log('RESPONSE(getDatasetCentroid):', loc)
+      logger.log('RESPONSE(getDatasetCentroid):', loc)
       if (err) return reject(err)
       resolve(loc)
     })

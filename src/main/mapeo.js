@@ -1,12 +1,12 @@
 const path = require('path')
 const throttle = require('lodash/throttle')
-const logger = console
 const MediaStore = require('safe-fs-blob-store')
 const osmdb = require('osm-p2p')
 const os = require('os')
 const Settings = require('@mapeo/settings')
 const sublevel = require('subleveldown')
 
+const logger = require('../logger')
 const TileImporter = require('./tile-importer')
 const createServer = require('./server')
 const installStatsIndex = require('./osm-stats')
@@ -87,7 +87,7 @@ class MapeoRPC {
       this.core.sync.removeListener('peer', this._onNewPeer)
       this.core.sync.removeListener('down', this._throttledSendPeerUpdate)
       this.onReplicationComplete(() => {
-        this.core.sync.destroy(() => origClose.call(this.server, cb))
+        this.core.sync.destroy(() => origClose.call(this.core, cb))
       })
     }
 
@@ -141,7 +141,7 @@ class MapeoRPC {
 
   syncStart (target = {}) {
     logger.log('Sync start request:', target)
-    console.log('sync starting', target)
+    logger.log('sync starting', target)
 
     const sync = this.core.sync.replicate(target, {
       projectKey: this.projectKey
@@ -176,7 +176,7 @@ class MapeoRPC {
 
   exportData ({ filename, format, id }, cb) {
     const presets = this.config.getSettings('presets') || {}
-    console.log('down here exporting', filename, format)
+    logger.log('down here exporting', filename, format)
     this.core.exportData(filename, { format, presets }, cb)
   }
 
@@ -187,9 +187,7 @@ class MapeoRPC {
       cb()
     }, 5 * 60 * 1000)
 
-    checkIfDone()
-
-    function checkIfDone () {
+    var checkIfDone = () => {
       const currentlyReplicatingPeers = this.core.sync
         .peers()
         .filter(
@@ -205,6 +203,8 @@ class MapeoRPC {
       }
       this.core.sync.once('down', checkIfDone)
     }
+
+    checkIfDone()
   }
 
   getDatasetCentroid (type, done) {
@@ -218,12 +218,9 @@ class MapeoRPC {
   }
 
   close (cb) {
-    console.log('mapeo closing')
     this.core.close((err) => {
       if (err) return cb(err)
-      console.log('server closing')
       this.server.close((err) => {
-        console.log('yolo')
         cb(err)
       })
     })

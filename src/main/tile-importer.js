@@ -1,4 +1,3 @@
-const logger = console
 const mkdirp = require('mkdirp')
 const pump = require('pump')
 const path = require('path')
@@ -6,6 +5,7 @@ const tar = require('tar-fs')
 const asar = require('asar')
 const fs = require('fs')
 
+const logger = require('../logger')
 module.exports = TileImporter
 
 function TileImporter (userData, defaults) {

@@ -2,7 +2,7 @@ const { dialog, app, Menu } = require('electron')
 
 const userConfig = require('./user-config')
 const i18n = require('./i18n')
-const logger = require('electron-timber')
+const logger = require('../logger')
 const t = i18n.t
 
 module.exports = async function createMenu (ipc) {

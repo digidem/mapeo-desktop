@@ -1,6 +1,7 @@
 var app = require('electron').app
 var Settings = require('@mapeo/settings')
-var logger = console
+
+var logger = require('../logger')
 
 function importSettings (win, settingsFile, cb) {
   var userDataPath = app.getPath('userData')
