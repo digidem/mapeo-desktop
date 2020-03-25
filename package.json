@@ -99,6 +99,7 @@
     "mapeo-styles": "^3.0.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
+    "node-wifi": "^2.0.12",
     "once": "^1.4.0",
     "osm-p2p": "^5.1.0",
     "osm-p2p-server": "^5.0.0",

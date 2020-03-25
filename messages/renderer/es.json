@@ -183,6 +183,9 @@
     "description": "Title on sync screen when searching for devices",
     "message": "Buscando…"
   },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": ""
+  },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
     "message": "Crear nuevo archivo de sincronización…"
@@ -190,9 +193,6 @@
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
     "message": "Sincronizar con archivo…"
-  },
-  "renderer.components.SyncView.SyncAppBar.subtitle": {
-    "message": "por WiFi"
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
