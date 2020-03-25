@@ -183,6 +183,9 @@
     "description": "Title on sync screen when searching for devices",
     "message": "Searching…"
   },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Disconnected"
+  },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
     "message": "Create new syncfile…"
@@ -190,9 +193,6 @@
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
     "message": "Sync from a file…"
-  },
-  "renderer.components.SyncView.SyncAppBar.subtitle": {
-    "message": "via Wi-Fi"
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
@@ -232,6 +232,14 @@
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
     "message": "Create a new database to syncronize"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} needs to upgrade Mapeo"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "You need to upgrade Mapeo to sync with {deviceName}"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Select a database to syncronize"
