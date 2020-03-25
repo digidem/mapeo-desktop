@@ -1,5 +1,5 @@
 :root {
-  --main-bg-color: rgb(57, 82, 123);
+  --main-bg-color: rgba(51, 102, 255);
   --secondary-bg-color: blue;
   --main-bg-color-alpha: rgba(57, 82, 123, 0.5);
   --visible-z-index: 100;
@@ -56,13 +56,46 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  h1,
-  h2 {
-    color: white;
-    font-weight: bold;
+}
+
+.mapeo-splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: mapeo-splash-appear 2s 1s both;
+}
+
+@keyframes mapeo-splash-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  } to {
+    opacity: 1;
+    transform: none;
   }
-  img {
-    width: 150px;
+}
+
+.mapeo-splash-logo {
+  width: 150px;
+  height: 150px;
+}
+
+.mapeo-splash-loader {
+  position: relative;
+  top: -108px; /* magic number to place the loader inside the logo */
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-left: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: mapeo-splash-loader 1.1s infinite linear;
+}
+
+@keyframes mapeo-splash-loader {
+  from {
+    transform: rotate(0deg);
+  } to {
+    transform: rotate(360deg);
   }
 }
 
@@ -142,11 +175,6 @@ button.big:hover:not([disabled]) {
 }
 .intro-text {
   width: 60%;
-}
-
-#screen-1 {
-  text-align: center;
-  margin: auto;
 }
 
 #screen-2,

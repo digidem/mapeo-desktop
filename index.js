@@ -144,11 +144,12 @@ function openWindow () {
     })
     mainWindowState.manage(win)
     splash = new BrowserWindow({
-      width: 810,
-      height: 610,
+      width: 450,
+      height: 410,
+      center: true,
       transparent: true,
-      frame: false,
-      alwaysOnTop: true
+      resizable: false,
+      frame: false
     })
     splash.loadURL(SPLASH)
   }
@@ -282,6 +283,8 @@ function notifyReady (done) {
       var IS_TEST = process.env.NODE_ENV === 'test'
       if (IS_TEST) win.setSize(1000, 800, false)
       if (argv.debug) win.webContents.openDevTools()
+
+      win.maximize()
       splash.destroy()
       win.show()
       done()
