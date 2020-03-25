@@ -1,6 +1,6 @@
 const Mapeo = require('./mapeo')
 const createTileServer = require('./tile-server')
-const ipc = require('hoist')
+const rabbit = require('electron-rabbit')
 const logger = require('../logger')
 
 var mapeo
@@ -18,7 +18,7 @@ handlers.close = async () => {
 }
 
 handlers.listen = async ({ datadir, userDataPath, port, tileport }) => {
-  mapeo = new Mapeo({ datadir, userDataPath, ipcSend: ipc.send })
+  mapeo = new Mapeo({ datadir, userDataPath, ipcSend: rabbit.send })
 
   return new Promise((resolve, reject) => {
     logger.log('listening')
