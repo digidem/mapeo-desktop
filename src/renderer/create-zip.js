@@ -2,6 +2,7 @@ import yazl from 'yazl'
 import run from 'run-parallel-limit'
 import ky from 'ky/umd'
 import once from 'once'
+import logger from '../logger'
 
 const concurrency = 3
 
@@ -31,7 +32,7 @@ export default function createZip (localFiles, remoteFiles) {
   const tasks = remoteFiles.map(({ url, metadataPath, ...options }) => cb => {
     cb = once(cb)
     const start = Date.now()
-    console.log('Requesting', url)
+    logger.log('Requesting', url)
     // I tried doing this by adding streams to the zipfile, but it's really hard
     // to catch errors when trying to download an image, so you end up with
     // corrupt files in the zip. This uses a bit more memory, but images are
@@ -39,7 +40,7 @@ export default function createZip (localFiles, remoteFiles) {
     ky.get(url)
       .arrayBuffer()
       .then(arrBuf => {
-        console.log('Req end in ' + (Date.now() - start) + 'ms ' + metadataPath)
+        logger.log('Req end in ' + (Date.now() - start) + 'ms ' + metadataPath)
         zipfile.addBuffer(Buffer.from(arrBuf), metadataPath, {
           ...options,
           store: true
@@ -48,14 +49,14 @@ export default function createZip (localFiles, remoteFiles) {
       })
       .catch(err => {
         missing.push(metadataPath)
-        console.log('Error downloading file ' + metadataPath, err)
+        logger.log('Error downloading file ' + metadataPath, err)
         cb()
       })
   })
   const start = Date.now()
-  console.log('Starting download')
+  logger.log('Starting download')
   run(tasks, concurrency, (...args) => {
-    console.log('Downloaded images in ' + (Date.now() - start) + 'ms')
+    logger.log('Downloaded images in ' + (Date.now() - start) + 'ms')
     if (missing.length) {
       zipfile.addBuffer(
         Buffer.from(missing.join('\r\n') + '\r\n'),
