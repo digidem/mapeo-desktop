@@ -37,7 +37,6 @@
     "license-check": "license-check",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta",
-    "gh-release": "gh-release",
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
     "extract-messages": "extract-messages --locales=es,en,pt --output messages/renderer --descriptions 'src/**/*.js'"
@@ -157,7 +156,6 @@
     "eslint-plugin-react-hooks": "^2.0.1",
     "eslint-plugin-standard": "^4.0.1",
     "file-saver": "^2.0.2",
-    "gh-release": "^3.5.0",
     "glob": "^7.1.5",
     "hubfs.js": "^1.0.0",
     "hyperquest": "^2.1.3",
