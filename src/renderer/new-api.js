@@ -1,17 +1,12 @@
-import { remote } from 'electron'
+import { remote, ipcRenderer } from 'electron'
 import 'core-js/es/reflect'
 import ky from 'ky/umd'
-import logger from '../logger'
+import logger from 'electron-timber'
 
 const BASE_URL = 'http://' + remote.getGlobal('osmServerHost') + '/'
+let id = 0
 
-export default Api({
-  // window.middlewareClient is set in src/middleware/client-preload.js
-  ipc: window.middlewareClient,
-  baseUrl: BASE_URL
-})
-
-function Api ({ baseUrl, mapeo, ipc }) {
+export function Api ({ baseUrl }) {
   // We append this to requests for presets and map styles, in order to override
   // the local static server cache whenever the app is restarted. NB. sprite,
   // font, and map tile requests might still be cached, only changes in the map
@@ -40,6 +35,7 @@ function Api ({ baseUrl, mapeo, ipc }) {
       })
     return promise
   }
+
   // Request convenience methods that wait for the server to be ready
   function get (url) {
     return logRequest('<GET: ' + url, req.get(url).json())
@@ -123,34 +119,34 @@ function Api ({ baseUrl, mapeo, ipc }) {
       // We sidestep the http API here, and instead of polling the endpoint, we
       // listen for an event from mapeo-core whenever the peers change, then
       // request an updated peer list.
-      function onPeerUpdate (peers) {
-        logger.log('peer-update', peers)
-        handler(peers)
+      function onPeerUpdate (event, ...args) {
+        logger.log('peer-update', args[0])
+        handler.apply(null, args)
       }
-      ipc.on('peer-update', onPeerUpdate)
+      ipcRenderer.on('peer-update', onPeerUpdate)
       api.syncGetPeers().then(handler)
       return {
-        remove: () => ipc.removeListener('peer-update', onPeerUpdate)
+        remove: () => ipcRenderer.removeListener('peer-update', onPeerUpdate)
       }
     },
 
     addSyncListener: function addSyncListener (handler) {
-      ipc.on('sync-complete', handler)
+      ipcRenderer.on('sync-complete', handler)
       return {
-        remove: () => ipc.removeListener('sync-complete', handler)
+        remove: () => ipcRenderer.removeListener('sync-complete', handler)
       }
     },
 
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin () {
       logger.log('Join sync')
-      ipc.send('sync-join')
+      ipcRenderer.send('sync-join')
     },
 
     // Stop listening for sync peers and stop advertising
     syncLeave: function syncLeave () {
       logger.log('Leave sync')
-      ipc.send('sync-leave')
+      ipcRenderer.send('sync-leave')
     },
 
     // Get a list of discovered sync peers
@@ -160,14 +156,20 @@ function Api ({ baseUrl, mapeo, ipc }) {
 
     // Start sync with a peer
     syncStart: function syncStart (target) {
-      ipc.send('sync-start', target)
+      ipcRenderer.send('sync-start', target)
     },
 
     exportData: function (filename, { format = 'geojson' } = {}) {
+      const channelId = id++
+      ipcRenderer.send('export-data', {
+        filename,
+        format,
+        id: channelId
+      })
       return new Promise((resolve, reject) => {
-        ipc.send('export-data', { filename, format }, (err) => {
+        ipcRenderer.once('export-data-' + channelId, (event, err) => {
           if (err) {
-            logger.error('Export error', err.stack)
+            logger.error('Export error', err)
             reject(err)
           } else resolve()
         })
@@ -199,6 +201,8 @@ function Api ({ baseUrl, mapeo, ipc }) {
 
   return api
 }
+
+export default Api({ baseUrl: BASE_URL })
 
 function mapToArray (map) {
   return Object.keys(map).map(id => ({

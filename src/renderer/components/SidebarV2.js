@@ -52,7 +52,7 @@ class ExportSidebarItem extends React.Component {
     const { name, format } = this.props
 
     function onClick () {
-      ipcRenderer.send('export-data', { filename: name, format })
+      ipcRenderer.send('export-data', name, format)
     }
     var label = `${i18n('menu-export-data')} ${name}...`
     return (

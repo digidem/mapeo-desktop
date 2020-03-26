@@ -14,8 +14,8 @@ import Button from '@material-ui/core/Button'
 import { LinearProgress } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { remote } from 'electron'
+import logger from 'electron-timber'
 
-import logger from '../../../logger'
 import api from '../../new-api'
 
 const m = defineMessages({
@@ -90,10 +90,6 @@ const ExportButton = () => {
     )
   }
 
-  const close = event => {
-    setStatus('idle')
-  }
-
   let dialogContent
   switch (status) {
     case 'idle':
@@ -118,7 +114,7 @@ const ExportButton = () => {
               <FormattedMessage {...m.dialogSuccess} />
             </DialogContentText>
           </DialogContent>
-          <DialogAction onClick={close}>
+          <DialogAction>
             <FormattedMessage {...m.okButton} />
           </DialogAction>
         </>
@@ -133,7 +129,7 @@ const ExportButton = () => {
               <FormattedMessage {...m.dialogError} />
             </DialogContentText>
           </DialogContent>
-          <DialogAction onClick={close}>
+          <DialogAction>
             <FormattedMessage {...m.closeButton} />
           </DialogAction>
         </>

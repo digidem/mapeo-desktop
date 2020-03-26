@@ -1,14 +1,17 @@
 var http = require('http')
 var ecstatic = require('ecstatic')
+var app = require('electron').app
+var path = require('path')
 var series = require('run-series')
+const logger = require('electron-timber')
 
-var logger = require('../logger')
+var tilePath = path.join(app.getPath('userData'))
 
-module.exports = function (userDataPath) {
+module.exports = function () {
   var guesses = ['png', 'jpg', 'jpeg']
   var routes = guesses.map(ext => {
     return ecstatic({
-      root: userDataPath,
+      root: tilePath,
       defaultExt: ext
     })
   })

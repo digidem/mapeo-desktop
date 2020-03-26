@@ -126,13 +126,13 @@ const MapEditor = () => {
       var saved = history.toJSON()
       id.current.flush()
       if (saved) history.fromJSON(saved)
-      ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
+      ipcRenderer.send('zoom-to-data-get-centroid', 'node')
     }
     const subscription = api.addSyncListener(() => refreshWindow())
     return () => {
       subscription.remove()
     }
-  }, [zoomToData])
+  }, [])
 
   React.useEffect(function saveLocation () {
     var prevhash = localStorage.getItem('location')
