@@ -29,8 +29,12 @@ module.exports = function (win) {
     ipcSend('error', message)
   })
 
-  ipc.on('set-locale', function (ev, lang) {
-    app.translations = i18n.setLocale(lang)
+  ipc.on('set-locale', function (ev, locale) {
+    app.translations = i18n.setLocale(locale)
+  })
+
+  ipc.on('get-locale', function (ev) {
+    ev.returnValue = i18n.locale
   })
 
   ipc.on('import-example-presets', function (ev) {
