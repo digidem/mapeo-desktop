@@ -126,13 +126,13 @@ const MapEditor = () => {
       var saved = history.toJSON()
       id.current.flush()
       if (saved) history.fromJSON(saved)
-      ipcRenderer.send('zoom-to-data-get-centroid', 'node')
+      ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
     }
     const subscription = api.addSyncListener(() => refreshWindow())
     return () => {
       subscription.remove()
     }
-  }, [])
+  }, [zoomToData])
 
   React.useEffect(function saveLocation () {
     var prevhash = localStorage.getItem('location')
@@ -269,49 +269,6 @@ const MapEditor = () => {
 }
 
 export default MapEditor
-
-// refreshWindow () {
-//   if (this.id) {
-//     var history = this.id.history()
-//     var saved = history.toJSON()
-//     this.id.flush()
-//     if (saved) history.fromJSON(saved)
-//     ipcRenderer.send('zoom-to-data-get-centroid', 'node')
-//   }
-// }
-
-// zoomToLatLonResponse (_, lat, lon) {
-//   var self = this
-//   self.id.map().centerEase([lat, lon], 1000)
-//   setTimeout(function () {
-//     self.id.map().zoom(15)
-//   }, 1000)
-// }
-
-// zoomToDataRequest () {
-//   ipcRenderer.send('zoom-to-data-get-centroid', 'node')
-// }
-
-// zoomToDataResponse (_, loc) {
-//   var self = this
-//   var zoom = 14
-//   self.id.map().centerEase(loc, 1000)
-//   setTimeout(function () {
-//     self.id.map().zoom(zoom)
-//   }, 1000)
-// }
-
-// changeLanguageRequest () {
-//   var self = this
-//   var dialogs = Dialogs()
-//   dialogs.prompt(i18n('menu-change-language-title'), function (locale) {
-//     if (locale) {
-//       self.setState({ locale })
-//       ipcRenderer.send('set-locale', locale)
-//       self.id.ui().restart(locale)
-//     }
-//   })
-// }
 
 function latlonToPosString (pos) {
   pos[0] = (Math.floor(pos[0] * 1000000) / 1000000).toString()

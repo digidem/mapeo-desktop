@@ -14,6 +14,7 @@ import {
 import pkg from '../../../package.json'
 import MapEditor from './MapEditor'
 import LatLonDialog from './dialogs/LatLon'
+import ChangeLanguage from './dialogs/ChangeLanguage'
 import TitleBarShim from './TitleBarShim'
 import MapFilter from './MapFilter'
 import { defineMessages, useIntl } from 'react-intl'
@@ -163,11 +164,14 @@ export default function Home () {
 
   React.useEffect(() => {
     const openLatLonDialog = () => setDialog('LatLon')
+    const openChangeLangDialog = () => setDialog('ChangeLanguage')
     const refreshPage = () => window.location.reload()
     ipcRenderer.on('open-latlon-dialog', openLatLonDialog)
+    ipcRenderer.on('change-language-request', openChangeLangDialog)
     ipcRenderer.on('force-refresh-window', refreshPage)
     return () => {
       ipcRenderer.removeListener('open-latlon-dialog', openLatLonDialog)
+      ipcRenderer.removeListener('change-language-request', openChangeLangDialog)
       ipcRenderer.removeListener('force-refresh-window', openLatLonDialog)
     }
   }, [])
@@ -197,6 +201,13 @@ export default function Home () {
         <TabPanel value={tabIndex} index={1} component={MapFilter} />
         <TabPanel value={tabIndex} index={2} component={SyncView} />
       </TabContent>
+      <ChangeLanguage
+        open={dialog === 'ChangeLanguage'}
+        onClose={() => {
+          setDialog(null)
+          ipcRenderer.send('force-refresh-window') // TODO: can we do this without sending ipc?
+        }}
+      />
       <LatLonDialog
         open={dialog === 'LatLon'}
         onClose={() => setDialog(null)}
