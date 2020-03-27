@@ -8,8 +8,9 @@ var handlers = {}
 
 handlers.close = async () => {
   return new Promise((resolve, reject) => {
-    if (!mapeo) return reject(new Error('oops: mapeo not open'))
+    if (!mapeo) return resolve()
     mapeo.close(function (err) {
+      mapeo = null
       logger.log('now its done', err)
       if (err) return reject(err)
       resolve()
