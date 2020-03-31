@@ -23,6 +23,8 @@ const m = defineMessages({
   // Title of sync screen
   title: 'Available Devices',
   disconnected: 'Disconnected',
+  disconnectedTooltip:
+    'You first need to connect to a WiFi network before being able to synchronize devices',
   quality: 'Quality: {quality}%',
   // Button to sync from an existing sync file
   selectSyncfile: 'Sync from a file…',
@@ -66,12 +68,14 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
               </span>
             </Tooltip>
           ) : (
-            <span className={cx.wifi}>
-              <WifiOff className={cx.wifiIcon} />
-              <Typography variant='overline' component='span' className={cx.wifiName}>
-                {t(m.disconnected)}
-              </Typography>
-            </span>
+            <Tooltip title={t(m.disconnectedTooltip)}>
+              <span className={cx.wifi}>
+                <WifiOff className={cx.wifiIcon} />
+                <Typography variant='overline' component='span' className={cx.wifiName}>
+                  {t(m.disconnected)}
+                </Typography>
+              </span>
+            </Tooltip>
           )}
         </div>
         <Button
