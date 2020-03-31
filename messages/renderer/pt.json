@@ -186,11 +186,23 @@
   "renderer.components.SyncView.SyncAppBar.disconnected": {
     "message": ""
   },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": ""
+  },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
     "message": "Create new syncfile…"
   },
   "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
     "message": ""
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
@@ -246,6 +258,12 @@
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Select a database to syncronize"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": ""
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": ""
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"
