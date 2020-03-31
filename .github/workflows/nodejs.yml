@@ -28,9 +28,6 @@ jobs:
       - name: Lint
         run: |
           npm run lint
-      - name: Rebuild native deps for Electron
-        run: |
-          npm run rebuild-leveldb
       - name: Build frontend
         run: |
           npm run build

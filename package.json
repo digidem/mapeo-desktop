@@ -33,7 +33,6 @@
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
     "postinstall": "patch-package && electron-builder install-app-deps",
-    "rebuild-leveldb": "electron-rebuild -o leveldown",
     "license-check": "license-check",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta",
@@ -146,7 +145,6 @@
     "electron": "^6.0.10",
     "electron-builder": "^21.2.0",
     "electron-devtools-installer": "^2.2.4",
-    "electron-rebuild": "^1.8.6",
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
@@ -200,6 +198,17 @@
         "deb"
       ],
       "category": "Utility"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     },
     "dmg": {
       "icon": "build/mapeo_installer.icns",
