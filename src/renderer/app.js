@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { ipcRenderer } from 'electron'
 import { StylesProvider, ThemeProvider } from '@material-ui/styles'
 import { IntlProvider } from 'react-intl'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -8,7 +9,7 @@ import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
 
-const locale = navigator.language.slice(0, 2)
+const locale = ipcRenderer.sendSync('get-locale') // navigator.language.slice(0, 2)
 
 const mdMsgs = {
   en: require('../../translations/en.json'),
