@@ -13,10 +13,17 @@ wifi.init({
   iface: null
 })
 
-const getWifiConnectionColor = (connection) => {
-  if (!connection) return '#888'
-  if (connection.quality < 30) return 'red'
-  if (connection.quality < 60) return 'orange'
+const getQualityStyle = (connection) => {
+  if (connection.quality < 30) return { color: 'white', backgroundColor: 'red' }
+  if (connection.quality < 60) return { color: 'white', backgroundColor: 'orange' }
+  return { backgroundColor: '#E0E0E0' }
+}
+
+/** @returns {keyof m} */
+const getWifiConnectionMessage = (connection) => {
+  if (connection.quality < 30) return 'qualityTooltipPoor'
+  if (connection.quality < 60) return 'qualityTooltipWeak'
+  return 'qualityTooltipAdequate'
 }
 
 const m = defineMessages({
@@ -25,6 +32,11 @@ const m = defineMessages({
   disconnected: 'Disconnected',
   disconnectedTooltip:
     'You first need to connect to a WiFi network before being able to synchronize devices',
+  qualityTooltipPoor:
+    'The connection signal is very poor. Try getting closer to the WiFi router',
+  qualityTooltipWeak:
+    'The connection signal is weak. The synchronization might take a longer time to complete',
+  qualityTooltipAdequate: 'The connection signal is excellent',
   quality: 'Quality: {quality}%',
   // Button to sync from an existing sync file
   selectSyncfile: 'Sync from a file…',
@@ -52,18 +64,21 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
             {t(m.title)}
           </Typography>
           {currentConnection ? (
-            <Tooltip
-              title={t(m.quality, {
-                quality: Math.min(100, currentConnection.quality).toFixed(0)
-              })}
-            >
+            <Tooltip title={t(m[getWifiConnectionMessage(currentConnection)])}>
               <span className={cx.wifi}>
-                <Wifi
-                  className={cx.wifiIcon}
-                  style={{ color: getWifiConnectionColor(currentConnection) }}
-                />
+                <Wifi className={cx.wifiIcon} />
                 <Typography variant='overline' component='span' className={cx.wifiName}>
                   {currentConnection.ssid}
+                </Typography>
+                <Typography
+                  variant='overline'
+                  component='span'
+                  className={cx.wifiQuality}
+                  style={getQualityStyle(currentConnection)}
+                >
+                  {t(m.quality, {
+                    quality: Math.min(100, currentConnection.quality).toFixed(0)
+                  })}
                 </Typography>
               </span>
             </Tooltip>
@@ -126,6 +141,13 @@ const useStyles = makeStyles((theme) => ({
   wifiName: {
     lineHeight: 1.2,
     marginLeft: 5
+  },
+  wifiQuality: {
+    lineHeight: 1.2,
+    marginLeft: 5,
+    fontWeight: 500,
+    padding: '1px 5px',
+    borderRadius: 1000
   },
   actionArea: {},
   button: {
