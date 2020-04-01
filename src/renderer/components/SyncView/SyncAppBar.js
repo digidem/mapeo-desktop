@@ -9,9 +9,15 @@ import { defineMessages, useIntl } from 'react-intl'
 import wifi from 'node-wifi'
 import { Tooltip } from '@material-ui/core'
 
-wifi.init({
-  iface: null
-})
+let wifiInit = true
+try {
+  wifi.init({
+    iface: null
+  })
+} catch (e) {
+  console.error(e)
+  wifiInit = false
+}
 
 const getQualityStyle = (connection) => {
   if (connection.quality < 30) return { color: 'white', backgroundColor: 'red' }
@@ -32,6 +38,8 @@ const m = defineMessages({
   disconnected: 'Disconnected',
   disconnectedTooltip:
     'You first need to connect to a WiFi network before being able to synchronize devices',
+  wifiError: 'Unknown',
+  wifiErrorTooltip: 'Your WiFi card or Operating System (OS) has not been recognized',
   qualityTooltipPoor:
     'The connection signal is very poor. Try getting closer to the WiFi router',
   qualityTooltipWeak:
@@ -47,11 +55,19 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
   const [currentConnection, setCurrentConnection] = useState(null)
+  const [wifiError, setWifiError] = useState(!wifiInit)
 
   // Check connection every 2 seconds
   useEffect(() => {
     const intervalCheck = setInterval(() => {
-      wifi.getCurrentConnections().then((conn) => setCurrentConnection(conn && conn[0]))
+      wifi
+        .getCurrentConnections()
+        .then((conn) => setCurrentConnection(conn && conn[0]))
+        .catch((err) => {
+          console.error(err)
+          setWifiError(true)
+          setCurrentConnection(null)
+        })
     }, 2000)
     return () => clearInterval(intervalCheck)
   }, [])
@@ -82,12 +98,21 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
                 </Typography>
               </span>
             </Tooltip>
-          ) : (
+          ) : !wifiError ? (
             <Tooltip title={t(m.disconnectedTooltip)}>
               <span className={cx.wifi}>
                 <WifiOff className={cx.wifiIcon} />
                 <Typography variant='overline' component='span' className={cx.wifiName}>
                   {t(m.disconnected)}
+                </Typography>
+              </span>
+            </Tooltip>
+          ) : (
+            <Tooltip title={t(m.wifiErrorTooltip)}>
+              <span className={cx.wifi}>
+                <WifiOff className={cx.wifiIcon} />
+                <Typography variant='overline' component='span' className={cx.wifiName}>
+                  {t(m.wifiError)}
                 </Typography>
               </span>
             </Tooltip>
