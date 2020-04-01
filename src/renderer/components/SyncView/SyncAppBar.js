@@ -25,11 +25,10 @@ const getQualityStyle = (connection) => {
   return { backgroundColor: '#E0E0E0' }
 }
 
-/** @returns {keyof m} */
 const getWifiConnectionMessage = (connection) => {
-  if (connection.quality < 30) return 'qualityTooltipPoor'
-  if (connection.quality < 60) return 'qualityTooltipWeak'
-  return 'qualityTooltipAdequate'
+  if (connection.quality < 30) return m.qualityTooltipPoor
+  if (connection.quality < 60) return m.qualityTooltipWeak
+  return m.qualityTooltipAdequate
 }
 
 const m = defineMessages({
@@ -80,7 +79,7 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
             {t(m.title)}
           </Typography>
           {currentConnection ? (
-            <Tooltip title={t(m[getWifiConnectionMessage(currentConnection)])}>
+            <Tooltip title={t(getWifiConnectionMessage(currentConnection))}>
               <span className={cx.wifi}>
                 <Wifi className={cx.wifiIcon} />
                 <Typography variant='overline' component='span' className={cx.wifiName}>
