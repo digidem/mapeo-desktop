@@ -213,6 +213,12 @@
     "description": "Title of sync screen",
     "message": "Equipo disponibles"
   },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": ""
+  },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
     "message": "Completo"
