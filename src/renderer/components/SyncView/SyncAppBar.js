@@ -58,16 +58,20 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
 
   // Check connection every 2 seconds
   useEffect(() => {
-    const intervalCheck = setInterval(() => {
-      wifi
-        .getCurrentConnections()
-        .then((conn) => setCurrentConnection(conn && conn[0]))
-        .catch((err) => {
-          console.error(err)
-          setWifiError(true)
-          setCurrentConnection(null)
-        })
-    }, 2000)
+    const check = async () => {
+      try {
+        const conn = await wifi.getCurrentConnections()
+        setCurrentConnection(conn && conn[0])
+      } catch (err) {
+        console.error(err)
+        setWifiError(true)
+        setCurrentConnection(null)
+      }
+    }
+
+    // Run initial check, then refresh it every 2 seconds
+    check()
+    const intervalCheck = setInterval(check, 2000)
     return () => clearInterval(intervalCheck)
   }, [])
 
