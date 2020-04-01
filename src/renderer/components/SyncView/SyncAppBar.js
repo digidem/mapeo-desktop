@@ -11,9 +11,7 @@ import { Tooltip } from '@material-ui/core'
 
 let wifiInit = true
 try {
-  wifi.init({
-    iface: null
-  })
+  wifi.init()
 } catch (e) {
   console.error(e)
   wifiInit = false
