@@ -186,9 +186,24 @@
   "renderer.components.SyncView.SyncAppBar.disconnected": {
     "message": ""
   },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": ""
+  },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
     "message": "Crear nuevo archivo de sincronización…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": ""
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
@@ -197,6 +212,12 @@
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
     "message": "Equipo disponibles"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": ""
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
@@ -243,6 +264,12 @@
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Seleccionar base de datos para sincronizar"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": ""
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": ""
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"
