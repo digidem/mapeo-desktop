@@ -11,7 +11,7 @@
   },
   "main": "index.js",
   "engine": {
-    "node": "8.11.4"
+    "node": "12.4"
   },
   "scripts": {
     "clean": "rimraf \"dist/\"",
@@ -32,7 +32,7 @@
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
-    "postinstall": "patch-package && electron-builder install-app-deps",
+    "postinstall": "patch-package",
     "license-check": "license-check",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta",
@@ -192,23 +192,16 @@
     "mac": {
       "category": "public.app-category.utilities"
     },
+    "win": {
+      "target": "NSIS",
+      "artifactName": "Installar_Mapeo_v${version}_${os}-${env.ARCH}.${ext}"
+    },
     "linux": {
       "target": [
         "AppImage",
         "deb"
       ],
       "category": "Utility"
-    },
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
     },
     "dmg": {
       "icon": "build/mapeo_installer.icns",

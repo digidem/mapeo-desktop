@@ -33,18 +33,22 @@ gh.readFile(config.filename, { ref: config.branches[0] }, function (err, data) {
   }
   var version = config.version
   var macLine = `/mapeo/latest/mac https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_mac.dmg 302`
-  var windowsLine = `/mapeo/latest/windows https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_win.exe 302`
+  var windowsLine = `/mapeo/latest/windows https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_win-x64.exe 302`
+  var win32Line = `/mapeo/latest/win32 https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_win-ia32.exe 302`
+  var linuxLine = `/mapeo/latest/linux https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_linux.deb 302`
   var res = []
   data
     .toString()
     .split('\n')
     .map(function (line) {
-      if (line.length > 0 && !line.match(/mapeo\/latest\//)) {
+      if (line.length > 0 && !line.match(/mapeo\/latest\/(mac|win|linux)/)) {
         res.push(line.trim())
       }
     })
   res.push(macLine)
   res.push(windowsLine)
+  res.push(win32Line)
+  res.push(linuxLine)
   data = res.join('\n') + '\n'
 
   var pending = config.branches.length
