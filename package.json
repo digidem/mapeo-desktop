@@ -82,12 +82,14 @@
     "core-js": "^3.3.5",
     "d3-dsv": "^1.1.1",
     "date-fns": "^2.1.0",
+    "domain-ping": "^0.1.10",
     "ecstatic": "^2.2.1",
     "electron-context-menu": "^0.15.0",
     "electron-debug": "^1.5.0",
     "electron-is-dev": "^1.1.0",
     "electron-rabbit": "^1.0.0",
     "electron-timber": "^0.5.1",
+    "electron-updater": "^4.2.2",
     "flat": "^5.0.0",
     "fs-write-stream-atomic": "^1.0.10",
     "html-react-parser": "^0.9.1",
@@ -113,6 +115,7 @@
     "react-dom": "^16.3.2",
     "react-error-boundary": "^1.2.5",
     "react-intl": "^3.2.4",
+    "react-intl-formatted-duration": "^4.0.0",
     "react-mapfilter": "^3.0.0",
     "react-transition-group": "^4.3.0",
     "request": "^2.88.0",
@@ -195,6 +198,7 @@
     "logError": true
   },
   "build": {
+    "generateUpdatesFilesForAllChannels": true,
     "appId": "org.digital-democracy.mapeo-desktop",
     "productName": "Mapeo",
     "artifactName": "Installar_Mapeo_v${version}_${os}.${ext}",
@@ -233,6 +237,10 @@
       {
         "provider": "github",
         "releaseType": "release"
+      },
+      {
+        "provider": "s3",
+        "bucket": "downloads.mapeo.app"
       }
     ],
     "files": [

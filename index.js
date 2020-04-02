@@ -15,6 +15,7 @@ const rabbit = require('electron-rabbit')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+const updater = require('./src/main/auto-updater')
 const logger = require('./src/logger')
 const electronIpc = require('./src/main/ipc')
 const createMenu = require('./src/main/menu')
@@ -109,6 +110,8 @@ function openWindow () {
   }
 
   if (isDev) {
+    // for updater to work correctly
+    process.env.APPIMAGE = path.join(__dirname, 'dist', `Installar_Mapeo_v${app.getVersion()}_linux.AppImage`)
     bg = createBgWindow(_socketName)
     try {
       var {
@@ -179,7 +182,15 @@ function initDirectories (done) {
 }
 
 function createServers (done) {
-  electronIpc(win)
+  function ipcSend (...args) {
+    try {
+      if (win && win.webContents) win.webContents.send.apply(win.webContents, args)
+    } catch (e) {
+      logger.error('exception win.webContents.send', args, e.stack)
+    }
+  }
+
+  electronIpc(ipcSend)
 
   logger.info('initializing mapeo', userDataPath, argv.port)
   var opts = {
@@ -207,6 +218,7 @@ function notifyReady (done) {
       win.maximize()
       splash.destroy()
       win.show()
+      updater.periodicUpdates()
       done()
     }, 1000)
   })
@@ -236,8 +248,6 @@ function createWindow (socketName) {
   })
   mainWindowState.manage(win)
 
-  win.loadURL(INDEX)
-
   win.webContents.on('did-finish-load', () => {
     if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
     if (argv.debug) win.webContents.openDevTools()
@@ -245,6 +255,13 @@ function createWindow (socketName) {
       name: socketName
     })
   })
+  win.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
+    if (errorDescription === 'ERR_INTERNET_DISCONNECTED' || errorDescription === 'ERR_PROXY_CONNECTION_FAILED') {
+      logger.log(errorDescription)
+    }
+    logger.error(errorDescription)
+  })
+  win.loadURL(INDEX)
   return win
 }
 
@@ -265,11 +282,13 @@ function createBgWindow (socketName) {
   win.loadURL(BG)
   win.webContents.on('did-finish-load', () => {
     if (argv.debug) bg.webContents.openDevTools()
-    win.webContents.send('configure', {
-      socketName,
-      userDataPath,
-      isDev
-    })
+    if (win && win.webContents) {
+      win.webContents.send('configure', {
+        socketName,
+        userDataPath,
+        isDev
+      })
+    }
   })
   win.on('closed', () => {
     logger.info('Background window closed')
