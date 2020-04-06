@@ -135,12 +135,12 @@ function Api ({ baseUrl, mapeo, ipc }) {
     },
 
     addDataChangedListener: function (ev, handler) {
-      ipcRenderer.on('sync-complete', handler)
-      ipcRenderer.on(ev, handler)
+      ipc.on('sync-complete', handler)
+      ipc.on(ev, handler)
       return {
         remove: () => {
-          ipcRenderer.removeListener('sync-complete', handler)
-          ipcRenderer.removeListener(ev, handler)
+          ipc.removeListener('sync-complete', handler)
+          ipc.removeListener(ev, handler)
         }
       }
     },
