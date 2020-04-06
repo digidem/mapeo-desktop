@@ -291,9 +291,12 @@ function convertPresets (presets) {
   Object.keys(fields).forEach(fieldId => {
     const field = fields[fieldId]
     let type
+    let snakeCase
     switch (field.type) {
       case 'select_one':
         type = 'combo'
+        snakeCase =
+          typeof field.snake_case === 'boolean' ? field.snake_case : false
         break
       case 'select_multiple':
         type = 'text'
@@ -304,7 +307,8 @@ function convertPresets (presets) {
 
     fields[fieldId] = {
       ...field,
-      type
+      type,
+      snake_case: snakeCase
     }
     if (Array.isArray(field.options)) {
       fields[fieldId].options = field.options.map(opt => {
