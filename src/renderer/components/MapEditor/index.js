@@ -301,6 +301,11 @@ function convertPresets (presets) {
       case 'select_multiple':
         type = 'text'
         break
+      case 'text':
+        if (!field.appearance || field.appearance === 'multiline') {
+          type = 'textarea'
+        }
+        break
       default:
         type = field.type
     }
