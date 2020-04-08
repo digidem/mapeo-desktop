@@ -342,6 +342,27 @@ function convertPresets (presetsObj) {
   const fields = { ...fallbackFields, ...presetsObj.fields }
   const presets = { ...fallbackPresets, ...presetsObj.presets }
 
+  // In Mapeo Mobile (and Observation View) we do not yet use the preset.tags
+  // property to match presets to entities on the map. Instead we match based on
+  // categoryId === presetId. For using presets from Mapeo Mobile in iD, if a
+  // preset does not have any properties set on `preset.tags` then we use
+  // `categoryId`
+  Object.keys(presets).forEach(presetId => {
+    const preset = presets[presetId]
+    if (
+      Object.keys(preset.tags || {}).length === 0 &&
+      // Skip for fallback presets `point`, `line`, `area`, `relation`
+      !Object.keys(fallbackPresets).includes(presetId)
+    ) {
+      presets[presetId] = {
+        ...preset,
+        tags: {
+          categoryId: presetId
+        }
+      }
+    }
+  })
+
   Object.keys(fields).forEach(fieldId => {
     const field = fields[fieldId]
     let type
