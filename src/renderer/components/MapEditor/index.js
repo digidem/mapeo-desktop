@@ -294,12 +294,53 @@ function latlonToPosString (pos) {
   return pos.toString()
 }
 
+// iD Editor requires that [fallback presets are
+// defined](https://github.com/openstreetmap/iD/tree/develop/data/presets#custom-presets),
+// so that entities on the map always match _something_.
+const fallbackPresets = {
+  area: {
+    name: 'Area',
+    tags: {},
+    geometry: ['area'],
+    matchScore: 0.1
+  },
+  line: {
+    name: 'Line',
+    tags: {},
+    geometry: ['line'],
+    matchScore: 0.1
+  },
+  point: {
+    name: 'Point',
+    tags: {},
+    geometry: ['point', 'vertex'],
+    matchScore: 0.1
+  },
+  relation: {
+    name: 'Relation',
+    tags: {},
+    geometry: ['relation'],
+    matchScore: 0.1
+  }
+}
+
+// iD Editor requires that a "name" field is always defined.
+const fallbackFields = {
+  name: {
+    key: 'name',
+    type: 'localized',
+    label: 'Name',
+    placeholder: 'Common name (if any)'
+  }
+}
+
 /**
  * Presets for Mapeo use a slightly different schema than presets for iD Editor.
  * Currently the main difference is select_one fields
  */
-function convertPresets (presets) {
-  const fields = { ...presets.fields }
+function convertPresets (presetsObj) {
+  const fields = { ...fallbackFields, ...presetsObj.fields }
+  const presets = { ...fallbackPresets, ...presetsObj.presets }
 
   Object.keys(fields).forEach(fieldId => {
     const field = fields[fieldId]
@@ -337,7 +378,8 @@ function convertPresets (presets) {
   })
 
   return {
-    ...presets,
-    fields
+    ...presetsObj,
+    fields,
+    presets
   }
 }
