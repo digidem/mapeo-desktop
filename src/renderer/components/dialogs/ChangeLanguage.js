@@ -20,7 +20,8 @@ const languages = {
 
 const m = defineMessages({
   'dialog-enter-language': 'Choose a language',
-  'button-submit': 'Submit'
+  'button-submit': 'Submit',
+  'button-cancel': 'Cancel'
 })
 
 const ChangeLanguage = ({ onClose, open }) => {
@@ -38,8 +39,15 @@ const ChangeLanguage = ({ onClose, open }) => {
     return false
   }
 
+  const closeHandler = () => {
+    // This will remember state between open/close, so if the user cancels this
+    // should reset to the currently selected locale
+    setLang(locale)
+    onClose()
+  }
+
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth='xs'>
       <DialogTitle>{t(m['dialog-enter-language'])}</DialogTitle>
       <DialogContent>
         <FormControl>
@@ -54,11 +62,16 @@ const ChangeLanguage = ({ onClose, open }) => {
               </MenuItem>
             ))}
           </Select>
-          <DialogActions>
-            <Button onClick={submitHandler}>{t(m['button-submit'])}</Button>
-          </DialogActions>
         </FormControl>
       </DialogContent>
+      <DialogActions>
+        <Button color='default' onClick={closeHandler}>
+          {t(m['button-cancel'])}
+        </Button>
+        <Button color='primary' onClick={submitHandler}>
+          {t(m['button-submit'])}
+        </Button>
+      </DialogActions>
     </Dialog>
   )
 }
