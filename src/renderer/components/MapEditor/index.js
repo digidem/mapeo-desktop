@@ -128,9 +128,8 @@ const MapEditor = () => {
       if (saved) history.fromJSON(saved)
       ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
     }
-    const subscription = api.addDataChangedListener(
-      'observation-edit',
-      () => refreshWindow()
+    const subscription = api.addDataChangedListener('observation-edit', () =>
+      refreshWindow()
     )
     return () => {
       subscription.remove()
@@ -235,7 +234,21 @@ const MapEditor = () => {
     var customCss = ipcRenderer.sendSync('get-user-data', 'css')
     var imagery = ipcRenderer.sendSync('get-user-data', 'imagery')
     var icons = ipcRenderer.sendSync('get-user-data', 'icons')
+    var translations = ipcRenderer.sendSync('get-user-data', 'translations')
 
+    if (translations && id.current) {
+      const currentLocale = id.current.locale()
+      // Todo fallback should be default language of presets. Currently it's
+      // random - it just uses the first locale returned from Object.keys()
+      const translationsInLocale =
+        translations[currentLocale] ||
+        translations[Object.keys(translations)[0]] ||
+        {}
+      if (translationsInLocale.presets) {
+        ;(iD.translations[currentLocale] || iD.translations.en).presets =
+          translationsInLocale.presets
+      }
+    }
     if (presets) {
       const iDPresets = convertPresets(presets)
       if (!id.current) {
