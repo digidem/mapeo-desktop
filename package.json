@@ -101,7 +101,7 @@
     "node-wifi": "^2.0.12",
     "once": "^1.4.0",
     "osm-p2p": "^5.1.0",
-    "osm-p2p-server": "github:digidem/osm-p2p-server#observation-editor",
+    "osm-p2p-server": "v6.0.0",
     "pump": "^1.0.3",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
