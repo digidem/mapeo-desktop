@@ -128,7 +128,9 @@ const MapEditor = () => {
       if (saved) history.fromJSON(saved)
       ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
     }
-    const subscription = api.addSyncListener(() => refreshWindow())
+    const subscription = api.addDataChangedListener('observation-edit', () =>
+      refreshWindow()
+    )
     return () => {
       subscription.remove()
     }
@@ -241,7 +243,21 @@ const MapEditor = () => {
     var customCss = ipcRenderer.sendSync('get-user-data', 'css')
     var imagery = ipcRenderer.sendSync('get-user-data', 'imagery')
     var icons = ipcRenderer.sendSync('get-user-data', 'icons')
+    var translations = ipcRenderer.sendSync('get-user-data', 'translations')
 
+    if (translations && id.current) {
+      const currentLocale = id.current.locale()
+      // Todo fallback should be default language of presets. Currently it's
+      // random - it just uses the first locale returned from Object.keys()
+      const translationsInLocale =
+        translations[currentLocale] ||
+        translations[Object.keys(translations)[0]] ||
+        {}
+      if (translationsInLocale.presets) {
+        ;(iD.translations[currentLocale] || iD.translations.en).presets =
+          translationsInLocale.presets
+      }
+    }
     if (presets) {
       const iDPresets = convertPresets(presets)
       if (!id.current) {
@@ -287,22 +303,92 @@ function latlonToPosString (pos) {
   return pos.toString()
 }
 
+// iD Editor requires that [fallback presets are
+// defined](https://github.com/openstreetmap/iD/tree/develop/data/presets#custom-presets),
+// so that entities on the map always match _something_.
+const fallbackPresets = {
+  area: {
+    name: 'Area',
+    tags: {},
+    geometry: ['area'],
+    matchScore: 0.1
+  },
+  line: {
+    name: 'Line',
+    tags: {},
+    geometry: ['line'],
+    matchScore: 0.1
+  },
+  point: {
+    name: 'Point',
+    tags: {},
+    geometry: ['point', 'vertex'],
+    matchScore: 0.1
+  },
+  relation: {
+    name: 'Relation',
+    tags: {},
+    geometry: ['relation'],
+    matchScore: 0.1
+  }
+}
+
+// iD Editor requires that a "name" field is always defined.
+const fallbackFields = {
+  name: {
+    key: 'name',
+    type: 'localized',
+    label: 'Name',
+    placeholder: 'Common name (if any)'
+  }
+}
+
 /**
  * Presets for Mapeo use a slightly different schema than presets for iD Editor.
  * Currently the main difference is select_one fields
  */
-function convertPresets (presets) {
-  const fields = { ...presets.fields }
+function convertPresets (presetsObj) {
+  const fields = { ...fallbackFields, ...presetsObj.fields }
+  const presets = { ...fallbackPresets, ...presetsObj.presets }
+
+  // In Mapeo Mobile (and Observation View) we do not yet use the preset.tags
+  // property to match presets to entities on the map. Instead we match based on
+  // categoryId === presetId. For using presets from Mapeo Mobile in iD, if a
+  // preset does not have any properties set on `preset.tags` then we use
+  // `categoryId`
+  Object.keys(presets).forEach(presetId => {
+    const preset = presets[presetId]
+    if (
+      Object.keys(preset.tags || {}).length === 0 &&
+      // Skip for fallback presets `point`, `line`, `area`, `relation`
+      !Object.keys(fallbackPresets).includes(presetId)
+    ) {
+      presets[presetId] = {
+        ...preset,
+        tags: {
+          categoryId: presetId
+        }
+      }
+    }
+  })
 
   Object.keys(fields).forEach(fieldId => {
     const field = fields[fieldId]
     let type
+    let snakeCase
     switch (field.type) {
       case 'select_one':
         type = 'combo'
+        snakeCase =
+          typeof field.snake_case === 'boolean' ? field.snake_case : false
         break
       case 'select_multiple':
         type = 'text'
+        break
+      case 'text':
+        if (!field.appearance || field.appearance === 'multiline') {
+          type = 'textarea'
+        }
         break
       default:
         type = field.type
@@ -310,7 +396,8 @@ function convertPresets (presets) {
 
     fields[fieldId] = {
       ...field,
-      type
+      type,
+      snake_case: snakeCase
     }
     if (Array.isArray(field.options)) {
       fields[fieldId].options = field.options.map(opt => {
@@ -321,7 +408,8 @@ function convertPresets (presets) {
   })
 
   return {
-    ...presets,
-    fields
+    ...presetsObj,
+    fields,
+    presets
   }
 }

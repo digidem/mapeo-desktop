@@ -134,10 +134,14 @@ function Api ({ baseUrl, mapeo, ipc }) {
       }
     },
 
-    addSyncListener: function addSyncListener (handler) {
+    addDataChangedListener: function (ev, handler) {
       ipc.on('sync-complete', handler)
+      ipc.on(ev, handler)
       return {
-        remove: () => ipc.removeListener('sync-complete', handler)
+        remove: () => {
+          ipc.removeListener('sync-complete', handler)
+          ipc.removeListener(ev, handler)
+        }
       }
     },
 

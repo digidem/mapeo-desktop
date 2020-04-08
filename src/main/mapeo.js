@@ -36,7 +36,8 @@ class MapeoRPC {
     const computerName = (os.hostname() || 'Mapeo Desktop').split('.')[0]
 
     this.server = createServer(this.osm, this.media, {
-      staticRoot: userDataPath
+      staticRoot: userDataPath,
+      ipcSend
     })
 
     // TODO(KM): remove this.server.mapeo.* calls to prevent leaky abstraction
