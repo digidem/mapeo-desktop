@@ -228,7 +228,12 @@ const MapEditor = () => {
         // setTimeout(() => id.current.flush(), 1500)
       })
     },
-    [t]
+    // This should have a dependency of `t` and `locale`, so that it re-runs if
+    // the locale or the `t` function changes, but we don't have an easy way to
+    // teardown iD editor and then recreate it, so we need to never re=-run this
+    // effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   )
 
   function updateSettings () {
