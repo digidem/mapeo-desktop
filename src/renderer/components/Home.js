@@ -157,7 +157,7 @@ function TabPanel (props) {
 
 const useTabIndex = createPersistedState('currentView')
 
-export default function Home () {
+export default function Home ({ onSelectLanguage }) {
   const [dialog, setDialog] = React.useState()
   const [tabIndex, setTabIndex] = useTabIndex(0)
   const { formatMessage: t } = useIntl()
@@ -171,7 +171,10 @@ export default function Home () {
     ipcRenderer.on('force-refresh-window', refreshPage)
     return () => {
       ipcRenderer.removeListener('open-latlon-dialog', openLatLonDialog)
-      ipcRenderer.removeListener('change-language-request', openChangeLangDialog)
+      ipcRenderer.removeListener(
+        'change-language-request',
+        openChangeLangDialog
+      )
       ipcRenderer.removeListener('force-refresh-window', openLatLonDialog)
     }
   }, [])
@@ -203,9 +206,12 @@ export default function Home () {
       </TabContent>
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}
-        onClose={() => {
+        onCancel={() => {
           setDialog(null)
-          ipcRenderer.send('force-refresh-window') // TODO: can we do this without sending ipc?
+        }}
+        onSelectLanguage={lang => {
+          onSelectLanguage(lang)
+          setDialog(null)
         }}
       />
       <LatLonDialog
