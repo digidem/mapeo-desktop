@@ -7,7 +7,6 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import React, { useState } from 'react'
-import { ipcRenderer } from 'electron'
 
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -20,25 +19,28 @@ const languages = {
 
 const m = defineMessages({
   'dialog-enter-language': 'Choose a language',
-  'button-submit': 'Submit'
+  'button-submit': 'Submit',
+  'button-cancel': 'Cancel'
 })
 
-const ChangeLanguage = ({ onClose, open }) => {
-  const { formatMessage: t } = useIntl()
-  const [lang, setLang] = useState()
+const ChangeLanguage = ({ onCancel, onSelectLanguage, open }) => {
+  const { formatMessage: t, locale } = useIntl()
+  // Set default state to app locale
+  const [lang, setLang] = useState(locale)
 
-  const submitHandler = event => {
-    ipcRenderer.send('set-locale', lang)
-    onClose()
-    if (event) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-    return false
+  const submitHandler = () => {
+    onSelectLanguage(lang)
+  }
+
+  const closeHandler = () => {
+    // This will remember state between open/close, so if the user cancels this
+    // should reset to the currently selected locale
+    setLang(locale)
+    onCancel()
   }
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onCancel} fullWidth maxWidth='xs'>
       <DialogTitle>{t(m['dialog-enter-language'])}</DialogTitle>
       <DialogContent>
         <FormControl>
@@ -47,15 +49,22 @@ const ChangeLanguage = ({ onClose, open }) => {
             value={lang}
             onChange={event => setLang(event.target.value)}
           >
-            {Object.keys(languages).map((code) => (
-              <MenuItem key={code} value={code}>{languages[code]} ({code})</MenuItem>
+            {Object.keys(languages).map(code => (
+              <MenuItem key={code} value={code}>
+                {languages[code]} ({code})
+              </MenuItem>
             ))}
           </Select>
-          <DialogActions>
-            <Button onClick={submitHandler}>{t(m['button-submit'])}</Button>
-          </DialogActions>
         </FormControl>
       </DialogContent>
+      <DialogActions>
+        <Button color='default' onClick={closeHandler}>
+          {t(m['button-cancel'])}
+        </Button>
+        <Button color='primary' onClick={submitHandler}>
+          {t(m['button-submit'])}
+        </Button>
+      </DialogActions>
     </Dialog>
   )
 }
