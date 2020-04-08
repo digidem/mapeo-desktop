@@ -24,30 +24,24 @@ const m = defineMessages({
   'button-cancel': 'Cancel'
 })
 
-const ChangeLanguage = ({ onClose, open }) => {
+const ChangeLanguage = ({ onCancel, onSelectLanguage, open }) => {
   const { formatMessage: t, locale } = useIntl()
   // Set default state to app locale
   const [lang, setLang] = useState(locale)
 
-  const submitHandler = event => {
-    ipcRenderer.send('set-locale', lang)
-    onClose()
-    if (event) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-    return false
+  const submitHandler = () => {
+    onSelectLanguage(lang)
   }
 
   const closeHandler = () => {
     // This will remember state between open/close, so if the user cancels this
     // should reset to the currently selected locale
     setLang(locale)
-    onClose()
+    onCancel()
   }
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth='xs'>
+    <Dialog open={open} onClose={onCancel} fullWidth maxWidth='xs'>
       <DialogTitle>{t(m['dialog-enter-language'])}</DialogTitle>
       <DialogContent>
         <FormControl>
