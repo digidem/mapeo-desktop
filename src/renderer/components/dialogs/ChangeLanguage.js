@@ -24,8 +24,9 @@ const m = defineMessages({
 })
 
 const ChangeLanguage = ({ onClose, open }) => {
-  const { formatMessage: t } = useIntl()
-  const [lang, setLang] = useState()
+  const { formatMessage: t, locale } = useIntl()
+  // Set default state to app locale
+  const [lang, setLang] = useState(locale)
 
   const submitHandler = event => {
     ipcRenderer.send('set-locale', lang)
@@ -47,8 +48,10 @@ const ChangeLanguage = ({ onClose, open }) => {
             value={lang}
             onChange={event => setLang(event.target.value)}
           >
-            {Object.keys(languages).map((code) => (
-              <MenuItem key={code} value={code}>{languages[code]} ({code})</MenuItem>
+            {Object.keys(languages).map(code => (
+              <MenuItem key={code} value={code}>
+                {languages[code]} ({code})
+              </MenuItem>
             ))}
           </Select>
           <DialogActions>
