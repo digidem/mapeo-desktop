@@ -99,7 +99,7 @@ const MapEditor = () => {
   const rootRef = React.useRef()
   const id = React.useRef()
   const customDefs = React.useRef()
-  const { formatMessage: t } = useIntl()
+  const { formatMessage: t, locale } = useIntl()
   const [toolbarEl, setToolbarEl] = React.useState()
 
   const zoomToData = React.useCallback((_, loc) => {
@@ -160,6 +160,10 @@ const MapEditor = () => {
         .assetPath('node_modules/id-mapeo/dist/')
         .preauth({ url: serverUrl })
         .minEditableZoom(window.localStorage.getItem('minEditableZoom') || 14)
+
+      // Calling iD.coreContext() detects the locale from the browser. We need
+      // to override it with the app locale, before we call ui()
+      id.current.locale(locale)
 
       if (!customDefs.current) {
         customDefs.current = id.current
