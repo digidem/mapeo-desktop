@@ -1,31 +1,24 @@
 #!/usr/bin/env electron
 
-var path = require('path')
-var minimist = require('minimist')
-var electron = require('electron')
+const path = require('path')
+const minimist = require('minimist')
+const electron = require('electron')
 const isDev = require('electron-is-dev')
 const contextMenu = require('electron-context-menu')
-var app = electron.app
-var BrowserWindow = electron.BrowserWindow
-
 const debug = require('electron-debug')
-var mkdirp = require('mkdirp')
-var sublevel = require('subleveldown')
-var osmdb = require('osm-p2p')
-var series = require('run-series')
-var MediaStore = require('safe-fs-blob-store')
-var styles = require('mapeo-styles')
-var logger = require('electron-timber')
+const mkdirp = require('mkdirp')
+const series = require('run-series')
+const styles = require('mapeo-styles')
+const { fork } = require('child_process')
+const middleware = require('electron-rabbit')
 
-var config = require('./src/main/user-config')
-var ipc = require('./src/main/ipc')
-var createMenu = require('./src/main/menu')
-var createServer = require('./src/main/server.js')
-var createTileServer = require('./src/main/tile-server.js')
-var windowStateKeeper = require('./src/main/window-state')
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
 
-var installStatsIndex = require('./src/main/osm-stats')
-var TileImporter = require('./src/main/tile-importer')
+const logger = require('./src/logger')
+const miscellaneousIpc = require('./src/main/ipc')
+const createMenu = require('./src/main/menu')
+const windowStateKeeper = require('./src/main/window-state')
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
@@ -35,17 +28,15 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 debug({ showDevTools: false })
 
 // Handle uncaught errors
+// XXX(KM): why aren't we enabling this?
 // catchErrors({ onError: handleError })
 
 var win = null
 var splash = null
-
-contextMenu({
-  showLookUpSelection: false,
-  showCopyImage: true,
-  showSaveImageAs: true,
-  showInspectElement: isDev
-})
+var bg = null
+var mainWindowState = null
+var serverProcess = null
+var ipc = new middleware.Client()
 
 var gotTheLock = app.requestSingleInstanceLock()
 
@@ -83,77 +74,28 @@ var argv = minimist(process.argv.slice(2), {
 if (argv.headless) startSequence()
 else app.once('ready', openWindow)
 
-app.on('before-quit', function (e) {
-  if (!app.server) return
-  // Cancel quit and wait for server to close
-  e.preventDefault()
-
-  var CLOSING = 'file://' + path.join(__dirname, './closing.html')
-  var closingWin = new BrowserWindow({
-    width: 600,
-    height: 400,
-    frame: false,
-    show: false,
-    alwaysOnTop: false
-  })
-  closingWin.loadURL(CLOSING)
-  const closingTimeoutId = setTimeout(() => {
-    closingWin.show()
-  }, 300)
-
-  // Server close will gracefully close databases and wait for pending sync
-  // TODO: Show the user that a sync is pending finishing
-  app.server.close(function () {
-    clearTimeout(closingTimeoutId)
-    try {
-      closingWin.close()
-    } catch (e) {}
-    closingWin = null
-    app.exit()
-  })
-})
-
-// Quit when all windows are closed.
+app.on('before-quit', beforeQuit)
 app.on('window-all-closed', function () {
   app.quit()
 })
 
 function openWindow () {
-  var APP_NAME = app.getName()
-  var INDEX = 'file://' + path.join(__dirname, './index.html')
-  var SPLASH = 'file://' + path.join(__dirname, './splash.html')
-  var mainWindowState = windowStateKeeper({
-    defaultWidth: 1000,
-    defaultHeight: 800
+  // TODO: get a socket name that isn't open ..
+  var _socketName = 'mapeo1'
+  logger.log('got socket', _socketName)
+  ipc.on('error', function (err) {
+    logger.error(err)
+    electron.dialog.showErrorBox('Error', err)
   })
+  ipc.connect(_socketName)
 
   if (!win) {
-    win = new BrowserWindow({
-      x: mainWindowState.x,
-      y: mainWindowState.y,
-      width: mainWindowState.width,
-      height: mainWindowState.height,
-      title: APP_NAME,
-      show: false,
-      alwaysOnTop: false,
-      titleBarStyle: 'hidden',
-      icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png'),
-      webPreferences: {
-        nodeIntegration: true
-      }
-    })
-    mainWindowState.manage(win)
-    splash = new BrowserWindow({
-      width: 810,
-      height: 610,
-      transparent: true,
-      frame: false,
-      alwaysOnTop: true
-    })
-    splash.loadURL(SPLASH)
+    win = createWindow(_socketName)
+    splash = createSplashWindow()
   }
 
   if (isDev) {
+    bg = createBgWindow(_socketName)
     try {
       var {
         default: installExtension,
@@ -163,11 +105,10 @@ function openWindow () {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(name => logger.log(`Added Extension:  ${name}`))
       .catch(err => logger.log('An error occurred: ', err))
+  } else {
+    createBackgroundProcess(_socketName)
   }
-
-  win.loadURL(INDEX)
-
-  createMenu(app)
+  createMenu(ipc)
 
   // Emitted when the window is closed.
   win.on('closed', function () {
@@ -176,6 +117,7 @@ function openWindow () {
     // when you should delete the corresponding element.
     win = null
     splash = null
+    bg = null
     app.quit()
   })
 
@@ -194,10 +136,10 @@ function startSequence () {
   series(
     [
       initDirectories,
-      startupMsg('Initialized osm-p2p'),
+      startupMsg('Initialized directories'),
 
       createServers,
-      startupMsg('Started osm and tile servers'),
+      startupMsg('Started node-ipc servers'),
 
       notifyReady,
       startupMsg('Notified the frontend that backend is ready')
@@ -209,8 +151,6 @@ function startSequence () {
   )
 }
 
-const projectKey = config.getEncryptionKey(userDataPath)
-
 function initDirectories (done) {
   startupMsg('Unpacking Styles')
   // This is necessary to make sure that the styles and presets directory
@@ -221,63 +161,32 @@ function initDirectories (done) {
   styles.unpackIfNew(userDataPath, function (err) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
   })
-
-  var osm = osmdb({
-    dir: argv.datadir,
-    encryptionKey: projectKey
-  })
-  logger.log('loading datadir', argv.datadir)
-
-  var idb = sublevel(osm.index, 'stats')
-  osm.core.use('stats', installStatsIndex(idb))
-
-  var media = MediaStore(path.join(argv.datadir, 'media'))
-  app.osm = osm
-  app.media = media
-  app.tiles = TileImporter(userDataPath)
-
-  win.webContents.once('did-finish-load', function () {
-    logger.log('preparing osm indexes..')
-    win.webContents.send('indexes-loading')
-    app.osm.ready(function () {
-      logger.log('indexes READY')
-      win.webContents.send('indexes-ready')
-    })
-  })
-
   done()
 }
 
 function createServers (done) {
-  function ipcSend (...args) {
-    try {
-      win.webContents.send.apply(win.webContents, args)
-    } catch (e) {}
+  // TODO: rename/refactor
+  miscellaneousIpc(win)
+
+  logger.log('initializing mapeo', userDataPath, argv.port)
+  var opts = {
+    userDataPath,
+    datadir: argv.datadir,
+    port: argv.port,
+    tileport: argv.tileport
   }
-  app.server = createServer(app.osm, app.media, ipcSend, {
-    staticRoot: userDataPath,
-    projectKey: projectKey
-  })
-  app.mapeo = app.server.mapeo
-  ipc(win)
 
-  var pending = 2
-
-  app.server.listen(argv.port, '127.0.0.1', function () {
-    global.osmServerHost = '127.0.0.1:' + app.server.address().port
+  ipc.send('listen', opts, function (err, port) {
+    if (err) throw new Error('fatal: could not get port', err)
+    logger.log('listen port got back', port)
+    global.osmServerHost = '127.0.0.1:' + port
     logger.log(global.osmServerHost)
-    if (--pending === 0) done()
-  })
-
-  var tileServer = createTileServer()
-  tileServer.listen(argv.tileport, function () {
-    logger.log('tile server listening on :', tileServer.address().port)
-    if (--pending === 0) done()
+    done()
   })
 }
 
 function notifyReady (done) {
-  win.webContents.once('did-finish-load', function () {
+  win.webContents.on('did-finish-load', () => {
     setTimeout(() => {
       var IS_TEST = process.env.NODE_ENV === 'test'
       if (IS_TEST) win.setSize(1000, 800, false)
@@ -288,6 +197,135 @@ function notifyReady (done) {
       win.show()
       done()
     }, 1000)
+  })
+}
+
+function createWindow (socketName) {
+  var APP_NAME = app.getName()
+  var INDEX = 'file://' + path.join(__dirname, './index.html')
+  mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 800
+  })
+  var win = new BrowserWindow({
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    title: APP_NAME,
+    show: false,
+    alwaysOnTop: false,
+    titleBarStyle: 'hidden',
+    icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png'),
+    webPreferences: {
+      nodeIntegration: true,
+      preload: path.resolve(__dirname, 'src', 'windows', 'index-preload.js')
+    }
+  })
+  mainWindowState.manage(win)
+
+  win.loadURL(INDEX)
+
+  win.webContents.on('did-finish-load', () => {
+    if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
+    if (argv.debug) win.webContents.openDevTools()
+    win.webContents.send('set-socket', {
+      name: socketName
+    })
+  })
+  return win
+}
+
+// Create a hidden background window
+function createBgWindow (socketName) {
+  var win = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: 700,
+    height: 700,
+    show: argv.debug,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+  console.log('loading bg window')
+  var BG = 'file://' + path.join(__dirname, './src/windows/background.html')
+  win.loadURL(BG)
+  win.webContents.on('did-finish-load', () => {
+    if (argv.debug) bg.webContents.openDevTools()
+    win.webContents.send('set-socket', {
+      name: socketName
+    })
+  })
+  win.on('closed', () => {
+    console.log('background window closed')
+    app.quit()
+  })
+  return win
+}
+
+function createSplashWindow () {
+  var SPLASH = 'file://' + path.join(__dirname, './src/windows/splash.html')
+  var splash = new BrowserWindow({
+    width: 450,
+    height: 410,
+    center: true,
+    transparent: true,
+    resizable: false,
+    frame: false
+  })
+  splash.loadURL(SPLASH)
+  return splash
+}
+
+function createBackgroundProcess (socketName) {
+  console.log('creating background process')
+  serverProcess = fork(path.join(__dirname, 'src', 'windows', 'background.js'), [
+    '--subprocess',
+    app.getVersion(),
+    socketName
+  ])
+
+  serverProcess.on('message', msg => {
+    console.log(msg)
+  })
+}
+
+contextMenu({
+  showLookUpSelection: false,
+  showCopyImage: true,
+  showSaveImageAs: true,
+  showInspectElement: isDev
+})
+
+function beforeQuit (e) {
+  // Cancel quit and wait for server to close
+  e.preventDefault()
+
+  var CLOSING = 'file://' + path.join(__dirname, './closing.html')
+  var closingWin = new BrowserWindow({
+    width: 600,
+    height: 400,
+    frame: false,
+    show: false,
+    alwaysOnTop: false
+  })
+  closingWin.loadURL(CLOSING)
+  const closingTimeoutId = setTimeout(() => {
+    closingWin.show()
+  }, 300)
+
+  // 'close' event will gracefully close databases and wait for pending sync
+  // TODO: Show the user that a sync is pending finishing
+  console.log('ipc.send close')
+  ipc.send('close', null, () => {
+    console.log('closed')
+    clearTimeout(closingTimeoutId)
+    if (serverProcess) serverProcess.kill()
+    try { closingWin.close() } catch (e) {}
+    closingWin = null
+    serverProcess = null
+    app.exit()
   })
 }
 

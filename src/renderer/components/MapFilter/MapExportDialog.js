@@ -7,7 +7,6 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { TextField, DialogContentText } from '@material-ui/core'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
-import logger from 'electron-timber'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
 import path from 'path'
 import { remote } from 'electron'
@@ -15,6 +14,7 @@ import pump from 'pump'
 
 import ViewWrapper from 'react-mapfilter/commonjs/ViewWrapper'
 
+import logger from '../../../logger'
 import createZip from '../../create-zip'
 
 const msgs = defineMessages({

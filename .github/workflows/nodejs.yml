@@ -4,11 +4,15 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.os }}
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        config: 
+          - { os: macos-latest, arch: x64, name: macos-latest }
+          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
+          - { os: windows-latest, arch: x64, name: windows-latest }
+          - { os: windows-latest, arch: ia32, name: windows-latest-32 }
 
     steps:
       - name: Context
@@ -16,19 +20,21 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v2
-      - name: Use Node.js 8.x
+        with:
+          fetch-depth: 1
+      - name: Use Node.js 12.4
         uses: actions/setup-node@v1
         with:
-          node-version: 8.x
+          node-version: 12.4
+          architecture: ${{matrix.config.arch}} 
       - name: npm install
         run: |
           npm install
+        env:
+          npm_config_arch: ${{matrix.config.arch}} 
       - name: Lint
         run: |
           npm run lint
-      - name: Rebuild native deps for Electron
-        run: |
-          npm run rebuild-leveldb
       - name: Build frontend
         run: |
           npm run build
@@ -36,8 +42,9 @@ jobs:
           CI: true
       - name: Publish
         run: |
-          npm run dist
+          npm run dist -- --${{matrix.config.arch}}
         env:
+          ARCH: ${{matrix.config.arch}}
           CI: true
           GITHUB_CI_REF: ${{ github.ref }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -45,12 +52,6 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
-      # - name: Update release notes
-      #   if: contains(github.ref, '/tags/')
-      #   run: |
-      #     npm run gh-release
-      #   env:
-      #     GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Update website release
         if: contains(github.ref, '/tags/')
         run: bin/release_latest.js
@@ -63,5 +64,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.os }}
+          name: ${{ matrix.config.name }}
           path: dist
