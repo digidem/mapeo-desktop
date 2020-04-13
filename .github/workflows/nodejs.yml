@@ -8,11 +8,15 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.os }}
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        config: 
+          - { os: macos-latest, arch: x64, name: macos-latest }
+          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
+          - { os: windows-latest, arch: x64, name: windows-latest }
+          - { os: windows-latest, arch: ia32, name: windows-latest-32 }
 
     steps:
       - name: Context
@@ -22,19 +26,19 @@ jobs:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
-      - name: Use Node.js 8.x
+      - name: Use Node.js 12.4
         uses: actions/setup-node@v1
         with:
-          node-version: 8.x
+          node-version: 12.4
+          architecture: ${{matrix.config.arch}} 
       - name: npm install
         run: |
           npm install
+        env:
+          npm_config_arch: ${{matrix.config.arch}} 
       - name: Lint
         run: |
           npm run lint
-      - name: Rebuild native deps for Electron
-        run: |
-          npm run rebuild-leveldb
       - name: Build frontend
         run: |
           npm run build
@@ -42,8 +46,9 @@ jobs:
           CI: true
       - name: Publish
         run: |
-          npm run dist
+          npm run dist -- --${{matrix.config.arch}}
         env:
+          ARCH: ${{matrix.config.arch}}
           CI: true
           GITHUB_CI_REF: ${{ github.ref }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -63,5 +68,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.os }}
+          name: ${{ matrix.config.name }}
           path: dist

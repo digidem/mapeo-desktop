@@ -10,7 +10,7 @@ const mkdirp = require('mkdirp')
 const series = require('run-series')
 const styles = require('mapeo-styles')
 const { fork } = require('child_process')
-const middleware = require('hoist')
+const middleware = require('electron-rabbit')
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow

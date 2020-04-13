@@ -11,7 +11,7 @@
   },
   "main": "index.js",
   "engine": {
-    "node": "8.11.4"
+    "node": "12.4"
   },
   "scripts": {
     "clean": "rimraf \"dist/\"",
@@ -32,8 +32,7 @@
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
-    "postinstall": "patch-package && electron-builder install-app-deps",
-    "rebuild-leveldb": "electron-rebuild -o leveldown",
+    "postinstall": "patch-package",
     "license-check": "license-check",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta",
@@ -70,7 +69,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.24",
     "@fortawesome/free-solid-svg-icons": "^5.11.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "@mapeo/settings": "^2.0.2",
+    "@mapeo/settings": "^2.1.0",
     "@material-ui/core": "^4.5.2",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "^4.5.2",
@@ -90,7 +89,7 @@
     "flat": "^5.0.0",
     "fs-write-stream-atomic": "^1.0.10",
     "html-react-parser": "^0.9.1",
-    "id-mapeo": "^3.1.6",
+    "id-mapeo": "^3.2.1",
     "insert-css": "^1.0.0",
     "ky": "^0.14.0",
     "lodash": "^4.17.4",
@@ -102,7 +101,7 @@
     "node-wifi": "^2.0.12",
     "once": "^1.4.0",
     "osm-p2p": "^5.1.0",
-    "osm-p2p-server": "^5.0.0",
+    "osm-p2p-server": "v6.0.0",
     "pump": "^1.0.3",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
@@ -146,7 +145,6 @@
     "electron": "^6.0.10",
     "electron-builder": "^21.2.0",
     "electron-devtools-installer": "^2.2.4",
-    "electron-rebuild": "^1.8.6",
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
@@ -193,6 +191,10 @@
     "artifactName": "Installar_Mapeo_v${version}_${os}.${ext}",
     "mac": {
       "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "NSIS",
+      "artifactName": "Installar_Mapeo_v${version}_${os}-${env.ARCH}.${ext}"
     },
     "linux": {
       "target": [
