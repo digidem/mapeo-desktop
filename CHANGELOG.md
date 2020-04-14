@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.0](https://github.com/digidem/mapeo-desktop/compare/v5.0.7...v5.1.0) (2020-04-14)
+
+
+### Features
+
+* View & Edit observations in Territory View (#267)
+* Show WiFi SSID and strength indication ([#316](https://github.com/digidem/mapeo-desktop/issues/316)) ([cbf189c](https://github.com/digidem/mapeo-desktop/commit/cbf189cbec4901e4219d43f95941b9714d240294)) 
+* More polished splash screen with loading indicator
+
+### Bug Fixes
+
+* Mapeo only needs to close once ([a3bd413](https://github.com/digidem/mapeo-desktop/commit/a3bd4130cc6df513e3b43a8770906fa0adb19782))
+* Fixes language switcher ([#326](https://github.com/digidem/mapeo-desktop/issues/326)) ([bb493db](https://github.com/digidem/mapeo-desktop/commit/bb493db29723a672ebece693af03b361d5e887cb))
+* Windows 32-bit builds ([#322](https://github.com/digidem/mapeo-desktop/issues/322)) ([56b9261](https://github.com/digidem/mapeo-desktop/commit/56b9261726e9a00a9de7dd01077a3a36d12cc0c9))
+* Improved speed when editing large datasets with a background process IPC.
+
 ### [5.0.7](https://github.com/digidem/mapeo-desktop/compare/v5.0.5...v5.0.7) (2020-02-28)
 
 
