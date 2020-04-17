@@ -57,7 +57,7 @@ jobs:
           WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
       - name: Update website release
-        if: contains(github.ref, '/tags/')
+        if: contains(github.ref, '/master/') && contains(github.ref, '/tags/')
         run: bin/release_latest.js
         env:
           GITHUB_TOKEN: ${{ secrets.WEBSITE_GH_TOKEN }}
