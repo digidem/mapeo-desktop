@@ -399,6 +399,8 @@ function convertPresets (presetsObj) {
       case 'text':
         if (!field.appearance || field.appearance === 'multiline') {
           type = 'textarea'
+        } else {
+          type = 'text'
         }
         break
       default:
