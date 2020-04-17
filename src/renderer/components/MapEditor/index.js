@@ -377,14 +377,25 @@ function convertPresets (presetsObj) {
     let type
     let snakeCase
     switch (field.type) {
+      // The iD equivalent of the mapeo select_one is a `combo` field
       case 'select_one':
         type = 'combo'
+        // iD defaults to combo fields being "snake case", which means that it
+        // converts any value selected / entered to snake case. Mapeo defaults
+        // snake_case to false.
         snakeCase =
           typeof field.snake_case === 'boolean' ? field.snake_case : false
         break
+      // iD equivalent of select_multiple is `semiCombo`, but note that iD
+      // stores the value as a semi-colon separated string, whereas Mapeo will
+      // store this as an array, so this field is not compatible between the
+      // two.
       case 'select_multiple':
         type = 'semiCombo'
         break
+      // Mapeo does not have a `textarea` field, instead text fields have an
+      // appearance of `singleline` or `multiline`, with the default
+      // `multiline`.
       case 'text':
         if (!field.appearance || field.appearance === 'multiline') {
           type = 'textarea'
@@ -399,6 +410,13 @@ function convertPresets (presetsObj) {
       type,
       snake_case: snakeCase
     }
+
+    // Mapeo supports translatable descriptions of field values for select
+    // fields with an array of option objects with "label" and "value"
+    // properties. iD supports this with a separate property `strings.options`
+    // which is an object of value:name pairs. This does not allow ordering of
+    // options like Mapeo supports.
+    // https://github.com/openstreetmap/iD/tree/develop/data/presets#strings
     if (
       Array.isArray(field.options) &&
       field.options.every(opt => typeof opt === 'object')
