@@ -383,7 +383,7 @@ function convertPresets (presetsObj) {
           typeof field.snake_case === 'boolean' ? field.snake_case : false
         break
       case 'select_multiple':
-        type = 'text'
+        type = 'semiCombo'
         break
       case 'text':
         if (!field.appearance || field.appearance === 'multiline') {
