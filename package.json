@@ -22,13 +22,13 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder --publish=onTag",
     "build": "npm-run-all -s build:translations build:js",
-    "build:js": "webpack",
+    "build:js": "webpack --config webpack.prod.js",
     "build:translations": "node bin/build-translations.js",
     "lint": "eslint --ignore-path .gitignore .",
     "test": "npm run lint && npm run test-integration",
     "test-integration": "tape test",
     "device": "DEBUG=* node bin/mock.js",
-    "watch": "webpack --watch",
+    "watch": "webpack --watch --config webpack.dev.js",
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
@@ -172,6 +172,7 @@
     "tape": "^4.9.1",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9",
+    "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2"
   },
   "license-check-config": {
