@@ -399,11 +399,17 @@ function convertPresets (presetsObj) {
       type,
       snake_case: snakeCase
     }
-    if (Array.isArray(field.options)) {
-      fields[fieldId].options = field.options.map(opt => {
-        if (opt && opt.value) return opt.value
-        return opt
+    if (
+      Array.isArray(field.options) &&
+      field.options.every(opt => typeof opt === 'object')
+    ) {
+      const mapeoOptions = field.options
+      const iDStringOptions = {}
+      mapeoOptions.forEach(opt => {
+        iDStringOptions[opt.value] = opt.label
       })
+      delete fields[fieldId].options
+      fields[fieldId].strings = { options: iDStringOptions }
     }
   })
 
