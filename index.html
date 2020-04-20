@@ -20,7 +20,9 @@
   <body>
     <div id="root"></div>
     <script>
-      require('./static/build.js')
+      console.time("Initial load");
+      require("./static/build.js");
+      console.timeEnd("Initial load");
     </script>
   </body>
 </html>
