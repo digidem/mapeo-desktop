@@ -83,6 +83,7 @@ class MapeoRPC {
     this.core.sync.on('peer', this._onNewPeer)
     this.core.sync.on('down', this._throttledSendPeerUpdate)
 
+    this.closing = false
     var origClose = this.core.close
     this.core.close = (cb) => {
       this.core.sync.removeListener('peer', this._onNewPeer)
@@ -219,9 +220,13 @@ class MapeoRPC {
   }
 
   close (cb) {
+    // Prevents close from being called twice in a row
+    if (this.closing) return
+    this.closing = true
     this.core.close((err) => {
       if (err) return cb(err)
       this.server.close((err) => {
+        this.closing = false
         cb(err)
       })
     })
