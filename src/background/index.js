@@ -1,4 +1,4 @@
-const serverHandlers = require('../main/mapeo-ipc')
+const serverHandlers = require('./mapeo-ipc')
 const rabbit = require('electron-rabbit')
 
 if (process.argv[2] === '--subprocess') {
