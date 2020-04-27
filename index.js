@@ -219,7 +219,7 @@ function createWindow (socketName) {
     icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png'),
     webPreferences: {
       nodeIntegration: true,
-      preload: path.resolve(__dirname, 'src', 'windows', 'index-preload.js')
+      preload: path.resolve(__dirname, 'src', 'renderer', 'index-preload.js')
     }
   })
   mainWindowState.manage(win)
@@ -249,7 +249,7 @@ function createBgWindow (socketName) {
     }
   })
   console.log('loading bg window')
-  var BG = 'file://' + path.join(__dirname, './src/windows/background.html')
+  var BG = 'file://' + path.join(__dirname, './src/background/index.html')
   win.loadURL(BG)
   win.webContents.on('did-finish-load', () => {
     if (argv.debug) bg.webContents.openDevTools()
@@ -265,7 +265,7 @@ function createBgWindow (socketName) {
 }
 
 function createSplashWindow () {
-  var SPLASH = 'file://' + path.join(__dirname, './src/windows/splash.html')
+  var SPLASH = 'file://' + path.join(__dirname, './static/splash.html')
   var splash = new BrowserWindow({
     width: 450,
     height: 410,
@@ -280,7 +280,7 @@ function createSplashWindow () {
 
 function createBackgroundProcess (socketName) {
   console.log('creating background process')
-  serverProcess = fork(path.join(__dirname, 'src', 'windows', 'background.js'), [
+  serverProcess = fork(path.join(__dirname, 'src', 'background', 'index.js'), [
     '--subprocess',
     app.getVersion(),
     socketName
