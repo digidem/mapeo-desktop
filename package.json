@@ -104,15 +104,11 @@
     "fs-write-stream-atomic": "^1.0.10",
     "get-scrollbar-width": "^1.0.4",
     "html-react-parser": "^0.9.1",
-<<<<<<< HEAD
     "id-mapeo": "^3.2.1",
     "insert-css": "^1.0.0",
-=======
-    "id-mapeo": "^3.1.6",
     "imagesloaded": "^4.1.4",
     "insert-css": "^2.0.0",
     "is-equal-shallow": "^0.1.3",
->>>>>>> feat: merge mapfilter into mapeo-desktop
     "ky": "^0.14.0",
     "lodash": "^4.17.15",
     "lorem-ipsum": "^2.0.3",
@@ -125,11 +121,8 @@
     "mime": "^2.4.4",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-<<<<<<< HEAD
     "node-wifi": "^2.0.12",
-=======
     "object-path-immutable": "^3.1.1",
->>>>>>> feat: merge mapfilter into mapeo-desktop
     "once": "^1.4.0",
     "osm-p2p": "^5.1.0",
     "osm-p2p-server": "v6.0.0",
