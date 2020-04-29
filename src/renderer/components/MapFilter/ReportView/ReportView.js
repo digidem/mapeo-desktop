@@ -16,7 +16,7 @@ import {
   Image,
   Document,
   StyleSheet
-} from '@react-pdf/dom'
+} from '@react-pdf/renderer'
 const { isEmptyValue } = require('../utils/helpers')
 const { get } = require('../utils/get_set')
 const FormattedFieldname = require('../internal/FormattedFieldname')
@@ -26,7 +26,7 @@ const FormattedLocation = require('../internal/FormattedLocation')
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
 
-const PdfContext = React.createContext(false)
+export const PdfContext = React.createContext(false)
 
 type Props = {
   ...$Exact<CommonViewProps>
@@ -72,8 +72,6 @@ const ReportView = ({
       })
   })
 
-  const cx = useStyles()
-
   return (
     <ViewWrapper
       observations={observations}
@@ -105,19 +103,14 @@ const ReportView = ({
           return obs
         })
 
-        return <div className={cx.root}>
-          <Toolbar>
-            <HideFieldsButton
-              fieldState={fieldState}
-              onFieldStateUpdate={setFieldState}
-            />
-          </Toolbar>
-          <ReportPageContent
-            mapStyle={mapStyle}
-            mapboxAccessToken={mapboxAccessToken}
-            observations={observations}
-          />
-      </div>
+        // ReportPageContent defined below...
+        return <ReportPageContent
+          mapStyle={mapStyle}
+          mapboxAccessToken={mapboxAccessToken}
+          fieldState={fieldState}
+          onFieldStateUpdate={setFieldState}
+          observations={observations}
+        />
       }}
     </ViewWrapper>
   )
@@ -126,26 +119,44 @@ const ReportView = ({
 const ReportPageContent = ({
   observations,
   fieldState,
+  onFieldStateUpdate,
   mapboxAccessToken,
   mapStyle
 }) => {
-  return <Document>
-    <Page size="A4" style={styles.page} wrap>
-      <Text render={({ pageNumber, totalPages }) => (
-        `${pageNumber} / ${totalPages}`
-      )} fixed />
+  const cx = useStyles()
 
-      <View render={({ pageNumber }) => {
-        const observation = observations[pageNumber]
-        console.log('rendering', pageNumber, observation)
-        return observation && <FeaturePage
-          key={observation.id}
-          observation={observation}
-          />
-        }
-      } />
-    </Page>
-  </Document>
+  return (
+    <div className={cx.root}>
+      <Toolbar>
+        <HideFieldsButton
+          fieldState={fieldState}
+          onFieldStateUpdate={onFieldStateUpdate}
+        />
+      </Toolbar>
+      <PdfContext.Provider value={true}>
+        <IntlProvider>
+          <Document>
+            <Page size="A4" style={styles.page} wrap>
+              <View style={styles.header} fixed />
+              <Text render={({ pageNumber, totalPages }) => (
+                `${pageNumber} / ${totalPages}`
+              )} fixed />
+              <View render={({ pageNumber }) => {
+                const observation = observations[pageNumber]
+                console.log('rendering', pageNumber, observation)
+                return observation && <FeaturePage
+                  key={observation.id}
+                  observation={observation}
+                  />
+                }
+              } />
+              <View style={styles.footer} fixed />
+            </Page>
+          </Document>
+        </IntlProvider>
+      </PdfContext.Provider>
+    </div>
+  )
 }
 
 function hiddenFieldsFilter (fieldState: FieldState) {
@@ -195,64 +206,60 @@ const FeaturePage = ({
   const note = tags.note || tags.notes
 
   return (
-    <View>
-      <View style={styles.header} fixed />
-      <View style={styles.pageContent}>
-        <View style={styles.columnLeft}>
-          <Text style={styles.presetName}>{preset.name || 'Observation'}</Text>
-          {createdAt && (
-            <Text style={styles.createdAt}>
-              <Text style={styles.createdAtLabel}>Registrado: </Text>
-              <FormattedTime
-                key="time"
-                value={createdAt}
-                year="numeric"
-                month="long"
-                day="2-digit"
-              />
-            </Text>
-          )}
-          {coords && (
-            <Text style={styles.location}>
-              <Text style={styles.locationLabel}>Ubicación: </Text>
-              <FormattedLocation {...coords} />
-            </Text>
-          )}
-          {note &&
-            note.split('\n').map((para, idx) => (
-              <Text key={idx} style={styles.description}>
-                {para}
-              </Text>
-            ))}
-          <Text style={styles.details}>Detalles</Text>
-          {fields.map(field => {
-            const value = get(tags, field.key)
-            if (isEmptyValue(value)) return null
-            return (
-              <View key={field.id} style={styles.field} wrap={false}>
-                <Text style={styles.fieldLabel}>
-                  <FormattedFieldname field='test' />
-                </Text>
-                <Text style={styles.fieldValue}>
-                  <FormattedValue field='test' value={value} />
-                </Text>
-              </View>
-            )
-          })}
+    <View style={styles.pageContent}>
+    <View style={styles.columnLeft}>
+    <Text style={styles.presetName}>{preset.name || 'Observation'}</Text>
+    {createdAt && (
+      <Text style={styles.createdAt}>
+      <Text style={styles.createdAtLabel}>Registrado: </Text>
+      <FormattedTime
+      key="time"
+      value={createdAt}
+      year="numeric"
+      month="long"
+      day="2-digit"
+      />
+      </Text>
+    )}
+    {coords && (
+      <Text style={styles.location}>
+      <Text style={styles.locationLabel}>Ubicación: </Text>
+      <FormattedLocation {...coords} />
+      </Text>
+    )}
+    {note &&
+        note.split('\n').map((para, idx) => (
+          <Text key={idx} style={styles.description}>
+          {para}
+          </Text>
+        ))}
+    <Text style={styles.details}>Detalles</Text>
+    {fields.map(field => {
+      const value = get(tags, field.key)
+      if (isEmptyValue(value)) return null
+      return (
+        <View key={field.id} style={styles.field} wrap={false}>
+        <Text style={styles.fieldLabel}>
+        <FormattedFieldname field='test' />
+        </Text>
+        <Text style={styles.fieldValue}>
+        <FormattedValue field='test' value={value} />
+        </Text>
         </View>
-        <View style={styles.columnRight}>
-          {observation.attachments && observation.attachments.slice(0, 4).map((att, i) => {
-            return att.media && <Image
-              src={att.media.src}
-              key={i}
-              style={styles.image}
-              wrap={false}
-            />
-          }
-          )}
-        </View>
-      </View>
-      <View style={styles.footer} fixed />
+      )
+    })}
+    </View>
+    <View style={styles.columnRight}>
+    {observation.attachments && observation.attachments.slice(0, 4).map((att, i) => {
+      return att.media && <Image
+      src={att.media.src}
+      key={i}
+      style={styles.image}
+      wrap={false}
+        />
+    }
+    )}
+    </View>
     </View>
   )
 }
