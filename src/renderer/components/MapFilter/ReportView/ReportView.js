@@ -15,7 +15,8 @@ import {
   View,
   Image,
   Document,
-  StyleSheet
+  StyleSheet,
+  PDFViewer
 } from '@react-pdf/renderer'
 const { isEmptyValue } = require('../utils/helpers')
 const { get } = require('../utils/get_set')
@@ -135,24 +136,26 @@ const ReportPageContent = ({
       </Toolbar>
       <PdfContext.Provider value={true}>
         <IntlProvider>
-          <Document>
-            <Page size="A4" style={styles.page} wrap>
-              <View style={styles.header} fixed />
-              <Text render={({ pageNumber, totalPages }) => (
-                `${pageNumber} / ${totalPages}`
-              )} fixed />
-              <View render={({ pageNumber }) => {
-                const observation = observations[pageNumber]
-                console.log('rendering', pageNumber, observation)
-                return observation && <FeaturePage
-                  key={observation.id}
-                  observation={observation}
-                  />
-                }
-              } />
-              <View style={styles.footer} fixed />
-            </Page>
-          </Document>
+          <PDFViewer>
+            <Document>
+              <Page size="A4" style={styles.page} wrap>
+                <View style={styles.header} fixed />
+                <Text render={({ pageNumber, totalPages }) => (
+                  `${pageNumber} / ${totalPages}`
+                )} fixed />
+                <View render={({ pageNumber }) => {
+                  const observation = observations[pageNumber]
+                  console.log('rendering', pageNumber, observation)
+                  return observation && <FeaturePage
+                    key={observation.id}
+                    observation={observation}
+                    />
+                  }
+                } />
+                <View style={styles.footer} fixed />
+              </Page>
+            </Document>
+          </PDFViewer>
         </IntlProvider>
       </PdfContext.Provider>
     </div>
