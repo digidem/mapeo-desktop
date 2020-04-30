@@ -126,7 +126,19 @@ const ReportPageContent = ({
   mapStyle
 }) => {
   const cx = useStyles()
-
+  /**TODO
+    <MapView
+      mapStyle={mapStyle}
+      onClick={noop}
+      getPreset={}
+      observations={observations}
+      getMedia={getMedia}
+      initialMapPosition={initialMapPosition || mapPosition}
+      onMapMove={onMapMove || setMapPosition}
+      mapboxAccessToken={mapboxAccessToken}
+      print
+    />
+   */
   return (
     <div className={cx.root}>
       <Toolbar>
@@ -141,19 +153,6 @@ const ReportPageContent = ({
             <Document>
               <Page size="A4" style={styles.page} wrap>
                 <View style={styles.header} fixed />
-                /** TODO
-                <MapView
-                  mapStyle={mapStyle}
-                  onClick={noop}
-                  getPreset={}
-                  observations={observations}
-                  getMedia={getMedia}
-                  initialMapPosition={initialMapPosition || mapPosition}
-                  onMapMove={onMapMove || setMapPosition}
-                  mapboxAccessToken={mapboxAccessToken}
-                  print
-                />
-                */
                 <Text render={({ pageNumber, totalPages }) => (
                   `${pageNumber} / ${totalPages}`
                 )} fixed />
