@@ -8,6 +8,7 @@ import PrintButton from './PrintButton'
 import { FormattedTime, IntlProvider } from 'react-intl'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
+import MapView from '../MapView/MapViewContent'
 import getStats from '../stats'
 import {
   Page,
@@ -18,11 +19,11 @@ import {
   StyleSheet,
   PDFViewer
 } from '@react-pdf/renderer'
-const { isEmptyValue } = require('../utils/helpers')
-const { get } = require('../utils/get_set')
-const FormattedFieldname = require('../internal/FormattedFieldname')
-const FormattedValue = require('../internal/FormattedValue')
-const FormattedLocation = require('../internal/FormattedLocation')
+import { isEmptyValue } from '../utils/helpers'
+import { get } from '../utils/get_set'
+import FormattedFieldname from '../internal/FormattedFieldname'
+import FormattedValue from '../internal/FormattedValue'
+import FormattedLocation from '../internal/FormattedLocation'
 
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
@@ -140,6 +141,19 @@ const ReportPageContent = ({
             <Document>
               <Page size="A4" style={styles.page} wrap>
                 <View style={styles.header} fixed />
+                /** TODO
+                <MapView
+                  mapStyle={mapStyle}
+                  onClick={noop}
+                  getPreset={}
+                  observations={observations}
+                  getMedia={getMedia}
+                  initialMapPosition={initialMapPosition || mapPosition}
+                  onMapMove={onMapMove || setMapPosition}
+                  mapboxAccessToken={mapboxAccessToken}
+                  print
+                />
+                */
                 <Text render={({ pageNumber, totalPages }) => (
                   `${pageNumber} / ${totalPages}`
                 )} fixed />
