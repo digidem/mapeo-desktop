@@ -21,14 +21,12 @@ import {
 } from '@react-pdf/renderer'
 import { isEmptyValue } from '../utils/helpers'
 import { get } from '../utils/get_set'
-import FormattedFieldname from '../internal/FormattedFieldname'
-import FormattedValue from '../internal/FormattedValue'
-import FormattedLocation from '../internal/FormattedLocation'
+import { FormattedFieldnamePure as FormattedFieldName } from '../internal/FormattedFieldname'
+import FormattedValuePure from '../internal/FormattedValue'
+import { FormattedLocationPure as FormattedLocation } from '../internal/FormattedLocation'
 
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
-
-export const PdfContext = React.createContext(false)
 
 type Props = {
   ...$Exact<CommonViewProps>
@@ -98,7 +96,7 @@ const ReportView = ({
 
         const observations = filteredObservations.map(obs => {
           obs.preset = getPresetWithFilteredFields(obs)
-          obs.attachments = obs.attachments.map((att) => {
+          obs.attachments = obs.attachments.map(att => {
             att.media = getMedia(obs)
             return att
           })
@@ -106,13 +104,15 @@ const ReportView = ({
         })
 
         // ReportPageContent defined below...
-        return <ReportPageContent
-          mapStyle={mapStyle}
-          mapboxAccessToken={mapboxAccessToken}
-          fieldState={fieldState}
-          onFieldStateUpdate={setFieldState}
-          observations={observations}
-        />
+        return (
+          <ReportPageContent
+            mapStyle={mapStyle}
+            mapboxAccessToken={mapboxAccessToken}
+            fieldState={fieldState}
+            onFieldStateUpdate={setFieldState}
+            observations={observations}
+          />
+        )
       }}
     </ViewWrapper>
   )
@@ -147,36 +147,40 @@ const ReportPageContent = ({
           onFieldStateUpdate={onFieldStateUpdate}
         />
       </Toolbar>
-      <PdfContext.Provider value={true}>
-        <IntlProvider>
-          <PDFViewer>
-            <Document>
-              <Page size="A4" style={styles.page} wrap>
-                <View style={styles.header} fixed />
-                <Text render={({ pageNumber, totalPages }) => (
-                  `${pageNumber} / ${totalPages}`
-                )} fixed />
-                <View render={({ pageNumber }) => {
-                  const observation = observations[pageNumber]
-                  console.log('rendering', pageNumber, observation)
-                  return observation && <FeaturePage
-                    key={observation.id}
-                    observation={observation}
+      <PDFViewer>
+        <Document>
+          <Page size="A4" style={styles.page} wrap>
+            <View style={styles.header} fixed />
+            <Text
+              render={({ pageNumber, totalPages }) =>
+                `${pageNumber} / ${totalPages}`
+              }
+              fixed
+            />
+            <View
+              render={({ pageNumber }) => {
+                const observation = observations[pageNumber]
+                console.log('rendering', pageNumber, observation)
+                return (
+                  observation && (
+                    <FeaturePage
+                      key={observation.id}
+                      observation={observation}
                     />
-                  }
-                } />
-                <View style={styles.footer} fixed />
-              </Page>
-            </Document>
-          </PDFViewer>
-        </IntlProvider>
-      </PdfContext.Provider>
+                  )
+                )
+              }}
+            />
+            <View style={styles.footer} fixed />
+          </Page>
+        </Document>
+      </PDFViewer>
     </div>
   )
 }
 
-function hiddenFieldsFilter (fieldState: FieldState) {
-  return function (field: Field): boolean {
+function hiddenFieldsFilter(fieldState: FieldState) {
+  return function(field: Field): boolean {
     const state = fieldState.find(fs => {
       const id = JSON.stringify(
         Array.isArray(field.key) ? field.key : [field.key]
@@ -201,9 +205,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const FeaturePage = ({
-  observation
-}) => {
+const FeaturePage = ({ observation }) => {
   const coords =
     typeof observation.lon === 'number' && typeof observation.lat === 'number'
       ? {
@@ -223,59 +225,60 @@ const FeaturePage = ({
 
   return (
     <View style={styles.pageContent}>
-    <View style={styles.columnLeft}>
-    <Text style={styles.presetName}>{preset.name || 'Observation'}</Text>
-    {createdAt && (
-      <Text style={styles.createdAt}>
-      <Text style={styles.createdAtLabel}>Registrado: </Text>
-      <FormattedTime
-      key="time"
-      value={createdAt}
-      year="numeric"
-      month="long"
-      day="2-digit"
-      />
-      </Text>
-    )}
-    {coords && (
-      <Text style={styles.location}>
-      <Text style={styles.locationLabel}>Ubicación: </Text>
-      <FormattedLocation {...coords} />
-      </Text>
-    )}
-    {note &&
-        note.split('\n').map((para, idx) => (
-          <Text key={idx} style={styles.description}>
-          {para}
+      <View style={styles.columnLeft}>
+        <Text style={styles.presetName}>{preset.name || 'Observation'}</Text>
+        {createdAt && (
+          <Text style={styles.createdAt}>
+            <Text style={styles.createdAtLabel}>Registrado: </Text>
           </Text>
-        ))}
-    <Text style={styles.details}>Detalles</Text>
-    {fields.map(field => {
-      const value = get(tags, field.key)
-      if (isEmptyValue(value)) return null
-      return (
-        <View key={field.id} style={styles.field} wrap={false}>
-        <Text style={styles.fieldLabel}>
-        <FormattedFieldname field='test' />
-        </Text>
-        <Text style={styles.fieldValue}>
-        <FormattedValue field='test' value={value} />
-        </Text>
+        )}
+        {coords && (
+          <Text style={styles.location}>
+            <Text style={styles.locationLabel}>Ubicación: </Text>
+            <FormattedLocation {...coords} />
+          </Text>
+        )}
+        <View>
+          {note &&
+            note.split('\n').map((para, idx) => (
+              <Text key={idx} style={styles.description}>
+                {para}
+              </Text>
+            ))}
         </View>
-      )
-    })}
-    </View>
-    <View style={styles.columnRight}>
-    {observation.attachments && observation.attachments.slice(0, 4).map((att, i) => {
-      return att.media && <Image
-      src={att.media.src}
-      key={i}
-      style={styles.image}
-      wrap={false}
-        />
-    }
-    )}
-    </View>
+        <Text style={styles.details}>Detalles</Text>
+        <View>
+          {/** fields.map(field => {
+            const value = get(tags, field.key)
+            if (isEmptyValue(value)) return null
+            return (
+              <View key={field.id} style={styles.field} wrap={false}>
+                <Text style={styles.fieldLabel}>
+                  <FormattedFieldname field="test" component={Text} />
+                </Text>
+                <Text style={styles.fieldValue}>
+                  <FormattedValue field="test" value={value} />
+                </Text>
+              </View>
+            )
+          }) */}
+        </View>
+      </View>
+      <View style={styles.columnRight}>
+        {observation.attachments &&
+          observation.attachments.slice(0, 4).map((att, i) => {
+            return (
+              att.media && (
+                <Image
+                  src={att.media.src}
+                  key={i}
+                  style={styles.image}
+                  wrap={false}
+                />
+              )
+            )
+          })}
+      </View>
     </View>
   )
 }
@@ -356,9 +359,6 @@ const styles = StyleSheet.create({
   fieldValue: {
     fontSize: 12
   },
-  header: {
-  },
-  footer: {
-  }
-
+  header: {},
+  footer: {}
 })
