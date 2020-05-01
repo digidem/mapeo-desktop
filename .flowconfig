@@ -3,6 +3,7 @@
 <PROJECT_ROOT>/node_modules/config-chain/test/.*
 <PROJECT_ROOT>/esm
 <PROJECT_ROOT>/commonjs
+<PROJECT_ROOT>/node_modules/id-mapeo
 
 [include]
 
