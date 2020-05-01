@@ -8,8 +8,7 @@ import { SettingsContext } from './Context'
 import type { Coordinates } from '../types'
 import { leftPad } from '../utils/helpers'
 
-const FormattedLocation = ({ latitude, longitude }: Coordinates) => {
-  const { coordFormat } = useContext(SettingsContext)
+export const FormattedLocationPure = ({ latitude, longitude, coordFormat = coordFormats.UTM }) => {
   switch (coordFormat) {
     case coordFormats.DEC_DEG:
       return formatDecDeg({ latitude, longitude })
@@ -22,6 +21,11 @@ const FormattedLocation = ({ latitude, longitude }: Coordinates) => {
       return formatUtm({ latitude, longitude })
   }
   return null
+}
+
+const FormattedLocation = (props: Coordinates) => {
+  const { coordFormat } = useContext(SettingsContext)
+  return <FormattedLocationPure {...props} coordFormat={coordFormat} />
 }
 
 export default FormattedLocation
