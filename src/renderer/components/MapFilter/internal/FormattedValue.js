@@ -55,23 +55,23 @@ const FormattedValue = ({ value, field }: Props) => {
         return valueAsString
       case fieldTypes.DATE:
         const valueAsDate = coerceValue(value, valueTypes.DATE)
-        return ("DATE"
-          // <FormattedDate
-          //   value={valueAsDate}
-          //   year="numeric"
-          //   month="long"
-          //   day="2-digit"
-          // />
+        return (
+          <FormattedDate
+            value={valueAsDate}
+            year="numeric"
+            month="long"
+            day="2-digit"
+          />
         )
       case fieldTypes.DATETIME:
         const valueAsDatetime = coerceValue(value, valueTypes.DATETIME)
-        return ("DATETIME"
-          // <FormattedTime
-          //   value={valueAsDatetime}
-          //   year="numeric"
-          //   month="long"
-          //   day="2-digit"
-          // />
+        return (
+          <FormattedTime
+            value={valueAsDatetime}
+            year="numeric"
+            month="long"
+            day="2-digit"
+          />
         )
       case fieldTypes.LINK:
         const valueAsUrl = coerceValue(value, valueTypes.URL)
