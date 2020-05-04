@@ -129,6 +129,7 @@
     "react-image": "^2.2.0",
     "react-intl": "^3.2.4",
     "react-mapbox-gl": "^4.6.0",
+    "react-pdf": "^4.1.0",
     "react-swipeable-views": "^0.13.3",
     "react-transition-group": "^4.3.0",
     "react-virtualized": "^9.21.1",
