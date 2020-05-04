@@ -99,9 +99,9 @@ const ReportView = ({
               <BlobProvider
                 document={
                   <PDFReport
-                    observations={filteredObservations}
+                    observations={filteredObservations.slice(0, 50)}
                     getPreset={getPresetWithFilteredFields}
-                    getMedia={() => {}}
+                    getMedia={getMedia}
                     intl={intl}
                     settings={settings}
                   />
@@ -110,10 +110,7 @@ const ReportView = ({
                   loading ? (
                     <h2>Loading PDF...</h2>
                   ) : (
-                    <Document file={url}>
-                      <Page pageNumber={1} renderTextLayer={true} />
-                      <Page pageNumber={2} renderTextLayer={true} />
-                    </Document>
+                    <a href={url}>Download PDF</a>
                   )
                 }
               </BlobProvider>
