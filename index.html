@@ -19,6 +19,10 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="text/javascript" src='./static/build.js'></script>
+    <script>
+      console.time('Initial load')
+      require('./static/build')
+      console.timeEnd('Initial load')
+    </script>
   </body>
 </html>
