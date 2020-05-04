@@ -149,12 +149,16 @@ const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
 
 export default PDFReport
 
+// Convert pixel to millimetres
+function mm(v) {
+  return v / (25.4 / 72)
+}
+
 const styles = StyleSheet.create({
   page: {
     backgroundColor: 'white',
-    paddingTop: 120,
-    paddingBottom: 35,
-    paddingHorizontal: 35,
+    paddingVertical: mm(20),
+    paddingHorizontal: mm(15),
     flexDirection: 'row'
   },
   pageContent: {
