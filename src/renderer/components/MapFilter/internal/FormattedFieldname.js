@@ -1,10 +1,8 @@
 // @flow
 import * as React from 'react'
 import { useIntl } from 'react-intl'
-import { Text } from '@react-pdf/renderer'
 import { getLocalizedFieldProp, fieldKeyToLabel } from '../utils/strings'
 import type { Field } from '../types'
-import { PdfContext } from '../ReportView/ReportView.js'
 
 const styles = {
   groupText: {
@@ -13,14 +11,17 @@ const styles = {
 }
 
 type Props = {
-  field: Field
+  field: Field,
+  // Flow TODO: Make this stricter?
+  component?: any
 }
 
 /** Formats a field name nicely */
-const FormattedFieldname = ({ field }: Props) => {
+const FormattedFieldname = ({
+  field,
+  component: Component = 'span'
+}: Props) => {
   const { locale } = useIntl()
-  const isPdf = React.useContext(PdfContext)
-  const Component = isPdf ? Text : 'span'
   const label =
     getLocalizedFieldProp(field, 'label', locale) || fieldKeyToLabel(field.key)
   if (typeof label === 'string') {
