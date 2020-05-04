@@ -4,6 +4,7 @@
 <PROJECT_ROOT>/esm
 <PROJECT_ROOT>/commonjs
 <PROJECT_ROOT>/node_modules/id-mapeo
+<PROJECT_ROOT>/static/*
 
 [include]
 
