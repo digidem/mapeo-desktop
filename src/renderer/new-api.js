@@ -145,6 +145,15 @@ function Api ({ baseUrl, mapeo, ipc }) {
       }
     },
 
+    getEncryptionKey: function () {
+      return new Promise((resolve, reject) => {
+        ipc.send('encryption-key', null, (err, encryptionKey) => {
+          if (err) return reject(err)
+          resolve(encryptionKey)
+        })
+      })
+    },
+
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin () {
       logger.log('Join sync')

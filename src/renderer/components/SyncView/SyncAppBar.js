@@ -80,6 +80,7 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
           <Typography variant='h6' component='h1' className={cx.title}>
             {t(m.title)}
           </Typography>
+
           {currentConnection ? (
             <Tooltip title={t(getWifiConnectionMessage(currentConnection))}>
               <span className={cx.wifi}>

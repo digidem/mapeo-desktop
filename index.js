@@ -10,7 +10,7 @@ const mkdirp = require('mkdirp')
 const series = require('run-series')
 const styles = require('mapeo-styles')
 const { fork } = require('child_process')
-const middleware = require('electron-rabbit')
+const rabbit = require('electron-rabbit')
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
@@ -36,7 +36,7 @@ var splash = null
 var bg = null
 var mainWindowState = null
 var serverProcess = null
-var ipc = new middleware.Client()
+var ipc = new rabbit.Client()
 
 var gotTheLock = app.requestSingleInstanceLock()
 
@@ -71,8 +71,16 @@ var argv = minimist(process.argv.slice(2), {
   }
 })
 
-if (argv.headless) startSequence()
-else app.once('ready', openWindow)
+var _socketName
+
+rabbit.findOpenSocket('mapeo').then((socketName) => {
+  logger.log('got socket', socketName)
+  _socketName = socketName
+  if (argv.headless) startSequence()
+  else app.once('ready', openWindow)
+}).catch((err) => {
+  throw new Error('No socket found!', err)
+})
 
 app.on('before-quit', beforeQuit)
 app.on('window-all-closed', function () {
@@ -80,9 +88,6 @@ app.on('window-all-closed', function () {
 })
 
 function openWindow () {
-  // TODO: get a socket name that isn't open ..
-  var _socketName = 'mapeo1'
-  logger.log('got socket', _socketName)
   ipc.on('error', function (err) {
     logger.error(err)
     electron.dialog.showErrorBox('Error', err)

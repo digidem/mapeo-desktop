@@ -1,14 +1,15 @@
 const path = require('path')
 const throttle = require('lodash/throttle')
 const MediaStore = require('safe-fs-blob-store')
-const osmdb = require('osm-p2p')
-const os = require('os')
 const Settings = require('@mapeo/settings')
 const sublevel = require('subleveldown')
+const level = require('level')
+const createOsmDbOrig = require('kappa-osm')
+const kappa = require('kappa-core')
+const raf = require('random-access-file')
 
 const logger = require('../logger')
 const TileImporter = require('./tile-importer')
-const createServer = require('./server')
 const installStatsIndex = require('./osm-stats')
 
 // This is an RPC wrapper for all the things related to mapeo/core
@@ -16,57 +17,42 @@ const installStatsIndex = require('./osm-stats')
 
 class MapeoRPC {
   constructor ({ datadir, userDataPath, ipcSend }) {
+    this.storages = []
     this.config = new Settings(userDataPath)
-    this.projectKey = this.config.getEncryptionKey()
-    logger.log('got projectKey', this.projectKey)
+    this.encryptionKey = this.config.getEncryptionKey()
+    logger.log('got encryptionKey', this.encryptionKey)
     this.tiles = TileImporter(userDataPath)
 
+    var feedsDir = path.join(datadir, 'storage')
+    var indexDir = path.join(datadir, 'index')
+
     logger.log('loading datadir', datadir)
-    this.osm = osmdb({
-      dir: datadir,
-      encryptionKey: this.projectKey
+    this.indexDb = level(indexDir)
+
+    const coreDb = kappa(datadir, {
+      valueEncoding: 'json',
+      encryptionKey: this.encryptionKey
+    })
+
+    var createRafStorage = (name, cb) => {
+      process.nextTick(() => {
+        const storage = raf(path.join(feedsDir, name))
+        this.storages.push(storage)
+        cb(null, storage)
+      })
+    }
+
+    // The main osm db for observations and map data
+    this.osm = createOsmDbOrig({
+      core: coreDb,
+      index: this.indexDb,
+      storage: createRafStorage
     })
 
     var idb = sublevel(this.osm.index, 'stats')
     this.osm.core.use('stats', installStatsIndex(idb))
 
     this.media = MediaStore(path.join(datadir, 'media'))
-
-    // hostname often includes a TLD, which we remove
-    const computerName = (os.hostname() || 'Mapeo Desktop').split('.')[0]
-
-    this.server = createServer(this.osm, this.media, {
-      staticRoot: userDataPath,
-      ipcSend
-    })
-
-    // TODO(KM): remove this.server.mapeo.* calls to prevent leaky abstraction
-    // ideally, the server doesn't need to know about the mapeo or osm objects
-    // instead, we could instantiate mapeo outside of the server,
-    // this would require breaking changes on both core+server
-    this.core = this.server.mapeoRouter.api.core
-
-    var importer = this.core.importer
-
-    importer.on('error', function (err, filename) {
-      ipcSend('import-error', err.toString())
-    })
-
-    importer.on('complete', function (filename) {
-      ipcSend('import-complete', path.basename(filename))
-    })
-
-    importer.on('progress', function (filename, index, total) {
-      // TODO(KM): im pretty sure this doesnt work..
-      ipcSend(
-        'import-progress',
-        path.basename(filename),
-        index,
-        total
-      )
-    })
-
-    this.core.sync.setName(computerName)
 
     this.ipcSend = ipcSend
     this.ipcSend('indexes-loading')
@@ -80,29 +66,38 @@ class MapeoRPC {
     this._throttledSendPeerUpdate = throttle(this._sendPeerUpdate, 50)
     this._throttledSendPeerUpdate = this._throttledSendPeerUpdate.bind(this)
     this._onNewPeer = this._onNewPeer.bind(this)
+  }
+
+  listen (core, cb) {
+    this.core = core
     this.core.sync.on('peer', this._onNewPeer)
     this.core.sync.on('down', this._throttledSendPeerUpdate)
 
     this.closing = false
-    var origClose = this.core.close
-    this.core.close = (cb) => {
-      this.core.sync.removeListener('peer', this._onNewPeer)
-      this.core.sync.removeListener('down', this._throttledSendPeerUpdate)
-      this.onReplicationComplete(() => {
-        this.core.sync.destroy(() => origClose.call(this.core, cb))
-      })
-    }
+
+    // TODO(KM): this progress code isn't being caught & rendered by frontend
+    var importer = this.core.importer
+    importer.on('error', (err, filename) => {
+      this.ipcSend('import-error', err.toString())
+    })
+
+    importer.on('complete', (filename) => {
+      this.ipcSend('import-complete', path.basename(filename))
+    })
+
+    importer.on('progress', (filename, index, total) => {
+      this.ipcSend(
+        'import-progress',
+        path.basename(filename),
+        index,
+        total
+      )
+    })
 
     this.core.on('error', this._handleError)
-  }
-
-  listen (port, cb) {
-    this.core.sync.listen(() => {
-      logger.log('mapeo-core sync server is listening')
-      this.server.listen(port, '127.0.0.1', () => {
-        logger.log('mapeo-server + osm-p2p-server: listening')
-        cb(this.server.address().port)
-      })
+    this.core.sync.listen((err) => {
+      logger.log('mapeo-core sync is listening')
+      cb(err)
     })
   }
 
@@ -146,7 +141,7 @@ class MapeoRPC {
     logger.log('sync starting', target)
 
     const sync = this.core.sync.replicate(target, {
-      projectKey: this.projectKey
+      projectKey: this.encryptionKey
     })
     this._sendPeerUpdate()
     this._syncWatch(sync)
@@ -156,9 +151,9 @@ class MapeoRPC {
     try {
       logger.log(
         'Joining swarm',
-        this.projectKey && this.projectKey.slice(0, 4)
+        this.encryptionKey && this.encryptionKey.slice(0, 4)
       )
-      this.core.sync.join(this.projectKey)
+      this.core.sync.join(this.encryptionKey)
     } catch (e) {
       logger.error('sync join error', e)
     }
@@ -168,9 +163,9 @@ class MapeoRPC {
     try {
       logger.log(
         'Leaving swarm',
-        this.projectKey && this.projectKey.slice(0, 4)
+        this.encryptionKey && this.encryptionKey.slice(0, 4)
       )
-      this.core.sync.leave(this.projectKey)
+      this.core.sync.leave(this.encryptionKey)
     } catch (e) {
       logger.error('sync leave error', e)
     }
@@ -221,15 +216,30 @@ class MapeoRPC {
 
   close (cb) {
     // Prevents close from being called twice in a row
-    if (this.closing) return
+    if (this.closing || !this.core) return process.nextTick(cb)
     this.closing = true
-    this.core.close((err) => {
-      if (err) return cb(err)
-      this.server.close((err) => {
-        this.closing = false
-        cb(err)
-      })
+    let pending = this.storages.length + 2
+
+    this.core.sync.removeListener('peer', this._onNewPeer)
+    this.core.sync.removeListener('down', this._throttledSendPeerUpdate)
+    this.onReplicationComplete(() => {
+      this.core.close(() =>
+        this.osm.core.pause(() => {
+          this.osm.core._logs.close(done)
+          this.storages.forEach(storage => {
+            storage.close(done)
+          })
+          this.indexDb.close(done)
+        })
+      )
     })
+
+    var done = () => {
+      if (--pending) return
+      logger.log('all closed!')
+      this.closing = false
+      cb()
+    }
   }
 
   _handleError (err) {

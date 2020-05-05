@@ -6,6 +6,8 @@ const logger = require('../logger')
 const t = i18n.t
 
 module.exports = async function createMenu (ipc) {
+  // ipc is an object that is sending events to the handler in src/background/ipc.js
+  // NOT src/main/ipc.js, which fields requests from the electron renderer
   await app.whenReady()
 
   function setMenu () {
@@ -67,9 +69,15 @@ function menuTemplate (ipc) {
               },
               function (filenames) {
                 if (!filenames || !filenames.length) return
-                userConfig.importSettings(focusedWindow, filenames[0], onError)
-                function onError (err) {
-                  if (!err) return
+                userConfig.importSettings(filenames[0], cb)
+                function cb (err) {
+                  if (!err) {
+                    logger.log('reloading')
+                    ipc.send('reload-config', null, () => {
+                      focusedWindow.webContents.send('force-refresh-window')
+                    })
+                    return
+                  }
                   dialog.showErrorBox(
                     t('menu-import-configuration-error'),
                     t('menu-import-configuration-error-known') + ': ' + err

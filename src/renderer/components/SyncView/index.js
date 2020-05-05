@@ -10,6 +10,7 @@ import Searching from './Searching'
 import SyncAppBar from './SyncAppBar'
 import SyncTarget from './SyncTarget'
 import SyncGrid from './SyncGrid'
+import SyncFooter from './SyncFooter'
 
 export const peerStatus = {
   READY: 'ready',
@@ -88,6 +89,7 @@ const SyncView = ({ focusState }) => {
           ))}
         </SyncGrid>
       )}
+      <SyncFooter />
     </div>
   )
 }
