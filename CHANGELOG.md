@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.0](https://github.com/digidem/mapeo-desktop/compare/v5.1.0...v5.2.0) (2020-05-06)
+
+
+### Bug Fixes
+
+* Improve conversion of Mapeo presets for iD Editor ([#330](https://github.com/digidem/mapeo-desktop/issues/330)) ([e48c9c7](https://github.com/digidem/mapeo-desktop/commit/e48c9c7))
+* only ever call close once, fixes [#331](https://github.com/digidem/mapeo-desktop/issues/331) ([#332](https://github.com/digidem/mapeo-desktop/issues/332)) ([9235bad](https://github.com/digidem/mapeo-desktop/commit/9235bad))
+
+
+### Features
+
+* Use production build of react in packaged app ([#329](https://github.com/digidem/mapeo-desktop/issues/329)) ([1d22cc1](https://github.com/digidem/mapeo-desktop/commit/1d22cc1))
+
+
+
 ## [5.1.0](https://github.com/digidem/mapeo-desktop/compare/v5.0.7...v5.1.0) (2020-04-14)
 
 
