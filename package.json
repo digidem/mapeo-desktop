@@ -118,7 +118,11 @@
     "tar-fs": "^1.16.0",
     "through2": "^2.0.5",
     "utm": "^1.1.1",
-    "yazl": "^2.5.1"
+    "yazl": "^2.5.1",
+    "kappa-core": "^4.0.0",
+    "kappa-osm": "^3.0.0",
+    "level": "^5.0.0",
+    "random-access-file": "^2.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",

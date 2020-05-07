@@ -3,12 +3,11 @@ var Settings = require('@mapeo/settings')
 
 var logger = require('../logger')
 
-function importSettings (win, settingsFile, cb) {
+function importSettings (settingsFile, cb) {
   var userDataPath = app.getPath('userData')
   var settings = new Settings(userDataPath)
   settings.importSettings(settingsFile, function (err) {
     if (err) return cb(err)
-    win.webContents.send('force-refresh-window')
     cb()
   })
 }
