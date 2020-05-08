@@ -89,7 +89,7 @@
     "flat": "^5.0.0",
     "fs-write-stream-atomic": "^1.0.10",
     "html-react-parser": "^0.9.1",
-    "id-mapeo": "^3.2.1",
+    "id-mapeo": "^3.3.0",
     "insert-css": "^1.0.0",
     "kappa-core": "^4.0.0",
     "kappa-osm": "^3.0.0",
