@@ -91,7 +91,10 @@
     "html-react-parser": "^0.9.1",
     "id-mapeo": "^3.2.1",
     "insert-css": "^1.0.0",
+    "kappa-core": "^4.0.0",
+    "kappa-osm": "^3.0.0",
     "ky": "^0.14.0",
+    "level": "^5.0.0",
     "lodash": "^4.17.4",
     "mapbox-gl": "^1.4.1",
     "mapeo-server": "^17.0.1",
@@ -103,6 +106,7 @@
     "osm-p2p": "^5.1.0",
     "osm-p2p-server": "v6.0.0",
     "pump": "^1.0.3",
+    "random-access-file": "^2.1.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-error-boundary": "^1.2.5",
@@ -118,11 +122,7 @@
     "tar-fs": "^1.16.0",
     "through2": "^2.0.5",
     "utm": "^1.1.1",
-    "yazl": "^2.5.1",
-    "kappa-core": "^4.0.0",
-    "kappa-osm": "^3.0.0",
-    "level": "^5.0.0",
-    "random-access-file": "^2.1.0"
+    "yazl": "^2.5.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",

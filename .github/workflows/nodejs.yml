@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        config: 
+        config:
           - { os: macos-latest, arch: x64, name: macos-latest }
           - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
           - { os: windows-latest, arch: x64, name: windows-latest }
@@ -26,12 +26,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.4
-          architecture: ${{matrix.config.arch}} 
-      - name: npm install
+          architecture: ${{matrix.config.arch}}
+      - name: npm ci
         run: |
-          npm install
+          npm ci
         env:
-          npm_config_arch: ${{matrix.config.arch}} 
+          npm_config_arch: ${{matrix.config.arch}}
       - name: Lint
         run: |
           npm run lint
