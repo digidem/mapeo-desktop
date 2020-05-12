@@ -126,7 +126,7 @@
   },
   "renderer.components.MapFilter.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
-    "message": "Loading…"
+    "message": "Carregando…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
