@@ -142,7 +142,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": "Map Style"
+    "message": "Estilo do mapa"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
@@ -158,7 +158,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
-    "message": "Map Title"
+    "message": "Título do mapa"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
     "message": "The details below will be useful for finding a way to fix this…"
@@ -181,7 +181,7 @@
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Searching…"
+    "message": "Procurando…"
   },
   "renderer.components.SyncView.SyncAppBar.disconnected": {
     "message": "Disconnected"
@@ -249,7 +249,7 @@
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
-    "message": "Photos: {sofar} / {total}"
+    "message": "Fotos: {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
     "message": "Create a new database to syncronize"
