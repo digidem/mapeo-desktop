@@ -134,11 +134,11 @@
   },
   "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
     "description": "Label for field to enter map description",
-    "message": "Map Description"
+    "message": "Descrição do mapa"
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
-    "message": "Save"
+    "message": "Salvar"
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
@@ -167,13 +167,13 @@
     "message": "Oh dear! An error has occurred"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
-    "message": "Map"
+    "message": "Mapa"
   },
   "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
-    "message": "Media"
+    "message": "Mídia"
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
-    "message": "Report"
+    "message": "Relatório"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
