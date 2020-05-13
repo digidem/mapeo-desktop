@@ -67,7 +67,7 @@
     "message": "mapeo-data"
   },
   "renderer.components.MapFilter.DataExportDialog.exportAll": {
-    "message": "All {count} observations"
+    "message": "Todas as {count} observações"
   },
   "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
     "message": "{count} observações filtradas"
@@ -116,7 +116,7 @@
     "message": "Export data"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
-    "message": "Export Data…"
+    "message": "Exportar observações…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "Export Webmap…"
