@@ -177,7 +177,7 @@
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "Make sure devices are turned on and connected to the same wifi network"
+    "message": "Verifique que os dispositivos estão ligados e conectados à mesma rede WiFi"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
@@ -225,15 +225,15 @@
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
-    "message": "Retry"
+    "message": "Tentar de novo"
   },
   "renderer.components.SyncView.SyncButton.starting": {
     "description": "Displayed when sync is starting",
-    "message": "Starting…"
+    "message": "Iniciando…"
   },
   "renderer.components.SyncView.SyncButton.sync": {
     "description": "Button to sync a device",
-    "message": "Synchronize"
+    "message": "Sincronizar"
   },
   "renderer.components.SyncView.SyncTarget.database": {
     "description": "Prompt of how many database objects have synced",
