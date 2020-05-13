@@ -1,11 +1,11 @@
 {
   "button-submit": "OK",
   "button-cancel": "Cancelar",
-  "dialog-enter-latlon-coordinates": "Ingrese las coordenadas",
+  "dialog-enter-latlon-coordinates": "Inserir coordenadas",
   "replication-data-complete": "Sincronizando: Actualizando indices... puede demorar un momento",
   "replication-complete": "Sincronización se ha completado exitosamente.",
   "replication-started": "Sincronización se ha empezó, esperando...",
-  "replication-progress": "Sincronizando: En progreso...",
+  "replication-progress": "Sincronizando: Em andamento...",
   "menu-file": "Arquivo",
   "menu-change-language": "Mudar idioma...",
   "menu-change-language-title": "Ingrese el idioma (e.g., 'en' or 'es')",
