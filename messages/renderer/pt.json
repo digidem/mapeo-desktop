@@ -5,7 +5,7 @@
   },
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
-    "message": "Observations"
+    "message": "Observações"
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
@@ -70,7 +70,7 @@
     "message": "All {count} observations"
   },
   "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
-    "message": "{count} filtered observations"
+    "message": "{count} observações filtradas"
   },
   "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
