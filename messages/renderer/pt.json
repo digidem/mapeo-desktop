@@ -1,7 +1,7 @@
 {
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
-    "message": "Territory"
+    "message": "Território"
   },
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
@@ -9,7 +9,7 @@
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
-    "message": "Synchronize"
+    "message": "Sincronizar"
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
@@ -29,15 +29,15 @@
   },
   "renderer.components.MapEditor.ExportButton.dialogTitle": {
     "description": "Export dialog title - shown during export progress and after success/failure",
-    "message": "Exporting data"
+    "message": "Exportando dados"
   },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
-    "message": "Export map data"
+    "message": "Exportar dados do mapa"
   },
   "renderer.components.MapEditor.ExportButton.exportGeoJson": {
     "description": "Menu item for exporting GeoJSON",
-    "message": "Export GeoJSON…"
+    "message": "Exportar GeoJSON…"
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
@@ -45,11 +45,11 @@
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
-    "message": "OK"
+    "message": "Certo"
   },
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
-    "message": "Export map data"
+    "message": "Exportar dados do mapa"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback & Contribute"
@@ -82,7 +82,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotos": {
     "description": "Label for select to include photos in export",
-    "message": "Also export photos?"
+    "message": "Também exportar fotos?"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
@@ -187,14 +187,14 @@
     "message": "Disconnected"
   },
   "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
-    "message": "You first need to connect to a WiFi network before being able to synchronize devices"
+    "message": "Você precisa se conectar a uma rede Wi-Fi para poder sincronizar dispositivos"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
-    "message": "Create new syncfile…"
+    "message": "Criar novo arquivo de sincronização…"
   },
   "renderer.components.SyncView.SyncAppBar.quality": {
-    "message": "Quality: {quality}%"
+    "message": "Qualidade: {quality}%"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
     "message": "The connection signal is excellent"
