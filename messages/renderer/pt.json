@@ -207,7 +207,7 @@
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
-    "message": "Sync from a file…"
+    "message": "Sincronizar a partir de um arquivo…"
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
@@ -252,15 +252,15 @@
     "message": "Fotos: {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
-    "message": "Create a new database to syncronize"
+    "message": "Criar uma nova base da dados para sincronizar"
   },
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} needs to upgrade Mapeo"
+    "message": "{deviceName} precisa atualizar o Mapeo"
   },
   "renderer.components.SyncView.index.errorMsgVersionUsBad": {
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": "You need to upgrade Mapeo to sync with {deviceName}"
+    "message": "Você precisa atualizar o Mapeo para sincronizar com {deviceName}"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Seleccionar base de dados para sincronizar"
