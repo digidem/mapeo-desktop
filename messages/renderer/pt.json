@@ -150,11 +150,11 @@
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": "Terms & Limitations"
+    "message": "Termos & limites"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": "Export a map to share online"
+    "message": "Exportar um mapa para compartilhar online"
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
