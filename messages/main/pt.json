@@ -86,7 +86,7 @@
   "menu-import-data-dialog": "Selecionar archivo para importar...",
   "menu-import-data-success": "Importación completa!",
   "menu-import-data-error": "Error al importar",
-  "convert-progress": "Converting observations... {count}% complete",
+  "convert-progress": "Convertendo observações... {count}% completo",
   "convert-button": "Copiar al Editor",
   "convert-number": "Você filtrou seus dados para mostrar {count} observações",
   "convert-detail": "{count} destas ainda não estão no Editor de Mapa. Clique em OK para mover estas {count} observações para o Editor de Mapa.",
