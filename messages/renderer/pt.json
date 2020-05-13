@@ -211,7 +211,7 @@
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
-    "message": "Available Devices"
+    "message": "Dispositivos disponíveis"
   },
   "renderer.components.SyncView.SyncAppBar.wifiError": {
     "message": "Unknown"
