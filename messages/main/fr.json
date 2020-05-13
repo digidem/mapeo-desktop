@@ -1,7 +1,7 @@
 {
   "button-submit": "OK",
-  "button-cancel": "Cancel",
-  "dialog-enter-latlon-coordinates": "Enter Coordinates",
+  "button-cancel": "Annuler",
+  "dialog-enter-latlon-coordinates": "Entrer les coordonnées",
   "replication-data-complete": "Updating indexes... it could be delayed a moment.",
   "replication-complete": "Syncronization has completed successfully.",
   "replication-started": "Syncronization has begun, waiting for response...",
