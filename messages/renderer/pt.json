@@ -74,7 +74,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
-    "message": "Only filtered data or all data?"
+    "message": "Somente dados filtrados ou todos os dados?"
   },
   "renderer.components.MapFilter.DataExportDialog.format": {
     "description": "Label for data format selector",
@@ -86,7 +86,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
-    "message": "Export will be a zip file including data and photos"
+    "message": "A exportação será um arquivo zip incluindo dados e fotos"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
@@ -94,15 +94,15 @@
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
-    "message": "Full size photos"
+    "message": "Fotos em tamanho completo"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": "Preview size photos"
+    "message": "Fotos em tamanho miniatura"
   },
   "renderer.components.MapFilter.DataExportDialog.noData": {
     "description": "Shown when there is no data to export",
-    "message": "You don't yet have any data to export."
+    "message": "Você ainda não tem dados para exportar."
   },
   "renderer.components.MapFilter.DataExportDialog.save": {
     "description": "Save button",
