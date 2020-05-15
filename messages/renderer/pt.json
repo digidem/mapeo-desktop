@@ -217,7 +217,7 @@
     "message": "Desconhecido"
   },
   "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
-    "message": "Your WiFi card or Operating System (OS) has not been recognized"
+    "message": "Seu cartão Wi-Fi ou sistema operacional (OS) não foi reconhecido"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
