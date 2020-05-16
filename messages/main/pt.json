@@ -10,7 +10,7 @@
   "menu-change-language": "Mudar idioma...",
   "menu-change-language-title": "Ingrese el idioma (e.g., 'en' or 'es')",
   "menu-import-tiles-file": "Arquivo (.tar)",
-  "menu-import-tiles-directory": "Carpeta",
+  "menu-import-tiles-directory": "Pasta de arquivos",
   "menu-import-tiles": "Importar Offline Map Tiles...",
   "menu-import-tiles-error": "No pudo importar archivo",
   "menu-import-tiles-error-known": "No pudo importar archivo por un error",
