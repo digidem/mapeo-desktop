@@ -146,7 +146,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": "Add terms & limitations about how this data can be used"
+    "message": "Adicionar termos e condições sobre como utilizar esses dados"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
@@ -161,7 +161,7 @@
     "message": "Título do mapa"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
-    "message": "The details below will be useful for finding a way to fix this…"
+    "message": "Os detalhes abaixo serão úteis para encontrar uma maneira de corrigir isso..."
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Que pena! Ocorreu um erro"
