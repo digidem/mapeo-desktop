@@ -64,7 +64,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
     "description": "Default filename for exported data",
-    "message": "mapeo-data"
+    "message": "dados-observacoes-mapeo"
   },
   "renderer.components.MapFilter.DataExportDialog.exportAll": {
     "message": "Todas as {count} observações"
@@ -113,7 +113,7 @@
     "message": "Exportar observações"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "Export data"
+    "message": "Exportar dados das observações"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
     "message": "Exportar observações…"
@@ -146,7 +146,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": "Adicionar termos e condições sobre como utilizar esses dados"
+    "message": "Adicionar termos e condições sobre como esses dados podem ser utilizados"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
