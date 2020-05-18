@@ -78,7 +78,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.format": {
     "description": "Label for data format selector",
-    "message": "Formato dos dados"
+    "message": "Formato de dados"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotos": {
     "description": "Label for select to include photos in export",
@@ -98,7 +98,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": "Fotos em tamanho miniatura"
+    "message": "Visualizar tamanho de fotos"
   },
   "renderer.components.MapFilter.DataExportDialog.noData": {
     "description": "Shown when there is no data to export",
@@ -113,13 +113,13 @@
     "message": "Exportar observações"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "Exportar dados das observações"
+    "message": "Exportar dados de observação"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
     "message": "Exportar observações…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
-    "message": "Exportar Mapa da web…"
+    "message": "Exportar Webmap…"
   },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
     "message": "Filtrar por…"
@@ -146,11 +146,11 @@
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": "Adicionar termos e condições sobre como esses dados podem ser utilizados"
+    "message": "Adicionar termos e condições de uso"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": "Termos & limites"
+    "message": "Termos & condições"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
