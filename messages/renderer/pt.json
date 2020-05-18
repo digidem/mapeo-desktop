@@ -21,7 +21,7 @@
   },
   "renderer.components.MapEditor.ExportButton.dialogError": {
     "description": "Expor error message - if there was an error during export",
-    "message": "Exportação falhou devido a um erro interno"
+    "message": "A exportação falhou devido a um erro interno"
   },
   "renderer.components.MapEditor.ExportButton.dialogSuccess": {
     "description": "Export success message,",
@@ -119,7 +119,7 @@
     "message": "Exportar observações…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
-    "message": "Exportar Webmap…"
+    "message": "Exportar Mapa da web…"
   },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
     "message": "Filtrar por…"
