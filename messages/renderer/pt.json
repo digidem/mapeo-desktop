@@ -177,7 +177,7 @@
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "Verifique que os dispositivos estão ligados e conectados à mesma rede WiFi"
+    "message": "Verifique que os dispositivos estão ligados e conectados à mesma rede Wi-Fi"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
