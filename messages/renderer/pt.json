@@ -41,7 +41,7 @@
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
-    "message": "Exportar arquivo shapefile…"
+    "message": "Exportar shapefile…"
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
