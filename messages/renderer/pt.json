@@ -94,7 +94,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
-    "message": "Fotos em tamanho completo"
+    "message": "Com fotos em tamanho completo"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
@@ -113,7 +113,7 @@
     "message": "Exportar observações"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "Exportar dados de observação"
+    "message": "Exportar dados das observações"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
     "message": "Exportar observações…"
