@@ -94,11 +94,11 @@
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
-    "message": "Com fotos em tamanho completo"
+    "message": "Com fotos em tamanho original"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": "Visualizar tamanho das fotos"
+    "message": "Com fotos em tamanho miniatura"
   },
   "renderer.components.MapFilter.DataExportDialog.noData": {
     "description": "Shown when there is no data to export",
