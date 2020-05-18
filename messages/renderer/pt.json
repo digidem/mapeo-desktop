@@ -217,7 +217,7 @@
     "message": "Desconhecido"
   },
   "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
-    "message": "Sua rede de Wi-Fi ou sistema operacional (SO) não foi reconhecido"
+    "message": "Sua placa Wi-Fi ou sistema operacional (OS) não foi reconhecido"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
