@@ -81,14 +81,14 @@
   "welcome-screen-3-use-presets": "Usar configurações para mapeamento da floresta",
   "welcome-screen-3-open-map": "Usar configurações para o OpenStreetMap",
   "generating-indexes-title": "Índices",
-  "generating-indexes-body": "Recuperando índices",
+  "generating-indexes-body": "Recriando índices",
   "menu-import-data": "Importar dados...",
   "menu-import-data-dialog": "Selecionar arquivo para importar...",
   "menu-import-data-success": "Importação completa!",
   "menu-import-data-error": "Erro ao importar",
   "convert-progress": "Convertendo observações... {count}% completo",
-  "convert-button": "Copiar para o editor",
+  "convert-button": "Copiar para o Editor",
   "convert-number": "Você filtrou seus dados para mostrar {count} observações",
   "convert-detail": "{count} destas ainda não estão no Editor de Mapa. Clique em OK para mover estas {count} observações para o Editor de Mapa.",
-  "convert-nothing": "Todos já estão no Editor de Mapas."
+  "convert-nothing": "Todos já estão no Editor de mapas."
 }
