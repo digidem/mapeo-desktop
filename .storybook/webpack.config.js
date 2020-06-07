@@ -6,7 +6,9 @@ const alias = {
     __dirname,
     '__mocks__/fs-write-stream-atomic.js'
   ),
-  electron: path.resolve(__dirname, '__mocks__/electron.js')
+  electron: path.resolve(__dirname, '__mocks__/electron.js'),
+  'node-wifi': path.resolve(__dirname, '__mocks__/node-wifi.js'),
+  'electron-timber': path.resolve(__dirname, '__mocks__/electron-timber.js')
 }
 
 module.exports = async ({ config }) => {
