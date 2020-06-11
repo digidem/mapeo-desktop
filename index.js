@@ -16,7 +16,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
 const logger = require('./src/logger')
-const miscellaneousIpc = require('./src/main/ipc')
+const electronIpc = require('./src/main/ipc')
 const createMenu = require('./src/main/menu')
 const windowStateKeeper = require('./src/main/window-state')
 
@@ -57,6 +57,14 @@ if (!gotTheLock) {
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
 var userDataPath = app.getPath('userData')
 
+if (!logger.configured) {
+  logger.configure({
+    label: 'main',
+    userDataPath,
+    isDev
+  })
+}
+
 var argv = minimist(process.argv.slice(2), {
   default: {
     port: 5000,
@@ -74,7 +82,7 @@ var argv = minimist(process.argv.slice(2), {
 var _socketName
 
 rabbit.findOpenSocket('mapeo').then((socketName) => {
-  logger.log('got socket', socketName)
+  logger.debug('got socket', socketName)
   _socketName = socketName
   if (argv.headless) startSequence()
   else app.once('ready', openWindow)
@@ -89,7 +97,7 @@ app.on('window-all-closed', function () {
 
 function openWindow () {
   ipc.on('error', function (err) {
-    logger.error(err)
+    logger.error('ipc', err)
     electron.dialog.showErrorBox('Error', err)
   })
   ipc.connect(_socketName)
@@ -108,8 +116,8 @@ function openWindow () {
       } = require('electron-devtools-installer')
     } catch (e) {}
     installExtension(REACT_DEVELOPER_TOOLS)
-      .then(name => logger.log(`Added Extension:  ${name}`))
-      .catch(err => logger.log('An error occurred: ', err))
+      .then(name => logger.debug(`Added Extension:  ${name}`))
+      .catch(err => logger.error('Failed to add extension', err))
   } else {
     createBackgroundProcess(_socketName)
   }
@@ -131,7 +139,7 @@ function openWindow () {
 
 function startupMsg (txt) {
   return function (done) {
-    logger.log('[STARTUP] ' + txt)
+    logger.debug('[STARTUP] ' + txt)
     done()
   }
 }
@@ -151,7 +159,7 @@ function startSequence () {
     ],
     function (err) {
       if (err) logger.error('STARTUP FAILED', err)
-      else logger.log('STARTUP success!')
+      else logger.debug('STARTUP success!')
     }
   )
 }
@@ -170,10 +178,9 @@ function initDirectories (done) {
 }
 
 function createServers (done) {
-  // TODO: rename/refactor
-  miscellaneousIpc(win)
+  electronIpc(win)
 
-  logger.log('initializing mapeo', userDataPath, argv.port)
+  logger.info('initializing mapeo', userDataPath, argv.port)
   var opts = {
     userDataPath,
     datadir: argv.datadir,
@@ -183,9 +190,8 @@ function createServers (done) {
 
   ipc.send('listen', opts, function (err, port) {
     if (err) throw new Error('fatal: could not get port', err)
-    logger.log('listen port got back', port)
     global.osmServerHost = '127.0.0.1:' + port
-    logger.log(global.osmServerHost)
+    logger.info(global.osmServerHost)
     done()
   })
 }
@@ -253,17 +259,19 @@ function createBgWindow (socketName) {
       nodeIntegration: true
     }
   })
-  console.log('loading bg window')
+  logger.debug('loading bg window')
   var BG = 'file://' + path.join(__dirname, './src/background/index.html')
   win.loadURL(BG)
   win.webContents.on('did-finish-load', () => {
     if (argv.debug) bg.webContents.openDevTools()
-    win.webContents.send('set-socket', {
-      name: socketName
+    win.webContents.send('configure', {
+      socketName,
+      userDataPath,
+      isDev
     })
   })
   win.on('closed', () => {
-    console.log('background window closed')
+    logger.info('Background window closed')
     app.quit()
   })
   return win
@@ -284,15 +292,16 @@ function createSplashWindow () {
 }
 
 function createBackgroundProcess (socketName) {
-  console.log('creating background process')
+  logger.debug('creating background process')
   serverProcess = fork(path.join(__dirname, 'src', 'background', 'index.js'), [
     '--subprocess',
     app.getVersion(),
-    socketName
+    socketName,
+    userDataPath
   ])
 
   serverProcess.on('message', msg => {
-    console.log(msg)
+    logger.debug(msg)
   })
 }
 
@@ -322,9 +331,9 @@ function beforeQuit (e) {
 
   // 'close' event will gracefully close databases and wait for pending sync
   // TODO: Show the user that a sync is pending finishing
-  console.log('ipc.send close')
+  logger.debug('ipc.send close')
   ipc.send('close', null, () => {
-    console.log('closed')
+    logger.info('IPC closed')
     clearTimeout(closingTimeoutId)
     if (serverProcess) serverProcess.kill()
     try { closingWin.close() } catch (e) {}

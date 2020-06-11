@@ -84,7 +84,7 @@ const ExportButton = () => {
           })
           .catch(err => {
             setStatus('reject')
-            logger.error(err)
+            logger.error('ExportButton save dialog', err)
           })
       }
     )

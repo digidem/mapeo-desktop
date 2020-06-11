@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, remote } from 'electron'
+import isDev from 'electron-is-dev'
 import { StylesProvider, ThemeProvider } from '@material-ui/styles'
 import { IntlProvider } from 'react-intl'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -8,6 +9,17 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
+
+if (!logger.configured) {
+  logger.configure({
+    label: 'renderer',
+    userDataPath: remote.app.getPath('userData'),
+    isDev
+  })
+  ipcRenderer.on('debugging', (ev, bool) => {
+    logger.debugging(bool)
+  })
+}
 
 const initialLocale = ipcRenderer.sendSync('get-locale') // navigator.language.slice(0, 2)
 
@@ -41,6 +53,7 @@ const App = () => {
     // refresh instead
     ipcRenderer.send('force-refresh-window')
   }, [])
+  logger.info('Rendering', locale)
 
   return (
     <StylesProvider injectFirst>
@@ -58,7 +71,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 const localStorage = window.localStorage
 window.testMode = function () {
-  logger.log('Test mode, clearing cache')
+  logger.debug('Test mode, clearing cache')
   localStorage.removeItem('lastView')
   localStorage.removeItem('location')
 }

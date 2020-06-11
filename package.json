@@ -66,6 +66,8 @@
   "homepage": "https://github.com/digidem/mapeo-desktop#readme",
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "@bugsnag/browser": "^7.1.1",
+    "@bugsnag/js": "^7.1.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.24",
     "@fortawesome/free-solid-svg-icons": "^5.11.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
@@ -122,6 +124,8 @@
     "tar-fs": "^1.16.0",
     "through2": "^2.0.5",
     "utm": "^1.1.1",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2",
     "yazl": "^2.5.1"
   },
   "devDependencies": {

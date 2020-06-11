@@ -80,9 +80,9 @@ const EditDialogContent = ({
         )
         createArchive(filepathWithExtension, err => {
           if (err) {
-            logger.error('Failed to create archive', err)
+            logger.error('MapExportDialog: Failed to create archive', err)
           } else {
-            logger.log('Successfully created map archive')
+            logger.debug('Successfully created map archive')
           }
           handleClose()
         })

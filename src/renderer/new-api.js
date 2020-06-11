@@ -33,7 +33,7 @@ function Api ({ baseUrl, mapeo, ipc }) {
     const start = Date.now()
     promise
       .then(data => {
-        logger.log(prefix, Date.now() - start + 'ms')
+        logger.info(prefix, Date.now() - start + 'ms')
       })
       .catch(error => {
         logger.error(prefix, error)
@@ -48,11 +48,11 @@ function Api ({ baseUrl, mapeo, ipc }) {
     return logRequest('<DEL: ' + url, req.delete(url).json())
   }
   function put (url, data) {
-    logger.log('>PUT:', url, data)
+    logger.debug('>PUT:', url, data)
     return logRequest('<PUT: ' + url, req.put(url, { json: data }).json())
   }
   function post (url, data) {
-    logger.log('>POST:', url, data)
+    logger.debug('>POST:', url, data)
     return logRequest('<POST: ' + url, req.post(url, { json: data }).json())
   }
 
@@ -124,7 +124,7 @@ function Api ({ baseUrl, mapeo, ipc }) {
       // listen for an event from mapeo-core whenever the peers change, then
       // request an updated peer list.
       function onPeerUpdate (peers) {
-        logger.log('peer-update', peers)
+        logger.debug('peer-update', peers)
         handler(peers)
       }
       ipc.on('peer-update', onPeerUpdate)
@@ -156,13 +156,13 @@ function Api ({ baseUrl, mapeo, ipc }) {
 
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin () {
-      logger.log('Join sync')
+      logger.debug('Join sync')
       ipc.send('sync-join')
     },
 
     // Stop listening for sync peers and stop advertising
     syncLeave: function syncLeave () {
-      logger.log('Leave sync')
+      logger.debug('Leave sync')
       ipc.send('sync-leave')
     },
 
@@ -180,7 +180,7 @@ function Api ({ baseUrl, mapeo, ipc }) {
       return new Promise((resolve, reject) => {
         ipc.send('export-data', { filename, format }, (err) => {
           if (err) {
-            logger.error('Export error', err.stack)
+            logger.error('export data', err)
             reject(err)
           } else resolve()
         })
