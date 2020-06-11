@@ -141,7 +141,7 @@ function usePresets () {
         setPresets(presetsWithFields)
         setFields(fields)
       } catch (e) {
-        logger.error(e)
+        logger.error('MapFilter get Presets', e)
         setLoading(false)
         setError(e)
       }
@@ -272,8 +272,8 @@ const MapFilter = () => {
     )
   }
 
-  if (observationsError) console.error(observationsError)
-  if (presetsError) console.error(presetsError)
+  if (observationsError) logger.error('observationsError', observationsError)
+  if (presetsError) logger.error('presetsError', presetsError)
 
   return (
     <div className={cx.root}>

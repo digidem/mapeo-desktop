@@ -21,7 +21,7 @@ module.exports = function (win) {
 
   ipc.on('get-user-data', function (event, type) {
     var data = userConfig.getSettings(type)
-    if (!data) console.warn('unhandled event', type)
+    if (!data) logger.debug('unhandled event', type)
     event.returnValue = data
   })
 
@@ -47,7 +47,7 @@ module.exports = function (win) {
     )
     userConfig.importSettings(filename, function (err) {
       if (err) return logger.error(err)
-      logger.log('Example presets imported from ' + filename)
+      logger.info('Example presets imported')
     })
   })
 
