@@ -8,7 +8,7 @@
   "replication-progress": "Sincronizando: Em andamento...",
   "menu-file": "Arquivo",
   "menu-change-language": "Mudar idioma...",
-  "menu-change-language-title": "Escolha o idioma",
+  "menu-change-language-title": "Digite o idioma (ex.: 'en' ou 'es')",
   "menu-import-tiles-file": "Arquivo (.tar)",
   "menu-import-tiles-directory": "Pasta",
   "menu-import-tiles": "Importar mapa offline...",
