@@ -9,16 +9,21 @@ const debug = require('electron-debug')
 const mkdirp = require('mkdirp')
 const series = require('run-series')
 const styles = require('mapeo-styles')
-const { fork } = require('child_process')
 const rabbit = require('electron-rabbit')
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+const Worker = require('./src/worker')
 const logger = require('./src/logger')
 const electronIpc = require('./src/main/ipc')
 const createMenu = require('./src/main/menu')
 const windowStateKeeper = require('./src/main/window-state')
+
+// Path to `userData`, operating system specific, see
+// https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
+var userDataPath = app.getPath('userData')
+var worker = new Worker(userDataPath)
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
@@ -31,12 +36,20 @@ debug({ showDevTools: false })
 // Handle uncaught errors
 // XXX(KM): why aren't we enabling this?
 // catchErrors({ onError: handleError })
+//
+var exiting = false
+
+// Before we do anything, let's make sure we're ready to gracefully shut down
+const onExit = require('capture-exit')
+const signalExit = require('signal-exit')
+onExit.captureExit()
+onExit.onExit(beforeQuit)
+signalExit(beforeQuit, { alwaysLast: true })
 
 var win = null
 var splash = null
 var bg = null
 var mainWindowState = null
-var serverProcess = null
 var ipc = new rabbit.Client()
 
 var gotTheLock = app.requestSingleInstanceLock()
@@ -53,10 +66,6 @@ if (!gotTheLock) {
     }
   })
 }
-
-// Path to `userData`, operating system specific, see
-// https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
-var userDataPath = app.getPath('userData')
 
 if (!logger.configured) {
   logger.configure({
@@ -88,10 +97,15 @@ rabbit.findOpenSocket('mapeo').then((socketName) => {
   if (argv.headless) startSequence()
   else app.once('ready', openWindow)
 }).catch((err) => {
+  logger.error(err)
   throw new Error('No socket found!', err)
 })
 
-app.on('before-quit', beforeQuit)
+app.on('before-quit', (e) => {
+  // Cancel quit and wait for server to close
+  if (e) e.preventDefault()
+  beforeQuit()
+})
 app.on('window-all-closed', function () {
   app.quit()
 })
@@ -293,16 +307,8 @@ function createSplashWindow () {
 }
 
 function createBackgroundProcess (socketName) {
-  logger.debug('creating background process')
-  serverProcess = fork(path.join(__dirname, 'src', 'background', 'index.js'), [
-    '--subprocess',
-    app.getVersion(),
-    socketName,
-    userDataPath
-  ])
-
-  serverProcess.on('message', msg => {
-    logger.debug(msg)
+  worker.start(socketName, (err) => {
+    if (err) logger.error('Failed to start worker', err)
   })
 }
 
@@ -313,10 +319,9 @@ contextMenu({
   showInspectElement: isDev
 })
 
-function beforeQuit (e) {
-  // Cancel quit and wait for server to close
-  e.preventDefault()
-
+function beforeQuit () {
+  if (exiting) return
+  exiting = true
   var CLOSING = 'file://' + path.join(__dirname, './closing.html')
   var closingWin = new BrowserWindow({
     width: 600,
@@ -331,20 +336,16 @@ function beforeQuit (e) {
   }, 300)
 
   // 'close' event will gracefully close databases and wait for pending sync
-  // TODO: Show the user that a sync is pending finishing
-  logger.debug('ipc.send close')
+  logger.debug('closing ipc')
   ipc.send('close', null, () => {
-    logger.info('IPC closed')
-    clearTimeout(closingTimeoutId)
-    if (serverProcess) serverProcess.kill()
-    try { closingWin.close() } catch (e) {}
-    closingWin = null
-    serverProcess = null
-    app.exit()
+    logger.debug('IPC closed')
+    worker.cleanup((err) => {
+      if (err) logger.error('Failed to clean up a child process', err)
+      logger.debug('Successfully removed any stale processes')
+      clearTimeout(closingTimeoutId)
+      try { closingWin.close() } catch (e) {}
+      closingWin = null
+      app.exit()
+    })
   })
 }
-
-// function handleError (error) {
-//   logger.error('uncaughtException in Node:', error)
-//   if (app && win) win.webContents.send('error', error.stack)
-// }
