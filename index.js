@@ -22,6 +22,7 @@ const windowStateKeeper = require('./src/main/window-state')
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
+app.commandLine.appendSwitch('ignore-certificate-errors')
 
 // Setup some handy dev tools shortcuts (only activates in dev mode)
 // See https://github.com/sindresorhus/electron-debug

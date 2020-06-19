@@ -5,6 +5,7 @@ const util = require('util')
 
 const store = require('./store')
 const appVersion = require('../package.json').version
+let Bugsnag
 
 const BUGSNAG_API_KEY = 'fcd92279c11ac971b4bd29b646ec4125'
 
@@ -101,14 +102,20 @@ class Logger {
     }
   }
 
-  _log (level, raw) {
+  _log (level, raw, err) {
     var args = {
       level,
+      err,
       message: util.format(...Array.from(raw))
     }
     if (!this.configured) this._messageQueue.push(args)
     else {
       this.winston.log(args)
+      if (args.err && Bugsnag) {
+        Bugsnag.notify(args.err, (event) => {
+          event.context = args.message
+        })
+      }
     }
   }
 
@@ -116,8 +123,9 @@ class Logger {
     this._log('warn', arguments)
   }
 
-  error () {
-    this._log('error', arguments)
+  error (context, err) {
+    if (!err) err = context
+    this._log('error', arguments, err)
   }
 
   info () {
@@ -143,11 +151,11 @@ function startBugsnag (releaseStage) {
     logger
   }
   try {
-    const Bugsnag = require('@bugsnag/node')
+    setTimeout(function () {}).__proto__.unref = function () {}
+    Bugsnag = require('@bugsnag/js')
     Bugsnag.start(args)
   } catch (err) {
-    const Bugsnag = require('@bugsnag/browser')
-    Bugsnag.start(args)
+    logger.error('Failed to load bugsnag!', err)
   }
 }
 
