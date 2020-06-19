@@ -4,6 +4,9 @@ const DailyRotateFile = require('winston-daily-rotate-file')
 const store = require('./store')
 const util = require('util')
 
+const appVersion = require('../package.json').version
+const BUGSNAG_API_KEY = 'fcd92279c11ac971b4bd29b646ec4125'
+
 class Logger {
   constructor () {
     this.winston = winston.createLogger()
@@ -18,6 +21,7 @@ class Logger {
     label
   }) {
     this.isDev = isDev
+    startBugsnag(isDev ? 'development' : 'production')
     const prettyPrint = winston.format.printf(({ level, message, label, timestamp }) => {
       return `${timestamp} [${label}] ${level}: ${message}`
     })
@@ -126,23 +130,24 @@ class Logger {
 
 const logger = new Logger()
 
-// This is really hacky because the @bugsnag/js package
-// does not properly handle an electorn background
-// window with nodeIntegration: true
-try {
-  const Bugsnag = require('@bugsnag/node')
-  Bugsnag.start({
-    apiKey: '572d472ea9d5a9199777b88ef268da4e',
-    appVersion: require('../package.json').version,
+function startBugsnag (releaseStage) {
+  // This is really hacky because the @bugsnag/js package
+  // does not properly handle an electron background
+  // window with nodeIntegration: true
+  const args = {
+    releaseStage,
+    apiKey: BUGSNAG_API_KEY,
+    appVersion,
+    enabledReleaseStages: ['production'],
     logger
-  })
-} catch (err) {
-  const Bugsnag = require('@bugsnag/browser')
-  Bugsnag.start({
-    apiKey: '572d472ea9d5a9199777b88ef268da4e',
-    appVersion: require('../package.json').version,
-    logger
-  })
+  }
+  try {
+    let Bugsnag = require('@bugsnag/node')
+    Bugsnag.start(args)
+  } catch (err) {
+    let Bugsnag = require('@bugsnag/browser')
+    Bugsnag.start(args)
+  }
 }
 
 module.exports = logger
