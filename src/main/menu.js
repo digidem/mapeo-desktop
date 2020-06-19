@@ -1,4 +1,4 @@
-const { dialog, app, Menu } = require('electron')
+const { shell, dialog, app, Menu } = require('electron')
 
 const userConfig = require('./user-config')
 const i18n = require('./i18n')
@@ -257,6 +257,12 @@ function menuTemplate (ipc) {
             logger.debugging(bool)
             ipc.send('debugging', bool)
             focusedWindow.webContents.send('debugging', bool)
+          }
+        },
+        {
+          label: t('menu-report'),
+          click: function (item, focusedWindow) {
+            shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
           }
         }
       ]
