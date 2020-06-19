@@ -98,7 +98,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": "Com fotos em tamanho miniatura"
+    "message": "Com fotos em miniatura"
   },
   "renderer.components.MapFilter.DataExportDialog.noData": {
     "description": "Shown when there is no data to export",
@@ -150,7 +150,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": "Termos & condições"
+    "message": "Termos e condições"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
