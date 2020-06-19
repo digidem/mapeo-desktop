@@ -77,7 +77,7 @@
   "welcome-screen-2-text-5": "Agradecemos seus comentários e relatórios de erros. Por favor, entre em contato através do nosso <a target=\"_blank\" href=\"https://github.com/digidem/mapeo-desktop\">repositório do GitHub</a>.",
   "welcome-screen-2-next-button": "Começar mapeamento",
   "welcome-screen-3-title": "Começar com Mapeo",
-  "welcome-screen-3-example-dataset": "Carregar um exemplo OpenStreetMap de conjunto de dados da Floresta Nacional Arapaho no Colorado",
+  "welcome-screen-3-example-dataset": "Carregar um exemplo de conjunto de dados OpenStreetMap da Floresta Nacional Arapaho no Colorado",
   "welcome-screen-3-use-presets": "Usar configurações para mapeamento da floresta",
   "welcome-screen-3-open-map": "Usar configurações para o OpenStreetMap",
   "generating-indexes-title": "Índices",
