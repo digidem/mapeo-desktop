@@ -1,10 +1,11 @@
 const winston = require('winston')
 const path = require('path')
 const DailyRotateFile = require('winston-daily-rotate-file')
-const store = require('./store')
 const util = require('util')
 
+const store = require('./store')
 const appVersion = require('../package.json').version
+
 const BUGSNAG_API_KEY = 'fcd92279c11ac971b4bd29b646ec4125'
 
 class Logger {
@@ -142,10 +143,10 @@ function startBugsnag (releaseStage) {
     logger
   }
   try {
-    let Bugsnag = require('@bugsnag/node')
+    const Bugsnag = require('@bugsnag/node')
     Bugsnag.start(args)
   } catch (err) {
-    let Bugsnag = require('@bugsnag/browser')
+    const Bugsnag = require('@bugsnag/browser')
     Bugsnag.start(args)
   }
 }

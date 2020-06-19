@@ -249,6 +249,7 @@ function createWindow (socketName) {
 
 // Create a hidden background window
 function createBgWindow (socketName) {
+  logger.debug('loading electron background window')
   var win = new BrowserWindow({
     x: 0,
     y: 0,
@@ -259,7 +260,6 @@ function createBgWindow (socketName) {
       nodeIntegration: true
     }
   })
-  logger.debug('loading bg window')
   var BG = 'file://' + path.join(__dirname, './src/background/index.html')
   win.loadURL(BG)
   win.webContents.on('did-finish-load', () => {
