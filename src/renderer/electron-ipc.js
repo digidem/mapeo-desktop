@@ -21,6 +21,19 @@ function Api (ipcRenderer) {
     },
     quitAndInstall: function () {
       ipcRenderer.send('quit-and-install')
+    },
+    addWifiStatusListener: function (handler) {
+      function onupdate (ev, err, wifi) {
+        handler(err, wifi)
+      }
+      ipcRenderer.on('wifi-status', onupdate)
+      ipcRenderer.send('start-wifi-status')
+      return {
+        remove: () => {
+          ipcRenderer.removeListener('wifi-status', onupdate)
+          ipcRenderer.send('stop-wifi-status')
+        }
+      }
     }
   }
 }

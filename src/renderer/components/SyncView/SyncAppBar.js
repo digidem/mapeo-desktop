@@ -6,18 +6,10 @@ import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 import { Wifi, WifiOff } from '@material-ui/icons'
 import { defineMessages, useIntl } from 'react-intl'
-import wifi from 'node-wifi'
 import { Tooltip } from '@material-ui/core'
 
 import logger from '../../../logger'
-
-let wifiInit = true
-try {
-  wifi.init()
-} catch (e) {
-  logger.error('Failed to init node-wifi', e)
-  wifiInit = false
-}
+import electron from '../../electron-ipc'
 
 const getQualityStyle = (connection) => {
   if (connection.quality < 30) return { color: 'white', backgroundColor: 'red' }
@@ -54,28 +46,24 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
   const [currentConnection, setCurrentConnection] = useState(null)
-  const [wifiError, setWifiError] = useState(!wifiInit)
+  const [wifiError, setWifiError] = useState(false)
 
   // Check connection every 2 seconds
   useEffect(() => {
-    const check = async () => {
-      try {
-        const conn = await wifi.getCurrentConnections()
-        setCurrentConnection(conn && conn[0])
-      } catch (err) {
-        logger.error('SyncAppBar failed to get current connections', err)
+    const updateWifi = (err, conn) => {
+      if (err || !conn) {
+        logger.debug('Wifi error', err, conn)
         setWifiError(true)
         setCurrentConnection(null)
+      } else {
+        setCurrentConnection(conn)
       }
     }
-
-    // Run initial check, then refresh it every 2 seconds
-    check()
-    const intervalCheck = setInterval(check, 2000)
-    return () => clearInterval(intervalCheck)
+    const wifiListener = electron.addWifiStatusListener(updateWifi)
+    return () => {
+      if (wifiListener) wifiListener.remove()
+    }
   }, [])
-
-  logger.error(new Error('FRONTEND JS BUGSNAG TEST'))
 
   return (
     <AppBar position='static' color='default' elevation={0} className={cx.root}>

@@ -1,6 +1,7 @@
 const path = require('path')
 const { dialog, app, ipcMain } = require('electron')
 
+const WifiStatus = require('./wifi-status')
 const updater = require('./auto-updater')
 const logger = require('../logger')
 const userConfig = require('./user-config')
@@ -14,6 +15,21 @@ module.exports = function (ipcSend) {
     logger.error('[MAIN/IPC] error', err)
     ipcSend('error', err.message, err.stack)
   }
+
+  var wifi = new WifiStatus()
+
+  ipcMain.on('start-wifi-status', (ev) => {
+    // Run initial check, then refresh it every 2 seconds
+    wifi.start((err, conn) => {
+      ipcSend('wifi-status', err, conn)
+    })
+  })
+
+  ipcMain.on('stop-wifi-status', () => {
+    wifi.stop()
+  })
+
+  // Run initial check, then refresh it every 2 seconds
 
   updater.on('error', (err) => {
     logger.error('[UPDATER] error', err)
