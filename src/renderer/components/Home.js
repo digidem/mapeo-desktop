@@ -22,7 +22,7 @@ import MapFilter from './MapFilter'
 import { defineMessages, useIntl } from 'react-intl'
 import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
-import { STATES as updateStates, UpdaterView, MiniUpdaterView } from './UpdaterView'
+import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import useUpdater from './UpdaterView/useUpdater'
 
 const m = defineMessages({
@@ -213,7 +213,7 @@ export default function Home ({ onSelectLanguage }) {
           <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
           <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
           <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
-          {hasUpdate && <StyledTab icon={<WarningIcon />} label={<MiniUpdaterView update={update} />} />}
+          {hasUpdate && <StyledTab icon={<WarningIcon />} label={<UpdateTab update={update} />} />}
         </StyledTabs>
         <Version>Mapeo v{pkg.version}</Version>
       </Sidebar>

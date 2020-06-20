@@ -10,7 +10,7 @@ export { default as STATES } from './states'
 
 const m = defineMessages({
   // Title on sync screen when searching for devices
-  updateAvailable: 'Update Available',
+  updateAvailable: 'Update',
   updateNotAvailable: 'Mapeo is up to date! You are on the latest version.',
   downloadButtonText: 'Download now',
   calculatingProgress: 'Estimating...',
@@ -25,7 +25,7 @@ const errors = {
   ERR_UPDATER_CHANNEL_FILE_NOT_FOUND: 'This channel does not have any updates'
 }
 
-export const MiniUpdaterView = ({ update }) => {
+export const UpdateTab = ({ update }) => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
 
@@ -48,7 +48,7 @@ export const MiniUpdaterView = ({ update }) => {
     }
   }
 
-  return <div className={cx.miniUpdaterView}>{internal()}</div>
+  return <div className={cx.updateTab}>{internal()}</div>
 }
 
 export const UpdaterView = ({ update, setUpdate }) => {
@@ -58,17 +58,7 @@ export const UpdaterView = ({ update, setUpdate }) => {
   var internal = function () {
     switch (update.state) {
       case STATES.AVAILABLE:
-        return (
-          <UpdateAvailableView cx={cx}>
-            <Button
-              onClick={setUpdate.downloadUpdate}
-              variant='contained'
-              size='large'
-              color='primary'>
-              {t(m.downloadButtonText)}
-            </Button>
-          </UpdateAvailableView>
-        )
+        return <UpdateAvailableView cx={cx} update={update} setUpdate={setUpdate} />
       case STATES.DOWNLOADING:
         return <Typography>{t(m.calculatingProgress)}</Typography>
       case STATES.PROGRESS:
@@ -145,16 +135,46 @@ const DownloadProgressView = ({ cx, update, percent }) => {
   )
 }
 
-const UpdateAvailableView = ({ cx, update, children }) => {
+const UpdateAvailableView = ({ cx, update, setUpdate }) => {
   const { formatMessage: t } = useIntl()
+
+  const { size, downloadSpeed, releaseSummary, major, minor } = update.updateInfo
+
+  const estimatedTimeLeft = downloadSpeed ? size / downloadSpeed.bps : 'Unknown'
+  const newFeatures = major || minor
+
   return (
     <div className={cx.searchingText}>
       <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
         {t(m.updateAvailable)}
       </Typography>
-      {children}
+      <FormattedDuration seconds={estimatedTimeLeft} />
+      {newFeatures
+        ? <ExpandedNotes cx={cx} releaseSummary={releaseSummary} />
+        : <HiddenNotes cx={cx} releaseSummary={releaseSummary} />
+      }
+      <Button
+        onClick={setUpdate.downloadUpdate}
+        variant='contained'
+        size='large'
+        color='primary'>
+        {t(m.downloadButtonText)}
+      </Button>
     </div>
   )
+}
+
+const ExpandedNotes = ({ releaseSummary }) => {
+  return <div>
+    <Typography variant='body'>{releaseSummary}</Typography>
+  </div>
+}
+
+const HiddenNotes = ({ releaseSummary }) => {
+  // TODO: hide notes with some sort of  'learn more' button?
+  return <div>
+    <Typography variant='body'>{releaseSummary}</Typography>
+  </div>
 }
 
 const UpdateNotAvailableView = ({ cx, update, downloadUpdateClick }) => {
@@ -203,4 +223,3 @@ const useStyles = makeStyles(theme => ({
     fontSize: 48
   }
 }))
-

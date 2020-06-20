@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import semver from 'semver'
+import { version as appVersion } from '../../../../package.json'
 import STATES from './states'
 import electronIpc from '../../electron-ipc'
 
@@ -42,12 +44,16 @@ export default function useUpdater () {
             })
             return
           case 'update-available':
+            var past = semver.parse(appVersion)
+            var next = semver.parse(info.version)
+            info.major = next.major > past.major
+            info.minor = next.minor > past.minor
+            info.patch = next.patch > past.patch
+
+            info.size = info.files.map((file) => file.size).reduce((a, b) => a + b, 0)
+
             setUpdate({
-              updateInfo: {
-                version: info.version,
-                releaseDate: info.releaseDate,
-                size: info.files.map((file) => file.size).reduce((a, b) => a + b, 0)
-              },
+              updateInfo: info,
               progress: null,
               state: STATES.AVAILABLE
             })
