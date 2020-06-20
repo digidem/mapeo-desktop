@@ -1,0 +1,8 @@
+export default {
+  IDLE: 0,
+  AVAILABLE: 1,
+  DOWNLOADING: 2,
+  PROGRESS: 3,
+  READY_FOR_RESTART: 4,
+  ERROR: 5
+}

@@ -22,17 +22,17 @@ module.exports = function (ipcSend) {
   })
 
   updater.updateDownloaded(function (updateInfo) {
-    logger.log('[UPDATER] update-downloaded', updateInfo)
+    logger.info('[UPDATER] update-downloaded', updateInfo)
     ipcSend('update-status', 'update-downloaded', updateInfo)
   })
 
   updater.updateNotAvailable(function () {
-    logger.log('[UPDATER] update-not-available')
+    logger.info('[UPDATER] update-not-available')
     ipcSend('update-status', 'update-not-available', null)
   })
 
   updater.downloadProgress(function (updateInfo) {
-    logger.log('[UPDATER] update-progress', updateInfo)
+    logger.info('[UPDATER] update-progress', updateInfo)
     /*
       {
         progress: {
@@ -50,7 +50,7 @@ module.exports = function (ipcSend) {
 
   updater.updateAvailable((updateInfo) => {
     // version, files, path, sha512, releaseDate
-    logger.log('[UPDATER] update-available', updateInfo)
+    logger.info('[UPDATER] update-available', updateInfo)
     ipcSend('update-status', 'update-available', updateInfo)
   })
 

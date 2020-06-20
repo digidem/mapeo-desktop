@@ -47,7 +47,7 @@ class MapeoUpdater extends events.EventEmitter {
     }
     store.set(PERSISTED_STORE_KEY, value)
     autoUpdater.channel = value
-    logger.log('[UPDATER] Channel updated to', updater.channel)
+    logger.info('[UPDATER] Channel updated to', updater.channel)
   }
 
   updateAvailable (onupdate) {
@@ -66,7 +66,7 @@ class MapeoUpdater extends events.EventEmitter {
 
   downloadProgress (onprogress) {
     autoUpdater.on('download-progress', (progress) => {
-      logger.log('[UPDATER] Progress', progress)
+      logger.info('[UPDATER] Progress', progress)
       onprogress({
         progress: progress
       })
@@ -86,7 +86,7 @@ class MapeoUpdater extends events.EventEmitter {
   }
 
   downloadUpdate () {
-    logger.log('[UPDATER] Download initiated.')
+    logger.info('[UPDATER] Download initiated.')
     var promise = autoUpdater.downloadUpdate()
     promise.catch(this._onerror)
     return promise

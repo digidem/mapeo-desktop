@@ -1,6 +1,7 @@
-import { STATES } from './'
-import electronIpc from '../../electron-ipc'
 import { useEffect, useState } from 'react'
+
+import STATES from './states'
+import electronIpc from '../../electron-ipc'
 
 export default function useUpdater () {
   const [update, setUpdate] = useState({
@@ -58,5 +59,12 @@ export default function useUpdater () {
     }
     , [])
 
-  return [update, setUpdate]
+  function downloadUpdate () {
+    setUpdate({
+      state: STATES.DOWNLOADING
+    })
+    electronIpc.downloadUpdate()
+  }
+
+  return [update, { downloadUpdate }]
 }
