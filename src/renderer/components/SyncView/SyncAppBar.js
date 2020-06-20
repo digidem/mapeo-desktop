@@ -75,8 +75,6 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
     return () => clearInterval(intervalCheck)
   }, [])
 
-  logger.error(new Error('FRONTEND JS BUGSNAG TEST'))
-
   return (
     <AppBar position='static' color='default' elevation={0} className={cx.root}>
       <Toolbar>

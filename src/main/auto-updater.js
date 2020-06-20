@@ -1,9 +1,7 @@
 const { autoUpdater } = require('electron-updater')
-const winston = require('winston')
 const events = require('events')
-const ping = require('domain-ping')
-const url = require('url')
 
+const networkSpeed = require('./network-speed')
 const store = require('../store')
 const logger = require('../logger')
 
@@ -19,8 +17,8 @@ class MapeoUpdater extends events.EventEmitter {
     // Settings
     autoUpdater.channel = this.channel
     autoUpdater.autoDownload = false
-    autoUpdater.logger = winston
-    autoUpdater.autoInstallOnAppQuit = false
+    autoUpdater.logger = logger
+    autoUpdater.autoInstallOnAppQuit = true
     autoUpdater.allowDowngrade = true
     this._onerror = this._onerror.bind(this)
 
@@ -51,12 +49,28 @@ class MapeoUpdater extends events.EventEmitter {
   }
 
   updateAvailable (onupdate) {
-    autoUpdater.on('update-available', ({
+    autoUpdater.on('update-available', async ({
       version, files, path, sha512, releaseDate
     }) => {
-      onupdate({
-        version, files, path, sha512, releaseDate
-      })
+      let downloadSpeed
+      try {
+        downloadSpeed = await networkSpeed.download()
+        logger.info('Got download speed', downloadSpeed)
+      } catch (err) {
+        logger.error('Error getting download speed', err)
+        downloadSpeed = null
+      }
+      var args = {
+        version,
+        files,
+        path,
+        sha512,
+        releaseDate,
+        downloadSpeed,
+        releaseSummary: 'TODO: GET RELEASE SUMMARY!'
+      }
+
+      onupdate(args)
     })
   }
 
