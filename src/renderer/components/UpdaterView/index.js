@@ -5,16 +5,8 @@ import Button from '@material-ui/core/Button'
 import FormattedDuration from 'react-intl-formatted-duration'
 import ErrorIcon from '@material-ui/icons/Error'
 
-import electronIpc from '../../electron-ipc'
-
-export const STATES = {
-  IDLE: 0,
-  AVAILABLE: 1,
-  DOWNLOADING: 2,
-  PROGRESS: 3,
-  READY_FOR_RESTART: 4,
-  ERROR: 5
-}
+import STATES from './states'
+export { default as STATES } from './states'
 
 const m = defineMessages({
   // Title on sync screen when searching for devices
@@ -63,22 +55,13 @@ export const UpdaterView = ({ update, setUpdate }) => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
 
-  const downloadUpdateClick = () => {
-    setUpdate({
-      state: STATES.DOWNLOADING
-    })
-    electronIpc.downloadUpdate()
-  }
-
-  console.log(update)
-
   var internal = function () {
     switch (update.state) {
       case STATES.AVAILABLE:
         return (
           <UpdateAvailableView cx={cx}>
             <Button
-              onClick={downloadUpdateClick}
+              onClick={setUpdate.downloadUpdate}
               variant='contained'
               size='large'
               color='primary'>
@@ -220,3 +203,4 @@ const useStyles = makeStyles(theme => ({
     fontSize: 48
   }
 }))
+
