@@ -20,7 +20,7 @@ class MapeoRPC {
     this.storages = []
     this.config = new Settings(userDataPath)
     this.encryptionKey = this.config.getEncryptionKey()
-    logger.info('got encryptionKey', this.encryptionKey.substr(0, 4))
+    logger.info('got encryptionKey', this.encryptionKey && this.encryptionKey.substr(0, 4))
     this.tiles = TileImporter(userDataPath)
 
     var feedsDir = path.join(datadir, 'storage')
