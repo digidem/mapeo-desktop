@@ -13,7 +13,7 @@ class Worker {
 
   start (socketName, cb) {
     this.cleanup((err) => {
-      if (err) throw err
+      if (err) logger.debug('Not fatal', err)
       logger.debug('Starting background process')
       this.process = fork(path.join(__dirname, 'background', 'index.js'), [
         '--subprocess',
@@ -48,10 +48,7 @@ class Worker {
   cleanup (cb) {
     if (this.serverProcess) this.serverProcess.kill()
     this.serverProcess = null
-    if (!this._exists()) {
-      logger.error('No PID file found.')
-      return cb()
-    }
+    if (!this._exists()) return cb(new Error('Nothing to clean up!'))
     var pid = this.read()
     logger.info('Terminating PID', pid)
     terminate(pid, (err) => {
