@@ -66,6 +66,8 @@
   "homepage": "https://github.com/digidem/mapeo-desktop#readme",
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "@bugsnag/browser": "^7.1.1",
+    "@bugsnag/js": "^7.1.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.24",
     "@fortawesome/free-solid-svg-icons": "^5.11.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
@@ -76,6 +78,7 @@
     "@segment/isodate": "^1.0.3",
     "asar": "^1.0.0",
     "clsx": "^1.0.4",
+    "conf": "^6.2.4",
     "core-js": "^3.3.5",
     "d3-dsv": "^1.1.1",
     "date-fns": "^2.1.0",
@@ -84,7 +87,6 @@
     "electron-debug": "^1.5.0",
     "electron-is-dev": "^1.1.0",
     "electron-rabbit": "^1.0.0",
-    "electron-store": "^5.0.0",
     "electron-timber": "^0.5.1",
     "flat": "^5.0.0",
     "fs-write-stream-atomic": "^1.0.10",
@@ -122,6 +124,8 @@
     "tar-fs": "^1.16.0",
     "through2": "^2.0.5",
     "utm": "^1.1.1",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2",
     "yazl": "^2.5.1"
   },
   "devDependencies": {

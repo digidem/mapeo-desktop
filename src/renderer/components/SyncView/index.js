@@ -40,7 +40,7 @@ const SyncView = ({ focusState }) => {
   const listenForSyncPeers = focusState === 'focused'
   const [peers, syncPeer] = usePeers(listenForSyncPeers)
   const { formatMessage: t } = useIntl()
-  logger.log('render peers', peers)
+  logger.debug('render peers', peers)
 
   const handleClickSelectSyncfile = () => {
     remote.dialog.showOpenDialog(
@@ -118,7 +118,7 @@ function usePeers (listen) {
       if (!listen) return
 
       const updatePeers = (updatedServerPeers = []) => {
-        logger.log('Received peer update', updatedServerPeers)
+        logger.debug('Received peer update', updatedServerPeers)
         setServerPeers(updatedServerPeers)
         // NB: use callback version of setState because the new error state
         // depends on the previous error state
@@ -176,7 +176,7 @@ function usePeers (listen) {
 
   const syncPeer = useCallback(
     (peerId, opts) => {
-      logger.log('Request sync start', peerId, serverPeers)
+      logger.info('Request sync start', peerId, serverPeers)
       if (opts && opts.file) return api.syncStart({ filename: peerId })
       const peer = serverPeers.find(peer => peer.id === peerId)
       // Peer could have vanished in the moment the button was pressed
@@ -210,7 +210,7 @@ function getPeersStatus ({
   since,
   formatMessage
 }) {
-  logger.log('get peers status', serverPeers, syncErrors)
+  logger.debug('get peers status', serverPeers, syncErrors)
   return serverPeers.map(serverPeer => {
     let status = peerStatus.READY
     let errorMsg

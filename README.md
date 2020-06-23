@@ -39,7 +39,17 @@ Then, in another terminal, run the app in development mode:
 npm run dev
 ```
 
-## Testing
+Running `npm run dev` will run the background process in an electron window
+that can be stepped through similarly to the front-end code.
+
+To see log messages in real-time while in debug mode, run `tail` in another
+terminal window:
+
+```sh
+tail -f USERDATA/Mapeo/logs/$DATE.debug.log
+```
+
+### Debbugging
 
 Data is stored in `USERDATA/Mapeo` on your machine, which will be different
 depending on your operating system.
@@ -53,6 +63,12 @@ To simulate a reinstall, remove this `Mapeo` directory.
 
 To only delete data and not presets or tiles, delete the `Mapeo/kappa.db`
 directory.
+
+In production mode, `info` and `error` messages are written to
+`USERDATA/Mapeo/logs/$DATE.log` and kept for 1 year.
+
+In debug mode and development mode (via `npm run dev` or in the Help menu),
+Mapeo will verbosely write all messages for 1 day. 
 
 ### Run a mock device
 

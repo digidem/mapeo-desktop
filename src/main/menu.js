@@ -1,13 +1,12 @@
-const { dialog, app, Menu } = require('electron')
+const { shell, dialog, app, Menu } = require('electron')
 
 const userConfig = require('./user-config')
 const i18n = require('./i18n')
 const logger = require('../logger')
+
 const t = i18n.t
 
 module.exports = async function createMenu (ipc) {
-  // ipc is an object that is sending events to the handler in src/background/ipc.js
-  // NOT src/main/ipc.js, which fields requests from the electron renderer
   await app.whenReady()
 
   function setMenu () {
@@ -46,7 +45,7 @@ function menuTemplate (ipc) {
                     t('menu-import-tiles-error-known') + ': ' + err
                   )
                 } else {
-                  logger.log('[IMPORT TILES] success')
+                  logger.debug('[IMPORT TILES] success')
                   dialog.showMessageBox({
                     message: t('menu-import-data-success'),
                     buttons: ['OK']
@@ -72,7 +71,7 @@ function menuTemplate (ipc) {
                 userConfig.importSettings(filenames[0], cb)
                 function cb (err) {
                   if (!err) {
-                    logger.log('reloading')
+                    logger.debug('reloading')
                     ipc.send('reload-config', null, () => {
                       focusedWindow.webContents.send('force-refresh-window')
                     })
@@ -103,7 +102,7 @@ function menuTemplate (ipc) {
               function (filenames) {
                 if (!filenames || !filenames.length) return
                 var filename = filenames[0]
-                logger.log('[IMPORTING]', filename)
+                logger.info('[IMPORTING]', filename)
                 ipc.send('import-data', filename)
               }
             )
@@ -208,12 +207,12 @@ function menuTemplate (ipc) {
           label: t('menu-zoom-to-data'),
           click: function (item, focusedWindow) {
             ipc.send('zoom-to-data-get-centroid', 'node', function (_, loc) {
-              logger.log('RESPONSE(menu,getDatasetCentroid):', loc)
+              logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-node', loc)
             })
             ipc.send('zoom-to-data-get-centroid', 'observation', function (_, loc) {
-              logger.log('RESPONSE(menu,getDatasetCentroid):', loc)
+              logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-observation', loc)
             })
@@ -248,7 +247,25 @@ function menuTemplate (ipc) {
     {
       label: t('menu-help'),
       role: 'help',
-      submenu: []
+      submenu: [
+        {
+          label: t('menu-debugging'),
+          type: 'checkbox',
+          checked: logger._debug,
+          click: function (item, focusedWindow) {
+            var bool = item.checked
+            logger.debugging(bool)
+            ipc.send('debugging', bool)
+            focusedWindow.webContents.send('debugging', bool)
+          }
+        },
+        {
+          label: t('menu-report'),
+          click: function (item, focusedWindow) {
+            shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
+          }
+        }
+      ]
     }
   ]
 

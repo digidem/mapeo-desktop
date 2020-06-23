@@ -16,8 +16,8 @@ function getEncryptionKey () {
   const metadata = getSettings('metadata')
   const projectKey = metadata.projectKey
   if (projectKey) {
-    logger.log('Found projectKey starting with ', projectKey.slice(0, 4))
-  } else logger.log("No projectKey found, using default 'mapeo' key")
+    logger.info('Found projectKey starting with ', projectKey.slice(0, 4))
+  } else logger.info("No projectKey found, using default 'mapeo' key")
   return projectKey
 }
 

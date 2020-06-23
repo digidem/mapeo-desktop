@@ -33,7 +33,7 @@ module.exports = function (osm, media, { ipcSend, staticRoot }) {
 
       if (!m) {
         staticHandler(req, res, function (err) {
-          if (err) logger.error(err)
+          if (err) logger.error('static', err)
           res.statusCode = 404
           res.end('Not Found')
         })
