@@ -10,17 +10,6 @@ import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
 
-if (!logger.configured) {
-  logger.configure({
-    label: 'renderer',
-    userDataPath: remote.app.getPath('userData'),
-    isDev
-  })
-  ipcRenderer.on('debugging', (ev, bool) => {
-    logger.debugging(bool)
-  })
-}
-
 const initialLocale = ipcRenderer.sendSync('get-locale') // navigator.language.slice(0, 2)
 
 const mdMsgs = {
