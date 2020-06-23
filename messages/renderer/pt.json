@@ -266,7 +266,7 @@
     "message": "Selecionar base de dados para sincronizar"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
-    "message": "Enviar"
+    "message": "Ir"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Inserir coordenadas"
