@@ -125,7 +125,6 @@ class Logger {
 
   error (context, err) {
     if (!err) err = context
-    console.log('poop', context, err)
     this._log('error', [context, err])
   }
 
