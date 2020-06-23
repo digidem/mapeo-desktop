@@ -49,6 +49,8 @@
   "menu-copy": "Copy",
   "menu-paste": "Paste",
   "menu-selectall": "Select all",
+  "menu-debugging": "Debug",
+  "menu-report": "Report issue...",
   "save-db-dialog": "Create a new database to syncronize",
   "open-db-dialog": "Select a database to syncronize",
   "feedback-contribute-button": "Feedback & Contribute",
