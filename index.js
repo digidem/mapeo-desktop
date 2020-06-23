@@ -319,9 +319,7 @@ contextMenu({
   showInspectElement: isDev
 })
 
-function beforeQuit () {
-  if (exiting) return
-  exiting = true
+function showClosingWindow () {
   var CLOSING = 'file://' + path.join(__dirname, './closing.html')
   var closingWin = new BrowserWindow({
     width: 600,
@@ -330,22 +328,40 @@ function beforeQuit () {
     show: false,
     alwaysOnTop: false
   })
+
   closingWin.loadURL(CLOSING)
-  const closingTimeoutId = setTimeout(() => {
+  var closingTimeoutId = setTimeout(() => {
     closingWin.show()
   }, 300)
+  return () => {
+    clearTimeout(closingTimeoutId)
+    try { closingWin.close() } catch (e) {}
+    closingWin = null
+  }
+}
 
+function beforeQuit () {
+  if (exiting) return
+  exiting = true
   // 'close' event will gracefully close databases and wait for pending sync
-  logger.debug('closing ipc')
-  ipc.send('close', null, () => {
-    logger.debug('IPC closed')
-    worker.cleanup((err) => {
-      if (err) logger.error('Failed to clean up a child process', err)
-      logger.debug('Successfully removed any stale processes')
-      clearTimeout(closingTimeoutId)
-      try { closingWin.close() } catch (e) {}
-      closingWin = null
-      app.exit()
+  logger.debug('Closing IPC')
+
+  ipc.send('get-replicating-peers', null, (err, length) => {
+    if (err) logger.error('get-replicating-peers on close', err)
+
+    let closeClosingWindow = () => {}
+    if (length) closeClosingWindow = showClosingWindow()
+
+    ipc.send('close', null, () => {
+      logger.debug('IPC closed')
+
+      worker.cleanup((err) => {
+        if (err) logger.error('Failed to clean up a child process', err)
+        logger.debug('Successfully removed any stale processes')
+
+        closeClosingWindow()
+        app.exit()
+      })
     })
   })
 }

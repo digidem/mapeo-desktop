@@ -187,6 +187,13 @@ handlers['zoom-to-data-get-centroid'] = async (type) => {
   })
 }
 
+handlers['get-replicating-peers'] = async () => {
+  return new Promise((resolve, reject) => {
+    if (!manager.mapeo) return reject(new Error('Start mapeo before getting active peers!'))
+    resolve(manager.mapeo.getReplicatingPeers().length)
+  })
+}
+
 handlers.debugging = async (bool) => {
   logger.debugging(bool)
 }
