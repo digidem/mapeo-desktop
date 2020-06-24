@@ -1,50 +1,56 @@
 #!/usr/bin/env electron
 
-var path = require('path')
-var minimist = require('minimist')
-var electron = require('electron')
+const path = require('path')
+const minimist = require('minimist')
+const electron = require('electron')
 const isDev = require('electron-is-dev')
 const contextMenu = require('electron-context-menu')
-var app = electron.app
-var BrowserWindow = electron.BrowserWindow
-
 const debug = require('electron-debug')
-var mkdirp = require('mkdirp')
-var sublevel = require('subleveldown')
-var osmdb = require('osm-p2p')
-var series = require('run-series')
-var MediaStore = require('safe-fs-blob-store')
-var styles = require('mapeo-styles')
+const mkdirp = require('mkdirp')
+const series = require('run-series')
+const styles = require('mapeo-styles')
+const rabbit = require('electron-rabbit')
 
-var ipc = require('./src/main/ipc')
-var createMenu = require('./src/main/menu')
-var createServer = require('./src/main/server.js')
-var createTileServer = require('./src/main/tile-server.js')
-var logger = require('electron-timber')
-var windowStateKeeper = require('./src/main/window-state')
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
 
-var installStatsIndex = require('./src/main/osm-stats')
-var TileImporter = require('./src/main/tile-importer')
+const Worker = require('./src/worker')
+const logger = require('./src/logger')
+const electronIpc = require('./src/main/ipc')
+const createMenu = require('./src/main/menu')
+const windowStateKeeper = require('./src/main/window-state')
+
+// Path to `userData`, operating system specific, see
+// https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
+var userDataPath = app.getPath('userData')
+var worker = new Worker(userDataPath)
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
+app.commandLine.appendSwitch('ignore-certificate-errors')
 
 // Setup some handy dev tools shortcuts (only activates in dev mode)
 // See https://github.com/sindresorhus/electron-debug
 debug({ showDevTools: false })
 
 // Handle uncaught errors
+// XXX(KM): why aren't we enabling this?
 // catchErrors({ onError: handleError })
+//
+var exiting = false
+
+// Before we do anything, let's make sure we're ready to gracefully shut down
+const onExit = require('capture-exit')
+const signalExit = require('signal-exit')
+onExit.captureExit()
+onExit.onExit(beforeQuit)
+signalExit(beforeQuit, { alwaysLast: true })
 
 var win = null
 var splash = null
-
-contextMenu({
-  showLookUpSelection: false,
-  showCopyImage: true,
-  showSaveImageAs: true,
-  showInspectElement: isDev
-})
+var bg = null
+var mainWindowState = null
+var ipc = new rabbit.Client()
 
 var gotTheLock = app.requestSingleInstanceLock()
 
@@ -61,9 +67,13 @@ if (!gotTheLock) {
   })
 }
 
-// Path to `userData`, operating system specific, see
-// https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
-var userDataPath = app.getPath('userData')
+if (!logger.configured) {
+  logger.configure({
+    label: 'main',
+    userDataPath,
+    isDev
+  })
+}
 
 var argv = minimist(process.argv.slice(2), {
   default: {
@@ -79,80 +89,41 @@ var argv = minimist(process.argv.slice(2), {
   }
 })
 
-if (argv.headless) startSequence()
-else app.once('ready', openWindow)
+var _socketName
 
-app.on('before-quit', function (e) {
-  if (!app.server) return
-  // Cancel quit and wait for server to close
-  e.preventDefault()
-
-  var CLOSING = 'file://' + path.join(__dirname, './closing.html')
-  var closingWin = new BrowserWindow({
-    width: 600,
-    height: 400,
-    frame: false,
-    show: false,
-    alwaysOnTop: true
-  })
-  closingWin.loadURL(CLOSING)
-  const closingTimeoutId = setTimeout(() => {
-    closingWin.show()
-  }, 300)
-
-  // Server close will gracefully close databases and wait for pending sync
-  // TODO: Show the user that a sync is pending finishing
-  app.server.close(function () {
-    clearTimeout(closingTimeoutId)
-    try {
-      closingWin.close()
-    } catch (e) {}
-    closingWin = null
-    app.exit()
-  })
+rabbit.findOpenSocket('mapeo').then((socketName) => {
+  logger.debug('got socket', socketName)
+  _socketName = socketName
+  if (argv.headless) startSequence()
+  else app.once('ready', openWindow)
+}).catch((err) => {
+  logger.error(err)
+  throw new Error('No socket found!', err)
 })
 
-// Quit when all windows are closed.
+app.on('before-quit', (e) => {
+  // Cancel quit and wait for server to close
+  if (e) e.preventDefault()
+  beforeQuit()
+})
 app.on('window-all-closed', function () {
   app.quit()
 })
 
 function openWindow () {
-  var APP_NAME = app.getName()
-  var INDEX = 'file://' + path.join(__dirname, './index.html')
-  var SPLASH = 'file://' + path.join(__dirname, './splash.html')
-  var mainWindowState = windowStateKeeper({
-    defaultWidth: 1000,
-    defaultHeight: 800
+  ipc.on('error', function (err) {
+    logger.error('ipc', err)
+    electron.dialog.showErrorBox('Error', err)
   })
+  ipc.connect(_socketName)
 
   if (!win) {
-    win = new BrowserWindow({
-      x: mainWindowState.x,
-      y: mainWindowState.y,
-      width: mainWindowState.width,
-      height: mainWindowState.height,
-      title: APP_NAME,
-      show: false,
-      alwaysOnTop: false,
-      titleBarStyle: 'hidden',
-      icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png'),
-      webPreferences: {
-        nodeIntegration: true
-      }
-    })
-    mainWindowState.manage(win)
-    splash = new BrowserWindow({
-      width: 810,
-      height: 610,
-      transparent: true,
-      frame: false,
-      alwaysOnTop: true
-    })
-    splash.loadURL(SPLASH)
+    win = createWindow(_socketName)
+    splash = createSplashWindow()
   }
 
   if (isDev) {
+    bg = createBgWindow(_socketName)
     try {
       var {
         default: installExtension,
@@ -160,13 +131,12 @@ function openWindow () {
       } = require('electron-devtools-installer')
     } catch (e) {}
     installExtension(REACT_DEVELOPER_TOOLS)
-      .then(name => logger.log(`Added Extension:  ${name}`))
-      .catch(err => logger.log('An error occurred: ', err))
+      .then(name => logger.debug(`Added Extension:  ${name}`))
+      .catch(err => logger.error('Failed to add extension', err))
+  } else {
+    createBackgroundProcess(_socketName)
   }
-
-  win.loadURL(INDEX)
-
-  createMenu(app)
+  createMenu(ipc)
 
   // Emitted when the window is closed.
   win.on('closed', function () {
@@ -175,6 +145,7 @@ function openWindow () {
     // when you should delete the corresponding element.
     win = null
     splash = null
+    bg = null
     app.quit()
   })
 
@@ -183,7 +154,7 @@ function openWindow () {
 
 function startupMsg (txt) {
   return function (done) {
-    logger.log('[STARTUP] ' + txt)
+    logger.debug('[STARTUP] ' + txt)
     done()
   }
 }
@@ -193,17 +164,17 @@ function startSequence () {
   series(
     [
       initDirectories,
-      startupMsg('Initialized osm-p2p'),
+      startupMsg('Initialized directories'),
 
       createServers,
-      startupMsg('Started osm and tile servers'),
+      startupMsg('Started node-ipc servers'),
 
       notifyReady,
       startupMsg('Notified the frontend that backend is ready')
     ],
     function (err) {
       if (err) logger.error('STARTUP FAILED', err)
-      else logger.log('STARTUP success!')
+      else logger.debug('STARTUP success!')
     }
   )
 }
@@ -218,63 +189,36 @@ function initDirectories (done) {
   styles.unpackIfNew(userDataPath, function (err) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
   })
-
-  var osm = osmdb(argv.datadir)
-  logger.log('loading datadir', argv.datadir)
-
-  var idb = sublevel(osm.index, 'stats')
-  osm.core.use('stats', installStatsIndex(idb))
-
-  var media = MediaStore(path.join(argv.datadir, 'media'))
-  app.osm = osm
-  app.media = media
-  app.tiles = TileImporter(userDataPath)
-
-  win.webContents.once('did-finish-load', function () {
-    logger.log('preparing osm indexes..')
-    win.webContents.send('indexes-loading')
-    app.osm.ready(function () {
-      logger.log('indexes READY')
-      win.webContents.send('indexes-ready')
-    })
-  })
-
   done()
 }
 
 function createServers (done) {
-  function ipcSend (...args) {
-    try {
-      win.webContents.send.apply(win.webContents, args)
-    } catch (e) {}
+  electronIpc(win)
+
+  logger.info('initializing mapeo', userDataPath, argv.port)
+  var opts = {
+    userDataPath,
+    datadir: argv.datadir,
+    port: argv.port,
+    tileport: argv.tileport
   }
-  app.server = createServer(app.osm, app.media, ipcSend, {
-    staticRoot: userDataPath
-  })
-  app.mapeo = app.server.mapeo
-  ipc(win)
 
-  var pending = 2
-
-  app.server.listen(argv.port, '127.0.0.1', function () {
-    global.osmServerHost = '127.0.0.1:' + app.server.address().port
-    logger.log(global.osmServerHost)
-    if (--pending === 0) done()
-  })
-
-  var tileServer = createTileServer()
-  tileServer.listen(argv.tileport, function () {
-    logger.log('tile server listening on :', tileServer.address().port)
-    if (--pending === 0) done()
+  ipc.send('listen', opts, function (err, port) {
+    if (err) throw new Error('fatal: could not get port', err)
+    global.osmServerHost = '127.0.0.1:' + port
+    logger.info(global.osmServerHost)
+    done()
   })
 }
 
 function notifyReady (done) {
-  win.webContents.once('did-finish-load', function () {
+  win.webContents.on('did-finish-load', () => {
     setTimeout(() => {
       var IS_TEST = process.env.NODE_ENV === 'test'
       if (IS_TEST) win.setSize(1000, 800, false)
       if (argv.debug) win.webContents.openDevTools()
+
+      win.maximize()
       splash.destroy()
       win.show()
       done()
@@ -282,7 +226,142 @@ function notifyReady (done) {
   })
 }
 
-// function handleError (error) {
-//   logger.error('uncaughtException in Node:', error)
-//   if (app && win) win.webContents.send('error', error.stack)
-// }
+function createWindow (socketName) {
+  var APP_NAME = app.getName()
+  var INDEX = 'file://' + path.join(__dirname, './index.html')
+  mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 800
+  })
+  var win = new BrowserWindow({
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    title: APP_NAME,
+    show: false,
+    alwaysOnTop: false,
+    titleBarStyle: 'hidden',
+    icon: path.resolve(__dirname, 'static', 'mapeo_256x256.png'),
+    webPreferences: {
+      nodeIntegration: true,
+      preload: path.resolve(__dirname, 'src', 'renderer', 'index-preload.js')
+    }
+  })
+  mainWindowState.manage(win)
+
+  win.loadURL(INDEX)
+
+  win.webContents.on('did-finish-load', () => {
+    if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
+    if (argv.debug) win.webContents.openDevTools()
+    win.webContents.send('set-socket', {
+      name: socketName
+    })
+  })
+  return win
+}
+
+// Create a hidden background window
+function createBgWindow (socketName) {
+  logger.debug('loading electron background window')
+  var win = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: 700,
+    height: 700,
+    show: argv.debug,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+  var BG = 'file://' + path.join(__dirname, './src/background/index.html')
+  win.loadURL(BG)
+  win.webContents.on('did-finish-load', () => {
+    if (argv.debug) bg.webContents.openDevTools()
+    win.webContents.send('configure', {
+      socketName,
+      userDataPath,
+      isDev
+    })
+  })
+  win.on('closed', () => {
+    logger.info('Background window closed')
+    app.quit()
+  })
+  return win
+}
+
+function createSplashWindow () {
+  var SPLASH = 'file://' + path.join(__dirname, './static/splash.html')
+  var splash = new BrowserWindow({
+    width: 450,
+    height: 410,
+    center: true,
+    transparent: true,
+    resizable: false,
+    frame: false
+  })
+  splash.loadURL(SPLASH)
+  return splash
+}
+
+function createBackgroundProcess (socketName) {
+  worker.start(socketName, (err) => {
+    if (err) logger.error('Failed to start worker', err)
+  })
+}
+
+contextMenu({
+  showLookUpSelection: false,
+  showCopyImage: true,
+  showSaveImageAs: true,
+  showInspectElement: isDev
+})
+
+function showClosingWindow () {
+  var CLOSING = 'file://' + path.join(__dirname, './closing.html')
+  var closingWin = new BrowserWindow({
+    width: 600,
+    height: 400,
+    frame: false,
+    show: false,
+    alwaysOnTop: false
+  })
+
+  closingWin.loadURL(CLOSING)
+  var closingTimeoutId = setTimeout(() => {
+    closingWin.show()
+  }, 300)
+  return () => {
+    clearTimeout(closingTimeoutId)
+    try { closingWin.close() } catch (e) {}
+    closingWin = null
+  }
+}
+
+function beforeQuit () {
+  if (exiting) return
+  exiting = true
+  // 'close' event will gracefully close databases and wait for pending sync
+  logger.debug('Closing IPC')
+
+  ipc.send('get-replicating-peers', null, (err, length) => {
+    if (err) logger.error('get-replicating-peers on close', err)
+
+    let closeClosingWindow = () => {}
+    if (length) closeClosingWindow = showClosingWindow()
+
+    ipc.send('close', null, () => {
+      logger.debug('IPC closed')
+
+      worker.cleanup((err) => {
+        if (err) logger.error('Failed to clean up a child process', err)
+        logger.debug('Successfully removed any stale processes')
+
+        closeClosingWindow()
+        app.exit()
+      })
+    })
+  })
+}

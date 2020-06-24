@@ -1,12 +1,17 @@
-import { remote, ipcRenderer } from 'electron'
+import { remote } from 'electron'
 import 'core-js/es/reflect'
 import ky from 'ky/umd'
-import logger from 'electron-timber'
+import logger from '../logger'
 
 const BASE_URL = 'http://' + remote.getGlobal('osmServerHost') + '/'
-let id = 0
 
-export function Api ({ baseUrl }) {
+export default Api({
+  // window.middlewareClient is set in src/middleware/client-preload.js
+  ipc: window.middlewareClient,
+  baseUrl: BASE_URL
+})
+
+function Api ({ baseUrl, mapeo, ipc }) {
   // We append this to requests for presets and map styles, in order to override
   // the local static server cache whenever the app is restarted. NB. sprite,
   // font, and map tile requests might still be cached, only changes in the map
@@ -28,14 +33,13 @@ export function Api ({ baseUrl }) {
     const start = Date.now()
     promise
       .then(data => {
-        logger.log(prefix, Date.now() - start + 'ms')
+        logger.debug(prefix, Date.now() - start + 'ms')
       })
       .catch(error => {
         logger.error(prefix, error)
       })
     return promise
   }
-
   // Request convenience methods that wait for the server to be ready
   function get (url) {
     return logRequest('<GET: ' + url, req.get(url).json())
@@ -44,11 +48,9 @@ export function Api ({ baseUrl }) {
     return logRequest('<DEL: ' + url, req.delete(url).json())
   }
   function put (url, data) {
-    logger.log('>PUT:', url, data)
     return logRequest('<PUT: ' + url, req.put(url, { json: data }).json())
   }
   function post (url, data) {
-    logger.log('>POST:', url, data)
     return logRequest('<POST: ' + url, req.post(url, { json: data }).json())
   }
 
@@ -119,34 +121,47 @@ export function Api ({ baseUrl }) {
       // We sidestep the http API here, and instead of polling the endpoint, we
       // listen for an event from mapeo-core whenever the peers change, then
       // request an updated peer list.
-      function onPeerUpdate (event, ...args) {
-        logger.log('peer-update', args[0])
-        handler.apply(null, args)
+      function onPeerUpdate (peers) {
+        logger.debug('peer-update', peers)
+        handler(peers)
       }
-      ipcRenderer.on('peer-update', onPeerUpdate)
+      ipc.on('peer-update', onPeerUpdate)
       api.syncGetPeers().then(handler)
       return {
-        remove: () => ipcRenderer.removeListener('peer-update', onPeerUpdate)
+        remove: () => ipc.removeListener('peer-update', onPeerUpdate)
       }
     },
 
-    addSyncListener: function addSyncListener (handler) {
-      ipcRenderer.on('sync-complete', handler)
+    addDataChangedListener: function (ev, handler) {
+      ipc.on('sync-complete', handler)
+      ipc.on(ev, handler)
       return {
-        remove: () => ipcRenderer.removeListener('sync-complete', handler)
+        remove: () => {
+          ipc.removeListener('sync-complete', handler)
+          ipc.removeListener(ev, handler)
+        }
       }
+    },
+
+    getEncryptionKey: function () {
+      return new Promise((resolve, reject) => {
+        ipc.send('encryption-key', null, (err, encryptionKey) => {
+          if (err) return reject(err)
+          resolve(encryptionKey)
+        })
+      })
     },
 
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin () {
-      logger.log('Join sync')
-      req.get('sync/join')
+      logger.debug('Join sync')
+      ipc.send('sync-join')
     },
 
     // Stop listening for sync peers and stop advertising
     syncLeave: function syncLeave () {
-      logger.log('Leave sync')
-      req.get('sync/leave')
+      logger.debug('Leave sync')
+      ipc.send('sync-leave')
     },
 
     // Get a list of discovered sync peers
@@ -156,20 +171,14 @@ export function Api ({ baseUrl }) {
 
     // Start sync with a peer
     syncStart: function syncStart (target) {
-      ipcRenderer.send('sync-start', target)
+      ipc.send('sync-start', target)
     },
 
     exportData: function (filename, { format = 'geojson' } = {}) {
-      const channelId = id++
-      ipcRenderer.send('export-data', {
-        filename,
-        format,
-        id: channelId
-      })
       return new Promise((resolve, reject) => {
-        ipcRenderer.once('export-data-' + channelId, (event, err) => {
+        ipc.send('export-data', { filename, format }, (err) => {
           if (err) {
-            logger.error('Export error', err)
+            logger.error('export data', err)
             reject(err)
           } else resolve()
         })
@@ -201,8 +210,6 @@ export function Api ({ baseUrl }) {
 
   return api
 }
-
-export default Api({ baseUrl: BASE_URL })
 
 function mapToArray (map) {
   return Object.keys(map).map(id => ({

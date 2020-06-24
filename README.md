@@ -15,6 +15,12 @@ This project is under active development and we are testing it out in the field 
 
 For a mobile application that is compatible with Mapeo Desktop, see [Mapeo Mobile](https://github.com/digidem/mapeo-mobile).
 
+## Guide
+
+Read the [online user guide](https://digital-democracy.gitbook.io/mapeo/) for
+information on how to install aerial imagery and tiles, custom configurations,
+and more. 
+
 ## Getting Started
 
 To clone and install all dependencies and start a process to re-build the app whenever you change a file:
@@ -23,6 +29,7 @@ To clone and install all dependencies and start a process to re-build the app wh
 git clone git@github.com:digidem/mapeo-desktop.git
 cd mapeo-desktop
 npm install
+npm run build:translations
 npm run watch
 ```
 
@@ -32,12 +39,42 @@ Then, in another terminal, run the app in development mode:
 npm run dev
 ```
 
-## Testing
+Running `npm run dev` will run the background process in an electron window
+that can be stepped through similarly to the front-end code.
+
+To see log messages in real-time while in debug mode, run `tail` in another
+terminal window:
+
+```sh
+tail -f USERDATA/Mapeo/logs/$DATE.debug.log
+```
+
+### Debbugging
+
+Data is stored in `USERDATA/Mapeo` on your machine, which will be different
+depending on your operating system.
+
+USERDATA is the per-user application data directory, which by default points to:
+  * %APPDATA% on Windows
+  * $XDG_CONFIG_HOME or ~/.config on Linux
+  * ~/Library/Application Support on macOS
+
+To simulate a reinstall, remove this `Mapeo` directory.
+
+To only delete data and not presets or tiles, delete the `Mapeo/kappa.db`
+directory.
+
+In production mode, `info` and `error` messages are written to
+`USERDATA/Mapeo/logs/$DATE.log` and kept for 1 year.
+
+In debug mode and development mode (via `npm run dev` or in the Help menu),
+Mapeo will verbosely write all messages for 1 day. 
 
 ### Run a mock device
 
+
 ```sh
-npm run device
+DEBUG=* node `/bin/mock.js` --settings /path/to/my/file.mapeosettings
 ```
 
 This runs a mock testing device that will broadcast itself on the local
@@ -108,31 +145,8 @@ This will use the commit messages to update the changelog and bump the version n
 git push --follow-tags origin master
 ```
 
-This will trigger a build that will upload the installers to the [releases](https://github.com/digidem/mapeo-desktop/releases) page.
+This will trigger a build that will upload the installers to the [releases](https://github.com/digidem/mapeo-desktop/releases) page. It will also upload the reference to the latest versino on the https://mapeo.world website using `bin/release-latest.js`.
 
-## Custom Imagery
-
-See [downloading tiles for offline use](docs/offline_tiles.md).
-
-## Custom Presets
-
-Presets must be placed in this folder:
-
-```txt
-%USERDATA%/Mapeo/presets/default
-```
-
-This folder (`default`) should contain these files directly in under this
-`default` folder (i.e. no sub-folder with a different name):
-
-```txt
-presets.json
-icons/
-  myIcon-medium@1x.png
-  myIcon-medium@2x.png
-  myIcon-medium@3x.png
-  ...etc
-```
 
 ## Community
 

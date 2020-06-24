@@ -61,7 +61,11 @@ const SyncTarget = ({
           <Typography variant='h5' component='h2'>
             {status === 'error' ? t(m.errorMsg) : name}
           </Typography>
-          {status === 'progress' && progress ? (
+          {status === 'error' ? (
+            <Typography className={cx.errorDetail} align='center'>
+              {errorMsg}
+            </Typography>
+          ) : status === 'progress' && progress ? (
             <Typography className={cx.progress} align='center'>
               {t(m.database, {
                 sofar: formatNumber(progress.dbSofar),
@@ -105,6 +109,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: 48
   },
   lastSync: {
+    textAlign: 'center',
+    fontStyle: 'italic'
+  },
+  errorDetail: {
     textAlign: 'center',
     fontStyle: 'italic'
   },

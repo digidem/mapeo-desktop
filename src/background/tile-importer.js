@@ -1,4 +1,3 @@
-const logger = require('electron-timber')
 const mkdirp = require('mkdirp')
 const pump = require('pump')
 const path = require('path')
@@ -6,6 +5,7 @@ const tar = require('tar-fs')
 const asar = require('asar')
 const fs = require('fs')
 
+const logger = require('../logger')
 module.exports = TileImporter
 
 function TileImporter (userData, defaults) {
@@ -35,6 +35,8 @@ TileImporter.prototype.go = function (tilesPath, options, cb) {
     options = TileImporter.defaults
   }
   var self = this
+  // TODO: The caller should prevent double importing
+  // TODO: internationalize error (if this is going to user)
   if (self.editing) return cb(new Error('Tiles importing, please wait...'))
   self.editing = true
   options.id = options.id || options.name.replace(' ', '-') // what else should we normalize?
@@ -46,7 +48,6 @@ TileImporter.prototype.go = function (tilesPath, options, cb) {
   })
 
   function done (err) {
-    logger.error('ERROR(tile-importer)', err)
     self.editing = false
     cb(err)
   }
@@ -82,6 +83,7 @@ TileImporter.prototype.moveTiles = function (tilesPath, tilesDest, cb) {
     if (err) return cb(err)
     mkdirp(tilesDest, err => {
       if (err) return cb(err)
+      // TODO: deprecate asar support
       if (path.extname(tilesPath) === '.asar') {
         var filename = path.basename(tilesPath)
         // because electron treats asar as a folder, not a file.
@@ -109,11 +111,11 @@ TileImporter.prototype.moveTiles = function (tilesPath, tilesDest, cb) {
 }
 
 TileImporter.prototype._createAsar = function (tilesPath, destFile, cb) {
-  logger.log('creating asar', tilesPath, destFile)
+  logger.info('Creating asar', tilesPath, destFile)
   try {
     asar.createPackage(tilesPath, destFile).then(cb)
   } catch (err) {
-    logger.error('ERROR(tile-importer): Got error when creating asar', err)
+    logger.error('ERROR(tile-importer): Got error when creating asar' + tilesPath + ' ' + destFile, err)
     return cb(err)
   }
 }

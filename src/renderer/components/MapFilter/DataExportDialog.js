@@ -23,6 +23,7 @@ import fs from 'fs'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
 import pump from 'pump'
 
+import logger from '../../../logger'
 import createZip from '../../create-zip'
 
 const msgs = defineMessages({
@@ -129,7 +130,7 @@ const ExportDialogContent = ({
     function onSelectFile (filepath) {
       if (values.photos === 'none') {
         fs.writeFile(filepath, exportData, err => {
-          if (err) console.error(err)
+          if (err) logger.error('DataExportDialog: onSelectFile', err)
           handleClose()
         })
         return
@@ -156,7 +157,7 @@ const ExportDialogContent = ({
       const archive = createZip(localFiles, remoteFiles)
 
       pump(archive, output, err => {
-        if (err) console.error(err)
+        if (err) logger.error('DataExportDialog: pump create zip', err)
         handleClose()
       })
     }

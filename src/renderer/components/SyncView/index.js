@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
-import logger from 'electron-timber'
 import { makeStyles } from '@material-ui/core'
 import { remote } from 'electron'
 import { useIntl, defineMessages } from 'react-intl'
 import path from 'path'
 
+import logger from '../../../logger'
 import api from '../../new-api'
 import Searching from './Searching'
 import SyncAppBar from './SyncAppBar'
 import SyncTarget from './SyncTarget'
 import SyncGrid from './SyncGrid'
+import SyncFooter from './SyncFooter'
 
 export const peerStatus = {
   READY: 'ready',
@@ -20,7 +21,11 @@ export const peerStatus = {
 
 const m = defineMessages({
   openSyncFileDialog: 'Select a database to syncronize',
-  createSyncFileDialog: 'Create a new database to syncronize'
+  createSyncFileDialog: 'Create a new database to syncronize',
+  // Error message when trying to sync with an incompatible older version of Mapeo
+  errorMsgVersionThemBad: '{deviceName} needs to upgrade Mapeo',
+  // Error messagewhen trying to sync with an incompatible newer version of Mapeo
+  errorMsgVersionUsBad: 'You need to upgrade Mapeo to sync with {deviceName}'
 })
 
 const fileDialogFilters = [
@@ -35,7 +40,7 @@ const SyncView = ({ focusState }) => {
   const listenForSyncPeers = focusState === 'focused'
   const [peers, syncPeer] = usePeers(listenForSyncPeers)
   const { formatMessage: t } = useIntl()
-  logger.log('render peers', peers)
+  logger.debug('render peers', peers)
 
   const handleClickSelectSyncfile = () => {
     remote.dialog.showOpenDialog(
@@ -84,6 +89,7 @@ const SyncView = ({ focusState }) => {
           ))}
         </SyncGrid>
       )}
+      <SyncFooter />
     </div>
   )
 }
@@ -91,6 +97,7 @@ const SyncView = ({ focusState }) => {
 export default SyncView
 
 function usePeers (listen) {
+  const { formatMessage } = useIntl()
   const lastClosed = useRef(Date.now())
   const [serverPeers, setServerPeers] = useState([])
   const [syncErrors, setSyncErrors] = useState(new Map())
@@ -111,7 +118,7 @@ function usePeers (listen) {
       if (!listen) return
 
       const updatePeers = (updatedServerPeers = []) => {
-        logger.log('Received peer update', updatedServerPeers)
+        logger.debug('Received peer update', updatedServerPeers)
         setServerPeers(updatedServerPeers)
         // NB: use callback version of setState because the new error state
         // depends on the previous error state
@@ -119,7 +126,7 @@ function usePeers (listen) {
           const newErrors = new Map(syncErrors)
           updatedServerPeers.forEach(peer => {
             if (peer.state && peer.state.topic === 'replication-error') {
-              newErrors.set(peer.id, peer.state.message)
+              newErrors.set(peer.id, peer.state)
             }
           })
           return newErrors
@@ -161,14 +168,15 @@ function usePeers (listen) {
         syncRequests,
         serverPeers,
         syncErrors,
-        since: lastClosed.current
+        since: lastClosed.current,
+        formatMessage
       }),
-    [serverPeers, syncErrors, syncRequests]
+    [serverPeers, syncErrors, syncRequests, formatMessage]
   )
 
   const syncPeer = useCallback(
     (peerId, opts) => {
-      logger.log('Request sync start', peerId, serverPeers)
+      logger.info('Request sync start', peerId, serverPeers)
       if (opts && opts.file) return api.syncStart({ filename: peerId })
       const peer = serverPeers.find(peer => peer.id === peerId)
       // Peer could have vanished in the moment the button was pressed
@@ -195,11 +203,22 @@ function usePeers (listen) {
  * If the user is not looking at the screen when sync completes, they might miss
  * it. This function derives a peer status from the server state and any errors
  */
-function getPeersStatus ({ serverPeers = [], syncErrors, syncRequests, since }) {
+function getPeersStatus ({
+  serverPeers = [],
+  syncErrors,
+  syncRequests,
+  since,
+  formatMessage
+}) {
+  logger.debug('get peers status', serverPeers, syncErrors)
   return serverPeers.map(serverPeer => {
     let status = peerStatus.READY
+    let errorMsg
     let complete
     const state = serverPeer.state || {}
+    const name = serverPeer.filename
+      ? path.basename(serverPeer.name)
+      : serverPeer.name
     if (
       state.topic === 'replication-progress' ||
       state.topic === 'replication-started' ||
@@ -211,6 +230,21 @@ function getPeersStatus ({ serverPeers = [], syncErrors, syncRequests, since }) 
       state.topic === 'replication-error'
     ) {
       status = peerStatus.ERROR
+      const error = syncErrors.get(serverPeer.id)
+      if (error && error.code === 'ERR_VERSION_MISMATCH') {
+        if (
+          parseVersionMajor(state.usVersion || '') >
+          parseVersionMajor(state.themVersion || '')
+        ) {
+          errorMsg = formatMessage(m.errorMsgVersionThemBad, {
+            deviceName: name
+          })
+        } else {
+          errorMsg = formatMessage(m.errorMsgVersionUsBad, { deviceName: name })
+        }
+      } else if (error) {
+        errorMsg = error.message || 'Error'
+      }
     } else if (
       (state.lastCompletedDate || 0) > since ||
       state.topic === 'replication-complete'
@@ -220,12 +254,10 @@ function getPeersStatus ({ serverPeers = [], syncErrors, syncRequests, since }) 
     }
     return {
       id: serverPeer.id,
-      name: serverPeer.filename
-        ? path.basename(serverPeer.name)
-        : serverPeer.name,
+      name: name,
       status: status,
       lastCompleted: complete || state.lastCompletedDate,
-      error: syncErrors.get(serverPeer.id),
+      errorMsg: errorMsg,
       progress: getPeerProgress(serverPeer.state),
       deviceType: serverPeer.filename ? 'file' : serverPeer.deviceType
     }
@@ -265,6 +297,11 @@ function getPeerProgress (peerState) {
     dbSofar: peerState.message.db.sofar || 0,
     dbTotal: peerState.message.db.total || 0
   }
+}
+
+export function parseVersionMajor (versionString = '') {
+  const major = Number.parseInt(versionString.split('.')[0])
+  return isNaN(major) ? 0 : major
 }
 
 const useStyles = makeStyles(theme => ({

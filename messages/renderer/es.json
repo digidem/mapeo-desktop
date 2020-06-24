@@ -256,14 +256,20 @@
   },
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} needs to upgrade Mapeo"
+    "message": "'{deviceName}' necesita actualizar a Mapeo"
   },
   "renderer.components.SyncView.index.errorMsgVersionUsBad": {
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": "You need to upgrade Mapeo to sync with {deviceName}"
+    "message": "Tienes que actualizar to versión de Mapeo para poder sincronizar con '{deviceName}'"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Seleccionar base de datos para sincronizar"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": ""
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": ""
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"

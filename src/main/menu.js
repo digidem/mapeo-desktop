@@ -1,15 +1,16 @@
-const { dialog, app, Menu } = require('electron')
+const { shell, dialog, app, Menu } = require('electron')
 
 const userConfig = require('./user-config')
 const i18n = require('./i18n')
-const logger = require('electron-timber')
+const logger = require('../logger')
+
 const t = i18n.t
 
-module.exports = async function createMenu (context) {
+module.exports = async function createMenu (ipc) {
   await app.whenReady()
 
   function setMenu () {
-    var menu = Menu.buildFromTemplate(menuTemplate(context))
+    var menu = Menu.buildFromTemplate(menuTemplate(ipc))
     Menu.setApplicationMenu(menu)
   }
 
@@ -18,7 +19,7 @@ module.exports = async function createMenu (context) {
   i18n.on('locale-change', () => setMenu())
 }
 
-function menuTemplate (context) {
+function menuTemplate (ipc) {
   var template = [
     {
       label: t('menu-file'),
@@ -30,13 +31,12 @@ function menuTemplate (context) {
               title: t('menu-import-tiles'),
               properties: ['openFile'],
               filters: [
-                { name: 'Electron Asar', extensions: ['asar'] },
                 { name: 'Tar', extensions: ['tar'] }
               ]
             }
             dialog.showOpenDialog(opts, function (filenames) {
               if (!filenames || !filenames.length) return
-              app.tiles.go(filenames[0], cb)
+              ipc.send('import-tiles', filenames[0], cb)
               function cb (err) {
                 if (err) {
                   logger.error('[IMPORT TILES] error', err)
@@ -45,7 +45,7 @@ function menuTemplate (context) {
                     t('menu-import-tiles-error-known') + ': ' + err
                   )
                 } else {
-                  logger.log('[IMPORT TILES] success')
+                  logger.debug('[IMPORT TILES] success')
                   dialog.showMessageBox({
                     message: t('menu-import-data-success'),
                     buttons: ['OK']
@@ -68,9 +68,15 @@ function menuTemplate (context) {
               },
               function (filenames) {
                 if (!filenames || !filenames.length) return
-                userConfig.importSettings(focusedWindow, filenames[0], onError)
-                function onError (err) {
-                  if (!err) return
+                userConfig.importSettings(filenames[0], cb)
+                function cb (err) {
+                  if (!err) {
+                    logger.debug('reloading')
+                    ipc.send('reload-config', null, () => {
+                      focusedWindow.webContents.send('force-refresh-window')
+                    })
+                    return
+                  }
                   dialog.showErrorBox(
                     t('menu-import-configuration-error'),
                     t('menu-import-configuration-error-known') + ': ' + err
@@ -96,8 +102,8 @@ function menuTemplate (context) {
               function (filenames) {
                 if (!filenames || !filenames.length) return
                 var filename = filenames[0]
-                logger.log('[IMPORTING]', filename)
-                app.mapeo.importer.importFromFile(filename)
+                logger.info('[IMPORTING]', filename)
+                ipc.send('import-data', filename)
               }
             )
           },
@@ -200,13 +206,13 @@ function menuTemplate (context) {
         {
           label: t('menu-zoom-to-data'),
           click: function (item, focusedWindow) {
-            getDatasetCentroid('node', function (_, loc) {
-              logger.log('RESPONSE(getDatasetCentroid):', loc)
+            ipc.send('zoom-to-data-get-centroid', 'node', function (_, loc) {
+              logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-node', loc)
             })
-            getDatasetCentroid('observation', function (_, loc) {
-              logger.log('RESPONSE(getDatasetCentroid):', loc)
+            ipc.send('zoom-to-data-get-centroid', 'observation', function (_, loc) {
+              logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-observation', loc)
             })
@@ -241,7 +247,25 @@ function menuTemplate (context) {
     {
       label: t('menu-help'),
       role: 'help',
-      submenu: []
+      submenu: [
+        {
+          label: t('menu-debugging'),
+          type: 'checkbox',
+          checked: logger._debug,
+          click: function (item, focusedWindow) {
+            var bool = item.checked
+            logger.debugging(bool)
+            ipc.send('debugging', bool)
+            focusedWindow.webContents.send('debugging', bool)
+          }
+        },
+        {
+          label: t('menu-report'),
+          click: function (item, focusedWindow) {
+            shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
+          }
+        }
+      ]
     }
   ]
 
@@ -304,13 +328,4 @@ function menuTemplate (context) {
   }
 
   return template
-}
-
-function getDatasetCentroid (type, done) {
-  logger.log('STATUS(getDatasetCentroid):', type)
-  app.osm.core.api.stats.getMapCenter(type, function (err, center) {
-    if (err) return logger.error('ERROR(getDatasetCentroid):', err)
-    if (!center) return done(null, null)
-    done(null, [center.lon, center.lat])
-  })
 }

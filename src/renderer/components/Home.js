@@ -14,6 +14,7 @@ import {
 import pkg from '../../../package.json'
 import MapEditor from './MapEditor'
 import LatLonDialog from './dialogs/LatLon'
+import ChangeLanguage from './dialogs/ChangeLanguage'
 import TitleBarShim from './TitleBarShim'
 import MapFilter from './MapFilter'
 import { defineMessages, useIntl } from 'react-intl'
@@ -156,18 +157,24 @@ function TabPanel (props) {
 
 const useTabIndex = createPersistedState('currentView')
 
-export default function Home () {
+export default function Home ({ onSelectLanguage }) {
   const [dialog, setDialog] = React.useState()
   const [tabIndex, setTabIndex] = useTabIndex(0)
   const { formatMessage: t } = useIntl()
 
   React.useEffect(() => {
     const openLatLonDialog = () => setDialog('LatLon')
+    const openChangeLangDialog = () => setDialog('ChangeLanguage')
     const refreshPage = () => window.location.reload()
     ipcRenderer.on('open-latlon-dialog', openLatLonDialog)
+    ipcRenderer.on('change-language-request', openChangeLangDialog)
     ipcRenderer.on('force-refresh-window', refreshPage)
     return () => {
       ipcRenderer.removeListener('open-latlon-dialog', openLatLonDialog)
+      ipcRenderer.removeListener(
+        'change-language-request',
+        openChangeLangDialog
+      )
       ipcRenderer.removeListener('force-refresh-window', openLatLonDialog)
     }
   }, [])
@@ -197,6 +204,16 @@ export default function Home () {
         <TabPanel value={tabIndex} index={1} component={MapFilter} />
         <TabPanel value={tabIndex} index={2} component={SyncView} />
       </TabContent>
+      <ChangeLanguage
+        open={dialog === 'ChangeLanguage'}
+        onCancel={() => {
+          setDialog(null)
+        }}
+        onSelectLanguage={lang => {
+          onSelectLanguage(lang)
+          setDialog(null)
+        }}
+      />
       <LatLonDialog
         open={dialog === 'LatLon'}
         onClose={() => setDialog(null)}

@@ -5,11 +5,12 @@ const electron = require('electron')
 const store = require('../store')
 
 const defaults = {
-  maximize: true,
-  fullscreen: true,
+  maximize: false,
+  fullscreen: false,
   defaultWidth: 800,
   defaultHeight: 600,
-  isMaximized: true
+  isMaximized: true,
+  show: false
 }
 
 /**
@@ -78,7 +79,7 @@ module.exports = function (options) {
     const isValid =
       state && (hasBounds() || state.isMaximized || state.isFullScreen)
     if (!isValid) {
-      state = null
+      state = defaults
       return
     }
 
@@ -118,6 +119,7 @@ module.exports = function (options) {
       store.set('state', state)
     } catch (err) {
       // Don't care
+      state = defaults
     }
   }
 
@@ -166,7 +168,7 @@ module.exports = function (options) {
   try {
     state = store.get('state', defaults)
   } catch (err) {
-    // Don't care
+    state = defaults
   }
 
   // Check state validity

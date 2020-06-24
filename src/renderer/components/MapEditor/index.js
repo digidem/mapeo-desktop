@@ -21,9 +21,6 @@ insertCss(`
   .id-container .pane {
     bottom: 0;
   }
-  .id-container .pane {
-    display: none;
-  }
   .id-container .entity-editor-pane .inspector-body, .id-container .selection-list-pane .inspector-body {
     top: 64px;
   }
@@ -83,6 +80,17 @@ insertCss(`
     min-width: auto;
     padding-left: 8px
   }
+  .id-container #bar .mapeo-toolbar-item.mapeo-spacer {
+    width: 100%;
+    flex-grow: 2;
+  }
+  .id-container #bar .mapeo-toolbar-item {
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: column wrap;
+    justify-content: center;
+    position: relative;
+  }
 `)
 
 const { localStorage, location } = window
@@ -91,7 +99,7 @@ const MapEditor = () => {
   const rootRef = React.useRef()
   const id = React.useRef()
   const customDefs = React.useRef()
-  const { formatMessage: t } = useIntl()
+  const { formatMessage: t, locale } = useIntl()
   const [toolbarEl, setToolbarEl] = React.useState()
 
   const zoomToData = React.useCallback((_, loc) => {
@@ -118,13 +126,15 @@ const MapEditor = () => {
       var saved = history.toJSON()
       id.current.flush()
       if (saved) history.fromJSON(saved)
-      ipcRenderer.send('zoom-to-data-get-centroid', 'node')
+      ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
     }
-    const subscription = api.addSyncListener(() => refreshWindow())
+    const subscription = api.addDataChangedListener('observation-edit', () =>
+      refreshWindow()
+    )
     return () => {
       subscription.remove()
     }
-  }, [])
+  }, [zoomToData])
 
   React.useEffect(function saveLocation () {
     var prevhash = localStorage.getItem('location')
@@ -152,6 +162,10 @@ const MapEditor = () => {
         .assetPath('node_modules/id-mapeo/dist/')
         .preauth({ url: serverUrl })
         .minEditableZoom(window.localStorage.getItem('minEditableZoom') || 14)
+
+      // Calling iD.coreContext() detects the locale from the browser. We need
+      // to override it with the app locale, before we call ui()
+      id.current.locale(locale)
 
       if (!customDefs.current) {
         customDefs.current = id.current
@@ -186,7 +200,7 @@ const MapEditor = () => {
 
         // Add custom buttons to toolbar
         const toolbar = id.current.container().select('#bar')
-        toolbar.append('div').attr('class', 'toolbar-item spacer')
+        toolbar.append('div').attr('class', 'mapeo-toolbar-item mapeo-spacer')
         setToolbarEl(toolbar.append('div').node())
 
         // Update label on map move
@@ -216,7 +230,12 @@ const MapEditor = () => {
         // setTimeout(() => id.current.flush(), 1500)
       })
     },
-    [t]
+    // This should have a dependency of `t` and `locale`, so that it re-runs if
+    // the locale or the `t` function changes, but we don't have an easy way to
+    // teardown iD editor and then recreate it, so we need to never re=-run this
+    // effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   )
 
   function updateSettings () {
@@ -224,7 +243,21 @@ const MapEditor = () => {
     var customCss = ipcRenderer.sendSync('get-user-data', 'css')
     var imagery = ipcRenderer.sendSync('get-user-data', 'imagery')
     var icons = ipcRenderer.sendSync('get-user-data', 'icons')
+    var translations = ipcRenderer.sendSync('get-user-data', 'translations')
 
+    if (translations && id.current) {
+      const currentLocale = id.current.locale()
+      // Todo fallback should be default language of presets. Currently it's
+      // random - it just uses the first locale returned from Object.keys()
+      const translationsInLocale =
+        translations[currentLocale] ||
+        translations[Object.keys(translations)[0]] ||
+        {}
+      if (translationsInLocale.presets) {
+        ;(iD.translations[currentLocale] || iD.translations.en).presets =
+          translationsInLocale.presets
+      }
+    }
     if (presets) {
       const iDPresets = convertPresets(presets)
       if (!id.current) {
@@ -262,49 +295,6 @@ const MapEditor = () => {
 
 export default MapEditor
 
-// refreshWindow () {
-//   if (this.id) {
-//     var history = this.id.history()
-//     var saved = history.toJSON()
-//     this.id.flush()
-//     if (saved) history.fromJSON(saved)
-//     ipcRenderer.send('zoom-to-data-get-centroid', 'node')
-//   }
-// }
-
-// zoomToLatLonResponse (_, lat, lon) {
-//   var self = this
-//   self.id.map().centerEase([lat, lon], 1000)
-//   setTimeout(function () {
-//     self.id.map().zoom(15)
-//   }, 1000)
-// }
-
-// zoomToDataRequest () {
-//   ipcRenderer.send('zoom-to-data-get-centroid', 'node')
-// }
-
-// zoomToDataResponse (_, loc) {
-//   var self = this
-//   var zoom = 14
-//   self.id.map().centerEase(loc, 1000)
-//   setTimeout(function () {
-//     self.id.map().zoom(zoom)
-//   }, 1000)
-// }
-
-// changeLanguageRequest () {
-//   var self = this
-//   var dialogs = Dialogs()
-//   dialogs.prompt(i18n('menu-change-language-title'), function (locale) {
-//     if (locale) {
-//       self.setState({ locale })
-//       ipcRenderer.send('set-locale', locale)
-//       self.id.ui().restart(locale)
-//     }
-//   })
-// }
-
 function latlonToPosString (pos) {
   pos[0] = (Math.floor(pos[0] * 1000000) / 1000000).toString()
   pos[1] = (Math.floor(pos[1] * 1000000) / 1000000).toString()
@@ -313,22 +303,105 @@ function latlonToPosString (pos) {
   return pos.toString()
 }
 
+// iD Editor requires that [fallback presets are
+// defined](https://github.com/openstreetmap/iD/tree/develop/data/presets#custom-presets),
+// so that entities on the map always match _something_.
+const fallbackPresets = {
+  area: {
+    name: 'Area',
+    tags: {},
+    geometry: ['area'],
+    matchScore: 0.1
+  },
+  line: {
+    name: 'Line',
+    tags: {},
+    geometry: ['line'],
+    matchScore: 0.1
+  },
+  point: {
+    name: 'Point',
+    tags: {},
+    geometry: ['point', 'vertex'],
+    matchScore: 0.1
+  },
+  relation: {
+    name: 'Relation',
+    tags: {},
+    geometry: ['relation'],
+    matchScore: 0.1
+  }
+}
+
+// iD Editor requires that a "name" field is always defined.
+const fallbackFields = {
+  name: {
+    key: 'name',
+    type: 'localized',
+    label: 'Name',
+    placeholder: 'Common name (if any)'
+  }
+}
+
 /**
  * Presets for Mapeo use a slightly different schema than presets for iD Editor.
  * Currently the main difference is select_one fields
  */
-function convertPresets (presets) {
-  const fields = { ...presets.fields }
+function convertPresets (presetsObj) {
+  const fields = { ...fallbackFields, ...presetsObj.fields }
+  const presets = { ...fallbackPresets, ...presetsObj.presets }
+
+  // In Mapeo Mobile (and Observation View) we do not yet use the preset.tags
+  // property to match presets to entities on the map. Instead we match based on
+  // categoryId === presetId. For using presets from Mapeo Mobile in iD, if a
+  // preset does not have any properties set on `preset.tags` then we use
+  // `categoryId`
+  Object.keys(presets).forEach(presetId => {
+    const preset = presets[presetId]
+    if (
+      Object.keys(preset.tags || {}).length === 0 &&
+      // Skip for fallback presets `point`, `line`, `area`, `relation`
+      !Object.keys(fallbackPresets).includes(presetId)
+    ) {
+      presets[presetId] = {
+        ...preset,
+        tags: {
+          categoryId: presetId
+        }
+      }
+    }
+  })
 
   Object.keys(fields).forEach(fieldId => {
     const field = fields[fieldId]
     let type
+    let snakeCase
     switch (field.type) {
+      // The iD equivalent of the mapeo select_one is a `combo` field
       case 'select_one':
         type = 'combo'
+        // iD defaults to combo fields being "snake case", which means that it
+        // converts any value selected / entered to snake case. Mapeo defaults
+        // snake_case to false.
+        snakeCase =
+          typeof field.snake_case === 'boolean' ? field.snake_case : false
         break
+      // iD equivalent of select_multiple is `semiCombo`, but note that iD
+      // stores the value as a semi-colon separated string, whereas Mapeo will
+      // store this as an array, so this field is not compatible between the
+      // two.
       case 'select_multiple':
-        type = 'text'
+        type = 'semiCombo'
+        break
+      // Mapeo does not have a `textarea` field, instead text fields have an
+      // appearance of `singleline` or `multiline`, with the default
+      // `multiline`.
+      case 'text':
+        if (!field.appearance || field.appearance === 'multiline') {
+          type = 'textarea'
+        } else {
+          type = 'text'
+        }
         break
       default:
         type = field.type
@@ -336,18 +409,33 @@ function convertPresets (presets) {
 
     fields[fieldId] = {
       ...field,
-      type
+      type,
+      snake_case: snakeCase
     }
-    if (Array.isArray(field.options)) {
-      fields[fieldId].options = field.options.map(opt => {
-        if (opt && opt.value) return opt.value
-        return opt
+
+    // Mapeo supports translatable descriptions of field values for select
+    // fields with an array of option objects with "label" and "value"
+    // properties. iD supports this with a separate property `strings.options`
+    // which is an object of value:name pairs. This does not allow ordering of
+    // options like Mapeo supports.
+    // https://github.com/openstreetmap/iD/tree/develop/data/presets#strings
+    if (
+      Array.isArray(field.options) &&
+      field.options.every(opt => typeof opt === 'object')
+    ) {
+      const mapeoOptions = field.options
+      const iDStringOptions = {}
+      mapeoOptions.forEach(opt => {
+        iDStringOptions[opt.value] = opt.label
       })
+      delete fields[fieldId].options
+      fields[fieldId].strings = { options: iDStringOptions }
     }
   })
 
   return {
-    ...presets,
-    fields
+    ...presetsObj,
+    fields,
+    presets
   }
 }

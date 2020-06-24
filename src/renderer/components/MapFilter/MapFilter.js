@@ -3,12 +3,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import { MapView, ReportView, MediaView } from 'react-mapfilter'
 import { ipcRenderer } from 'electron'
 import debounce from 'lodash/debounce'
-import logger from 'electron-timber'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import mapboxgl from 'mapbox-gl'
 import ErrorBoundary from 'react-error-boundary'
 import { Typography } from '@material-ui/core'
 
+import logger from '../../../logger'
 import Toolbar from './Toolbar'
 import FilterPanel from './FilterPanel'
 import Loading from './Loading'
@@ -141,7 +141,7 @@ function usePresets () {
         setPresets(presetsWithFields)
         setFields(fields)
       } catch (e) {
-        logger.error(e)
+        logger.error('MapFilter get Presets', e)
         setLoading(false)
         setError(e)
       }
@@ -222,9 +222,11 @@ function useObservations () {
   }
 
   useEffect(() => {
-    const subscription = api.addSyncListener(() => {
-      loadObservations()
-    })
+    const subscription = api.addDataChangedListener(
+      'territory-edit',
+      () => {
+        loadObservations()
+      })
     return () => {
       subscription.remove()
     }
@@ -270,8 +272,8 @@ const MapFilter = () => {
     )
   }
 
-  if (observationsError) console.error(observationsError)
-  if (presetsError) console.error(presetsError)
+  if (observationsError) logger.error('observationsError', observationsError)
+  if (presetsError) logger.error('presetsError', presetsError)
 
   return (
     <div className={cx.root}>
