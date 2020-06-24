@@ -176,6 +176,17 @@ class MapeoRPC {
     this.core.exportData(filename, { format, presets }, cb)
   }
 
+  getReplicatingPeers () {
+    return this.core.sync
+      .peers()
+      .filter(
+        peer =>
+          peer.state &&
+        (peer.state.topic === 'replication-started' ||
+          peer.state.topic === 'replication-progress')
+      )
+  }
+
   onReplicationComplete (cb) {
     // Wait for up to 5 minutes for replication to complete
     const timeoutId = setTimeout(() => {
@@ -184,14 +195,7 @@ class MapeoRPC {
     }, 5 * 60 * 1000)
 
     var checkIfDone = () => {
-      const currentlyReplicatingPeers = this.core.sync
-        .peers()
-        .filter(
-          peer =>
-            peer.state &&
-            (peer.state.topic === 'replication-started' ||
-              peer.state.topic === 'replication-progress')
-        )
+      const currentlyReplicatingPeers = this.getReplicatingPeers()
       logger.info(currentlyReplicatingPeers.length + ' peers still replicating')
       if (currentlyReplicatingPeers.length === 0) {
         clearTimeout(timeoutId)
