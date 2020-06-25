@@ -53,7 +53,7 @@
   "menu-report": "Report issue...",
   "save-db-dialog": "Criar uma nova base de dados para sincronizar",
   "open-db-dialog": "Selecionar base de dados para sincronizar",
-  "feedback-contribute-button": "Feedback e Contribuição",
+  "feedback-contribute-button": "Feedback e contribuição",
   "overlay-sync-usb-button": "Sincronizar USB",
   "overlay-sync-wifi-button": "Sincronizar via Wi-Fi",
   "cancel": "Cancelar",
@@ -86,11 +86,11 @@
   "generating-indexes-body": "Recriando índices",
   "menu-import-data": "Importar dados...",
   "menu-import-data-dialog": "Selecionar arquivo para importar...",
-  "menu-import-data-success": "Importação completa!",
+  "menu-import-data-success": "Importação concluída!",
   "menu-import-data-error": "Erro ao importar",
   "convert-progress": "Convertendo observações... {count}% completo",
   "convert-button": "Copiar para o Editor",
   "convert-number": "Você filtrou seus dados para mostrar {count} observações",
-  "convert-detail": "{count} destas ainda não estão no Editor de Mapa. Clique em OK para mover estas {count} observações para o Editor de Mapa.",
-  "convert-nothing": "Todos já estão no Editor de mapas."
+  "convert-detail": "{count} destas ainda não estão no Editor de mapa. Clique em OK para mover estas {count} observações para o Editor de mapa.",
+  "convert-nothing": "Todos já estão no Editor de mapa."
 }
