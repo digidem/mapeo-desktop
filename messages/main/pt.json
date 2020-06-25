@@ -26,7 +26,7 @@
   "menu-export-data-error": "Erro ao exportar",
   "menu-export-data-success": "Exportação concluída!",
   "menu-visualization": "Visualizar",
-  "menu-visualization-reload": "Recarregar página",
+  "menu-visualization-reload": "Atualizar página",
   "menu-visualization-fullscreen": "Ir para tela cheia",
   "menu-visualization-devtools": "Abrir ferramentas do desenvolvedor",
   "menu-zoom-to-data": "Ir para dados",
