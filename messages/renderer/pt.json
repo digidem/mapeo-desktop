@@ -189,12 +189,6 @@
   "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
     "message": "Você precisa se conectar a uma rede Wi-Fi para poder sincronizar dispositivos"
   },
-  "renderer.components.SyncView.SyncAppBar.disconnected": {
-    "message": ""
-  },
-  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
-    "message": ""
-  },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
     "message": "Criar novo arquivo de sincronização…"
@@ -211,18 +205,6 @@
   "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
     "message": "O sinal de conexão está fraco. A sincronização pode levar mais tempo para ser concluída"
   },
-  "renderer.components.SyncView.SyncAppBar.quality": {
-    "message": ""
-  },
-  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
-    "message": ""
-  },
-  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
-    "message": ""
-  },
-  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
-    "message": ""
-  },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
     "message": "Sincronizar a partir de um arquivo…"
@@ -236,12 +218,6 @@
   },
   "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
     "message": "Sua placa Wi-Fi ou sistema operacional (OS) não foi reconhecido"
-  },
-  "renderer.components.SyncView.SyncAppBar.wifiError": {
-    "message": ""
-  },
-  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
-    "message": ""
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
@@ -286,22 +262,8 @@
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
     "message": "Você precisa atualizar o Mapeo para sincronizar com {deviceName}"
   },
-  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
-    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": ""
-  },
-  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
-    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": ""
-  },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Selecionar base de dados para sincronizar"
-  },
-  "renderer.components.dialogs.ChangeLanguage.button-submit": {
-    "message": ""
-  },
-  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": ""
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"
