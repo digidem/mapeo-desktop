@@ -161,7 +161,7 @@
     "message": "Título do mapa"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
-    "message": "Os detalhes abaixo serão úteis para encontrar uma maneira de corrigir isso..."
+    "message": "Os seguintes detalhes serão úteis para encontrar uma forma de corrigir isso…"
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Que pena! Ocorreu um erro"
