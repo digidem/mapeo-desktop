@@ -2,6 +2,8 @@ name: Node CD
 
 on: 
   push:
+    tags:
+      - '*'
     branches:
       - master
   pull_request:
