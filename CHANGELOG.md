@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * Support helperText for fields in iD and improve field display ([#341](https://github.com/digidem/mapeo-desktop/issues/341)) ([fdcb70e](https://github.com/digidem/mapeo-desktop/commit/fdcb70e))
-
+* Better logging and integrate bugsnag ([f55f43d](https://github.com/digidem/mapeo-desktop/commit/f55f43d))
 
 
 ### [5.2.1](https://github.com/digidem/mapeo-desktop/compare/v5.2.0...v5.2.1) (2020-05-07)
