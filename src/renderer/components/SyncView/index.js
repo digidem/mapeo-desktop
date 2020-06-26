@@ -138,8 +138,8 @@ function usePeers (listen) {
           updatedServerPeers.forEach(peer => {
             if (!peer.state) return
             if (
-              peer.state.topic === 'replication-error' ||
-              peer.state.topic === 'replication-complete'
+              (peer.state.topic === 'replication-error' ||
+              peer.state.topic === 'replication-complete') && !peer.connected
             ) {
               newSyncRequests.delete(peer.id)
             }
@@ -226,6 +226,12 @@ function getPeersStatus ({
     ) {
       status = peerStatus.PROGRESS
     } else if (
+      (state.lastCompletedDate || 0) > since ||
+      state.topic === 'replication-complete'
+    ) {
+      status = peerStatus.COMPLETE
+      complete = state.message
+    } else if (
       syncErrors.has(serverPeer.id) ||
       state.topic === 'replication-error'
     ) {
@@ -245,17 +251,13 @@ function getPeersStatus ({
       } else if (error) {
         errorMsg = error.message || 'Error'
       }
-    } else if (
-      (state.lastCompletedDate || 0) > since ||
-      state.topic === 'replication-complete'
-    ) {
-      status = peerStatus.COMPLETE
-      complete = state.message
     }
     return {
       id: serverPeer.id,
       name: name,
       status: status,
+      started: serverPeer.started,
+      connected: serverPeer.connected,
       lastCompleted: complete || state.lastCompletedDate,
       errorMsg: errorMsg,
       progress: getPeerProgress(serverPeer.state),

@@ -28,6 +28,8 @@ const SyncTarget = ({
   name = 'Android Phone',
   // See above peerStatus
   status,
+  // If connected
+  connected,
   // Sync progress object, with props `percent`, `mediaSofar`, `mediaTotal`,
   // `dbSofar`, `dbTotal`
   progress,
@@ -88,6 +90,7 @@ const SyncTarget = ({
           )}
         </div>
         <SyncButton
+          connected={connected}
           onClick={onClick}
           variant={status}
           progress={progress && progress.percent}
