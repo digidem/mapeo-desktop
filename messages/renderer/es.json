@@ -184,26 +184,26 @@
     "message": "Buscando…"
   },
   "renderer.components.SyncView.SyncAppBar.disconnected": {
-    "message": ""
+    "message": "Disconnected"
   },
   "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
-    "message": ""
+    "message": "You first need to connect to a WiFi network before being able to synchronize devices"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
     "message": "Crear nuevo archivo de sincronización…"
   },
   "renderer.components.SyncView.SyncAppBar.quality": {
-    "message": ""
+    "message": "Quality: {quality}%"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
-    "message": ""
+    "message": "The connection signal is excellent"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
-    "message": ""
+    "message": "The connection signal is very poor. Try getting closer to the WiFi router"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
-    "message": ""
+    "message": "The connection signal is weak. The synchronization might take a longer time to complete"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
@@ -214,10 +214,10 @@
     "message": "Equipo disponibles"
   },
   "renderer.components.SyncView.SyncAppBar.wifiError": {
-    "message": ""
+    "message": "Unknown"
   },
   "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
-    "message": ""
+    "message": "Your WiFi card or Operating System (OS) has not been recognized"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
@@ -276,5 +276,8 @@
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Ingresar coordenadas"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Choose a Language"
   }
 }
