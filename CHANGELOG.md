@@ -2,23 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [5.3.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v5.2.1...v5.3.0-beta.0) (2020-06-26)
-
-
-### Bug Fixes
-
-* bugfix with logging when no encryption key ([01be7c6](https://github.com/digidem/mapeo-desktop/commit/01be7c6))
-* don't automatically publish to website until we figure out github actions ([ca14246](https://github.com/digidem/mapeo-desktop/commit/ca14246))
-* React Storybook now runs again ([#357](https://github.com/digidem/mapeo-desktop/issues/357)) ([5d0028e](https://github.com/digidem/mapeo-desktop/commit/5d0028e))
-* update package-lock ([4e38dc7](https://github.com/digidem/mapeo-desktop/commit/4e38dc7))
-
-
-### Features
-
-* Support helperText for fields in iD and improve field display ([#341](https://github.com/digidem/mapeo-desktop/issues/341)) ([fdcb70e](https://github.com/digidem/mapeo-desktop/commit/fdcb70e))
-* Better logging and integrate bugsnag ([f55f43d](https://github.com/digidem/mapeo-desktop/commit/f55f43d))
-
-
 ### [5.2.1](https://github.com/digidem/mapeo-desktop/compare/v5.2.0...v5.2.1) (2020-05-07)
 
 
