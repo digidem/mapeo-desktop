@@ -206,7 +206,7 @@ function notifyReady (done) {
 
 function createWindow (socketName) {
   var APP_NAME = app.getName()
-  var INDEX = 'file://' + path.join(__dirname, './index.html')
+  var INDEX = 'file://' + path.join(__dirname, './static/index.html')
   mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800

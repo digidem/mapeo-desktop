@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
-import { Document, Page } from 'react-pdf/dist/entry.webpack'
+import PdfViewer from './PdfViewer'
 
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
@@ -106,12 +106,8 @@ const ReportView = ({
                     settings={settings}
                   />
                 }>
-                {({ url, loading }) =>
-                  loading ? (
-                    <h2>Loading PDF...</h2>
-                  ) : (
-                    <a href={url}>Download PDF</a>
-                  )
+                {({ url, loading }) => 
+                  loading ? <h2>Loading PDF...</h2> : <PdfViewer url={url} />
                 }
               </BlobProvider>
             </div>
