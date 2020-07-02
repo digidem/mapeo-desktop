@@ -223,6 +223,14 @@
     "description": "Button when sync is complete",
     "message": "Completo"
   },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Disconnected"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Finishing…"
+  },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
     "message": "Reintentar"
@@ -256,28 +264,28 @@
   },
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": "'{deviceName}' necesita actualizar a Mapeo"
+    "message": "{deviceName} needs to upgrade Mapeo"
   },
   "renderer.components.SyncView.index.errorMsgVersionUsBad": {
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": "Tienes que actualizar to versión de Mapeo para poder sincronizar con '{deviceName}'"
+    "message": "You need to upgrade Mapeo to sync with {deviceName}"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Seleccionar base de datos para sincronizar"
   },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Cancel"
+  },
   "renderer.components.dialogs.ChangeLanguage.button-submit": {
-    "message": ""
+    "message": "Submit"
   },
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": ""
+    "message": "Choose a language"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Ingresar coordenadas"
-  },
-  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": "Choose a Language"
   }
 }
