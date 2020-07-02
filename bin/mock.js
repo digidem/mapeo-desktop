@@ -44,7 +44,7 @@ function main () {
     })
   })
 
-  process.on('SIGINT', function () {
+  process.on('exit', function () {
     debug('shutting down')
     device.shutdown(function () {
       console.log('device finished shut down')
@@ -76,11 +76,6 @@ function createMockDevice (userDataPath, opts) {
   })
   server.on('error', function (err) {
     console.trace(err)
-  })
-
-  server.on('close', function () {
-    console.log('closing mapeo')
-    server.mapeo.api.close()
   })
 
   server.mapeo = mapeo
@@ -203,7 +198,8 @@ function createMockData (count, cb) {
 
 function shutdown (cb) {
   var server = this
-  server.mapeo.api.close(function () {
+  // TODO: decouple server and mapeo core
+  server.mapeo.api.core.close(function () {
     server.close(cb)
   })
 }

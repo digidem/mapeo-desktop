@@ -223,6 +223,14 @@
     "description": "Button when sync is complete",
     "message": "Concluída"
   },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": ""
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": ""
+  },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
     "message": "Tentar novamente"
@@ -265,13 +273,19 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Selecionar base de dados para sincronizar"
   },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": ""
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": ""
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Escolha idioma"
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Inserir coordenadas"
-  },
-  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": "Escolha idioma"
   }
 }
