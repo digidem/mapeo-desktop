@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [5.3.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.0...v5.3.0-beta.1) (2020-07-02)
 
-
+* fix: Show 'disconnected' and 'finishing' states in sync button 
 
 ## [5.3.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v5.2.1...v5.3.0-beta.0) (2020-06-26)
 
