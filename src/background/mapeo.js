@@ -12,8 +12,8 @@ const logger = require('../logger')
 const TileImporter = require('./tile-importer')
 const installStatsIndex = require('./osm-stats')
 
-// This is an RPC wrapper for all the things related to mapeo/core
-// much of this code probably could instead be in mapeo/core
+// This is an RPC wrapper for all the things related to mapeo core
+// TODO: much of this code should instead be in mapeo core
 
 class MapeoRPC {
   constructor ({ datadir, userDataPath, ipcSend }) {
@@ -255,6 +255,7 @@ class MapeoRPC {
       const { connection, ...rest } = peer
       return rest
     })
+    logger.debug('sending peer update', peers)
     this.ipcSend('peer-update', peers)
   }
 }
