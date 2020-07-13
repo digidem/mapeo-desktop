@@ -54,6 +54,7 @@
   "menu-status": "Database status",
   "menu-status-incomplete": "The database is missing some entries",
   "menu-status-complete": "Database is OK",
+  "menu-status-error-known": "There was an error",
   "save-db-dialog": "Create a new database to syncronize",
   "open-db-dialog": "Select a database to syncronize",
   "feedback-contribute-button": "Feedback & Contribute",
