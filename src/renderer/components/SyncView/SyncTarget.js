@@ -61,7 +61,7 @@ const SyncTarget = ({
             <PhoneIcon fontSize='inherit' className={cx.icon} />
           )}
           <Typography variant='h5' component='h2'>
-            {status === 'error' ? t(m.errorMsg) : name}
+            {name}
           </Typography>
           {status === 'error' ? (
             <Typography className={cx.errorDetail} align='center'>
