@@ -355,4 +355,3 @@ function menuTemplate (ipc) {
 
   return template
 }
-
