@@ -196,8 +196,8 @@ handlers['get-replicating-peers'] = async () => {
 
 handlers['get-database-status'] = async () => {
   return new Promise((resolve, reject) => {
-    if (!manager.mapeo.core) return reject(new Error('Mapeo must be listening first.'))
-    resolve(manager.mapeo.core.getDatabaseStatus())
+    if (!manager.mapeo) return reject(new Error('Start mapeo before getting active peers!'))
+    manager.mapeo.core.getDatabaseStatus((_, stats) => resolve(stats))
   })
 }
 

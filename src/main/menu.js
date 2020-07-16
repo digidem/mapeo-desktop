@@ -277,8 +277,13 @@ function menuTemplate (ipc) {
                 logger.info('[DATABASE STATUS]', devices)
                 var incomplete = devices.filter((s) => s.sofar < s.total)
                 var message
+                // TODO: make this display more nicely
                 if (!incomplete.length) message = t('menu-status-complete')
-                else message = t('menu-status-incomplete') + '\n' + JSON.stringify(devices, null, 2)
+                else {
+                  var display = incomplete.map(d => `${d.id}\n${d.sofar}/${d.total}`).join('\n\n')
+                  message = t('menu-status-incomplete') + '\n\n' + display
+                }
+
                 dialog.showMessageBox({
                   message: message,
                   buttons: ['OK']
@@ -351,3 +356,4 @@ function menuTemplate (ipc) {
 
   return template
 }
+
