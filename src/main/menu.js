@@ -268,14 +268,13 @@ function menuTemplate (ipc) {
         {
           label: t('menu-status'),
           click: function () {
-            ipc.send('get-database-status', (err, stats) => {
-              var devices = stats.devices
+            ipc.send('get-database-status', (err, feeds) => {
               if (err) {
                 logger.error('[DATABASE STATUS] error', err)
                 dialog.showErrorBox(t('menu-status-error-known') + ': ' + err)
               } else {
-                logger.info('[DATABASE STATUS]', devices)
-                var incomplete = devices.filter((s) => s.sofar < s.total)
+                logger.info('[DATABASE STATUS]', feeds)
+                var incomplete = feeds.filter((s) => s.sofar < s.total)
                 var message
                 // TODO: make this display more nicely
                 if (!incomplete.length) message = t('menu-status-complete')
