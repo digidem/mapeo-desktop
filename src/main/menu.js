@@ -280,7 +280,7 @@ function menuTemplate (ipc) {
                 // TODO: make this display more nicely
                 if (!incomplete.length) message = t('menu-status-complete')
                 else {
-                  var display = incomplete.map(d => `${d.id}\n${d.sofar}/${d.total}`).join('\n\n')
+                  var display = incomplete.map(d => `${d.id.substr(0, 7)}\n${d.sofar}/${d.total}`).join('\n\n')
                   message = t('menu-status-incomplete') + '\n\n' + display
                 }
 
