@@ -356,7 +356,7 @@ function beforeQuit () {
       logger.debug('IPC closed')
 
       worker.cleanup((err) => {
-        if (err) logger.error('Failed to clean up a child process', err)
+        if (err) !isDev ? logger.error('Failed to clean up a child process', err) : logger.debug('Nothing to clean up')
         logger.debug('Successfully removed any stale processes')
 
         closeClosingWindow()
