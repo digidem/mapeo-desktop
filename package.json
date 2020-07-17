@@ -118,7 +118,7 @@
     "react-dom": "^16.3.2",
     "react-error-boundary": "^1.2.5",
     "react-intl": "^3.2.4",
-    "react-mapfilter": "^3.2.2",
+    "react-mapfilter": "^3.2.4",
     "react-transition-group": "^4.3.0",
     "request": "^2.88.0",
     "run-parallel-limit": "^1.0.5",
