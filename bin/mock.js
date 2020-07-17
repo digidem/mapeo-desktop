@@ -184,7 +184,6 @@ function createMockData ({ count, obsOnly }, cb) {
     hq.end(JSON.stringify({ original, thumbnail, preview }))
   }
 
-
   function createObservation (obs, mediaId) {
     if (obs.lat < -90 || obs.lat > 90 || obs.lon < -180 || obs.lon > 180) return console.error('observation has lon/lat out of range:', obs)
     var hq = hyperquest.post(base + '/observations', {
