@@ -5,6 +5,7 @@ import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
 
+import logger from '../../../logger'
 import api from '../../new-api'
 import { defineMessages, useIntl } from 'react-intl'
 import ExportButton from './ExportButton'

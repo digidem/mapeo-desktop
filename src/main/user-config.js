@@ -28,21 +28,8 @@ function getSettings (type) {
   return new Settings(userDataPath).getSettings(type)
 }
 
-function importExampleSettings (cb) {
-  var filename = path.join(
-    __dirname,
-    '..',
-    '..',
-    'static',
-    'settings-jungle-v1.0.0.mapeosettings'
-  )
-  logger.info('Importing example presets')
-  importSettings(filename, cb)
-}
-
 module.exports = {
   importSettings,
   getSettings,
-  getEncryptionKey,
-  importExampleSettings
+  getEncryptionKey
 }
