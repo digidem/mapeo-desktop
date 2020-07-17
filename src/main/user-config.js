@@ -1,5 +1,4 @@
 const app = require('electron').app
-const path = require('path')
 const Settings = require('@mapeo/settings')
 
 const logger = require('../logger')
