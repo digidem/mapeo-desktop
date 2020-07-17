@@ -131,6 +131,9 @@ function usePeers (listen) {
               if (IGNORED_ERROR_CODES.indexOf(peer.state.code) === -1) {
                 newErrors.set(peer.id, peer.state)
               }
+            } else {
+              // no error anymore, let's delete it
+              newErrors.delete(peer.id)
             }
           })
           return newErrors
@@ -143,7 +146,8 @@ function usePeers (listen) {
             if (!peer.state) return
             if (
               (peer.state.topic === 'replication-error' ||
-              peer.state.topic === 'replication-complete') && !peer.connected
+              peer.state.topic === 'replication-complete') &&
+              !peer.connected
             ) {
               newSyncRequests.delete(peer.id)
             }
