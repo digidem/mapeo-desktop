@@ -105,7 +105,7 @@
     "level": "^5.0.0",
     "lodash": "^4.17.4",
     "mapbox-gl": "^1.4.1",
-    "mapeo-server": "^17.0.5",
+    "mapeo-server": "^17.0.6",
     "mapeo-styles": "^3.0.1",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
