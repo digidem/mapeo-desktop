@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.3.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.1...v5.3.0-beta.3) (2020-07-19)
+
+
+### Bug Fixes
+
+* 'missing data' event will not cancel large syncs too early ([98667c7](https://github.com/digidem/mapeo-desktop/commit/98667c7))
+* Add 'Get Database Status' menu item ([#382](https://github.com/digidem/mapeo-desktop/issues/382)) ([809774a](https://github.com/digidem/mapeo-desktop/commit/809774a))
+* After a sync error, keep the device name visible ([#369](https://github.com/digidem/mapeo-desktop/issues/369)) ([d101034](https://github.com/digidem/mapeo-desktop/commit/d101034))
+* Always import default jungle settings ([#370](https://github.com/digidem/mapeo-desktop/issues/370)) ([9746f57](https://github.com/digidem/mapeo-desktop/commit/9746f57))
+* Remove 'All Tags' box during Territory save. Fixes [#378](https://github.com/digidem/mapeo-desktop/issues/378) ([#383](https://github.com/digidem/mapeo-desktop/issues/383)) ([e771efe](https://github.com/digidem/mapeo-desktop/commit/e771efe))
+* upload bugsnag sourcemaps and report build ([#362](https://github.com/digidem/mapeo-desktop/issues/362)) ([cb7a4f7](https://github.com/digidem/mapeo-desktop/commit/cb7a4f7))
+* Various improvements to the Observations screen ([#373](https://github.com/digidem/mapeo-desktop/issues/373)) ([a77019b](https://github.com/digidem/mapeo-desktop/commit/a77019b))
+
+
+
 ## [5.3.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.1...v5.3.0-beta.2) (2020-07-07)
 
 
