@@ -1,6 +1,7 @@
 #!/usr/bin/env electron
 
 const path = require('path')
+const fs = require('fs-extra')
 const minimist = require('minimist')
 const electron = require('electron')
 const isDev = require('electron-is-dev')
@@ -188,8 +189,17 @@ function initDirectories (done) {
   mkdirp.sync(argv.datadir)
   styles.unpackIfNew(userDataPath, function (err) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
+    var customLocation = path.join(userDataPath, 'presets', 'default')
+    fs.stat(path.join(customLocation, 'metadata.json'), function (err) {
+      if (err) {
+        if (err.code === 'ENOENT') {
+          var fallbackPresets = path.join(userDataPath, 'presets', styles.FALLBACK_DIR_NAME)
+          return fs.copy(fallbackPresets, customLocation, done)
+        } else logger.error(err)
+      }
+      done()
+    })
   })
-  done()
 }
 
 function createServers (done) {

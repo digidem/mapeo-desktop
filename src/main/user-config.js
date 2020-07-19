@@ -1,11 +1,12 @@
-var app = require('electron').app
-var Settings = require('@mapeo/settings')
+const app = require('electron').app
+const Settings = require('@mapeo/settings')
 
-var logger = require('../logger')
+const logger = require('../logger')
 
 function importSettings (settingsFile, cb) {
   var userDataPath = app.getPath('userData')
   var settings = new Settings(userDataPath)
+  logger.debug('importing settings', settingsFile, userDataPath)
   settings.importSettings(settingsFile, function (err) {
     if (err) return cb(err)
     cb()
@@ -27,7 +28,7 @@ function getSettings (type) {
 }
 
 module.exports = {
-  importSettings: importSettings,
-  getSettings: getSettings,
-  getEncryptionKey: getEncryptionKey
+  importSettings,
+  getSettings,
+  getEncryptionKey
 }
