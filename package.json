@@ -106,7 +106,7 @@
     "lodash": "^4.17.4",
     "mapbox-gl": "^1.4.1",
     "mapeo-server": "^17.0.6",
-    "mapeo-styles": "^3.0.1",
+    "mapeo-styles": "^3.0.2",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "node-wifi": "^2.0.12",

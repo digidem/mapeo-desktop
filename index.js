@@ -194,6 +194,7 @@ function initDirectories (done) {
       if (err) {
         if (err.code === 'ENOENT') {
           var fallbackPresets = path.join(userDataPath, 'presets', styles.FALLBACK_DIR_NAME)
+          mkdirp.sync(fallbackPresets)
           return fs.copy(fallbackPresets, customLocation, done)
         } else logger.error(err)
       }
