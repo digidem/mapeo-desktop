@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.3.0-beta.4](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.3...v5.3.0-beta.4) (2020-07-21)
+
+
+### Bug Fixes
+
+* Catch issues with default presets on first-time startup ([397fd4b](https://github.com/digidem/mapeo-desktop/commit/397fd4b))
+* Sync file errors would sometimes not show during Sync. ([#385](https://github.com/digidem/mapeo-desktop/issues/385)) ([b7971f9](https://github.com/digidem/mapeo-desktop/commit/b7971f9))
+* Windows users would hit EPERM error on importing configurations … ([#384](https://github.com/digidem/mapeo-desktop/issues/384)) ([a0c6a2d](https://github.com/digidem/mapeo-desktop/commit/a0c6a2d))
+
+
+
 ## [5.3.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.1...v5.3.0-beta.3) (2020-07-19)
 
 
