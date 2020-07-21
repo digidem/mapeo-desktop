@@ -44,7 +44,7 @@ function copyFallbackSettings (fallbackSettings, done) {
   // which is unzipped and includes presets.json, icons, etc
   // e.g., /path/to/Users/miranda/Mapeo/presets/my-default-fallback-settings/
 
-  // XXX: mapeo-server's static router expects 
+  // XXX: mapeo-server's static router expects
   //  - userDataPath/presets/default  ~or~
   //  - fallbackPresetsDir/presets/default
   // And we can't copy these styles directly into
