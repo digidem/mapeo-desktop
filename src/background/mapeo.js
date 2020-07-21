@@ -101,27 +101,21 @@ class MapeoRPC {
 
   _syncWatch (sync) {
     const startTime = Date.now()
-    var onerror = (err) => {
-      logger.error('sync', err)
-      // We handle errors separately/differently for sync
-      // instead of sending to _handleError
-      sync.removeListener('error', onerror)
-      sync.removeListener('progress', this._throttledSendPeerUpdate)
-      sync.removeListener('end', onend)
-    }
-
     var onend = (err) => {
-      if (err) logger.error('sync error', err)
-      this.ipcSend('sync-complete')
-      const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2)
-      logger.info('Sync completed in ' + syncDurationSecs + ' seconds')
-      sync.removeListener('error', onerror)
+      if (err) {
+        logger.error('sync error', err)
+      } else {
+        this.ipcSend('sync-complete')
+        const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2)
+        logger.info('Sync completed in ' + syncDurationSecs + ' seconds')
+      }
+      sync.removeListener('error', onend)
       sync.removeListener('progress', this._throttledSendPeerUpdate)
       sync.removeListener('end', onend)
       this._sendPeerUpdate()
     }
 
-    sync.on('error', onerror)
+    sync.on('error', onend)
     sync.on('progress', this._throttledSendPeerUpdate)
     sync.on('end', onend)
   }
