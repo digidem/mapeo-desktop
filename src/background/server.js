@@ -9,7 +9,8 @@ module.exports = function (osm, media, { ipcSend, staticRoot }) {
   var mapeoRouter = createMapeoRouter(osm, media, {
     staticRoot: staticRoot,
     writeFormat: 'osm-p2p-syncfile',
-    deviceType: 'desktop'
+    deviceType: 'desktop',
+    fallbackPresetsDir: path.join(staticRoot, 'DEFAULT_SETTINGS', 'presets')
   })
 
   var staticHandler = ecstatic({
