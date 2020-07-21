@@ -20,7 +20,7 @@ module.exports = function (win) {
 
   ipc.on('get-user-data', function (event, type) {
     var data = userConfig.getSettings(type)
-    if (!data) logger.debug('unhandled event', type)
+    if (!data) logger.debug('Could not get data for', type)
     event.returnValue = data
   })
 

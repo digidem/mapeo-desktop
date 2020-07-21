@@ -1,7 +1,6 @@
 #!/usr/bin/env electron
 
 const path = require('path')
-const fs = require('fs-extra')
 const minimist = require('minimist')
 const electron = require('electron')
 const isDev = require('electron-is-dev')
@@ -15,6 +14,7 @@ const rabbit = require('electron-rabbit')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+const userConfig = require('./src/main/user-config')
 const Worker = require('./src/worker')
 const logger = require('./src/logger')
 const electronIpc = require('./src/main/ipc')
@@ -187,19 +187,12 @@ function initDirectories (done) {
   mkdirp.sync(path.join(userDataPath, 'styles'))
   mkdirp.sync(path.join(userDataPath, 'presets'))
   mkdirp.sync(argv.datadir)
-  styles.unpackIfNew(userDataPath, function (err) {
+
+  styles.unpackIfNew(userDataPath, function (err, newSettings) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
-    var customLocation = path.join(userDataPath, 'presets', 'default')
-    fs.stat(path.join(customLocation, 'metadata.json'), function (err) {
-      if (err) {
-        if (err.code === 'ENOENT') {
-          var fallbackPresets = path.join(userDataPath, 'presets', styles.FALLBACK_DIR_NAME)
-          mkdirp.sync(fallbackPresets)
-          return fs.copy(fallbackPresets, customLocation, done)
-        } else logger.error(err)
-      }
-      done()
-    })
+    var fallbackSettingsLocation = path.join(userDataPath, 'presets', styles.FALLBACK_DIR_NAME)
+    if (newSettings) userConfig.copyFallbackSettings(fallbackSettingsLocation, done)
+    else done()
   })
 }
 
