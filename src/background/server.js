@@ -6,7 +6,6 @@ var logger = console
 
 module.exports = function (osm, media, { ipcSend, staticRoot }) {
   var osmRouter = createOsmRouter(osm)
-  console.log(staticRoot)
   var mapeoRouter = createMapeoRouter(osm, media, {
     staticRoot: staticRoot,
     writeFormat: 'osm-p2p-syncfile',
