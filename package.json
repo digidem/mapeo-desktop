@@ -163,7 +163,7 @@
     "debug": "^4.1.1",
     "dependency-check": "^3.4.1",
     "electron": "^6.0.10",
-    "electron-builder": "^21.2.0",
+    "electron-builder": "^22.2.0",
     "electron-devtools-installer": "^2.2.4",
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
