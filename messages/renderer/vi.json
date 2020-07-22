@@ -1,19 +1,19 @@
 {
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
-    "message": "Territory"
+    "message": "Lãnh thổ"
   },
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
-    "message": "Observations"
+    "message": "Các quan sát"
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
-    "message": "Synchronize"
+    "message": "Đồng bộ"
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
-    "message": "Close"
+    "message": "Đóng"
   },
   "renderer.components.MapEditor.ExportButton.defaultFilename": {
     "description": "Default filename for map export",
@@ -33,7 +33,7 @@
   },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
-    "message": "Export map data"
+    "message": "Xuất dữ liệu"
   },
   "renderer.components.MapEditor.ExportButton.exportGeoJson": {
     "description": "Menu item for exporting GeoJSON",
@@ -49,18 +49,18 @@
   },
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
-    "message": "Export map data"
+    "message": "Xuất dữ liệu"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback & Contribute"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
-    "message": "Cancel"
+    "message": "Hủy"
   },
   "renderer.components.MapFilter.DataExportDialog.close": {
     "description": "Close button (shown if user has no data to export)",
-    "message": "Close"
+    "message": "Đóng"
   },
   "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
     "description": "Default filename for exported data",
@@ -106,7 +106,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.save": {
     "description": "Save button",
-    "message": "Save"
+    "message": "Lưu"
   },
   "renderer.components.MapFilter.DataExportDialog.title": {
     "description": "Title for webmaps export dialog",
@@ -122,7 +122,7 @@
     "message": "Export Webmap…"
   },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
-    "message": "Filter by…"
+    "message": "Lọc theo…"
   },
   "renderer.components.MapFilter.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
@@ -130,7 +130,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
-    "message": "Cancel"
+    "message": "Hủy"
   },
   "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
     "description": "Label for field to enter map description",
@@ -138,11 +138,11 @@
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
-    "message": "Save"
+    "message": "Lưu"
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": "Map Style"
+    "message": "Kiểu bản đồ"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
@@ -158,7 +158,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
-    "message": "Map Title"
+    "message": "Tiêu đề bản đồ"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
     "message": "The details below will be useful for finding a way to fix this…"
@@ -167,21 +167,21 @@
     "message": "Oh dear! An error has occurred"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
-    "message": "Map"
+    "message": "Bản đồ"
   },
   "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
-    "message": "Media"
+    "message": "Truyền thông"
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
-    "message": "Report"
+    "message": "Báo cáo"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "Make sure devices are turned on and connected to the same wifi network"
+    "message": "Đảm bảo rằng các thiết bị khác được bật lên và kết nối với cùng mạng Wifi"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Searching…"
+    "message": "Tìm kiếm…"
   },
   "renderer.components.SyncView.SyncAppBar.disconnected": {
     "message": "Disconnected"
@@ -222,6 +222,14 @@
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
     "message": "Complete"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Disconnected"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Finishing…"
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
@@ -265,13 +273,19 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Select a database to syncronize"
   },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Cancel"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "Submit"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Choose a language"
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Enter Coordinates"
-  },
-  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": "Choose a Language"
   }
 }
