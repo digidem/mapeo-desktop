@@ -13,13 +13,13 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     strategy:
-      fail-fast: false
+      max-parallel: 1
       matrix:
         config:
           - { os: macos-latest, arch: x64, name: macos-latest }
-          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
-          - { os: windows-latest, arch: x64, name: windows-latest }
-          - { os: windows-latest, arch: ia32, name: windows-latest-32 }
+          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest, needs: [ macos-latest] }
+          - { os: windows-latest, arch: x64, name: windows-latest, needs: [ ubuntu-latest ]  }
+          - { os: windows-latest, arch: ia32, name: windows-latest-32,needs: [ windows-latest] }
 
     steps:
       - name: Context
