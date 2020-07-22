@@ -65,6 +65,10 @@
     "url": "https://github.com/digidem/mapeo-desktop/issues"
   },
   "homepage": "https://github.com/digidem/mapeo-desktop#readme",
+  "optionalDependencies": {
+    "fsevents": "1.2.9"
+  },
+  "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11",
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "@bugsnag/browser": "^7.1.1",
