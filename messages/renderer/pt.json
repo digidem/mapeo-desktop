@@ -225,11 +225,11 @@
   },
   "renderer.components.SyncView.SyncButton.disconnected": {
     "description": "Disconnected",
-    "message": "Disconnected"
+    "message": "Desconectado"
   },
   "renderer.components.SyncView.SyncButton.finishing": {
     "description": "Almost done! But progress is inaccurate.",
-    "message": "Finishing…"
+    "message": "Concluindo…"
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
@@ -274,13 +274,13 @@
     "message": "Selecionar base de dados para sincronizar"
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "renderer.components.dialogs.ChangeLanguage.button-submit": {
-    "message": "Submit"
+    "message": "Ir"
   },
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": "Choose a language"
+    "message": "Escolha idioma"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"
