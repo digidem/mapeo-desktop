@@ -1,4 +1,3 @@
-var path = require('path')
 var { dialog, app, ipcMain } = require('electron')
 
 var logger = require('../logger')
@@ -21,7 +20,7 @@ module.exports = function (win) {
 
   ipc.on('get-user-data', function (event, type) {
     var data = userConfig.getSettings(type)
-    if (!data) logger.debug('unhandled event', type)
+    if (!data) logger.debug('Could not get data for', type)
     event.returnValue = data
   })
 
@@ -35,20 +34,6 @@ module.exports = function (win) {
 
   ipc.on('get-locale', function (ev) {
     ev.returnValue = i18n.locale
-  })
-
-  ipc.on('import-example-presets', function (ev) {
-    var filename = path.join(
-      __dirname,
-      '..',
-      '..',
-      'static',
-      'settings-jungle-v1.0.0.mapeosettings'
-    )
-    userConfig.importSettings(filename, function (err) {
-      if (err) return logger.error(err)
-      logger.info('Example presets imported')
-    })
   })
 
   ipc.on('save-file', function () {

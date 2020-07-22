@@ -28,6 +28,8 @@ const m = defineMessages({
   errorMsgVersionUsBad: 'You need to upgrade Mapeo to sync with {deviceName}'
 })
 
+const IGNORED_ERROR_CODES = ['ECONNABORTED', 'ERR_MISSING_DATA']
+
 const fileDialogFilters = [
   {
     name: 'Mapeo Data (*.mapeodata)',
@@ -126,7 +128,12 @@ function usePeers (listen) {
           const newErrors = new Map(syncErrors)
           updatedServerPeers.forEach(peer => {
             if (peer.state && peer.state.topic === 'replication-error') {
-              newErrors.set(peer.id, peer.state)
+              if (IGNORED_ERROR_CODES.indexOf(peer.state.code) === -1) {
+                newErrors.set(peer.id, peer.state)
+              }
+            } else {
+              // no error anymore, let's delete it
+              newErrors.delete(peer.id)
             }
           })
           return newErrors
@@ -138,8 +145,9 @@ function usePeers (listen) {
           updatedServerPeers.forEach(peer => {
             if (!peer.state) return
             if (
-              peer.state.topic === 'replication-error' ||
-              peer.state.topic === 'replication-complete'
+              (peer.state.topic === 'replication-error' ||
+              peer.state.topic === 'replication-complete') &&
+              !peer.connected
             ) {
               newSyncRequests.delete(peer.id)
             }
@@ -226,8 +234,13 @@ function getPeersStatus ({
     ) {
       status = peerStatus.PROGRESS
     } else if (
-      syncErrors.has(serverPeer.id) ||
-      state.topic === 'replication-error'
+      (state.lastCompletedDate || 0) > since ||
+      state.topic === 'replication-complete'
+    ) {
+      status = peerStatus.COMPLETE
+      complete = state.message
+    } else if (
+      syncErrors.has(serverPeer.id)
     ) {
       status = peerStatus.ERROR
       const error = syncErrors.get(serverPeer.id)
@@ -245,17 +258,13 @@ function getPeersStatus ({
       } else if (error) {
         errorMsg = error.message || 'Error'
       }
-    } else if (
-      (state.lastCompletedDate || 0) > since ||
-      state.topic === 'replication-complete'
-    ) {
-      status = peerStatus.COMPLETE
-      complete = state.message
     }
     return {
       id: serverPeer.id,
       name: name,
       status: status,
+      started: serverPeer.started,
+      connected: serverPeer.connected,
       lastCompleted: complete || state.lastCompletedDate,
       errorMsg: errorMsg,
       progress: getPeerProgress(serverPeer.state),

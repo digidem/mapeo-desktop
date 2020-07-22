@@ -264,6 +264,32 @@ function menuTemplate (ipc) {
           click: function (item, focusedWindow) {
             shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
           }
+        },
+        {
+          label: t('menu-status'),
+          click: function () {
+            ipc.send('get-database-status', (err, feeds) => {
+              if (err) {
+                logger.error('[DATABASE STATUS] error', err)
+                dialog.showErrorBox(t('menu-status-error-known') + ': ' + err)
+              } else {
+                logger.info('[DATABASE STATUS]', feeds)
+                var incomplete = feeds.filter((s) => s.sofar < s.total)
+                var message
+                // TODO: make this display more nicely
+                if (!incomplete.length) message = t('menu-status-complete')
+                else {
+                  var display = incomplete.map(d => `${d.id.substr(0, 7)}\n${d.sofar}/${d.total}`).join('\n\n')
+                  message = t('menu-status-incomplete') + '\n\n' + display
+                }
+
+                dialog.showMessageBox({
+                  message: message,
+                  buttons: ['OK']
+                })
+              }
+            })
+          }
         }
       ]
     }

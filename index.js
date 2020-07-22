@@ -14,6 +14,7 @@ const rabbit = require('electron-rabbit')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+const userConfig = require('./src/main/user-config')
 const Worker = require('./src/worker')
 const logger = require('./src/logger')
 const electronIpc = require('./src/main/ipc')
@@ -186,10 +187,13 @@ function initDirectories (done) {
   mkdirp.sync(path.join(userDataPath, 'styles'))
   mkdirp.sync(path.join(userDataPath, 'presets'))
   mkdirp.sync(argv.datadir)
-  styles.unpackIfNew(userDataPath, function (err) {
+
+  styles.unpackIfNew(userDataPath, function (err, newSettings) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
+    var fallbackSettingsLocation = path.join(userDataPath, 'presets', styles.FALLBACK_DIR_NAME)
+    if (newSettings) userConfig.copyFallbackSettings(fallbackSettingsLocation, done)
+    else done()
   })
-  done()
 }
 
 function createServers (done) {
@@ -356,7 +360,7 @@ function beforeQuit () {
       logger.debug('IPC closed')
 
       worker.cleanup((err) => {
-        if (err) logger.error('Failed to clean up a child process', err)
+        if (err) !isDev ? logger.error('Failed to clean up a child process', err) : logger.debug('Nothing to clean up')
         logger.debug('Successfully removed any stale processes')
 
         closeClosingWindow()
