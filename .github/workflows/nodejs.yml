@@ -13,6 +13,7 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         config:
           - { os: macos-latest, arch: x64, name: macos-latest }
