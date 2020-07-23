@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.3.1](https://github.com/digidem/mapeo-desktop/compare/v5.3.0...v5.3.1) (2020-07-23)
+
+
+### Bug Fixes
+
+* Builds would sometimes fail for Windows ([38f6ace](https://github.com/digidem/mapeo-desktop/commit/38f6ace))
+* Ensure at least 15 seconds between jobs by parallelizing only 1 job at a time ([d1774a0](https://github.com/digidem/mapeo-desktop/commit/d1774a0))
+* fail-fast: false for builds ([91bd0d9](https://github.com/digidem/mapeo-desktop/commit/91bd0d9))
+
+
+
 ## [5.3.0](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.4...v5.3.0) (2020-07-22)
 
 
