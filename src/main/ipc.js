@@ -1,4 +1,3 @@
-const path = require('path')
 const { dialog, app, ipcMain } = require('electron')
 
 const updater = require('./auto-updater')
