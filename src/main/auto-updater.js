@@ -7,6 +7,7 @@ const logger = require('../logger')
 
 // MapeoUpdater emits the 'error' event when there is an internal error with
 // updating. We wrap electron-updater to control the API surface.
+// Never use electron-updater directly in downstream modules.
 
 const PERSISTED_STORE_KEY = 'updater.channel'
 const VALID_CHANNELS = ['beta', 'latest', 'alpha']
@@ -25,13 +26,12 @@ class MapeoUpdater extends events.EventEmitter {
     autoUpdater.on('error', this._onerror)
   }
 
-  // Never use autoUpdater directly in downstream modules.
   get channel () {
     let channel
     try {
       channel = store.get(PERSISTED_STORE_KEY)
     } catch (err) {
-      // library defaults to 'latest' when unset
+      // defaults to 'latest' when unset
       channel = autoUpdater.channel
     }
     if (channel !== autoUpdater.channel) autoUpdater.channel = channel
@@ -55,9 +55,9 @@ class MapeoUpdater extends events.EventEmitter {
       let downloadSpeed
       try {
         downloadSpeed = await networkSpeed.download()
-        logger.info('Got download speed', downloadSpeed)
+        logger.info('[UPDATER] Got download speed', downloadSpeed)
       } catch (err) {
-        logger.error('Error getting download speed', err)
+        logger.error('[UPDATER] Error getting download speed', err)
         downloadSpeed = null
       }
       var args = {
@@ -102,7 +102,10 @@ class MapeoUpdater extends events.EventEmitter {
   downloadUpdate () {
     logger.info('[UPDATER] Download initiated.')
     var promise = autoUpdater.downloadUpdate()
-    promise.catch(this._onerror)
+
+    promise
+      .then(() => logger.error('[UPDATER] Download successful.'))
+      .catch(this._onerror)
     return promise
   }
 
@@ -115,7 +118,7 @@ class MapeoUpdater extends events.EventEmitter {
         .catch(this._onerror)
     } catch (err) {
       // TODO: error codes for internationalization.
-      var error = new Error('Could not update Mapeo.', err)
+      var error = new Error('[UPDATER] Could not check for updates.', err)
       this._onerror(error)
     }
   }
