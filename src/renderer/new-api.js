@@ -36,7 +36,9 @@ function Api ({ baseUrl, ipc }) {
         logger.debug(prefix, Date.now() - start + 'ms')
       })
       .catch(error => {
-        logger.error(prefix, error)
+        // Preset errors aren't fatal errors.
+        if (prefix.indexOf('presets') > -1) logger.info(prefix, error)
+        else logger.error(prefix, error)
       })
     return promise
   }
@@ -60,16 +62,9 @@ function Api ({ baseUrl, ipc }) {
      * GET async methods
      */
 
-    getPresets: function getPresets () {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
-        mapToArray(data.presets)
-      )
-    },
-
-    getFields: function getFields () {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
-        mapToArray(data.fields)
-      )
+    getPresets: function getPresets (id) {
+      if (!id) id = 'default'
+      return get(`presets/${id}/presets.json?${startupTime}`)
     },
 
     getObservations: function getObservations () {
@@ -209,11 +204,4 @@ function Api ({ baseUrl, ipc }) {
   }
 
   return api
-}
-
-function mapToArray (map) {
-  return Object.keys(map).map(id => ({
-    ...map[id],
-    id: id
-  }))
 }

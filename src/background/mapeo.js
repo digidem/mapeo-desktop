@@ -12,15 +12,15 @@ const logger = require('../logger')
 const TileImporter = require('./tile-importer')
 const installStatsIndex = require('./osm-stats')
 
-// This is an RPC wrapper for all the things related to mapeo/core
-// much of this code probably could instead be in mapeo/core
+// This is an RPC wrapper for all the things related to mapeo core
+// TODO: much of this code should instead be in mapeo core
 
 class MapeoRPC {
   constructor ({ datadir, userDataPath, ipcSend }) {
     this.storages = []
     this.config = new Settings(userDataPath)
     this.encryptionKey = this.config.getEncryptionKey()
-    logger.info('got encryptionKey', this.encryptionKey.substr(0, 4))
+    logger.info('got encryptionKey', this.encryptionKey && this.encryptionKey.substr(0, 4))
     this.tiles = TileImporter(userDataPath)
 
     var feedsDir = path.join(datadir, 'storage')
@@ -101,27 +101,21 @@ class MapeoRPC {
 
   _syncWatch (sync) {
     const startTime = Date.now()
-    var onerror = (err) => {
-      logger.error('sync', err)
-      // We handle errors separately/differently for sync
-      // instead of sending to _handleError
-      sync.removeListener('error', onerror)
-      sync.removeListener('progress', this._throttledSendPeerUpdate)
-      sync.removeListener('end', onend)
-    }
-
     var onend = (err) => {
-      if (err) logger.error('sync error', err)
-      this.ipcSend('sync-complete')
-      const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2)
-      logger.info('Sync completed in ' + syncDurationSecs + ' seconds')
-      sync.removeListener('error', onerror)
+      if (err) {
+        logger.error('sync error', err)
+      } else {
+        this.ipcSend('sync-complete')
+        const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2)
+        logger.info('Sync completed in ' + syncDurationSecs + ' seconds')
+      }
+      sync.removeListener('error', onend)
       sync.removeListener('progress', this._throttledSendPeerUpdate)
       sync.removeListener('end', onend)
       this._sendPeerUpdate()
     }
 
-    sync.on('error', onerror)
+    sync.on('error', onend)
     sync.on('progress', this._throttledSendPeerUpdate)
     sync.on('end', onend)
   }
@@ -176,6 +170,17 @@ class MapeoRPC {
     this.core.exportData(filename, { format, presets }, cb)
   }
 
+  getReplicatingPeers () {
+    return this.core.sync
+      .peers()
+      .filter(
+        peer =>
+          peer.state &&
+        (peer.state.topic === 'replication-started' ||
+          peer.state.topic === 'replication-progress')
+      )
+  }
+
   onReplicationComplete (cb) {
     // Wait for up to 5 minutes for replication to complete
     const timeoutId = setTimeout(() => {
@@ -184,14 +189,7 @@ class MapeoRPC {
     }, 5 * 60 * 1000)
 
     var checkIfDone = () => {
-      const currentlyReplicatingPeers = this.core.sync
-        .peers()
-        .filter(
-          peer =>
-            peer.state &&
-            (peer.state.topic === 'replication-started' ||
-              peer.state.topic === 'replication-progress')
-        )
+      const currentlyReplicatingPeers = this.getReplicatingPeers()
       logger.info(currentlyReplicatingPeers.length + ' peers still replicating')
       if (currentlyReplicatingPeers.length === 0) {
         clearTimeout(timeoutId)
@@ -251,6 +249,7 @@ class MapeoRPC {
       const { connection, ...rest } = peer
       return rest
     })
+    logger.debug('sending peer update', peers)
     this.ipcSend('peer-update', peers)
   }
 }

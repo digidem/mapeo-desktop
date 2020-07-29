@@ -1,18 +1,25 @@
 name: Node CD
 
-on: [push]
+on: 
+  push:
+    tags:
+      - '*'
+    branches:
+      - master
+  pull_request:
 
 jobs:
   build:
     runs-on: ${{ matrix.config.os }}
 
     strategy:
+      max-parallel: 1
       matrix:
         config:
           - { os: macos-latest, arch: x64, name: macos-latest }
-          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
-          - { os: windows-latest, arch: x64, name: windows-latest }
-          - { os: windows-latest, arch: ia32, name: windows-latest-32 }
+          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest, needs: [ macos-latest] }
+          - { os: windows-latest, arch: x64, name: windows-latest, needs: [ ubuntu-latest ]  }
+          - { os: windows-latest, arch: ia32, name: windows-latest-32,needs: [ windows-latest] }
 
     steps:
       - name: Context
@@ -54,11 +61,6 @@ jobs:
           WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-      - name: Update website release
-        if: contains(github.ref, '/tags/')
-        run: bin/release_latest.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.WEBSITE_GH_TOKEN }}
       - name: Cleanup artifacts
         run: |
           npx rimraf@2 'dist/!(*.exe|*.deb|*.AppImage|*.dmg)'

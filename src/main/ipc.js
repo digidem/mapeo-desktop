@@ -68,7 +68,7 @@ module.exports = function (ipcSend) {
 
   ipcMain.on('get-user-data', function (event, type) {
     var data = userConfig.getSettings(type)
-    if (!data) logger.debug('unhandled event', type)
+    if (!data) logger.debug('Could not get data for', type)
     event.returnValue = data
   })
 
@@ -82,20 +82,6 @@ module.exports = function (ipcSend) {
 
   ipcMain.on('get-locale', function (ev) {
     ev.returnValue = i18n.locale
-  })
-
-  ipcMain.on('import-example-presets', function (ev) {
-    var filename = path.join(
-      __dirname,
-      '..',
-      '..',
-      'static',
-      'settings-jungle-v1.0.0.mapeosettings'
-    )
-    userConfig.importSettings(filename, function (err) {
-      if (err) return logger.error(err)
-      logger.info('Example presets imported')
-    })
   })
 
   ipcMain.on('save-file', function () {

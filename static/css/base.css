@@ -23,9 +23,16 @@ body {
   overflow: hidden;
 }
 
+/**
+ * iD editor changes
+ */
+
 .modal-padding {
   padding: 10px;
   background-color: --main-bg-color;
+}
+.modal-section.tag-section.raw-tag-editor {
+  display: none;
 }
 
 .modal-full-size button {
@@ -35,6 +42,7 @@ body {
   margin-left: 0px !important;
   width: 100%;
 }
+
 
 .right {
   text-align: right;

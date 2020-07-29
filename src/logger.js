@@ -111,7 +111,6 @@ class Logger {
         message: util.format(...args)
       })
       if (level === 'error') {
-        logger.info('sending bugsnag', args[1])
         Bugsnag.notify(args[1], (event) => {
           event.context = args[0]
         })
