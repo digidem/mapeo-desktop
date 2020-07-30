@@ -4,13 +4,14 @@ import { defineMessages, useIntl } from 'react-intl'
 import Button from '@material-ui/core/Button'
 import FormattedDuration from 'react-intl-formatted-duration'
 import ErrorIcon from '@material-ui/icons/Error'
+import Loader from '../Loader'
 
 import STATES from './states'
 export { default as STATES } from './states'
 
 const m = defineMessages({
   // Title on sync screen when searching for devices
-  updateAvailable: 'Update',
+  updateAvailable: 'Update Available',
   updateNotAvailable: 'Mapeo is up to date! You are on the latest version.',
   downloadButtonText: 'Download now',
   calculatingProgress: 'Estimating...',
@@ -19,10 +20,11 @@ const m = defineMessages({
   restartMapeoButton: 'Restart Mapeo.',
   errorTitle: 'Error',
   errorMessage: 'There was an error and Mapeo could not update. Try again later.',
-  patchUpdate: 'This update includes critical fixes. Please update.',
+  patchUpdate: 'This update includes critical bug fixes. Please update.',
   minorUpdate: 'This update includes improvements that may change your experience.',
   majorUpdate: 'This update will make your application incompatible with earlier verions.',
-  unknownDownloadSpeed: 'Unknown'
+  unknownDownloadSpeed: 'Unknown',
+  estimatedDownloadTime: 'Estimated download time:'
 })
 
 const errors = {
@@ -133,6 +135,7 @@ const DownloadProgressView = ({ cx, update, percent }) => {
 
   return (
     <div className={cx.searchingText}>
+      <Loader />
       <LinearProgress variant='determinate' value={percent} color='secondary' />
       <Typography>
         {estimatedTimeLeft && <FormattedDuration seconds={estimatedTimeLeft} />}
@@ -146,28 +149,28 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
 
   const { size, downloadSpeed, releaseSummary, major, minor, patch } = update.updateInfo
 
-  const estimatedTimeLeft = downloadSpeed ? size / downloadSpeed.bps : false
+  const estimatedDownloadTime = downloadSpeed
+    ? <FormattedDuration seconds={size / downloadSpeed.bps} />
+    : t(m.unknownDownloadSpeed)
 
   return (
     <div className={cx.searchingText}>
       <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
         {t(m.updateAvailable)}
       </Typography>
-      {
-        estimatedTimeLeft
-          ? <FormattedDuration seconds={estimatedTimeLeft} />
-          : t(m.unknownDownloadSpeed)
-      }
 
-      {
-        major
-          ? t(m.majorUpdate)
-          : minor
-            ? t(m.minorUpdate)
-            : patch
-              ? t(m.patchUpdate)
-              : ''
-      }
+      <Typography>
+        {
+          major
+            ? t(m.majorUpdate)
+            : minor
+              ? t(m.minorUpdate)
+              : patch
+                ? t(m.patchUpdate)
+                : ''
+        }
+      </Typography>
+
       <Button
         onClick={setUpdate.downloadUpdate}
         variant='contained'
@@ -175,6 +178,10 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
         color='primary'>
         {t(m.downloadButtonText)}
       </Button>
+
+      <Typography>
+        {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
+      </Typography>
     </div>
   )
 }

@@ -87,11 +87,9 @@ const MapeoIcon = styled(LocationOn)`
 const StyledTabs = styled(Tabs)`
   border-right: 1px solid rgba(0, 0, 0, 0.12);
   -webkit-app-region: no-drag;
-  // HACK in @material-ui/core v4.11 due to theme bug
   .PrivateTabIndicator-root-1 {
     background-color: #ff9933;
   }
-
 `
 
 const StyledTab = styled(Tab)`
