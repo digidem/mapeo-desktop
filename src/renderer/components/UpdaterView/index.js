@@ -4,6 +4,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import Button from '@material-ui/core/Button'
 import FormattedDuration from 'react-intl-formatted-duration'
 import ErrorIcon from '@material-ui/icons/Error'
+import Paper from '@material-ui/core/Paper'
 import Loader from '../Loader'
 
 import STATES from './states'
@@ -42,7 +43,7 @@ export const UpdateTab = ({ update }) => {
       case STATES.DOWNLOADING:
         return <Typography>{t(m.calculatingProgress)}</Typography>
       case STATES.PROGRESS:
-        return <DownloadProgressView cx={cx} percent={update.progress.percent} update={update} />
+        return <Typography>{t(m.downloadProgress)}</Typography>
       case STATES.READY_FOR_RESTART:
         return <Typography>{t(m.restartMapeoButton)}</Typography>
       case STATES.ERROR:
@@ -158,6 +159,9 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
       <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
         {t(m.updateAvailable)}
       </Typography>
+    <Paper>
+      <div className={cx.wrapper}>
+        <div className={cx.content}>
 
       <Typography>
         {
@@ -171,6 +175,10 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
         }
       </Typography>
 
+      <Typography variant='body'>
+        {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
+      </Typography>
+
       <Button
         onClick={setUpdate.downloadUpdate}
         variant='contained'
@@ -178,10 +186,9 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
         color='primary'>
         {t(m.downloadButtonText)}
       </Button>
-
-      <Typography>
-        {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
-      </Typography>
+    </div>
+    </div>
+    </Paper>
     </div>
   )
 }
@@ -239,6 +246,20 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#F5F5F5'
+  },
+  wrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '10%'
+  },
+  content: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   icon: {
     fontSize: 48
