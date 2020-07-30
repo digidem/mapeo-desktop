@@ -10,7 +10,7 @@ export default class ErrorDialog extends React.Component {
       <Dialog open={this.props.open} onClose={this.props.onClose}>
         <DialogTitle>Error</DialogTitle>
         <DialogContent>
-          <textarea cols='20' rows='40' value={this.props.message} disabled={true} />
+          <textarea cols='20' rows='40' value={this.props.message} disabled />
         </DialogContent>
       </Dialog>
     )

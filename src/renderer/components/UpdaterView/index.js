@@ -148,7 +148,7 @@ const DownloadProgressView = ({ cx, update, percent }) => {
 const UpdateAvailableView = ({ cx, update, setUpdate }) => {
   const { formatMessage: t } = useIntl()
 
-  const { size, downloadSpeed, releaseSummary, major, minor, patch } = update.updateInfo
+  const { size, downloadSpeed, major, minor, patch } = update.updateInfo
 
   const estimatedDownloadTime = downloadSpeed
     ? <FormattedDuration seconds={size / downloadSpeed.bps} />
@@ -159,39 +159,41 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
       <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
         {t(m.updateAvailable)}
       </Typography>
-    <Paper>
-      <div className={cx.wrapper}>
-        <div className={cx.content}>
+      <Paper>
+        <div className={cx.wrapper}>
+          <div className={cx.content}>
 
-      <Typography>
-        {
-          major
-            ? t(m.majorUpdate)
-            : minor
-              ? t(m.minorUpdate)
-              : patch
-                ? t(m.patchUpdate)
-                : ''
-        }
-      </Typography>
+            <Typography>
+              {
+                major
+                  ? t(m.majorUpdate)
+                  : minor
+                    ? t(m.minorUpdate)
+                    : patch
+                      ? t(m.patchUpdate)
+                      : ''
+              }
+            </Typography>
 
-      <Typography variant='body'>
-        {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
-      </Typography>
+            <Typography variant='body'>
+              {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
+            </Typography>
 
-      <Button
-        onClick={setUpdate.downloadUpdate}
-        variant='contained'
-        size='large'
-        color='primary'>
-        {t(m.downloadButtonText)}
-      </Button>
-    </div>
-    </div>
-    </Paper>
+            <Button
+              onClick={setUpdate.downloadUpdate}
+              variant='contained'
+              size='large'
+              color='primary'
+            >
+              {t(m.downloadButtonText)}
+            </Button>
+          </div>
+        </div>
+      </Paper>
     </div>
   )
 }
+/*
 
 const ExpandedNotes = ({ releaseSummary }) => {
   return <div>
@@ -204,6 +206,7 @@ const HiddenNotes = ({ releaseSummary }) => {
     <Typography variant='body'>{releaseSummary}</Typography>
   </div>
 }
+*/
 
 const UpdateNotAvailableView = ({ cx, update, downloadUpdateClick }) => {
   const { formatMessage: t } = useIntl()

@@ -3,7 +3,6 @@
 var Hubfs = require('hubfs.js')
 var pkg = require('../package.json')
 
-
 var config = {
   version: pkg.version,
   githubToken: process.env.GITHUB_TOKEN,

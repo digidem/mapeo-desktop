@@ -68,15 +68,15 @@ export default class ImportProgressDialog extends React.Component {
     return <Dialog
       disableBackdropClick
       disableEscapeKeyDown
-      open={open}>
+      open={open}
+    >
       <DialogTitle> {title} </DialogTitle>
       <DialogContent>
         {!complete && <LinearProgress variant='determinate' value={Math.round(index / total) * 100} />}
         {complete &&
           <DialogActions>
             <Button onClick={this.handleOK}>OK</Button>
-          </DialogActions>
-        }
+          </DialogActions>}
       </DialogContent>
     </Dialog>
   }

@@ -116,6 +116,7 @@
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "network-speed": "github:okdistribute/network-speed",
+    "node-fetch": "^2.6.0",
     "node-wifi": "^2.0.12",
     "once": "^1.4.0",
     "osm-p2p": "^5.1.0",
