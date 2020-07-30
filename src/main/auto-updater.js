@@ -1,5 +1,6 @@
 const { autoUpdater } = require('electron-updater')
 const events = require('events')
+const fetch = require('node-fetch')
 
 const networkSpeed = require('./network-speed')
 const store = require('../store')
@@ -20,7 +21,7 @@ class MapeoUpdater extends events.EventEmitter {
     autoUpdater.autoDownload = false
     autoUpdater.logger = logger
     autoUpdater.autoInstallOnAppQuit = true
-    autoUpdater.allowDowngrade = true
+    autoUpdater.allowDowngrade = false
     this._onerror = this._onerror.bind(this)
 
     autoUpdater.on('error', this._onerror)
@@ -48,26 +49,42 @@ class MapeoUpdater extends events.EventEmitter {
     logger.info('[UPDATER] Channel updated to', updater.channel)
   }
 
+  async _getReleaseSummary (version) {
+    let releaseSummary
+    try {
+      const baseUrl = `https://downloads.mapeo.app/desktop/${version}/SUMMARY`
+      releaseSummary = await fetch(baseUrl)
+    } catch (err) {
+      logger.error('[UPDATER] Error getting release notes', err)
+      releaseSummary = null
+    }
+    return releaseSummary
+  }
+
+  async _getDownloadSpeed () {
+    let downloadSpeed
+    try {
+      downloadSpeed = await networkSpeed.download()
+      logger.info('[UPDATER] Got download speed', downloadSpeed)
+    } catch (err) {
+      logger.error('[UPDATER] Error getting download speed', err)
+      downloadSpeed = null
+    }
+    return downloadSpeed
+  }
+
   updateAvailable (onupdate) {
     autoUpdater.on('update-available', async ({
       version, files, path, sha512, releaseDate
     }) => {
-      let downloadSpeed
-      try {
-        downloadSpeed = await networkSpeed.download()
-        logger.info('[UPDATER] Got download speed', downloadSpeed)
-      } catch (err) {
-        logger.error('[UPDATER] Error getting download speed', err)
-        downloadSpeed = null
-      }
       var args = {
         version,
         files,
         path,
         sha512,
         releaseDate,
-        downloadSpeed,
-        releaseSummary: 'TODO: GET RELEASE SUMMARY!'
+        downloadSpeed: this._getDownloadSpeed(),
+        releaseSummary: null // TODO: this._getReleaseSummary(version)
       }
 
       onupdate(args)

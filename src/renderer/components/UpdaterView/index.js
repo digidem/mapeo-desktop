@@ -18,7 +18,11 @@ const m = defineMessages({
   restartMapeoText: 'An update to Mapeo has been downloaded. Restart Mapeo to update.',
   restartMapeoButton: 'Restart Mapeo.',
   errorTitle: 'Error',
-  errorMessage: 'There was an error and Mapeo could not update. Try again later.'
+  errorMessage: 'There was an error and Mapeo could not update. Try again later.',
+  patchUpdate: 'This update includes critical fixes. Please update.',
+  minorUpdate: 'This update includes improvements that may change your experience.',
+  majorUpdate: 'This update will make your application incompatible with earlier verions.',
+  unknownDownloadSpeed: 'Unknown'
 })
 
 const errors = {
@@ -68,16 +72,18 @@ export const UpdaterView = ({ update, setUpdate }) => {
       case STATES.UPDATE_NOT_AVAILABLE:
         return <UpdateNotAvailableView cx={cx} />
       case STATES.ERROR:
-        return <Typography>
-          <ErrorIcon
-            fontSize='inherit'
-            className={cx.icon}
-            style={{ color: 'red' }}
-          />
-          {t(m.errorMessage)}
-          {update.updateInfo.code}
-          {errors[update.updateInfo.code]}
-        </Typography>
+        return (
+          <Typography>
+            <ErrorIcon
+              fontSize='inherit'
+              className={cx.icon}
+              style={{ color: 'red' }}
+            />
+            {t(m.errorMessage)}
+            {update.updateInfo.code}
+            {errors[update.updateInfo.code]}
+          </Typography>
+        )
       default: // STATES.IDLE
         return null
     }
@@ -138,20 +144,29 @@ const DownloadProgressView = ({ cx, update, percent }) => {
 const UpdateAvailableView = ({ cx, update, setUpdate }) => {
   const { formatMessage: t } = useIntl()
 
-  const { size, downloadSpeed, releaseSummary, major, minor } = update.updateInfo
+  const { size, downloadSpeed, releaseSummary, major, minor, patch } = update.updateInfo
 
-  const estimatedTimeLeft = downloadSpeed ? size / downloadSpeed.bps : 'Unknown'
-  const newFeatures = major || minor
+  const estimatedTimeLeft = downloadSpeed ? size / downloadSpeed.bps : false
 
   return (
     <div className={cx.searchingText}>
       <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
         {t(m.updateAvailable)}
       </Typography>
-      <FormattedDuration seconds={estimatedTimeLeft} />
-      {newFeatures
-        ? <ExpandedNotes cx={cx} releaseSummary={releaseSummary} />
-        : <HiddenNotes cx={cx} releaseSummary={releaseSummary} />
+      {
+        estimatedTimeLeft
+          ? <FormattedDuration seconds={estimatedTimeLeft} />
+          : t(m.unknownDownloadSpeed)
+      }
+
+      {
+        major
+          ? t(m.majorUpdate)
+          : minor
+            ? t(m.minorUpdate)
+            : patch
+              ? t(m.patchUpdate)
+              : ''
       }
       <Button
         onClick={setUpdate.downloadUpdate}
@@ -171,7 +186,6 @@ const ExpandedNotes = ({ releaseSummary }) => {
 }
 
 const HiddenNotes = ({ releaseSummary }) => {
-  // TODO: hide notes with some sort of  'learn more' button?
   return <div>
     <Typography variant='body'>{releaseSummary}</Typography>
   </div>
