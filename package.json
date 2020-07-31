@@ -3,7 +3,7 @@
   "name": "mapeo-desktop",
   "description": "Mapping and monitoring in remote environments.",
   "productName": "Mapeo",
-  "version": "5.4.0-beta.1",
+  "version": "5.4.0-beta.2",
   "productDescription": "Offline Map Editor",
   "author": {
     "name": "Digital Democracy",
@@ -238,7 +238,7 @@
           "provider": "github",
           "releaseType": "release"
         }
-      ] 
+      ]
     },
     "linux": {
       "target": [
@@ -256,7 +256,7 @@
           "provider": "github",
           "releaseType": "release"
         }
-      ] 
+      ]
     },
     "dmg": {
       "icon": "build/mapeo_installer.icns",
@@ -284,7 +284,7 @@
           "provider": "github",
           "releaseType": "release"
         }
-      ] 
+      ]
     },
     "files": [
       "**/*",
