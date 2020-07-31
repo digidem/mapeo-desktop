@@ -47,9 +47,11 @@ export const UpdateTab = ({ update }) => {
       case STATES.READY_FOR_RESTART:
         return <Typography>{t(m.restartMapeoButton)}</Typography>
       case STATES.ERROR:
-        return <Typography style={{ color: 'red' }}>
-          {t(m.errorTitle)}
-        </Typography>
+        return (
+          <Typography style={{ color: 'red' }}>
+            {t(m.errorTitle)}
+          </Typography>
+        )
       default: // STATES.IDLE, STATES.UPDATE_NOT_AVAILABLE:
         return null
     }
@@ -150,6 +152,8 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
 
   const { size, downloadSpeed, major, minor, patch } = update.updateInfo
 
+  const handleDownlaoadClick = setUpdate.downloadUpdate
+
   const estimatedDownloadTime = downloadSpeed
     ? <FormattedDuration seconds={size / downloadSpeed.bps} />
     : t(m.unknownDownloadSpeed)
@@ -159,38 +163,37 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
       <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
         {t(m.updateAvailable)}
       </Typography>
-        <Paper className={cx.wrapper}>
-          <div className={cx.content}>
+      <Paper className={cx.wrapper}>
+        <div className={cx.content}>
 
-            <Typography>
-              {
-                major
-                  ? t(m.majorUpdate)
-                  : minor
-                    ? t(m.minorUpdate)
-                    : patch
-                      ? t(m.patchUpdate)
-                      : ''
-              }
-            </Typography>
+          <Typography>
+            {
+              major
+                ? t(m.majorUpdate)
+                : minor
+                  ? t(m.minorUpdate)
+                  : patch
+                    ? t(m.patchUpdate)
+                    : ''
+            }
+          </Typography>
 
-            <Typography className={cx.estimatedDownloadTime}>
-              {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
-            </Typography>
+          <Typography className={cx.estimatedDownloadTime}>
+            {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
+          </Typography>
 
-            <Button
-              onClick={setUpdate.downloadUpdate}
-              className={cx.button}
-              variant='contained'
-              size='large'
-              color='primary'
-            >
-              {t(m.downloadButtonText)}
-            </Button>
+          <Button
+            onClick={handleDownlaoadClick}
+            className={cx.button}
+            variant='contained'
+            size='large'
+            color='primary'
+          >
+            {t(m.downloadButtonText)}
+          </Button>
 
-
-          </div>
-        </Paper>
+        </div>
+      </Paper>
     </div>
   )
 }
