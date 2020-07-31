@@ -228,7 +228,17 @@
       "artifactName": "Installar_Mapeo_v${version}_${os}-${env.ARCH}.${ext}",
       "rfc3161TimeStampServer": "http://timestamp.digicert.com",
       "timeStampServer": "http://timestamp.digicert.com",
-      "publish": ["github", "s3"]
+      "publish": [
+        {
+          "provider": "s3",
+          "bucket": "downloads.mapeo.app",
+          "path": "/desktop"
+        },
+        {
+          "provider": "github",
+          "releaseType": "release"
+        }
+      ] 
     },
     "linux": {
       "target": [
@@ -236,7 +246,17 @@
         "deb"
       ],
       "category": "Utility",
-      "publish": ["github", "s3"]
+      "publish": [
+        {
+          "provider": "s3",
+          "bucket": "downloads.mapeo.app",
+          "path": "/desktop"
+        },
+        {
+          "provider": "github",
+          "releaseType": "release"
+        }
+      ] 
     },
     "dmg": {
       "icon": "build/mapeo_installer.icns",
@@ -254,19 +274,18 @@
           "type": "file"
         }
       ],
-      "publish": ["github", "s3"]
+      "publish": [
+        {
+          "provider": "s3",
+          "bucket": "downloads.mapeo.app",
+          "path": "/desktop"
+        },
+        {
+          "provider": "github",
+          "releaseType": "release"
+        }
+      ] 
     },
-    "publish": [
-      {
-        "provider": "s3",
-        "bucket": "downloads.mapeo.app",
-        "path": "/desktop"
-      },
-      {
-        "provider": "github",
-        "releaseType": "release"
-      }
-    ],
     "files": [
       "**/*",
       "!**/node_modules/osm-p2p-db/benchmark${/*}",
