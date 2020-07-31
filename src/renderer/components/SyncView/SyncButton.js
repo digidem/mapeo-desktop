@@ -97,7 +97,7 @@ const SyncButton = ({ progress, connected, onClick, variant = 'ready' }) => {
             ? t(m.starting)
             : progress === 1
               ? t(m.finishing)
-              : (progress * 100).toFixed(0) + '%' }
+              : (progress * 100).toFixed(0) + '%'}
           <ProgressIcon progress={progress} className={classes.icon} />
         </StyledButton>
       )

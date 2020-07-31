@@ -1,6 +1,7 @@
 const { shell, dialog, app, Menu } = require('electron')
 
 const userConfig = require('./user-config')
+const updater = require('./auto-updater')
 const i18n = require('./i18n')
 const logger = require('../logger')
 
@@ -17,6 +18,16 @@ module.exports = async function createMenu (ipc) {
   setMenu()
   // Re-add the menu every time the locale changes
   i18n.on('locale-change', () => setMenu())
+}
+
+function onUpdate (err, update) {
+  if (err) logger.error('[UPDATER]', err)
+  if (!update) {
+    dialog.showMessageBox({
+      message: t('menu-no-updates-available'),
+      buttons: ['OK']
+    })
+  }
 }
 
 function menuTemplate (ipc) {
@@ -71,7 +82,7 @@ function menuTemplate (ipc) {
                 userConfig.importSettings(filenames[0], cb)
                 function cb (err) {
                   if (!err) {
-                    logger.debug('reloading')
+                    logger.debug('[SYSTEM] Forcing window refresh')
                     ipc.send('reload-config', null, () => {
                       focusedWindow.webContents.send('force-refresh-window')
                     })
@@ -106,6 +117,13 @@ function menuTemplate (ipc) {
                 ipc.send('import-data', filename)
               }
             )
+          },
+          visible: true
+        },
+        {
+          label: t('menu-check-for-updates'),
+          click: function (item, focusedWindow) {
+            updater.checkForUpdates(onUpdate)
           },
           visible: true
         }
@@ -264,6 +282,16 @@ function menuTemplate (ipc) {
           click: function (item, focusedWindow) {
             shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
           }
+        },
+        {
+          label: t('menu-get-beta'),
+          type: 'checkbox',
+          checked: updater.channel === 'beta',
+          click: function (item, focusedWindow) {
+            updater.channel = (updater.channel === 'beta') ? 'latest' : 'beta'
+            updater.checkForUpdates(onUpdate)
+          },
+          visible: true
         },
         {
           label: t('menu-status'),

@@ -87,16 +87,19 @@
     "bugsnag-sourcemaps": "^1.3.0",
     "capture-exit": "^2.0.0",
     "clsx": "^1.0.4",
+    "compare-versions": "^3.6.0",
     "conf": "^6.2.4",
     "core-js": "^3.3.5",
     "d3-dsv": "^1.1.1",
     "date-fns": "^2.1.0",
+    "domain-ping": "^0.1.10",
     "ecstatic": "^2.2.1",
     "electron-context-menu": "^0.15.0",
     "electron-debug": "^1.5.0",
     "electron-is-dev": "^1.1.0",
     "electron-rabbit": "^1.0.1",
     "electron-timber": "^0.5.1",
+    "electron-updater": "^4.2.2",
     "flat": "^5.0.0",
     "fs-extra": "^9.0.1",
     "fs-write-stream-atomic": "^1.0.10",
@@ -113,6 +116,8 @@
     "mapeo-styles": "^3.0.2",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
+    "network-speed": "github:okdistribute/network-speed",
+    "node-fetch": "^2.6.0",
     "node-wifi": "^2.0.12",
     "once": "^1.4.0",
     "osm-p2p": "^5.1.0",
@@ -123,12 +128,14 @@
     "react-dom": "^16.3.2",
     "react-error-boundary": "^1.2.5",
     "react-intl": "^3.2.4",
+    "react-intl-formatted-duration": "^4.0.0",
     "react-mapfilter": "^3.2.4",
     "react-transition-group": "^4.3.0",
     "request": "^2.88.0",
     "run-parallel-limit": "^1.0.5",
     "run-series": "^1.1.4",
     "safe-fs-blob-store": "^1.0.0",
+    "semver": "^7.3.2",
     "signal-exit": "^3.0.3",
     "styled-components": "^3.4.4",
     "subleveldown": "^3.0.1",
@@ -144,6 +151,7 @@
     "@babel/cli": "^7.6.0",
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-export-default-from": "^7.10.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
@@ -207,6 +215,7 @@
     "logError": true
   },
   "build": {
+    "generateUpdatesFilesForAllChannels": true,
     "appId": "org.digital-democracy.mapeo-desktop",
     "productName": "Mapeo",
     "artifactName": "Installar_Mapeo_v${version}_${os}.${ext}",
@@ -247,6 +256,10 @@
       {
         "provider": "github",
         "releaseType": "release"
+      },
+      {
+        "provider": "s3",
+        "bucket": "downloads.mapeo.app"
       }
     ],
     "files": [

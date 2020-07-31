@@ -11,7 +11,7 @@ export default Api({
   baseUrl: BASE_URL
 })
 
-function Api ({ baseUrl, mapeo, ipc }) {
+function Api ({ baseUrl, ipc }) {
   // We append this to requests for presets and map styles, in order to override
   // the local static server cache whenever the app is restarted. NB. sprite,
   // font, and map tile requests might still be cached, only changes in the map

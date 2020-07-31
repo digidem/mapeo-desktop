@@ -6,9 +6,9 @@ const util = require('util')
 const store = require('./store')
 const appVersion = require('../package.json').version
 
-const BUGSNAG_API_KEY = 'fcd92279c11ac971b4bd29b646ec4125'
-
 let Bugsnag
+
+const BUGSNAG_API_KEY = 'fcd92279c11ac971b4bd29b646ec4125'
 
 class Logger {
   constructor () {
