@@ -13,7 +13,6 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     strategy:
-      max-parallel: 1
       matrix:
         config:
           - { os: macos-latest, arch: x64, name: macos-latest }
