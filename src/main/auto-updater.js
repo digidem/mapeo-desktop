@@ -1,6 +1,8 @@
 const { autoUpdater } = require('electron-updater')
 const events = require('events')
 const fetch = require('node-fetch')
+const compareVersions = require('compare-versions')
+const currentVersion = require('../../package.json').version
 
 const networkSpeed = require('./network-speed')
 const store = require('../store')
@@ -77,6 +79,13 @@ class MapeoUpdater extends events.EventEmitter {
     autoUpdater.on('update-available', async ({
       version, files, path, sha512, releaseDate
     }) => {
+      // this is a hack for a bug when you switch between channels,
+      // it'll continue to say there is an update available when there is not
+      // anymore
+      if (compareVersions(version, currentVersion) <= 0) {
+        return logger.info('Version', version, 'was less than curent version', currentVersion, 'ignoring update')
+      }
+
       var args = {
         version,
         files,

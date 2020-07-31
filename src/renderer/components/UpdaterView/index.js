@@ -21,11 +21,11 @@ const m = defineMessages({
   restartMapeoButton: 'Restart Mapeo.',
   errorTitle: 'Error',
   errorMessage: 'There was an error and Mapeo could not update. Try again later.',
-  patchUpdate: 'This update includes critical bug fixes. Please update.',
+  patchUpdate: 'This update includes changes that fix critical errors. Please update as soon as possible.',
   minorUpdate: 'This update includes improvements that may change your experience.',
   majorUpdate: 'This update will make your application incompatible with earlier verions.',
   unknownDownloadSpeed: 'Unknown',
-  estimatedDownloadTime: 'Estimated download time:'
+  estimatedDownloadTime: 'Estimated download time is'
 })
 
 const errors = {
@@ -159,8 +159,7 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
       <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
         {t(m.updateAvailable)}
       </Typography>
-      <Paper>
-        <div className={cx.wrapper}>
+        <Paper className={cx.wrapper}>
           <div className={cx.content}>
 
             <Typography>
@@ -175,21 +174,23 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
               }
             </Typography>
 
-            <Typography variant='body'>
+            <Typography className={cx.estimatedDownloadTime}>
               {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
             </Typography>
 
             <Button
               onClick={setUpdate.downloadUpdate}
+              className={cx.button}
               variant='contained'
               size='large'
               color='primary'
             >
               {t(m.downloadButtonText)}
             </Button>
+
+
           </div>
-        </div>
-      </Paper>
+        </Paper>
     </div>
   )
 }
@@ -263,6 +264,12 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  button: {
+    marginTop: '15px'
+  },
+  estimatedDownloadTime: {
+    margin: '10px 0px'
   },
   icon: {
     fontSize: 48
