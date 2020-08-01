@@ -227,36 +227,14 @@
       "target": "NSIS",
       "artifactName": "Installar_Mapeo_v${version}_${os}-${env.ARCH}.${ext}",
       "rfc3161TimeStampServer": "http://timestamp.digicert.com",
-      "timeStampServer": "http://timestamp.digicert.com",
-      "publish": [
-        {
-          "provider": "s3",
-          "bucket": "downloads.mapeo.app",
-          "path": "/desktop"
-        },
-        {
-          "provider": "github",
-          "releaseType": "release"
-        }
-      ]
+      "timeStampServer": "http://timestamp.digicert.com"
     },
     "linux": {
       "target": [
         "AppImage",
         "deb"
       ],
-      "category": "Utility",
-      "publish": [
-        {
-          "provider": "s3",
-          "bucket": "downloads.mapeo.app",
-          "path": "/desktop"
-        },
-        {
-          "provider": "github",
-          "releaseType": "release"
-        }
-      ]
+      "category": "Utility"
     },
     "dmg": {
       "icon": "build/mapeo_installer.icns",
@@ -273,19 +251,25 @@
           "y": 200,
           "type": "file"
         }
-      ],
-      "publish": [
-        {
-          "provider": "s3",
-          "bucket": "downloads.mapeo.app",
-          "path": "/desktop"
-        },
-        {
-          "provider": "github",
-          "releaseType": "release"
-        }
       ]
     },
+    "publish": [
+      {
+        "provider": "s3",
+        "bucket": "downloads.mapeo.app",
+        "path": "/desktop"
+      },
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "build/app-update.yml",
+        "to": "app-update.yml"
+      }
+    ],
     "files": [
       "**/*",
       "!**/node_modules/osm-p2p-db/benchmark${/*}",
