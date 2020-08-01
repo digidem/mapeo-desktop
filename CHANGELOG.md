@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.2...v5.4.0-beta.3) (2020-08-01)
+
+
+
 ## [5.4.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.1...v5.4.0-beta.2) (2020-07-31)
 
 
