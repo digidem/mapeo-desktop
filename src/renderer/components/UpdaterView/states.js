@@ -4,5 +4,6 @@ export default {
   DOWNLOADING: 2,
   PROGRESS: 3,
   READY_FOR_RESTART: 4,
-  ERROR: 5
+  ERROR: 5,
+  INACTIVE: 99
 }

@@ -86,6 +86,12 @@ class MapeoUpdater extends events.EventEmitter {
         return logger.info('Version', version, 'was less than curent version', currentVersion, 'ignoring update')
       }
 
+      // TODO: Expose this in the UI somehow.
+      if (!this.isActive()) {
+        this.emit('update-inactive')
+        return logger.info('[UPDATER] Must use an AppImage, dmg, or exe for automatic updates.')
+      }
+
       var args = {
         version,
         files,
@@ -126,6 +132,7 @@ class MapeoUpdater extends events.EventEmitter {
   }
 
   downloadUpdate () {
+    if (!this.isActive()) return Promise.reject(new Error('Cannot download.'))
     logger.info('[UPDATER] Download initiated.')
     var promise = autoUpdater.downloadUpdate()
 
@@ -133,6 +140,10 @@ class MapeoUpdater extends events.EventEmitter {
       .then(() => logger.error('[UPDATER] Download successful.'))
       .catch(this._onerror)
     return promise
+  }
+
+  isActive () {
+    return autoUpdater.isUpdaterActive()
   }
 
   checkForUpdates (cb) {

@@ -57,6 +57,13 @@ export default function useUpdater () {
               progress: null,
               state: STATES.AVAILABLE
             })
+            return
+          case 'update-inactive':
+            setUpdate({
+              progress: null,
+              updateInfo: null,
+              state: STATES.UPDATE_INACTIVE
+            })
         }
       })
       return () => {

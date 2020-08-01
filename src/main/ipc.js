@@ -20,17 +20,21 @@ module.exports = function (ipcSend) {
     onError(err)
   })
 
-  updater.updateDownloaded(function (updateInfo) {
+  updater.on('update-inactive', () => {
+    ipcSend('update-status', 'update-inactive')
+  })
+
+  updater.updateDownloaded((updateInfo) => {
     logger.info('[UPDATER] update-downloaded', updateInfo)
     ipcSend('update-status', 'update-downloaded', updateInfo)
   })
 
-  updater.updateNotAvailable(function () {
+  updater.updateNotAvailable(() => {
     logger.info('[UPDATER] update-not-available')
     ipcSend('update-status', 'update-not-available', null)
   })
 
-  updater.downloadProgress(function (updateInfo) {
+  updater.downloadProgress((updateInfo) => {
     logger.info('[UPDATER] update-progress', updateInfo)
     /*
       {
