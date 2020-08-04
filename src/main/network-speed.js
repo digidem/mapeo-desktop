@@ -1,7 +1,7 @@
 const NetworkSpeed = require('network-speed')
 
 async function download () {
-  const fileSizeInBytes = 100000
+  const fileSizeInBytes = 1000000
   const baseUrl = 'https://downloads.mapeo.app/100000.txt'
   const networkSpeed = new NetworkSpeed()
   const speed = await networkSpeed.checkDownloadSpeed(baseUrl, fileSizeInBytes)

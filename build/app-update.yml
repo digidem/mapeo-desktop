@@ -1,4 +1,5 @@
-provider: github
-repo: mapeo-desktop
-owner: digidem
+provider: generic
+url: https://downloads.mapeo.app/desktop
+channel: latest
+
 
