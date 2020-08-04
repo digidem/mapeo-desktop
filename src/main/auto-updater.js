@@ -85,12 +85,13 @@ class MapeoUpdater extends events.EventEmitter {
       if (compareVersions(version, currentVersion) <= 0) {
         return logger.info('Version', version, 'was less than curent version', currentVersion, 'ignoring update')
       }
-
       // TODO: Expose this in the UI somehow.
       if (!this.isActive()) {
         this.emit('update-inactive')
         return logger.info('[UPDATER] Must use an AppImage, dmg, or exe for automatic updates.')
       }
+
+      var downloadSpeed = await this._getDownloadSpeed()
 
       var args = {
         version,
@@ -98,7 +99,7 @@ class MapeoUpdater extends events.EventEmitter {
         path,
         sha512,
         releaseDate,
-        downloadSpeed: this._getDownloadSpeed(),
+        downloadSpeed,
         releaseSummary: null // TODO: this._getReleaseSummary(version)
       }
 
