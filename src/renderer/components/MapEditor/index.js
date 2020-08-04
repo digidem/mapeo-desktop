@@ -126,7 +126,9 @@ const MapEditor = () => {
       var saved = history.toJSON()
       id.current.flush()
       if (saved) history.fromJSON(saved)
-      ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
+      api.zoomToData('node', (_, loc) => {
+        zoomToData(_, loc)
+      })
     }
     const subscription = api.addDataChangedListener('observation-edit', () =>
       refreshWindow()

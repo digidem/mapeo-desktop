@@ -200,6 +200,10 @@ function Api ({ baseUrl, ipc }) {
     // Return the url to a map style
     getMapStyleUrl: function getMapStyleUrl (id) {
       return `${baseUrl}styles/${id}/style.json?${startupTime}`
+    },
+
+    zoomToData: function (type, cb) {
+      ipc.send('zoom-to-data-get-centroid', type, cb)
     }
   }
 

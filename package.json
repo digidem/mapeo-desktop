@@ -11,7 +11,7 @@
   },
   "main": "index.js",
   "engine": {
-    "node": "12.4"
+    "node": "12.14.1"
   },
   "scripts": {
     "clean": "rimraf \"dist/\"",
@@ -170,7 +170,7 @@
     "css-loader": "^3.2.0",
     "debug": "^4.1.1",
     "dependency-check": "^3.4.1",
-    "electron": "^6.0.10",
+    "electron": "^9.1.2",
     "electron-builder": "^22.2.0",
     "electron-devtools-installer": "^2.2.4",
     "eslint": "^6.4.0",
