@@ -21,6 +21,9 @@ function Api (ipcRenderer) {
     },
     quitAndInstall: function () {
       ipcRenderer.send('quit-and-install')
+    },
+    getDownloadSpeed: async function () {
+      await ipcRenderer.invoke('get-download-speed')
     }
   }
 }
