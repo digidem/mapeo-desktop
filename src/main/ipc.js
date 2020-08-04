@@ -57,10 +57,6 @@ module.exports = function (ipcSend) {
     ipcSend('update-status', 'update-available', updateInfo)
   })
 
-  ipcMain.handle('get-download-speed', async function (event) {
-    await updater.getDownloadSpeed()
-  })
-
   ipcMain.on('download-update', function (event) {
     updater.downloadUpdate()
   })

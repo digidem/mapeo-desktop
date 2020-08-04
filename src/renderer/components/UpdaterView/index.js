@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { LinearProgress, Typography, makeStyles } from '@material-ui/core'
 import { defineMessages, useIntl } from 'react-intl'
 import Button from '@material-ui/core/Button'
 import FormattedDuration from 'react-intl-formatted-duration'
 import ErrorIcon from '@material-ui/icons/Error'
 import Paper from '@material-ui/core/Paper'
-
 import Loader from '../Loader'
-import logger from '../../../logger'
-import ipc from '../../electron-ipc'
+
 import STATES from './states'
 export { default as STATES } from './states'
 
@@ -26,7 +24,6 @@ const m = defineMessages({
   patchUpdate: 'This update includes changes that fix critical errors. Please update as soon as possible.',
   minorUpdate: 'This update includes improvements that may change your experience.',
   majorUpdate: 'This update will make your application incompatible with earlier verions.',
-  calculatingDownloadSpeed: 'Calculating...',
   unknownDownloadSpeed: 'Unknown',
   estimatedDownloadTime: 'Estimated download time is'
 })
@@ -153,27 +150,13 @@ const DownloadProgressView = ({ cx, update, percent }) => {
 const UpdateAvailableView = ({ cx, update, setUpdate }) => {
   const { formatMessage: t } = useIntl()
 
-  const [downloadSpeed, setDownloadSpeed] = useState(Infinity)
-
-  useEffect(() => {
-    ipc.getDownloadSpeed().then((downloadSpeed) => {
-      setDownloadSpeed(downloadSpeed)
-    }).catch((err) => {
-      logger.error(err)
-      // Could not get download speed
-      setDownloadSpeed(null)
-    })
-  })
-
-  const { size, major, minor, patch } = update.updateInfo
+  const { size, downloadSpeed, major, minor, patch } = update.updateInfo
 
   const handleDownlaoadClick = setUpdate.downloadUpdate
 
-  const estimatedDownloadTime = downloadSpeed === Infinity
-    ? t(m.calculatingDownloadSpeed)
-    : downloadSpeed === null || downloadSpeed === undefined
-      ? t(m.unknownDownloadSpeed)
-      : <FormattedDuration seconds={size / downloadSpeed.bps} />
+  const estimatedDownloadTime = downloadSpeed
+    ? <FormattedDuration seconds={size / downloadSpeed.bps} />
+    : t(m.unknownDownloadSpeed)
 
   return (
     <div className={cx.searchingText}>
@@ -196,10 +179,7 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
           </Typography>
 
           <Typography className={cx.estimatedDownloadTime}>
-            {t(m.estimatedDownloadTime)}
-          </Typography>
-          <Typography>
-            {estimatedDownloadTime}
+            {t(m.estimatedDownloadTime)} {estimatedDownloadTime}
           </Typography>
 
           <Button
@@ -292,7 +272,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: '15px'
   },
   estimatedDownloadTime: {
-    margin: '15px 0px'
+    margin: '10px 0px'
   },
   icon: {
     fontSize: 48

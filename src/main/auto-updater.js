@@ -63,7 +63,7 @@ class MapeoUpdater extends events.EventEmitter {
     return releaseSummary
   }
 
-  async getDownloadSpeed () {
+  async _getDownloadSpeed () {
     let downloadSpeed
     try {
       downloadSpeed = await networkSpeed.download()
@@ -91,12 +91,15 @@ class MapeoUpdater extends events.EventEmitter {
         return logger.info('[UPDATER] Must use an AppImage, dmg, or exe for automatic updates.')
       }
 
+      var downloadSpeed = await this._getDownloadSpeed()
+
       var args = {
         version,
         files,
         path,
         sha512,
         releaseDate,
+        downloadSpeed,
         releaseSummary: null // TODO: this._getReleaseSummary(version)
       }
 
