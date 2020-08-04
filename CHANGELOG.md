@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.4](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.3...v5.4.0-beta.4) (2020-08-04)
+
+
+### Bug Fixes
+
+* Multiselect field should not error if has select_one data ([#390](https://github.com/digidem/mapeo-desktop/issues/390)) ([820a057](https://github.com/digidem/mapeo-desktop/commit/820a057))
+* Only allow updater when on compatible platforms ([0a2e20a](https://github.com/digidem/mapeo-desktop/commit/0a2e20a))
+* update to electron 9.1.2 ([#389](https://github.com/digidem/mapeo-desktop/issues/389)) ([e148af7](https://github.com/digidem/mapeo-desktop/commit/e148af7))
+
+
+
 ## [5.4.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.2...v5.4.0-beta.3) (2020-08-01)
 
 
