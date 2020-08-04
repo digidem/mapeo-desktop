@@ -133,7 +133,7 @@ class MapeoUpdater extends events.EventEmitter {
   }
 
   downloadUpdate () {
-    if (!this.isActive()) return Promise.reject(new Error('Cannot download.'))
+    if (!this.isActive()) return this._onerror(new Error('Cannot download.'))
     logger.info('[UPDATER] Download initiated.')
     var promise = autoUpdater.downloadUpdate()
 
