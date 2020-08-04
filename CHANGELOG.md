@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.5](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.4...v5.4.0-beta.5) (2020-08-04)
+
+
+### Bug Fixes
+
+* Error where download speed would always show 0 seconds ([702d430](https://github.com/digidem/mapeo-desktop/commit/702d430))
+* Only fetch download speed when opening the Updater tab. ([6e5645f](https://github.com/digidem/mapeo-desktop/commit/6e5645f))
+* Properly return error when updater is inactive ([23cf764](https://github.com/digidem/mapeo-desktop/commit/23cf764))
+* Use https://downloads.mapeo.app for updater endpoint ([89f247c](https://github.com/digidem/mapeo-desktop/commit/89f247c))
+
+
+
 ## [5.4.0-beta.4](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.3...v5.4.0-beta.4) (2020-08-04)
 
 
