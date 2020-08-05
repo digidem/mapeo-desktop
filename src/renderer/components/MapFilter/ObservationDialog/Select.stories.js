@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { action } from '@storybook/addon-actions'
 
 import { SelectOne, SelectMultiple } from './Select'
 
@@ -12,7 +13,7 @@ const countries = [
   { label: 'Andorra' },
   { label: 'Angola' },
   { label: 'Anguilla' },
-  { label: 'Antarctica' },
+  { label: 'Antarctica', value: 1 },
   { label: 'Antigua and Barbuda' },
   { label: 'Argentina' },
   { label: 'Armenia' },
@@ -36,19 +37,27 @@ const countries = [
   },
   { label: 'Bonaire, Sint Eustatius and Saba' },
   { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
+  { label: 'Botswana', value: 'botsy' },
   { label: 'Bouvet Island' },
   { label: 'Brazil' },
   { label: 'British Indian Ocean Territory' },
   { label: 'Brunei Darussalam' }
-].map(item => ({ label: item.label, value: item.value || item.label }))
+]
+  .map(item => ({
+    label: item.label,
+    value: item.value || item.label.toLowerCase().replace(' ', '_')
+  }))
+  .concat(['Other', false, 3, null])
 
 const StateContainer = ({
+  initialValue,
   children
 }: {
+  initialValue: any,
   children: (any, (any) => any) => React.Node
 }) => {
-  const [state, setState] = React.useState('')
+  const [state, setState] = React.useState(initialValue)
+  action('onChange')(state)
   return children(state, setState)
 }
 
@@ -57,7 +66,7 @@ export default {
 }
 
 export const defaultStory = () => (
-  <StateContainer>
+  <StateContainer initialValue={''}>
     {(value, setValue) => (
       <SelectOne
         label="Select Country"
@@ -74,5 +83,40 @@ defaultStory.story = {
 }
 
 export const selectMultiple = () => (
-  <SelectMultiple label="Select Country" value={['England', 'Scotland']} />
+  <StateContainer initialValue={['botsy']}>
+    {(value, setValue) => (
+      <SelectMultiple
+        label="Select Countries"
+        options={countries}
+        value={value}
+        onChange={setValue}
+      />
+    )}
+  </StateContainer>
+)
+
+export const selectMultipleNonStringValue = () => (
+  <StateContainer initialValue={[true, 1]}>
+    {(value, setValue) => (
+      <SelectMultiple
+        label="Select Countries"
+        options={countries}
+        value={value}
+        onChange={setValue}
+      />
+    )}
+  </StateContainer>
+)
+
+export const selectMultipleOldSelectOneValue= () => (
+  <StateContainer initialValue={true}>
+    {(value, setValue) => (
+      <SelectMultiple
+        label="Select Countries"
+        options={countries}
+        value={value}
+        onChange={setValue}
+      />
+    )}
+  </StateContainer>
 )

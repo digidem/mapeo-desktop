@@ -13,7 +13,6 @@ import FormattedFieldname from '../internal/FormattedFieldname'
 import { get } from '../utils/get_set'
 
 import type { Field, JSONObject, Primitive } from '../types'
-import { isEmptyValue } from '../utils/helpers'
 
 const styles = {
   root: {
@@ -230,6 +229,14 @@ const DetailsTable = ({ fields = [], tags = {}, width }: Props) => {
         return renderTable(width)
       }}
     </AutoSizer>
+  )
+}
+
+function isEmptyValue(value) {
+  return (
+    (typeof value === 'string' && value.length === 0) ||
+    value === undefined ||
+    value === null
   )
 }
 

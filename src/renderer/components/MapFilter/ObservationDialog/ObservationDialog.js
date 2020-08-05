@@ -15,9 +15,9 @@ import frLocale from 'date-fns/locale/fr'
 import ptLocale from 'date-fns/locale/pt-BR'
 import esLocale from 'date-fns/locale/es'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel'
-import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import MuiAccordion from '@material-ui/core/Accordion'
+import MuiAccordionSummary from '@material-ui/core/AccordionSummary'
+import MuiAccordionDetails from '@material-ui/core/AccordionDetails'
 import DialogActions from '@material-ui/core/DialogActions'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
@@ -150,7 +150,7 @@ const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => (
   </Dialog>
 )
 
-const ExpansionPanel = withStyles({
+const Accordion = withStyles({
   root: {
     border: '1px solid rgba(0, 0, 0, .125)',
     boxShadow: 'none',
@@ -162,9 +162,9 @@ const ExpansionPanel = withStyles({
     }
   },
   expanded: {}
-})(MuiExpansionPanel)
+})(MuiAccordion)
 
-const ExpansionPanelSummary = withStyles({
+const AccordionSummary = withStyles({
   root: {
     '&$expanded': {
       minHeight: 48
@@ -176,18 +176,19 @@ const ExpansionPanelSummary = withStyles({
     }
   },
   expanded: {}
-})(MuiExpansionPanelSummary)
+})(MuiAccordionSummary)
 
-const ExpansionPanelDetails = withStyles({
+const AccordionDetails = withStyles({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     padding: '0 21px 10px 21px',
     '& > div:first-child': {
       marginTop: 10
     }
   }
-})(MuiExpansionPanelDetails)
+})(MuiAccordionDetails)
 
 const ObservationActions = ({ onDeleteClick }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -335,16 +336,16 @@ const DialogContent = ({
           className={cx.descriptionField}
         />
         {preset.fields.length > 0 && (
-          <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-            <ExpansionPanelSummary
+          <Accordion TransitionProps={{ unmountOnExit: true }}>
+            <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header">
               <Typography component="h2" className={cx.sectionHeading}>
                 <FormattedMessage {...m.detailsHeader} />
               </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            </AccordionSummary>
+            <AccordionDetails>
               {preset.fields.map(field => (
                 <Field
                   key={field.id}
@@ -353,21 +354,21 @@ const DialogContent = ({
                   onChange={handleChange}
                 />
               ))}
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+            </AccordionDetails>
+          </Accordion>
         )}
         {Array.isArray(preset.additionalFields) &&
           preset.additionalFields.length > 0 && (
-            <ExpansionPanel>
-              <ExpansionPanelSummary
+            <Accordion>
+              <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header">
                 <Typography component="h2" className={cx.sectionHeading}>
                   <FormattedMessage {...m.additionalHeader} />
                 </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
+              </AccordionSummary>
+              <AccordionDetails>
                 {preset.additionalFields.map(field => (
                   <Field
                     key={field.id}
@@ -376,8 +377,8 @@ const DialogContent = ({
                     onChange={handleChange}
                   />
                 ))}
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+              </AccordionDetails>
+            </Accordion>
           )}
         <Fade in={dirty}>
           <Collapse in={dirty} className={cx.actions}>
@@ -486,6 +487,7 @@ const useStyles = makeStyles(theme => ({
     height: '100%'
   },
   details: {
+    flexDirection: 'column',
     flex: 1,
     minWidth: 320,
     flexBasis: '33%',

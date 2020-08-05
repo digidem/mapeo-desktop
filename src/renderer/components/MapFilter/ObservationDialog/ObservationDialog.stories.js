@@ -32,8 +32,18 @@ const getPreset = observation => {
       {
         id: 'multi-field',
         key: ['multi'],
-        options: ['one', 'two', 'three'],
+        options: [{label: 'one', value: 1}, {label: 'two', value: 2}, {label: 'three', value: 3}],
         type: 'select_multiple'
+      },
+      {
+        id: 'localized-field',
+        key: ['localized'],
+        type: 'localized'
+      },
+      {
+        id: 'number-field',
+        key: ['num'],
+        type: 'number'
       }
     ]),
     additionalFields: fields.slice(5)
@@ -42,22 +52,26 @@ const getPreset = observation => {
 
 const exampleObservations = require('../../fixtures/observations.json')
 
-export const simple = () => (
-  <ObservationDialog
-    open
-    onRequestClose={action('close')}
-    onSave={action('save')}
-    observation={exampleObservations[1]}
-    getMedia={getMedia}
-    onDeleteObservation={action('delete')}
-  />
-)
+export const simple = () => {
+  const obs = exampleObservations[1]
+  return (
+    <ObservationDialog
+      open
+      getPreset={getPreset}
+      onRequestClose={action('close')}
+      onSave={action('save')}
+      observation={obs}
+      getMedia={getMedia}
+      onDeleteObservation={action('delete')}
+    />
+  )
+}
 
 export const openClose = () => {
   const [open, setOpen] = React.useState(false)
   const obs =
     exampleObservations[Math.floor(Math.random() * exampleObservations.length)]
-  obs.tags.multi = ['one', 'two', 'three']
+  obs.tags.multi = [1, 2, 3]
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Dialog</Button>

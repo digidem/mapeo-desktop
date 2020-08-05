@@ -1,7 +1,10 @@
 // @flow
-import React, { useState, useMemo } from 'react'
+import React, { useState, useLayoutEffect, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
+import ReportViewContent, {
+  type ReportViewContentProps
+} from './ReportViewContent'
 import ViewWrapper, { type CommonViewProps } from '../ViewWrapper'
 import Toolbar from '../internal/Toolbar'
 import { useIntl } from 'react-intl'
@@ -64,6 +67,23 @@ const ReportView = ({
       })
   })
 
+  useLayoutEffect(() => {
+    if (!print) return
+    let didCancel = false
+
+    // Wait for map to render
+    // TODO: SUPER hacky - we need to wait for the map to render
+    const timeoutId = setTimeout(() => {
+      if (didCancel) return
+      window.print()
+      setPrint(false)
+    }, 3000)
+    return () => {
+      didCancel = true
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [print])
+
   return (
     <ViewWrapper
       observations={observations}
@@ -90,6 +110,11 @@ const ReportView = ({
         return (
           <div className={cx.root}>
             <Toolbar>
+              <PrintButton
+                requestPrint={() => setPrint(true)}
+                changePaperSize={newSize => setPaperSize(newSize)}
+                paperSize={paperSize}
+              />
               <HideFieldsButton
                 fieldState={fieldState}
                 onFieldStateUpdate={setFieldState}
@@ -118,6 +143,8 @@ const ReportView = ({
   )
 }
 
+export default ReportView
+
 function hiddenFieldsFilter(fieldState: FieldState) {
   return function(field: Field): boolean {
     const state = fieldState.find(fs => {
@@ -130,8 +157,6 @@ function hiddenFieldsFilter(fieldState: FieldState) {
   }
 }
 
-export default ReportView
-
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'absolute',
@@ -139,10 +164,13 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     bottom: 0,
     display: 'flex',
-    flexDirection: 'column'
-  },
-  reportPreview: {
-    flex: 1,
-    overflowY: 'scroll'
+    flexDirection: 'column',
+    '@media only print': {
+      width: 'auto',
+      height: 'auto',
+      position: 'static',
+      backgroundColor: 'inherit',
+      display: 'block'
+    }
   }
 }))

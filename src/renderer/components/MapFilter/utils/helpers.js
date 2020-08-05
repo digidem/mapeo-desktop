@@ -1,5 +1,5 @@
 // @flow
-import mime from 'mime/lite'
+import mime from 'mime'
 import type { Observation } from 'mapeo-schema'
 
 import { getFields as getFieldsFromTags } from '../lib/data_analysis'
@@ -92,12 +92,4 @@ export function parseDateString(str: string): Date | void {
     return Number.isNaN(date) ? undefined : new Date(date)
   }
   return new Date(+match[1], +match[2] - 1, +match[3])
-}
-
-export function isEmptyValue(value) {
-  return (
-    (typeof value === 'string' && value.length === 0) ||
-    value === undefined ||
-    value === null
-  )
 }

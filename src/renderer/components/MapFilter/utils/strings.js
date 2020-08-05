@@ -22,6 +22,18 @@ export function getLocalizedFieldProp(
   return label
 }
 
+export function primitiveToString(
+  value: string | boolean | number | null
+): string {
+  if (typeof value === 'string') return value
+  // TODO: Create translatable strings
+  if (typeof value === 'boolean') return value ? 'True' : 'False'
+  if (typeof value === 'number') return value.toString()
+  // TODO: what to show (translated) for "null" field (vs. undefined)
+  if (value === null) return 'No Value'
+  return ''
+}
+
 export function fieldKeyToLabel(key: Key): string | string[] {
   const fieldkey = typeof key === 'string' ? [key] : [...key]
   const labelArray = fieldkey.map(s => titleCase(s + ''))
