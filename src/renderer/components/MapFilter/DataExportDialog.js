@@ -117,19 +117,19 @@ const ExportDialogContent = ({
         title: t(msgs.title),
         defaultPath: t(msgs.defaultExportFilename) + '.' + saveExt,
         filters: [{ name: saveExt + ' files', extensions: [saveExt] }]
-      },
-      filepath => {
-        const filepathWithExtension = path.join(
-          path.dirname(filepath),
-          path.basename(filepath, '.' + saveExt) + '.' + saveExt
-        )
-        onSelectFile(filepathWithExtension)
       }
-    )
+    ).then(({ canceled, filePath }) => {
+      if (canceled) return handleClose()
+      const filepathWithExtension = path.join(
+        path.dirname(filePath),
+        path.basename(filePath, '.' + saveExt) + '.' + saveExt
+      )
+      onSelectFile(filepathWithExtension)
+    })
 
-    function onSelectFile (filepath) {
+    function onSelectFile (filePath) {
       if (values.photos === 'none') {
-        fs.writeFile(filepath, exportData, err => {
+        fs.writeFile(filePath, exportData, err => {
           if (err) logger.error('DataExportDialog: onSelectFile', err)
           handleClose()
         })
@@ -153,7 +153,7 @@ const ExportDialogContent = ({
         url: getMediaUrl(id, values.photos),
         metadataPath: 'images/' + id
       }))
-      const output = fsWriteStreamAtomic(filepath)
+      const output = fsWriteStreamAtomic(filePath)
       const archive = createZip(localFiles, remoteFiles)
 
       pump(archive, output, err => {

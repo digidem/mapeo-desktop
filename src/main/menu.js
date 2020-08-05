@@ -37,7 +37,7 @@ function menuTemplate (ipc) {
       submenu: [
         {
           label: t('menu-import-tiles'),
-          click: function (item, focusedWindow) {
+          click: async function (item, focusedWindow) {
             var opts = {
               title: t('menu-import-tiles'),
               properties: ['openFile'],
@@ -45,63 +45,63 @@ function menuTemplate (ipc) {
                 { name: 'Tar', extensions: ['tar'] }
               ]
             }
-            dialog.showOpenDialog(opts, function (filenames) {
-              if (!filenames || !filenames.length) return
-              ipc.send('import-tiles', filenames[0], cb)
-              function cb (err) {
-                if (err) {
-                  logger.error('[IMPORT TILES] error', err)
-                  dialog.showErrorBox(
-                    t('menu-import-tiles-error'),
-                    t('menu-import-tiles-error-known') + ': ' + err
-                  )
-                } else {
-                  logger.debug('[IMPORT TILES] success')
-                  dialog.showMessageBox({
-                    message: t('menu-import-data-success'),
-                    buttons: ['OK']
-                  })
-                }
+            const result = await dialog.showOpenDialog(opts)
+            if (result.canceled) return
+            if (!result.filePaths || !result.filePaths.length) return
+            ipc.send('import-tiles', result.filePaths[0], cb)
+            function cb (err) {
+              if (err) {
+                logger.error('[IMPORT TILES] error', err)
+                dialog.showErrorBox(
+                  t('menu-import-tiles-error'),
+                  t('menu-import-tiles-error-known') + ': ' + err
+                )
+              } else {
+                logger.debug('[IMPORT TILES] success')
+                dialog.showMessageBox({
+                  message: t('menu-import-data-success'),
+                  buttons: ['OK']
+                })
               }
-            })
+            }
           }
         },
         {
           label: t('menu-import-configuration'),
-          click: function (item, focusedWindow) {
-            dialog.showOpenDialog(
+          click: async function (item, focusedWindow) {
+            const result = await dialog.showOpenDialog(
               {
                 title: t('menu-import-configuration-dialog'),
                 filters: [
                   { name: 'Mapeo Settings', extensions: ['mapeosettings'] }
                 ],
                 properties: ['openFile']
-              },
-              function (filenames) {
-                if (!filenames || !filenames.length) return
-                userConfig.importSettings(filenames[0], cb)
-                function cb (err) {
-                  if (!err) {
-                    logger.debug('[SYSTEM] Forcing window refresh')
-                    ipc.send('reload-config', null, () => {
-                      focusedWindow.webContents.send('force-refresh-window')
-                    })
-                    return
-                  }
-                  dialog.showErrorBox(
-                    t('menu-import-configuration-error'),
-                    t('menu-import-configuration-error-known') + ': ' + err
-                  )
-                }
               }
             )
+            logger.info('[MENU] Import Configuration', result)
+            if (result.canceled) return
+            if (!result.filePaths || !result.filePaths.length) return
+            userConfig.importSettings(result.filePaths[0], (err) => {
+              if (err) return onerror(err)
+              logger.debug('[SYSTEM] Forcing window refresh')
+              ipc.send('reload-config', null, () => {
+                focusedWindow.webContents.send('force-refresh-window')
+              })
+            })
+
+            function onerror (err) {
+              dialog.showErrorBox(
+                t('menu-import-configuration-error'),
+                t('menu-import-configuration-error-known') + ': ' + err
+              )
+            }
           }
         },
         {
           label: t('menu-import-data'),
-          click: function (item, focusedWindow) {
+          click: async function (item, focusedWindow) {
             // TODO: handle multiple files
-            dialog.showOpenDialog(
+            const result = await dialog.showOpenDialog(
               {
                 title: t('menu-import-data-dialog'),
                 filters: [
@@ -109,14 +109,14 @@ function menuTemplate (ipc) {
                   { name: 'Shape', extensions: ['shp'] }
                 ],
                 properties: ['openFile']
-              },
-              function (filenames) {
-                if (!filenames || !filenames.length) return
-                var filename = filenames[0]
-                logger.info('[IMPORTING]', filename)
-                ipc.send('import-data', filename)
               }
             )
+
+            if (result.canceled) return
+            if (!result.filePaths || !result.filePaths.length) return
+            var filename = result.filePaths[0]
+            logger.info('[IMPORTING]', filename)
+            ipc.send('import-data', filename)
           },
           visible: true
         },

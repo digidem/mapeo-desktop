@@ -10,7 +10,8 @@ import { defineMessages, useIntl } from 'react-intl'
 import ExportButton from './ExportButton'
 
 const m = defineMessages({
-  'feedback-contribute-button': 'Feedback & Contribute'
+  'feedback-contribute-button': 'Feedback & Contribute',
+  notes: 'Description'
 })
 
 // iD Editor style overrides
@@ -261,7 +262,9 @@ const MapEditor = () => {
       }
     }
     if (presets) {
+      fallbackFields.notes.label = t(m.notes) // translate notes field
       const iDPresets = convertPresets(presets)
+
       if (!id.current) {
         iDPresets.fields = { ...iD.data.presets.fields, ...iDPresets.fields }
         iD.data.presets = iDPresets
