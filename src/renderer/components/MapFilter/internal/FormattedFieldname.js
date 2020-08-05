@@ -6,7 +6,7 @@ import type { Field } from '../types'
 
 const styles = {
   groupText: {
-    color: '#66666'
+    color: 'rgba(0, 0, 0, 0.541176)'
   }
 }
 
