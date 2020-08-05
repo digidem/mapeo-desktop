@@ -12,13 +12,13 @@ export { default as STATES } from './states'
 
 const m = defineMessages({
   // Title on sync screen when searching for devices
-  updateAvailable: 'Update Available',
+  updateAvailable: 'Update',
   updateNotAvailable: 'Mapeo is up to date! You are on the latest version.',
-  downloadButtonText: 'Download now',
+  downloadButtonText: 'Download',
   calculatingProgress: 'Estimating...',
-  downloadProgress: 'Download Progress',
+  downloadProgress: 'Downloading',
   restartMapeoText: 'An update to Mapeo has been downloaded. Restart Mapeo to update.',
-  restartMapeoButton: 'Restart Mapeo.',
+  restartMapeoButton: 'Restart',
   errorTitle: 'Error',
   errorMessage: 'There was an error and Mapeo could not update. Try again later.',
   patchUpdate: 'This update includes changes that fix critical errors. Please update as soon as possible.',
