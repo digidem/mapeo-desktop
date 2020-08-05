@@ -1,8 +1,9 @@
 [ignore]
 <PROJECT_ROOT>/node_modules/@mapbox/jsonlint-lines-primitives/test/.*
 <PROJECT_ROOT>/node_modules/config-chain/test/.*
-<PROJECT_ROOT>/esm
-<PROJECT_ROOT>/commonjs
+<PROJECT_ROOT>/dist/.*
+<PROJECT_ROOT>/node_modules/id-mapeo/.*
+<PROJECT_ROOT>/static/.*
 
 [include]
 

@@ -1,10 +1,9 @@
 const path = require('path')
-const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   entry: './src/renderer/app.js',
   target: 'electron-renderer',
-  externals: [nodeExternals()],
+  externals: ['electron-store'],
   // plugins: [new LiveReloadPlugin()],
   output: {
     filename: 'build.js',

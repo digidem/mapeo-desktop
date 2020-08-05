@@ -8,7 +8,8 @@ const alias = {
   ),
   electron: path.resolve(__dirname, '__mocks__/electron.js'),
   'node-wifi': path.resolve(__dirname, '__mocks__/node-wifi.js'),
-  'electron-timber': path.resolve(__dirname, '__mocks__/electron-timber.js')
+  'electron-timber': path.resolve(__dirname, '__mocks__/electron-timber.js'),
+  perf_hooks: path.resolve(__dirname, '__mocks__/perf_hooks.js')
 }
 
 module.exports = async ({ config }) => {

@@ -11,7 +11,6 @@ var http = require('http')
 var Settings = require('@mapeo/settings')
 var argv = require('minimist')(process.argv.slice(2))
 
-const DEFAULT_MOCK_DATA = 5
 const MOCK_DATA = require('../fixtures/observations.json').slice(0,5)
 const DEFAULT_PORT = 5006
 
@@ -26,7 +25,7 @@ if (require.main === module) {
   settings = new Settings(userDataPath)
   var opts = {
     obsOnly: argv.obsOnly,
-    count: argv.count === undefined ? DEFAULT_MOCK_DATA : argv.count
+    count: argv.count 
   }
 
   if (!presets) main(opts)
