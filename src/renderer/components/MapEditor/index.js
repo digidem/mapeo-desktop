@@ -345,7 +345,7 @@ const fallbackFields = {
   notes: {
     key: 'notes',
     type: 'textarea',
-    label: 'Notes'
+    label: 'Description'
   }
 }
 
