@@ -345,6 +345,11 @@ const fallbackFields = {
     type: 'localized',
     label: 'Name',
     placeholder: 'Common name (if any)'
+  },
+  notes: {
+    key: 'notes',
+    type: 'textarea',
+    label: 'Description'
   }
 }
 
