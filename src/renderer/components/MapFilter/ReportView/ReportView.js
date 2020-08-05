@@ -2,9 +2,6 @@
 import React, { useState, useLayoutEffect, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import ReportViewContent, {
-  type ReportViewContentProps
-} from './ReportViewContent'
 import ViewWrapper, { type CommonViewProps } from '../ViewWrapper'
 import Toolbar from '../internal/Toolbar'
 import { useIntl } from 'react-intl'
@@ -12,6 +9,7 @@ import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
 import PdfViewer from './PdfViewer'
+import PrintButton from './PrintButton'
 
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
@@ -33,8 +31,6 @@ const ReportView = ({
   observations,
   onUpdateObservation,
   onDeleteObservation,
-  mapboxAccessToken,
-  mapStyle,
   presets,
   filter,
   getMediaUrl,
@@ -42,6 +38,7 @@ const ReportView = ({
 }: Props) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
   const [paperSize, setPaperSize] = useState('a4')
+  const [print, setPrint] = useState(false)
   const cx = useStyles()
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
