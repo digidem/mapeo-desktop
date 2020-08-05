@@ -106,8 +106,8 @@ const ReportView = ({
                     settings={settings}
                   />
                 }>
-                {({ url, loading }) => 
-                  loading ? <h2>Loading PDF...</h2> : <PdfViewer url={url} />
+                {({ url, loading }) =>
+                  loading ? <h2>Loading PDF...</h2> : <PdfViewer url={url} pages={observations.length}/>
                 }
               </BlobProvider>
             </div>

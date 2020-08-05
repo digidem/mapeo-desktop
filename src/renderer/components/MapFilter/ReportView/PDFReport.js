@@ -96,26 +96,27 @@ const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
     <View style={styles.pageContent}>
       <View style={styles.columnLeft}>
         <Text style={styles.presetName}>{preset.name || 'Observation'}</Text>
-        {createdAt && (
+        {!createdAt ? <Text>--</Text> : (
           <Text style={styles.createdAt}>
             <Text style={styles.createdAtLabel}>Registrado: </Text>
-            <FormattedTime
-              key="time"
-              value={createdAt}
-              year="numeric"
-              month="long"
-              day="2-digit"
-            />
+              <Text> <FormattedTime
+                key="time"
+                value={createdAt}
+                year="numeric"
+                month="long"
+                day="2-digit"
+              />
+            </Text>
           </Text>
         )}
-        {coords && (
+        {!coords ? <Text>--</Text> : (
           <Text style={styles.location}>
             <Text style={styles.locationLabel}>Ubicación: </Text>
-            <FormattedLocation {...coords} />
+            <Text> <FormattedLocation {...coords} /> </Text>
           </Text>
         )}
         <View>
-          {note &&
+          {!note ? <Text>--</Text> :
             note.split('\n').map((para, idx) => (
               <Text key={idx} style={styles.description}>
                 {para}
