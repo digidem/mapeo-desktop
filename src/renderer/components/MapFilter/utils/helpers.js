@@ -1,5 +1,5 @@
 // @flow
-import mime from 'mime'
+import mime from 'mime/lite'
 import type { Observation } from 'mapeo-schema'
 
 import { getFields as getFieldsFromTags } from '../lib/data_analysis'
@@ -31,6 +31,14 @@ const hiddenTags = {
   categoryId: true,
   notes: true,
   note: true
+}
+
+export function isEmptyValue(value) {
+  return (
+    (typeof value === 'string' && value.length === 0) ||
+    value === undefined ||
+    value === null
+  )
 }
 
 export function defaultGetPreset(
