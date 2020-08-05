@@ -71,22 +71,22 @@ const ExportButton = () => {
     remote.dialog.showSaveDialog(
       {
         title: t(m.saveTitle),
-        defaultPath: t(m.defaultFilename),
+        defaultPath: t(m.defaultFilename) + '.' + ext,
         filters: [{ name: format, extensions: [ext] }]
-      },
-      function (filename) {
-        if (!filename) return
-        setStatus('pending')
-        api
-          .exportData(filename, { format })
-          .then(() => {
-            setStatus('success')
-          })
-          .catch(err => {
-            setStatus('reject')
-            logger.error(err)
-          })
       }
+    ).then(({ canceled, filePath }) => {
+      if (!filePath || canceled) return
+      setStatus('pending')
+      api
+        .exportData(filePath, { format })
+        .then(() => {
+          setStatus('success')
+        })
+        .catch(err => {
+          setStatus('reject')
+          logger.error('ExportButton save dialog', err)
+        })
+    }
     )
   }
 

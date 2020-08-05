@@ -12,21 +12,20 @@ const logger = require('../logger')
 const TileImporter = require('./tile-importer')
 const installStatsIndex = require('./osm-stats')
 
-// This is an RPC wrapper for all the things related to mapeo/core
-// much of this code probably could instead be in mapeo/core
+// This is an RPC wrapper for all the things related to mapeo core
+// TODO: much of this code should instead be in mapeo core
 
 class MapeoRPC {
   constructor ({ datadir, userDataPath, ipcSend }) {
     this.storages = []
     this.config = new Settings(userDataPath)
     this.encryptionKey = this.config.getEncryptionKey()
-    logger.log('got encryptionKey', this.encryptionKey)
+    logger.info('got encryptionKey', this.encryptionKey && this.encryptionKey.substr(0, 4))
     this.tiles = TileImporter(userDataPath)
 
     var feedsDir = path.join(datadir, 'storage')
     var indexDir = path.join(datadir, 'index')
 
-    logger.log('loading datadir', datadir)
     this.indexDb = level(indexDir)
 
     const coreDb = kappa(datadir, {
@@ -57,7 +56,7 @@ class MapeoRPC {
     this.ipcSend = ipcSend
     this.ipcSend('indexes-loading')
     this.osm.ready(() => {
-      logger.log('indexes READY')
+      logger.debug('indexes READY')
       this.ipcSend('indexes-ready')
     })
 
@@ -96,32 +95,27 @@ class MapeoRPC {
 
     this.core.on('error', this._handleError)
     this.core.sync.listen((err) => {
-      logger.log('mapeo-core sync is listening')
       cb(err)
     })
   }
 
   _syncWatch (sync) {
     const startTime = Date.now()
-    var onerror = (err) => {
-      logger.error(err)
-      sync.removeListener('error', onerror)
-      sync.removeListener('progress', this._throttledSendPeerUpdate)
-      sync.removeListener('end', onend)
-    }
-
     var onend = (err) => {
-      if (err) logger.error(err)
-      this.ipcSend('sync-complete')
-      const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2)
-      logger.log('Sync completed in ' + syncDurationSecs + ' seconds')
-      sync.removeListener('error', onerror)
+      if (err) {
+        logger.error('sync error', err)
+      } else {
+        this.ipcSend('sync-complete')
+        const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2)
+        logger.info('Sync completed in ' + syncDurationSecs + ' seconds')
+      }
+      sync.removeListener('error', onend)
       sync.removeListener('progress', this._throttledSendPeerUpdate)
       sync.removeListener('end', onend)
       this._sendPeerUpdate()
     }
 
-    sync.on('error', onerror)
+    sync.on('error', onend)
     sync.on('progress', this._throttledSendPeerUpdate)
     sync.on('end', onend)
   }
@@ -129,7 +123,7 @@ class MapeoRPC {
   _onNewPeer (peer) {
     this._throttledSendPeerUpdate(peer)
     if (!peer.sync) {
-      return logger.error('Could not monitor peer, missing sync property')
+      return logger.error('sync', new Error('Could not monitor peer, missing sync property'))
     }
     peer.sync.once('sync-start', () => {
       this._syncWatch(peer.sync)
@@ -137,8 +131,7 @@ class MapeoRPC {
   }
 
   syncStart (target = {}) {
-    logger.log('Sync start request:', target)
-    logger.log('sync starting', target)
+    logger.info('Sync start request:', target)
 
     const sync = this.core.sync.replicate(target, {
       projectKey: this.encryptionKey
@@ -149,32 +142,43 @@ class MapeoRPC {
 
   syncJoin () {
     try {
-      logger.log(
+      logger.debug(
         'Joining swarm',
         this.encryptionKey && this.encryptionKey.slice(0, 4)
       )
       this.core.sync.join(this.encryptionKey)
     } catch (e) {
-      logger.error('sync join error', e)
+      logger.error('syncJoin', e)
     }
   }
 
   syncLeave () {
     try {
-      logger.log(
+      logger.debug(
         'Leaving swarm',
         this.encryptionKey && this.encryptionKey.slice(0, 4)
       )
       this.core.sync.leave(this.encryptionKey)
     } catch (e) {
-      logger.error('sync leave error', e)
+      logger.error('syncLeave', e)
     }
   }
 
   exportData ({ filename, format, id }, cb) {
     const presets = this.config.getSettings('presets') || {}
-    logger.log('down here exporting', filename, format)
+    logger.info('Exporting', filename, format)
     this.core.exportData(filename, { format, presets }, cb)
+  }
+
+  getReplicatingPeers () {
+    return this.core.sync
+      .peers()
+      .filter(
+        peer =>
+          peer.state &&
+        (peer.state.topic === 'replication-started' ||
+          peer.state.topic === 'replication-progress')
+      )
   }
 
   onReplicationComplete (cb) {
@@ -185,15 +189,8 @@ class MapeoRPC {
     }, 5 * 60 * 1000)
 
     var checkIfDone = () => {
-      const currentlyReplicatingPeers = this.core.sync
-        .peers()
-        .filter(
-          peer =>
-            peer.state &&
-            (peer.state.topic === 'replication-started' ||
-              peer.state.topic === 'replication-progress')
-        )
-      logger.log(currentlyReplicatingPeers.length + ' peers still replicating')
+      const currentlyReplicatingPeers = this.getReplicatingPeers()
+      logger.info(currentlyReplicatingPeers.length + ' peers still replicating')
       if (currentlyReplicatingPeers.length === 0) {
         clearTimeout(timeoutId)
         return cb()
@@ -205,11 +202,10 @@ class MapeoRPC {
   }
 
   getDatasetCentroid (type, done) {
-    logger.log('STATUS(getDatasetCentroid):', type)
     this.osm.core.api.stats.getMapCenter(type, function (err, center) {
-      if (err) return logger.error('ERROR(getDatasetCentroid):', err)
+      if (err) return logger.error(`api.stats.getMapCenter(${type})`, err)
       if (!center) return done(null, null)
-      logger.log('RESPONSE(getDatasetCentroid):', center)
+      logger.info('RESPONSE(getDatasetCentroid):', type, center)
       done(null, [center.lon, center.lat])
     })
   }
@@ -236,7 +232,6 @@ class MapeoRPC {
 
     var done = () => {
       if (--pending) return
-      logger.log('all closed!')
       this.closing = false
       cb()
     }
@@ -244,7 +239,7 @@ class MapeoRPC {
 
   _handleError (err) {
     if (typeof err === 'string') err = new Error(err)
-    logger.error(err)
+    logger.error('mapeo', err)
     this.ipcSend('error', err)
   }
 
@@ -254,6 +249,7 @@ class MapeoRPC {
       const { connection, ...rest } = peer
       return rest
     })
+    logger.debug('sending peer update', peers)
     this.ipcSend('peer-update', peers)
   }
 }

@@ -16,7 +16,11 @@ const m = defineMessages({
   // Button when sync is complete
   complete: 'Complete',
   // Button to retry sync after error
-  retry: 'Retry'
+  retry: 'Retry',
+  // Disconnected
+  disconnected: 'Disconnected',
+  // Almost done! But progress is inaccurate.
+  finishing: 'Finishing…'
 })
 
 const SyncIcon = props => <FontAwesomeIcon icon={faBolt} {...props} />
@@ -73,29 +77,34 @@ const StyledButton = ({ className, ...props }) => {
   )
 }
 
-const SyncButton = ({ progress, onClick, variant = 'ready' }) => {
+const SyncButton = ({ progress, connected, onClick, variant = 'ready' }) => {
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
   switch (variant) {
     case 'ready':
     case 'error':
       return (
-        <StyledButton onClick={onClick}>
-          {variant === 'ready' ? t(m.sync) : t(m.retry)}
+        <StyledButton disabled={!connected} onClick={onClick}>
+          {!connected ? t(m.disconnected)
+            : variant === 'ready' ? t(m.sync) : t(m.retry)}
           <SyncIcon className={classes.icon} />
         </StyledButton>
       )
     case 'progress':
       return (
         <StyledButton disabled onClick={onClick} className={classes.progress}>
-          {progress ? (progress * 100).toFixed(0) + '%' : t(m.starting)}
+          {!progress
+            ? t(m.starting)
+            : progress === 1
+              ? t(m.finishing)
+              : (progress * 100).toFixed(0) + '%'}
           <ProgressIcon progress={progress} className={classes.icon} />
         </StyledButton>
       )
 
     case 'complete':
       return (
-        <StyledButton onClick={onClick}>
+        <StyledButton disabled={!connected} onClick={onClick}>
           {t(m.complete)}
           <DoneIcon className={classes.icon} />
         </StyledButton>

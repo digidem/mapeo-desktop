@@ -183,24 +183,53 @@
     "description": "Title on sync screen when searching for devices",
     "message": "Searching…"
   },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Disconnected"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "You first need to connect to a WiFi network before being able to synchronize devices"
+  },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
     "message": "Create new syncfile…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "Quality: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "The connection signal is excellent"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "The connection signal is very poor. Try getting closer to the WiFi router"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "The connection signal is weak. The synchronization might take a longer time to complete"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
     "message": "Sync from a file…"
   },
-  "renderer.components.SyncView.SyncAppBar.subtitle": {
-    "message": "via Wi-Fi"
-  },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
     "message": "Available Devices"
   },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "Unknown"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "Your WiFi card or Operating System (OS) has not been recognized"
+  },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
     "message": "Complete"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Disconnected"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Finishing…"
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
@@ -233,8 +262,25 @@
   "renderer.components.SyncView.index.createSyncFileDialog": {
     "message": "Create a new database to syncronize"
   },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} needs to upgrade Mapeo"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "You need to upgrade Mapeo to sync with {deviceName}"
+  },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Select a database to syncronize"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Cancel"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "Submit"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Choose a language"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"

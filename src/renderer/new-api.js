@@ -11,7 +11,7 @@ export default Api({
   baseUrl: BASE_URL
 })
 
-function Api ({ baseUrl, mapeo, ipc }) {
+function Api ({ baseUrl, ipc }) {
   // We append this to requests for presets and map styles, in order to override
   // the local static server cache whenever the app is restarted. NB. sprite,
   // font, and map tile requests might still be cached, only changes in the map
@@ -33,10 +33,12 @@ function Api ({ baseUrl, mapeo, ipc }) {
     const start = Date.now()
     promise
       .then(data => {
-        logger.log(prefix, Date.now() - start + 'ms')
+        logger.debug(prefix, Date.now() - start + 'ms')
       })
       .catch(error => {
-        logger.error(prefix, error)
+        // Preset errors aren't fatal errors.
+        if (prefix.indexOf('presets') > -1) logger.info(prefix, error)
+        else logger.error(prefix, error)
       })
     return promise
   }
@@ -48,11 +50,9 @@ function Api ({ baseUrl, mapeo, ipc }) {
     return logRequest('<DEL: ' + url, req.delete(url).json())
   }
   function put (url, data) {
-    logger.log('>PUT:', url, data)
     return logRequest('<PUT: ' + url, req.put(url, { json: data }).json())
   }
   function post (url, data) {
-    logger.log('>POST:', url, data)
     return logRequest('<POST: ' + url, req.post(url, { json: data }).json())
   }
 
@@ -62,16 +62,9 @@ function Api ({ baseUrl, mapeo, ipc }) {
      * GET async methods
      */
 
-    getPresets: function getPresets () {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
-        mapToArray(data.presets)
-      )
-    },
-
-    getFields: function getFields () {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
-        mapToArray(data.fields)
-      )
+    getPresets: function getPresets (id) {
+      if (!id) id = 'default'
+      return get(`presets/${id}/presets.json?${startupTime}`)
     },
 
     getObservations: function getObservations () {
@@ -124,7 +117,7 @@ function Api ({ baseUrl, mapeo, ipc }) {
       // listen for an event from mapeo-core whenever the peers change, then
       // request an updated peer list.
       function onPeerUpdate (peers) {
-        logger.log('peer-update', peers)
+        logger.debug('peer-update', peers)
         handler(peers)
       }
       ipc.on('peer-update', onPeerUpdate)
@@ -156,13 +149,13 @@ function Api ({ baseUrl, mapeo, ipc }) {
 
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin () {
-      logger.log('Join sync')
+      logger.debug('Join sync')
       ipc.send('sync-join')
     },
 
     // Stop listening for sync peers and stop advertising
     syncLeave: function syncLeave () {
-      logger.log('Leave sync')
+      logger.debug('Leave sync')
       ipc.send('sync-leave')
     },
 
@@ -180,7 +173,7 @@ function Api ({ baseUrl, mapeo, ipc }) {
       return new Promise((resolve, reject) => {
         ipc.send('export-data', { filename, format }, (err) => {
           if (err) {
-            logger.error('Export error', err.stack)
+            logger.error('export data', err)
             reject(err)
           } else resolve()
         })
@@ -207,15 +200,12 @@ function Api ({ baseUrl, mapeo, ipc }) {
     // Return the url to a map style
     getMapStyleUrl: function getMapStyleUrl (id) {
       return `${baseUrl}styles/${id}/style.json?${startupTime}`
+    },
+
+    zoomToData: function (type, cb) {
+      ipc.send('zoom-to-data-get-centroid', type, cb)
     }
   }
 
   return api
-}
-
-function mapToArray (map) {
-  return Object.keys(map).map(id => ({
-    ...map[id],
-    id: id
-  }))
 }

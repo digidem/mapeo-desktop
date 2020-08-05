@@ -9,11 +9,13 @@ import { defineMessages, useIntl } from 'react-intl'
 import wifi from 'node-wifi'
 import { Tooltip } from '@material-ui/core'
 
+import logger from '../../../logger'
+
 let wifiInit = true
 try {
   wifi.init()
 } catch (e) {
-  console.error(e)
+  logger.error('Failed to init node-wifi', e)
   wifiInit = false
 }
 
@@ -61,7 +63,7 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
         const conn = await wifi.getCurrentConnections()
         setCurrentConnection(conn && conn[0])
       } catch (err) {
-        console.error(err)
+        logger.error('SyncAppBar failed to get current connections', err)
         setWifiError(true)
         setCurrentConnection(null)
       }

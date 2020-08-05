@@ -28,6 +28,8 @@ const m = defineMessages({
   errorMsgVersionUsBad: 'You need to upgrade Mapeo to sync with {deviceName}'
 })
 
+const IGNORED_ERROR_CODES = ['ECONNABORTED', 'ERR_MISSING_DATA']
+
 const fileDialogFilters = [
   {
     name: 'Mapeo Data (*.mapeodata)',
@@ -40,7 +42,7 @@ const SyncView = ({ focusState }) => {
   const listenForSyncPeers = focusState === 'focused'
   const [peers, syncPeer] = usePeers(listenForSyncPeers)
   const { formatMessage: t } = useIntl()
-  logger.log('render peers', peers)
+  logger.debug('render peers', peers)
 
   const handleClickSelectSyncfile = () => {
     remote.dialog.showOpenDialog(
@@ -48,12 +50,11 @@ const SyncView = ({ focusState }) => {
         title: t(m.openSyncFileDialog),
         properties: ['openFile'],
         filters: fileDialogFilters
-      },
-      filenames => {
-        if (typeof filenames === 'undefined' || filenames.length !== 1) return
-        syncPeer(filenames[0], { file: true })
       }
-    )
+    ).then(({ filePaths }) => {
+      if (typeof filePaths === 'undefined' || filePaths.length !== 1) return
+      syncPeer(filePaths[0], { file: true })
+    }).catch(err => logger.error(err))
   }
 
   const handleClickNewSyncfile = () => {
@@ -62,12 +63,11 @@ const SyncView = ({ focusState }) => {
         title: t(m.openSyncFileDialog),
         defaultPath: 'database.mapeodata',
         filters: fileDialogFilters
-      },
-      filename => {
-        if (!filename) return
-        syncPeer(filename, { file: true })
       }
-    )
+    ).then(({ canceled, filePath }) => {
+      if (canceled || !filePath) return
+      syncPeer(filePath, { file: true })
+    }).catch(err => logger.error(err))
   }
 
   return (
@@ -118,7 +118,7 @@ function usePeers (listen) {
       if (!listen) return
 
       const updatePeers = (updatedServerPeers = []) => {
-        logger.log('Received peer update', updatedServerPeers)
+        logger.debug('Received peer update', updatedServerPeers)
         setServerPeers(updatedServerPeers)
         // NB: use callback version of setState because the new error state
         // depends on the previous error state
@@ -126,7 +126,12 @@ function usePeers (listen) {
           const newErrors = new Map(syncErrors)
           updatedServerPeers.forEach(peer => {
             if (peer.state && peer.state.topic === 'replication-error') {
-              newErrors.set(peer.id, peer.state)
+              if (IGNORED_ERROR_CODES.indexOf(peer.state.code) === -1) {
+                newErrors.set(peer.id, peer.state)
+              }
+            } else {
+              // no error anymore, let's delete it
+              newErrors.delete(peer.id)
             }
           })
           return newErrors
@@ -138,8 +143,9 @@ function usePeers (listen) {
           updatedServerPeers.forEach(peer => {
             if (!peer.state) return
             if (
-              peer.state.topic === 'replication-error' ||
-              peer.state.topic === 'replication-complete'
+              (peer.state.topic === 'replication-error' ||
+              peer.state.topic === 'replication-complete') &&
+              !peer.connected
             ) {
               newSyncRequests.delete(peer.id)
             }
@@ -176,7 +182,7 @@ function usePeers (listen) {
 
   const syncPeer = useCallback(
     (peerId, opts) => {
-      logger.log('Request sync start', peerId, serverPeers)
+      logger.info('Request sync start', peerId, serverPeers)
       if (opts && opts.file) return api.syncStart({ filename: peerId })
       const peer = serverPeers.find(peer => peer.id === peerId)
       // Peer could have vanished in the moment the button was pressed
@@ -210,7 +216,7 @@ function getPeersStatus ({
   since,
   formatMessage
 }) {
-  logger.log('get peers status', serverPeers, syncErrors)
+  logger.debug('get peers status', serverPeers, syncErrors)
   return serverPeers.map(serverPeer => {
     let status = peerStatus.READY
     let errorMsg
@@ -226,8 +232,13 @@ function getPeersStatus ({
     ) {
       status = peerStatus.PROGRESS
     } else if (
-      syncErrors.has(serverPeer.id) ||
-      state.topic === 'replication-error'
+      (state.lastCompletedDate || 0) > since ||
+      state.topic === 'replication-complete'
+    ) {
+      status = peerStatus.COMPLETE
+      complete = state.message
+    } else if (
+      syncErrors.has(serverPeer.id)
     ) {
       status = peerStatus.ERROR
       const error = syncErrors.get(serverPeer.id)
@@ -245,17 +256,13 @@ function getPeersStatus ({
       } else if (error) {
         errorMsg = error.message || 'Error'
       }
-    } else if (
-      (state.lastCompletedDate || 0) > since ||
-      state.topic === 'replication-complete'
-    ) {
-      status = peerStatus.COMPLETE
-      complete = state.message
     }
     return {
       id: serverPeer.id,
       name: name,
       status: status,
+      started: serverPeer.started,
+      connected: serverPeer.connected,
       lastCompleted: complete || state.lastCompletedDate,
       errorMsg: errorMsg,
       progress: getPeerProgress(serverPeer.state),

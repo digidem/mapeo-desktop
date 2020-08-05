@@ -72,25 +72,25 @@ const EditDialogContent = ({
         title: 'Guardar Mapa',
         defaultPath: 'mapa-para-web',
         filters: [{ name: 'Mapeo Webmap Package', extensions: ['mapeomap'] }]
-      },
-      filepath => {
-        const filepathWithExtension = path.join(
-          path.dirname(filepath),
-          path.basename(filepath, '.mapeomap') + '.mapeomap'
-        )
-        createArchive(filepathWithExtension, err => {
-          if (err) {
-            logger.error('Failed to create archive', err)
-          } else {
-            logger.log('Successfully created map archive')
-          }
-          handleClose()
-        })
       }
-    )
+    ).then(({ filePath, canceled }) => {
+      if (canceled) return handleClose()
+      const filepathWithExtension = path.join(
+        path.dirname(filePath),
+        path.basename(filePath, '.mapeomap') + '.mapeomap'
+      )
+      createArchive(filepathWithExtension, err => {
+        if (err) {
+          logger.error('MapExportDialog: Failed to create archive', err)
+        } else {
+          logger.debug('Successfully created map archive')
+        }
+        handleClose()
+      })
+    }).catch(handleClose)
 
-    function createArchive (filepath, cb) {
-      const output = fsWriteStreamAtomic(filepath)
+    function createArchive (filePath, cb) {
+      const output = fsWriteStreamAtomic(filePath)
 
       const localFiles = [
         {

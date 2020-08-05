@@ -131,8 +131,9 @@ function usePresets () {
   useEffect(() => {
     async function getPresets () {
       try {
-        const presets = await api.getPresets()
-        const fields = await api.getFields()
+        const data = await api.getPresets()
+        const presets = mapToArray(data.presets)
+        const fields = mapToArray(data.fields)
         const presetsWithFields = presets
           .filter(p => p.geometry.includes('point'))
           // Replace field ids with full field definitions
@@ -141,7 +142,7 @@ function usePresets () {
         setPresets(presetsWithFields)
         setFields(fields)
       } catch (e) {
-        logger.error(e)
+        logger.error('MapFilter get Presets', e)
         setLoading(false)
         setError(e)
       }
@@ -272,8 +273,8 @@ const MapFilter = () => {
     )
   }
 
-  if (observationsError) console.error(observationsError)
-  if (presetsError) console.error(presetsError)
+  if (observationsError) logger.error('observationsError', observationsError)
+  if (presetsError) logger.error('presetsError', presetsError)
 
   return (
     <div className={cx.root}>
@@ -380,4 +381,11 @@ function addFieldDefinitions (preset, fields) {
     ...preset,
     fields: fieldDefs.filter(Boolean)
   }
+}
+
+function mapToArray (map) {
+  return Object.keys(map).map(id => ({
+    ...map[id],
+    id: id
+  }))
 }

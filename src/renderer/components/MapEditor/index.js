@@ -10,7 +10,8 @@ import { defineMessages, useIntl } from 'react-intl'
 import ExportButton from './ExportButton'
 
 const m = defineMessages({
-  'feedback-contribute-button': 'Feedback & Contribute'
+  'feedback-contribute-button': 'Feedback & Contribute',
+  notes: 'Description'
 })
 
 // iD Editor style overrides
@@ -126,7 +127,9 @@ const MapEditor = () => {
       var saved = history.toJSON()
       id.current.flush()
       if (saved) history.fromJSON(saved)
-      ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
+      api.zoomToData('node', (_, loc) => {
+        zoomToData(_, loc)
+      })
     }
     const subscription = api.addDataChangedListener('observation-edit', () =>
       refreshWindow()
@@ -259,7 +262,9 @@ const MapEditor = () => {
       }
     }
     if (presets) {
+      fallbackFields.notes.label = t(m.notes) // translate notes field
       const iDPresets = convertPresets(presets)
+
       if (!id.current) {
         iDPresets.fields = { ...iD.data.presets.fields, ...iDPresets.fields }
         iD.data.presets = iDPresets
@@ -341,7 +346,6 @@ const fallbackFields = {
     label: 'Name',
     placeholder: 'Common name (if any)'
   },
-  // In Mapeo we always have a notes field (we call it "Description")
   notes: {
     key: 'notes',
     type: 'textarea',
