@@ -100,13 +100,12 @@ module.exports = function (ipcSend) {
             extensions: ['mapeodata', 'mapeo-jungle', ext]
           }
         ]
-      },
-      onopen
-    )
+      }
+    ).then(onOpen).catch(onError)
 
-    function onopen (filename) {
-      if (typeof filename === 'undefined') return
-      ipcSend('select-file', filename)
+    function onOpen ({ filePath, canceled }) {
+      if (canceled || typeof filePath === 'undefined') return
+      ipcSend('select-file', filePath)
     }
   })
 
@@ -123,14 +122,13 @@ module.exports = function (ipcSend) {
             extensions: ['mapeodata', 'mapeo-jungle', ext, 'sync', 'zip']
           }
         ]
-      },
-      onopen
-    )
+      }
+    ).then(onOpen).catch(onError)
 
-    function onopen (filenames) {
-      if (typeof filenames === 'undefined') return
-      if (filenames.length === 1) {
-        var file = filenames[0]
+    function onOpen ({ canceled, filePaths }) {
+      if (canceled || typeof filePaths === 'undefined') return
+      if (filePaths.length === 1) {
+        var file = filePaths[0]
         ipcSend('select-file', file)
       }
     }
