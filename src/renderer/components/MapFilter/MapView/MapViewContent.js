@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useImperativeHandle
 } from 'react'
-import { useIntl, IntlProvider } from 'react-intl'
+import { useIntl } from 'react-intl'
 import ReactMapboxGl from 'react-mapbox-gl'
 import mapboxgl from 'mapbox-gl'
 import type { Observation } from 'mapeo-schema'

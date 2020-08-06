@@ -8,7 +8,7 @@ const messages = defineMessages({
 })
 
 const ShowAllButton = props => (
-  <Button color="primary" size="small" {...props}>
+  <Button color='primary' size='small' {...props}>
     <FormattedMessage {...messages.showAll} />
   </Button>
 )

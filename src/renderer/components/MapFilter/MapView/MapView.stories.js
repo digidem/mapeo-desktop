@@ -7,7 +7,7 @@ import { withKnobs, radios } from '@storybook/addon-knobs'
 import MapView from './MapView'
 import fixtureObs from '../../fixtures/observations.json'
 
-function getMediaUrl(id, size) {
+function getMediaUrl (id, size) {
   const pixels = size === 'thumbnail' ? 400 : 1000
   const idx = parseInt(id, 16)
   return `https://picsum.photos/id/${+idx % 80}/${pixels}/${pixels}`
@@ -40,7 +40,7 @@ export const defaultStory = () => {
         onUpdateObservation={action('update')}
         onDeleteObservation={action('delete')}
         getMediaUrl={getMediaUrl}
-        mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+        mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
       />
     </div>
   )
@@ -72,7 +72,7 @@ export const delayedLoad = () => {
         onUpdateObservation={action('update')}
         onDeleteObservation={action('delete')}
         getMediaUrl={getMediaUrl}
-        mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+        mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
       />
     </div>
   )

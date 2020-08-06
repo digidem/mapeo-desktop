@@ -2,7 +2,7 @@ import fixture from '../../../fixtures/example_fc.json'
 import createMemoizedStats, { diffArrays, statReduce } from './statistics'
 // import fs from 'fs'
 
-test('diffArrays: added and removed', function() {
+test('diffArrays: added and removed', function () {
   const A = {}
   const B = {}
   const C = {}
@@ -15,7 +15,7 @@ test('diffArrays: added and removed', function() {
   })
 })
 
-test('diffArrays: same', function() {
+test('diffArrays: same', function () {
   const A = {}
   const B = {}
   const oldArray = [A, B]
@@ -23,7 +23,7 @@ test('diffArrays: same', function() {
   expect(diffArrays(oldArray, newArray)).toEqual({ removed: [], added: [] })
 })
 
-test('diffArrays: only added', function() {
+test('diffArrays: only added', function () {
   const A = {}
   const B = {}
   const C = {}
@@ -33,7 +33,7 @@ test('diffArrays: only added', function() {
   expect(diffArrays(oldArray, newArray)).toEqual({ removed: [], added: [C, D] })
 })
 
-test('diffArrays: only removed', function() {
+test('diffArrays: only removed', function () {
   const A = {}
   const B = {}
   const C = {}
@@ -42,7 +42,7 @@ test('diffArrays: only removed', function() {
   expect(diffArrays(oldArray, newArray)).toEqual({ removed: [C], added: [] })
 })
 
-test('diffArrays: completely different', function() {
+test('diffArrays: completely different', function () {
   const A = {}
   const B = {}
   const C = {}

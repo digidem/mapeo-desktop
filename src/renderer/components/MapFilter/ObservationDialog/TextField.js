@@ -6,8 +6,8 @@ const TextField = ({ onChange, ...otherProps }) => {
   return (
     <MuiTextField
       fullWidth
-      variant="outlined"
-      margin="normal"
+      variant='outlined'
+      margin='normal'
       InputLabelProps={{ shrink: true }}
       onChange={handleChange}
       {...otherProps}

@@ -5,9 +5,9 @@ const DateField = ({ value, onChange, ...otherProps }) => {
   return (
     <DateTimePicker
       fullWidth
-      variant="inline"
-      inputVariant="outlined"
-      margin="normal"
+      variant='inline'
+      inputVariant='outlined'
+      margin='normal'
       value={value}
       onChange={date =>
         date === undefined ? onChange() : onChange(date.toISOString())

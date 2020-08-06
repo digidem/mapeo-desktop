@@ -43,11 +43,11 @@ const observations = fc.features.map(f => {
   return observation
 })
 
-function randomInt(max) {
+function randomInt (max) {
   return Math.ceil(Math.random() * max)
 }
 
-function randomId() {
+function randomId () {
   return Math.ceil(Math.random() * Math.pow(2, 32)).toString(16)
 }
 

@@ -9,10 +9,10 @@ export default {
 
 export const Multiline = () => (
   <TextField
-    label="Village name"
+    label='Village name'
     multiline
-    placeholder="Some placeholder (e.g. example input)"
-    helperText="The actual question might be here?"
+    placeholder='Some placeholder (e.g. example input)'
+    helperText='The actual question might be here?'
   />
 )
 
@@ -22,9 +22,9 @@ export const Multiline = () => (
 
 export const Singleline = () => (
   <TextField
-    label="Village name"
-    placeholder="Some placeholder (e.g. example input)"
+    label='Village name'
+    placeholder='Some placeholder (e.g. example input)'
     multiline={false}
-    helperText="The actual question might be here?"
+    helperText='The actual question might be here?'
   />
 )

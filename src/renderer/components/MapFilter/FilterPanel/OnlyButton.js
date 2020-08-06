@@ -9,7 +9,7 @@ const messages = defineMessages({
 })
 
 const OnlyButton = props => (
-  <Button color="primary" size="small" {...props}>
+  <Button color='primary' size='small' {...props}>
     <FormattedMessage {...messages.only} />
   </Button>
 )

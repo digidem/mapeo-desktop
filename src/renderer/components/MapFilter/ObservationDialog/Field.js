@@ -44,11 +44,10 @@ const Field = ({ field, value, onChange }: Props) => {
     case 'localized':
     case 'text':
       // In mapeo-schema, text fields default to multiline appearance.
-      const isMultiline = field.appearance !== 'singleline'
       return (
         <TextField
           value={value}
-          multiline={isMultiline}
+          multiline={field.appearance !== 'singleline'}
           onChange={handleChange}
           label={label}
           placeholder={placeholder}

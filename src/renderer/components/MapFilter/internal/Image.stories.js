@@ -10,7 +10,7 @@ export default {
 export const defaultStory = () => (
   <Image
     style={{ width: 600, height: 400, backgroundColor: 'black' }}
-    src="http://lorempixel.com/1920/1920/nature/3/"
+    src='http://lorempixel.com/1920/1920/nature/3/'
   />
 )
 

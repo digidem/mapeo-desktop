@@ -30,7 +30,7 @@ class MultiSelect extends Component {
     )
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
       const suggestions = nextProps.suggestions.filter(
         s => nextProps.value.indexOf(s) === -1
