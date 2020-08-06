@@ -2,6 +2,144 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.5](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.4...v5.4.0-beta.5) (2020-08-04)
+
+
+### Bug Fixes
+
+* Error where download speed would always show 0 seconds ([702d430](https://github.com/digidem/mapeo-desktop/commit/702d430))
+* Only fetch download speed when opening the Updater tab. ([6e5645f](https://github.com/digidem/mapeo-desktop/commit/6e5645f))
+* Properly return error when updater is inactive ([23cf764](https://github.com/digidem/mapeo-desktop/commit/23cf764))
+* Use https://downloads.mapeo.app for updater endpoint ([89f247c](https://github.com/digidem/mapeo-desktop/commit/89f247c))
+
+
+
+## [5.4.0-beta.4](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.3...v5.4.0-beta.4) (2020-08-04)
+
+
+### Bug Fixes
+
+* Multiselect field should not error if has select_one data ([#390](https://github.com/digidem/mapeo-desktop/issues/390)) ([820a057](https://github.com/digidem/mapeo-desktop/commit/820a057))
+* Only allow updater when on compatible platforms ([0a2e20a](https://github.com/digidem/mapeo-desktop/commit/0a2e20a))
+* update to electron 9.1.2 ([#389](https://github.com/digidem/mapeo-desktop/issues/389)) ([e148af7](https://github.com/digidem/mapeo-desktop/commit/e148af7))
+
+
+
+## [5.4.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.2...v5.4.0-beta.3) (2020-08-01)
+
+
+
+## [5.4.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.1...v5.4.0-beta.2) (2020-07-31)
+
+
+
+## [5.4.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.0...v5.4.0-beta.1) (2020-07-31)
+
+
+
+## [5.4.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v5.3.1...v5.4.0-beta.0) (2020-07-31)
+
+
+### Features
+
+* auto-update Mapeo when internet is available ([#346](https://github.com/digidem/mapeo-desktop/issues/346)) ([f5318cc](https://github.com/digidem/mapeo-desktop/commit/f5318cc))
+
+
+
+### [5.3.1](https://github.com/digidem/mapeo-desktop/compare/v5.3.0...v5.3.1) (2020-07-23)
+
+
+### Bug Fixes
+
+* Builds would sometimes fail for Windows ([38f6ace](https://github.com/digidem/mapeo-desktop/commit/38f6ace))
+* Ensure at least 15 seconds between jobs by parallelizing only 1 job at a time ([d1774a0](https://github.com/digidem/mapeo-desktop/commit/d1774a0))
+* fail-fast: false for builds ([91bd0d9](https://github.com/digidem/mapeo-desktop/commit/91bd0d9))
+
+
+
+## [5.3.0](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.4...v5.3.0) (2020-07-22)
+
+
+
+## [5.3.0-beta.4](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.3...v5.3.0-beta.4) (2020-07-21)
+
+
+### Bug Fixes
+
+* Catch issues with default presets on first-time startup ([397fd4b](https://github.com/digidem/mapeo-desktop/commit/397fd4b))
+* Sync file errors would sometimes not show during Sync. ([#385](https://github.com/digidem/mapeo-desktop/issues/385)) ([b7971f9](https://github.com/digidem/mapeo-desktop/commit/b7971f9))
+* Windows users would hit EPERM error on importing configurations … ([#384](https://github.com/digidem/mapeo-desktop/issues/384)) ([a0c6a2d](https://github.com/digidem/mapeo-desktop/commit/a0c6a2d))
+
+
+
+## [5.3.0-beta.3](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.1...v5.3.0-beta.3) (2020-07-19)
+
+
+### Bug Fixes
+
+* 'missing data' event will not cancel large syncs too early ([98667c7](https://github.com/digidem/mapeo-desktop/commit/98667c7))
+* Add 'Get Database Status' menu item ([#382](https://github.com/digidem/mapeo-desktop/issues/382)) ([809774a](https://github.com/digidem/mapeo-desktop/commit/809774a))
+* After a sync error, keep the device name visible ([#369](https://github.com/digidem/mapeo-desktop/issues/369)) ([d101034](https://github.com/digidem/mapeo-desktop/commit/d101034))
+* Always import default jungle settings ([#370](https://github.com/digidem/mapeo-desktop/issues/370)) ([9746f57](https://github.com/digidem/mapeo-desktop/commit/9746f57))
+* Remove 'All Tags' box during Territory save. Fixes [#378](https://github.com/digidem/mapeo-desktop/issues/378) ([#383](https://github.com/digidem/mapeo-desktop/issues/383)) ([e771efe](https://github.com/digidem/mapeo-desktop/commit/e771efe))
+* upload bugsnag sourcemaps and report build ([#362](https://github.com/digidem/mapeo-desktop/issues/362)) ([cb7a4f7](https://github.com/digidem/mapeo-desktop/commit/cb7a4f7))
+* Various improvements to the Observations screen ([#373](https://github.com/digidem/mapeo-desktop/issues/373)) ([a77019b](https://github.com/digidem/mapeo-desktop/commit/a77019b))
+
+
+
+## [5.3.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.1...v5.3.0-beta.2) (2020-07-07)
+
+
+### Bug Fixes
+
+* 'missing data' event will not cancel large syncs too early ([fe5924d](https://github.com/digidem/mapeo-desktop/commit/fe5924d))
+
+
+
+## [5.3.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v5.3.0-beta.0...v5.3.0-beta.1) (2020-07-02)
+
+* fix: Show 'disconnected' and 'finishing' states in sync button 
+
+## [5.3.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v5.2.1...v5.3.0-beta.0) (2020-06-26)
+
+
+### Bug Fixes
+
+* Also run actions on tag push ([14072dc](https://github.com/digidem/mapeo-desktop/commit/14072dc))
+* bugfix with logging when no encryption key ([01be7c6](https://github.com/digidem/mapeo-desktop/commit/01be7c6))
+* don't automatically publish to website until we figure out github actions ([ca14246](https://github.com/digidem/mapeo-desktop/commit/ca14246))
+* React Storybook now runs again ([#357](https://github.com/digidem/mapeo-desktop/issues/357)) ([5d0028e](https://github.com/digidem/mapeo-desktop/commit/5d0028e))
+* update package-lock ([4e38dc7](https://github.com/digidem/mapeo-desktop/commit/4e38dc7))
+
+
+### Features
+
+* Support helperText for fields in iD and improve field display ([#341](https://github.com/digidem/mapeo-desktop/issues/341)) ([fdcb70e](https://github.com/digidem/mapeo-desktop/commit/fdcb70e))
+
+
+
+### [5.2.1](https://github.com/digidem/mapeo-desktop/compare/v5.2.0...v5.2.1) (2020-05-07)
+
+
+### Bug Fixes
+
+* Import Configuration... should work without restarting Mapeo ([#340](https://github.com/digidem/mapeo-desktop/issues/340)) ([ef3dd36](https://github.com/digidem/mapeo-desktop/commit/ef3dd368ebcb391d3dea23a3be03140a6440ce6c))
+
+## [5.2.0](https://github.com/digidem/mapeo-desktop/compare/v5.1.0...v5.2.0) (2020-05-06)
+
+
+### Bug Fixes
+
+* Improve conversion of Mapeo presets for iD Editor ([#330](https://github.com/digidem/mapeo-desktop/issues/330)) ([e48c9c7](https://github.com/digidem/mapeo-desktop/commit/e48c9c7))
+* only ever call close once, fixes [#331](https://github.com/digidem/mapeo-desktop/issues/331) ([#332](https://github.com/digidem/mapeo-desktop/issues/332)) ([9235bad](https://github.com/digidem/mapeo-desktop/commit/9235bad))
+
+
+### Features
+
+* Use production build of react in packaged app ([#329](https://github.com/digidem/mapeo-desktop/issues/329)) ([1d22cc1](https://github.com/digidem/mapeo-desktop/commit/1d22cc1))
+
+
+
 ## [5.1.0](https://github.com/digidem/mapeo-desktop/compare/v5.0.7...v5.1.0) (2020-04-14)
 
 

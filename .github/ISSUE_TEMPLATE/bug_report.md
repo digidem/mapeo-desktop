@@ -30,6 +30,10 @@ If applicable, add screenshots to help explain your problem.
  - OS: [e.g. iOS8.1]
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
-
+ 
+**Mapeo Version:**
+ - Desktop [e.g., 5.3.0]
+ - Mobile [e.g., 5.0.0]
+ 
 **Additional context**
 Add any other context about the problem here.

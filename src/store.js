@@ -1,5 +1,9 @@
-const Store = require('electron-store')
+const Store = require('conf')
 
-const store = new Store({ name: 'mapeo-settings' })
+const store = new Store({
+  projectName: 'Mapeo',
+  projectSuffix: '',
+  configName: 'mapeo-settings'
+})
 
 module.exports = store

@@ -20,6 +20,7 @@
     "@babel/flow"
   ],
   plugins: [
+    ["@babel/plugin-proposal-export-default-from"],
     // Allows simpler defineMessages with react-intl
     // https://github.com/akameco/babel-plugin-react-intl-auto
     ["react-intl-auto", { filebase: true, removePrefix: "src" }],
@@ -35,6 +36,7 @@
     [
       "@babel/plugin-proposal-object-rest-spread",
       { loose: true, useBuiltIns: true }
-    ]
+    ],
+  	["@babel/plugin-proposal-private-methods", { "loose": true }]
   ]
 }

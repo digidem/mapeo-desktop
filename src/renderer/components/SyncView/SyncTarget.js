@@ -28,6 +28,8 @@ const SyncTarget = ({
   name = 'Android Phone',
   // See above peerStatus
   status,
+  // If connected
+  connected,
   // Sync progress object, with props `percent`, `mediaSofar`, `mediaTotal`,
   // `dbSofar`, `dbTotal`
   progress,
@@ -59,7 +61,7 @@ const SyncTarget = ({
             <PhoneIcon fontSize='inherit' className={cx.icon} />
           )}
           <Typography variant='h5' component='h2'>
-            {status === 'error' ? t(m.errorMsg) : name}
+            {name}
           </Typography>
           {status === 'error' ? (
             <Typography className={cx.errorDetail} align='center'>
@@ -88,6 +90,7 @@ const SyncTarget = ({
           )}
         </div>
         <SyncButton
+          connected={connected}
           onClick={onClick}
           variant={status}
           progress={progress && progress.percent}

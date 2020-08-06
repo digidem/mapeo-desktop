@@ -12,19 +12,27 @@ const debug = require('electron-debug')
 const mkdirp = require('mkdirp')
 const series = require('run-series')
 const styles = require('mapeo-styles')
-const { fork } = require('child_process')
-const middleware = require('electron-rabbit')
+const rabbit = require('electron-rabbit')
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+const updater = require('./src/main/auto-updater')
+const userConfig = require('./src/main/user-config')
+const Worker = require('./src/worker')
 const logger = require('./src/logger')
-const miscellaneousIpc = require('./src/main/ipc')
+const electronIpc = require('./src/main/ipc')
 const createMenu = require('./src/main/menu')
 const windowStateKeeper = require('./src/main/window-state')
 
+// Path to `userData`, operating system specific, see
+// https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
+var userDataPath = app.getPath('userData')
+var worker = new Worker(userDataPath)
+
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
+app.commandLine.appendSwitch('ignore-certificate-errors')
 
 // Setup some handy dev tools shortcuts (only activates in dev mode)
 // See https://github.com/sindresorhus/electron-debug
@@ -33,13 +41,21 @@ debug({ showDevTools: false })
 // Handle uncaught errors
 // XXX(KM): why aren't we enabling this?
 // catchErrors({ onError: handleError })
+//
+var exiting = false
+
+// Before we do anything, let's make sure we're ready to gracefully shut down
+const onExit = require('capture-exit')
+const signalExit = require('signal-exit')
+onExit.captureExit()
+onExit.onExit(beforeQuit)
+signalExit(beforeQuit, { alwaysLast: true })
 
 var win = null
 var splash = null
 var bg = null
 var mainWindowState = null
-var serverProcess = null
-var ipc = new middleware.Client()
+var ipc = new rabbit.Client()
 
 var gotTheLock = app.requestSingleInstanceLock()
 
@@ -56,9 +72,13 @@ if (!gotTheLock) {
   })
 }
 
-// Path to `userData`, operating system specific, see
-// https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
-var userDataPath = app.getPath('userData')
+if (!logger.configured) {
+  logger.configure({
+    label: 'main',
+    userDataPath,
+    isDev
+  })
+}
 
 var argv = minimist(process.argv.slice(2), {
   default: {
@@ -74,20 +94,30 @@ var argv = minimist(process.argv.slice(2), {
   }
 })
 
-if (argv.headless) startSequence()
-else app.once('ready', openWindow)
+var _socketName
 
-app.on('before-quit', beforeQuit)
+rabbit.findOpenSocket('mapeo').then((socketName) => {
+  logger.debug('got socket', socketName)
+  _socketName = socketName
+  if (argv.headless) startSequence()
+  else app.once('ready', openWindow)
+}).catch((err) => {
+  logger.error(err)
+  throw new Error('No socket found!', err)
+})
+
+app.on('before-quit', (e) => {
+  // Cancel quit and wait for server to close
+  if (e) e.preventDefault()
+  beforeQuit()
+})
 app.on('window-all-closed', function () {
   app.quit()
 })
 
 function openWindow () {
-  // TODO: get a socket name that isn't open ..
-  var _socketName = 'mapeo1'
-  logger.log('got socket', _socketName)
   ipc.on('error', function (err) {
-    logger.error(err)
+    logger.error('ipc', err)
     electron.dialog.showErrorBox('Error', err)
   })
   ipc.connect(_socketName)
@@ -98,6 +128,8 @@ function openWindow () {
   }
 
   if (isDev) {
+    // for updater to work correctly
+    process.env.APPIMAGE = path.join(__dirname, 'dist', `Installar_Mapeo_v${app.getVersion()}_linux.AppImage`)
     bg = createBgWindow(_socketName)
     try {
       var {
@@ -106,8 +138,8 @@ function openWindow () {
       } = require('electron-devtools-installer')
     } catch (e) {}
     installExtension(REACT_DEVELOPER_TOOLS)
-      .then(name => logger.log(`Added Extension:  ${name}`))
-      .catch(err => logger.log('An error occurred: ', err))
+      .then(name => logger.debug(`Added Extension:  ${name}`))
+      .catch(err => logger.error('Failed to add extension', err))
   } else {
     createBackgroundProcess(_socketName)
   }
@@ -129,7 +161,7 @@ function openWindow () {
 
 function startupMsg (txt) {
   return function (done) {
-    logger.log('[STARTUP] ' + txt)
+    logger.debug('[STARTUP] ' + txt)
     done()
   }
 }
@@ -149,7 +181,7 @@ function startSequence () {
     ],
     function (err) {
       if (err) logger.error('STARTUP FAILED', err)
-      else logger.log('STARTUP success!')
+      else logger.debug('STARTUP success!')
     }
   )
 }
@@ -162,17 +194,27 @@ function initDirectories (done) {
   mkdirp.sync(path.join(userDataPath, 'styles'))
   mkdirp.sync(path.join(userDataPath, 'presets'))
   mkdirp.sync(argv.datadir)
-  styles.unpackIfNew(userDataPath, function (err) {
+
+  styles.unpackIfNew(userDataPath, function (err, newSettings) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
+    var fallbackSettingsLocation = path.join(userDataPath, 'presets', styles.FALLBACK_DIR_NAME)
+    if (newSettings) userConfig.copyFallbackSettings(fallbackSettingsLocation, done)
+    else done()
   })
-  done()
 }
 
 function createServers (done) {
-  // TODO: rename/refactor
-  miscellaneousIpc(win)
+  function ipcSend (...args) {
+    try {
+      if (win && win.webContents) win.webContents.send.apply(win.webContents, args)
+    } catch (e) {
+      logger.error('exception win.webContents.send', args, e.stack)
+    }
+  }
 
-  logger.log('initializing mapeo', userDataPath, argv.port)
+  electronIpc(ipcSend)
+
+  logger.info('initializing mapeo', userDataPath, argv.port)
   var opts = {
     userDataPath,
     datadir: argv.datadir,
@@ -182,9 +224,8 @@ function createServers (done) {
 
   ipc.send('listen', opts, function (err, port) {
     if (err) throw new Error('fatal: could not get port', err)
-    logger.log('listen port got back', port)
     global.osmServerHost = '127.0.0.1:' + port
-    logger.log(global.osmServerHost)
+    logger.info(global.osmServerHost)
     done()
   })
 }
@@ -199,6 +240,7 @@ function notifyReady (done) {
       win.maximize()
       splash.destroy()
       win.show()
+      updater.periodicUpdates()
       done()
     }, 1000)
   })
@@ -228,8 +270,6 @@ function createWindow (socketName) {
   })
   mainWindowState.manage(win)
 
-  win.loadURL(INDEX)
-
   win.webContents.on('did-finish-load', () => {
     if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
     if (argv.debug) win.webContents.openDevTools()
@@ -237,11 +277,19 @@ function createWindow (socketName) {
       name: socketName
     })
   })
+  win.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
+    if (errorDescription === 'ERR_INTERNET_DISCONNECTED' || errorDescription === 'ERR_PROXY_CONNECTION_FAILED') {
+      logger.log(errorDescription)
+    }
+    logger.error(errorDescription)
+  })
+  win.loadURL(INDEX)
   return win
 }
 
 // Create a hidden background window
 function createBgWindow (socketName) {
+  logger.debug('loading electron background window')
   var win = new BrowserWindow({
     x: 0,
     y: 0,
@@ -252,17 +300,20 @@ function createBgWindow (socketName) {
       nodeIntegration: true
     }
   })
-  console.log('loading bg window')
   var BG = 'file://' + path.join(__dirname, './src/background/index.html')
   win.loadURL(BG)
   win.webContents.on('did-finish-load', () => {
     if (argv.debug) bg.webContents.openDevTools()
-    win.webContents.send('set-socket', {
-      name: socketName
-    })
+    if (win && win.webContents) {
+      win.webContents.send('configure', {
+        socketName,
+        userDataPath,
+        isDev
+      })
+    }
   })
   win.on('closed', () => {
-    console.log('background window closed')
+    logger.info('Background window closed')
     app.quit()
   })
   return win
@@ -283,15 +334,8 @@ function createSplashWindow () {
 }
 
 function createBackgroundProcess (socketName) {
-  console.log('creating background process')
-  serverProcess = fork(path.join(__dirname, 'src', 'background', 'index.js'), [
-    '--subprocess',
-    app.getVersion(),
-    socketName
-  ])
-
-  serverProcess.on('message', msg => {
-    console.log(msg)
+  worker.start(socketName, (err) => {
+    if (err) logger.error('Failed to start worker', err)
   })
 }
 
@@ -302,10 +346,7 @@ contextMenu({
   showInspectElement: isDev
 })
 
-function beforeQuit (e) {
-  // Cancel quit and wait for server to close
-  e.preventDefault()
-
+function showClosingWindow () {
   var CLOSING = 'file://' + path.join(__dirname, './closing.html')
   var closingWin = new BrowserWindow({
     width: 600,
@@ -314,26 +355,40 @@ function beforeQuit (e) {
     show: false,
     alwaysOnTop: false
   })
+
   closingWin.loadURL(CLOSING)
-  const closingTimeoutId = setTimeout(() => {
+  var closingTimeoutId = setTimeout(() => {
     closingWin.show()
   }, 300)
-
-  // 'close' event will gracefully close databases and wait for pending sync
-  // TODO: Show the user that a sync is pending finishing
-  console.log('ipc.send close')
-  ipc.send('close', null, () => {
-    console.log('closed')
+  return () => {
     clearTimeout(closingTimeoutId)
-    if (serverProcess) serverProcess.kill()
     try { closingWin.close() } catch (e) {}
     closingWin = null
-    serverProcess = null
-    app.exit()
-  })
+  }
 }
 
-// function handleError (error) {
-//   logger.error('uncaughtException in Node:', error)
-//   if (app && win) win.webContents.send('error', error.stack)
-// }
+function beforeQuit () {
+  if (exiting) return
+  exiting = true
+  // 'close' event will gracefully close databases and wait for pending sync
+  logger.debug('Closing IPC')
+
+  ipc.send('get-replicating-peers', null, (err, length) => {
+    if (err) logger.error('get-replicating-peers on close', err)
+
+    let closeClosingWindow = () => {}
+    if (length) closeClosingWindow = showClosingWindow()
+
+    ipc.send('close', null, () => {
+      logger.debug('IPC closed')
+
+      worker.cleanup((err) => {
+        if (err) !isDev ? logger.error('Failed to clean up a child process', err) : logger.debug('Nothing to clean up')
+        logger.debug('Successfully removed any stale processes')
+
+        closeClosingWindow()
+        app.exit()
+      })
+    })
+  })
+}
