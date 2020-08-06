@@ -111,7 +111,7 @@
     "mapbox-gl": "^1.4.1",
     "mapeo-entity-filter": "^2.0.0",
     "mapeo-schema": "^1.7.0",
-    "mapeo-server": "^17.0.1",
+    "mapeo-server": "^17.0.6",
     "mapeo-styles": "^3.0.0",
     "match-sorter": "^4.0.1",
     "mime": "^2.4.4",
