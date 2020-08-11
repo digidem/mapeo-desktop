@@ -16,7 +16,8 @@
         corejs: 3,
         shippedProposals: true
       }
-    ]
+    ],
+    "@babel/flow"
   ],
   plugins: [
     ["@babel/plugin-proposal-export-default-from"],
