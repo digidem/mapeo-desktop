@@ -32,6 +32,7 @@ export function guessValueType (
   if (isUrl(value)) {
     // eslint-disable-next-line node/no-deprecated-api
     const parsedUrl = url.parse(value)
+    if (!parsedUrl.pathname) return valueTypes.URL
     const mimeType = mime.getType(parsedUrl.pathname)
     if (!mimeType) return valueTypes.URL
     if (mimeType.split('/')[0] === 'image') return valueTypes.IMAGE_URL

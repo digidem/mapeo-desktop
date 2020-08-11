@@ -16,7 +16,7 @@ export function isObj (value: any): boolean {
 
 export function isImageAttachment (attachment: Attachment): boolean {
   const mimeType = attachment.type || mime.getType(attachment.id)
-  return mimeType && mimeType.split('/')[0] === 'image'
+  return mimeType ? mimeType.split('/')[0] === 'image' : false
 }
 
 export function getLastImage (observation: Observation): Attachment | void {
