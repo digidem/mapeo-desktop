@@ -1,0 +1,3 @@
+flow-typed/**/*
+.nyc_output/**/*
+static/**/*

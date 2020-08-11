@@ -1,4 +1,4 @@
-import fixture from '../../../fixtures/example_fc.json'
+import fixture from '../../../../../../fixtures/example_fc.json'
 import createMemoizedStats, { diffArrays, statReduce } from './statistics'
 // import fs from 'fs'
 
@@ -105,7 +105,7 @@ test('field stats', () => {
   const dataFixture = fixture.features.slice(0, 10).map(i => i.properties)
   const getStats = createMemoizedStats()
   const stats = getStats(dataFixture)
-  const expected = require('../../../fixtures/stats.json')
+  const expected = require('../../../../../../fixtures/stats.json')
   // fs.writeFileSync('./actual-stats.json', JSON.stringify(stats, null, 2))
   // JSON stringify -> parse to just skip the values Maps (not saved in fixture)
   expect(JSON.parse(JSON.stringify(stats))).toEqual(expected)
@@ -122,7 +122,7 @@ test('field stats updated', () => {
       }
     ])
   )
-  const expected = require('../../../fixtures/stats.json')
+  const expected = require('../../../../../../fixtures/stats.json')
   const key = JSON.stringify(['number'])
   const updatedExpected = {
     ...expected,

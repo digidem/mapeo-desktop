@@ -27,6 +27,7 @@
     "lint": "eslint --ignore-path .gitignore .",
     "flow": "flow",
     "test": "npm run lint && npm run test-integration",
+    "test-unit": "jest",
     "test-integration": "tape test",
     "device": "DEBUG=* node bin/mock.js",
     "watch": "webpack --watch --config webpack.dev.js",
