@@ -50,7 +50,7 @@ const getPreset = observation => {
   }
 }
 
-const exampleObservations = require('../../fixtures/observations.json')
+const exampleObservations = require('../../../../../fixtures/observations.json')
 
 export const simple = () => {
   const obs = exampleObservations[1]

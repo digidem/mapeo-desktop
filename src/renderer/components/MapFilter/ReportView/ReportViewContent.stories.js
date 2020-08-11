@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions'
 import ReportView from './ReportViewContent'
 import { defaultGetPreset } from '../utils/helpers'
 
-const exampleObservations = require('../../fixtures/observations.json')
+const exampleObservations = require('../../../../../fixtures/observations.json')
 
 const imageBaseUrl =
   'https://images.digital-democracy.org/mapfilter-sample/sample-'

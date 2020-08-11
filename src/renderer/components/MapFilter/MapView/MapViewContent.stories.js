@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 import { withKnobs, radios } from '@storybook/addon-knobs'
 
 import MapView from './MapViewContent'
-import fixtureObs from '../../fixtures/observations.json'
+import fixtureObs from '../../../../../fixtures/observations.json'
 
 function getMedia({ id }, { width = 200, height = 200 } = {}) {
   const size = Math.floor(width / 100) * 100

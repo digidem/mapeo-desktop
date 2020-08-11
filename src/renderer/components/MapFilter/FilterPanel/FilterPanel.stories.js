@@ -4,7 +4,7 @@ import * as React from 'react'
 import FilterPanel from './FilterPanel'
 import type { Preset } from 'mapeo-schema'
 import type { Field } from '../types'
-import fixtureObs from '../../fixtures/observations.json'
+import fixtureObs from '../../../../../fixtures/observations.json'
 
 export default {
   title: 'FilterPanel',

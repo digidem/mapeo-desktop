@@ -5,9 +5,9 @@ import { action } from '@storybook/addon-actions'
 import { withKnobs, radios } from '@storybook/addon-knobs'
 
 import MapView from './MapView'
-import fixtureObs from '../../fixtures/observations.json'
+import fixtureObs from '../../../../../fixtures/observations.json'
 
-function getMediaUrl(id, size) {
+function getMediaUrl (id, size) {
   const pixels = size === 'thumbnail' ? 400 : 1000
   const idx = parseInt(id, 16)
   return `https://picsum.photos/id/${+idx % 80}/${pixels}/${pixels}`

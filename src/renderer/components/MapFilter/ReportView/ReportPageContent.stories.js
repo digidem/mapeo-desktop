@@ -4,7 +4,7 @@ import React from 'react'
 import ReportPaper from './ReportPaper'
 import ReportPageContent from './ReportPageContent'
 import { getFields } from '../lib/data_analysis'
-import exampleObservations from '../../fixtures/observations.json'
+import exampleObservations from '../../../../../fixtures/observations.json'
 
 export default {
   title: 'ReportView/components/ReportPageContent'
