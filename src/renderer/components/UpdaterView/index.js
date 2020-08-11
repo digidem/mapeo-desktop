@@ -1,5 +1,7 @@
 import React from 'react'
-import { LinearProgress, Typography, makeStyles } from '@material-ui/core'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
 import { defineMessages, useIntl } from 'react-intl'
 import Button from '@material-ui/core/Button'
 import FormattedDuration from 'react-intl-formatted-duration'

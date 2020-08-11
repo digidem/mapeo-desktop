@@ -4,10 +4,11 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
-import { Wifi, WifiOff } from '@material-ui/icons'
+import Wifi from '@material-ui/icons/Wifi'
+import WifiOff from '@material-ui/icons/WifiOff'
 import { defineMessages, useIntl } from 'react-intl'
 import wifi from 'node-wifi'
-import { Tooltip } from '@material-ui/core'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import logger from '../../../logger'
 
@@ -19,13 +20,14 @@ try {
   wifiInit = false
 }
 
-const getQualityStyle = (connection) => {
+const getQualityStyle = connection => {
   if (connection.quality < 30) return { color: 'white', backgroundColor: 'red' }
-  if (connection.quality < 60) return { color: 'white', backgroundColor: 'orange' }
+  if (connection.quality < 60)
+    return { color: 'white', backgroundColor: 'orange' }
   return { backgroundColor: '#E0E0E0' }
 }
 
-const getWifiConnectionMessage = (connection) => {
+const getWifiConnectionMessage = connection => {
   if (connection.quality < 30) return m.qualityTooltipPoor
   if (connection.quality < 60) return m.qualityTooltipWeak
   return m.qualityTooltipAdequate
@@ -38,7 +40,8 @@ const m = defineMessages({
   disconnectedTooltip:
     'You first need to connect to a WiFi network before being able to synchronize devices',
   wifiError: 'Unknown',
-  wifiErrorTooltip: 'Your WiFi card or Operating System (OS) has not been recognized',
+  wifiErrorTooltip:
+    'Your WiFi card or Operating System (OS) has not been recognized',
   qualityTooltipPoor:
     'The connection signal is very poor. Try getting closer to the WiFi router',
   qualityTooltipWeak:
@@ -76,10 +79,10 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
   }, [])
 
   return (
-    <AppBar position='static' color='default' elevation={0} className={cx.root}>
+    <AppBar position="static" color="default" elevation={0} className={cx.root}>
       <Toolbar>
         <div className={cx.titleBar}>
-          <Typography variant='h6' component='h1' className={cx.title}>
+          <Typography variant="h6" component="h1" className={cx.title}>
             {t(m.title)}
           </Typography>
 
@@ -87,15 +90,17 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
             <Tooltip title={t(getWifiConnectionMessage(currentConnection))}>
               <span className={cx.wifi}>
                 <Wifi className={cx.wifiIcon} />
-                <Typography variant='overline' component='span' className={cx.wifiName}>
+                <Typography
+                  variant="overline"
+                  component="span"
+                  className={cx.wifiName}>
                   {currentConnection.ssid}
                 </Typography>
                 <Typography
-                  variant='overline'
-                  component='span'
+                  variant="overline"
+                  component="span"
                   className={cx.wifiQuality}
-                  style={getQualityStyle(currentConnection)}
-                >
+                  style={getQualityStyle(currentConnection)}>
                   {t(m.quality, {
                     quality: Math.min(100, currentConnection.quality).toFixed(0)
                   })}
@@ -106,7 +111,10 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
             <Tooltip title={t(m.disconnectedTooltip)}>
               <span className={cx.wifi}>
                 <WifiOff className={cx.wifiIcon} />
-                <Typography variant='overline' component='span' className={cx.wifiName}>
+                <Typography
+                  variant="overline"
+                  component="span"
+                  className={cx.wifiName}>
                   {t(m.disconnected)}
                 </Typography>
               </span>
@@ -115,7 +123,10 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
             <Tooltip title={t(m.wifiErrorTooltip)}>
               <span className={cx.wifi}>
                 <WifiOff className={cx.wifiIcon} />
-                <Typography variant='overline' component='span' className={cx.wifiName}>
+                <Typography
+                  variant="overline"
+                  component="span"
+                  className={cx.wifiName}>
                   {t(m.wifiError)}
                 </Typography>
               </span>
@@ -124,18 +135,16 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
         </div>
         <Button
           onClick={onClickSelectSyncfile}
-          color='inherit'
-          variant='outlined'
-          className={cx.button}
-        >
+          color="inherit"
+          variant="outlined"
+          className={cx.button}>
           {t(m.selectSyncfile)}
         </Button>
         <Button
           onClick={onClickNewSyncfile}
-          color='inherit'
-          variant='outlined'
-          className={cx.button}
-        >
+          color="inherit"
+          variant="outlined"
+          className={cx.button}>
           {t(m.newSyncfile)}
         </Button>
       </Toolbar>
@@ -145,7 +154,7 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
 
 export default SyncAppBar
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: 'white'
   },

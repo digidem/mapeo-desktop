@@ -1,47 +1,33 @@
 // This file is formatted as JSON5 https://github.com/json5/json5
 {
-  sourceType: "unambiguous",
+  sourceType: 'unambiguous',
   presets: [
     // Transforms JSX
-    "@babel/preset-react",
+    '@babel/preset-react',
     // Transforms ES6 code and import/export statements
     [
-      "@babel/preset-env",
+      '@babel/preset-env',
       {
         targets: {
-          electron: "6.0.0"
+          electron: '9.0.0'
         },
         // Only use polyfills necessary for target env
-        useBuiltIns: "usage",
+        useBuiltIns: 'usage',
         corejs: 3,
-        shippedProposals: true
+        shippedProposals: true,
+        modules: false
       }
     ],
-    "@babel/flow"
+    '@babel/flow'
   ],
   plugins: [
-    ["@babel/plugin-proposal-export-default-from"],
-    // Allows simpler defineMessages with react-intl
-    // https://github.com/akameco/babel-plugin-react-intl-auto
-    ["react-intl-auto", { filebase: true, removePrefix: "src" }],
-    // Turns flow type annotations into React.PropTypes for runtime
-    // type checking. Deadcode wraps in NODE_ENV checks
-    // ['flow-react-proptypes', { deadCode: true }],
-    // Converts flow annotations into comment syntax
-    // https://flow.org/en/docs/types/comments/
-    '@babel/plugin-transform-flow-comments',
-    // Reduces bundle size by sharing babel helpers between files
-    ["@babel/plugin-transform-runtime", { corejs: 3 }],
     // Allows directly declaring props and methods on a class instead of
     // binding them to `this` in the constructor
-    ["@babel/plugin-proposal-class-properties", { loose: true }],
-    // Allows short hand of Object.assign({}, a) as {...a}
-    // useBuiltIns should be fine for our use-case, but could cause un-expected
-    // results if trying to spread objects with a prototype chains. See
-    // https://exploringjs.com/es6/ch_oop-besides-classes.html#sec_assigning-vs-defining-properties
-    [
-      "@babel/plugin-proposal-object-rest-spread",
-      { loose: true, useBuiltIns: true }
-    ]
+    '@babel/plugin-proposal-class-properties',
+    // Allows simpler defineMessages with react-intl
+    // https://github.com/akameco/babel-plugin-react-intl-auto
+    ['react-intl-auto', { filebase: true, removePrefix: 'src' }],
+    // Reduces bundle size by sharing babel helpers between files
+    ['@babel/plugin-transform-runtime', { corejs: 3 }]
   ]
 }

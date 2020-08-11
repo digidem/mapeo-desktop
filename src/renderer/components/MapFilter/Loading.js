@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { defineMessages, useIntl } from 'react-intl'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 
 import Loader from '../Loader'
 

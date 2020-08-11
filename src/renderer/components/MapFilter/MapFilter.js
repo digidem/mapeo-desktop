@@ -8,7 +8,7 @@ import debounce from 'lodash/debounce'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import mapboxgl from 'mapbox-gl'
 import ErrorBoundary from 'react-error-boundary'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 
 import logger from '../../../logger'
 import Toolbar from './Toolbar'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField as MuiTextField } from '@material-ui/core'
+import MuiTextField from '@material-ui/core/TextField'
 
 const TextField = ({ onChange, ...otherProps }) => {
   const handleChange = event => onChange && onChange(event.target.value)

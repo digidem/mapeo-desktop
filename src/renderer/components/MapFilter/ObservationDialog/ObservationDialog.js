@@ -26,7 +26,7 @@ import MenuIcon from '@material-ui/icons/MoreVert'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 import { useIntl, FormattedMessage, defineMessages } from 'react-intl'
 import clone from 'clone-deep'
 

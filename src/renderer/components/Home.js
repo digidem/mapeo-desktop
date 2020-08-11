@@ -4,13 +4,11 @@ import styled from 'styled-components'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { Transition } from 'react-transition-group'
-import {
-  LocationOn,
-  Map as MapIcon,
-  PhotoLibrary as ObservationIcon,
-  OfflineBolt as SyncIcon,
-  Warning as WarningIcon
-} from '@material-ui/icons'
+import LocationOn from '@material-ui/icons/LocationOn'
+import MapIcon from '@material-ui/icons/Map'
+import ObservationIcon from '@material-ui/icons/PhotoLibrary'
+import SyncIcon from '@material-ui/icons/OfflineBolt'
+import WarningIcon from '@material-ui/icons/Warning'
 
 import pkg from '../../../package.json'
 import MapEditor from './MapEditor'
@@ -34,6 +32,8 @@ const m = defineMessages({
   sync: 'Synchronize',
   update: 'Update Mapeo'
 })
+
+// const MapEditor = () => <div>MAPEDITOR</div>
 
 const transitionDuration = 100
 
@@ -159,7 +159,9 @@ function TabPanel (props) {
     <Transition in={value === index} timeout={transitionDuration}>
       {transitionState => (
         <StyledPanel style={transitionStyles[transitionState]}>
-          {Component && <Component focusState={focusStates[transitionState]} {...extras} />}
+          {Component && (
+            <Component focusState={focusStates[transitionState]} {...extras} />
+          )}
         </StyledPanel>
       )}
     </Transition>
@@ -198,7 +200,8 @@ export default function Home ({ onSelectLanguage }) {
     }
   }, [])
 
-  const hasUpdate = update.state !== updateStates.IDLE &&
+  const hasUpdate =
+    update.state !== updateStates.IDLE &&
     update.state !== updateStates.UPDATE_NOT_AVAILABLE
 
   return (
@@ -218,7 +221,12 @@ export default function Home ({ onSelectLanguage }) {
           <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
           <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
           <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
-          {hasUpdate && <StyledTab icon={<WarningIcon />} label={<UpdateTab update={update} />} />}
+          {hasUpdate && (
+            <StyledTab
+              icon={<WarningIcon />}
+              label={<UpdateTab update={update} />}
+            />
+          )}
         </StyledTabs>
         <Version>Mapeo v{pkg.version}</Version>
       </Sidebar>
@@ -226,7 +234,13 @@ export default function Home ({ onSelectLanguage }) {
         <TabPanel value={tabIndex} index={0} component={MapEditor} />
         <TabPanel value={tabIndex} index={1} component={MapFilter} />
         <TabPanel value={tabIndex} index={2} component={SyncView} />
-        <TabPanel value={tabIndex} index={3} component={UpdaterView} update={update} setUpdate={setUpdate} />
+        <TabPanel
+          value={tabIndex}
+          index={3}
+          component={UpdaterView}
+          update={update}
+          setUpdate={setUpdate}
+        />
       </TabContent>
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}

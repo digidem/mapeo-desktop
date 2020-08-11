@@ -1,11 +1,17 @@
 const path = require('path')
-const nodeExternals = require('webpack-node-externals')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   entry: './src/renderer/app.js',
   target: 'electron-renderer',
-  externals: [nodeExternals()],
+  externals: [
+    'electron-store',
+    'winston',
+    'winston-daily-rotate-file',
+    '@bugsnag/node'
+  ],
   // plugins: [new LiveReloadPlugin()],
+  // plugins: [new BundleAnalyzerPlugin()],
   output: {
     filename: 'build.js',
     path: path.resolve(__dirname, 'static'),
