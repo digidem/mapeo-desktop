@@ -23,6 +23,12 @@
     // Allows simpler defineMessages with react-intl
     // https://github.com/akameco/babel-plugin-react-intl-auto
     ["react-intl-auto", { filebase: true, removePrefix: "src" }],
+    // Turns flow type annotations into React.PropTypes for runtime
+    // type checking. Deadcode wraps in NODE_ENV checks
+    // ['flow-react-proptypes', { deadCode: true }],
+    // Converts flow annotations into comment syntax
+    // https://flow.org/en/docs/types/comments/
+    '@babel/plugin-transform-flow-comments',
     // Reduces bundle size by sharing babel helpers between files
     ["@babel/plugin-transform-runtime", { corejs: 3 }],
     // Allows directly declaring props and methods on a class instead of
