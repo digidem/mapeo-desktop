@@ -39,7 +39,7 @@
     "release:beta": "standard-version --prerelease beta",
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
-    "extract-messages": "extract-messages --locales=es,en,pt --output messages/renderer --descriptions 'src/**/*.js'"
+    "extract-messages": "extract-messages --locales=en --output messages/renderer --descriptions 'src/**/*.js'"
   },
   "license": "GPL-3.0",
   "repository": {
@@ -221,8 +221,6 @@
     "spectron-fake-dialog": "0.0.1",
     "standard-version": "^6.0.1",
     "storybook-addon-i18n": "^5.1.11",
-    "storybook-addon-intl": "^2.4.1",
-    "storybook-addon-react-docgen": "^1.2.42",
     "style-loader": "^1.0.0",
     "tape": "^4.9.1",
     "webpack": "^4.40.2",
