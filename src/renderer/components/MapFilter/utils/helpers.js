@@ -1,5 +1,5 @@
 // @flow
-import mime from 'mime'
+import mime from 'mime/lite'
 import type { Observation } from 'mapeo-schema'
 
 import { getFields as getFieldsFromTags } from '../lib/data_analysis'
