@@ -10,13 +10,13 @@ export default {
 }
 
 export const empty = () => (
-  <ReportPaper paperSize="a4">
+  <ReportPaper paperSize='a4'>
     <h1>Hello World</h1>
   </ReportPaper>
 )
 
 export const clickable = () => (
-  <ReportPaper paperSize="a4" onClick={action('page click')}>
+  <ReportPaper paperSize='a4' onClick={action('page click')}>
     <h1>Hello World</h1>
   </ReportPaper>
 )

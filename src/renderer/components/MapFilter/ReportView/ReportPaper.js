@@ -142,7 +142,8 @@ const ReportPaper = ({
         className={clsx(cx.paper, cx[paperSize], classes.paper)}
         style={onClick ? { cursor: 'pointer' } : null}
         onClick={onClick}
-        elevation={1}>
+        elevation={1}
+      >
         <div className={clsx(cx.content, cx[paperSize], classes.content)}>
           {children}
         </div>

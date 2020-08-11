@@ -175,10 +175,10 @@ function useObservations () {
           const updatedObservations =
             index > -1
               ? [
-                ...observations.slice(0, index),
-                obs,
-                ...observations.slice(index + 1)
-              ]
+                  ...observations.slice(0, index),
+                  obs,
+                  ...observations.slice(index + 1)
+                ]
               : [...observations, obs]
           setObservations(updatedObservations)
         })
@@ -225,11 +225,9 @@ function useObservations () {
   }
 
   useEffect(() => {
-    const subscription = api.addDataChangedListener(
-      'territory-edit',
-      () => {
-        loadObservations()
-      })
+    const subscription = api.addDataChangedListener('territory-edit', () => {
+      loadObservations()
+    })
     return () => {
       subscription.remove()
     }

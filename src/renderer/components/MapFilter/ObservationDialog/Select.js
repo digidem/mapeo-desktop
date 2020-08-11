@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function renderInput(inputProps) {
+function renderInput (inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps
 
   return (
@@ -73,7 +73,7 @@ type SelectMultipleProps = {
   value: Array<SelectableFieldValue>
 }
 
-function Encoder(options: Array<LabeledSelectOption>) {
+function Encoder (options: Array<LabeledSelectOption>) {
   return {
     toValue: (label: string | null): SelectableFieldValue | void => {
       if (label === null) return
@@ -87,7 +87,7 @@ function Encoder(options: Array<LabeledSelectOption>) {
   }
 }
 
-function isSelectableFieldValue(
+function isSelectableFieldValue (
   v: SelectableFieldValue | LabeledSelectOption
 ): boolean {
   return (
@@ -98,7 +98,7 @@ function isSelectableFieldValue(
   )
 }
 
-function getLabeledSelectOptions(
+function getLabeledSelectOptions (
   options: SelectOptions
 ): Array<LabeledSelectOption> {
   return options.map(opt =>

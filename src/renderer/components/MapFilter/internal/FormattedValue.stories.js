@@ -13,7 +13,7 @@ export default {
 
 export const textFromString = () => (
   <FormattedValue
-    value="hello world"
+    value='hello world'
     field={{ id: '', key: [], type: fieldTypes.TEXT }}
   />
 )
@@ -57,14 +57,14 @@ textFromNull.story = {
 
 export const link = () => (
   <FormattedValue
-    value="http://www.example.com"
+    value='http://www.example.com'
     field={{ id: '', key: [], type: fieldTypes.LINK }}
   />
 )
 
 export const linkButNotLink = () => (
   <FormattedValue
-    value="not a link"
+    value='not a link'
     field={{ id: '', key: [], type: fieldTypes.LINK }}
   />
 )
@@ -140,7 +140,7 @@ selectOneBoolean.story = {
 
 export const selectOneString = () => (
   <FormattedValue
-    value="hello world"
+    value='hello world'
     field={{ id: '', key: [], type: fieldTypes.SELECT_ONE, options: [] }}
   />
 )

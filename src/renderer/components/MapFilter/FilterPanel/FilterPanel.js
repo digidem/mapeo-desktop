@@ -214,7 +214,7 @@ const comparisonOps = ['<=', '>=']
 const membershipOps = ['in', '!in']
 
 // Parse a filter and return filter expressions by field id
-function parseFilter(
+function parseFilter (
   filter: Filter | null
 ): { [fieldId: string]: Filter | null } {
   const filterByField = {}
@@ -233,7 +233,7 @@ function parseFilter(
   return filterByField
 }
 
-function compileFilter(filterByField: {
+function compileFilter (filterByField: {
   [fieldId: string]: Filter
 }): Filter | null {
   const filter = ['all']
@@ -246,7 +246,7 @@ function compileFilter(filterByField: {
 }
 
 // Currently we only support a very specific filter structure
-function isValidFilter(filter): boolean {
+function isValidFilter (filter): boolean {
   if (!Array.isArray(filter)) return false
   if (filter[0] !== 'all') return false
   return filter.slice(1).every(subFilter => {
@@ -274,7 +274,7 @@ function isValidFilter(filter): boolean {
 // definition. Mapeo Desktop (currently) allows you to add new option to a
 // select_one field which aren't defined in the preset, and this allows you to
 // filter by these new values
-function combineOptionsWithStats(
+function combineOptionsWithStats (
   fieldOptions: SelectOptions,
   fieldStats: FieldStatistic
 ): SelectOptions {
@@ -315,7 +315,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 // Sort presets by sort property and then by name, then filter only point presets
-function presetCompare(a, b) {
+function presetCompare (a, b) {
   if (typeof a.sort !== 'undefined' && typeof b.sort !== 'undefined') {
     // If sort value is the same, then sort by name
     if (a.sort === b.sort) return compareStrings(a.name, b.name)
@@ -333,6 +333,6 @@ function presetCompare(a, b) {
   }
 }
 
-function compareStrings(a = '', b = '') {
+function compareStrings (a = '', b = '') {
   return a.toLowerCase().localeCompare(b.toLowerCase())
 }

@@ -112,20 +112,20 @@ const ExportDialogContent = ({
     }
 
     const saveExt = values.photos === 'none' ? ext : 'zip'
-    remote.dialog.showSaveDialog(
-      {
+    remote.dialog
+      .showSaveDialog({
         title: t(msgs.title),
         defaultPath: t(msgs.defaultExportFilename) + '.' + saveExt,
         filters: [{ name: saveExt + ' files', extensions: [saveExt] }]
-      }
-    ).then(({ canceled, filePath }) => {
-      if (canceled) return handleClose()
-      const filepathWithExtension = path.join(
-        path.dirname(filePath),
-        path.basename(filePath, '.' + saveExt) + '.' + saveExt
-      )
-      onSelectFile(filepathWithExtension)
-    })
+      })
+      .then(({ canceled, filePath }) => {
+        if (canceled) return handleClose()
+        const filepathWithExtension = path.join(
+          path.dirname(filePath),
+          path.basename(filePath, '.' + saveExt) + '.' + saveExt
+        )
+        onSelectFile(filepathWithExtension)
+      })
 
     function onSelectFile (filePath) {
       if (values.photos === 'none') {
@@ -337,9 +337,9 @@ function observationsToGeoJson (obs, { photos } = {}) {
         o.lat == null || o.lon == null
           ? null
           : {
-            type: 'Point',
-            coordinates: [o.lon, o.lat]
-          },
+              type: 'Point',
+              coordinates: [o.lon, o.lat]
+            },
       id: o.id,
       properties: {
         ...o.tags,

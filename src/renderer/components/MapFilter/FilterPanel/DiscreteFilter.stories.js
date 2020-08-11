@@ -37,7 +37,7 @@ export const defaultStory = () => {
   console.log(filter)
   return (
     <DiscreteFilter
-      label="Happening"
+      label='Happening'
       options={options}
       fieldKey={['foo']}
       filter={filter}

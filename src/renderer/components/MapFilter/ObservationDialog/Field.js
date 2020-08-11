@@ -42,7 +42,7 @@ const Field = ({ field, value, onChange }: Props) => {
     // appear as additional fields without the correct labels)
     // eslint-disable-next-line no-fallthrough
     case 'localized':
-    case 'text':
+    case 'text': {
       // In mapeo-schema, text fields default to multiline appearance.
       const isMultiline = field.appearance !== 'singleline'
       return (
@@ -54,6 +54,7 @@ const Field = ({ field, value, onChange }: Props) => {
           placeholder={placeholder}
         />
       )
+    }
     case 'select_one':
       return (
         <SelectOne

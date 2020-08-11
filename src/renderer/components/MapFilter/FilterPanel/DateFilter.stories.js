@@ -22,11 +22,11 @@ export const defaultStory = () => {
   console.log(filter)
   return (
     <DateFilter
-      label="Select Date"
+      label='Select Date'
       fieldKey={['foo']}
       filter={filter}
-      min="2019-01-01T18:40:48.749Z"
-      max="2019-09-28T08:40:48.749Z"
+      min='2019-01-01T18:40:48.749Z'
+      max='2019-09-28T08:40:48.749Z'
       onChangeFilter={setFilter}
     />
   )

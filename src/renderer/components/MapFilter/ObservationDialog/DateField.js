@@ -8,10 +8,10 @@ const DateField = ({ value, onChange, ...otherProps }: any) => {
   return (
     <DatePicker
       fullWidth
-      variant="inline"
-      inputVariant="outlined"
-      margin="normal"
-      format="dd/MM/yyyy"
+      variant='inline'
+      inputVariant='outlined'
+      margin='normal'
+      format='dd/MM/yyyy'
       autoOk
       value={valueAsDate}
       onChange={date => onChange(getDateString(date))}

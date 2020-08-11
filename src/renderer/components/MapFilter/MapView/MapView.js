@@ -31,7 +31,8 @@ const MapView = (
       onDeleteObservation={onDeleteObservation}
       presets={presets}
       filter={filter}
-      getMediaUrl={getMediaUrl}>
+      getMediaUrl={getMediaUrl}
+    >
       {({ onClickObservation, filteredObservations, getPreset, getMedia }) => (
         <MapViewContent
           ref={ref}

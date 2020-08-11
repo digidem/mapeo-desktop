@@ -27,9 +27,10 @@ const Toolbar = ({ children }: Props) => {
   return (
     <AppBar
       elevation={0}
-      color="default"
-      position="static"
-      className={classes.root + ' d-print-none'}>
+      color='default'
+      position='static'
+      className={classes.root + ' d-print-none'}
+    >
       {children}
     </AppBar>
   )

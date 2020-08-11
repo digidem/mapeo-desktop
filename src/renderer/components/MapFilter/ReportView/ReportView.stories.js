@@ -27,7 +27,7 @@ export default {
 export const basic = () => (
   <ReportView
     getMediaUrl={getMediaUrl}
-    mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+    mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
     observations={exampleObservations.slice(0, 10)}
     onUpdateObservation={action('update')}
     onDeleteObservation={action('delete')}
@@ -82,7 +82,7 @@ const presets: PresetWithFields[] = [
 export const withPresets = () => (
   <ReportView
     getMediaUrl={getMediaUrl}
-    mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+    mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
     observations={exampleObservations.slice(0, 10)}
     onUpdateObservation={action('update')}
     onDeleteObservation={action('delete')}

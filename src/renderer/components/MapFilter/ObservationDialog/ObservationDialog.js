@@ -91,12 +91,12 @@ const localeMap = {
   es: esLocale
 }
 
-function getLocaleData(locale) {
+function getLocaleData (locale) {
   if (!locale) return localeMap.en
   return localeMap[locale] || localeMap[locale.split('-')[0]] || localeMap.en
 }
 
-function defaultGetMedia({ type, id }: Attachment) {
+function defaultGetMedia ({ type, id }: Attachment) {
   if (type && type.split('/')[0] !== 'image') return
   return {
     type: 'image',
@@ -109,21 +109,22 @@ const ConfirmCloseDialog = ({ open, onCancel, onConfirm }) => (
     disableBackdropClick
     open={open}
     onClose={onCancel}
-    aria-labelledby="close-dialog-title"
-    aria-describedby="close-dialog-description">
-    <DialogTitle id="close-dialog-title">
+    aria-labelledby='close-dialog-title'
+    aria-describedby='close-dialog-description'
+  >
+    <DialogTitle id='close-dialog-title'>
       <FormattedMessage {...m.confirmCloseTitle} />
     </DialogTitle>
     <MuiDialogContent>
-      <DialogContentText id="close-dialog-description">
+      <DialogContentText id='close-dialog-description'>
         <FormattedMessage {...m.confirmCloseDescription} />
       </DialogContentText>
     </MuiDialogContent>
     <DialogActions>
-      <Button onClick={onCancel} color="primary">
+      <Button onClick={onCancel} color='primary'>
         <FormattedMessage {...m.confirmCloseButtonCancel} />
       </Button>
-      <Button onClick={onConfirm} color="primary" autoFocus>
+      <Button onClick={onConfirm} color='primary' autoFocus>
         <FormattedMessage {...m.confirmCloseButtonConfirm} />
       </Button>
     </DialogActions>
@@ -135,15 +136,16 @@ const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => (
     disableBackdropClick
     open={open}
     onClose={onCancel}
-    aria-labelledby="delete-dialog-title">
-    <DialogTitle id="delete-dialog-title">
+    aria-labelledby='delete-dialog-title'
+  >
+    <DialogTitle id='delete-dialog-title'>
       <FormattedMessage {...m.confirmDeleteTitle} />
     </DialogTitle>
     <DialogActions>
-      <Button onClick={onCancel} color="primary">
+      <Button onClick={onCancel} color='primary'>
         <FormattedMessage {...m.confirmDeleteButtonCancel} />
       </Button>
-      <Button onClick={onConfirm} color="primary" autoFocus>
+      <Button onClick={onConfirm} color='primary' autoFocus>
         <FormattedMessage {...m.confirmDeleteButtonConfirm} />
       </Button>
     </DialogActions>
@@ -214,17 +216,19 @@ const ObservationActions = ({ onDeleteClick }) => {
   return (
     <>
       <IconButton
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={handleOpenClick}>
+        aria-controls='simple-menu'
+        aria-haspopup='true'
+        onClick={handleOpenClick}
+      >
         <MenuIcon />
       </IconButton>
       <Menu
-        id="simple-menu"
+        id='simple-menu'
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}>
+        onClose={handleClose}
+      >
         <MenuItem onClick={createHandleItemClick(onDeleteClick)}>
           <FormattedMessage {...m.deleteObservationMenuItem} />
         </MenuItem>
@@ -302,13 +306,15 @@ const DialogContent = ({
   return (
     <MuiPickersUtilsProvider
       utils={DateFnsUtils}
-      locale={getLocaleData(locale)}>
+      locale={getLocaleData(locale)}
+    >
       <>
         <IconButton
           className={cx.closeButton}
-          color="inherit"
+          color='inherit'
           onClick={handleRequestClose}
-          aria-label="Close">
+          aria-label='Close'
+        >
           <CloseIcon />
         </IconButton>
         {mediaItems.length > 0 && (
@@ -331,17 +337,18 @@ const DialogContent = ({
           value={values[descriptionKey]}
           onChange={newValue => handleChange(descriptionKey, newValue)}
           multiline
-          margin="dense"
-          label="Description"
+          margin='dense'
+          label='Description'
           className={cx.descriptionField}
         />
         {preset.fields.length > 0 && (
           <Accordion TransitionProps={{ unmountOnExit: true }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header">
-              <Typography component="h2" className={cx.sectionHeading}>
+              aria-controls='panel1a-content'
+              id='panel1a-header'
+            >
+              <Typography component='h2' className={cx.sectionHeading}>
                 <FormattedMessage {...m.detailsHeader} />
               </Typography>
             </AccordionSummary>
@@ -362,9 +369,10 @@ const DialogContent = ({
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header">
-                <Typography component="h2" className={cx.sectionHeading}>
+                aria-controls='panel1a-content'
+                id='panel1a-header'
+              >
+                <Typography component='h2' className={cx.sectionHeading}>
                   <FormattedMessage {...m.additionalHeader} />
                 </Typography>
               </AccordionSummary>
@@ -383,17 +391,19 @@ const DialogContent = ({
         <Fade in={dirty}>
           <Collapse in={dirty} className={cx.actions}>
             <Button
-              color="default"
-              variant="contained"
+              color='default'
+              variant='contained'
               className={cx.button}
-              onClick={handleRequestClose}>
+              onClick={handleRequestClose}
+            >
               <FormattedMessage {...m.cancelEditButton} />
             </Button>
             <Button
-              color="primary"
-              variant="contained"
+              color='primary'
+              variant='contained'
               className={cx.button}
-              onClick={handleSave}>
+              onClick={handleSave}
+            >
               <FormattedMessage {...m.saveEditButton} />
             </Button>
           </Collapse>
@@ -423,9 +433,10 @@ const ObservationDialog = ({ open, onRequestClose, ...otherProps }: Props) => {
         disableBackdropClick
         open={open}
         onClose={handleRequestClose}
-        scroll="body"
+        scroll='body'
         fullWidth
-        maxWidth="sm">
+        maxWidth='sm'
+      >
         {open && (
           <DialogContent {...otherProps} onRequestClose={handleRequestClose} />
         )}

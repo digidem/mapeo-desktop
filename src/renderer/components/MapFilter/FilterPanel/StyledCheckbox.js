@@ -51,14 +51,14 @@ const useStyles = makeStyles({
 })
 
 // Inspired by blueprintjs
-function StyledCheckbox(props) {
+function StyledCheckbox (props) {
   const classes = useStyles()
 
   return (
     <Checkbox
       className={classes.root}
       disableRipple
-      color="default"
+      color='default'
       checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
       icon={<span className={classes.icon} />}
       {...props}

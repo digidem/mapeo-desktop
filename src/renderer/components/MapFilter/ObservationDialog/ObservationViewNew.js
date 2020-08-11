@@ -68,7 +68,7 @@ type Props = {
   ) => Array<{| url: string, type?: 'image' |}>
 }
 
-function defaultGetFields(obs: Observation) {
+function defaultGetFields (obs: Observation) {
   return defaultGetFieldsFromTags(obs.tags)
 }
 
@@ -85,7 +85,7 @@ const ObservationView = ({
   //   clone(observation.tags || {})
   // )
 
-  function handleSave() {
+  function handleSave () {
     setEditing(false)
   }
 
@@ -98,26 +98,27 @@ const ObservationView = ({
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
-            edge="start"
-            color="inherit"
+            edge='start'
+            color='inherit'
             onClick={onRequestClose}
-            aria-label="Close">
+            aria-label='Close'
+          >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant='h6' className={classes.title}>
             Observation
           </Typography>
           {editing ? (
             <>
-              <Button color="inherit" onClick={() => setEditing(false)}>
+              <Button color='inherit' onClick={() => setEditing(false)}>
                 Cancel
               </Button>
-              <Button color="inherit" onClick={handleSave}>
+              <Button color='inherit' onClick={handleSave}>
                 Save
               </Button>
             </>
           ) : (
-            <Button color="inherit" onClick={() => setEditing(true)}>
+            <Button color='inherit' onClick={() => setEditing(true)}>
               Edit
             </Button>
           )}

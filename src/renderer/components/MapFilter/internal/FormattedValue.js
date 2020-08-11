@@ -36,7 +36,7 @@ const FormattedValue = ({ value, field }: Props) => {
   if (value === undefined || value === null) return null
   try {
     switch (field.type) {
-      case fieldTypes.SELECT_MULTIPLE:
+      case fieldTypes.SELECT_MULTIPLE: {
         const valueAsArray = coerceValue(value, valueTypes.ARRAY).filter(
           v => v != null
         )
@@ -44,46 +44,53 @@ const FormattedValue = ({ value, field }: Props) => {
           <FormattedValue key={i} value={v} field={defaultTextField} />
         ))
         return joinReactChildren(values, ', ')
-      case fieldTypes.NUMBER:
+      }
+      case fieldTypes.NUMBER: {
         const valueAsNumber = coerceValue(value, valueTypes.NUMBER)
         return valueAsNumber + ''
+      }
       case fieldTypes.TEXT:
       case fieldTypes.TEXTAREA:
-      case fieldTypes.SELECT_ONE:
+      case fieldTypes.SELECT_ONE: {
         if (typeof value === 'boolean') return value ? 'yes' : 'no'
         const valueAsString = coerceValue(value, valueTypes.STRING)
         return valueAsString
-      case fieldTypes.DATE:
+      }
+      case fieldTypes.DATE: {
         const valueAsDate = coerceValue(value, valueTypes.DATE)
         return (
           <FormattedDate
             value={valueAsDate}
-            year="numeric"
-            month="long"
-            day="2-digit"
+            year='numeric'
+            month='long'
+            day='2-digit'
           />
         )
-      case fieldTypes.DATETIME:
+      }
+      case fieldTypes.DATETIME: {
         const valueAsDatetime = coerceValue(value, valueTypes.DATETIME)
         return (
           <FormattedTime
             value={valueAsDatetime}
-            year="numeric"
-            month="long"
-            day="2-digit"
+            year='numeric'
+            month='long'
+            day='2-digit'
           />
         )
-      case fieldTypes.LINK:
+      }
+      case fieldTypes.LINK: {
         const valueAsUrl = coerceValue(value, valueTypes.URL)
         return (
           <a
             href={valueAsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={classes.link}>
+            target='_blank'
+            rel='noopener noreferrer'
+            className={classes.link}
+          >
             {valueAsUrl}
           </a>
         )
+      }
     }
     return null
   } catch (e) {
@@ -94,7 +101,7 @@ const FormattedValue = ({ value, field }: Props) => {
 
 export default FormattedValue
 
-function joinReactChildren(
+function joinReactChildren (
   children: Array<React.Node>,
   separator: React.Node
 ): Array<React.Node> {

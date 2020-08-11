@@ -62,7 +62,8 @@ const FilterSection = ({
       <Collapse
         in={expanded || isFiltered}
         classes={{ wrapperInner: cx.collapse }}
-        unmountOnExit>
+        unmountOnExit
+      >
         {children}
       </Collapse>
     </div>

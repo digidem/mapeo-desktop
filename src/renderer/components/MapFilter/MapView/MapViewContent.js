@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useImperativeHandle
 } from 'react'
-import { useIntl, IntlProvider } from 'react-intl'
+import { useIntl } from 'react-intl'
 import ReactMapboxGl from 'react-mapbox-gl'
 import mapboxgl from 'mapbox-gl'
 import type { Observation } from 'mapeo-schema'
@@ -211,7 +211,7 @@ const MapViewContent = (
     [onMapMove]
   )
 
-  function getLastImageUrl(observation: Observation): string | void {
+  function getLastImageUrl (observation: Observation): string | void {
     const lastImageAttachment = getLastImage(observation)
     if (!lastImageAttachment) return
     const media = getMedia(lastImageAttachment, {
@@ -221,7 +221,7 @@ const MapViewContent = (
     if (media) return media.src
   }
 
-  function getName(observation: Observation): string {
+  function getName (observation: Observation): string {
     const preset = getPreset(observation)
     return (preset && preset.name) || 'Observation'
   }
@@ -234,7 +234,8 @@ const MapViewContent = (
       fitBoundsOptions={fitBoundsOptions}
       onStyleLoad={handleStyleLoad}
       onMove={handleMapMove}
-      {...position}>
+      {...position}
+    >
       <ObservationLayer
         observations={observations}
         onClick={onClick}
@@ -263,10 +264,13 @@ const MapViewContent = (
 
 export default React.forwardRef<Props, MapInstance>(MapViewContent)
 
-function getBounds(
+function getBounds (
   observations: Observation[]
 ): [[number, number], [number, number]] {
-  const extent = [[-180, -85], [180, 85]]
+  const extent = [
+    [-180, -85],
+    [180, 85]
+  ]
   for (const { lat, lon } of observations) {
     if (lon == null || lat == null) continue
     if (extent[0][0] < lon) extent[0][0] = lon

@@ -32,7 +32,7 @@ export default {
 export const withoutImages = () => (
   <ReportView
     getPreset={defaultGetPreset}
-    mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+    mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
     observations={exampleObservations}
     onClick={action('click')}
     getMedia={() => {}}
@@ -42,7 +42,7 @@ export const withoutImages = () => (
 export const images = () => (
   <ReportView
     getPreset={defaultGetPreset}
-    mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+    mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
     observations={exampleObservations}
     onClick={action('click')}
     getMedia={getMedia}
@@ -52,7 +52,7 @@ export const images = () => (
 export const customFields = () => (
   <ReportView
     getPreset={defaultGetPreset}
-    mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+    mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
     observations={exampleObservations}
     onClick={action('click')}
     getMedia={getMedia}
@@ -71,7 +71,7 @@ export const customFields = () => (
 export const printView = () => (
   <ReportView
     getPreset={defaultGetPreset}
-    mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+    mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
     observations={exampleObservations.slice(0, 50)}
     onClick={action('click')}
     getMedia={getMedia}

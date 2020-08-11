@@ -22,7 +22,7 @@ const TYPES = {
  * - dates
  * - urls (guessing contentType from extension)
  */
-export function guessValueType(
+export function guessValueType (
   value: Primitive | Array<Primitive>
 ): $Values<typeof valueTypes> {
   if (Array.isArray(value)) return valueTypes.ARRAY
@@ -104,17 +104,18 @@ declare function coerceValue(
  * Attempts to coerce a value to `type`, throws if it can't coerce
  */
 // eslint-disable-next-line no-redeclare
-export function coerceValue(value, type) {
+export function coerceValue (value, type) {
   if (value === undefined || value === null) return value
   switch (type) {
     case valueTypes.UNDEFINED:
       return
     case valueTypes.NULL:
       return null
-    case valueTypes.LOCATION:
+    case valueTypes.LOCATION: {
       const parsedLocation = parseLocation(value)
       if (parsedLocation) return parsedLocation
       throw new Error('Cannot coerce ' + JSON.stringify(value) + ' to ' + type)
+    }
     case valueTypes.ARRAY:
       if (Array.isArray(value)) return value
       // If string assume either comma-separated or space-separated - choose the
@@ -191,7 +192,7 @@ export function coerceValue(value, type) {
 const TRUE_STRINGS = ['yes', 'true', '1']
 const FALSE_STRINGS = ['no', 'false', '0']
 
-function parseBoolean(value: string) {
+function parseBoolean (value: string) {
   const v = value.toLowerCase().trim()
   if (TRUE_STRINGS.indexOf(v) > -1) return true
   if (FALSE_STRINGS.indexOf(v) > -1) return false
@@ -204,7 +205,7 @@ function parseBoolean(value: string) {
  * - a sexagesimal pair e.g. `66N 32W`
  * - an array [lon, lat] of either numbers or strings which can be coerced to numbers
  */
-function parseLocation(value: any): [number, number] | null {
+function parseLocation (value: any): [number, number] | null {
   if (typeof value === 'string') {
     var parsed = sexagesimal.pair(value)
     if (parsed) return [parsed[1], parsed[0]]
@@ -227,20 +228,20 @@ function parseLocation(value: any): [number, number] | null {
 
 // Stricter parsing function, from
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
-function isFloat(value: string | number) {
+function isFloat (value: string | number) {
   if (typeof value === 'number') return true
   return /^(-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(value)
 }
 
-function isShortDate(value: string) {
+function isShortDate (value: string) {
   return shortDateRegExp.test(value)
 }
 
 // Check whether a location is within bounds
-function withinBounds(lon: number, lat: number) {
+function withinBounds (lon: number, lat: number) {
   return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
 }
 
-function isUrl(url: string): boolean {
+function isUrl (url: string): boolean {
   return url.startsWith('https://') || url.startsWith('http://')
 }

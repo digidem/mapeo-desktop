@@ -40,7 +40,7 @@ export const defaultStory = () => {
         onUpdateObservation={action('update')}
         onDeleteObservation={action('delete')}
         getMediaUrl={getMediaUrl}
-        mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+        mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
       />
     </div>
   )
@@ -72,7 +72,7 @@ export const delayedLoad = () => {
         onUpdateObservation={action('update')}
         onDeleteObservation={action('delete')}
         getMediaUrl={getMediaUrl}
-        mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+        mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
       />
     </div>
   )

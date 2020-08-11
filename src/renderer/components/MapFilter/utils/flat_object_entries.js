@@ -1,7 +1,7 @@
 // @flow
 import { isObj } from './helpers'
 
-function isArrayOfPrimitives(value: any): boolean {
+function isArrayOfPrimitives (value: any): boolean {
   return Array.isArray(value) && value.length && !value.some(isObj)
 }
 
@@ -25,12 +25,12 @@ type Primitive = string | boolean | null | void | number
  * //   [['other', 0, 'foo'], 'bar']
  * // ]
  */
-export function flatObjectEntries(object: {}): Array<
+export function flatObjectEntries (object: {}): Array<
   [Array<string | number>, Primitive | Primitive[]]
 > {
   var entries = []
 
-  ;(function step(
+  ;(function step (
     object: any,
     prev: Array<string | number> = [],
     currentDepth: number = 1

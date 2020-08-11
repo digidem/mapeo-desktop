@@ -10,9 +10,9 @@ export default {
 
 export const defaultStory = () => (
   <NumberField
-    label="Age"
-    placeholder="Some placeholder (e.g. example input)"
-    helperText="The actual question might be here?"
+    label='Age'
+    placeholder='Some placeholder (e.g. example input)'
+    helperText='The actual question might be here?'
     onChange={v => {
       console.log(v)
       action('onChange')(v)

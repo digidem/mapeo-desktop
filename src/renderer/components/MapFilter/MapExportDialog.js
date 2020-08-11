@@ -67,27 +67,28 @@ const EditDialogContent = ({
     const points = observationsToGeoJson(observations, getPreset)
     const metadata = { title: title || '', description: description || '' }
 
-    remote.dialog.showSaveDialog(
-      {
+    remote.dialog
+      .showSaveDialog({
         title: 'Guardar Mapa',
         defaultPath: 'mapa-para-web',
         filters: [{ name: 'Mapeo Webmap Package', extensions: ['mapeomap'] }]
-      }
-    ).then(({ filePath, canceled }) => {
-      if (canceled) return handleClose()
-      const filepathWithExtension = path.join(
-        path.dirname(filePath),
-        path.basename(filePath, '.mapeomap') + '.mapeomap'
-      )
-      createArchive(filepathWithExtension, err => {
-        if (err) {
-          logger.error('MapExportDialog: Failed to create archive', err)
-        } else {
-          logger.debug('Successfully created map archive')
-        }
-        handleClose()
       })
-    }).catch(handleClose)
+      .then(({ filePath, canceled }) => {
+        if (canceled) return handleClose()
+        const filepathWithExtension = path.join(
+          path.dirname(filePath),
+          path.basename(filePath, '.mapeomap') + '.mapeomap'
+        )
+        createArchive(filepathWithExtension, err => {
+          if (err) {
+            logger.error('MapExportDialog: Failed to create archive', err)
+          } else {
+            logger.debug('Successfully created map archive')
+          }
+          handleClose()
+        })
+      })
+      .catch(handleClose)
 
     function createArchive (filePath, cb) {
       const output = fsWriteStreamAtomic(filePath)
@@ -124,9 +125,7 @@ const EditDialogContent = ({
 
       <DialogContent className={classes.content}>
         <DialogContentText>
-          {`Vas a exportar ${
-            observations.length
-          } puntos a un mapa para compartir por internet.`}
+          {`Vas a exportar ${observations.length} puntos a un mapa para compartir por internet.`}
         </DialogContentText>
         <TextField
           label={formatMessage(msgs.titleLabel)}

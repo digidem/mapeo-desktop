@@ -21,7 +21,7 @@ export const defaultStory = () => {
       onUpdateObservation={action('update')}
       onDeleteObservation={action('delete')}
       getMediaUrl={getMediaUrl}
-      apiUrl="http://localhost:5000/"
+      apiUrl='http://localhost:5000/'
     />
   )
 }

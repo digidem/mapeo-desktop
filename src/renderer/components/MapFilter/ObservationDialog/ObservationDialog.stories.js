@@ -32,7 +32,11 @@ const getPreset = observation => {
       {
         id: 'multi-field',
         key: ['multi'],
-        options: [{label: 'one', value: 1}, {label: 'two', value: 2}, {label: 'three', value: 3}],
+        options: [
+          { label: 'one', value: 1 },
+          { label: 'two', value: 2 },
+          { label: 'three', value: 3 }
+        ],
         type: 'select_multiple'
       },
       {

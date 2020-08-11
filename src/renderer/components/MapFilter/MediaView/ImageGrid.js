@@ -60,7 +60,8 @@ const ImageGrid = ({ images, onImageClick, defaultSize = 200 }: Props) => {
               height={height}
               rowCount={rowsCount}
               rowHeight={cellSize}
-              width={width}>
+              width={width}
+            >
               {({
                 columnIndex,
                 rowIndex,

@@ -28,7 +28,7 @@ const mediaTypes = [
   valueTypes.IMAGE_URL
 ]
 
-function compareKeys(a, b) {
+function compareKeys (a, b) {
   return JSON.stringify(a[0]).localeCompare(JSON.stringify(b[0]))
 }
 
@@ -38,7 +38,7 @@ function compareKeys(a, b) {
  * passed. The returned field definitions can be used to render fields for
  * editing the properties of the object.
  */
-export function getFields(
+export function getFields (
   cur?: JSONObject = {},
   stats?: Statistics
 ): Array<Field> {
@@ -53,7 +53,7 @@ export function getFields(
   }, [])
 }
 
-export function getMedia(cur: JSONObject = {}): MediaArray {
+export function getMedia (cur: JSONObject = {}): MediaArray {
   return flatObjectEntries(cur).reduce((acc, [keyArray, value]) => {
     const type = guessValueType(value)
     if (mediaTypes.includes(type)) {
@@ -64,7 +64,7 @@ export function getMedia(cur: JSONObject = {}): MediaArray {
   }, [])
 }
 
-export function getField(
+export function getField (
   keyArray: Array<string | number>,
   value: any,
   fieldStats?: FieldStatistic
@@ -112,7 +112,7 @@ export function getField(
 // Don't include long strings in the options that can be selected
 const MAX_OPTION_LENGTH = 30
 
-function getOptions(fieldStats?: FieldStatistic): SelectOptions {
+function getOptions (fieldStats?: FieldStatistic): SelectOptions {
   const options = []
   if (!fieldStats) return options
 
@@ -124,7 +124,7 @@ function getOptions(fieldStats?: FieldStatistic): SelectOptions {
   return options
 }
 
-function createTextField(
+function createTextField (
   keyArray: Array<string | number>,
   {
     readonly = false,
@@ -145,7 +145,7 @@ function createTextField(
   }
 }
 
-function createLinkField(keyArray: Array<string | number>): LinkField {
+function createLinkField (keyArray: Array<string | number>): LinkField {
   return {
     id: JSON.stringify([...arguments]),
     key: keyArray,
@@ -154,7 +154,7 @@ function createLinkField(keyArray: Array<string | number>): LinkField {
   }
 }
 
-function createNumberField(
+function createNumberField (
   keyArray: Array<string | number>,
   { readonly = false }: { readonly?: boolean } = {}
 ): NumberField {
@@ -166,7 +166,7 @@ function createNumberField(
   }
 }
 
-function createSelectOneField(
+function createSelectOneField (
   keyArray: Array<string | number>,
   options: SelectOptions,
   {
@@ -183,7 +183,7 @@ function createSelectOneField(
   }
 }
 
-function createSelectMultipleField(
+function createSelectMultipleField (
   keyArray: Array<string | number>,
   options: SelectOptions,
   {
@@ -200,7 +200,7 @@ function createSelectMultipleField(
   }
 }
 
-function createDateField(
+function createDateField (
   keyArray: Array<string | number>,
   {
     readonly = false,
@@ -223,7 +223,7 @@ function createDateField(
   }
 }
 
-function createDateTimeField(
+function createDateTimeField (
   keyArray: Array<string | number>,
   {
     readonly = false,
@@ -246,7 +246,7 @@ function createDateTimeField(
   }
 }
 
-function flatStatsEntries(
+function flatStatsEntries (
   stats: Statistics
 ): Array<[Array<string | number>, FieldStatistic]> {
   // $FlowFixMe

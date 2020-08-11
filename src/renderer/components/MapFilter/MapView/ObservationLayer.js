@@ -51,7 +51,10 @@ const pointStyleLayer = {
     // make circles larger as the user zooms from z12 to z22
     'circle-radius': {
       base: 1.5,
-      stops: [[7, 5], [18, 25]]
+      stops: [
+        [7, 5],
+        [18, 25]
+      ]
     },
     'circle-color': '#ff0000',
     'circle-opacity': 0.75,
@@ -84,7 +87,7 @@ const pointHoverStyleLayer = {
   }
 }
 
-function observationsToGeoJsonSource(
+function observationsToGeoJsonSource (
   observations: Observation[]
 ): GeoJsonSource {
   return {

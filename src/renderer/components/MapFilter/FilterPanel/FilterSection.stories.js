@@ -18,9 +18,10 @@ export default {
 export const defaultStory = () => (
   <FilterSection
     icon={<DateIcon />}
-    title="Start Date but a really long titles that expands beyond end"
+    title='Start Date but a really long titles that expands beyond end'
     isFiltered={false}
-    onShowAllClick={action('showAll')}>
+    onShowAllClick={action('showAll')}
+  >
     <List>Hello World</List>
   </FilterSection>
 )
@@ -32,9 +33,10 @@ defaultStory.story = {
 export const filtered = () => (
   <FilterSection
     icon={<DateIcon />}
-    title="Start Date"
+    title='Start Date'
     isFiltered
-    onShowAllClick={action('showAll')}>
+    onShowAllClick={action('showAll')}
+  >
     <List>Hello World</List>
   </FilterSection>
 )

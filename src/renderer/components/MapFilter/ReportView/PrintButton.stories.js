@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React from 'react'
 
 import { action } from '@storybook/addon-actions'
 // import { linkTo } from '@storybook/addon-links'
@@ -12,7 +12,7 @@ export default {
 
 export const defaultStory = () => (
   <PrintButton
-    paperSize="a4"
+    paperSize='a4'
     changePaperSize={action('paper')}
     requestPrint={action('print')}
   />

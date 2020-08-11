@@ -26,7 +26,7 @@ const FormattedLocation = ({ latitude, longitude }: Coordinates) => {
 
 export default FormattedLocation
 
-function formatUtm({ latitude, longitude }) {
+function formatUtm ({ latitude, longitude }) {
   try {
     let { easting, northing, zoneNum, zoneLetter } = fromLatLon(
       latitude,
@@ -41,7 +41,7 @@ function formatUtm({ latitude, longitude }) {
   }
 }
 
-function formatDecDeg({ latitude, longitude }) {
+function formatDecDeg ({ latitude, longitude }) {
   return `${latitude >= 0 ? '+' : ''}${latitude.toFixed(6)}°, ${
     longitude >= 0 ? '+' : ''
   }${longitude.toFixed(6)}°`

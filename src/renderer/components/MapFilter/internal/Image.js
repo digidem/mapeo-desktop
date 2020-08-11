@@ -23,13 +23,13 @@ const useStyles = makeStyles({
 
 const ImageLoader = ({ classes, style }) => (
   <div className={classes.wrapper} style={{ ...style, color: 'white' }}>
-    <CircularProgress color="inherit" />
+    <CircularProgress color='inherit' />
   </div>
 )
 
 const BrokenImage = ({ classes, style }) => (
   <div className={classes.wrapper} style={{ ...style, color: 'white' }}>
-    <BrokenImageIcon color="inherit" />
+    <BrokenImageIcon color='inherit' />
   </div>
 )
 

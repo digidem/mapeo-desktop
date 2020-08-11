@@ -67,7 +67,7 @@ class PrintButton extends React.Component<Props, State> {
     this.props.changePaperSize(value)
   }
 
-  render() {
+  render () {
     const { requestPrint, paperSize } = this.props
     const { dialogOpen } = this.state
     return (
@@ -80,28 +80,30 @@ class PrintButton extends React.Component<Props, State> {
           open={dialogOpen}
           onClose={this.closeDialog}
           fullWidth
-          maxWidth="xs"
-          className="d-print-none">
+          maxWidth='xs'
+          className='d-print-none'
+        >
           <DialogTitle>
             <FormattedMessage {...messages.dialogTitle} />
           </DialogTitle>
           <DialogContent>
             <FormControl>
-              <InputLabel htmlFor="paper-size">
+              <InputLabel htmlFor='paper-size'>
                 <FormattedMessage {...messages.paperSize} />
               </InputLabel>
               <Select
                 native
                 value={paperSize}
                 onChange={this.handleChangePaperSize}
-                input={<Input id="paper-size" />}>
-                <option value="a4">A4 (210mm x 297mm)</option>
-                <option value="letter">Letter (8.5&quot; x 11&quot;)</option>
+                input={<Input id='paper-size' />}
+              >
+                <option value='a4'>A4 (210mm x 297mm)</option>
+                <option value='letter'>Letter (8.5&quot; x 11&quot;)</option>
               </Select>
             </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.closeDialog} color="primary">
+            <Button onClick={this.closeDialog} color='primary'>
               <FormattedMessage {...messages.close} />
             </Button>
             <Button
@@ -109,7 +111,8 @@ class PrintButton extends React.Component<Props, State> {
                 this.closeDialog()
                 requestPrint()
               }}
-              color="primary">
+              color='primary'
+            >
               <FormattedMessage {...messages.print} />
             </Button>
           </DialogActions>

@@ -5,7 +5,7 @@ import { withKnobs, radios } from '@storybook/addon-knobs'
 import MapView from './MapViewContent'
 import fixtureObs from '../../../../../fixtures/observations.json'
 
-function getMedia({ id }, { width = 200, height = 200 } = {}) {
+function getMedia ({ id }, { width = 200, height = 200 } = {}) {
   const size = Math.floor(width / 100) * 100
   const idx = parseInt(id, 16)
   return {
@@ -14,7 +14,7 @@ function getMedia({ id }, { width = 200, height = 200 } = {}) {
   }
 }
 
-function getFilteredObservations(filter) {
+function getFilteredObservations (filter) {
   return filter === '**all**'
     ? fixtureObs
     : fixtureObs.filter(
@@ -41,7 +41,7 @@ export const defaultStory = () => {
         observations={filteredObs}
         onClick={action('click')}
         getMedia={getMedia}
-        mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+        mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
       />
     </div>
   )
@@ -65,7 +65,7 @@ export const initialPosition = () => {
         observations={filteredObs}
         onClick={action('click')}
         getMedia={getMedia}
-        mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+        mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
         initialMapPosition={{
           center: [0.16, 51.45],
           zoom: 8
@@ -97,7 +97,10 @@ export const imperativeMethods = () => {
 
     const handleFitBoundsClick = () => {
       if (!ref.current) return
-      ref.current.fitBounds([[-59, 3.1], [-60, 2.1]])
+      ref.current.fitBounds([
+        [-59, 3.1],
+        [-60, 2.1]
+      ])
     }
 
     return (
@@ -107,7 +110,7 @@ export const imperativeMethods = () => {
           observations={filteredObs}
           onClick={action('click')}
           getMediaUrl={getMedia}
-          mapboxAccessToken="pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+          mapboxAccessToken='pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
         />
         <div
           style={{
@@ -116,7 +119,8 @@ export const imperativeMethods = () => {
             left: 10,
             display: 'flex',
             flexDirection: 'column'
-          }}>
+          }}
+        >
           <button style={{ marginBottom: 5 }} onClick={handleFlyClick}>
             Fly to London
           </button>

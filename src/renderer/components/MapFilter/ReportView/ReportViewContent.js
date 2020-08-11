@@ -1,7 +1,6 @@
 // @flow
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import getScrollBarWidth from 'get-scrollbar-width'
 import {
   AutoSizer,
   List,
@@ -64,7 +63,6 @@ const ReportViewContent = ({
 }: Props) => {
   const classes = useStyles()
   const [mapPosition, setMapPosition] = useState()
-  const scrollbarWidth = useMemo(() => getScrollBarWidth(), [])
 
   const cacheRef = React.useRef(
     new CellMeasurerCache({
@@ -76,7 +74,7 @@ const ReportViewContent = ({
 
   const paperWidthPx = paperSize === 'a4' ? 21 * cm() : 8.5 * inch()
 
-  function getLastImageUrl(observation: Observation): string | void {
+  function getLastImageUrl (observation: Observation): string | void {
     const lastImageAttachment = getLastImage(observation)
     if (!lastImageAttachment) return
     const media = getMedia(lastImageAttachment, {
@@ -86,14 +84,15 @@ const ReportViewContent = ({
     if (media) return media.src
   }
 
-  function renderPage({ index, key, style, parent }) {
+  function renderPage ({ index, key, style, parent }) {
     return (
       <CellMeasurer
         cache={cache}
         columnIndex={0}
         key={key}
         parent={parent}
-        rowIndex={index}>
+        rowIndex={index}
+      >
         <div style={style}>
           {index === 0
             ? renderMapPage({ index, key })
@@ -103,12 +102,13 @@ const ReportViewContent = ({
     )
   }
 
-  function renderMapPage({ key }: { key?: string } = {}) {
+  function renderMapPage ({ key }: { key?: string } = {}) {
     return (
       <ReportPaper
         key={key}
         paperSize={paperSize}
-        classes={{ content: classes.paperContentMap }}>
+        classes={{ content: classes.paperContentMap }}
+      >
         <MapView
           mapStyle={mapStyle}
           onClick={noop}
@@ -124,7 +124,7 @@ const ReportViewContent = ({
     )
   }
 
-  function renderFeaturePage({ index, key }: { index: number, key?: string }) {
+  function renderFeaturePage ({ index, key }: { index: number, key?: string }) {
     const observation = observations[index]
     const coords =
       typeof observation.lon === 'number' && typeof observation.lat === 'number'
@@ -143,7 +143,8 @@ const ReportViewContent = ({
       <ReportPaper
         key={key}
         paperSize={paperSize}
-        onClick={() => onClick(observation.id)}>
+        onClick={() => onClick(observation.id)}
+      >
         <ReportPageContent
           name={typeof preset.name === 'string' ? preset.name : undefined}
           createdAt={createdAt}
@@ -157,7 +158,7 @@ const ReportViewContent = ({
     )
   }
 
-  function renderVirtualList() {
+  function renderVirtualList () {
     return (
       <AutoSizer>
         {({ height, width }) => (
@@ -180,7 +181,7 @@ const ReportViewContent = ({
     )
   }
 
-  function renderPrintList() {
+  function renderPrintList () {
     return (
       <React.Fragment>
         {renderMapPage()}

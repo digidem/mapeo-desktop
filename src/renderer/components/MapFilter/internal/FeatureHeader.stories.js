@@ -27,7 +27,7 @@ defaultStory.story = {
 
 export const customName = () => (
   <FeatureHeader
-    name="My Thing"
+    name='My Thing'
     coords={{ longitude: -51, latitude: 23 }}
     createdAt={new Date()}
   />
@@ -51,8 +51,8 @@ noLocationOrDate.story = {
 
 export const label = () => (
   <FeatureHeader
-    iconLabel="C"
-    iconColor="red"
+    iconLabel='C'
+    iconColor='red'
     createdAt={new Date()}
     onClose={action('close')}
   />

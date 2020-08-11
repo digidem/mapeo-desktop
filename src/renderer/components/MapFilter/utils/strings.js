@@ -5,7 +5,7 @@ import type { Field, Key } from '../types'
  * label from the field key by replacing _ and - with spaces and formatting in
  * title case
  */
-export function getLocalizedFieldProp(
+export function getLocalizedFieldProp (
   field: Field,
   prop: 'label' | 'placeholder',
   languageTag: string = 'en'
@@ -22,7 +22,7 @@ export function getLocalizedFieldProp(
   return label
 }
 
-export function primitiveToString(
+export function primitiveToString (
   value: string | boolean | number | null
 ): string {
   if (typeof value === 'string') return value
@@ -34,13 +34,13 @@ export function primitiveToString(
   return ''
 }
 
-export function fieldKeyToLabel(key: Key): string | string[] {
+export function fieldKeyToLabel (key: Key): string | string[] {
   const fieldkey = typeof key === 'string' ? [key] : [...key]
   const labelArray = fieldkey.map(s => titleCase(s + ''))
   return labelArray.length === 1 ? labelArray[0] : labelArray
 }
 
-export function sentenceCase(str: string = '') {
+export function sentenceCase (str: string = '') {
   // Matches the first letter in the string and the first letter that follows a
   // period (and 1 or more spaces) and transforms that letter to uppercase.
   return str.replace(/(^[a-z])|(\.\s*[a-z])/g, str => str.toUpperCase())
@@ -50,7 +50,7 @@ export function sentenceCase(str: string = '') {
  * For a string written in camel_case or snake-case, or space-separated, return
  * string formatted in title case
  */
-export function titleCase(str: string) {
+export function titleCase (str: string) {
   return str
     .toLowerCase()
     .split(/\s|_|-/)
@@ -58,6 +58,6 @@ export function titleCase(str: string) {
     .join(' ')
 }
 
-export function capitalize(str: string) {
+export function capitalize (str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }

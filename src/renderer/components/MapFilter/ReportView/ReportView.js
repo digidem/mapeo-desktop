@@ -85,7 +85,8 @@ const ReportView = ({
       onDeleteObservation={onDeleteObservation}
       presets={presets}
       filter={filter}
-      getMediaUrl={getMediaUrl}>
+      getMediaUrl={getMediaUrl}
+    >
       {({ onClickObservation, filteredObservations, getPreset, getMedia }) => {
         // Get preset with fields filtered out
         const getPresetWithFilteredFields = (
@@ -131,8 +132,8 @@ const ReportView = ({
 
 export default ReportView
 
-function hiddenFieldsFilter(fieldState: FieldState) {
-  return function(field: Field): boolean {
+function hiddenFieldsFilter (fieldState: FieldState) {
+  return function (field: Field): boolean {
     const state = fieldState.find(fs => {
       const id = JSON.stringify(
         Array.isArray(field.key) ? field.key : [field.key]

@@ -198,9 +198,9 @@ type Props = {|
 const DetailsTable = ({ fields = [], tags = {}, width }: Props) => {
   const classes = useStyles()
 
-  function renderTable(width) {
+  function renderTable (width) {
     return (
-      <Table className={classes.root} style={{ width: width }} size="small">
+      <Table className={classes.root} style={{ width: width }} size='small'>
         <TableBody>
           {fields
             .map((field, i) => {
@@ -210,7 +210,8 @@ const DetailsTable = ({ fields = [], tags = {}, width }: Props) => {
                 <TableRow
                   key={i}
                   className={classes.row}
-                  style={{ zIndex: fields.length - i }}>
+                  style={{ zIndex: fields.length - i }}
+                >
                   <Label field={field} style={{ maxWidth: width / 3 - 36 }} />
                   <Value value={value} field={field} />
                 </TableRow>
@@ -232,7 +233,7 @@ const DetailsTable = ({ fields = [], tags = {}, width }: Props) => {
   )
 }
 
-function isEmptyValue(value) {
+function isEmptyValue (value) {
   return (
     (typeof value === 'string' && value.length === 0) ||
     value === undefined ||

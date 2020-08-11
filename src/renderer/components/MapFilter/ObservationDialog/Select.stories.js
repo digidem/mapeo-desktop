@@ -69,7 +69,7 @@ export const defaultStory = () => (
   <StateContainer initialValue={''}>
     {(value, setValue) => (
       <SelectOne
-        label="Select Country"
+        label='Select Country'
         options={countries}
         value={value}
         onChange={setValue}
@@ -86,7 +86,7 @@ export const selectMultiple = () => (
   <StateContainer initialValue={['botsy']}>
     {(value, setValue) => (
       <SelectMultiple
-        label="Select Countries"
+        label='Select Countries'
         options={countries}
         value={value}
         onChange={setValue}
@@ -99,7 +99,7 @@ export const selectMultipleNonStringValue = () => (
   <StateContainer initialValue={[true, 1]}>
     {(value, setValue) => (
       <SelectMultiple
-        label="Select Countries"
+        label='Select Countries'
         options={countries}
         value={value}
         onChange={setValue}
@@ -108,11 +108,11 @@ export const selectMultipleNonStringValue = () => (
   </StateContainer>
 )
 
-export const selectMultipleOldSelectOneValue= () => (
+export const selectMultipleOldSelectOneValue = () => (
   <StateContainer initialValue={true}>
     {(value, setValue) => (
       <SelectMultiple
-        label="Select Countries"
+        label='Select Countries'
         options={countries}
         value={value}
         onChange={setValue}
