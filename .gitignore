@@ -2,8 +2,7 @@ node_modules
 vendor
 dist
 examples/.dat
-static/build.js
-static/build.js.map
+static/*.bundle.js*
 test/lib/test-data
 bin/test-data
 translations

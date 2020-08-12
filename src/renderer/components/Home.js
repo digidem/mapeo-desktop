@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { ipcRenderer } from 'electron'
 import styled from 'styled-components'
 import Tabs from '@material-ui/core/Tabs'
@@ -11,17 +11,32 @@ import SyncIcon from '@material-ui/icons/OfflineBolt'
 import WarningIcon from '@material-ui/icons/Warning'
 
 import pkg from '../../../package.json'
-import MapEditor from './MapEditor'
 import LatLonDialog from './dialogs/LatLon'
 import ErrorDialog from './dialogs/Error'
 import ChangeLanguage from './dialogs/ChangeLanguage'
 import TitleBarShim from './TitleBarShim'
-import MapFilter from './MapFilter'
 import { defineMessages, useIntl } from 'react-intl'
 import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
 import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import useUpdater from './UpdaterView/useUpdater'
+import Loading from './Loading'
+
+const MapFilter = React.lazy(() =>
+  import(
+    /* webpackPrefetch: true */
+    /* webpackChunkName: 'map-filter' */
+    './MapFilter'
+  )
+)
+
+const MapEditor = React.lazy(() =>
+  import(
+    /* webpackPrefetch: true */
+    /* webpackChunkName: 'map-editor' */
+    './MapEditor'
+  )
+)
 
 const m = defineMessages({
   // MapEditor tab label
@@ -138,6 +153,14 @@ const Version = styled.div`
   color: #aaaaaa;
 `
 
+const LoadingContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: white;
+`
+
 const focusStates = {
   entering: 'focusing',
   entered: 'focused',
@@ -147,6 +170,9 @@ const focusStates = {
 
 function TabPanel (props) {
   const { value, index, component: Component, ...extras } = props
+  // Don't render the tab content until the user has switched to the tab
+  const lazy = React.useRef(value !== index)
+  if (value === index) lazy.current = false
 
   const transitionStyles = {
     entering: { opacity: 1, zIndex: 1, display: 'block' },
@@ -155,17 +181,23 @@ function TabPanel (props) {
     exited: { opacity: 0, display: 'block' }
   }
 
-  return (
-    <Transition in={value === index} timeout={transitionDuration}>
-      {transitionState => (
-        <StyledPanel style={transitionStyles[transitionState]}>
-          {Component && (
+  return Component && !lazy.current ? (
+    <Suspense
+      fallback={
+        <LoadingContainer>
+          <Loading />
+        </LoadingContainer>
+      }
+    >
+      <Transition in={value === index} timeout={transitionDuration}>
+        {transitionState => (
+          <StyledPanel style={transitionStyles[transitionState]}>
             <Component focusState={focusStates[transitionState]} {...extras} />
-          )}
-        </StyledPanel>
-      )}
-    </Transition>
-  )
+          </StyledPanel>
+        )}
+      </Transition>
+    </Suspense>
+  ) : null
 }
 
 const useTabIndex = createPersistedState('currentView')

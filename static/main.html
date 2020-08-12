@@ -20,7 +20,9 @@
   <body>
     <div id="root"></div>
     <script>
-      require('./build.js')
+      console.time('load js')
+      require('./app.bundle.js')
+      console.timeEnd('load js')
     </script>
   </body>
 </html>

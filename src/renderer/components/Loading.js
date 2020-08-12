@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { defineMessages, useIntl } from 'react-intl'
 import Typography from '@material-ui/core/Typography'
 
-import Loader from '../Loader'
+import Loader from './Loader'
 
 const m = defineMessages({
   // Displayed whilst observations and presets load

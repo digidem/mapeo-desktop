@@ -1,7 +1,9 @@
 const path = require('path')
 
 module.exports = {
-  entry: './src/renderer/app.js',
+  entry: {
+    app: './src/renderer/app.js'
+  },
   target: 'electron-renderer',
   externals: [
     'winston',
@@ -15,7 +17,8 @@ module.exports = {
   // plugins: [new LiveReloadPlugin()],
   // plugins: [new BundleAnalyzerPlugin()],
   output: {
-    filename: 'build.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'static'),
     libraryTarget: 'commonjs2'
   },
