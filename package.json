@@ -19,8 +19,8 @@
     "check:prod": "dependency-check package.json --entry index.js --entry src/renderer/app.js --entry src/background/index.js --no-dev --detective precinct -i electron -i electron-devtools-installer",
     "check:prod-unused": "dependency-check package.json --entry index.js --entry src/renderer/app.js --entry src/background/index.js --no-dev --detective precinct -i electron -i electron-devtools-installer --unused -i @babel/runtime -i @fortawesome/fontawesome-svg-core -i date-fns -i html-react-parser -i mapbox-gl",
     "check:dev": "dependency-check package.json --entry index.js --entry 'test/**.js' --entry src/renderer/app.js --entry 'stories/**.js' --detective precinct",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder --publish=onTag",
+    "pack": "electron-builder --config ./builder.config.js --dir",
+    "dist": "electron-builder --config ./builder.config.js --publish=onTag",
     "build": "npm-run-all -s build:translations build:js",
     "build:js": "webpack --config webpack.prod.js",
     "build:translations": "node bin/build-translations.js",
@@ -183,6 +183,7 @@
     "@storybook/addon-links": "^5.2.1",
     "@storybook/addons": "^5.2.1",
     "@storybook/react": "^5.2.1",
+    "@zeit/node-file-trace": "^0.8.2",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-react-intl-auto": "^2.3.0",
@@ -249,88 +250,5 @@
     "blocking": false,
     "logInfo": false,
     "logError": true
-  },
-  "build": {
-    "afterSign": "bin/notarize.js",
-    "detectUpdateChannel": true,
-    "generateUpdatesFilesForAllChannels": true,
-    "appId": "org.digital-democracy.mapeo-desktop",
-    "productName": "Mapeo",
-    "artifactName": "Installar_Mapeo_v${version}_${os}.${ext}",
-    "mac": {
-      "category": "public.app-category.utilities",
-      "gatekeeperAssess": false,
-      "hardenedRuntime": true,
-      "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.plist"
-    },
-    "win": {
-      "target": "NSIS",
-      "artifactName": "Installar_Mapeo_v${version}_${os}-${env.ARCH}.${ext}",
-      "rfc3161TimeStampServer": "http://timestamp.digicert.com",
-      "timeStampServer": "http://timestamp.digicert.com"
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ],
-      "category": "Utility"
-    },
-    "dmg": {
-      "icon": "build/mapeo_installer.icns",
-      "title": "${productName} v${version}",
-      "sign": false,
-      "contents": [
-        {
-          "x": 410,
-          "y": 220,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 220,
-          "type": "file"
-        }
-      ]
-    },
-    "publish": [
-      {
-        "provider": "s3",
-        "bucket": "downloads.mapeo.app",
-        "path": "/desktop"
-      },
-      {
-        "provider": "github",
-        "releaseType": "release"
-      }
-    ],
-    "extraResources": [
-      {
-        "from": "build/app-update.yml",
-        "to": "app-update.yml"
-      }
-    ],
-    "files": [
-      "**/*",
-      "!**/node_modules/osm-p2p-db/benchmark${/*}",
-      "!**/node_modules/osm-p2p-syncfile/chaos",
-      "!**/node_modules/osm2obj/*.osc",
-      "!**/node_modules/pannellum/*.{jpg,png}",
-      "!**/node_modules/sodium-native/prebuilds/linux-arm",
-      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-      "!**/node_modules/**/{test,__tests__,tests,powered-test,example,examples}",
-      "!**/node_modules/*.d.ts",
-      "!**/node_modules/.bin",
-      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-      "!.editorconfig",
-      "!**/._*",
-      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
-      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-      "!**/{appveyor.yml,.travis.yml,circle.yml}",
-      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
-      "!test${/*}"
-    ]
   }
 }

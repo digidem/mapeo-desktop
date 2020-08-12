@@ -1,14 +1,16 @@
 const path = require('path')
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   entry: './src/renderer/app.js',
   target: 'electron-renderer',
   externals: [
-    'electron-store',
     'winston',
     'winston-daily-rotate-file',
-    '@bugsnag/node'
+    '@bugsnag/node',
+    '@bugsnag/browser',
+    'ajv',
+    'electron-debug',
+    'mime-db'
   ],
   // plugins: [new LiveReloadPlugin()],
   // plugins: [new BundleAnalyzerPlugin()],

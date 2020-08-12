@@ -5,7 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = merge(common, {
   mode: 'production',
-  devtool: 'source-map',
+  devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none',
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
@@ -13,6 +13,13 @@ module.exports = merge(common, {
   ],
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({ extractComments: false })]
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        sourceMap: true,
+        cache: true,
+        extractComments: false
+      })
+    ]
   }
 })
