@@ -24,7 +24,7 @@
     "build": "npm-run-all -s build:translations build:js",
     "build:js": "webpack --config webpack.prod.js",
     "build:translations": "node bin/build-translations.js",
-    "lint": "eslint --ignore-path .gitignore .",
+    "lint": "eslint .",
     "flow": "flow",
     "test": "npm run lint && npm run test-integration",
     "test-unit": "jest",
