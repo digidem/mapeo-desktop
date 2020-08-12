@@ -244,7 +244,7 @@ function notifyReady (done) {
 
 function createWindow (socketName) {
   var APP_NAME = app.getName()
-  var INDEX = 'file://' + path.join(__dirname, './index.html')
+  var INDEX = 'file://' + path.join(__dirname, './static/main.html')
   mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800
@@ -296,7 +296,7 @@ function createBgWindow (socketName) {
       nodeIntegration: true
     }
   })
-  var BG = 'file://' + path.join(__dirname, './src/background/index.html')
+  var BG = 'file://' + path.join(__dirname, './src/background/background.html')
   win.loadURL(BG)
   win.webContents.on('did-finish-load', () => {
     if (argv.debug) bg.webContents.openDevTools()

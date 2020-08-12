@@ -162,7 +162,7 @@ const MapEditor = () => {
       var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
       id.current = window.id = iD
         .coreContext()
-        .assetPath('node_modules/id-mapeo/dist/')
+        .assetPath('../node_modules/id-mapeo/dist/')
         .preauth({ url: serverUrl })
         .minEditableZoom(window.localStorage.getItem('minEditableZoom') || 14)
 
