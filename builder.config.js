@@ -73,11 +73,15 @@ const files = [
   'messages/**/*',
   // Don't ship built sourcemaps, because they are 25Mb
   '!static/*.map',
-  // Include everything under src…
+  // Include everything in src/ apart from src/renderer
   'src/main/**/*',
   'src/background/**/*',
   'src/*.js',
+  // but also include src/renderer/index-preload.js since this is not included
+  // in the renderer bundle
   'src/renderer/index-preload.js',
+  // Ignore a bunch of noise that is in node_modules that is not needed in the
+  // packaged app (identified these by scanning app.asar for the largest files)
   '!**/node_modules/osm-p2p-db/benchmark${/*}',
   '!**/node_modules/osm-p2p-syncfile/chaos',
   '!**/node_modules/osm2obj/*.osc',
@@ -98,11 +102,15 @@ const files = [
 ]
 
 // Append last, these modules are excluded, but we need these files included
+// since they are required at runtime (css files and iD assets)
 const extraIncludeFiles = [
   'node_modules/id-mapeo/dist/iD.css',
   'node_modules/id-mapeo/dist/*/**/*',
   'node_modules/mapbox-gl/dist/mapbox-gl.css'
 ]
+
+// The results of nodeFileTrace on Windows are \ separated.
+const sep = path.sep
 
 module.exports = async () => {
   // Get required files for main and background process
@@ -113,13 +121,21 @@ module.exports = async () => {
 
   // List of all modules we definitely want to include
   const includeModules = fileList.reduce((acc, cur) => {
-    const path = cur.split('node_modules/').pop()
-    let moduleName = path.split('/')[0]
-    if (moduleName.startsWith('@')) moduleName += '/' + path.split('/')[1]
+    const path = cur.split(`node_modules${sep}`).pop()
+    let moduleName = path.split(sep)[0]
+    // Ensure we included namespaced modules e.g. @digidem/mapeo Note we don't
+    // use path.sep here, but a `/` because this is used for electron-builder
+    // config, which uses glob which expects `/` on all platforms
+    if (moduleName.startsWith('@')) moduleName += '/' + path.split(sep)[1]
     acc.add(moduleName)
     return acc
+    // Also include the webpack externals, plus electron-is-dev which is not
+    // picked up by static analysis
   }, new Set([...externals, 'electron-is-dev']))
 
+  // List all modules in node_modules (this is only recursive to read namespaced
+  // modules, but it does not bother with nested node_modules, since it would
+  // not really change the output)
   const allModules = await (async function readDirs (dir) {
     let moduleNames = []
 
@@ -147,6 +163,12 @@ module.exports = async () => {
 
   const excludeModules = []
 
+  // Add explicit exclude paths for any modules that are not explicitly required
+  // by the main and background process. It would be better to do this the other
+  // way around (explicitly include files) but electron-builder always tries to
+  // add **/node_modules/**/* to the files list, and doing this as an include
+  // list as opposed to an exclude list was resulting in some modules missing
+  // from the packaged app, even though they were listed here
   for (const moduleName of allModules) {
     if (!includeModules.has(moduleName)) {
       excludeModules.push(`!**/node_modules/${moduleName}/**/*`)
