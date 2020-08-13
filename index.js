@@ -227,19 +227,22 @@ function createServers (done) {
 }
 
 function notifyReady (done) {
-  win.webContents.on('did-finish-load', () => {
-    setTimeout(() => {
-      var IS_TEST = process.env.NODE_ENV === 'test'
-      if (IS_TEST) win.setSize(1000, 800, false)
-      if (argv.debug) win.webContents.openDevTools()
-
-      win.maximize()
-      splash.destroy()
-      win.show()
-      updater.periodicUpdates()
-      done()
-    }, 1000)
-  })
+  // If the window is still loading, wait for it to finish before continuing
+  if (win.webContents.isLoading()) {
+    win.webContents.once('did-finish-load', () => notifyReady(done))
+    return
+  }
+  var IS_TEST = process.env.NODE_ENV === 'test'
+  if (IS_TEST) win.setSize(1000, 800, false)
+  if (argv.debug) win.webContents.openDevTools()
+  // notify renderer that server is ready
+  // TODO: Send host and port here too, rather than via global
+  win.webContents.send('back-end-ready')
+  win.maximize()
+  splash.destroy()
+  win.show()
+  updater.periodicUpdates()
+  done()
 }
 
 function createWindow (socketName) {
@@ -269,9 +272,14 @@ function createWindow (socketName) {
   win.webContents.on('did-finish-load', () => {
     if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
     if (argv.debug) win.webContents.openDevTools()
-    win.webContents.send('set-socket', {
-      name: socketName
-    })
+    win.webContents.send('set-socket', { name: socketName })
+    // 'did-finish-load' can fire before the backend server is ready, or when
+    // the user refreshes the main window. On window refresh the notifyReady()
+    // function will not run, so we use `global.osmServerHost` to check whether
+    // the server is ready, and notify the front-end if it is
+    if (global.osmServerHost) {
+      win.webContents.send('back-end-ready')
+    }
   })
   win.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
     if (errorDescription === 'ERR_INTERNET_DISCONNECTED' || errorDescription === 'ERR_PROXY_CONNECTION_FAILED') {
