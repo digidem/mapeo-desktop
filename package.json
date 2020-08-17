@@ -241,14 +241,14 @@
       "title": "${productName} v${version}",
       "contents": [
         {
-          "x": 448,
-          "y": 200,
+          "x": 410,
+          "y": 220,
           "type": "link",
           "path": "/Applications"
         },
         {
-          "x": 220,
-          "y": 200,
+          "x": 130,
+          "y": 220,
           "type": "file"
         }
       ]
