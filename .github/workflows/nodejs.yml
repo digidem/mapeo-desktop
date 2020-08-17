@@ -1,6 +1,6 @@
 name: Node CD
 
-on: 
+on:
   push:
     tags:
       - '*'
@@ -15,10 +15,10 @@ jobs:
     strategy:
       matrix:
         config:
-          - { os: macos-latest, arch: x64, name: macos-latest }
-          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest, needs: [ macos-latest] }
-          - { os: windows-latest, arch: x64, name: windows-latest, needs: [ ubuntu-latest ]  }
-          - { os: windows-latest, arch: ia32, name: windows-latest-32,needs: [ windows-latest] }
+          - { os: macos-latest, arch: x64 }
+          - { os: ubuntu-latest, arch: x64 }
+          - { os: windows-latest, arch: x64 }
+          - { os: windows-latest, arch: ia32 }
 
     steps:
       - name: Context
@@ -67,5 +67,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.config.name }}
+          name: '${{ matrix.config.os }}-${{ matrix.config.arch }}'
           path: dist
