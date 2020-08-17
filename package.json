@@ -165,6 +165,7 @@
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-react-intl-auto": "^2.3.0",
+    "builder-util": "^22.8.1",
     "concat-stream": "^2.0.0",
     "cp-file": "^6.0.0",
     "css-loader": "^3.2.0",
@@ -173,6 +174,7 @@
     "electron": "^9.1.2",
     "electron-builder": "^22.2.0",
     "electron-devtools-installer": "^2.2.4",
+    "electron-notarize": "^1.0.0",
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
@@ -215,13 +217,18 @@
     "logError": true
   },
   "build": {
+    "afterSign": "bin/notarize.js",
     "detectUpdateChannel": true,
     "generateUpdatesFilesForAllChannels": true,
     "appId": "org.digital-democracy.mapeo-desktop",
     "productName": "Mapeo",
     "artifactName": "Installar_Mapeo_v${version}_${os}.${ext}",
     "mac": {
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "gatekeeperAssess": false,
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
     },
     "win": {
       "target": "NSIS",
@@ -239,6 +246,7 @@
     "dmg": {
       "icon": "build/mapeo_installer.icns",
       "title": "${productName} v${version}",
+      "sign": false,
       "contents": [
         {
           "x": 410,
