@@ -32,7 +32,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.4
-          architecture: ${{matrix.config.arch}}
       - name: npm ci
         run: |
           npm ci
