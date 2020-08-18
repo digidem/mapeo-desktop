@@ -221,17 +221,20 @@ function createServers (done) {
   ipc.send('listen', opts, function (err, port) {
     if (err) throw new Error('fatal: could not get port', err)
     global.osmServerHost = '127.0.0.1:' + port
-    logger.info(global.osmServerHost)
+    logger.info('Server listening:', global.osmServerHost)
     done()
   })
 }
 
 function notifyReady (done) {
+  logger.info('Server ready, checking front-end is loaded')
   // If the window is still loading, wait for it to finish before continuing
   if (win.webContents.isLoading()) {
+    logger.info('Front-end still loading, check again once loaded')
     win.webContents.once('did-finish-load', () => notifyReady(done))
     return
   }
+  logger.info('Front-end loaded, close loading screen and open main window')
   var IS_TEST = process.env.NODE_ENV === 'test'
   if (IS_TEST) win.setSize(1000, 800, false)
   if (argv.debug) win.webContents.openDevTools()
@@ -270,6 +273,7 @@ function createWindow (socketName) {
   mainWindowState.manage(win)
 
   mainWindow.webContents.on('did-finish-load', () => {
+    logger.info('Front-end has finished loading')
     if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
     if (argv.debug) win.webContents.openDevTools()
     mainWindow.webContents.send('set-socket', { name: socketName })
@@ -278,7 +282,10 @@ function createWindow (socketName) {
     // function will not run, so we use `global.osmServerHost` to check whether
     // the server is ready, and notify the front-end if it is
     if (global.osmServerHost) {
+      logger.info('Server is ready, inform front-end')
       mainWindow.webContents.send('back-end-ready')
+    } else {
+      logger.info('Server is not ready, front-end will be informed later')
     }
   })
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
