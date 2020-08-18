@@ -252,7 +252,7 @@ function createWindow (socketName) {
     defaultWidth: 1000,
     defaultHeight: 800
   })
-  var win = new BrowserWindow({
+  var mainWindow = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,
@@ -269,32 +269,32 @@ function createWindow (socketName) {
   })
   mainWindowState.manage(win)
 
-  win.webContents.on('did-finish-load', () => {
+  mainWindow.webContents.on('did-finish-load', () => {
     if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
     if (argv.debug) win.webContents.openDevTools()
-    win.webContents.send('set-socket', { name: socketName })
+    mainWindow.webContents.send('set-socket', { name: socketName })
     // 'did-finish-load' can fire before the backend server is ready, or when
     // the user refreshes the main window. On window refresh the notifyReady()
     // function will not run, so we use `global.osmServerHost` to check whether
     // the server is ready, and notify the front-end if it is
     if (global.osmServerHost) {
-      win.webContents.send('back-end-ready')
+      mainWindow.webContents.send('back-end-ready')
     }
   })
-  win.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
     if (errorDescription === 'ERR_INTERNET_DISCONNECTED' || errorDescription === 'ERR_PROXY_CONNECTION_FAILED') {
       logger.log(errorDescription)
     }
     logger.error(errorDescription)
   })
-  win.loadURL(INDEX)
-  return win
+  mainWindow.loadURL(INDEX)
+  return mainWindow
 }
 
 // Create a hidden background window
 function createBgWindow (socketName) {
   logger.debug('loading electron background window')
-  var win = new BrowserWindow({
+  var bgWindow = new BrowserWindow({
     x: 0,
     y: 0,
     width: 700,
@@ -305,8 +305,8 @@ function createBgWindow (socketName) {
     }
   })
   var BG = 'file://' + path.join(__dirname, './src/background/background.html')
-  win.loadURL(BG)
-  win.webContents.on('did-finish-load', () => {
+  bgWindow.loadURL(BG)
+  bgWindow.webContents.on('did-finish-load', () => {
     if (argv.debug) bg.webContents.openDevTools()
     if (win && win.webContents) {
       win.webContents.send('configure', {
@@ -316,11 +316,11 @@ function createBgWindow (socketName) {
       })
     }
   })
-  win.on('closed', () => {
+  bgWindow.on('closed', () => {
     logger.info('Background window closed')
     app.quit()
   })
-  return win
+  return bgWindow
 }
 
 function createSplashWindow () {
