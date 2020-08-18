@@ -229,9 +229,13 @@ function createServers (done) {
 function notifyReady (done) {
   logger.info('Server ready, checking front-end is loaded')
   // If the window is still loading, wait for it to finish before continuing
-  if (win.webContents.isLoading()) {
+  // win.webContents.isLoading() does not seem to work here on Windows
+  if (!win._didFinishLoad) {
     logger.info('Front-end still loading, check again once loaded')
-    win.webContents.once('did-finish-load', () => notifyReady(done))
+    win.webContents.once('did-finish-load', () => {
+      win._didFinishLoad = true
+      notifyReady(done)
+    })
     return
   }
   logger.info('Front-end loaded, close loading screen and open main window')
@@ -270,12 +274,13 @@ function createWindow (socketName) {
       preload: path.resolve(__dirname, 'src', 'renderer', 'index-preload.js')
     }
   })
-  mainWindowState.manage(win)
+  mainWindowState.manage(mainWindow)
 
   mainWindow.webContents.on('did-finish-load', () => {
     logger.info('Front-end has finished loading')
-    if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
-    if (argv.debug) win.webContents.openDevTools()
+    mainWindow._didFinishLoad = true
+    if (process.env.NODE_ENV === 'test') mainWindow.setSize(1000, 800, false)
+    if (argv.debug) mainWindow.webContents.openDevTools()
     mainWindow.webContents.send('set-socket', { name: socketName })
     // 'did-finish-load' can fire before the backend server is ready, or when
     // the user refreshes the main window. On window refresh the notifyReady()
