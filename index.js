@@ -10,6 +10,7 @@ const mkdirp = require('mkdirp')
 const series = require('run-series')
 const styles = require('mapeo-styles')
 const rabbit = require('electron-rabbit')
+const chmod = require('chela').mod
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
@@ -194,9 +195,19 @@ function initDirectories (done) {
   styles.unpackIfNew(userDataPath, function (err, newSettings) {
     if (err) logger.error('[ERROR] while unpacking styles:', err)
     var fallbackSettingsLocation = path.join(userDataPath, 'presets', styles.FALLBACK_DIR_NAME)
-    if (newSettings) userConfig.copyFallbackSettings(fallbackSettingsLocation, done)
-    else done()
+    if (newSettings) userConfig.copyFallbackSettings(fallbackSettingsLocation, cleanupPermissions)
+    else cleanupPermissions()
   })
+
+  function cleanupPermissions () {
+    chmod(path.join(userDataPath, 'presets'), '0777', (err) => {
+      if (err) logger.error('Failed to execute chmod on presets', err)
+      chmod(path.join(userDataPath, 'styles'), '0777', (err) => {
+        if (err) logger.error('Failed to execute chmod on styles', err)
+        done()
+      })
+    })
+  }
 }
 
 function createServers (done) {
