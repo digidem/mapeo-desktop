@@ -78,6 +78,19 @@ export const defaultStory = () => (
   </StateContainer>
 )
 
+export const SelectOneNoValue = () => (
+  <StateContainer>
+    {(value, setValue) => (
+      <SelectOne
+        label='Select Country'
+        options={countries}
+        value={value}
+        onChange={setValue}
+      />
+    )}
+  </StateContainer>
+)
+
 defaultStory.story = {
   name: 'default'
 }
@@ -120,3 +133,17 @@ export const selectMultipleOldSelectOneValue = () => (
     )}
   </StateContainer>
 )
+
+export const selectMultipleNoValue = () => (
+  <StateContainer>
+    {(value, setValue) => (
+      <SelectMultiple
+        label='Select Countries'
+        options={countries}
+        value={value}
+        onChange={setValue}
+      />
+    )}
+  </StateContainer>
+)
+

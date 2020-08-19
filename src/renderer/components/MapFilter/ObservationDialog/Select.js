@@ -155,8 +155,9 @@ export const SelectMultiple = ({
   const labeledOptions = getLabeledSelectOptions(options)
   const encoder = Encoder(labeledOptions)
   let arrayValue = []
-  if (!Array.isArray(value)) arrayValue = [value]
-  else if (value) arrayValue = value
+  if (value === undefined) arrayValue = []
+  else if (!Array.isArray(value)) arrayValue = [value]
+  else arrayValue = value
 
   return (
     <Autocomplete

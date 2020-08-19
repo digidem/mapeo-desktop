@@ -31,6 +31,7 @@ export function primitiveToString (
   if (typeof value === 'number') return value.toString()
   // TODO: what to show (translated) for "null" field (vs. undefined)
   if (value === null) return 'No Value'
+  if (value === undefined) return undefined
   return ''
 }
 
