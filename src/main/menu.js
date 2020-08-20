@@ -119,13 +119,6 @@ function menuTemplate (ipc) {
             ipc.send('import-data', filename)
           },
           visible: true
-        },
-        {
-          label: t('menu-check-for-updates'),
-          click: function (item, focusedWindow) {
-            updater.checkForUpdates(onUpdate)
-          },
-          visible: true
         }
       ]
     },
@@ -267,21 +260,11 @@ function menuTemplate (ipc) {
       role: 'help',
       submenu: [
         {
-          label: t('menu-debugging'),
-          type: 'checkbox',
-          checked: logger._debug,
+          label: t('menu-check-for-updates'),
           click: function (item, focusedWindow) {
-            var bool = item.checked
-            logger.debugging(bool)
-            ipc.send('debugging', bool)
-            focusedWindow.webContents.send('debugging', bool)
-          }
-        },
-        {
-          label: t('menu-report'),
-          click: function (item, focusedWindow) {
-            shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
-          }
+            updater.checkForUpdates(onUpdate)
+          },
+          visible: true
         },
         {
           label: t('menu-get-beta'),
@@ -292,6 +275,17 @@ function menuTemplate (ipc) {
             updater.checkForUpdates(onUpdate)
           },
           visible: true
+        },
+        {
+          label: t('menu-debugging'),
+          type: 'checkbox',
+          checked: logger._debug,
+          click: function (item, focusedWindow) {
+            var bool = item.checked
+            logger.debugging(bool)
+            ipc.send('debugging', bool)
+            focusedWindow.webContents.send('debugging', bool)
+          }
         },
         {
           label: t('menu-status'),
@@ -317,6 +311,12 @@ function menuTemplate (ipc) {
                 })
               }
             })
+          }
+        },
+        {
+          label: t('menu-report'),
+          click: function (item, focusedWindow) {
+            shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
           }
         }
       ]
