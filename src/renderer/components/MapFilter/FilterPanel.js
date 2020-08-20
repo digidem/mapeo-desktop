@@ -5,7 +5,7 @@ import { FilterPanel } from 'react-mapfilter'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 
 const m = defineMessages({
   filterHeader: 'Filter by…'
