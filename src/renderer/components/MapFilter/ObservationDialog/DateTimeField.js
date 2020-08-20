@@ -1,14 +1,24 @@
+// @flow
 import React from 'react'
 import { DateTimePicker } from '@material-ui/pickers'
 
-const DateField = ({ value, onChange, ...otherProps }) => {
+type Props = {
+  value: Date | void,
+  onChange: (string | void) => any
+}
+
+const DateTimeField = ({ value, onChange, ...otherProps }: Props) => {
   return (
     <DateTimePicker
       fullWidth
       variant='inline'
       inputVariant='outlined'
       margin='normal'
-      value={value}
+      value={
+        // DateTimePicker shows the current date if value is undefined. To show
+        // it as empty, value needs to be null
+        value === undefined ? null : value
+      }
       onChange={date =>
         date === undefined ? onChange() : onChange(date.toISOString())
       }
@@ -17,4 +27,4 @@ const DateField = ({ value, onChange, ...otherProps }) => {
   )
 }
 
-export default DateField
+export default DateTimeField

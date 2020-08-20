@@ -6,6 +6,7 @@ import { ThemeProvider } from '@material-ui/styles'
 import theme from '../src/renderer/theme'
 
 import '../static/css/base.css'
+import '../static/css/storybook.css'
 
 const messages = {
   en: require('../translations/en.json'),

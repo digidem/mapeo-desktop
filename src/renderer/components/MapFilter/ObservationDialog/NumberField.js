@@ -1,7 +1,13 @@
+// @flow
 import React from 'react'
 import MuiTextField from '@material-ui/core/TextField'
 
-const TextField = ({ onChange, ...otherProps }) => {
+type Props = {
+  value: number | void,
+  onChange: (number | void) => any
+}
+
+const TextField = ({ onChange, value, ...otherProps }: Props) => {
   const handleChange = event =>
     onChange &&
     onChange(
@@ -17,6 +23,7 @@ const TextField = ({ onChange, ...otherProps }) => {
       type='number'
       InputLabelProps={{ shrink: true }}
       onChange={handleChange}
+      value={value === undefined ? '' : value}
       {...otherProps}
     />
   )

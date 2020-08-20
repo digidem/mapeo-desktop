@@ -7,14 +7,16 @@ import NumberField from './NumberField'
 import DateField from './DateField'
 import DateTimeField from './DateTimeField'
 
+import * as valueTypes from '../constants/value_types'
+import { coerceValue } from '../lib/data_analysis/value_types'
 import { getLocalizedFieldProp } from '../utils/strings'
 import FormattedFieldname from '../internal/FormattedFieldname'
-import { type Field as FieldType, type Key } from '../types'
+import { type Field as FieldType, type Key, type Primitive } from '../types'
 
 type Props = {
   field: FieldType,
-  value: any,
-  onChange: (Key, any) => void
+  value: Primitive | Array<Primitive>,
+  onChange: (Key, mixed) => void
 }
 
 const Field = ({ field, value, onChange }: Props) => {
@@ -47,7 +49,7 @@ const Field = ({ field, value, onChange }: Props) => {
       const isMultiline = field.appearance !== 'singleline'
       return (
         <TextField
-          value={value}
+          value={coerceOrUndefined(value, valueTypes.STRING)}
           multiline={isMultiline}
           onChange={handleChange}
           label={label}
@@ -55,30 +57,52 @@ const Field = ({ field, value, onChange }: Props) => {
         />
       )
     }
-    case 'select_one':
+    case 'select_one': {
+      // If value is an array (e.g. this could have been a select-multiple field
+      // before) then the best we can do is show the array as a comma-separated
+      // string, ignoring null and undefined values
+      const coercedValue = Array.isArray(value)
+        ? coerceOrUndefined(
+            value.filter(v => v != null),
+            valueTypes.STRING
+          )
+        : value
       return (
         <SelectOne
-          value={value}
+          value={coercedValue}
           options={field.options}
           onChange={handleChange}
           label={label}
           placeholder={placeholder}
         />
       )
-    case 'select_multiple':
+    }
+    case 'select_multiple': {
+      let coercedValue
+      if (Array.isArray(value)) {
+        // SelectMultiple does not accept undefined values as valid However we
+        // accept null or empty strings here, on the assumption that if they
+        // exist then this was intentional
+        coercedValue = filterUndefined(value)
+      } else if (value != null && value !== '') {
+        // if value is null, undefined or an empty string, then coerced value is
+        // undefined, otherwise value is turned into an array
+        coercedValue = [value]
+      }
       return (
         <SelectMultiple
-          value={value}
+          value={coercedValue}
           label={label}
           options={field.options}
           placeholder={placeholder}
           onChange={handleChange}
         />
       )
+    }
     case 'number':
       return (
         <NumberField
-          value={value}
+          value={coerceOrUndefined(value, valueTypes.NUMBER)}
           onChange={handleChange}
           label={label}
           placeholder={placeholder}
@@ -87,7 +111,7 @@ const Field = ({ field, value, onChange }: Props) => {
     case 'date':
       return (
         <DateField
-          value={value}
+          value={coerceOrUndefined(value, valueTypes.DATE)}
           onChange={handleChange}
           label={label}
           placeholder={placeholder}
@@ -96,7 +120,7 @@ const Field = ({ field, value, onChange }: Props) => {
     case 'datetime':
       return (
         <DateTimeField
-          value={value}
+          value={coerceOrUndefined(value, valueTypes.DATETIME)}
           onChange={handleChange}
           label={label}
           placeholder={placeholder}
@@ -105,7 +129,7 @@ const Field = ({ field, value, onChange }: Props) => {
     default:
       return (
         <TextField
-          value={value}
+          value={coerceOrUndefined(value, valueTypes.STRING)}
           disabled
           multiline
           label={label}
@@ -117,3 +141,79 @@ const Field = ({ field, value, onChange }: Props) => {
 }
 
 export default Field
+
+type NonNullPrimitive = number | boolean | string | void
+type Value = NonNullPrimitive | Array<Primitive>
+// Kind of frustrating types here. This function has almost the same type as
+// coerceValue, but if passed a null value will return undefined
+/* eslint-disable no-redeclare */
+declare function coerceOrUndefined(
+  value: null,
+  type: $Values<typeof valueTypes>
+): void
+declare function coerceOrUndefined(
+  value: void,
+  type: $Values<typeof valueTypes>
+): void
+declare function coerceOrUndefined(
+  value: Value,
+  type: typeof valueTypes.NULL
+): null
+declare function coerceOrUndefined(
+  value: Value,
+  type: typeof valueTypes.UNDEFINED
+): void
+declare function coerceOrUndefined(
+  value: Value,
+  type: typeof valueTypes.LOCATION
+): [number, number]
+declare function coerceOrUndefined(
+  value: Value,
+  type: typeof valueTypes.ARRAY
+): Array<Primitive>
+declare function coerceOrUndefined(
+  value: Value,
+  type: typeof valueTypes.BOOLEAN
+): boolean
+declare function coerceOrUndefined(
+  value: Value,
+  type: typeof valueTypes.NUMBER
+): number
+declare function coerceOrUndefined(
+  value: Value,
+  type: typeof valueTypes.STRING
+): string
+declare function coerceOrUndefined(
+  value: Value,
+  type: typeof valueTypes.DATE | typeof valueTypes.DATETIME
+): Date
+declare function coerceOrUndefined(
+  value: Value,
+  type:
+    | typeof valueTypes.IMAGE_URL
+    | typeof valueTypes.URL
+    | typeof valueTypes.VIDEO_URL
+    | typeof valueTypes.AUDIO_URL
+): string
+
+function coerceOrUndefined (value, type) {
+  // Convert null value to undefined
+  if (value === null) return
+  try {
+    return coerceValue(value, type)
+  } catch (_) {
+    // Return undefined if value cannot be coerced
+  }
+}
+/* eslint-enable no-redeclare */
+
+// Another hack for Flow not supporting Array.filter() correctly
+// https://github.com/facebook/flow/issues/1414
+function filterUndefined (
+  arr: Array<Primitive>
+): Array<number | string | boolean | null> {
+  return arr.reduce((acc, cur) => {
+    if (cur !== undefined) acc.push(cur)
+    return acc
+  }, [])
+}

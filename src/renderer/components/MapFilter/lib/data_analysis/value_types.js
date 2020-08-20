@@ -6,6 +6,7 @@ import mime from 'mime/lite'
 
 import * as valueTypes from '../../constants/value_types'
 import type { Primitive } from '../../types'
+import { parseDateString } from '../../utils/helpers'
 
 // Match dates of the form 1999-12-31
 const shortDateRegExp = /^(\d{4})-(\d{2})-(\d{2})$/
@@ -148,37 +149,19 @@ export function coerceValue (value, type) {
       if (Array.isArray(value))
         return value.map(v => coerceValue(v, valueTypes.STRING)).join(',')
       throw new Error('Cannot coerce ' + JSON.stringify(value) + ' to ' + type)
-    case valueTypes.DATE: {
-      // returns midday (local timezone) dates
-      if (typeof value === 'number') return new Date(value)
-      if (typeof value !== 'string')
-        throw new Error(
-          'Cannot coerce ' + JSON.stringify(value) + ' to ' + type
-        )
-      // TODO: Needs to construct date from components, otherwise it will be
-      // assumed to be in UTC timezone
-      if (isShortDate(value))
-        return new Date(+new Date(value) + 12 * 60 * 60 * 1000)
-      const parsedDateValue = Date.parse(value)
-      if (isNaN(parsedDateValue))
-        throw new Error(
-          'Cannot coerce ' + JSON.stringify(value) + ' to ' + type
-        )
-      const date = new Date(parsedDateValue)
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12)
-    }
+    case valueTypes.DATE:
     case valueTypes.DATETIME: {
       if (typeof value === 'number') return new Date(value)
       if (typeof value !== 'string')
         throw new Error(
           'Cannot coerce ' + JSON.stringify(value) + ' to ' + type
         )
-      const parsedDateValue = Date.parse(value)
-      if (isNaN(parsedDateValue))
+      const parsedDateValue = parseDateString(value)
+      if (typeof parsedDateValue === 'undefined')
         throw new Error(
           'Cannot coerce ' + JSON.stringify(value) + ' to ' + type
         )
-      return new Date(parsedDateValue)
+      return parsedDateValue
     }
     case valueTypes.IMAGE_URL:
     case valueTypes.URL:

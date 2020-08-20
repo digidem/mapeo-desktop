@@ -62,7 +62,7 @@ function renderInput (inputProps) {
 type SelectOneProps = {
   id?: string,
   label: string | React.Element<any>,
-  value: SelectableFieldValue,
+  value: SelectableFieldValue | void,
   placeholder?: string,
   onChange: (value: SelectableFieldValue | void) => any,
   options: SelectOptions
@@ -70,7 +70,7 @@ type SelectOneProps = {
 
 type SelectMultipleProps = {
   ...$Exact<SelectOneProps>,
-  value: Array<SelectableFieldValue>
+  value: Array<SelectableFieldValue> | void
 }
 
 function Encoder (options: Array<LabeledSelectOption>) {
@@ -131,7 +131,7 @@ export const SelectOne = ({
   return (
     <Autocomplete
       id={id}
-      value={encoder.toLabel(value)}
+      value={value === undefined ? null : encoder.toLabel(value)}
       onChange={(e, v: string) => onChange(encoder.toValue(v))}
       options={labeledOptions.map(opt => opt.label)}
       renderInput={params =>
@@ -154,17 +154,13 @@ export const SelectMultiple = ({
   const classes = useStyles()
   const labeledOptions = getLabeledSelectOptions(options)
   const encoder = Encoder(labeledOptions)
-  let arrayValue = []
-  if (value === undefined) arrayValue = []
-  else if (!Array.isArray(value)) arrayValue = [value]
-  else arrayValue = value
 
   return (
     <Autocomplete
       id={id}
       multiple
       freeSolo
-      value={arrayValue.map(encoder.toLabel)}
+      value={value === undefined ? [] : value.map(encoder.toLabel)}
       onChange={(e, v) => onChange(v.map(encoder.toValue))}
       options={labeledOptions.map(opt => opt.label)}
       renderInput={params =>

@@ -53,7 +53,7 @@ const StateContainer = ({
   initialValue,
   children
 }: {
-  initialValue: any,
+  initialValue?: any,
   children: (any, (any) => any) => React.Node
 }) => {
   const [state, setState] = React.useState(initialValue)
@@ -146,4 +146,3 @@ export const selectMultipleNoValue = () => (
     )}
   </StateContainer>
 )
-

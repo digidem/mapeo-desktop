@@ -4,6 +4,8 @@ import type { Field, Key } from '../types'
  * Either returns the translated user-defined label for a field, or creates a
  * label from the field key by replacing _ and - with spaces and formatting in
  * title case
+ * TODO: We ended up not using this syntax for translated fields. Translations
+ * will be stored separately to the preset definitions.
  */
 export function getLocalizedFieldProp (
   field: Field,
@@ -31,7 +33,6 @@ export function primitiveToString (
   if (typeof value === 'number') return value.toString()
   // TODO: what to show (translated) for "null" field (vs. undefined)
   if (value === null) return 'No Value'
-  if (value === undefined) return undefined
   return ''
 }
 
