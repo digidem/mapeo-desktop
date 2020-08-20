@@ -320,8 +320,8 @@ function createBgWindow (socketName) {
   bgWindow.loadURL(BG)
   bgWindow.webContents.on('did-finish-load', () => {
     if (argv.debug) bg.webContents.openDevTools()
-    if (win && win.webContents) {
-      win.webContents.send('configure', {
+    if (bgWindow && bgWindow.webContents) {
+      bgWindow.webContents.send('configure', {
         socketName,
         userDataPath,
         isDev
