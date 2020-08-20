@@ -129,35 +129,35 @@
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
-    "message": "To"
+    "message": "A"
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
     "description": "Title of min date field in filter",
-    "message": "From"
+    "message": "Desde"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
     "description": "Label for filter by date observation was created",
-    "message": "Date of observation"
+    "message": "Fecha de observación"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
     "description": "Button text to change which fields are shown and filterable in the filter pane",
-    "message": "Edit Filters…"
+    "message": "Editar Filtros…"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
     "description": "Label for filter by date observation was modified (e.g. edited by a user)",
-    "message": "Modified"
+    "message": "Editado"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
     "description": "Label for filter by category (e.g. the preset)",
-    "message": "Category"
+    "message": "Categoría"
   },
   "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
     "description": "Button text to only show a particular field value in a filter",
-    "message": "Only"
+    "message": "Sólo"
   },
   "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
     "description": "Button text to turn off filters for a field",
-    "message": "All"
+    "message": "Todo"
   },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
     "message": "Filtrar datos…"
@@ -206,7 +206,7 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
-    "message": "Additional data"
+    "message": "Datos adicionales"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
@@ -216,30 +216,30 @@
     "message": "Cancelar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
-    "message": "Discard changes"
+    "message": "Cerrar sin guardar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
-    "message": "You have made some changes, closing without saving will loose the changes you make"
+    "message": "Has editado la observación. Cerrar sin guardar borraría a los cambios."
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
-    "message": "Close without saving changes?"
+    "message": "¿Cerrar sin guardar?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "Cancelar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
-    "message": "Yes, delete"
+    "message": "Sí, borrar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
-    "message": "Delete observation?"
+    "message": "¿Eliminar observación?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
     "description": "Menu item to delete an observation",
-    "message": "Delete observation"
+    "message": "Eliminar observación"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
     "description": "Header for section that includes the additional details for an observation",
-    "message": "Details"
+    "message": "Detalles"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
@@ -247,15 +247,15 @@
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
-    "message": "Hide All"
+    "message": "Ocultar todo"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
-    "message": "{count} Hidden Fields"
+    "message": "{count} Campos ocultos"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
-    "message": "Show All"
+    "message": "Mostrar todo"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.close": {
     "description": "Button label to close print settings dialog",
@@ -263,15 +263,15 @@
   },
   "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
     "description": "Title of print settings dialog",
-    "message": "Print settings"
+    "message": "Ajustes de impresión"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.paperSize": {
     "description": "Label for paper size selection field",
-    "message": "Paper size"
+    "message": "Tamaño del papel"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.print": {
     "description": "Button label to print a report",
-    "message": "Print"
+    "message": "Imprimir"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
@@ -284,7 +284,7 @@
   },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
-    "message": "Observation"
+    "message": "Observación"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
