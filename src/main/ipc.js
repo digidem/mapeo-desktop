@@ -81,6 +81,7 @@ module.exports = function (ipcSend) {
 
   ipcMain.on('set-locale', function (ev, locale) {
     app.translations = i18n.setLocale(locale)
+    i18n.save()
   })
 
   ipcMain.on('get-locale', function (ev) {
