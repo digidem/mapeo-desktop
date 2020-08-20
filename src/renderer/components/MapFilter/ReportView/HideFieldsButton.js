@@ -51,27 +51,27 @@ const HideFieldsButton = ({ fieldState, onFieldStateUpdate }: Props) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  function handleClick(event) {
+  function handleClick (event) {
     setAnchorEl(event.currentTarget)
   }
 
-  function handleClose() {
+  function handleClose () {
     setAnchorEl(null)
   }
 
-  function toggleFieldVisibility(id: string) {
+  function toggleFieldVisibility (id: string) {
     const newState = fieldState
       .slice()
       .map(f => (f.id === id ? { ...f, hidden: !f.hidden } : f))
     onFieldStateUpdate(newState)
   }
 
-  function showAllFields() {
+  function showAllFields () {
     const newState = fieldState.slice().map(f => ({ ...f, hidden: false }))
     onFieldStateUpdate(newState)
   }
 
-  function hideAllFields() {
+  function hideAllFields () {
     const newState = fieldState.slice().map(f => ({ ...f, hidden: true }))
     onFieldStateUpdate(newState)
   }
@@ -100,18 +100,21 @@ const HideFieldsButton = ({ fieldState, onFieldStateUpdate }: Props) => {
             minWidth: 200,
             maxWidth: '50vw'
           }
-        }}>
+        }}
+      >
         <div className={classes.actions}>
           <Button
-            size="small"
+            size='small'
             onClick={showAllFields}
-            className={classes.button}>
+            className={classes.button}
+          >
             <FormattedMessage {...msgs.showAll} />
           </Button>
           <Button
-            size="small"
+            size='small'
             onClick={hideAllFields}
-            className={classes.button}>
+            className={classes.button}
+          >
             <FormattedMessage {...msgs.hideAll} />
           </Button>
         </div>

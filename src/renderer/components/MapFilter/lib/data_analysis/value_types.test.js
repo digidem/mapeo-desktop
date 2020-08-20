@@ -35,9 +35,9 @@ const guessTestData = [
   ['2017-02-12', valueTypes.DATE]
 ]
 
-test('guessValueType', function() {
+test('guessValueType', function () {
   expect.assertions(guessTestData.length)
-  guessTestData.forEach(function(input) {
+  guessTestData.forEach(function (input) {
     expect(guessValueType(input[0])).toBe(input[1])
   })
 })
@@ -105,9 +105,9 @@ const coerceTestData = [
   ['2017-02-12', valueTypes.DATE, new Date('2017-02-12T12:00:00Z')]
 ]
 
-test('coerceTestData', function() {
+test('coerceTestData', function () {
   expect.assertions(coerceTestData.length)
-  coerceTestData.forEach(function(input) {
+  coerceTestData.forEach(function (input) {
     if (input[2] === Error) {
       expect(coerceValue.bind(null, input[0], input[1])).toThrow(
         'Cannot coerce ' +

@@ -109,16 +109,17 @@ const Popup = ({ imageUrl, title, subtitle, coordinates }: Props) => {
     <div
       className={clsx(classes.wrapper, { [classes.wrapperImage]: imageUrl })}
       style={{ transform }}
-      ref={ref}>
+      ref={ref}
+    >
       {imageUrl && <Image src={imageUrl} className={classes.image} />}
       <div className={classes.titleBox}>
         {title && (
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant='h6' className={classes.title}>
             {title}
           </Typography>
         )}
         {subtitle && (
-          <Typography variant="caption" className={classes.subheading}>
+          <Typography variant='caption' className={classes.subheading}>
             {subtitle}
           </Typography>
         )}

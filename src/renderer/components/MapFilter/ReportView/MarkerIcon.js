@@ -33,23 +33,25 @@ const MarkerIcon: React.StatelessFunctionalComponent<Props> = ({
 }) => {
   return (
     <svg
-      version="1.1"
+      version='1.1'
       style={assign({}, styles.svg, style)}
-      viewBox="0 0 40 40">
+      viewBox='0 0 40 40'
+    >
       <circle
         style={assign({}, styles.outline, { fill: color })}
-        r="20"
-        cx="20"
-        cy="20"
+        r='20'
+        cx='20'
+        cy='20'
       />
       {label && (
         <text
-          x="20"
-          y="27"
-          fontSize="20"
-          fontFamily="Roboto"
-          textAnchor="middle"
-          style={styles.text}>
+          x='20'
+          y='27'
+          fontSize='20'
+          fontFamily='Roboto'
+          textAnchor='middle'
+          style={styles.text}
+        >
           {label}
         </text>
       )}

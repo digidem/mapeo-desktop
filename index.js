@@ -236,35 +236,45 @@ function createServers (done) {
   ipc.send('listen', opts, function (err, port) {
     if (err) throw new Error('fatal: could not get port', err)
     global.osmServerHost = '127.0.0.1:' + port
-    logger.info(global.osmServerHost)
+    logger.info('Server listening:', global.osmServerHost)
     done()
   })
 }
 
 function notifyReady (done) {
-  win.webContents.on('did-finish-load', () => {
-    setTimeout(() => {
-      var IS_TEST = process.env.NODE_ENV === 'test'
-      if (IS_TEST) win.setSize(1000, 800, false)
-      if (argv.debug) win.webContents.openDevTools()
-
-      win.maximize()
-      splash.destroy()
-      win.show()
-      updater.periodicUpdates()
-      done()
-    }, 1000)
-  })
+  logger.info('Server ready, checking front-end is loaded')
+  // If the window is still loading, wait for it to finish before continuing
+  // win.webContents.isLoading() does not seem to work here on Windows
+  if (!win._didFinishLoad) {
+    logger.info('Front-end still loading, check again once loaded')
+    win.webContents.once('did-finish-load', () => {
+      win._didFinishLoad = true
+      notifyReady(done)
+    })
+    return
+  }
+  logger.info('Front-end loaded, close loading screen and open main window')
+  var IS_TEST = process.env.NODE_ENV === 'test'
+  if (IS_TEST) win.setSize(1000, 800, false)
+  if (argv.debug) win.webContents.openDevTools()
+  // notify renderer that server is ready
+  // TODO: Send host and port here too, rather than via global
+  win.webContents.send('back-end-ready')
+  win.maximize()
+  splash.destroy()
+  win.show()
+  updater.periodicUpdates()
+  done()
 }
 
 function createWindow (socketName) {
   var APP_NAME = app.getName()
-  var INDEX = 'file://' + path.join(__dirname, './static/index.html')
+  var INDEX = 'file://' + path.join(__dirname, './static/main.html')
   mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800
   })
-  var win = new BrowserWindow({
+  var mainWindow = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,
@@ -279,29 +289,39 @@ function createWindow (socketName) {
       preload: path.resolve(__dirname, 'src', 'renderer', 'index-preload.js')
     }
   })
-  mainWindowState.manage(win)
+  mainWindowState.manage(mainWindow)
 
-  win.webContents.on('did-finish-load', () => {
-    if (process.env.NODE_ENV === 'test') win.setSize(1000, 800, false)
-    if (argv.debug) win.webContents.openDevTools()
-    win.webContents.send('set-socket', {
-      name: socketName
-    })
+  mainWindow.webContents.on('did-finish-load', () => {
+    logger.info('Front-end has finished loading')
+    mainWindow._didFinishLoad = true
+    if (process.env.NODE_ENV === 'test') mainWindow.setSize(1000, 800, false)
+    if (argv.debug) mainWindow.webContents.openDevTools()
+    mainWindow.webContents.send('set-socket', { name: socketName })
+    // 'did-finish-load' can fire before the backend server is ready, or when
+    // the user refreshes the main window. On window refresh the notifyReady()
+    // function will not run, so we use `global.osmServerHost` to check whether
+    // the server is ready, and notify the front-end if it is
+    if (global.osmServerHost) {
+      logger.info('Server is ready, inform front-end')
+      mainWindow.webContents.send('back-end-ready')
+    } else {
+      logger.info('Server is not ready, front-end will be informed later')
+    }
   })
-  win.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
     if (errorDescription === 'ERR_INTERNET_DISCONNECTED' || errorDescription === 'ERR_PROXY_CONNECTION_FAILED') {
       logger.log(errorDescription)
     }
     logger.error(errorDescription)
   })
-  win.loadURL(INDEX)
-  return win
+  mainWindow.loadURL(INDEX)
+  return mainWindow
 }
 
 // Create a hidden background window
 function createBgWindow (socketName) {
   logger.debug('loading electron background window')
-  var win = new BrowserWindow({
+  var bgWindow = new BrowserWindow({
     x: 0,
     y: 0,
     width: 700,
@@ -311,23 +331,23 @@ function createBgWindow (socketName) {
       nodeIntegration: true
     }
   })
-  var BG = 'file://' + path.join(__dirname, './src/background/index.html')
-  win.loadURL(BG)
-  win.webContents.on('did-finish-load', () => {
+  var BG = 'file://' + path.join(__dirname, './src/background/background.html')
+  bgWindow.loadURL(BG)
+  bgWindow.webContents.on('did-finish-load', () => {
     if (argv.debug) bg.webContents.openDevTools()
-    if (win && win.webContents) {
-      win.webContents.send('configure', {
+    if (bgWindow && bgWindow.webContents) {
+      bgWindow.webContents.send('configure', {
         socketName,
         userDataPath,
         isDev
       })
     }
   })
-  win.on('closed', () => {
+  bgWindow.on('closed', () => {
     logger.info('Background window closed')
     app.quit()
   })
-  return win
+  return bgWindow
 }
 
 function createSplashWindow () {

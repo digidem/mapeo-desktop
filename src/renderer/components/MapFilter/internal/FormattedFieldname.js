@@ -6,34 +6,29 @@ import type { Field } from '../types'
 
 const styles = {
   groupText: {
-    color: '#66666'
+    color: 'rgba(0, 0, 0, 0.541176)'
   }
 }
 
 type Props = {
-  field: Field,
-  // Flow TODO: Make this stricter?
-  component?: any
+  field: Field
 }
 
 /** Formats a field name nicely */
-const FormattedFieldname = ({
-  field,
-  component: Component = 'span'
-}: Props) => {
+const FormattedFieldname = ({ field }: Props) => {
   const { locale } = useIntl()
   const label =
     getLocalizedFieldProp(field, 'label', locale) || fieldKeyToLabel(field.key)
   if (typeof label === 'string') {
-    return <Component title={label}>{label}</Component>
+    return <span title={label}>{label}</span>
   } else {
     const groupText = label.slice(0, label.length - 1).join(' / ') + ' / '
     const fieldText = label[label.length - 1]
     return (
-      <Component title={groupText + fieldText}>
-        <Component style={styles.groupText}>{groupText}</Component>
-        <Component>{fieldText}</Component>
-      </Component>
+      <span title={groupText + fieldText}>
+        <span style={styles.groupText}>{groupText}</span>
+        <span>{fieldText}</span>
+      </span>
     )
   }
 }

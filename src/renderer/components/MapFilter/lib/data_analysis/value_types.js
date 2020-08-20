@@ -6,6 +6,7 @@ import mime from 'mime/lite'
 
 import * as valueTypes from '../../constants/value_types'
 import type { Primitive } from '../../types'
+import { parseDateString } from '../../utils/helpers'
 
 // Match dates of the form 1999-12-31
 const shortDateRegExp = /^(\d{4})-(\d{2})-(\d{2})$/
@@ -22,7 +23,7 @@ const TYPES = {
  * - dates
  * - urls (guessing contentType from extension)
  */
-export function guessValueType(
+export function guessValueType (
   value: Primitive | Array<Primitive>
 ): $Values<typeof valueTypes> {
   if (Array.isArray(value)) return valueTypes.ARRAY
@@ -32,6 +33,7 @@ export function guessValueType(
   if (isUrl(value)) {
     // eslint-disable-next-line node/no-deprecated-api
     const parsedUrl = url.parse(value)
+    if (!parsedUrl.pathname) return valueTypes.URL
     const mimeType = mime.getType(parsedUrl.pathname)
     if (!mimeType) return valueTypes.URL
     if (mimeType.split('/')[0] === 'image') return valueTypes.IMAGE_URL
@@ -104,17 +106,18 @@ declare function coerceValue(
  * Attempts to coerce a value to `type`, throws if it can't coerce
  */
 // eslint-disable-next-line no-redeclare
-export function coerceValue(value, type) {
+export function coerceValue (value, type) {
   if (value === undefined || value === null) return value
   switch (type) {
     case valueTypes.UNDEFINED:
       return
     case valueTypes.NULL:
       return null
-    case valueTypes.LOCATION:
+    case valueTypes.LOCATION: {
       const parsedLocation = parseLocation(value)
       if (parsedLocation) return parsedLocation
       throw new Error('Cannot coerce ' + JSON.stringify(value) + ' to ' + type)
+    }
     case valueTypes.ARRAY:
       if (Array.isArray(value)) return value
       // If string assume either comma-separated or space-separated - choose the
@@ -146,37 +149,19 @@ export function coerceValue(value, type) {
       if (Array.isArray(value))
         return value.map(v => coerceValue(v, valueTypes.STRING)).join(',')
       throw new Error('Cannot coerce ' + JSON.stringify(value) + ' to ' + type)
-    case valueTypes.DATE: {
-      // returns midday (local timezone) dates
-      if (typeof value === 'number') return new Date(value)
-      if (typeof value !== 'string')
-        throw new Error(
-          'Cannot coerce ' + JSON.stringify(value) + ' to ' + type
-        )
-      // TODO: Needs to construct date from components, otherwise it will be
-      // assumed to be in UTC timezone
-      if (isShortDate(value))
-        return new Date(+new Date(value) + 12 * 60 * 60 * 1000)
-      const parsedDateValue = Date.parse(value)
-      if (isNaN(parsedDateValue))
-        throw new Error(
-          'Cannot coerce ' + JSON.stringify(value) + ' to ' + type
-        )
-      const date = new Date(parsedDateValue)
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12)
-    }
+    case valueTypes.DATE:
     case valueTypes.DATETIME: {
       if (typeof value === 'number') return new Date(value)
       if (typeof value !== 'string')
         throw new Error(
           'Cannot coerce ' + JSON.stringify(value) + ' to ' + type
         )
-      const parsedDateValue = Date.parse(value)
-      if (isNaN(parsedDateValue))
+      const parsedDateValue = parseDateString(value)
+      if (typeof parsedDateValue === 'undefined')
         throw new Error(
           'Cannot coerce ' + JSON.stringify(value) + ' to ' + type
         )
-      return new Date(parsedDateValue)
+      return parsedDateValue
     }
     case valueTypes.IMAGE_URL:
     case valueTypes.URL:
@@ -191,7 +176,7 @@ export function coerceValue(value, type) {
 const TRUE_STRINGS = ['yes', 'true', '1']
 const FALSE_STRINGS = ['no', 'false', '0']
 
-function parseBoolean(value: string) {
+function parseBoolean (value: string) {
   const v = value.toLowerCase().trim()
   if (TRUE_STRINGS.indexOf(v) > -1) return true
   if (FALSE_STRINGS.indexOf(v) > -1) return false
@@ -204,7 +189,7 @@ function parseBoolean(value: string) {
  * - a sexagesimal pair e.g. `66N 32W`
  * - an array [lon, lat] of either numbers or strings which can be coerced to numbers
  */
-function parseLocation(value: any): [number, number] | null {
+function parseLocation (value: any): [number, number] | null {
   if (typeof value === 'string') {
     var parsed = sexagesimal.pair(value)
     if (parsed) return [parsed[1], parsed[0]]
@@ -227,20 +212,20 @@ function parseLocation(value: any): [number, number] | null {
 
 // Stricter parsing function, from
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
-function isFloat(value: string | number) {
+function isFloat (value: string | number) {
   if (typeof value === 'number') return true
   return /^(-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(value)
 }
 
-function isShortDate(value: string) {
+function isShortDate (value: string) {
   return shortDateRegExp.test(value)
 }
 
 // Check whether a location is within bounds
-function withinBounds(lon: number, lat: number) {
+function withinBounds (lon: number, lat: number) {
   return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
 }
 
-function isUrl(url: string): boolean {
+function isUrl (url: string): boolean {
   return url.startsWith('https://') || url.startsWith('http://')
 }

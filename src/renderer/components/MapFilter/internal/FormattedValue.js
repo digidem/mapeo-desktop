@@ -61,9 +61,9 @@ const FormattedValue = ({ value, field }: Props) => {
         return (
           <FormattedDate
             value={valueAsDate}
-            year="numeric"
-            month="long"
-            day="2-digit"
+            year='numeric'
+            month='long'
+            day='2-digit'
           />
         )
       }
@@ -72,9 +72,9 @@ const FormattedValue = ({ value, field }: Props) => {
         return (
           <FormattedTime
             value={valueAsDatetime}
-            year="numeric"
-            month="long"
-            day="2-digit"
+            year='numeric'
+            month='long'
+            day='2-digit'
           />
         )
       }
@@ -83,9 +83,10 @@ const FormattedValue = ({ value, field }: Props) => {
         return (
           <a
             href={valueAsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={classes.link}>
+            target='_blank'
+            rel='noopener noreferrer'
+            className={classes.link}
+          >
             {valueAsUrl}
           </a>
         )
@@ -100,7 +101,7 @@ const FormattedValue = ({ value, field }: Props) => {
 
 export default FormattedValue
 
-function joinReactChildren(
+function joinReactChildren (
   children: Array<React.Node>,
   separator: React.Node
 ): Array<React.Node> {

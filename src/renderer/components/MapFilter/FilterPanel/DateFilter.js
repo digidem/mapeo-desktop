@@ -73,7 +73,8 @@ const DateFilter = ({
       title={label}
       icon={<DateIcon />}
       isFiltered={isFiltered}
-      onShowAllClick={() => onChangeFilter(null)}>
+      onShowAllClick={() => onChangeFilter(null)}
+    >
       <ListItem>
         <DateField
           minDate={parseDateString(min)}
@@ -82,7 +83,7 @@ const DateFilter = ({
           value={filterMin || min}
           onChange={handleChange('min')}
           fullWidth={false}
-          margin="dense"
+          margin='dense'
           className={cx.dateField}
         />
         <DateField
@@ -92,7 +93,7 @@ const DateFilter = ({
           value={filterMax || max}
           onChange={handleChange('max')}
           fullWidth={false}
-          margin="dense"
+          margin='dense'
           className={cx.dateField}
         />
       </ListItem>
@@ -102,7 +103,7 @@ const DateFilter = ({
 
 export default DateFilter
 
-function compileFilter(key, min, max) {
+function compileFilter (key, min, max) {
   if (min === undefined && max === undefined) return null
   const filter = ['all']
   if (min) filter.push(['>=', key, min])
@@ -110,7 +111,7 @@ function compileFilter(key, min, max) {
   return filter
 }
 
-function parseDateFilter(filter?: Array<any> | null) {
+function parseDateFilter (filter?: Array<any> | null) {
   if (!filter || filter.length < 2 || filter[0] !== 'all') return []
   const minFilter = filter.find(d => Array.isArray(d) && d[0] === '>=')
   const maxFilter = filter.find(d => Array.isArray(d) && d[0] === '<=')
@@ -127,7 +128,7 @@ const useStyles = makeStyles(theme => ({
 
 const shortDateRegExp = /^(\d{4})-(\d{2})-(\d{2})$/
 
-function createFilterValue(value, minOrMax) {
+function createFilterValue (value, minOrMax) {
   const match = value.match(shortDateRegExp)
   if (!match) return value
   return minOrMax === 'min'

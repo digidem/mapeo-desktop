@@ -1,12 +1,24 @@
 const path = require('path')
 
 module.exports = {
-  entry: './src/renderer/app.js',
+  entry: {
+    app: './src/renderer/app.js'
+  },
   target: 'electron-renderer',
-  externals: ['electron-store'],
+  externals: [
+    'winston',
+    'winston-daily-rotate-file',
+    '@bugsnag/node',
+    '@bugsnag/browser',
+    'ajv',
+    'electron-debug',
+    'mime-db'
+  ],
   // plugins: [new LiveReloadPlugin()],
+  // plugins: [new BundleAnalyzerPlugin()],
   output: {
-    filename: 'build.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'static'),
     libraryTarget: 'commonjs2'
   },

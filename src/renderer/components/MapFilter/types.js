@@ -187,8 +187,8 @@ type BaseField = {|
 
 export type TextField = {
   ...BaseField,
-  type: 'text' | 'textarea',
-  appearance?: 'single' | 'multiline',
+  type: 'text' | 'textarea' | 'localized',
+  appearance?: 'singleline' | 'multiline',
   // Spaces are replaced with underscores
   snake_case?: boolean
 }
@@ -207,9 +207,12 @@ export type NumberField = {
 
 export type SelectableFieldValue = number | string | boolean | null
 
-export type SelectOptions = Array<
-  SelectableFieldValue | {| value: SelectableFieldValue, label: string |}
->
+export type LabeledSelectOption = {|
+  value: SelectableFieldValue,
+  label: string
+|}
+
+export type SelectOptions = Array<SelectableFieldValue | LabeledSelectOption>
 
 export type SelectOneField = {
   ...BaseField,

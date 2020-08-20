@@ -24,10 +24,11 @@ const FilterItem = ({ onClick, checked, label, id, onOnlyClick }) => {
       dense
       button
       onClick={onClick}
-      className={cx.filterItem}>
+      className={cx.filterItem}
+    >
       <ListItemIcon className={cx.checkboxIcon}>
         <Checkbox
-          edge="start"
+          edge='start'
           checked={checked}
           tabIndex={-1}
           disableRipple
@@ -97,7 +98,8 @@ const DiscreteFilter = ({
       title={label}
       icon={<ListIcon />}
       isFiltered={!!filter}
-      onShowAllClick={() => onChangeFilter(null)}>
+      onShowAllClick={() => onChangeFilter(null)}
+    >
       {allValues.map((v, i) => {
         // TODO use FormattedValue here
         const option = options.find(
@@ -128,7 +130,7 @@ const DiscreteFilter = ({
   )
 }
 
-function valuesFromFilter(filter, values = []): Set<SelectableFieldValue> {
+function valuesFromFilter (filter, values = []): Set<SelectableFieldValue> {
   if (!filter || filter.length < 3) return new Set(values)
   // $FlowFixMe - need to better define type for filter
   if (filter[0] === 'in') return new Set(filter.slice(2))

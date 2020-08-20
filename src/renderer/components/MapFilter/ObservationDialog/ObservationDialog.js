@@ -15,9 +15,9 @@ import frLocale from 'date-fns/locale/fr'
 import ptLocale from 'date-fns/locale/pt-BR'
 import esLocale from 'date-fns/locale/es'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel'
-import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import MuiAccordion from '@material-ui/core/Accordion'
+import MuiAccordionSummary from '@material-ui/core/AccordionSummary'
+import MuiAccordionDetails from '@material-ui/core/AccordionDetails'
 import DialogActions from '@material-ui/core/DialogActions'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
@@ -26,7 +26,7 @@ import MenuIcon from '@material-ui/icons/MoreVert'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 import { useIntl, FormattedMessage, defineMessages } from 'react-intl'
 import clone from 'clone-deep'
 
@@ -91,12 +91,12 @@ const localeMap = {
   es: esLocale
 }
 
-function getLocaleData(locale) {
+function getLocaleData (locale) {
   if (!locale) return localeMap.en
   return localeMap[locale] || localeMap[locale.split('-')[0]] || localeMap.en
 }
 
-function defaultGetMedia({ type, id }: Attachment) {
+function defaultGetMedia ({ type, id }: Attachment) {
   if (type && type.split('/')[0] !== 'image') return
   return {
     type: 'image',
@@ -109,21 +109,22 @@ const ConfirmCloseDialog = ({ open, onCancel, onConfirm }) => (
     disableBackdropClick
     open={open}
     onClose={onCancel}
-    aria-labelledby="close-dialog-title"
-    aria-describedby="close-dialog-description">
-    <DialogTitle id="close-dialog-title">
+    aria-labelledby='close-dialog-title'
+    aria-describedby='close-dialog-description'
+  >
+    <DialogTitle id='close-dialog-title'>
       <FormattedMessage {...m.confirmCloseTitle} />
     </DialogTitle>
     <MuiDialogContent>
-      <DialogContentText id="close-dialog-description">
+      <DialogContentText id='close-dialog-description'>
         <FormattedMessage {...m.confirmCloseDescription} />
       </DialogContentText>
     </MuiDialogContent>
     <DialogActions>
-      <Button onClick={onCancel} color="primary">
+      <Button onClick={onCancel} color='primary'>
         <FormattedMessage {...m.confirmCloseButtonCancel} />
       </Button>
-      <Button onClick={onConfirm} color="primary" autoFocus>
+      <Button onClick={onConfirm} color='primary' autoFocus>
         <FormattedMessage {...m.confirmCloseButtonConfirm} />
       </Button>
     </DialogActions>
@@ -135,22 +136,23 @@ const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => (
     disableBackdropClick
     open={open}
     onClose={onCancel}
-    aria-labelledby="delete-dialog-title">
-    <DialogTitle id="delete-dialog-title">
+    aria-labelledby='delete-dialog-title'
+  >
+    <DialogTitle id='delete-dialog-title'>
       <FormattedMessage {...m.confirmDeleteTitle} />
     </DialogTitle>
     <DialogActions>
-      <Button onClick={onCancel} color="primary">
+      <Button onClick={onCancel} color='primary'>
         <FormattedMessage {...m.confirmDeleteButtonCancel} />
       </Button>
-      <Button onClick={onConfirm} color="primary" autoFocus>
+      <Button onClick={onConfirm} color='primary' autoFocus>
         <FormattedMessage {...m.confirmDeleteButtonConfirm} />
       </Button>
     </DialogActions>
   </Dialog>
 )
 
-const ExpansionPanel = withStyles({
+const Accordion = withStyles({
   root: {
     border: '1px solid rgba(0, 0, 0, .125)',
     boxShadow: 'none',
@@ -162,9 +164,9 @@ const ExpansionPanel = withStyles({
     }
   },
   expanded: {}
-})(MuiExpansionPanel)
+})(MuiAccordion)
 
-const ExpansionPanelSummary = withStyles({
+const AccordionSummary = withStyles({
   root: {
     '&$expanded': {
       minHeight: 48
@@ -176,18 +178,19 @@ const ExpansionPanelSummary = withStyles({
     }
   },
   expanded: {}
-})(MuiExpansionPanelSummary)
+})(MuiAccordionSummary)
 
-const ExpansionPanelDetails = withStyles({
+const AccordionDetails = withStyles({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     padding: '0 21px 10px 21px',
     '& > div:first-child': {
       marginTop: 10
     }
   }
-})(MuiExpansionPanelDetails)
+})(MuiAccordionDetails)
 
 const ObservationActions = ({ onDeleteClick }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -213,17 +216,19 @@ const ObservationActions = ({ onDeleteClick }) => {
   return (
     <>
       <IconButton
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={handleOpenClick}>
+        aria-controls='simple-menu'
+        aria-haspopup='true'
+        onClick={handleOpenClick}
+      >
         <MenuIcon />
       </IconButton>
       <Menu
-        id="simple-menu"
+        id='simple-menu'
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}>
+        onClose={handleClose}
+      >
         <MenuItem onClick={createHandleItemClick(onDeleteClick)}>
           <FormattedMessage {...m.deleteObservationMenuItem} />
         </MenuItem>
@@ -301,13 +306,15 @@ const DialogContent = ({
   return (
     <MuiPickersUtilsProvider
       utils={DateFnsUtils}
-      locale={getLocaleData(locale)}>
+      locale={getLocaleData(locale)}
+    >
       <>
         <IconButton
           className={cx.closeButton}
-          color="inherit"
+          color='inherit'
           onClick={handleRequestClose}
-          aria-label="Close">
+          aria-label='Close'
+        >
           <CloseIcon />
         </IconButton>
         {mediaItems.length > 0 && (
@@ -330,21 +337,22 @@ const DialogContent = ({
           value={values[descriptionKey]}
           onChange={newValue => handleChange(descriptionKey, newValue)}
           multiline
-          margin="dense"
-          label="Description"
+          margin='dense'
+          label='Description'
           className={cx.descriptionField}
         />
         {preset.fields.length > 0 && (
-          <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-            <ExpansionPanelSummary
+          <Accordion TransitionProps={{ unmountOnExit: true }}>
+            <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header">
-              <Typography component="h2" className={cx.sectionHeading}>
+              aria-controls='panel1a-content'
+              id='panel1a-header'
+            >
+              <Typography component='h2' className={cx.sectionHeading}>
                 <FormattedMessage {...m.detailsHeader} />
               </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            </AccordionSummary>
+            <AccordionDetails>
               {preset.fields.map(field => (
                 <Field
                   key={field.id}
@@ -353,21 +361,22 @@ const DialogContent = ({
                   onChange={handleChange}
                 />
               ))}
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+            </AccordionDetails>
+          </Accordion>
         )}
         {Array.isArray(preset.additionalFields) &&
           preset.additionalFields.length > 0 && (
-            <ExpansionPanel>
-              <ExpansionPanelSummary
+            <Accordion>
+              <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header">
-                <Typography component="h2" className={cx.sectionHeading}>
+                aria-controls='panel1a-content'
+                id='panel1a-header'
+              >
+                <Typography component='h2' className={cx.sectionHeading}>
                   <FormattedMessage {...m.additionalHeader} />
                 </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
+              </AccordionSummary>
+              <AccordionDetails>
                 {preset.additionalFields.map(field => (
                   <Field
                     key={field.id}
@@ -376,23 +385,25 @@ const DialogContent = ({
                     onChange={handleChange}
                   />
                 ))}
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+              </AccordionDetails>
+            </Accordion>
           )}
         <Fade in={dirty}>
           <Collapse in={dirty} className={cx.actions}>
             <Button
-              color="default"
-              variant="contained"
+              color='default'
+              variant='contained'
               className={cx.button}
-              onClick={handleRequestClose}>
+              onClick={handleRequestClose}
+            >
               <FormattedMessage {...m.cancelEditButton} />
             </Button>
             <Button
-              color="primary"
-              variant="contained"
+              color='primary'
+              variant='contained'
               className={cx.button}
-              onClick={handleSave}>
+              onClick={handleSave}
+            >
               <FormattedMessage {...m.saveEditButton} />
             </Button>
           </Collapse>
@@ -422,9 +433,10 @@ const ObservationDialog = ({ open, onRequestClose, ...otherProps }: Props) => {
         disableBackdropClick
         open={open}
         onClose={handleRequestClose}
-        scroll="body"
+        scroll='body'
         fullWidth
-        maxWidth="sm">
+        maxWidth='sm'
+      >
         {open && (
           <DialogContent {...otherProps} onRequestClose={handleRequestClose} />
         )}
@@ -486,6 +498,7 @@ const useStyles = makeStyles(theme => ({
     height: '100%'
   },
   details: {
+    flexDirection: 'column',
     flex: 1,
     minWidth: 320,
     flexBasis: '33%',

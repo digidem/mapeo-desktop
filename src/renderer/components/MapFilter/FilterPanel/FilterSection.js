@@ -33,7 +33,7 @@ const FilterSection = ({
   onShowAllClick
 }: Props) => {
   const cx = useStyles()
-  const [expanded, toggleExpanded] = useToggle(true)
+  const [expanded, toggleExpanded] = useToggle(false)
 
   const handleShowAllClick = e => {
     e.stopPropagation()
@@ -62,7 +62,8 @@ const FilterSection = ({
       <Collapse
         in={expanded || isFiltered}
         classes={{ wrapperInner: cx.collapse }}
-        unmountOnExit>
+        unmountOnExit
+      >
         {children}
       </Collapse>
     </div>

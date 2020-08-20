@@ -1,6 +1,7 @@
 // @flow
 import React, { useState, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { BlobProvider } from '@react-pdf/renderer'
 
 import ViewWrapper, { type CommonViewProps } from '../ViewWrapper'
 import Toolbar from '../internal/Toolbar'
@@ -14,7 +15,6 @@ import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
 import { SettingsContext } from '../internal/Context'
 import PDFReport from './PDFReport'
-import { BlobProvider } from '@react-pdf/renderer'
 
 type Props = {
   ...$Exact<CommonViewProps>
@@ -106,8 +106,8 @@ const ReportView = ({
                     settings={settings}
                   />
                 }>
-                {({ url, loading }) => 
-                  loading ? <h2>Loading PDF...</h2> : <PdfViewer url={url} />
+                {({ url, loading }) =>
+                  loading ? <h2>Loading PDF...</h2> : <PdfViewer url={url} pages={observations.length} />
                 }
               </BlobProvider>
             </div>

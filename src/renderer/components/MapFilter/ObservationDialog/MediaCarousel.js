@@ -88,7 +88,8 @@ const NextPrevButtons = ({ index, total, onChangeIndex }) => {
         {showPrev && (
           <IconButton
             onClick={() => onChangeIndex(index - 1)}
-            className={cx.button}>
+            className={cx.button}
+          >
             <NavigateBeforeIcon />
           </IconButton>
         )}
@@ -97,7 +98,8 @@ const NextPrevButtons = ({ index, total, onChangeIndex }) => {
         {showNext && (
           <IconButton
             onClick={() => onChangeIndex(index + 1)}
-            className={cx.button}>
+            className={cx.button}
+          >
             <NavigateNextIcon />
           </IconButton>
         )}
@@ -124,7 +126,7 @@ const Dots = ({
         .map((_, i) => (
           <div
             key={i}
-            role="button"
+            role='button'
             className={clsx(cx.dot, {
               [cx.dotHighlight]: index === i
             })}
@@ -179,7 +181,8 @@ const MediaCarousel = ({
           <SwipeableViews
             enableMouseEvents
             index={index}
-            onChangeIndex={setIndex}>
+            onChangeIndex={setIndex}
+          >
             {items.map(({ src, type }, idx) => (
               <MediaItem
                 key={idx}

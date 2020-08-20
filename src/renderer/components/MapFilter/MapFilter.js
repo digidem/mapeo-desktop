@@ -5,12 +5,12 @@ import debounce from 'lodash/debounce'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import mapboxgl from 'mapbox-gl'
 import ErrorBoundary from 'react-error-boundary'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 
 import logger from '../../../logger'
 import Toolbar from './Toolbar'
 import FilterPanel from './FilterPanel'
-import Loading from './Loading'
+import Loading from '../Loading'
 import MapStyleProvider from './MapStyleProvider'
 import api from '../../new-api'
 import MapExportDialog from './MapExportDialog'
@@ -175,10 +175,10 @@ function useObservations () {
           const updatedObservations =
             index > -1
               ? [
-                ...observations.slice(0, index),
-                obs,
-                ...observations.slice(index + 1)
-              ]
+                  ...observations.slice(0, index),
+                  obs,
+                  ...observations.slice(index + 1)
+                ]
               : [...observations, obs]
           setObservations(updatedObservations)
         })
@@ -225,11 +225,9 @@ function useObservations () {
   }
 
   useEffect(() => {
-    const subscription = api.addDataChangedListener(
-      'territory-edit',
-      () => {
-        loadObservations()
-      })
+    const subscription = api.addDataChangedListener('territory-edit', () => {
+      loadObservations()
+    })
     return () => {
       subscription.remove()
     }

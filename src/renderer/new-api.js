@@ -18,7 +18,7 @@ function Api ({ baseUrl, ipc }) {
   // style will be cache-busted.
   const startupTime = Date.now()
 
-  const req = ky.extend({
+  let req = ky.create({
     prefixUrl: baseUrl,
     // No timeout because indexing after first sync takes a long time, which mean
     // requests to the server take a long time
@@ -58,6 +58,13 @@ function Api ({ baseUrl, ipc }) {
 
   // All public methods
   const api = {
+    // Hacky solution, probably need to create the api instance in the app, once
+    // the backend has loaded
+    setBaseUrl: function setBaseUrl (url) {
+      baseUrl = url
+      req =  ky.extend({ prefixUrl: baseUrl })
+    },
+
     /**
      * GET async methods
      */
@@ -175,7 +182,7 @@ function Api ({ baseUrl, ipc }) {
 
     exportData: function (filename, { format = 'geojson' } = {}) {
       return new Promise((resolve, reject) => {
-        ipc.send('export-data', { filename, format }, (err) => {
+        ipc.send('export-data', { filename, format }, err => {
           if (err) {
             logger.error('export data', err)
             reject(err)

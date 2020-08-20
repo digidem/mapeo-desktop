@@ -15,8 +15,8 @@ export const defaultStory = () => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <DateField
-        label="Select Date"
-        helperText="The actual question might be here?"
+        label='Select Date'
+        helperText='The actual question might be here?'
         value={value}
         onChange={setValue}
       />

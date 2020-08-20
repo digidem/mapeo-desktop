@@ -32,7 +32,7 @@ test('get', () => {
   expect(get(fixture2, ['foo'])).toBe(undefined)
   expect(get({}, ['hasOwnProperty'])).toBe(undefined)
 
-  function fn() {}
+  function fn () {}
   fn.foo = { bar: 1 }
   expect(get(fn)).toBe(fn)
   expect(get(fn, ['foo'])).toBe(fn.foo)

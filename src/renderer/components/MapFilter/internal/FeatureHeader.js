@@ -47,16 +47,16 @@ const FeatureHeader = ({
   if (createdAt)
     subheaderParts.push(
       <FormattedTime
-        key="time"
+        key='time'
         value={createdAt}
-        year="numeric"
-        month="long"
-        day="2-digit"
+        year='numeric'
+        month='long'
+        day='2-digit'
       />
     )
   if (coords) {
     if (subheaderParts.length) subheaderParts.push(' \u2014 ')
-    subheaderParts.push(<FormattedLocation key="location" {...coords} />)
+    subheaderParts.push(<FormattedLocation key='location' {...coords} />)
   }
 
   return (
@@ -64,15 +64,16 @@ const FeatureHeader = ({
       classes={{ action: classes.action }}
       avatar={
         <Avatar
-          aria-label="Recipe"
+          aria-label='Recipe'
           style={{ backgroundColor: iconColor }}
-          className={classes.avatar}>
-          {iconLabel || <PlaceIcon fontSize="large" />}
+          className={classes.avatar}
+        >
+          {iconLabel || <PlaceIcon fontSize='large' />}
         </Avatar>
       }
       action={action}
       title={
-        <Typography variant="h5" component="h2">
+        <Typography variant='h5' component='h2'>
           {name || <FormattedMessage {...msgs.defaultObservationName} />}
         </Typography>
       }

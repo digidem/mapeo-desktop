@@ -9,17 +9,17 @@ import type {
   Statistics
 } from '../types'
 
-export function isObj(value: any): boolean {
+export function isObj (value: any): boolean {
   const type = typeof value
   return value !== null && (type === 'object' || type === 'function')
 }
 
-export function isImageAttachment(attachment: Attachment): boolean {
+export function isImageAttachment (attachment: Attachment): boolean {
   const mimeType = attachment.type || mime.getType(attachment.id)
-  return mimeType && mimeType.split('/')[0] === 'image'
+  return mimeType ? mimeType.split('/')[0] === 'image' : false
 }
 
-export function getLastImage(observation: Observation): Attachment | void {
+export function getLastImage (observation: Observation): Attachment | void {
   const imageAttachments = (observation.attachments || []).filter(
     isImageAttachment
   )
@@ -33,7 +33,7 @@ const hiddenTags = {
   note: true
 }
 
-export function defaultGetPreset(
+export function defaultGetPreset (
   observation: Observation,
   stats?: Statistics
 ): PresetWithAdditionalFields {
@@ -54,7 +54,7 @@ export function defaultGetPreset(
   }
 }
 
-export function leftPad(str: string, len: number, char: string): string {
+export function leftPad (str: string, len: number, char: string): string {
   // doesn't need to pad
   len = len - str.length
   if (len <= 0) return str
@@ -69,7 +69,7 @@ export function leftPad(str: string, len: number, char: string): string {
   return pad + str
 }
 
-export function getDateString(date: Date): string | void {
+export function getDateString (date: Date): string | void {
   if (!(date instanceof Date)) return
   const YYYY = date.getFullYear()
   const MM = leftPad(date.getMonth() + 1 + '', 2, '0')
@@ -84,7 +84,7 @@ const shortDateRegExp = /^(\d{4})-(\d{2})-(\d{2})$/
  * will assume the timezone is UTC, so in different timezones the returned date
  * will not be what is expected.
  */
-export function parseDateString(str: string): Date | void {
+export function parseDateString (str: string): Date | void {
   if (!str) return
   const match = str.match(shortDateRegExp)
   if (!match) {
@@ -94,7 +94,8 @@ export function parseDateString(str: string): Date | void {
   return new Date(+match[1], +match[2] - 1, +match[3])
 }
 
-export function isEmptyValue(value) {
+
+export function isEmptyValue (value) {
   return (
     (typeof value === 'string' && value.length === 0) ||
     value === undefined ||

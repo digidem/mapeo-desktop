@@ -163,7 +163,7 @@ const WrappedMapView = ({
 export default WrappedMapView
 
 // TODO: Update this function to match presets like ID Editor
-function getPreset(
+function getPreset (
   observation: Observation,
   presets: PresetWithFields[]
 ): PresetWithFields | void {

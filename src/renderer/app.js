@@ -6,6 +6,7 @@ import { IntlProvider } from 'react-intl'
 import isDev from 'electron-is-dev'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
+import api from './new-api'
 import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
@@ -42,6 +43,15 @@ if (!logger.configured) {
 
 const App = () => {
   const [locale, setLocale] = React.useState(initialLocale)
+  const [isReady, setReady] = React.useState(false)
+
+  React.useEffect(() => {
+    ipcRenderer.once('back-end-ready', () => {
+      api.setBaseUrl('http://' + remote.getGlobal('osmServerHost') + '/')
+      console.log(remote.getGlobal('osmServerHost'))
+      setReady(true)
+    })
+  }, [])
 
   const handleLanguageChange = React.useCallback(lang => {
     ipcRenderer.send('set-locale', lang)
@@ -53,8 +63,9 @@ const App = () => {
     ipcRenderer.send('force-refresh-window')
   }, [])
   logger.info('Rendering', locale)
+  logger.info('Ready?', isReady)
 
-  return (
+  return isReady ? (
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -63,7 +74,7 @@ const App = () => {
         </IntlProvider>
       </ThemeProvider>
     </StylesProvider>
-  )
+  ) : null
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))

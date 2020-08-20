@@ -3,7 +3,7 @@ import React from 'react'
 import { action } from '@storybook/addon-actions'
 
 import MediaView from './MediaViewContent'
-import fixtureObs from '../../fixtures/observations.json'
+import fixtureObs from '../../../../../fixtures/observations.json'
 import { defaultGetPreset } from '../utils/helpers'
 
 export default {
@@ -11,7 +11,7 @@ export default {
 }
 
 export const defaultStory = () => {
-  function getMedia({ id }, { width = 200, height = 200 } = {}) {
+  function getMedia ({ id }, { width = 200, height = 200 } = {}) {
     const size = Math.floor(width / 100) * 100
     const idx = parseInt(id, 16)
     return {

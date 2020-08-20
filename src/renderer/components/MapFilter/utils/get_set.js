@@ -4,9 +4,7 @@ import { isObj } from './helpers'
 
 export function get (object, path, defaultValue) {
   if (typeof path === 'string') path = [path]
-  if (!Array.isArray(path)) {
-    return object
-  }
+  if (!Array.isArray(path)) return object
   if (!isObj(object) || path.length === 0) {
     return defaultValue === undefined && path.length === 0
       ? object
