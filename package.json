@@ -88,7 +88,7 @@
     "@material-ui/lab": "^4.0.0-alpha.53",
     "@material-ui/pickers": "^3.2.6",
     "@material-ui/styles": "^4.5.2",
-    "@react-pdf/renderer": "^2.0.0-beta.5",
+    "@react-pdf/renderer": "^2.0.0-beta.14",
     "@segment/isodate": "^1.0.3",
     "asar": "^1.0.0",
     "bugsnag-build-reporter": "^1.0.3",
