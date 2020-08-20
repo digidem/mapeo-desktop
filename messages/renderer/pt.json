@@ -11,6 +11,9 @@
     "description": "Synchronize tab label",
     "message": "Sincronizar"
   },
+  "renderer.components.Home.update": {
+    "message": "Update Mapeo"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Fechar"
@@ -53,6 +56,9 @@
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback e contribuição"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Description"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
@@ -121,6 +127,38 @@
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "Exportar Mapa da web…"
   },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "To"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "From"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Date of observation"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Edit Filters…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Modified"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Category"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Only"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "All"
+  },
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
     "message": "Filtrar por…"
   },
@@ -166,6 +204,75 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Que pena! Ocorreu um erro"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Additional data"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Discard changes"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "You have made some changes, closing without saving will loose the changes you make"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Close without saving changes?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Yes, delete"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Delete observation?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Delete observation"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Details"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "Salvar"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Hide All"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count} Hidden Fields"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Show All"
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.close": {
+    "description": "Button label to close print settings dialog",
+    "message": "Fechar"
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Print settings"
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.paperSize": {
+    "description": "Label for paper size selection field",
+    "message": "Paper size"
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.print": {
+    "description": "Button label to print a report",
+    "message": "Print"
+  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
   },
@@ -174,6 +281,10 @@
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "Relatório"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Observation"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -272,6 +383,49 @@
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Selecionar base de dados para sincronizar"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Estimating..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Download"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Downloading"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "There was an error and Mapeo could not update. Try again later."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Error"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Estimated download time is"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "This update will make your application incompatible with earlier verions."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "This update includes improvements that may change your experience."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "This update includes changes that fix critical errors. Please update as soon as possible."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Restart"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "An update to Mapeo has been downloaded. Restart Mapeo to update."
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Desconhecido"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Update"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo is up to date! You are on the latest version."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "Cancelar"
