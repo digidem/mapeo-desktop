@@ -200,9 +200,9 @@ function initDirectories (done) {
   })
 
   function cleanupPermissions () {
-    chmod(path.join(userDataPath, 'presets'), '0777', (err) => {
+    chmod(path.join(userDataPath, 'presets'), '0700', (err) => {
       if (err) logger.error('Failed to execute chmod on presets', err)
-      chmod(path.join(userDataPath, 'styles'), '0777', (err) => {
+      chmod(path.join(userDataPath, 'styles'), '0700', (err) => {
         if (err) logger.error('Failed to execute chmod on styles', err)
         done()
       })
