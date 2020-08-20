@@ -172,7 +172,6 @@ function createMockData ({ count, obsOnly }, cb) {
         createMedia((mediaId) => createObservation(obs, mediaId))
       })
     })
->>>>>>> origin/master
   })
 
   function createMedia (cb) {
