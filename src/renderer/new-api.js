@@ -113,10 +113,6 @@ function Api ({ baseUrl, ipc }) {
       return post('observations', valueForServer)
     },
 
-    createReport: function (args) {
-      return post('report', args)
-    },
-
     /**
      * SYNC methods
      */
