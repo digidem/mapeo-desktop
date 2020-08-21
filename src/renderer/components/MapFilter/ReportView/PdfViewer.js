@@ -43,8 +43,8 @@ const PDFWithControls = ({url, pages}) => {
   const handlePrevPage = () => setPageNumber(Math.max(pageNumber - 1, 1))
 
   return (
-    <div>
-      <div className={cx.toolbarButton}>
+    <div className={cx.pdfWithControls}>
+      <div className={cx.navigation}>
         <Button disabled={pageNumber === 1} onClick={handlePrevPage}>
           <FormattedMessage {...m.prevPage} />
         </Button>
@@ -68,9 +68,16 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     height: '100%',
     flexDirection: 'row',
-    backgroundColor: '#F5F5F5'
+    backgroundColor: '#F5F5F5',
+    justifyContent: 'center'
   },
-  toolbarButton: {
+  pdfWithControls: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: 'auto',
+    justifyContent: 'center'
+  },
+  navigation: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'

@@ -12,7 +12,6 @@ var Settings = require('@mapeo/settings')
 var argv = require('minimist')(process.argv.slice(2))
 
 const MOCK_DATA = require('../fixtures/observations.json').slice(0,5)
-const DEFAULT_MOCK_DATA = 5
 const DEFAULT_PORT = 5006
 
 let settings, projectKey
@@ -135,10 +134,9 @@ function createMockData ({ count, obsOnly }, cb) {
 
   MOCK_DATA.map((observation) => {
     observation.type = 'observation'
-    delete observation.attachments
     createObservation(observation)
-    return
   })
+
   var presets = settings.getSettings('presets')
   var categories = presets && presets.presets ? Object.keys(presets.presets) : []
 
