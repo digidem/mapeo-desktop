@@ -38,7 +38,6 @@ const ReportView = ({
   ...otherProps
 }: Props) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
-  const [paperSize, setPaperSize] = useState('a4')
   const cx = useStyles()
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
