@@ -10,6 +10,7 @@ import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
 import PdfViewer from './PdfViewer'
+import PrintButton from './PrintButton'
 
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
@@ -85,31 +86,35 @@ const ReportView = ({
           }
         }
 
+        const document = (
+            <PDFReport
+              observations={filteredObservations.slice(0, 50)}
+              getPreset={getPresetWithFilteredFields}
+              getMedia={getMedia}
+              intl={intl}
+              settings={settings}
+            />
+        )
         // ReportPageContent defined below...
         return (
           <div className={cx.root}>
-            <Toolbar>
-              <HideFieldsButton
-                fieldState={fieldState}
-                onFieldStateUpdate={setFieldState}
-              />
-            </Toolbar>
-            <div className={cx.reportPreview}>
-              <BlobProvider
-                document={
-                  <PDFReport
-                    observations={filteredObservations.slice(0, 50)}
-                    getPreset={getPresetWithFilteredFields}
-                    getMedia={getMedia}
-                    intl={intl}
-                    settings={settings}
-                  />
-                }>
-                {({ url, loading }) =>
-                  <PdfViewer url={url} pages={observations.length} loading={loading} />
-                }
-              </BlobProvider>
-            </div>
+            <BlobProvider document={document}>
+              {({ url, loading, error }) =>
+                <>
+                  <Toolbar>
+                    <HideFieldsButton
+                      fieldState={fieldState}
+                      onFieldStateUpdate={setFieldState}
+                    />
+                    <PrintButton url={url} disabled={loading || error}
+                    />
+                  </Toolbar>
+                  <div className={cx.reportPreview}>
+                    <PdfViewer url={url} pages={observations.length} loading={loading} />
+                  </div>
+                </>
+              }
+            </BlobProvider>
           </div>
         )
       }}
