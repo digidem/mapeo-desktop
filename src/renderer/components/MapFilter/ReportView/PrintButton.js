@@ -5,15 +5,7 @@ import { defineMessages, FormattedMessage } from 'react-intl'
 
 import ToolbarButton from '../internal/ToolbarButton'
 
-import type { PaperSize } from '../types'
-
 const messages = defineMessages({
-  // Title of print settings dialog
-  dialogTitle: 'Print settings',
-  // Label for paper size selection field
-  paperSize: 'Paper size',
-  // Button label to close print settings dialog
-  close: 'Close',
   // Button label to print a report
   print: 'Print'
 })
