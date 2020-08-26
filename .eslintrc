@@ -22,6 +22,10 @@
     "es6": true,
     "browser": true
   },
+  "ignorePatterns": [
+    "node_modules/**/*.js",
+    "static/*.js"
+  ],
   "rules": {
     "no-proto": 0,
     "react/prop-types": 0,
