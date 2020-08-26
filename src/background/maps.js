@@ -16,7 +16,7 @@ function getAsset (req, res, params) {
   return {
     contentType: 'image/png',
     contentLength: 1000,
-    buffer: render({
+    stream: mapStream({
       token: token,
       style: style,
       bbox: JSON.parse(bbox),
@@ -33,7 +33,8 @@ router.addRoute('/map/:bbox/:width/:height/x:dpi.png', function (req, res, param
   cache(req, res, params, (err) => {
     if (err) {
       logger.error(err)
-      errors.send(res, err)
+      res.statusCode = 500
+      res.end(err.message)
     }
   })
 })

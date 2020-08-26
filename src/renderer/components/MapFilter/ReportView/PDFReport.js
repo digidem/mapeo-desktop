@@ -21,6 +21,7 @@ import {
   type SettingsContextType
 } from '../internal/Context'
 import type { Observation } from 'mapeo-schema'
+import api from '../../../new-api'
 
 type Props = {
   ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
@@ -40,15 +41,35 @@ type PageProps = {
   observation: Observation
 }
 
+
+const FrontPage = ({ bounds }) => {
+  var opts = {
+    bounds,
+    width: 400,
+    height: 400,
+    dpi: 4
+  }
+
+  return (
+    <Image cache={true} src={api.getMapImage(opts)} />
+  )
+}
+
 const PDFReport = ({
   observations,
   intl,
   settings = defaultSettings,
   ...otherProps
 }: Props) => {
+  // TODO: get real bounds
+  var bounds = [-7.1354,57.9095,-6.1357,58.516]
+
   const children = (
     <SettingsContext.Provider value={settings}>
       <Document>
+        <Page key="front" size="A4" style={styles.page}>
+          <FrontPage bounds={bounds} />
+        </Page>
         {observations.map(obs => (
           <Page key={obs.id} size="A4" style={styles.page} wrap>
             <FeaturePage key={obs.id} observation={obs} {...otherProps} />
@@ -91,6 +112,8 @@ const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
     },
     []
   )
+  // TODO: get real bounds
+  var bounds = [-7.1354,57.9095,-6.1357,58.516]
 
   return (
     <View style={styles.pageContent}>
@@ -139,8 +162,9 @@ const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
         })}
       </View>
       <View style={styles.columnRight}>
+        <Image src={api.getMapImage({bounds})} key={'minimap-' + observation.id} style={styles.image} wrap={false} />
         {mediaItems.map((src, i) => (
-          <Image src={src} key={i} style={styles.image} wrap={false} />
+          <Image cache={true} src={src} key={i} style={styles.image} wrap={false} />
         ))}
       </View>
     </View>

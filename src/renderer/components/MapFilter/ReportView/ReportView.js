@@ -32,6 +32,7 @@ const ReportView = ({
   onUpdateObservation,
   onDeleteObservation,
   mapboxAccessToken,
+  bounds,
   mapStyle,
   presets,
   filter,
@@ -42,6 +43,7 @@ const ReportView = ({
   const cx = useStyles()
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
+  console.log(bounds)
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
