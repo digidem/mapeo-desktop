@@ -1,8 +1,9 @@
 var Router = require('routes')
-var mapStream = require('mapbox-map-image-stream')
+var { render } = require('mbgl-renderer')
 var Core = require('@mapeo/core')
 
-var fileCacheMiddleware = require('./cache')
+
+var fileCacheMiddleware = require('./cache-sync')
 var logger = require('../logger')
 var errors = Core.errors
 
@@ -11,26 +12,28 @@ var style = 'mapbox://styles/mapbox/outdoors-v10'
 
 var router = Router()
 
-function getAsset (req, res, params) {
+async function getAsset (req, res, params) {
   const { bbox, width, height, dpi } = params
+  var buffer = await render(style, parseInt(width), parseInt(height), {
+    token: token,
+    bbox: JSON.parse(bbox),
+    ratio: parseInt(dpi)
+  })
+
   return {
-    contentType: 'image/png',
-    contentLength: 1000,
-    buffer: render({
-      token: token,
-      style: style,
-      bbox: JSON.parse(bbox),
-      width: parseInt(width),
-      height: parseInt(height),
-      pixelRatio: parseInt(dpi)
-    })
+    type: 'image/png',
+    size: buffer.length,
+    buffer
   }
 }
 
-var cache = fileCacheMiddleware(getAsset, { maxSize: 10 * 1024 * 1024 * 1024 })
+var cache = fileCacheMiddleware(getAsset, {
+  maxSize: 10 * 1024 * 1024 * 1024,
+  logger
+})
 
 router.addRoute('/map/:bbox/:width/:height/x:dpi.png', function (req, res, params) {
-  cache(req, res, params, (err) => {
+  cache(req, params, (err) => {
     if (err) {
       logger.error(err)
       errors.send(res, err)
