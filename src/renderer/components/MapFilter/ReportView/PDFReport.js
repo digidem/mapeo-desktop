@@ -63,7 +63,8 @@ const PDFReport = ({
   settings = defaultSettings,
   ...otherProps
 }: Props) => {
-  // the whole world
+
+   /*  TODO: add frontpage
   var sw = [180, 90]
   var ne = [-180, -90]
   observations.forEach((obs) => {
@@ -73,13 +74,14 @@ const PDFReport = ({
     ne[1] = Math.max(obs.lat, ne[1])
   })
   var bounds = [sw[0], sw[1], ne[0], ne[1]]
+  <Page key="front" size="A4" style={styles.page}>
+    <FrontPage bounds={bounds} />
+  </Page>
+  */
 
   const children = (
     <SettingsContext.Provider value={settings}>
       <Document>
-        <Page key="front" size="A4" style={styles.page}>
-          <FrontPage bounds={bounds} />
-        </Page>
         {observations.map(obs => (
           <Page key={obs.id} size="A4" style={styles.page} wrap>
             <FeaturePage key={obs.id} observation={obs} {...otherProps} />
