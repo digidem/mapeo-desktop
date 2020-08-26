@@ -23,7 +23,6 @@ import {
 import type { Observation } from 'mapeo-schema'
 import api from '../../../new-api'
 import { WebMercatorViewport } from '@math.gl/web-mercator'
-import * as geo from 'geolocation-utils'
 
 type Props = {
   ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
