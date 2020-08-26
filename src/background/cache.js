@@ -1,3 +1,4 @@
+// (mostly) from https://github.com/julianrubisch/express-asset-file-cache-middleware/edit/master/index.js
 const crypto = require('crypto')
 const sprintf = require('sprintf-js').sprintf
 const fs = require('fs')

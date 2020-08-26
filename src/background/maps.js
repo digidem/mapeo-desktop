@@ -1,10 +1,8 @@
 var Router = require('routes')
 var mapStream = require('mapbox-map-image-stream')
-var Core = require('@mapeo/core')
 
 var fileCacheMiddleware = require('./cache')
 var logger = require('../logger')
-var errors = Core.errors
 
 var token = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 var style = 'mapbox://styles/mapbox/outdoors-v10'
