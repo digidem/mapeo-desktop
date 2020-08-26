@@ -42,7 +42,7 @@ type PageProps = {
   observation: Observation
 }
 
-
+/*  TODO: add frontpage
 const FrontPage = ({ bounds }) => {
   var opts = {
     bounds,
@@ -56,14 +56,6 @@ const FrontPage = ({ bounds }) => {
   )
 }
 
-const PDFReport = ({
-  observations,
-  intl,
-  settings = defaultSettings,
-  ...otherProps
-}: Props) => {
-
-   /*  TODO: add frontpage
   var sw = [180, 90]
   var ne = [-180, -90]
   observations.forEach((obs) => {
@@ -76,7 +68,15 @@ const PDFReport = ({
   <Page key="front" size="A4" style={styles.page}>
     <FrontPage bounds={bounds} />
   </Page>
-  */
+*/
+
+const PDFReport = ({
+  observations,
+  intl,
+  settings = defaultSettings,
+  ...otherProps
+}: Props) => {
+
 
   const children = (
     <SettingsContext.Provider value={settings}>

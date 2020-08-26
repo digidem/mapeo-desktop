@@ -152,9 +152,10 @@ const middleWare = (module.exports = function (getAsset, options) {
 
         var stats = fs.statSync(filepath)
 
-        const [contentType, contentLength] = middleWare.decodeAssetCacheName(
+        const asset = middleWare.decodeAssetCacheName(
           firstFile
         )
+        const contentType = asset.contentType
 
         // TODO: contentLength is incorrect here
 
