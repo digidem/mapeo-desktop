@@ -209,11 +209,11 @@ function Api ({ baseUrl, ipc }) {
       return `${baseUrl}styles/${id}/style.json?${startupTime}`
     },
 
-    zoomToData: function (type, cb) {
+    getCentroid: function (type, cb) {
       ipc.send('zoom-to-data-get-centroid', type, cb)
     },
 
-    getMapImage: function ({bounds, width = 300, height = 300, dpi = 1}) {
+    getMapImageURL: function ({bounds, width = 300, height = 300, dpi = 1}) {
       return `${baseUrl}map/${JSON.stringify(bounds)}/${width}/${height}/x${dpi}.png`
     }
   }

@@ -97,7 +97,7 @@ function evictLeastRecentlyUsed (cacheDir, maxSize, logger) {
 }
 
 function findLeastRecentlyUsed (dir, result) {
-  let files = fs.readdirSync(dir)
+  const files = fs.readdirSync(dir)
   result = result || { atime: Date.now(), path: '' }
 
   files.forEach(file => {

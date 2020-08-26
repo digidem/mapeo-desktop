@@ -22,6 +22,8 @@ import {
 } from '../internal/Context'
 import type { Observation } from 'mapeo-schema'
 import api from '../../../new-api'
+import { WebMercatorViewport } from '@math.gl/web-mercator'
+import * as geo from 'geolocation-utils'
 
 type Props = {
   ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
@@ -51,7 +53,7 @@ const FrontPage = ({ bounds }) => {
   }
 
   return (
-    <Image cache={true} src={api.getMapImage(opts)} />
+    <Image cache={true} src={api.getMapImageURL(opts)} />
   )
 }
 
@@ -61,8 +63,16 @@ const PDFReport = ({
   settings = defaultSettings,
   ...otherProps
 }: Props) => {
-  // TODO: get real bounds
-  var bounds = [-7.1354,57.9095,-6.1357,58.516]
+  // the whole world
+  var sw = [180, 90]
+  var ne = [-180, -90]
+  observations.forEach((obs) => {
+    sw[0] = Math.min(obs.lon, sw[0])
+    sw[1] = Math.min(obs.lat, sw[1])
+    ne[0] = Math.max(obs.lon, ne[0])
+    ne[1] = Math.max(obs.lat, ne[1])
+  })
+  var bounds = [sw[0], sw[1], ne[0], ne[1]]
 
   const children = (
     <SettingsContext.Provider value={settings}>
@@ -88,66 +98,42 @@ const PDFReport = ({
 }
 
 const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
-  const coords =
-    typeof observation.lon === 'number' && typeof observation.lat === 'number'
-      ? {
-          longitude: observation.lon,
-          latitude: observation.lat
-        }
-      : undefined
-  const createdAt =
-    typeof observation.created_at === 'string'
-      ? new Date(observation.created_at)
-      : undefined
+  var view = new ObservationView(observation, getPreset, getMedia)
 
-  const preset = getPreset(observation)
-  const fields = preset.fields.concat(preset.additionalFields)
-  const tags = observation.tags || {}
-  const note = tags.note || tags.notes
-  const mediaItems: string[] = (observation.attachments || []).reduce(
-    (acc, cur) => {
-      const item = getMedia(cur, { width: 800, height: 600 })
-      if (item && item.type === 'image') acc.push(item.src)
-      return acc
-    },
-    []
-  )
-  // TODO: get real bounds
-  var bounds = [-7.1354,57.9095,-6.1357,58.516]
-
+  // TODO: break out left hand side into own component...
   return (
     <View style={styles.pageContent}>
       <View style={styles.columnLeft}>
-        <Text style={styles.presetName}>{preset.name || 'Observation'}</Text>
-        {createdAt ? (
+        <Text style={styles.presetName}>{view.preset.name || 'Observation'}</Text>
+        {view.createdAt ? (
           <Text style={styles.createdAt}>
             <Text style={styles.createdAtLabel}>Registrado: </Text>
             <FormattedTime
               key="time"
-              value={createdAt}
+              value={view.createdAt}
               year="numeric"
               month="long"
               day="2-digit"
             />
           </Text>
         ): null}
-        {coords ? (
+        {view.coords ? (
           <Text style={styles.location}>
             <Text style={styles.locationLabel}>Ubicación: </Text>
-            <FormattedLocation {...coords} />
+            <FormattedLocation {...view.coords} />
           </Text>
         ): null}
         <View>
-          {note ?
-            note.split('\n').map((para, idx) => (
+          {view.note ?
+            view.note.split('\n').map((para, idx) => (
               <Text key={idx} style={styles.description}>
                 {para}
               </Text>
             )): null}
         </View>
         <Text style={styles.details}>Detalles</Text>
-        {fields.map(field => {
-          const value = get(tags, field.key)
+        {view.fields.map(field => {
+          const value = get(view.tags, field.key)
           if (isEmptyValue(value)) return null
           return (
             <View key={field.id} style={styles.field} wrap={false}>
@@ -161,14 +147,85 @@ const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
           )
         })}
       </View>
-      <View style={styles.columnRight}>
-        <Image src={api.getMapImage({bounds})} key={'minimap-' + observation.id} style={styles.image} wrap={false} />
-        {mediaItems.map((src, i) => (
-          <Image cache={true} src={src} key={i} style={styles.image} wrap={false} />
-        ))}
-      </View>
+      <ObservationRHS observationView={view} />
     </View>
   )
+}
+
+function ObservationRHS ({observationView}) {
+  var src = observationView.getMapImageURL()
+
+  return (
+    <View style={styles.columnRight}>
+      <Image
+        src={src}
+        key={'minimap-' + observationView.id}
+        style={styles.image}
+        wrap={false}
+      />
+
+      {observationView.mediaItems.map((src, i) => (
+        <Image cache={true} src={src} key={i} style={styles.image} wrap={false} />
+      ))}
+    </View>
+  )
+}
+
+
+class ObservationView {
+  static DEFAULT_ZOOM_LEVEL = 11
+
+  constructor (observation, getPreset, getMedia) {
+    this.id = observation.id
+    this.coords =
+      typeof observation.lon === 'number' && typeof observation.lat === 'number'
+        ? {
+            longitude: observation.lon,
+            latitude: observation.lat
+          }
+        : undefined
+    this.createdAt =
+      typeof observation.created_at === 'string'
+        ? new Date(observation.created_at)
+        : undefined
+
+    this.preset = getPreset(observation)
+    this.fields = this.preset.fields.concat(this.preset.additionalFields)
+    this.tags = observation.tags || {}
+    this.note = this.tags.note || this.tags.notes
+    this.mediaItems = (observation.attachments || []).reduce(
+      (acc, cur) => {
+        const item = getMedia(cur, { width: 800, height: 600 })
+        if (item && item.type === 'image') acc.push(item.src)
+        return acc
+      },
+      []
+    )
+  }
+
+  getMapImageURL (zoom) {
+    if (!zoom) zoom = ObservationView.DEFAULT_ZOOM_LEVEL
+
+    var opts = {
+      width: 250,
+      height: 250,
+      bounds: getBounds(this.coords, zoom),
+      dpi: 2
+    }
+    return api.getMapImageURL(opts)
+  }
+
+}
+
+function getBounds (center, zoom) {
+  var viewport = {
+    latitude: center.latitude,
+    longitude: center.longitude,
+    zoom
+  }
+  var wmv = new WebMercatorViewport(viewport)
+  var [sw, ne]= wmv.getBounds()
+  return [sw[0], sw[1], ne[0], ne[1]]
 }
 
 export default PDFReport
