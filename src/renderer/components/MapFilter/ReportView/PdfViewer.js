@@ -36,10 +36,11 @@ const PdfViewer = ({ url, pages, loading }) => {
   )
 }
 
-const PDFWithControls = ({url, pages}) => {
+const PDFWithControls = ({url}) => {
   const cx = useStyles()
+  const [numPages, setNumPages] = useState(1)
   const [pageNumber, setPageNumber] = useState(1)
-  const handleNextPage = () => setPageNumber(Math.min(pageNumber + 1, pages))
+  const handleNextPage = () => setPageNumber(Math.min(pageNumber + 1, numPages))
   const handlePrevPage = () => setPageNumber(Math.max(pageNumber - 1, 1))
 
   return (
@@ -48,12 +49,15 @@ const PDFWithControls = ({url, pages}) => {
         <Button disabled={pageNumber === 1} onClick={handlePrevPage}>
           <FormattedMessage {...m.prevPage} />
         </Button>
-        <p>{pageNumber} / {pages}</p>
-        <Button disabled={pageNumber === pages} onClick={handleNextPage}>
+        <p>{pageNumber} / {numPages}</p>
+        <Button disabled={pageNumber === numPages} onClick={handleNextPage}>
           <FormattedMessage {...m.nextPage} />
         </Button>
       </div>
-      <Document file={url} onLoadError={console.log} onLoadSuccess={() => setPageNumber(1)}>
+      <Document
+        file={url}
+        onLoadError={console.log} // TODO: Show user error
+        onLoadSuccess={({ numPages }) => { setNumPages(numPages) }}>
         <Page pageNumber={pageNumber} />
       </Document>
     </div>
