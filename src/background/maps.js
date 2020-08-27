@@ -1,7 +1,7 @@
 var Router = require('routes')
 var mapStream = require('mapbox-map-image-stream')
 
-var fileCacheMiddleware = require('./cache')
+var fileCacheMiddleware = require('fs-cache-middleware')
 var logger = require('../logger')
 
 var token = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
@@ -9,7 +9,7 @@ var style = 'mapbox://styles/mapbox/outdoors-v10'
 
 var router = Router()
 
-function getAsset (req, res, params) {
+function getAsset (req, params) {
   const { bbox, width, height, dpi } = params
   return {
     contentType: 'image/png',
