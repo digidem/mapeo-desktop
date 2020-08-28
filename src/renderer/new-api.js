@@ -62,7 +62,7 @@ function Api ({ baseUrl, ipc }) {
     // the backend has loaded
     setBaseUrl: function setBaseUrl (url) {
       baseUrl = url
-      req =  ky.extend({ prefixUrl: baseUrl })
+      req = ky.extend({ prefixUrl: baseUrl })
     },
 
     /**
@@ -213,8 +213,8 @@ function Api ({ baseUrl, ipc }) {
       ipc.send('zoom-to-data-get-centroid', type, cb)
     },
 
-    getMapImageURL: function ({bounds, width = 300, height = 300, dpi = 1}) {
-      return `${baseUrl}map/${JSON.stringify(bounds)}/${width}/${height}/x${dpi}.png`
+    getMapImageURL: function ({lon, lat, zoom, width = 300, height = 300, dpi = 1}) {
+      return `${baseUrl}map/${lon}/${lat}/${zoom}/${width}/${height}/x${dpi}.png`
     }
   }
 

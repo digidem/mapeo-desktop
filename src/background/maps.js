@@ -1,40 +1,41 @@
 var Router = require('routes')
-var mapStream = require('mapbox-map-image-stream')
-
-var fileCacheMiddleware = require('fs-cache-middleware')
+var HiddenMapbox = require('hidden-mapbox')
 var logger = require('../logger')
 
-var token = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
-var style = 'mapbox://styles/mapbox/outdoors-v10'
+const accessToken = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
+const style = 'mapbox://styles/mapbox/outdoors-v10'
 
 var router = Router()
+let mapbox
 
-function getAsset (req, params) {
-  const { bbox, width, height, dpi } = params
-  return {
-    contentType: 'image/png',
-    contentLength: 1000,
-    stream: mapStream({
-      token: token,
-      style: style,
-      bbox: JSON.parse(bbox),
-      width: parseInt(width),
-      height: parseInt(height),
-      pixelRatio: parseInt(dpi)
-    })
-  }
-}
+router.addRoute('/map/:lon/:lat/:zoom/:width/:height/x:pixelRatio.png', function (req, res, params) {
+  const { lon, lat, zoom, width, height, pixelRatio } = params
+  if (!mapbox) mapbox = new HiddenMapbox({accessToken, style})
 
-var cache = fileCacheMiddleware(getAsset, { maxSize: 10 * 1024 * 1024 * 1024 })
-
-router.addRoute('/map/:bbox/:width/:height/x:dpi.png', function (req, res, params) {
-  cache(req, res, params, (err) => {
-    if (err) {
-      logger.error(err)
-      res.statusCode = 500
-      res.end(err.message)
-    }
+  const promise = mapbox.getMapImage({
+    center: {lon, lat},
+    zoom: parseInt(zoom),
+    width: parseInt(width),
+    height: parseInt(height),
+    pixelRatio: parseInt(pixelRatio)
   })
+
+  const onError = (err) => {
+    logger.error(err)
+    res.statusCode = 500
+    res.end(err.message)
+  }
+
+  promise
+    .then((blob) => {
+      res.setHeader('Content-Type', 'image/png')
+      blob.arrayBuffer()
+        .then((buf) => {
+          res.end(Buffer.from(buf))
+        })
+        .catch(onError)
+    })
+    .catch(onError)
 })
 
 module.exports = {
@@ -45,4 +46,3 @@ module.exports = {
     return true
   }
 }
-

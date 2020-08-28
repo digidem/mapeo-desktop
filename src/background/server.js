@@ -1,9 +1,9 @@
 var path = require('path')
-var mapRouter = require('./maps')
 var createMapeoRouter = require('mapeo-server')
 var ecstatic = require('ecstatic')
 var createOsmRouter = require('osm-p2p-server')
 var logger = console
+var mapRouter = require('./maps')
 
 module.exports = function (osm, media, { ipcSend, staticRoot }) {
   var osmRouter = createOsmRouter(osm)

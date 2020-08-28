@@ -127,7 +127,6 @@ function openWindow () {
   if (isDev) {
     // for updater to work correctly
     process.env.APPIMAGE = path.join(__dirname, 'dist', `Installar_Mapeo_v${app.getVersion()}_linux.AppImage`)
-    bg = createBgWindow(_socketName)
     try {
       var {
         default: installExtension,
@@ -137,9 +136,8 @@ function openWindow () {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(name => logger.debug(`Added Extension:  ${name}`))
       .catch(err => logger.error('Failed to add extension', err))
-  } else {
-    createBackgroundProcess(_socketName)
   }
+  bg = createBgWindow(_socketName)
   createMenu(ipc)
 
   // Emitted when the window is closed.
