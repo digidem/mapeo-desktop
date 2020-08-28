@@ -2,20 +2,24 @@
 import React, { useState, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { BlobProvider } from '@react-pdf/renderer'
+import Button from '@material-ui/core/Button'
 
+import Loading from '../../Loading'
+import CenteredText from '../../CenteredText'
 import ViewWrapper, { type CommonViewProps } from '../ViewWrapper'
 import Toolbar from '../internal/Toolbar'
-import { useIntl } from 'react-intl'
+import { defineMessages, FormattedMessage, useIntl } from 'react-intl'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
 import PdfViewer from './PdfViewer'
 import PrintButton from './PrintButton'
+import PDFReport from './PDFReport'
+import deepEqual from 'deep-equal'
 
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
 import { SettingsContext } from '../internal/Context'
-import PDFReport from './PDFReport'
 
 type Props = {
   ...$Exact<CommonViewProps>
@@ -26,6 +30,13 @@ const hiddenTags = {
   notes: true,
   note: true
 }
+
+const m = defineMessages({
+  // Displayed whilst observations and presets load
+  noReport: 'No observations available.',
+  nextPage: 'Next',
+  prevPage: 'Previous'
+})
 
 const ReportView = ({
   observations,
@@ -40,10 +51,10 @@ const ReportView = ({
   ...otherProps
 }: Props) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
-  const cx = useStyles()
+  const [pageNumber, setPageNumber] = useState(1)
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
-  console.log(bounds)
+  const cx = useStyles()
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
@@ -88,39 +99,98 @@ const ReportView = ({
           }
         }
 
-        const document = (
-            <PDFReport
-              observations={filteredObservations.slice(0, 50)}
-              getPreset={getPresetWithFilteredFields}
-              getMedia={getMedia}
-              intl={intl}
-              settings={settings}
-            />
-        )
-        // ReportPageContent defined below...
+        var preview = filteredObservations.slice(0, pageNumber + 1)
+        const pdf = <PDFReport
+          observations={preview}
+          getPreset={getPresetWithFilteredFields}
+          getMedia={getMedia}
+          intl={intl}
+          settings={settings}
+        />
+
         return (
           <div className={cx.root}>
-            <BlobProvider document={document}>
-              {({ url, loading, error }) =>
-                <>
-                  <Toolbar>
-                    <HideFieldsButton
-                      fieldState={fieldState}
-                      onFieldStateUpdate={setFieldState}
-                    />
-                    <PrintButton url={url} disabled={loading || error}
-                    />
-                  </Toolbar>
-                  <div className={cx.reportPreview}>
-                    <PdfViewer url={url} pages={observations.length} loading={loading} />
-                  </div>
-                </>
-              }
+            <BlobProvider document={pdf}>
+              {({ url, loading, error }) => {
+                if (loading) return <Loading />
+                if (!filteredObservations.length) {
+                  return <CenteredText text={intl.formatMessage(m.noReport)} />
+                }
+
+                return <ReportPreview
+                  estimatedNumPages={filteredObservations.length}
+                  fieldState={fieldState}
+                  setFieldState={setFieldState}
+                  pageNumber={pageNumber}
+                  setPageNumber={setPageNumber}
+                  url={url}
+                  disablePrint={error || loading}
+              />
+              }}
             </BlobProvider>
           </div>
         )
       }}
     </ViewWrapper>
+  )
+}
+
+const ReportPreview = React.memo(({
+  estimatedNumPages, disablePrint, url, fieldState, setFieldState, show, pageNumber, setPageNumber
+}) => {
+  const [numPages, setNumPages] = useState(estimatedNumPages)
+  const cx = useStyles()
+
+  const onLoadSuccess = ({numPages}) => {
+    setNumPages(numPages)
+  }
+
+  return <>
+      <Toolbar>
+        <HideFieldsButton
+          fieldState={fieldState}
+          onFieldStateUpdate={setFieldState}
+        />
+        <PrintButton url={url} disabled={disablePrint} />
+      </Toolbar>
+      <div className={cx.reportPreview}>
+        <NavigationBar
+          pageNumber={pageNumber}
+          numPages={numPages}
+          setPageNumber={setPageNumber}
+        />
+        <PdfViewer
+          url={url}
+          onLoadSuccess={onLoadSuccess}
+          pageNumber={pageNumber} />
+      </div>
+    </>
+}, (prevProps, nextProps) => {
+  return prevProps.pageNumber === nextProps.pageNumber
+    && deepEqual(prevProps.fieldState, nextProps.fieldState)
+})
+
+const NavigationBar = ({ pageNumber, estimatedNumPages, setPageNumber }) => {
+  const cx = useStyles()
+  const handleNextPage = () => {
+    var page = Math.min(pageNumber + 1)
+    if (page !== pageNumber) setPageNumber(page)
+  }
+  const handlePrevPage = () => {
+    var page = Math.max(pageNumber - 1, 1)
+    if (page !== pageNumber) setPageNumber(page)
+  }
+
+  return (
+    <div className={cx.navigation}>
+      <Button disabled={pageNumber === 1} onClick={handlePrevPage}>
+        <FormattedMessage {...m.prevPage} />
+      </Button>
+      {pageNumber}
+      <Button onClick={handleNextPage}>
+        <FormattedMessage {...m.nextPage} />
+      </Button>
+    </div>
   )
 }
 
@@ -145,10 +215,20 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     bottom: 0,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   reportPreview: {
-    flex: 1,
-    overflowY: 'scroll'
+    overflowY: 'scroll',
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    flexDirection: 'column',
+    backgroundColor: '#F5F5F5',
+    justifyContent: 'center'
+  },
+  navigation: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 }))

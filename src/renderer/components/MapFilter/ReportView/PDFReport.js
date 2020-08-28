@@ -37,6 +37,7 @@ type Props = {
 }
 
 type PageProps = {
+  renderImages: boolean,
   getPreset: $ElementType<Props, 'getPreset'>,
   getMedia: $ElementType<Props, 'getMedia'>,
   observation: Observation
@@ -77,13 +78,17 @@ const PDFReport = ({
   ...otherProps
 }: Props) => {
 
-
   const children = (
     <SettingsContext.Provider value={settings}>
       <Document>
-        {observations.map(obs => (
+        {observations.map((obs, idx) => (
           <Page key={obs.id} size="A4" style={styles.page} wrap>
-            <FeaturePage key={obs.id} observation={obs} {...otherProps} />
+            <FeaturePage
+              idx={idx}
+              key={obs.id}
+              observation={obs}
+              {...otherProps}
+            />
           </Page>
         ))}
       </Document>
@@ -98,58 +103,56 @@ const PDFReport = ({
   )
 }
 
-const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
+const FeaturePage = ({ observation, idx, pageNumber, getPreset, getMedia }: PageProps) => {
   var view = new ObservationView(observation, getPreset, getMedia)
-
-  // TODO: break out left hand side into own component...
   return (
     <View style={styles.pageContent}>
       <View style={styles.columnLeft}>
-        <Text style={styles.presetName}>{view.preset.name || 'Observation'}</Text>
-        {view.createdAt ? (
-          <Text style={styles.createdAt}>
-            <Text style={styles.createdAtLabel}>Registrado: </Text>
-            <FormattedTime
-              key="time"
-              value={view.createdAt}
-              year="numeric"
-              month="long"
-              day="2-digit"
-            />
-          </Text>
-        ): null}
-        {view.coords ? (
-          <Text style={styles.location}>
-            <Text style={styles.locationLabel}>Ubicación: </Text>
-            <FormattedLocation {...view.coords} />
-          </Text>
-        ): null}
-        <View>
-          {view.note ?
-            view.note.split('\n').map((para, idx) => (
-              <Text key={idx} style={styles.description}>
-                {para}
-              </Text>
-            )): null}
-        </View>
-        <Text style={styles.details}>Detalles</Text>
-        {view.fields.map(field => {
-          const value = get(view.tags, field.key)
-          if (isEmptyValue(value)) return null
-          return (
-            <View key={field.id} style={styles.field} wrap={false}>
-              <Text style={styles.fieldLabel}>
-                <FormattedFieldname field={field} component={Text} />
-              </Text>
-              <Text style={styles.fieldValue}>
-                <FormattedValue field={field} value={value} />
-              </Text>
-            </View>
-          )
-        })}
+      <Text style={styles.presetName}>{view.preset.name || 'Observation'}</Text>
+      {view.createdAt ? (
+        <Text style={styles.createdAt}>
+          <Text style={styles.createdAtLabel}>Registrado: </Text>
+          <FormattedTime
+            key="time"
+            value={view.createdAt}
+            year="numeric"
+            month="long"
+            day="2-digit"
+          />
+        </Text>
+      ): null}
+      {view.coords ? (
+        <Text style={styles.location}>
+          <Text style={styles.locationLabel}>Ubicación: </Text>
+          <FormattedLocation {...view.coords} />
+        </Text>
+      ): null}
+      <View>
+        {view.note ?
+          view.note.split('\n').map((para, idx) => (
+            <Text key={idx} style={styles.description}>
+              {para}
+            </Text>
+          )): null}
       </View>
-      <ObservationRHS observationView={view} />
+      <Text style={styles.details}>Detalles</Text>
+      {view.fields.map(field => {
+        const value = get(view.tags, field.key)
+        if (isEmptyValue(value)) return null
+        return (
+          <View key={field.id} style={styles.field} wrap={false}>
+            <Text style={styles.fieldLabel}>
+              <FormattedFieldname field={field} component={Text} />
+            </Text>
+            <Text style={styles.fieldValue}>
+              <FormattedValue field={field} value={value} />
+            </Text>
+          </View>
+        )
+      })}
     </View>
+    <ObservationRHS observationView={view} />
+  </View>
   )
 }
 
@@ -163,6 +166,7 @@ function ObservationRHS ({observationView}) {
         key={'minimap-' + observationView.id}
         style={styles.image}
         wrap={false}
+        cache={true}
       />
 
       {observationView.mediaItems.map((src, i) => (
