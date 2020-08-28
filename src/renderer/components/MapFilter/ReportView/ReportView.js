@@ -52,6 +52,7 @@ const ReportView = ({
 }: Props) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
   const [pageNumber, setPageNumber] = useState(1)
+  const [numPages, setNumPages] = useState(1)
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
   const cx = useStyles()
@@ -99,7 +100,7 @@ const ReportView = ({
           }
         }
 
-        var preview = filteredObservations.slice(0, pageNumber + 1)
+        var preview = filteredObservations.slice(0, pageNumber + 5)
         const pdf = <PDFReport
           observations={preview}
           getPreset={getPresetWithFilteredFields}
@@ -118,7 +119,8 @@ const ReportView = ({
                 }
 
                 return <ReportPreview
-                  estimatedNumPages={filteredObservations.length}
+                  numPages={numPages}
+                  setNumPages={setNumPages}
                   fieldState={fieldState}
                   setFieldState={setFieldState}
                   pageNumber={pageNumber}
@@ -136,9 +138,15 @@ const ReportView = ({
 }
 
 const ReportPreview = React.memo(({
-  estimatedNumPages, disablePrint, url, fieldState, setFieldState, show, pageNumber, setPageNumber
+  setNumPages,
+  numPages,
+  pageNumber,
+  setPageNumber,
+  disablePrint,
+  url,
+  fieldState,
+  setFieldState,
 }) => {
-  const [numPages, setNumPages] = useState(estimatedNumPages)
   const cx = useStyles()
 
   const onLoadSuccess = ({numPages}) => {
@@ -162,23 +170,24 @@ const ReportPreview = React.memo(({
         <PdfViewer
           url={url}
           onLoadSuccess={onLoadSuccess}
-          pageNumber={pageNumber} />
+          pageNumber={Math.min(pageNumber, numPages)} />
       </div>
     </>
 }, (prevProps, nextProps) => {
-  return prevProps.pageNumber === nextProps.pageNumber
+  return prevProps.numPages === nextProps.numPages
+    && prevProps.pageNumber === nextProps.pageNumber
     && deepEqual(prevProps.fieldState, nextProps.fieldState)
 })
 
-const NavigationBar = ({ pageNumber, estimatedNumPages, setPageNumber }) => {
+const NavigationBar = ({ pageNumber, numPages, setPageNumber }) => {
   const cx = useStyles()
   const handleNextPage = () => {
-    var page = Math.min(pageNumber + 1)
-    if (page !== pageNumber) setPageNumber(page)
+    var page = pageNumber + 1
+    setPageNumber(page)
   }
   const handlePrevPage = () => {
     var page = Math.max(pageNumber - 1, 1)
-    if (page !== pageNumber) setPageNumber(page)
+    setPageNumber(page)
   }
 
   return (

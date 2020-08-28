@@ -22,7 +22,6 @@ import {
 } from '../internal/Context'
 import type { Observation } from 'mapeo-schema'
 import api from '../../../new-api'
-import { WebMercatorViewport } from '@math.gl/web-mercator'
 
 type Props = {
   ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
@@ -81,10 +80,9 @@ const PDFReport = ({
   const children = (
     <SettingsContext.Provider value={settings}>
       <Document>
-        {observations.map((obs, idx) => (
+        {observations.map((obs) => (
           <Page key={obs.id} size="A4" style={styles.page} wrap>
             <FeaturePage
-              idx={idx}
               key={obs.id}
               observation={obs}
               {...otherProps}
@@ -103,7 +101,7 @@ const PDFReport = ({
   )
 }
 
-const FeaturePage = ({ observation, idx, pageNumber, getPreset, getMedia }: PageProps) => {
+const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
   var view = new ObservationView(observation, getPreset, getMedia)
   return (
     <View style={styles.pageContent}>
@@ -214,23 +212,14 @@ class ObservationView {
     var opts = {
       width: 250,
       height: 250,
-      bounds: getBounds(this.coords, zoom),
+      lon: this.coords.longitude,
+      lat: this.coords.latitude,
+      zoom: 11,
       dpi: 2
     }
     return api.getMapImageURL(opts)
   }
 
-}
-
-function getBounds (center, zoom) {
-  var viewport = {
-    latitude: center.latitude,
-    longitude: center.longitude,
-    zoom
-  }
-  var wmv = new WebMercatorViewport(viewport)
-  var [sw, ne]= wmv.getBounds()
-  return [sw[0], sw[1], ne[0], ne[1]]
 }
 
 export default PDFReport
