@@ -1,6 +1,9 @@
 var Router = require('routes')
 var HiddenMapbox = require('hidden-mapbox')
 var logger = require('../logger')
+var { default: PQ } = require('p-queue')
+
+const queue = new PQ({ concurrency: 1 })
 
 const accessToken = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 const style = 'mapbox://styles/mapbox/outdoors-v10'
@@ -12,13 +15,13 @@ router.addRoute('/map/:lon/:lat/:zoom/:width/:height/x:pixelRatio.png', function
   const { lon, lat, zoom, width, height, pixelRatio } = params
   if (!mapbox) mapbox = new HiddenMapbox({accessToken, style})
 
-  const promise = mapbox.getMapImage({
+  const promise = queue.add(() => mapbox.getMapImage({
     center: {lon, lat},
     zoom: parseInt(zoom),
     width: parseInt(width),
     height: parseInt(height),
     pixelRatio: parseInt(pixelRatio)
-  })
+  }))
 
   const onError = (err) => {
     logger.error(err)
