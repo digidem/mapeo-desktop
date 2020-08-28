@@ -357,12 +357,6 @@ function createSplashWindow () {
   return splash
 }
 
-function createBackgroundProcess (socketName) {
-  worker.start(socketName, (err) => {
-    if (err) logger.error('Failed to start worker', err)
-  })
-}
-
 contextMenu({
   showLookUpSelection: false,
   showCopyImage: true,
