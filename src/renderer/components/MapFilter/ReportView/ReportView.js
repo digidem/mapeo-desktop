@@ -15,7 +15,6 @@ import getStats from '../stats'
 import PdfViewer from './PdfViewer'
 import PrintButton from './PrintButton'
 import PDFReport from './PDFReport'
-import deepEqual from 'deep-equal'
 
 import type { Observation } from 'mapeo-schema'
 import type { PresetWithAdditionalFields, FieldState, Field } from '../types'
@@ -36,7 +35,7 @@ const m = defineMessages({
   noReport: 'No observations available.',
   nextPage: 'Next',
   prevPage: 'Previous',
-  previewMessage: 'Previewing first {numPages} pages'
+  previewMessage: 'Previewing first {numPages} pages' // TODO: pluralize
 })
 
 const ReportView = ({
@@ -52,7 +51,6 @@ const ReportView = ({
   ...otherProps
 }: Props) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
-  const [numPages, setNumPages] = useState(1)
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
   const cx = useStyles()
@@ -100,6 +98,7 @@ const ReportView = ({
           }
         }
 
+
         var preview = filteredObservations.slice(0, 5)
         const pdf = <PDFReport
           observations={preview}
@@ -120,8 +119,6 @@ const ReportView = ({
 
                 return <ReportPreview
                   filteredObservations={filteredObservations}
-                  numPages={numPages}
-                  setNumPages={setNumPages}
                   fieldState={fieldState}
                   setFieldState={setFieldState}
                   url={url}
@@ -137,8 +134,6 @@ const ReportView = ({
 }
 
 const ReportPreview = React.memo(({
-  setNumPages,
-  numPages,
   disablePrint,
   url,
   fieldState,
@@ -146,12 +141,14 @@ const ReportPreview = React.memo(({
 }) => {
   const cx = useStyles()
   const [pageNumber, setPageNumber] = useState(1)
+  const [numPages, setNumPages] = useState(1)
 
   const validPageNumber = Math.max(1, Math.min(pageNumber, numPages))
 
   const onLoadSuccess = ({numPages}) => {
     setNumPages(numPages)
   }
+
 
   return <>
       <Toolbar>
