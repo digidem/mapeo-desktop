@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { BlobProvider } from '@react-pdf/renderer'
+import deepEqual from 'deep-equal'
 import Button from '@material-ui/core/Button'
 
 import Loading from '../../Loading'
@@ -76,6 +77,8 @@ const ReportView = ({
       })
   })
 
+  let prevFilter = null
+
   return (
     <ViewWrapper
       observations={observations}
@@ -84,7 +87,7 @@ const ReportView = ({
       presets={presets}
       filter={filter}
       getMediaUrl={getMediaUrl}>
-      {({ onClickObservation, filteredObservations, getPreset, getMedia }) => {
+      {({ filter, onClickObservation, filteredObservations, getPreset, getMedia }) => {
         const getPresetWithFilteredFields = (
           observation: Observation
         ): PresetWithAdditionalFields => {
@@ -111,12 +114,13 @@ const ReportView = ({
         return (
           <div className={cx.root}>
             <BlobProvider document={pdf}>
-              {({ url, loading, error }) => {
-                if (loading) return <Loading />
+              {({ blob, url, loading, error }) => {
+                var newFilter = !deepEqual(filter, prevFilter)
+                prevFilter = filter
+                if (loading || newFilter) return <Loading />
                 if (!filteredObservations.length) {
                   return <CenteredText text={intl.formatMessage(m.noReport)} />
                 }
-
                 return <ReportPreview
                   filteredObservations={filteredObservations}
                   fieldState={fieldState}
