@@ -35,7 +35,8 @@ const m = defineMessages({
   // Displayed whilst observations and presets load
   noReport: 'No observations available.',
   nextPage: 'Next',
-  prevPage: 'Previous'
+  prevPage: 'Previous',
+  previewMessage: 'Previewing first {numPages} pages'
 })
 
 const ReportView = ({
@@ -100,7 +101,7 @@ const ReportView = ({
           }
         }
 
-        var preview = filteredObservations.slice(0, pageNumber + 5)
+        var preview = filteredObservations.slice(0, 5)
         const pdf = <PDFReport
           observations={preview}
           getPreset={getPresetWithFilteredFields}
@@ -170,7 +171,8 @@ const ReportPreview = React.memo(({
         <PdfViewer
           url={url}
           onLoadSuccess={onLoadSuccess}
-          pageNumber={Math.min(pageNumber, numPages)} />
+          pageNumber={pageNumber}
+       />
       </div>
     </>
 }, (prevProps, nextProps) => {
@@ -182,7 +184,7 @@ const ReportPreview = React.memo(({
 const NavigationBar = ({ pageNumber, numPages, setPageNumber }) => {
   const cx = useStyles()
   const handleNextPage = () => {
-    var page = pageNumber + 1
+    var page = Math.min(pageNumber + 1, numPages)
     setPageNumber(page)
   }
   const handlePrevPage = () => {
@@ -195,8 +197,8 @@ const NavigationBar = ({ pageNumber, numPages, setPageNumber }) => {
       <Button disabled={pageNumber === 1} onClick={handlePrevPage}>
         <FormattedMessage {...m.prevPage} />
       </Button>
-      {pageNumber}
-      <Button onClick={handleNextPage}>
+      <FormattedMessage {...m.previewMessage} values={{pageNumber, numPages}} />
+      <Button disabled={pageNumber === numPages} onClick={handleNextPage}>
         <FormattedMessage {...m.nextPage} />
       </Button>
     </div>
@@ -227,10 +229,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
   },
   reportPreview: {
-    overflowY: 'scroll',
     display: 'flex',
-    width: '100%',
-    height: '100%',
+    margin: 'auto',
     flexDirection: 'column',
     backgroundColor: '#F5F5F5',
     justifyContent: 'center'
