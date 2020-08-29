@@ -34,7 +34,7 @@ class MapeoManager {
     this.tileServer = createTileServer(this.opts.userDataPath)
     this.tileServer.listen(this.opts.tileport, () => {
       logger.info('Tile server listening on :', this.tileServer.address().port)
-      if (--pending === 0) cb(this.mapeo.server.address().port)
+      if (--pending === 0) cb(this.server.address().port)
     })
   }
 
