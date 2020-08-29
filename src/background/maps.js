@@ -1,7 +1,10 @@
-var Router = require('routes')
-var HiddenMapbox = require('hidden-mapbox')
-var logger = require('../logger')
-var { default: PQ } = require('p-queue')
+const Router = require('routes')
+const HiddenMapbox = require('hidden-mapbox')
+const { default: PQ } = require('p-queue')
+var drawing = require('pngjs-draw');
+var PNG = drawing(require('pngjs').PNG);
+
+const logger = require('../logger')
 
 const queue = new PQ({ concurrency: 1 })
 
@@ -15,13 +18,15 @@ router.addRoute('/map/:lon/:lat/:zoom/:width/:height/x:pixelRatio.png', function
   const { lon, lat, zoom, width, height, pixelRatio } = params
   if (!mapbox) mapbox = new HiddenMapbox({accessToken, style})
 
-  const promise = queue.add(() => mapbox.getMapImage({
-    center: {lon, lat},
-    zoom: parseInt(zoom),
-    width: parseInt(width),
-    height: parseInt(height),
-    pixelRatio: parseInt(pixelRatio)
-  }))
+  const promise = queue.add(() => {
+    return mapbox.getMapImage({
+      center: {lon, lat},
+      zoom: parseInt(zoom),
+      width: parseInt(width),
+      height: parseInt(height),
+      pixelRatio: parseInt(pixelRatio)
+    })
+  })
 
   const onError = (err) => {
     logger.error(err)
@@ -34,7 +39,19 @@ router.addRoute('/map/:lon/:lat/:zoom/:width/:height/x:pixelRatio.png', function
       res.setHeader('Content-Type', 'image/png')
       blob.arrayBuffer()
         .then((buf) => {
-          res.end(Buffer.from(buf))
+          new PNG({ filterType: 4 }).parse(Buffer.from(buf), (err, png) => {
+            if (err) return onError(err)
+
+            png.fillRect(
+              Math.floor((2 * width) / 2),
+              Math.floor((2 * height) / 2),
+              30,
+              30,
+              png.colors.red()
+            )
+
+            png.pack().pipe(res)
+          })
         })
         .catch(onError)
     })
