@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.6](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.5...v5.4.0-beta.6) (2020-08-29)
+
+
+### Bug Fixes
+
+* Ensure all dialogs will work with Electron 9 ([#391](https://github.com/digidem/mapeo-desktop/issues/391)) ([cd1093a](https://github.com/digidem/mapeo-desktop/commit/cd1093a))
+* Fix icon layout in dmg for MacOS ([#399](https://github.com/digidem/mapeo-desktop/issues/399)) ([f8d2283](https://github.com/digidem/mapeo-desktop/commit/f8d2283))
+* Make left-hand side copy more simple ([6fc1c12](https://github.com/digidem/mapeo-desktop/commit/6fc1c12))
+* Mapeo config directory should be removable ([#401](https://github.com/digidem/mapeo-desktop/issues/401)) ([32e6192](https://github.com/digidem/mapeo-desktop/commit/32e6192))
+* Notarize Mapeo for MacOS — fix warning / unable to open app ([#396](https://github.com/digidem/mapeo-desktop/issues/396)) ([e0bbfe9](https://github.com/digidem/mapeo-desktop/commit/e0bbfe9))
+* Only save the language to config when changed manually. Fixes [#400](https://github.com/digidem/mapeo-desktop/issues/400) ([95f6743](https://github.com/digidem/mapeo-desktop/commit/95f6743))
+* **typo:** add missing 'notes' field in fallbackFields ([1aa4af5](https://github.com/digidem/mapeo-desktop/commit/1aa4af5))
+
+
+
 ## [5.4.0-beta.5](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.4...v5.4.0-beta.5) (2020-08-04)
 
 
