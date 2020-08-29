@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import MapView from './MapView'
-import ReportView from './ReportView'
-import MediaView from './MediaView'
 import { ipcRenderer } from 'electron'
 import debounce from 'lodash/debounce'
 import { defineMessages, FormattedMessage } from 'react-intl'
@@ -19,6 +16,9 @@ import api from '../../new-api'
 import MapExportDialog from './MapExportDialog'
 import DataExportDialog from './DataExportDialog'
 import ExportButton from './ExportButton'
+import MapView from './MapView'
+import ReportView from './ReportView'
+import MediaView from './MediaView'
 
 const m = defineMessages({
   errorTitle: 'Oh dear! An error has occurred',

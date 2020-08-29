@@ -3,6 +3,7 @@ var createMapeoRouter = require('mapeo-server')
 var ecstatic = require('ecstatic')
 var createOsmRouter = require('osm-p2p-server')
 var logger = console
+var mapRouter = require('./maps')
 
 module.exports = function (osm, media, { ipcSend, staticRoot }) {
   var osmRouter = createOsmRouter(osm)
@@ -21,7 +22,9 @@ module.exports = function (osm, media, { ipcSend, staticRoot }) {
   return {
     core: mapeoRouter.api.core,
     router: (req, res) => {
-      var m = osmRouter.handle(req, res) || mapeoRouter.handle(req, res)
+      var m = osmRouter.handle(req, res) || mapeoRouter.handle(req, res) || mapRouter.handle(req, res)
+
+      if (!m) return done(req, res)
       if (m) {
         // TODO: make into regex for more robust checking
         if (req.url.indexOf('upload') > 0) {
@@ -31,14 +34,14 @@ module.exports = function (osm, media, { ipcSend, staticRoot }) {
           ipcSend('observation-edit')
         }
       }
-
-      if (!m) {
-        staticHandler(req, res, function (err) {
-          if (err) logger.error('static', err)
-          res.statusCode = 404
-          res.end('Not Found')
-        })
-      }
     }
+  }
+
+  function done (req, res) {
+    staticHandler(req, res, function (err) {
+      if (err) logger.error('static', err)
+      res.statusCode = 404
+      res.end('Not Found')
+    })
   }
 }

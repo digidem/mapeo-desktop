@@ -79,7 +79,6 @@ const HideFieldsButton = ({ fieldState, onFieldStateUpdate }: Props) => {
   const open = Boolean(anchorEl)
 
   const hiddenCount = fieldState.filter(f => f.hidden).length
-  console.log('hiddenCount', hiddenCount)
   return (
     <React.Fragment>
       <ToolbarButton onClick={handleClick}>

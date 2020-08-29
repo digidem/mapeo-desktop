@@ -35,6 +35,7 @@ export type CommonViewProps = {
 type Props = {
   ...$Exact<CommonViewProps>,
   children: ({
+    filter: Filter,
     filteredObservations: Array<Observation>,
     onClickObservation: (observationId: string, imageIndex?: number) => void,
     getPreset: Observation => PresetWithAdditionalFields,
@@ -142,6 +143,7 @@ const WrappedMapView = ({
     <>
       {children({
         onClickObservation: handleObservationClick,
+        filter,
         filteredObservations,
         getPreset: getPresetWithFallback,
         getMedia

@@ -13,7 +13,7 @@ import path from 'path'
 import { remote } from 'electron'
 import pump from 'pump'
 
-import ViewWrapper from 'react-mapfilter/commonjs/ViewWrapper'
+import ViewWrapper from './ViewWrapper'
 
 import logger from '../../../logger'
 import createZip from '../../create-zip'

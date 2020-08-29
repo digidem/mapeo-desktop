@@ -1,5 +1,4 @@
 #!/usr/bin/env electron
-
 const path = require('path')
 const minimist = require('minimist')
 const electron = require('electron')
@@ -128,7 +127,6 @@ function openWindow () {
   if (isDev) {
     // for updater to work correctly
     process.env.APPIMAGE = path.join(__dirname, 'dist', `Installar_Mapeo_v${app.getVersion()}_linux.AppImage`)
-    bg = createBgWindow(_socketName)
     try {
       var {
         default: installExtension,
@@ -138,9 +136,8 @@ function openWindow () {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(name => logger.debug(`Added Extension:  ${name}`))
       .catch(err => logger.error('Failed to add extension', err))
-  } else {
-    createBackgroundProcess(_socketName)
   }
+  bg = createBgWindow(_socketName)
   createMenu(ipc)
 
   // Emitted when the window is closed.
@@ -186,7 +183,7 @@ function startSequence () {
 
 function initDirectories (done) {
   startupMsg('Unpacking Styles')
-  // This is necessary to make sure that the styles and presets directory
+  // This is necessary to make sure that the directories
   // are writable by the user
   mkdirp.sync(path.join(userDataPath, 'styles'))
   mkdirp.sync(path.join(userDataPath, 'presets'))
@@ -358,12 +355,6 @@ function createSplashWindow () {
   })
   splash.loadURL(SPLASH)
   return splash
-}
-
-function createBackgroundProcess (socketName) {
-  worker.start(socketName, (err) => {
-    if (err) logger.error('Failed to start worker', err)
-  })
 }
 
 contextMenu({

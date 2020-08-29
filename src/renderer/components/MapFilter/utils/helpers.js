@@ -93,3 +93,12 @@ export function parseDateString (str: string): Date | void {
   }
   return new Date(+match[1], +match[2] - 1, +match[3])
 }
+
+
+export function isEmptyValue (value) {
+  return (
+    (typeof value === 'string' && value.length === 0) ||
+    value === undefined ||
+    value === null
+  )
+}

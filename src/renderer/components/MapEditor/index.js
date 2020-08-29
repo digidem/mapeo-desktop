@@ -127,7 +127,7 @@ const MapEditor = () => {
       var saved = history.toJSON()
       id.current.flush()
       if (saved) history.fromJSON(saved)
-      api.zoomToData('node', (_, loc) => {
+      api.getCentroid('node', (_, loc) => {
         zoomToData(_, loc)
       })
     }

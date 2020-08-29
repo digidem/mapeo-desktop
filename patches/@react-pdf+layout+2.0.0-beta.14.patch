@@ -1,0 +1,13 @@
+diff --git a/node_modules/@react-pdf/layout/lib/text/getAttributedString.js b/node_modules/@react-pdf/layout/lib/text/getAttributedString.js
+index e6a8c20..1a71c8c 100644
+--- a/node_modules/@react-pdf/layout/lib/text/getAttributedString.js
++++ b/node_modules/@react-pdf/layout/lib/text/getAttributedString.js
+@@ -98,7 +98,7 @@ const getFragments = (fontStore, instance) => {
+         attributes
+       });
+     } else if (child) {
+-      fragments.push(...getFragments(child));
++      fragments.push(...getFragments(fontStore, child));
+     }
+   }
+ 
