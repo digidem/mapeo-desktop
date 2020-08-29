@@ -52,7 +52,6 @@ const ReportView = ({
   ...otherProps
 }: Props) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
-  const [pageNumber, setPageNumber] = useState(1)
   const [numPages, setNumPages] = useState(1)
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
@@ -120,12 +119,11 @@ const ReportView = ({
                 }
 
                 return <ReportPreview
+                  filteredObservations={filteredObservations}
                   numPages={numPages}
                   setNumPages={setNumPages}
                   fieldState={fieldState}
                   setFieldState={setFieldState}
-                  pageNumber={pageNumber}
-                  setPageNumber={setPageNumber}
                   url={url}
                   disablePrint={error || loading}
               />
@@ -141,14 +139,15 @@ const ReportView = ({
 const ReportPreview = React.memo(({
   setNumPages,
   numPages,
-  pageNumber,
-  setPageNumber,
   disablePrint,
   url,
   fieldState,
   setFieldState,
 }) => {
   const cx = useStyles()
+  const [pageNumber, setPageNumber] = useState(1)
+
+  const validPageNumber = Math.max(1, Math.min(pageNumber, numPages))
 
   const onLoadSuccess = ({numPages}) => {
     setNumPages(numPages)
@@ -164,22 +163,26 @@ const ReportPreview = React.memo(({
       </Toolbar>
       <div className={cx.reportPreview}>
         <NavigationBar
-          pageNumber={pageNumber}
+          pageNumber={validPageNumber}
           numPages={numPages}
           setPageNumber={setPageNumber}
         />
         <PdfViewer
           url={url}
           onLoadSuccess={onLoadSuccess}
-          pageNumber={pageNumber}
+          pageNumber={validPageNumber}
        />
       </div>
     </>
-}, (prevProps, nextProps) => {
+})
+/** Turning this on fixes the flickering, but it causes
+ * the PDF not to update to the latest filters
+  , (prevProps, nextProps) => {
   return prevProps.numPages === nextProps.numPages
     && prevProps.pageNumber === nextProps.pageNumber
-    && deepEqual(prevProps.fieldState, nextProps.fieldState)
+    && deepEqual(prevProps.filteredObservations, nextProps.filteredObservations)
 })
+*/
 
 const NavigationBar = ({ pageNumber, numPages, setPageNumber }) => {
   const cx = useStyles()
