@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.7](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.6...v5.4.0-beta.7) (2020-08-31)
+
+
+### Bug Fixes
+
+* Ensure global OsmServerHost is always set ([7eb27a9](https://github.com/digidem/mapeo-desktop/commit/7eb27a9))
+* Mapeo should always open. Removes png editing for now. ([3c6dad0](https://github.com/digidem/mapeo-desktop/commit/3c6dad0))
+
+
+
 ## [5.4.0-beta.6](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.5...v5.4.0-beta.6) (2020-08-29)
 
 
