@@ -14,6 +14,10 @@
   "renderer.components.Home.update": {
     "message": "Update Mapeo"
   },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Carregando…"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Fechar"
@@ -159,12 +163,8 @@
     "description": "Button text to turn off filters for a field",
     "message": "All"
   },
-  "renderer.components.MapFilter.FilterPanel.filterHeader": {
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "Filtrar por…"
-  },
-  "renderer.components.MapFilter.Loading.loading": {
-    "description": "Displayed whilst observations and presets load",
-    "message": "Carregando…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
@@ -257,21 +257,22 @@
     "description": "Show all fields in report view",
     "message": "Show All"
   },
-  "renderer.components.MapFilter.ReportView.PrintButton.close": {
-    "description": "Button label to close print settings dialog",
-    "message": "Close"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
-    "description": "Title of print settings dialog",
-    "message": "Print settings"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.paperSize": {
-    "description": "Label for paper size selection field",
-    "message": "Paper size"
-  },
   "renderer.components.MapFilter.ReportView.PrintButton.print": {
     "description": "Button label to print a report",
     "message": "Print"
+  },
+  "renderer.components.MapFilter.ReportView.ReportView.nextPage": {
+    "message": "Next"
+  },
+  "renderer.components.MapFilter.ReportView.ReportView.noReport": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "No observations available."
+  },
+  "renderer.components.MapFilter.ReportView.ReportView.prevPage": {
+    "message": "Previous"
+  },
+  "renderer.components.MapFilter.ReportView.ReportView.previewMessage": {
+    "message": "Previewing first {numPages} pages"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
