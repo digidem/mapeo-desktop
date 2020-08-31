@@ -39,19 +39,7 @@ router.addRoute('/map/:lon/:lat/:zoom/:width/:height/x:pixelRatio.png', function
       res.setHeader('Content-Type', 'image/png')
       blob.arrayBuffer()
         .then((buf) => {
-          new PNG({ filterType: 4 }).parse(Buffer.from(buf), (err, png) => {
-            if (err) return onError(err)
-
-            png.fillRect(
-              Math.floor((2 * width) / 2),
-              Math.floor((2 * height) / 2),
-              30,
-              30,
-              png.colors.red()
-            )
-
-            png.pack().pipe(res)
-          })
+          res.end(Buffer.from(buf))
         })
         .catch(onError)
     })
