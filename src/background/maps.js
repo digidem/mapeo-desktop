@@ -1,8 +1,6 @@
 const Router = require('routes')
 const HiddenMapbox = require('hidden-mapbox')
 const { default: PQ } = require('p-queue')
-var drawing = require('pngjs-draw');
-var PNG = drawing(require('pngjs').PNG);
 
 const logger = require('../logger')
 
