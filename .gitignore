@@ -3,6 +3,7 @@ vendor
 dist
 examples/.dat
 static/*.bundle.js*
+static/*.worker.js*
 test/lib/test-data
 bin/test-data
 translations
