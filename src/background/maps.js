@@ -2,11 +2,12 @@ const Router = require('routes')
 const HiddenMapbox = require('hidden-mapbox')
 const { default: PQ } = require('p-queue')
 
+const config = require('../../config')
 const logger = require('../logger')
 
 const queue = new PQ({ concurrency: 1 })
 
-const accessToken = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
+const accessToken = config.MAPBOX_ACCESS_TOKEN
 const style = 'mapbox://styles/mapbox/outdoors-v10'
 
 var router = Router()

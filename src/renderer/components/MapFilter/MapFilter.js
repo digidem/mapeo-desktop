@@ -19,6 +19,7 @@ import ExportButton from './ExportButton'
 import MapView from './MapView'
 import ReportView from './ReportView'
 import MediaView from './MediaView'
+import config from '../../../../config'
 
 const m = defineMessages({
   errorTitle: 'Oh dear! An error has occurred',
@@ -29,8 +30,7 @@ const m = defineMessages({
 // This is very strange. Something to do with the bundling is stopping this
 // being set from within the react-mapbox-gl library. We need to set this here
 // to force mapbox to understand the accessToken is set
-const MAPBOX_ACCESS_TOKEN = (mapboxgl.accessToken =
-  'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg')
+const MAPBOX_ACCESS_TOKEN = (mapboxgl.accessToken = config.MAPBOX_ACCESS_TOKEN)
 
 /**
  * Using normal state for this causes performance issues because it causes React
