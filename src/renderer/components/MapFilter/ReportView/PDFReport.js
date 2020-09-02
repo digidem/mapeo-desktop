@@ -162,7 +162,7 @@ function ObservationRHS ({observationView}) {
       <Image
         src={src}
         key={'minimap-' + observationView.id}
-        style={styles.image}
+        style={styles.map}
         wrap={false}
         cache={true}
       />
@@ -268,6 +268,7 @@ const styles = StyleSheet.create({
     color: 'grey'
   },
   map: {
+    width: '60mm',
     height: '60mm',
     borderStyle: 'solid',
     borderWidth: 1,
