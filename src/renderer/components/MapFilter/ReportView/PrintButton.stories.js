@@ -10,11 +10,11 @@ export default {
   title: 'ReportView/components/PrintButton'
 }
 
+// TODO: fix this story to include a real PDF url
 export const defaultStory = () => (
   <PrintButton
-    paperSize='a4'
-    changePaperSize={action('paper')}
-    requestPrint={action('print')}
+    disabled={false}
+    url={'http://url'}
   />
 )
 

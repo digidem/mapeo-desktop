@@ -14,7 +14,12 @@ import { isEmptyValue } from '../utils/helpers'
 import { get } from '../utils/get_set'
 import FormattedFieldname from '../internal/FormattedFieldname'
 import FormattedValue from '../internal/FormattedValue'
-import type { PaperSize, CommonViewContentProps } from '../types'
+import type { ImageMediaItem } from '../ObservationDialog'
+import type {
+  Field,
+  PresetWithAdditionalFields,
+  CommonViewContentProps
+} from '../types'
 import {
   SettingsContext,
   defaultSettings,
@@ -30,9 +35,7 @@ type Props = {
   intl?: any,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with React.useContext(SettingsContext) and provide it as a prop */
-  settings?: SettingsContextType,
-  /** Paper size for report */
-  paperSize?: PaperSize
+  settings?: SettingsContextType
 }
 
 type PageProps = {
@@ -98,6 +101,7 @@ const PDFReport = ({
 
 const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
   var view = new ObservationView(observation, getPreset, getMedia)
+  // TODO: move all of these Views into ObservationView
   return (
     <View style={styles.pageContent}>
       <View style={styles.columnLeft}>
@@ -131,42 +135,54 @@ const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
               ))
             : null}
         </View>
-        <Text style={styles.details}>Detalles</Text>
-        {view.fields.map(field => {
-          const value = get(view.tags, field.key)
-          if (isEmptyValue(value)) return null
-          return (
-            <View key={field.id} style={styles.field} wrap={false}>
-              <Text style={styles.fieldLabel}>
-                <FormattedFieldname field={field} component={Text} />
-              </Text>
-              <Text style={styles.fieldValue}>
-                <FormattedValue field={field} value={value} />
-              </Text>
-            </View>
-          )
-        })}
+        {view.fields.length
+          ? fields(view)
+          : null
+        }
       </View>
       <ObservationRHS observationView={view} />
     </View>
   )
 }
 
+function fields (view: ObservationView) {
+  return (
+    <>
+      <Text style={styles.details}>Detalles</Text>
+      {view.fields.map(field => {
+        const value = get(view.tags, field.key)
+        if (isEmptyValue(value)) return null
+        return (
+          <View key={field.id} style={styles.field} wrap={false}>
+            <Text style={styles.fieldLabel}>
+              <FormattedFieldname field={field} component={Text} />
+            </Text>
+            <Text style={styles.fieldValue}>
+              <FormattedValue field={field} value={value} />
+            </Text>
+          </View>
+        )
+      })}
+    </>
+  )
+}
+
 function ObservationRHS ({ observationView }) {
-  var src = observationView.getMapImageURL()
+  var imageSrc = observationView.getMapImageURL()
 
   return (
     <View style={styles.columnRight}>
-      <View style={styles.map}>
-        <Image
-          src={src}
-          key={'minimap-' + observationView.id}
-          style={styles.image}
-          wrap={false}
-          cache={true}
-        />
-        <View style={styles.marker} />
-      </View>
+      {(imageSrc ?
+        <View style={styles.map}>
+           <Image
+            src={imageSrc}
+            key={'minimap-' + observationView.id}
+            style={styles.image}
+            wrap={false}
+            cache={true}
+          />
+        <View style={styles.marker} /></View>
+      : null)}
 
       {observationView.mediaItems.map((src, i) => (
         <Image
@@ -183,6 +199,14 @@ function ObservationRHS ({ observationView }) {
 
 class ObservationView {
   static DEFAULT_ZOOM_LEVEL = 11
+  id: string
+  coords: {longitude: number, latitude: number} | void
+  createdAt: Date | void
+  fields: Field[]
+  tags: Object
+  mediaItems: ImageMediaItem[]
+  note: string
+  preset: PresetWithAdditionalFields
 
   constructor (observation, getPreset, getMedia) {
     this.id = observation.id
@@ -211,6 +235,7 @@ class ObservationView {
 
   getMapImageURL (zoom) {
     if (!zoom) zoom = ObservationView.DEFAULT_ZOOM_LEVEL
+    if (!this.coords) return null
 
     var opts = {
       width: 250,

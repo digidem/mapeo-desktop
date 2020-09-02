@@ -64,7 +64,7 @@ const m = defineMessages({
   deleteObservationMenuItem: 'Delete observation'
 })
 
-type ImageMediaItem = {
+export type ImageMediaItem = {
   src: string,
   type: 'image'
 }
