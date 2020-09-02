@@ -76,17 +76,12 @@ const PDFReport = ({
   settings = defaultSettings,
   ...otherProps
 }: Props) => {
-
   const children = (
     <SettingsContext.Provider value={settings}>
       <Document>
-        {observations.map((obs) => (
-          <Page key={obs.id} size="A4" style={styles.page} wrap>
-            <FeaturePage
-              key={obs.id}
-              observation={obs}
-              {...otherProps}
-            />
+        {observations.map(obs => (
+          <Page key={obs.id} size='A4' style={styles.page} wrap>
+            <FeaturePage key={obs.id} observation={obs} {...otherProps} />
           </Page>
         ))}
       </Document>
@@ -106,74 +101,85 @@ const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
   return (
     <View style={styles.pageContent}>
       <View style={styles.columnLeft}>
-      <Text style={styles.presetName}>{view.preset.name || 'Observation'}</Text>
-      {view.createdAt ? (
-        <Text style={styles.createdAt}>
-          <Text style={styles.createdAtLabel}>Registrado: </Text>
-          <FormattedTime
-            key="time"
-            value={view.createdAt}
-            year="numeric"
-            month="long"
-            day="2-digit"
-          />
+        <Text style={styles.presetName}>
+          {view.preset.name || 'Observation'}
         </Text>
-      ): null}
-      {view.coords ? (
-        <Text style={styles.location}>
-          <Text style={styles.locationLabel}>Ubicación: </Text>
-          <FormattedLocation {...view.coords} />
-        </Text>
-      ): null}
-      <View>
-        {view.note ?
-          view.note.split('\n').map((para, idx) => (
-            <Text key={idx} style={styles.description}>
-              {para}
-            </Text>
-          )): null}
+        {view.createdAt ? (
+          <Text style={styles.createdAt}>
+            <Text style={styles.createdAtLabel}>Registrado: </Text>
+            <FormattedTime
+              key='time'
+              value={view.createdAt}
+              year='numeric'
+              month='long'
+              day='2-digit'
+            />
+          </Text>
+        ) : null}
+        {view.coords ? (
+          <Text style={styles.location}>
+            <Text style={styles.locationLabel}>Ubicación: </Text>
+            <FormattedLocation {...view.coords} />
+          </Text>
+        ) : null}
+        <View>
+          {view.note
+            ? view.note.split('\n').map((para, idx) => (
+                <Text key={idx} style={styles.description}>
+                  {para}
+                </Text>
+              ))
+            : null}
+        </View>
+        <Text style={styles.details}>Detalles</Text>
+        {view.fields.map(field => {
+          const value = get(view.tags, field.key)
+          if (isEmptyValue(value)) return null
+          return (
+            <View key={field.id} style={styles.field} wrap={false}>
+              <Text style={styles.fieldLabel}>
+                <FormattedFieldname field={field} component={Text} />
+              </Text>
+              <Text style={styles.fieldValue}>
+                <FormattedValue field={field} value={value} />
+              </Text>
+            </View>
+          )
+        })}
       </View>
-      <Text style={styles.details}>Detalles</Text>
-      {view.fields.map(field => {
-        const value = get(view.tags, field.key)
-        if (isEmptyValue(value)) return null
-        return (
-          <View key={field.id} style={styles.field} wrap={false}>
-            <Text style={styles.fieldLabel}>
-              <FormattedFieldname field={field} component={Text} />
-            </Text>
-            <Text style={styles.fieldValue}>
-              <FormattedValue field={field} value={value} />
-            </Text>
-          </View>
-        )
-      })}
+      <ObservationRHS observationView={view} />
     </View>
-    <ObservationRHS observationView={view} />
-  </View>
   )
 }
 
-function ObservationRHS ({observationView}) {
+function ObservationRHS ({ observationView }) {
   var src = observationView.getMapImageURL()
 
   return (
     <View style={styles.columnRight}>
-      <Image
-        src={src}
-        key={'minimap-' + observationView.id}
-        style={styles.map}
-        wrap={false}
-        cache={true}
-      />
+      <View style={styles.map}>
+        <Image
+          src={src}
+          key={'minimap-' + observationView.id}
+          style={styles.image}
+          wrap={false}
+          cache={true}
+        />
+        <View style={styles.marker} />
+      </View>
 
       {observationView.mediaItems.map((src, i) => (
-        <Image cache={true} src={src} key={i} style={styles.image} wrap={false} />
+        <Image
+          cache={true}
+          src={src}
+          key={i}
+          style={styles.imageWrapper}
+          wrap={false}
+        />
       ))}
     </View>
   )
 }
-
 
 class ObservationView {
   static DEFAULT_ZOOM_LEVEL = 11
@@ -196,14 +202,11 @@ class ObservationView {
     this.fields = this.preset.fields.concat(this.preset.additionalFields)
     this.tags = observation.tags || {}
     this.note = this.tags.note || this.tags.notes
-    this.mediaItems = (observation.attachments || []).reduce(
-      (acc, cur) => {
-        const item = getMedia(cur, { width: 800, height: 600 })
-        if (item && item.type === 'image') acc.push(item.src)
-        return acc
-      },
-      []
-    )
+    this.mediaItems = (observation.attachments || []).reduce((acc, cur) => {
+      const item = getMedia(cur, { width: 800, height: 600 })
+      if (item && item.type === 'image') acc.push(item.src)
+      return acc
+    }, [])
   }
 
   getMapImageURL (zoom) {
@@ -219,13 +222,12 @@ class ObservationView {
     }
     return api.getMapImageURL(opts)
   }
-
 }
 
 export default PDFReport
 
 // Convert pixel to millimetres
-function mm(v) {
+function mm (v) {
   return v / (25.4 / 72)
 }
 
@@ -274,9 +276,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     marginBottom: 12,
-    backgroundColor: '#8E918B'
+    backgroundColor: '#8E918B',
+    position: 'relative'
   },
   image: {
+    flex: 1
+  },
+  marker: {
+    position: 'absolute',
+    width: '4mm',
+    height: '4mm',
+    borderRadius: '2mm',
+    top: '28mm',
+    left: '28mm',
+    backgroundColor: 'red'
+  },
+  imageWrapper: {
     width: '60mm',
     borderStyle: 'solid',
     borderWidth: 1,
