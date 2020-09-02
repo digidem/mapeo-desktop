@@ -15,27 +15,18 @@ type Props = {
   url: string
 }
 
-class PrintButton extends React.Component<Props, State> {
-
-  download () {
-    var anchor = document.createElement('a')
-    anchor.href = this.url
-    anchor.download = 'report.pdf'
-    anchor.click()
-  }
-
-  render () {
-    const { disabled } = this.props
-
-    return (
-      <React.Fragment>
-        <ToolbarButton onClick={this.download.bind(this)} disabled={disabled}>
-          <PrintIcon />
-          <FormattedMessage {...messages.print} />
-        </ToolbarButton>
-      </React.Fragment>
-    )
-  }
-}
+const PrintButton = ({ url, disabled }: Props) => (
+  <React.Fragment>
+    <ToolbarButton
+      component='a'
+      href={url}
+      download='report.pdf'
+      disabled={disabled}
+    >
+      <PrintIcon />
+      <FormattedMessage {...messages.print} />
+    </ToolbarButton>
+  </React.Fragment>
+)
 
 export default PrintButton
