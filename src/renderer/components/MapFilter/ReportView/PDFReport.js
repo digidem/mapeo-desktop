@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8E918B'
   },
   image: {
-    height: '40mm',
+    width: '60mm',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: 'black',
