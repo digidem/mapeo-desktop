@@ -21,6 +21,10 @@ import type {
   CommonViewContentProps
 } from '../types'
 import {
+  defineMessages,
+  useIntl
+} from 'react-intl'
+import {
   SettingsContext,
   defaultSettings,
   type SettingsContextType
@@ -28,6 +32,13 @@ import {
 import type { Observation } from 'mapeo-schema'
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import api from '../../../new-api'
+
+const m = defineMessages({
+  // Button label for hide fields menu
+  detailsHeader: 'Details',
+  locationHeader: 'Location',
+  dateHeader: 'Created at'
+})
 
 type Props = {
   ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
@@ -117,6 +128,7 @@ const FeaturePage = ({
     mapStyle,
     mapboxAccessToken
   })
+  const { formatMessage: t } = useIntl()
   // TODO: move all of these Views into ObservationView
   return (
     <View style={styles.pageContent}>
@@ -126,7 +138,7 @@ const FeaturePage = ({
         </Text>
         {view.createdAt ? (
           <Text style={styles.createdAt}>
-            <Text style={styles.createdAtLabel}>Registrado: </Text>
+            <Text style={styles.createdAtLabel}>{t(m.dateHeader)}: </Text>
             <FormattedTime
               key='time'
               value={view.createdAt}
@@ -138,7 +150,7 @@ const FeaturePage = ({
         ) : null}
         {view.coords ? (
           <Text style={styles.location}>
-            <Text style={styles.locationLabel}>Ubicación: </Text>
+            <Text style={styles.locationLabel}>{t(m.locationHeader)}: </Text>
             <FormattedLocation {...view.coords} />
           </Text>
         ) : null}
@@ -159,6 +171,7 @@ const FeaturePage = ({
 }
 
 function Details ({view}: {view: ObservationView}) {
+  const { formatMessage: t } = useIntl()
   const nonEmptyFields = view.fields.filter(field => {
     const value = get(view.tags, field.key)
     return !isEmptyValue(value)
@@ -166,7 +179,7 @@ function Details ({view}: {view: ObservationView}) {
   if (nonEmptyFields.length === 0) return null
   return (
     <>
-      <Text style={styles.details}>Detalles</Text>
+      <Text style={styles.details}>{t(m.detailsHeader)}</Text>
       {nonEmptyFields.map(field => (
         <View key={field.id} style={styles.field} wrap={false}>
           <Text style={styles.fieldLabel}>
