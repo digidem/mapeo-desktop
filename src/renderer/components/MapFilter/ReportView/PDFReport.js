@@ -26,6 +26,7 @@ import {
   type SettingsContextType
 } from '../internal/Context'
 import type { Observation } from 'mapeo-schema'
+import { type MapViewContentProps } from '../MapView/MapViewContent'
 import api from '../../../new-api'
 
 type Props = {
@@ -35,14 +36,17 @@ type Props = {
   intl?: any,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with React.useContext(SettingsContext) and provide it as a prop */
-  settings?: SettingsContextType
+  settings?: SettingsContextType,
+  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
+  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
 }
 
 type PageProps = {
-  renderImages: boolean,
   getPreset: $ElementType<Props, 'getPreset'>,
   getMedia: $ElementType<Props, 'getMedia'>,
-  observation: Observation
+  observation: Observation,
+  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
+  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
 }
 
 /*  TODO: add frontpage
@@ -99,8 +103,20 @@ const PDFReport = ({
   )
 }
 
-const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
-  var view = new ObservationView(observation, getPreset, getMedia)
+const FeaturePage = ({
+  observation,
+  getPreset,
+  getMedia,
+  mapStyle,
+  mapboxAccessToken
+}: PageProps) => {
+  var view = new ObservationView({
+    observation,
+    getPreset,
+    getMedia,
+    mapStyle,
+    mapboxAccessToken
+  })
   // TODO: move all of these Views into ObservationView
   return (
     <View style={styles.pageContent}>
@@ -135,10 +151,7 @@ const FeaturePage = ({ observation, getPreset, getMedia }: PageProps) => {
               ))
             : null}
         </View>
-        {view.fields.length
-          ? fields(view)
-          : null
-        }
+        {view.fields.length ? fields(view) : null}
       </View>
       <ObservationRHS observationView={view} />
     </View>
@@ -172,17 +185,18 @@ function ObservationRHS ({ observationView }) {
 
   return (
     <View style={styles.columnRight}>
-      {(imageSrc ?
+      {imageSrc ? (
         <View style={styles.map}>
-           <Image
+          <Image
             src={imageSrc}
             key={'minimap-' + observationView.id}
             style={styles.image}
             wrap={false}
             cache={true}
           />
-        <View style={styles.marker} /></View>
-      : null)}
+          <View style={styles.marker} />
+        </View>
+      ) : null}
 
       {observationView.mediaItems.map((src, i) => (
         <Image
@@ -200,15 +214,25 @@ function ObservationRHS ({ observationView }) {
 class ObservationView {
   static DEFAULT_ZOOM_LEVEL = 11
   id: string
-  coords: {longitude: number, latitude: number} | void
+  coords: { longitude: number, latitude: number } | void
   createdAt: Date | void
   fields: Field[]
   tags: Object
   mediaItems: ImageMediaItem[]
   note: string
   preset: PresetWithAdditionalFields
+  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>
+  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
 
-  constructor (observation, getPreset, getMedia) {
+  constructor ({
+    observation,
+    getPreset,
+    getMedia,
+    mapStyle,
+    mapboxAccessToken
+  }) {
+    this.mapStyle = mapStyle
+    this.mapboxAccessToken = mapboxAccessToken
     this.id = observation.id
     this.coords =
       typeof observation.lon === 'number' && typeof observation.lat === 'number'
@@ -243,7 +267,9 @@ class ObservationView {
       lon: this.coords.longitude,
       lat: this.coords.latitude,
       zoom: 11,
-      dpi: 2
+      dpi: 2,
+      style: this.mapStyle,
+      accessToken: this.mapboxAccessToken
     }
     return api.getMapImageURL(opts)
   }
