@@ -21,9 +21,14 @@ import type {
   Field,
   CommonViewContentProps
 } from '../types'
+import { type MapViewContentProps } from '../MapView/MapViewContent'
 import { SettingsContext } from '../internal/Context'
 
-type Props = CommonViewContentProps
+type Props = {
+  ...$Exact<CommonViewContentProps>,
+  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
+  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
+}
 
 const m = defineMessages({
   // Displayed whilst observations and presets load
@@ -43,7 +48,9 @@ const ReportViewContent = ({
   onClick,
   observations,
   getPreset,
-  getMedia
+  getMedia,
+  mapStyle,
+  mapboxAccessToken
 }: Props) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
   const intl = useIntl()
@@ -94,9 +101,19 @@ const ReportViewContent = ({
         getMedia={getMedia}
         intl={intl}
         settings={settings}
+        mapStyle={mapStyle}
+        mapboxAccessToken={mapboxAccessToken}
       />
     )
-  }, [getMedia, getPresetWithFilteredFields, intl, observations, settings])
+  }, [
+    getMedia,
+    getPresetWithFilteredFields,
+    intl,
+    mapStyle,
+    mapboxAccessToken,
+    observations,
+    settings
+  ])
 
   return (
     <div className={cx.root}>

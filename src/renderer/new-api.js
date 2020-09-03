@@ -213,8 +213,28 @@ function Api ({ baseUrl, ipc }) {
       ipc.send('zoom-to-data-get-centroid', type, cb)
     },
 
-    getMapImageURL: function ({lon, lat, zoom, width = 300, height = 300, dpi = 1}) {
-      return `${baseUrl}map/${lon}/${lat}/${zoom}/${width}/${height}/x${dpi}.png`
+    getMapImageURL: function ({
+      lon,
+      lat,
+      zoom,
+      width = 300,
+      height = 300,
+      dpi = 1,
+      style,
+      accessToken
+    }) {
+      let url = `${baseUrl}map/${lon}/${lat}/${zoom}/${width}/${height}/x${dpi}.png`
+      const searchParams = []
+      if (typeof style === 'string') {
+        searchParams.push('style=' + style)
+      }
+      if (typeof accessToken === 'string') {
+        searchParams.push('accessToken=' + accessToken)
+      }
+      if (searchParams.length) {
+        url += '?' + searchParams.join('&')
+      }
+      return url
     }
   }
 

@@ -33,7 +33,7 @@ export type MapViewContentProps = {
   /** Mapbox access token */
   mapboxAccessToken: string,
   /** Mapbox style url */
-  mapStyle?: any
+  mapStyle?: string
 }
 
 type Props = {

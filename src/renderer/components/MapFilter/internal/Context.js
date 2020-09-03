@@ -2,7 +2,7 @@
 import * as React from 'react'
 import * as coordFormats from '../constants/coord_formats'
 
-type SettingsContextType = {
+export type SettingsContextType = {
   coordFormat: $Values<typeof coordFormats>
 }
 export const defaultSettings: SettingsContextType = {
