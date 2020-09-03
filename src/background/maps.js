@@ -8,8 +8,8 @@ const logger = require('../logger')
 const CONCURRENCY = 4
 const queue = new PQ({ concurency: CONCURRENCY })
 
-const accessToken = config.MAPBOX_ACCESS_TOKEN
-const style = 'mapbox://styles/mapbox/outdoors-v10'
+const fallbackAccessToken = config.MAPBOX_ACCESS_TOKEN
+const fallbackStyle = 'mapbox://styles/mapbox/outdoors-v10'
 
 const getMapboxInstance = (() => {
   let cur = 0
@@ -20,7 +20,7 @@ const getMapboxInstance = (() => {
     if (!instances) {
       instances = new Array(CONCURRENCY)
         .fill(null)
-        .map(() => new HiddenMapbox({ accessToken, style }))
+        .map(() => new HiddenMapbox())
     }
     cur = (cur + 1) % CONCURRENCY
     return instances[cur]
@@ -30,11 +30,15 @@ const getMapboxInstance = (() => {
 var router = Router()
 
 router.addRoute('/map/:lon/:lat/:zoom/:width/:height/x:pixelRatio.png', function (req, res, params) {
+  const { searchParams } = new URL(req.url, 'http://' + req.headers.host)
   const { lon, lat, zoom, width, height, pixelRatio } = params
 
   const promise = queue.add(() => {
     const mapbox = getMapboxInstance()
+    // TODO: Catch map errors (e.g. invalid style) and return error
     return mapbox.getMapImage({
+      style: searchParams.get('style') || fallbackStyle,
+      accessToken: searchParams.get('accessToken') || fallbackAccessToken,
       center: {lon, lat},
       zoom: parseInt(zoom),
       width: parseInt(width),
@@ -65,7 +69,8 @@ router.addRoute('/map/:lon/:lat/:zoom/:width/:height/x:pixelRatio.png', function
 
 module.exports = {
   handle: (req, res) => {
-    var route = router.match(req.url)
+    const { pathname } = new URL(req.url, 'http://' + req.headers.host)
+    var route = router.match(pathname)
     if (!route) return false
     route.fn.apply(null, [req, res, route.params, route.splats])
     return true
