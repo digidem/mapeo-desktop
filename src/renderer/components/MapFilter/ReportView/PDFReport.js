@@ -186,7 +186,7 @@ function ObservationRHS ({ observationView }) {
   return (
     <View style={styles.columnRight}>
       {imageSrc ? (
-        <View style={styles.map}>
+        <View style={styles.imageWrapper}>
           <Image
             src={imageSrc}
             key={'minimap-' + observationView.id}
@@ -199,13 +199,14 @@ function ObservationRHS ({ observationView }) {
       ) : null}
 
       {observationView.mediaItems.map((src, i) => (
-        <Image
-          cache={true}
-          src={src}
-          key={i}
-          style={styles.imageWrapper}
-          wrap={false}
-        />
+        <View key={i} style={styles.imageWrapper}>
+          <Image
+            cache={true}
+            src={src}
+            style={styles.image}
+            wrap={false}
+          />
+        </View>
       ))}
     </View>
   )
@@ -319,16 +320,6 @@ const styles = StyleSheet.create({
   locationLabel: {
     fontSize: 12,
     color: 'grey'
-  },
-  map: {
-    width: '60mm',
-    height: '60mm',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: 'black',
-    marginBottom: 12,
-    backgroundColor: '#8E918B',
-    position: 'relative'
   },
   image: {
     flex: 1
