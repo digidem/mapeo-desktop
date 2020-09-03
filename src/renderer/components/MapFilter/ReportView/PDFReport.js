@@ -151,31 +151,32 @@ const FeaturePage = ({
               ))
             : null}
         </View>
-        {view.fields.length ? fields(view) : null}
+        <Details view={view} />
       </View>
       <ObservationRHS observationView={view} />
     </View>
   )
 }
 
-function fields (view: ObservationView) {
+function Details ({view}: {view: ObservationView}) {
+  const nonEmptyFields = view.fields.filter(field => {
+    const value = get(view.tags, field.key)
+    return !isEmptyValue(value)
+  })
+  if (nonEmptyFields.length === 0) return null
   return (
     <>
       <Text style={styles.details}>Detalles</Text>
-      {view.fields.map(field => {
-        const value = get(view.tags, field.key)
-        if (isEmptyValue(value)) return null
-        return (
-          <View key={field.id} style={styles.field} wrap={false}>
-            <Text style={styles.fieldLabel}>
-              <FormattedFieldname field={field} component={Text} />
-            </Text>
-            <Text style={styles.fieldValue}>
-              <FormattedValue field={field} value={value} />
-            </Text>
-          </View>
-        )
-      })}
+      {nonEmptyFields.map(field => (
+        <View key={field.id} style={styles.field} wrap={false}>
+          <Text style={styles.fieldLabel}>
+            <FormattedFieldname field={field} component={Text} />
+          </Text>
+          <Text style={styles.fieldValue}>
+            <FormattedValue field={field} value={get(view.tags, field.key)} />
+          </Text>
+        </View>
+      ))}
     </>
   )
 }
