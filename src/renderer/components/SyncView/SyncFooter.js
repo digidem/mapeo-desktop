@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import api from '../../new-api'
 
+const visibleKeyLength = 5
+
 const SyncFooter = () => {
   const cx = useStyles()
   const [encryptionKey, setEncryptionKey] = useState(null)
@@ -23,7 +25,9 @@ const SyncFooter = () => {
       <Toolbar>
         <div className={cx.titleBar}>
           <Typography component='h2' className={cx.title}>
-            {encryptionKey}
+            {encryptionKey
+             ? `${encryptionKey.slice(0, visibleKeyLength)}${'*'.repeat(encryptionKey.length - visibleKeyLength)}`
+             : ''}
           </Typography>
         </div>
       </Toolbar>
