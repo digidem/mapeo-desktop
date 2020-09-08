@@ -126,7 +126,7 @@
     "mapbox-gl": "^1.4.1",
     "mapbox-map-image-stream": "^2.1.1",
     "mapeo-entity-filter": "^2.0.0",
-    "mapeo-schema": "^1.10.1",
+    "mapeo-schema": "^2.0.0",
     "mapeo-server": "^17.0.6",
     "mapeo-styles": "^3.0.2",
     "mime": "^2.4.6",

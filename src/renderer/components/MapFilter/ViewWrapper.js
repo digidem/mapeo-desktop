@@ -87,6 +87,7 @@ const WrappedMapView = ({
       const preset = getPreset(observation, presets)
       const defaultPreset = defaultGetPreset(observation, stats)
       if (!preset) return defaultPreset
+      // $FlowFixMe - this checks out, seems to be a flow bug, it cannot understand that additionalFields is overwritten
       return {
         ...preset,
         additionalFields: defaultPreset.additionalFields.filter(

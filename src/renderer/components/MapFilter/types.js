@@ -1,7 +1,17 @@
 // @flow
 import * as React from 'react'
 import * as valueTypes from './constants/value_types'
-import type { Observation, Preset } from 'mapeo-schema'
+import type {
+  Observation,
+  Preset,
+  TextField,
+  NumberField,
+  DateField,
+  SelectOneField,
+  SelectMultipleField,
+  LinkField,
+  DateTimeField
+} from 'mapeo-schema'
 // import type { Properties as CSSProperties } from 'csstype'
 
 import type {
@@ -10,6 +20,20 @@ import type {
   Point2D,
   Point3D
 } from 'flow-geojson'
+
+export type {
+  Key,
+  TextField,
+  NumberField,
+  DateField,
+  SelectOneField,
+  SelectMultipleField,
+  LinkField,
+  SelectableFieldValue,
+  LabeledSelectOption,
+  SelectOptions,
+  DateTimeField
+} from 'mapeo-schema'
 
 /**
  * Observation Attachment
@@ -156,92 +180,6 @@ export type Coordinates = {
   speed?: number,
   latitude: number,
   accuracy?: number
-}
-
-export type Key = string | Array<string | number>
-
-type BaseField = {|
-  // A unique id used to reference the field from presets
-  id: string,
-  // They key in a tags object that this field applies to. For nested
-  // properties, key can be an array e.g. for tags = { foo: { bar: 1 } } the key
-  // is ['foo', 'bar']
-  key: Key,
-  label?: string,
-  // Displayed as a placeholder or hint for the field: use for additional
-  // context or example responses for the user
-  placeholder?: string,
-  // If a field definition contains the property "universal": true, this field will appear in the "Add Field" list for all presets
-  universal?: boolean,
-  // Displayed, but cannot be edited
-  readonly?: boolean
-|}
-
-// type FieldType =
-//   | 'text'
-//   | 'number'
-//   | 'select_one'
-//   | 'select_multiple'
-//   | 'date'
-//   | 'datetime'
-
-export type TextField = {
-  ...BaseField,
-  type: 'text' | 'textarea' | 'localized',
-  appearance?: 'singleline' | 'multiline',
-  // Spaces are replaced with underscores
-  snake_case?: boolean
-}
-
-export type LinkField = {
-  ...BaseField,
-  type: 'link'
-}
-
-export type NumberField = {
-  ...BaseField,
-  type: 'number',
-  min_value?: number,
-  max_value?: number
-}
-
-export type SelectableFieldValue = number | string | boolean | null
-
-export type LabeledSelectOption = {|
-  value: SelectableFieldValue,
-  label: string
-|}
-
-export type SelectOptions = Array<SelectableFieldValue | LabeledSelectOption>
-
-export type SelectOneField = {
-  ...BaseField,
-  type: 'select_one',
-  options: SelectOptions,
-  // User can enter their own reponse if not on the list (defaults to true on
-  // desktop, false on mobile)
-  other?: boolean,
-  // Spaces are replaced with underscores
-  snake_case?: boolean
-}
-
-export type SelectMultipleField = {
-  ...$Exact<SelectOneField>,
-  type: 'select_multiple'
-}
-
-export type DateField = {
-  ...BaseField,
-  type: 'date',
-  min_value?: string,
-  max_value?: string
-}
-
-export type DateTimeField = {
-  ...BaseField,
-  type: 'datetime',
-  min_value?: string,
-  max_value?: string
 }
 
 export type Field =
