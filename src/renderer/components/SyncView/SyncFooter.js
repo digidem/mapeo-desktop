@@ -10,12 +10,15 @@ const visibleKeyLength = 5
 const SyncFooter = () => {
   const cx = useStyles()
   const [encryptionKey, setEncryptionKey] = useState(null)
+  const [metadata, setMetadata] = useState(null)
 
   // Check encryption key on load
   useEffect(() => {
     const check = async () => {
       const encryptionKey = await api.getEncryptionKey()
       setEncryptionKey(encryptionKey)
+      const metadata = await api.getMetadata()
+      setMetadata(metadata)
     }
     check()
   }, [])
@@ -25,6 +28,10 @@ const SyncFooter = () => {
       <Toolbar>
         <div className={cx.titleBar}>
           <Typography component='h2' className={cx.title}>
+            {[metadata ? metadata.name : '',
+              metadata ? metadata.version : ''].join(' ')}
+          </Typography>
+          <Typography component='h2' className={cx.subTitle}>
             {encryptionKey
               ? `${encryptionKey.slice(0, visibleKeyLength)}${'*'.repeat(10)}`
               : ''}
@@ -49,5 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     color: 'black'
+  },
+  subTitle: {
+    color: 'grey'
   }
 }))
