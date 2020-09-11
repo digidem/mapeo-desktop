@@ -82,6 +82,12 @@ function Api ({ baseUrl, ipc }) {
       return get(`styles/${id}/style.json?${startupTime}`)
     },
 
+    getMetadata: function getMetadata () {
+      return get(`presets/default/metadata.json?${Date.now()}`).then(
+        (data) => data || {}
+      )
+    },
+
     /**
      * DELETE methods
      */
