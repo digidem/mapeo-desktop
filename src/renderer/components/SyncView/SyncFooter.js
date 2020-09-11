@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
+import {makeStyles} from '@material-ui/core/styles'
 import api from '../../new-api'
 
 const visibleKeyLength = 5
@@ -26,8 +26,8 @@ const SyncFooter = () => {
         <div className={cx.titleBar}>
           <Typography component='h2' className={cx.title}>
             {encryptionKey
-             ? `${encryptionKey.slice(0, visibleKeyLength)}${'*'.repeat(encryptionKey.length - visibleKeyLength)}`
-             : ''}
+              ? `${encryptionKey.slice(0, visibleKeyLength)}${'*'.repeat(10)}`
+              : ''}
           </Typography>
         </div>
       </Toolbar>
