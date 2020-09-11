@@ -34,7 +34,7 @@ const SyncFooter = () => {
           <Typography component='h2' className={cx.subTitle}>
             {encryptionKey
               ? `${encryptionKey.slice(0, visibleKeyLength)}${'*'.repeat(10)}`
-              : ''}
+              : 'MAPEO'}
           </Typography>
         </div>
       </Toolbar>
