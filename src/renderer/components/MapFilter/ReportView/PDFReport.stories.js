@@ -7,7 +7,7 @@ import { BlobProvider } from '@react-pdf/renderer'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 import { defaultGetPreset } from '../utils/helpers'
 
-const exampleObservations = require('../../fixtures/observations.json')
+const exampleObservations = require('../../../../../fixtures/observations.json')
 
 const imageBaseUrl =
   'https://images.digital-democracy.org/mapfilter-sample/sample-'
