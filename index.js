@@ -226,11 +226,16 @@ function createServers (done) {
     tileport: argv.tileport
   }
 
-  ipc.send('listen', opts, function (err, port) {
-    if (err) throw new Error('fatal: could not get port', err)
-    global.osmServerHost = '127.0.0.1:' + port
-    logger.info('Server listening:', global.osmServerHost)
-    done()
+  worker.cleanup((err) => {
+    if (err) logger.debug('No stale processes to clean up')
+    else logger.debug('Successfully removed any stale processes')
+
+    ipc.send('listen', opts, function (err, port) {
+      if (err) throw new Error('fatal: could not get port', err)
+      global.osmServerHost = '127.0.0.1:' + port
+      logger.info('Server listening:', global.osmServerHost)
+      done()
+    })
   })
 }
 
