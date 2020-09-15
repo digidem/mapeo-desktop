@@ -92,27 +92,27 @@ const ReportViewContent = ({
     [fieldState, getPreset]
   )
 
+  // TODO: flow type or component for encapsulating PDF rendering options
+  const renderer = {
+    getPreset: getPresetWithFilteredFields,
+    getMedia,
+    intl,
+    settings,
+    mapStyle,
+    mapboxAccessToken
+  }
+
   const pdf = useMemo(() => {
-    var preview = observations.slice(0, 5)
     return (
       <PDFReport
-        observations={preview}
-        getPreset={getPresetWithFilteredFields}
-        getMedia={getMedia}
-        intl={intl}
-        settings={settings}
-        mapStyle={mapStyle}
-        mapboxAccessToken={mapboxAccessToken}
+        observations={observations}
+        length={5}
+        renderer={renderer}
       />
     )
   }, [
-    getMedia,
-    getPresetWithFilteredFields,
-    intl,
-    mapStyle,
-    mapboxAccessToken,
-    observations,
-    settings
+    renderer,
+    observations
   ])
 
   return (
@@ -129,7 +129,11 @@ const ReportViewContent = ({
                   fieldState={fieldState}
                   onFieldStateUpdate={setFieldState}
                 />
-                <PrintButton url={url} disabled={error || loading} />
+                <PrintButton
+                  observations={observations}
+                  renderer={renderer}
+                  disabled={error || loading}
+                />
               </Toolbar>
               {loading ? <Loading /> : <ReportPreview url={url} />}
             </>

@@ -89,15 +89,22 @@ const FrontPage = ({ bounds }) => {
 */
 
 const PDFReport = ({
-  observations,
-  intl,
-  settings = defaultSettings,
-  ...otherProps
+  renderer,
+  length,
+  observations
 }: Props) => {
+  const {
+    intl,
+    settings = defaultSettings,
+    ...otherProps
+  } = renderer
+
+  const preview = length ? observations.slice(0, length) : observations
+
   const children = (
     <SettingsContext.Provider value={settings}>
       <Document>
-        {observations.map(obs => (
+        {preview.map(obs => (
           <Page key={obs.id} size='A4' style={styles.page} wrap>
             <FeaturePage key={obs.id} observation={obs} {...otherProps} />
           </Page>

@@ -46,6 +46,15 @@ const presets: PresetWithFields[] = [
         id: 'impacts',
         key: ['impacts'],
         label: 'What is the impact?'
+      },
+      {
+        type: 'select_one',
+        id: 'village',
+        key: ['village'],
+        label: 'Village?',
+        options: [
+          {value: 'village_1', label: 'Potari Naawa'}
+        ]
       }
     ]
   },
