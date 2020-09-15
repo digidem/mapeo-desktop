@@ -128,7 +128,8 @@ const useStyles = makeStyles(theme => ({
 
 const shortDateRegExp = /^(\d{4})-(\d{2})-(\d{2})$/
 
-function createFilterValue (value, minOrMax) {
+function createFilterValue (value: any, minOrMax) {
+  if (!value) return value
   const match = value.match(shortDateRegExp)
   if (!match) return value
   return minOrMax === 'min'
