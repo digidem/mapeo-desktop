@@ -11,6 +11,8 @@ const exampleObservations = require('../../../../../fixtures/observations.json')
 
 const imageBaseUrl =
   'https://images.digital-democracy.org/mapfilter-sample/sample-'
+const mapStyle = 'mapbox://styles/mapbox/satellite-v10'
+const mapboxAccessToken = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 
 const getMedia = ({ id }) => ({
   src: imageBaseUrl + ((parseInt(id, 16) % 17) + 1) + '.jpg',
@@ -38,14 +40,20 @@ export default {
 export const basic = () =>
   React.createElement(() => {
     const intl = useIntl()
+    const renderer = {
+      getPreset: defaultGetPreset,
+      getMedia,
+      intl,
+      mapStyle,
+      mapboxAccessToken
+    }
     return (
       <BlobProvider
         document={
           <PDFReport
-            observations={exampleObservations.slice(0, 1)}
-            getPreset={defaultGetPreset}
-            getMedia={getMedia}
-            intl={intl}
+            length={1}
+            renderer={renderer}
+            observations={exampleObservations}
           />
         }>
         {({ url, loading }) =>

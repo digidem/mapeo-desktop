@@ -1,6 +1,12 @@
 // @flow
 import React from 'react'
-import { RawIntlProvider, IntlProvider, FormattedTime } from 'react-intl'
+import {
+  RawIntlProvider,
+  IntlProvider,
+  defineMessages,
+  useIntl,
+  FormattedTime
+} from 'react-intl'
 import {
   Page,
   Text,
@@ -9,6 +15,8 @@ import {
   Document,
   StyleSheet
 } from '@react-pdf/renderer'
+import type { Observation } from 'mapeo-schema'
+
 import FormattedLocation from '../internal/FormattedLocation'
 import { isEmptyValue } from '../utils/helpers'
 import { get } from '../utils/get_set'
@@ -21,15 +29,10 @@ import type {
   CommonViewContentProps
 } from '../types'
 import {
-  defineMessages,
-  useIntl
-} from 'react-intl'
-import {
   SettingsContext,
   defaultSettings,
   type SettingsContextType
 } from '../internal/Context'
-import type { Observation } from 'mapeo-schema'
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import api from '../../../new-api'
 
@@ -40,8 +43,8 @@ const m = defineMessages({
   dateHeader: 'Created at'
 })
 
-type Props = {
-  ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
+export type PDFReportOptions = {
+  ...$Exact<$Diff<CommonViewContentProps, { onClick: *, observations: * }>>,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with useIntl() and provide it as a prop */
   intl?: any,
@@ -49,16 +52,20 @@ type Props = {
    * value with React.useContext(SettingsContext) and provide it as a prop */
   settings?: SettingsContextType,
   mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
+  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
+  getPreset: $ElementType<PDFReportOptions, 'getPreset'>,
+  getMedia: $ElementType<PDFReportOptions, 'getMedia'>
 }
 
 type PageProps = {
-  getPreset: $ElementType<Props, 'getPreset'>,
-  getMedia: $ElementType<Props, 'getMedia'>,
+  getPreset: $ElementType<PDFReportOptions, 'getPreset'>,
+  getMedia: $ElementType<PDFReportOptions, 'getMedia'>,
   observation: Observation,
   mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
   mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
 }
+
+
 
 /*  TODO: add frontpage
 const FrontPage = ({ bounds }) => {
@@ -92,7 +99,11 @@ const PDFReport = ({
   renderer,
   length,
   observations
-}: Props) => {
+}: {
+  renderer: PDFReportOptions,
+  length?: number,
+  observations: Array<Observation>
+}) => {
   const {
     intl,
     settings = defaultSettings,

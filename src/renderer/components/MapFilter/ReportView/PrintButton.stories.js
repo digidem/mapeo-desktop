@@ -11,10 +11,7 @@ export default {
 
 // TODO: fix this story to include a real PDF url
 export const defaultStory = () => (
-  <PrintButton
-    disabled={false}
-    url={'http://url'}
-  />
+  <>NOT IMPLEMENTED</>
 )
 
 defaultStory.story = {

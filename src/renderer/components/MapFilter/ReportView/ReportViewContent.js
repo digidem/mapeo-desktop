@@ -14,6 +14,7 @@ import getStats from '../stats'
 import PdfViewer from './PdfViewer'
 import PrintButton from './PrintButton'
 import PDFReport from './PDFReport'
+import type { PDFReportOptions } from './PDFReport'
 import type { Observation } from 'mapeo-schema'
 import type {
   PresetWithAdditionalFields,
@@ -92,7 +93,6 @@ const ReportViewContent = ({
     [fieldState, getPreset]
   )
 
-  // TODO: flow type or component for encapsulating PDF rendering options
   const renderer = {
     getPreset: getPresetWithFilteredFields,
     getMedia,
@@ -170,14 +170,6 @@ const ReportPreview = React.memo(({ url }) => {
     </div>
   )
 })
-/** Turning this on fixes the flickering, but it causes
- * the PDF not to update to the latest filters
-  , (prevProps, nextProps) => {
-  return prevProps.numPages === nextProps.numPages
-    && prevProps.pageNumber === nextProps.pageNumber
-    && deepEqual(prevProps.filteredObservations, nextProps.filteredObservations)
-})
-*/
 
 const NavigationBar = ({ pageNumber, numPages, setPageNumber }) => {
   const cx = useStyles()
