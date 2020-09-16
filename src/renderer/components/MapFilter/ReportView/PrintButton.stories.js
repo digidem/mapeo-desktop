@@ -3,8 +3,6 @@ import React from 'react'
 
 // import { linkTo } from '@storybook/addon-links'
 
-import PrintButton from './PrintButton'
-
 export default {
   title: 'ReportView/components/PrintButton'
 }

@@ -14,7 +14,6 @@ import getStats from '../stats'
 import PdfViewer from './PdfViewer'
 import PrintButton from './PrintButton'
 import PDFReport from './PDFReport'
-import type { PDFReportOptions } from './PDFReport'
 import type { Observation } from 'mapeo-schema'
 import type {
   PresetWithAdditionalFields,
