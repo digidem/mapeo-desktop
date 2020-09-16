@@ -3,7 +3,6 @@ var createMapeoRouter = require('mapeo-server')
 var ecstatic = require('ecstatic')
 var createOsmRouter = require('osm-p2p-server')
 var logger = console
-var mapRouter = require('./maps')
 
 module.exports = function (osm, media, { ipcSend, staticRoot }) {
   var osmRouter = createOsmRouter(osm)
@@ -22,7 +21,7 @@ module.exports = function (osm, media, { ipcSend, staticRoot }) {
   return {
     core: mapeoRouter.api.core,
     router: (req, res) => {
-      var m = osmRouter.handle(req, res) || mapeoRouter.handle(req, res) || mapRouter.handle(req, res)
+      var m = osmRouter.handle(req, res) || mapeoRouter.handle(req, res)
 
       if (!m) return done(req, res)
       if (m) {

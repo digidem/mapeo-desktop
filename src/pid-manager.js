@@ -11,11 +11,11 @@ class Worker {
     this.loc = path.join(userDataPath, 'pid')
   }
 
-  start (socketName, cb) {
+  create ({socketName, filepath}, cb) {
     this.cleanup((err) => {
       if (err) logger.debug('Not fatal', err)
       logger.debug('Starting background process')
-      this.process = fork(path.join(__dirname, 'background', 'index.js'), [
+      this.process = fork(filepath, [
         '--subprocess',
         socketName,
         this.userDataPath
@@ -34,8 +34,8 @@ class Worker {
 
   pid (cb) {
     var done = () => {
-      logger.info('writing pid', process.pid)
-      fs.writeFile(this.loc, process.pid.toString(), cb)
+      logger.info('writing pid', this.process.pid)
+      fs.writeFile(this.loc, this.process.pid.toString(), cb)
     }
     if (this._exists()) this.cleanup(done)
     else done()
@@ -46,8 +46,8 @@ class Worker {
   }
 
   cleanup (cb) {
-    if (this.serverProcess) this.serverProcess.kill()
-    this.serverProcess = null
+    if (this.process) this.process.kill()
+    this.process = null
     if (!this._exists()) return cb(new Error('Nothing to clean up!'))
     var pid = this.read()
     logger.info('Terminating PID', pid)

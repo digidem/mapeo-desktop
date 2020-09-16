@@ -2,9 +2,11 @@ const rabbit = require('electron-rabbit')
 const os = require('os')
 const http = require('http')
 
+const background = require('..')
+const logger = require('../../logger')
+
 const Mapeo = require('./mapeo')
 const createTileServer = require('./tile-server')
-const logger = require('../logger')
 const createRouter = require('./server')
 
 class MapeoManager {
@@ -208,4 +210,4 @@ handlers.debugging = async (bool) => {
   logger.debugging(bool)
 }
 
-module.exports = handlers
+background(handlers)

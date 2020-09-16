@@ -3,15 +3,12 @@ import 'core-js/es/reflect'
 import ky from 'ky/umd'
 import logger from '../logger'
 
-const BASE_URL = 'http://' + remote.getGlobal('osmServerHost') + '/'
-
 export default Api({
   // window.middlewareClient is set in src/middleware/client-preload.js
-  ipc: window.middlewareClient,
-  baseUrl: BASE_URL
+  ipc: window.middlewareClient
 })
 
-function Api ({ baseUrl, ipc }) {
+function Api ({ baseUrl, mapUrl, ipc }) {
   // We append this to requests for presets and map styles, in order to override
   // the local static server cache whenever the app is restarted. NB. sprite,
   // font, and map tile requests might still be cached, only changes in the map
@@ -63,6 +60,10 @@ function Api ({ baseUrl, ipc }) {
     setBaseUrl: function setBaseUrl (url) {
       baseUrl = url
       req = ky.extend({ prefixUrl: baseUrl })
+    },
+
+    setMapUrl: function (url) {
+      mapUrl = url
     },
 
     /**
@@ -229,7 +230,7 @@ function Api ({ baseUrl, ipc }) {
       style,
       accessToken
     }) {
-      let url = `${baseUrl}map/${lon}/${lat}/${zoom}/${width}/${height}/x${dpi}.png`
+      let url = `${mapUrl}map/${lon}/${lat}/${zoom}/${width}/${height}/x${dpi}.png`
       const searchParams = []
       if (typeof style === 'string') {
         searchParams.push('style=' + style)

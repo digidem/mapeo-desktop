@@ -2,7 +2,7 @@ var http = require('http')
 var ecstatic = require('ecstatic')
 var series = require('run-series')
 
-var logger = require('../logger')
+var logger = require('../../logger')
 
 module.exports = function (userDataPath) {
   var guesses = ['png', 'jpg', 'jpeg']
