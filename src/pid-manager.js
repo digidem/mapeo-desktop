@@ -33,9 +33,10 @@ class Worker {
   }
 
   pid (cb) {
+    // Write the current pid of this process to the pid file.
     var done = () => {
-      logger.info('writing pid', this.process.pid)
-      fs.writeFile(this.loc, this.process.pid.toString(), cb)
+      logger.info('writing pid', process.pid)
+      fs.writeFile(this.loc, process.pid.toString(), cb)
     }
     if (this._exists()) this.cleanup(done)
     else done()
