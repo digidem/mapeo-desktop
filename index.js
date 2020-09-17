@@ -356,8 +356,8 @@ function beforeQuit () {
   logger.debug('Closing IPC')
 
   const close = showClosingWindow()
-  if (win) win.close()
-  if (splash) splash.close()
+  try { win.close() } catch (e) {}
+  try { splash.close() } catch (e) {}
   main.close(() => {
     close()
     app.exit()
