@@ -17,11 +17,10 @@ import {
 } from '@react-pdf/renderer'
 import type { Observation } from 'mapeo-schema'
 
+import { FormattedFieldProp, FormattedFieldValue } from '../internal/FormattedData'
 import FormattedLocation from '../internal/FormattedLocation'
 import { isEmptyValue } from '../utils/helpers'
 import { get } from '../utils/get_set'
-import FormattedFieldname from '../internal/FormattedFieldname'
-import FormattedValue from '../internal/FormattedValue'
 import type { ImageMediaItem } from '../ObservationDialog'
 import type {
   Field,
@@ -201,10 +200,10 @@ function Details ({view}: {view: ObservationView}) {
       {nonEmptyFields.map(field => (
         <View key={field.id} style={styles.field} wrap={false}>
           <Text style={styles.fieldLabel}>
-            <FormattedFieldname field={field} component={Text} />
+            <FormattedFieldProp field={field} propName="label" />
           </Text>
           <Text style={styles.fieldValue}>
-            <FormattedValue field={field} value={get(view.tags, field.key)} />
+            <FormattedFieldValue field={field} value={get(view.tags, field.key)} />
           </Text>
         </View>
       ))}
