@@ -61,14 +61,10 @@ app.on('before-quit', (e) => {
   if (e) e.preventDefault()
   beforeQuit()
 })
-app.on('window-all-closed', function () {
-  app.quit()
-})
 
 // Window Management
 var win = null
 var splash = null
-var bg = null
 var mainWindowState = null
 
 // Ensure only one instance can be open at a time
@@ -106,7 +102,6 @@ main.on('error', function (err) {
   electron.dialog.showErrorBox('Error', err)
 })
 
-console.log('waiting')
 main.on('ready', () => {
   if (argv.headless) startSequence()
   else app.once('ready', openWindow)
@@ -116,7 +111,14 @@ main.on('ready', () => {
 function openWindow () {
   if (!win) {
     win = createWindow(main.mapeoSocket)
+    // Emitted when the window is closed
+    win.on('closed', function (e) {
+      win = null
+    })
     splash = createSplashWindow()
+    splash.on('closed', () => {
+      splash = null
+    })
   }
 
   if (isDev) {
@@ -137,21 +139,23 @@ function openWindow () {
   // In dev mode, we use an electron background window
   // for the mapeo core process so we can use the chrome debugger
   // In production, mapeo core should always be in a node process
-  if (isDev) bg = createBgWindow(main.mapeoSocket)
-  else main.startMapeoNodeIPC()
+  if (isDev) {
+    // this will get destroyed on app.exit()
+    var BG = 'file://' + path.join(__dirname, './src/background/mapeo-core/index.html')
+    createBgWindow(main.mapeoSocket, BG)
+  } else {
+    // this will get destroyed during beforeQuit with main.close()
+    main.startMapeoNodeIPC()
+  }
 
   // Start map printer
-  createMapPrinterWindow(main.mapPrinterSocket)
+  // this will get destroyed on app.exit()
+  var BG2 = 'file://' + path.join(__dirname, './src/background/map-printer/index.html')
+  createBgWindow(main.mapPrinterSocket, BG2)
 
-  // Emitted when the window is closed.
-  win.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-    splash = null
-    bg = null
-    app.quit()
+  // Emitted **before** the window is closed
+  win.on('close', function (e) {
+    beforeQuit()
   })
 
   // Start sequence
@@ -265,7 +269,7 @@ function notifyReady (done) {
   // TODO: Send host and port here too, rather than via global
   win.webContents.send('back-end-ready')
   win.maximize()
-  splash.destroy()
+  splash.close()
   win.show()
   // Start checking for in-app updates
   updater.periodicUpdates()
@@ -350,14 +354,19 @@ function beforeQuit () {
   exiting = true
   // 'close' event will gracefully close databases and wait for pending sync
   logger.debug('Closing IPC')
+
+  const close = showClosingWindow()
+  if (win) win.close()
+  if (splash) splash.close()
   main.close(() => {
+    close()
     app.exit()
   })
 }
 
 // Only enabled in DEV mode.
 // Create a hidden background window for Mapeo Core
-function createBgWindow (socketName) {
+function createBgWindow (socketName, filename) {
   if (!socketName) throw new Error('socketName required')
   logger.debug('loading mapeo core background window')
   var bgWindow = new BrowserWindow({
@@ -370,8 +379,7 @@ function createBgWindow (socketName) {
       nodeIntegration: true
     }
   })
-  var BG = 'file://' + path.join(__dirname, './src/background/mapeo-core/index.html')
-  bgWindow.loadURL(BG)
+  bgWindow.loadURL(filename)
   bgWindow.webContents.on('did-finish-load', () => {
     if (argv.debug) bgWindow.webContents.openDevTools()
     if (bgWindow && bgWindow.webContents) {
@@ -384,41 +392,30 @@ function createBgWindow (socketName) {
   })
   bgWindow.on('closed', () => {
     logger.info('Background window closed')
-    app.quit()
+    bgWindow = null
+    beforeQuit()
   })
+
   return bgWindow
 }
 
-// Create a hidden background window for Map Printer
-// both dev and prod
-function createMapPrinterWindow (socketName) {
-  if (!socketName) throw new Error('socketName required')
-  logger.debug('loading map printer electron background window')
-  var bgWindow = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: 700,
-    height: 700,
-    show: argv.debug,
-    webPreferences: {
-      nodeIntegration: true
-    }
+function showClosingWindow () {
+  var CLOSING = 'file://' + path.join(__dirname, './static/closing.html')
+  var closingWin = new BrowserWindow({
+    width: 600,
+    height: 400,
+    frame: false,
+    show: false,
+    alwaysOnTop: false
   })
-  var BG = 'file://' + path.join(__dirname, './src/background/map-printer/index.html')
-  bgWindow.loadURL(BG)
-  bgWindow.webContents.on('did-finish-load', () => {
-    if (argv.debug) bgWindow.webContents.openDevTools()
-    if (bgWindow && bgWindow.webContents) {
-      bgWindow.webContents.send('configure', {
-        socketName,
-        userDataPath,
-        isDev
-      })
-    }
-  })
-  bgWindow.on('closed', () => {
-    logger.info('Background window closed')
-    app.quit()
-  })
-  return bgWindow
+
+  closingWin.loadURL(CLOSING)
+  var closingTimeoutId = setTimeout(() => {
+    closingWin.show()
+  }, 300)
+  return () => {
+    clearTimeout(closingTimeoutId)
+    try { closingWin.close() } catch (e) {}
+    closingWin = null
+  }
 }

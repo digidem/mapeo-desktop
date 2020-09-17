@@ -1,33 +1,10 @@
 const rabbit = require('electron-rabbit')
 const path = require('path')
 const events = require('events')
-const electron = require('electron')
-const BrowserWindow = electron.BrowserWindow
 
 const logger = require('../logger')
 const NodePIDmanager = require('../pid-manager')
 const createMenu = require('./menu')
-
-function showClosingWindow () {
-  var CLOSING = 'file://' + path.join(__dirname, '../../static/closing.html')
-  var closingWin = new BrowserWindow({
-    width: 600,
-    height: 400,
-    frame: false,
-    show: false,
-    alwaysOnTop: false
-  })
-
-  closingWin.loadURL(CLOSING)
-  var closingTimeoutId = setTimeout(() => {
-    closingWin.show()
-  }, 300)
-  return () => {
-    clearTimeout(closingTimeoutId)
-    try { closingWin.close() } catch (e) {}
-    closingWin = null
-  }
-}
 
 class Main extends events.EventEmitter {
   constructor ({
@@ -108,10 +85,6 @@ class Main extends events.EventEmitter {
     this.mapeo.send('get-replicating-peers', null, (err, length) => {
       if (err) logger.error('get-replicating-peers on close', err)
 
-      // Only show the closing window when there
-      // are peers still left to replicate
-      let closeClosingWindow = () => {}
-      if (length) closeClosingWindow = showClosingWindow()
       this.mapPrinter.send('close', null, () => {
         this.mapeo.send('close', null, () => {
           logger.debug('IPC closed')
@@ -123,7 +96,6 @@ class Main extends events.EventEmitter {
                 : logger.error('Failed to clean up a child process', err)
             }
             logger.debug('Successfully removed any stale processes')
-            closeClosingWindow()
             cb()
           })
         })
