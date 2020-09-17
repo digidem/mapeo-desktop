@@ -16,7 +16,7 @@ Remember, you can preview this before saving it.
 - [ ] My contribution is **not** related to translations. _Please submit translation changes via our [Mapeo Crowdin project](https://crowdin.com/project/mapeo-desktop)_
 - [ ] My commits are in nice logical chunks with [good commit messages](http://chris.beams.io/posts/git-commit/)
 - [ ] I have walked through the [QA Manual Testing
-  Script](https://github.com/digidem/mapeo-desktop/blob/master/docs/testing.md) and updated it if necessary.
+  Script](https://github.com/digidem/mapeo-desktop/blob/master/docs/QA.md) and updated it if necessary.
 - [ ] If my changes depend upon an update to a dependency, I have updated the package-lock.json file using `npm install --package-lock`
 - [ ] My changes have been tested with the [mobile app](https://github.com/digidem/mapeo-mobile/releases). 
 - [ ] My changes are ready to be shipped to users on Windows, Mac, and Linux using the production version of the application built with electron-builder.

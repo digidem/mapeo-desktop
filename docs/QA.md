@@ -43,7 +43,7 @@ Some steps to follow before tagging a release, to ensure that the core features 
     2. Click 'Visualization->Zoom to Data'
     3. Click an observation and ensure that you can see the media and tags entered
     from on the mobile device.
-    4. Click 'Media' and see the photos you took on the phone.
+    t4. Click 'Media' and see the photos you took on the phone.
     5. Click 'Reports' and see that the observations show up in the report
     interface. Is there any warnings that appear?
 
