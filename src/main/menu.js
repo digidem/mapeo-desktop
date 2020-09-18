@@ -4,12 +4,11 @@ const userConfig = require('./user-config')
 const updater = require('./auto-updater')
 const i18n = require('./i18n')
 const logger = require('../logger')
+const config = require('../../config')
 
 const t = i18n.t
 
-module.exports = async function createMenu (ipc) {
-  await app.whenReady()
-
+module.exports = function createMenu (ipc) {
   function setMenu () {
     var menu = Menu.buildFromTemplate(menuTemplate(ipc))
     Menu.setApplicationMenu(menu)
@@ -125,21 +124,6 @@ function menuTemplate (ipc) {
     {
       label: t('menu-edit'),
       submenu: [
-        {
-          label: t('menu-undo'),
-          accelerator: 'CmdOrCtrl+Z',
-          role: 'undo',
-          visible: false
-        },
-        {
-          label: t('menu-redo'),
-          accelerator: 'Shift+CmdOrCtrl+Z',
-          role: 'redo',
-          visible: false
-        },
-        {
-          type: 'separator'
-        },
         {
           label: t('menu-cut'),
           accelerator: 'CmdOrCtrl+X',
@@ -316,7 +300,7 @@ function menuTemplate (ipc) {
         {
           label: t('menu-report'),
           click: function (item, focusedWindow) {
-            shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
+            shell.openExternal(`${config.GITHUB_URL}/issues/new?template=bug_report.md`)
           }
         }
       ]

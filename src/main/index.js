@@ -4,7 +4,6 @@ const events = require('events')
 
 const logger = require('../logger')
 const NodePIDmanager = require('../pid-manager')
-const createMenu = require('./menu')
 
 class Main extends events.EventEmitter {
   constructor ({
@@ -53,7 +52,6 @@ class Main extends events.EventEmitter {
 
   startMapeoNodeIPC () {
     if (!this.connected) this._connect()
-    createMenu(this.mapeoSocket)
     this.pid.create({
       socketName: this.mapeoSocket,
       filepath: path.join(__dirname, 'background', 'mapeo-core', 'index.js')

@@ -13,6 +13,7 @@ const chmod = require('chela').mod
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+const createMenu = require('./src/main/menu')
 const updater = require('./src/main/auto-updater')
 const userConfig = require('./src/main/user-config')
 const Main = require('./src/main')
@@ -147,6 +148,8 @@ function openWindow () {
     // this will get destroyed during beforeQuit with main.close()
     main.startMapeoNodeIPC()
   }
+
+  createMenu(main.mapeo)
 
   // Start map printer
   // this will get destroyed on app.exit()
