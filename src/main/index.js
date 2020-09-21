@@ -18,6 +18,9 @@ class Main extends events.EventEmitter {
 
     this.mapeo = new rabbit.Client()
     this.mapPrinter = new rabbit.Client()
+    this.pid.on('close', (err) => {
+      if (err) this.emit('error', err)
+    })
 
     this.pid.cleanup((err) => {
       if (err) logger.debug('No stale processes to clean up')
@@ -91,7 +94,7 @@ class Main extends events.EventEmitter {
       })
     }
 
-    logger.info('pid process', this.pid.process)
+    logger.info('process?', !!this.pid.process)
     if (!this.pid.process) return _close()
 
     this.mapeo.send('get-replicating-peers', null, (err, length) => {

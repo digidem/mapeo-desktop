@@ -2,11 +2,13 @@ const path = require('path')
 const fs = require('fs')
 const terminate = require('terminate')
 const { fork } = require('child_process')
+const events = require('events')
 
 const logger = require('./logger')
 
-class Worker {
+class Worker extends events.EventEmitter {
   constructor (userDataPath) {
+    super()
     this.userDataPath = userDataPath
     this.loc = path.join(userDataPath, 'pid')
     this.process = null
@@ -23,13 +25,12 @@ class Worker {
         this.userDataPath
       ])
 
-      this.process.on('error', () => {
-        logger.error('Node process error', err)
-        this.error = err
+      this.process.on('error', (err) => {
+        if (this.process) this.emit('close', err)
         this.process = null
       })
       this.process.on('exit', (code) => {
-        logger.debug('Node process exited with code', code)
+        if (this.process) this.emit('close', null, code)
         this.process = null
       })
       return cb(null, process)

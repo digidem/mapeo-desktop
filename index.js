@@ -67,6 +67,7 @@ app.on('before-quit', (e) => {
 var win = null
 var splash = null
 var mainWindowState = null
+var main = null
 
 // Ensure only one instance can be open at a time
 var gotTheLock = app.requestSingleInstanceLock()
@@ -93,19 +94,22 @@ if (!logger.configured) {
 }
 
 // Set up Electron main process manager
-const main = new Main({
-  userDataPath,
-  isDev
-})
+app.once('ready', () => {
+  logger.info('ready')
+  main = new Main({
+    userDataPath,
+    isDev
+  })
 
-main.on('error', function (err) {
-  logger.error('background', err)
-  electron.dialog.showErrorBox('Error', err)
-})
+  main.on('error', function (err) {
+    logger.error('background', err)
+    electron.dialog.showErrorBox('Error', err)
+  })
 
-main.on('ready', () => {
-  if (argv.headless) startSequence()
-  else app.once('ready', openWindow)
+  main.on('ready', function () {
+    if (argv.headless) startSequence()
+    else openWindow()
+  })
 })
 
 // First, open the Electron 'splash' AKA loading window with animation
@@ -202,7 +206,7 @@ function initDirectories (done) {
   mkdirp.sync(argv.datadir)
 
   styles.unpackIfNew(userDataPath, function (err, newSettings) {
-    if (err) logger.error('[ERROR] while unpacking styles:', err)
+    if (err) logger.error('Error while unpacking styles:', err)
     var fallbackSettingsLocation = path.join(userDataPath, 'presets', styles.FALLBACK_DIR_NAME)
     if (newSettings) userConfig.copyFallbackSettings(fallbackSettingsLocation, cleanupPermissions)
     else cleanupPermissions()
@@ -323,9 +327,10 @@ function createWindow (socketName) {
   })
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
     if (errorDescription === 'ERR_INTERNET_DISCONNECTED' || errorDescription === 'ERR_PROXY_CONNECTION_FAILED') {
-      logger.log(errorDescription)
+      logger.log('Failed to load web contents', errorDescription)
+    } else {
+      logger.error(errorDescription)
     }
-    logger.error(errorDescription)
   })
   mainWindow.loadURL(INDEX)
   return mainWindow
@@ -358,11 +363,14 @@ function beforeQuit () {
   // 'close' event will gracefully close databases and wait for pending sync
   logger.debug('Closing IPC')
 
-  const close = showClosingWindow()
-  try { win.close() } catch (e) {}
-  try { splash.close() } catch (e) {}
+  let close = null
+  setTimeout(() => {
+    close = showClosingWindow()
+    try { win.close() } catch (e) {}
+    try { splash.close() } catch (e) {}
+  }, 300)
   main.close(() => {
-    close()
+    if (close) close()
     app.exit()
   })
 }
