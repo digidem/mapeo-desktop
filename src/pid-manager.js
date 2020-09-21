@@ -9,9 +9,11 @@ class Worker {
   constructor (userDataPath) {
     this.userDataPath = userDataPath
     this.loc = path.join(userDataPath, 'pid')
+    this.process = null
   }
 
   create ({socketName, filepath}, cb) {
+    logger.debug('Creating subprocess', socketName, filepath)
     this.cleanup((err) => {
       if (err) logger.debug('Not fatal', err)
       logger.debug('Starting background process')
@@ -20,7 +22,17 @@ class Worker {
         socketName,
         this.userDataPath
       ])
-      return cb(null, this.process)
+
+      this.process.on('error', () => {
+        logger.error('Node process error', err)
+        this.error = err
+        this.process = null
+      })
+      this.process.on('exit', (code) => {
+        logger.debug('Node process exited with code', code)
+        this.process = null
+      })
+      return cb(null, process)
     })
   }
 
@@ -35,7 +47,7 @@ class Worker {
   pid (cb) {
     // Write the current pid of this process to the pid file.
     var done = () => {
-      logger.info('writing pid', process.pid)
+      logger.debug('writing pid', process.pid)
       fs.writeFile(this.loc, process.pid.toString(), cb)
     }
     if (this._exists()) this.cleanup(done)

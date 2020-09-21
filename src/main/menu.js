@@ -1,10 +1,10 @@
 const { shell, dialog, app, Menu } = require('electron')
 
-const userConfig = require('./user-config')
 const updater = require('./auto-updater')
 const i18n = require('./i18n')
 const logger = require('../logger')
 const config = require('../../config')
+const userConfig = require('./user-config')
 
 const t = i18n.t
 

@@ -19,13 +19,17 @@ class Main extends events.EventEmitter {
     this.mapeo = new rabbit.Client()
     this.mapPrinter = new rabbit.Client()
 
-    this._findSocket('mapeo', (socket) => {
-      this.mapeoSocket = socket
-      if (this.mapPrinterSocket) this._ready()
-    })
-    this._findSocket('mapPrinter', (socket) => {
-      this.mapPrinterSocket = socket
-      if (this.mapeoSocket) this._ready()
+    this.pid.cleanup((err) => {
+      if (err) logger.debug('No stale processes to clean up')
+      else logger.debug('Successfully removed any stale processes')
+      this._findSocket('mapeo', (socket) => {
+        this.mapeoSocket = socket
+        if (this.mapPrinterSocket) this._ready()
+      })
+      this._findSocket('mapPrinter', (socket) => {
+        this.mapPrinterSocket = socket
+        if (this.mapeoSocket) this._ready()
+      })
     })
   }
 
@@ -54,49 +58,48 @@ class Main extends events.EventEmitter {
     if (!this.connected) this._connect()
     this.pid.create({
       socketName: this.mapeoSocket,
-      filepath: path.join(__dirname, 'background', 'mapeo-core', 'index.js')
+      filepath: path.join(__dirname, '..', 'background', 'mapeo-core', 'index.js')
     }, (err, process) => {
       if (err) logger.error('Failed to start Mapeo Core', err)
-      throw new Error('Failed to start Mapeo Core')
     })
   }
 
   startMapeoHTTPServers (opts, cb) {
     if (!this.connected) this._connect()
-    this.pid.cleanup((err) => {
-      if (err) logger.debug('No stale processes to clean up')
-      else logger.debug('Successfully removed any stale processes')
-      logger.debug('waiting for mapeo listen')
-      this.mapeo.send('listen', opts, (err, osmServerPort) => {
+    logger.debug('waiting for mapeo listen')
+    this.mapeo.send('listen', opts, (err, osmServerPort) => {
+      if (err) return cb(err)
+      logger.debug('got osmServerPort', osmServerPort)
+      this.mapPrinter.send('listen', opts, (err, mapPrinterPort) => {
         if (err) return cb(err)
-        logger.debug('got osmServerPort', osmServerPort)
-        this.mapPrinter.send('listen', opts, (err, mapPrinterPort) => {
-          if (err) return cb(err)
-          logger.debug('got mapPrinterPort', osmServerPort)
-          return cb(null, { osmServerPort, mapPrinterPort })
-        })
+        logger.debug('got mapPrinterPort', osmServerPort)
+        return cb(null, { osmServerPort, mapPrinterPort })
       })
     })
   }
 
   close (cb) {
+    var _close = () => {
+      this.pid.cleanup((err) => {
+        if (err) {
+          this.isDev
+            ? logger.debug('Nothing to clean up')
+            : logger.error('Failed to clean up a child process', err)
+        }
+        logger.debug('Successfully removed any stale processes')
+        cb()
+      })
+    }
+
+    logger.info('pid process', this.pid.process)
+    if (!this.pid.process) return _close()
+
     this.mapeo.send('get-replicating-peers', null, (err, length) => {
       if (err) logger.error('get-replicating-peers on close', err)
 
-      this.mapPrinter.send('close', null, () => {
-        this.mapeo.send('close', null, () => {
-          logger.debug('IPC closed')
-
-          this.pid.cleanup((err) => {
-            if (err) {
-              this.isDev
-                ? logger.debug('Nothing to clean up')
-                : logger.error('Failed to clean up a child process', err)
-            }
-            logger.debug('Successfully removed any stale processes')
-            cb()
-          })
-        })
+      this.mapeo.send('close', null, () => {
+        logger.debug('IPC closed')
+        _close()
       })
     })
   }
