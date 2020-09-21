@@ -1,4 +1,3 @@
-import { remote } from 'electron'
 import 'core-js/es/reflect'
 import ky from 'ky/umd'
 import logger from '../logger'
