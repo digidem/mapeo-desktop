@@ -67,6 +67,7 @@ const config = {
 
 const files = [
   'index.js',
+  'config.js',
   // include everything under static
   'static/**/*',
   // include all translations
