@@ -5,13 +5,13 @@ Some steps to follow before tagging a release, to ensure that the core features 
 
 1. Prepare computer: Archive old database with date and descriptive name (you may want to include the version number of MAPEO Desktop if you want to guarantee access later) 
 2. Delete older versions of application and system folder for Mapeo Desktop from computer
-3. Download the release of MAPEO Desktop that required testing from [https://github.com/digidem/mapeo-desktop/releases](https://github.com/digidem/mapeo-desktop/releases)
+3. Download a production build of MAPEO Desktop
 4. Install appropriate version of MAPEO for your system
     - Mac: Open .dmg and drag MAPEO icon to Application folder
     - Windows: Open .exe and follow prompts
     - Linux:
-5. Install Offline Basemap (optional)
-6. Install Presets/Categories (optional)
+5. Install Offline Basemap 
+6. Install Presets/Categories 
 
 ## WiFi Sync
 
