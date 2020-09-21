@@ -8,7 +8,7 @@ const createOsmDbOrig = require('kappa-osm')
 const kappa = require('kappa-core')
 const raf = require('random-access-file')
 
-const logger = require('../logger')
+const logger = require('../../logger')
 const TileImporter = require('./tile-importer')
 const installStatsIndex = require('./osm-stats')
 

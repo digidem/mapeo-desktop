@@ -48,7 +48,9 @@ const App = () => {
   React.useEffect(() => {
     ipcRenderer.once('back-end-ready', () => {
       api.setBaseUrl('http://' + remote.getGlobal('osmServerHost') + '/')
+      api.setMapUrl('http://' + remote.getGlobal('mapPrinterHost') + '/')
       console.log(remote.getGlobal('osmServerHost'))
+      console.log(remote.getGlobal('mapPrinterHost'))
       setReady(true)
     })
   }, [])

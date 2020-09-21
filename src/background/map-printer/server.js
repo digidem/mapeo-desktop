@@ -2,8 +2,8 @@ const Router = require('routes')
 const HiddenMapbox = require('hidden-mapbox')
 const { default: PQ } = require('p-queue')
 
-const config = require('../../config')
-const logger = require('../logger')
+const config = require('../../../config')
+const logger = require('../../logger')
 
 const CONCURRENCY = 4
 const queue = new PQ({ concurency: CONCURRENCY })

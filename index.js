@@ -8,37 +8,47 @@ const debug = require('electron-debug')
 const mkdirp = require('mkdirp')
 const series = require('run-series')
 const styles = require('mapeo-styles')
-const rabbit = require('electron-rabbit')
 const chmod = require('chela').mod
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+const createMenu = require('./src/main/menu')
 const updater = require('./src/main/auto-updater')
 const userConfig = require('./src/main/user-config')
-const Worker = require('./src/worker')
+const Main = require('./src/main')
 const logger = require('./src/logger')
 const electronIpc = require('./src/main/ipc')
-const createMenu = require('./src/main/menu')
 const windowStateKeeper = require('./src/main/window-state')
 
 // Path to `userData`, operating system specific, see
 // https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
 var userDataPath = app.getPath('userData')
-var worker = new Worker(userDataPath)
 
 // HACK: enable GPU graphics acceleration on some older laptops
 app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true')
 app.commandLine.appendSwitch('ignore-certificate-errors')
 
+// Command line arguments
+var argv = minimist(process.argv.slice(2), {
+  default: {
+    port: 5000,
+    datadir: path.join(userDataPath, 'kappa.db'),
+    tileport: 5005,
+    mapPrinterPort: 5010
+  },
+  boolean: ['headless', 'debug'],
+  alias: {
+    p: 'port',
+    t: 'tileport',
+    d: 'debug'
+  }
+})
+
 // Setup some handy dev tools shortcuts (only activates in dev mode)
 // See https://github.com/sindresorhus/electron-debug
 debug({ showDevTools: false })
 
-// Handle uncaught errors
-// XXX(KM): why aren't we enabling this?
-// catchErrors({ onError: handleError })
-//
 var exiting = false
 
 // Before we do anything, let's make sure we're ready to gracefully shut down
@@ -47,15 +57,19 @@ const signalExit = require('signal-exit')
 onExit.captureExit()
 onExit.onExit(beforeQuit)
 signalExit(beforeQuit, { alwaysLast: true })
+app.on('before-quit', (e) => {
+  // Cancel quit and wait for server to close
+  if (e) e.preventDefault()
+  beforeQuit()
+})
 
+// Window Management
 var win = null
 var splash = null
-var bg = null
 var mainWindowState = null
-var ipc = new rabbit.Client()
 
+// Ensure only one instance can be open at a time
 var gotTheLock = app.requestSingleInstanceLock()
-
 if (!gotTheLock) {
   // Didn't get a lock, because another instance is open, so we quit
   process.exit(0)
@@ -69,6 +83,7 @@ if (!gotTheLock) {
   })
 }
 
+// Configure the logger before we do anything
 if (!logger.configured) {
   logger.configure({
     label: 'main',
@@ -77,51 +92,34 @@ if (!logger.configured) {
   })
 }
 
-var argv = minimist(process.argv.slice(2), {
-  default: {
-    port: 5000,
-    datadir: path.join(userDataPath, 'kappa.db'),
-    tileport: 5005
-  },
-  boolean: ['headless', 'debug'],
-  alias: {
-    p: 'port',
-    t: 'tileport',
-    d: 'debug'
-  }
+// Set up Electron main process manager
+const main = new Main({
+  userDataPath,
+  isDev
 })
 
-var _socketName
+main.on('error', function (err) {
+  logger.error('background', err)
+  electron.dialog.showErrorBox('Error', err)
+})
 
-rabbit.findOpenSocket('mapeo').then((socketName) => {
-  logger.debug('got socket', socketName)
-  _socketName = socketName
+main.on('ready', () => {
   if (argv.headless) startSequence()
   else app.once('ready', openWindow)
-}).catch((err) => {
-  logger.error(err)
-  throw new Error('No socket found!', err)
 })
 
-app.on('before-quit', (e) => {
-  // Cancel quit and wait for server to close
-  if (e) e.preventDefault()
-  beforeQuit()
-})
-app.on('window-all-closed', function () {
-  app.quit()
-})
-
+// First, open the Electron 'splash' AKA loading window with animation
 function openWindow () {
-  ipc.on('error', function (err) {
-    logger.error('ipc', err)
-    electron.dialog.showErrorBox('Error', err)
-  })
-  ipc.connect(_socketName)
-
   if (!win) {
-    win = createWindow(_socketName)
+    win = createWindow(main.mapeoSocket)
+    // Emitted when the window is closed
+    win.on('closed', function (e) {
+      win = null
+    })
     splash = createSplashWindow()
+    splash.on('closed', () => {
+      splash = null
+    })
   }
 
   if (isDev) {
@@ -137,23 +135,37 @@ function openWindow () {
       .then(name => logger.debug(`Added Extension:  ${name}`))
       .catch(err => logger.error('Failed to add extension', err))
   }
-  bg = createBgWindow(_socketName)
-  createMenu(ipc)
 
-  // Emitted when the window is closed.
-  win.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-    splash = null
-    bg = null
-    app.quit()
+  // Start Mapeo core
+  // In dev mode, we use an electron background window
+  // for the mapeo core process so we can use the chrome debugger
+  // In production, mapeo core should always be in a node process
+  if (isDev) {
+    // this will get destroyed on app.exit()
+    var BG = 'file://' + path.join(__dirname, './src/background/mapeo-core/index.html')
+    createBgWindow(main.mapeoSocket, BG)
+  } else {
+    // this will get destroyed during beforeQuit with main.close()
+    main.startMapeoNodeIPC()
+  }
+
+  createMenu(main.mapeo)
+
+  // Start map printer
+  // this will get destroyed on app.exit()
+  var BG2 = 'file://' + path.join(__dirname, './src/background/map-printer/index.html')
+  createBgWindow(main.mapPrinterSocket, BG2)
+
+  // Emitted **before** the window is closed
+  win.on('close', function (e) {
+    beforeQuit()
   })
 
+  // Start sequence
   startSequence()
 }
 
+// Some convenience function for logging
 function startupMsg (txt) {
   return function (done) {
     logger.debug('[STARTUP] ' + txt)
@@ -208,6 +220,7 @@ function initDirectories (done) {
 }
 
 function createServers (done) {
+  // Set up Electron IPC bridge with frontend in electron-renderer process
   function ipcSend (...args) {
     try {
       if (win && win.webContents) win.webContents.send.apply(win.webContents, args)
@@ -215,30 +228,30 @@ function createServers (done) {
       logger.error('exception win.webContents.send', args, e.stack)
     }
   }
-
   electronIpc(ipcSend)
 
+  // Start Mapeo HTTP Servers
   logger.info('initializing mapeo', userDataPath, argv.port)
   var opts = {
     userDataPath,
     datadir: argv.datadir,
     port: argv.port,
-    tileport: argv.tileport
+    tileport: argv.tileport,
+    mapPrinter: argv.mapPrinterPort
   }
 
-  worker.cleanup((err) => {
-    if (err) logger.debug('No stale processes to clean up')
-    else logger.debug('Successfully removed any stale processes')
-
-    ipc.send('listen', opts, function (err, port) {
-      if (err) throw new Error('fatal: could not get port', err)
-      global.osmServerHost = '127.0.0.1:' + port
-      logger.info('Server listening:', global.osmServerHost)
-      done()
-    })
+  main.startMapeoHTTPServers(opts, function (err, ports) {
+    if (err) throw new Error('fatal: could not get port', err)
+    global.osmServerHost = '127.0.0.1:' + ports.osmServerPort
+    global.mapPrinterHost = '127.0.0.1:' + ports.mapPrinterPort
+    logger.info('Server listening:', global.osmServerHost, global.mapPrinterHost)
+    done()
   })
 }
 
+// Wait for in-app window contents to finish loading
+// and server to finish starting before closing Loading splash screen
+// and showing the window
 function notifyReady (done) {
   logger.info('Server ready, checking front-end is loaded')
   // If the window is still loading, wait for it to finish before continuing
@@ -251,7 +264,7 @@ function notifyReady (done) {
     })
     return
   }
-  logger.info('Front-end loaded, close loading screen and open main window')
+
   var IS_TEST = process.env.NODE_ENV === 'test'
   if (IS_TEST) win.setSize(1000, 800, false)
   if (argv.debug) win.webContents.openDevTools()
@@ -259,13 +272,15 @@ function notifyReady (done) {
   // TODO: Send host and port here too, rather than via global
   win.webContents.send('back-end-ready')
   win.maximize()
-  splash.destroy()
+  splash.close()
   win.show()
+  // Start checking for in-app updates
   updater.periodicUpdates()
   done()
 }
 
 function createWindow (socketName) {
+  if (!socketName) throw new Error('socketName required')
   var APP_NAME = app.getName()
   var INDEX = 'file://' + path.join(__dirname, './static/main.html')
   mainWindowState = windowStateKeeper({
@@ -299,7 +314,7 @@ function createWindow (socketName) {
     // the user refreshes the main window. On window refresh the notifyReady()
     // function will not run, so we use `global.osmServerHost` to check whether
     // the server is ready, and notify the front-end if it is
-    if (global.osmServerHost) {
+    if (global.osmServerHost && global.mapPrinterHost) {
       logger.info('Server is ready, inform front-end')
       mainWindow.webContents.send('back-end-ready')
     } else {
@@ -314,38 +329,6 @@ function createWindow (socketName) {
   })
   mainWindow.loadURL(INDEX)
   return mainWindow
-}
-
-// Create a hidden background window
-function createBgWindow (socketName) {
-  logger.debug('loading electron background window')
-  var bgWindow = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: 700,
-    height: 700,
-    show: argv.debug,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
-  var BG = 'file://' + path.join(__dirname, './src/background/background.html')
-  bgWindow.loadURL(BG)
-  bgWindow.webContents.on('did-finish-load', () => {
-    if (argv.debug) bg.webContents.openDevTools()
-    if (bgWindow && bgWindow.webContents) {
-      bgWindow.webContents.send('configure', {
-        socketName,
-        userDataPath,
-        isDev
-      })
-    }
-  })
-  bgWindow.on('closed', () => {
-    logger.info('Background window closed')
-    app.quit()
-  })
-  return bgWindow
 }
 
 function createSplashWindow () {
@@ -369,8 +352,58 @@ contextMenu({
   showInspectElement: isDev
 })
 
+function beforeQuit () {
+  if (exiting) return
+  exiting = true
+  // 'close' event will gracefully close databases and wait for pending sync
+  logger.debug('Closing IPC')
+
+  const close = showClosingWindow()
+  try { win.close() } catch (e) {}
+  try { splash.close() } catch (e) {}
+  main.close(() => {
+    close()
+    app.exit()
+  })
+}
+
+// Only enabled in DEV mode.
+// Create a hidden background window for Mapeo Core
+function createBgWindow (socketName, filename) {
+  if (!socketName) throw new Error('socketName required')
+  logger.debug('loading mapeo core background window')
+  var bgWindow = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: 700,
+    height: 700,
+    show: argv.debug,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+  bgWindow.loadURL(filename)
+  bgWindow.webContents.on('did-finish-load', () => {
+    if (argv.debug) bgWindow.webContents.openDevTools()
+    if (bgWindow && bgWindow.webContents) {
+      bgWindow.webContents.send('configure', {
+        socketName,
+        userDataPath,
+        isDev
+      })
+    }
+  })
+  bgWindow.on('closed', () => {
+    logger.info('Background window closed')
+    bgWindow = null
+    beforeQuit()
+  })
+
+  return bgWindow
+}
+
 function showClosingWindow () {
-  var CLOSING = 'file://' + path.join(__dirname, './closing.html')
+  var CLOSING = 'file://' + path.join(__dirname, './static/closing.html')
   var closingWin = new BrowserWindow({
     width: 600,
     height: 400,
@@ -388,30 +421,4 @@ function showClosingWindow () {
     try { closingWin.close() } catch (e) {}
     closingWin = null
   }
-}
-
-function beforeQuit () {
-  if (exiting) return
-  exiting = true
-  // 'close' event will gracefully close databases and wait for pending sync
-  logger.debug('Closing IPC')
-
-  ipc.send('get-replicating-peers', null, (err, length) => {
-    if (err) logger.error('get-replicating-peers on close', err)
-
-    let closeClosingWindow = () => {}
-    if (length) closeClosingWindow = showClosingWindow()
-
-    ipc.send('close', null, () => {
-      logger.debug('IPC closed')
-
-      worker.cleanup((err) => {
-        if (err) !isDev ? logger.error('Failed to clean up a child process', err) : logger.debug('Nothing to clean up')
-        logger.debug('Successfully removed any stale processes')
-
-        closeClosingWindow()
-        app.exit()
-      })
-    })
-  })
 }
