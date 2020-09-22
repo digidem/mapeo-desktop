@@ -17,7 +17,7 @@ class Worker extends events.EventEmitter {
   create ({socketName, filepath}, cb) {
     logger.debug('Creating subprocess', socketName, filepath)
     this.cleanup((err) => {
-      if (err) logger.debug('Not fatal', err)
+      if (err) logger.error(err)
       logger.debug('Starting background process')
       this.process = fork(filepath, [
         '--subprocess',
@@ -62,11 +62,10 @@ class Worker extends events.EventEmitter {
   cleanup (cb) {
     if (this.process) this.process.kill()
     this.process = null
-    if (!this._exists()) return cb(new Error('Nothing to clean up!'))
+    if (!this._exists()) return cb()
     var pid = this.read()
     logger.info('Terminating PID', pid)
     terminate(pid, (err) => {
-      if (err) logger.error(err)
       if (err && err.code !== 'ESRCH') return cb(err)
       this._remove(cb)
     })
