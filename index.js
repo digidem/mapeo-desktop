@@ -238,10 +238,10 @@ function createServers (done) {
     mapPrinter: argv.mapPrinterPort
   }
 
-  main.startMapeoHTTPServers(opts, function (err, ports) {
+  main.startMapeoHTTPServers(opts, function (err) {
     if (err) throw new Error('fatal: could not get port', err)
-    global.osmServerHost = '127.0.0.1:' + ports.osmServerPort
-    global.mapPrinterHost = '127.0.0.1:' + ports.mapPrinterPort
+    global.osmServerHost = '127.0.0.1:' + opts.port
+    global.mapPrinterHost = '127.0.0.1:' + opts.mapPrinter
     logger.info('Server listening:', global.osmServerHost, global.mapPrinterHost)
     done()
   })

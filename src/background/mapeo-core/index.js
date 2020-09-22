@@ -29,14 +29,14 @@ class MapeoManager {
       }
       this.server.listen(this.opts.port, '127.0.0.1', () => {
         logger.info('osm-p2p-server listening on :', this.server.address().port)
-        if (--pending === 0) cb(this.server.address().port)
+        if (--pending === 0) cb()
       })
     })
 
     this.tileServer = createTileServer(this.opts.userDataPath)
     this.tileServer.listen(this.opts.tileport, () => {
       logger.info('Tile server listening on :', this.tileServer.address().port)
-      if (--pending === 0) cb(this.server.address().port)
+      if (--pending === 0) cb()
     })
   }
 

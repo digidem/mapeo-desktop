@@ -70,13 +70,11 @@ class Main extends events.EventEmitter {
   startMapeoHTTPServers (opts, cb) {
     if (!this.connected) this._connect()
     logger.debug('waiting for mapeo listen')
-    this.mapeo.send('listen', opts, (err, osmServerPort) => {
+    this.mapeo.send('listen', opts, (err) => {
       if (err) return cb(err)
-      logger.debug('got osmServerPort', osmServerPort)
-      this.mapPrinter.send('listen', opts, (err, mapPrinterPort) => {
+      this.mapPrinter.send('listen', opts, (err) => {
         if (err) return cb(err)
-        logger.debug('got mapPrinterPort', osmServerPort)
-        return cb(null, { osmServerPort, mapPrinterPort })
+        return cb()
       })
     })
   }
