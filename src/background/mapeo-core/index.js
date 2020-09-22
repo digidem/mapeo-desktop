@@ -75,19 +75,23 @@ class MapeoManager {
 
   close (cb) {
     if (!this.mapeo) return cb()
-    this.mapeo.close((err) => {
-      if (err) return cb(err)
-      this.mapeo = null
-      this.server.close((err) => {
+    try {
+      this.mapeo.close((err) => {
         if (err) return cb(err)
-        this.server = null
-        this.tileServer.close((err) => {
+        this.mapeo = null
+        this.server.close((err) => {
           if (err) return cb(err)
-          this.tileServer = null
-          cb()
+          this.server = null
+          this.tileServer.close((err) => {
+            if (err) return cb(err)
+            this.tileServer = null
+            cb()
+          })
         })
       })
-    })
+    } catch (err) {
+      return cb(err)
+    }
   }
 }
 
