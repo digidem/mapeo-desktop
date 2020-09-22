@@ -95,11 +95,9 @@ class Main extends events.EventEmitter {
     logger.info('process?', !!this.pid.process)
     if (!this.pid.process) return _close()
 
-    this.mapPrinter.send('close', null, () => {
-      this.mapeo.send('close', null, () => {
-        logger.debug('IPC closed')
-        _close()
-      })
+    this.mapeo.send('close', null, () => {
+      logger.debug('IPC closed')
+      _close()
     })
   }
 }
