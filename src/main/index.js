@@ -97,9 +97,7 @@ class Main extends events.EventEmitter {
     logger.info('process?', !!this.pid.process)
     if (!this.pid.process) return _close()
 
-    this.mapeo.send('get-replicating-peers', null, (err, length) => {
-      if (err) logger.error('get-replicating-peers on close', err)
-
+    this.mapPrinter.send('close', null, () => {
       this.mapeo.send('close', null, () => {
         logger.debug('IPC closed')
         _close()

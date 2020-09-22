@@ -202,7 +202,7 @@
     "dependency-check": "^3.4.1",
     "electron": "^9.1.2",
     "electron-builder": "^22.2.0",
-    "electron-devtools-installer": "^2.2.4",
+    "electron-devtools-installer": "^3.1.1",
     "electron-notarize": "^1.0.0",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.11.0",

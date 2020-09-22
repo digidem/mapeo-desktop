@@ -67,7 +67,13 @@ app.on('before-quit', (e) => {
 var win = null
 var splash = null
 var mainWindowState = null
-var main = null
+var didFinishLoad = false
+
+// Set up Electron main process manager
+const main = new Main({
+  userDataPath,
+  isDev
+})
 
 // Ensure only one instance can be open at a time
 var gotTheLock = app.requestSingleInstanceLock()
@@ -93,36 +99,29 @@ if (!logger.configured) {
   })
 }
 
-// Set up Electron main process manager
-app.once('ready', () => {
-  logger.info('ready')
-  main = new Main({
-    userDataPath,
-    isDev
-  })
+main.on('error', function (err) {
+  logger.error('background', err)
+  electron.dialog.showErrorBox('Error', err)
+})
 
-  main.on('error', function (err) {
-    logger.error('background', err)
-    electron.dialog.showErrorBox('Error', err)
-  })
-
-  main.on('ready', function () {
-    if (argv.headless) startSequence()
-    else openWindow()
-  })
+main.on('ready', function () {
+  if (argv.headless) startSequence()
+  else app.whenReady().then(openWindow)
 })
 
 // First, open the Electron 'splash' AKA loading window with animation
 function openWindow () {
+  logger.info('openWindow')
   if (!win) {
     win = createWindow(main.mapeoSocket)
     // Emitted when the window is closed
     win.on('closed', function (e) {
-      win = null
+      beforeQuit()
     })
+
     splash = createSplashWindow()
     splash.on('closed', () => {
-      splash = null
+      beforeQuit()
     })
   }
 
@@ -159,11 +158,6 @@ function openWindow () {
   // this will get destroyed on app.exit()
   var BG2 = 'file://' + path.join(__dirname, './src/background/map-printer/index.html')
   createBgWindow(main.mapPrinterSocket, BG2)
-
-  // Emitted **before** the window is closed
-  win.on('close', function (e) {
-    beforeQuit()
-  })
 
   // Start sequence
   startSequence()
@@ -260,10 +254,10 @@ function notifyReady (done) {
   logger.info('Server ready, checking front-end is loaded')
   // If the window is still loading, wait for it to finish before continuing
   // win.webContents.isLoading() does not seem to work here on Windows
-  if (!win._didFinishLoad) {
+  if (!didFinishLoad) {
     logger.info('Front-end still loading, check again once loaded')
     win.webContents.once('did-finish-load', () => {
-      win._didFinishLoad = true
+      didFinishLoad = true
       notifyReady(done)
     })
     return
@@ -275,9 +269,11 @@ function notifyReady (done) {
   // notify renderer that server is ready
   // TODO: Send host and port here too, rather than via global
   win.webContents.send('back-end-ready')
-  win.maximize()
-  splash.close()
-  win.show()
+  try {
+    win.maximize()
+    splash.hide()
+    win.show()
+  } catch (err) {}
   // Start checking for in-app updates
   updater.periodicUpdates()
   done()
@@ -310,7 +306,7 @@ function createWindow (socketName) {
 
   mainWindow.webContents.on('did-finish-load', () => {
     logger.info('Front-end has finished loading')
-    mainWindow._didFinishLoad = true
+    didFinishLoad = true
     if (process.env.NODE_ENV === 'test') mainWindow.setSize(1000, 800, false)
     if (argv.debug) mainWindow.webContents.openDevTools()
     mainWindow.webContents.send('set-socket', { name: socketName })
@@ -368,6 +364,8 @@ function beforeQuit () {
     close = showClosingWindow()
     try { win.close() } catch (e) {}
     try { splash.close() } catch (e) {}
+    splash = null
+    win = null
   }, 300)
   main.close(() => {
     if (close) close()
