@@ -27,14 +27,6 @@ class Socket {
       cb()
     })
   }
-
-  on (name, listener) {
-    this.ipc.on(name, listener)
-  }
-
-  send () {
-    this.ipc.send.apply(this.ipc, arguments)
-  }
 }
 
 class Main extends events.EventEmitter {
@@ -101,7 +93,7 @@ class Main extends events.EventEmitter {
     logger.info('process?', !!this.pid.process)
     if (!this.pid.process) return _close()
 
-    this.mapeo.send('get-replicating-peers', null, (err, peers) => {
+    this.mapeo.ipc.send('get-replicating-peers', null, (err, peers) => {
       if (err) logger.error(err)
       logger.info(peers, 'peers still replicating upon close')
       // If there are peers still replicating, give Mapeo
@@ -111,7 +103,7 @@ class Main extends events.EventEmitter {
       var timeout = setTimeout(() => {
         _close()
       }, peers > 0 ? 1000 * 60 * 5 : 7000)
-      this.mapeo.send('close', null, () => {
+      this.mapeo.ipc.send('close', null, () => {
         logger.debug('IPC closed')
         clearTimeout(timeout)
         _close()

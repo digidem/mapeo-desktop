@@ -240,11 +240,11 @@ function createServers (done) {
     tileport: argv.tileport
   }
   logger.info('initializing mapeo', opts)
-  main.mapeo.send('listen', opts, function (err) {
+  main.mapeo.ipc.send('listen', opts, function (err) {
     if (err) throw new Error('mapeo-core listen failed', err)
     const mapPrinterPort = argv.mapPrinterPort
     logger.info('initializing map printer', mapPrinterPort)
-    main.mapPrinter.send('listen', mapPrinterPort, function (err) {
+    main.mapPrinter.ipc.send('listen', mapPrinterPort, function (err) {
       if (err) logger.error('MAP PRINTER FAILED', err)
       global.osmServerHost = '127.0.0.1:' + opts.port
       global.mapPrinterHost = '127.0.0.1:' + mapPrinterPort
