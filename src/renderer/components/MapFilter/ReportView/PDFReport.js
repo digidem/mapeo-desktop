@@ -15,7 +15,7 @@ import {
   Document,
   StyleSheet
 } from '@react-pdf/renderer'
-import type { Observation } from 'mapeo-schema'
+import type { Field, Observation } from 'mapeo-schema'
 
 import { FormattedFieldProp, FormattedFieldValue } from '../internal/FormattedData'
 import FormattedLocation from '../internal/FormattedLocation'
@@ -23,7 +23,6 @@ import { isEmptyValue } from '../utils/helpers'
 import { get } from '../utils/get_set'
 import type { ImageMediaItem } from '../ObservationDialog'
 import type {
-  Field,
   PresetWithAdditionalFields,
   CommonViewContentProps
 } from '../types'

@@ -86,7 +86,7 @@ function getValueLabel(
     // Look up label from field options. This is not necessary for presets
     // created with mapeo-settings-builder@^3.1.0, which will have these options
     // in the translation file, but is needed for older versions of presets
-    const options = convertSelectOptionsToLabeled(field.options);
+    const options = field.options ? convertSelectOptionsToLabeled(field.options) : []
     const matchingOption = options.find(option => option.value === value);
     if (matchingOption) return matchingOption.label;
   }

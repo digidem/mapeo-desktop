@@ -1,4 +1,7 @@
 // @flow
+
+import type { Key, SelectOptions, LabeledSelectOption } from 'mapeo-schema'
+
 export function getProp(tags: any, fieldKey: Key, defaultValue: any) {
   // TODO: support deeply nested tags.
   const shallowKey = Array.isArray(fieldKey) ? fieldKey[0] : fieldKey;
