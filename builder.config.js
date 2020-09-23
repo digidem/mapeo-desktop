@@ -76,7 +76,7 @@ const files = [
   '!static/*.map',
   // Include everything in src/ apart from src/renderer
   'src/main/**/*',
-  'src/background/**/*',
+  'src/background/**/**/*.{js,html}',
   'src/*.js',
   // but also include src/renderer/index-preload.js since this is not included
   // in the renderer bundle
@@ -117,7 +117,8 @@ module.exports = async () => {
   // Get required files for main and background process
   const { fileList } = await nodeFileTrace([
     './index.js',
-    './src/background/index.js'
+    './src/background/mapeo-core/index.js',
+    './src/background/map-printer/index.js'
   ])
 
   // List of all modules we definitely want to include
