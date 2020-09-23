@@ -51,14 +51,6 @@ class Logger {
       level: 'info'
     })
     mainLog.name = 'main'
-    mainLog.on('new', () => {
-      // if debugging is on and a new log file is created, turn it off
-      this.debugging(false)
-    })
-    mainLog.on('rotate', () => {
-      // if debugging is on during a rotate, turn it off
-      this.debugging(false)
-    })
     this.winston.add(mainLog)
 
     const errorTransport = new (DailyRotateFile)({
