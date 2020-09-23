@@ -229,21 +229,23 @@ function createServers (done) {
   electronIpc(ipcSend)
 
   // Start Mapeo HTTP Servers
-  logger.info('initializing mapeo', userDataPath, argv.port)
-  var opts = {
+  const opts = {
     userDataPath,
     datadir: argv.datadir,
     port: argv.port,
-    tileport: argv.tileport,
-    mapPrinter: argv.mapPrinterPort
+    tileport: argv.tileport
   }
-
-  main.startMapeoHTTPServers(opts, function (err) {
-    if (err) throw new Error('fatal: could not get port', err)
-    global.osmServerHost = '127.0.0.1:' + opts.port
-    global.mapPrinterHost = '127.0.0.1:' + opts.mapPrinter
-    logger.info('Server listening:', global.osmServerHost, global.mapPrinterHost)
-    done()
+  logger.info('initializing mapeo', opts)
+  main.mapeo.send('listen', opts, function (err) {
+    if (err) throw new Error('mapeo-core listen failed', err)
+    const mapPrinterPort = argv.mapPrinterPort
+    logger.info('initializing map printer', mapPrinterPort)
+    main.mapPrinter.send('listen', mapPrinterPort, function (err) {
+      if (err) logger.error('MAP PRINTER FAILED', err)
+      global.osmServerHost = '127.0.0.1:' + opts.port
+      global.mapPrinterHost = '127.0.0.1:' + mapPrinterPort
+      done()
+    })
   })
 }
 

@@ -19,14 +19,14 @@ handlers.close = async (opts) => {
   })
 }
 
-handlers.listen = async (opts) => {
+handlers.listen = async (mapPrinterPort) => {
   return new Promise((resolve, reject) => {
     server = http.createServer((req, res) => {
       mapRouter.handle(req, res)
     })
-    server.listen(opts.mapPrinterPort, () => {
-      logger.info('Map printer listening on ', opts.port)
-      resolve(server.address().port)
+    server.listen(mapPrinterPort, (err) => {
+      if (err) reject(err)
+      else resolve()
     })
   })
 }

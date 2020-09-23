@@ -128,10 +128,7 @@ handlers.close = async () => {
 handlers.listen = async (opts) => {
   if (!manager) manager = new MapeoManager(opts)
   return new Promise((resolve, reject) => {
-    manager.listen((port) => {
-      logger.info('Sync listening on ', port)
-      resolve(port)
-    })
+    manager.listen(resolve)
   })
 }
 

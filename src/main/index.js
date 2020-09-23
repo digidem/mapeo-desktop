@@ -12,7 +12,6 @@ class Main extends events.EventEmitter {
   }) {
     super()
     this.ready = false
-    this.connected = false
     this.isDev = isDev
     this.pid = new NodePIDmanager(userDataPath)
 
@@ -36,15 +35,12 @@ class Main extends events.EventEmitter {
     })
   }
 
-  _connect () {
-    this.mapPrinter.connect(this.mapPrinterSocket)
-    this.mapeo.connect(this.mapeoSocket)
-    this.connected = true
-  }
-
   _ready () {
     if (this.ready) return
     this.ready = true
+    logger.info('main ready')
+    this.mapPrinter.connect(this.mapPrinterSocket)
+    this.mapeo.connect(this.mapeoSocket)
     this.emit('ready')
   }
 
@@ -58,24 +54,11 @@ class Main extends events.EventEmitter {
   }
 
   startMapeoNodeIPC () {
-    if (!this.connected) this._connect()
     this.pid.create({
       socketName: this.mapeoSocket,
       filepath: path.join(__dirname, '..', 'background', 'mapeo-core', 'index.js')
     }, (err, process) => {
       if (err) logger.error('Failed to start Mapeo Core', err)
-    })
-  }
-
-  startMapeoHTTPServers (opts, cb) {
-    if (!this.connected) this._connect()
-    logger.debug('waiting for mapeo listen')
-    this.mapeo.send('listen', opts, (err) => {
-      if (err) return cb(err)
-      this.mapPrinter.send('listen', opts, (err) => {
-        if (err) return cb(err)
-        return cb()
-      })
     })
   }
 
@@ -95,9 +78,21 @@ class Main extends events.EventEmitter {
     logger.info('process?', !!this.pid.process)
     if (!this.pid.process) return _close()
 
-    this.mapeo.send('close', null, () => {
-      logger.debug('IPC closed')
-      _close()
+    this.mapeo.send('get-replicating-peers', null, (err, peers) => {
+      if (err) logger.error(err)
+      logger.info(peers, 'peers still replicating upon close')
+      // If there are peers still replicating, give Mapeo
+      // 5 minutes to complete replication.
+      // If no peers are replicating, give Mapeo core 3 seconds before
+      // sending the kill signal
+      var timeout = setTimeout(() => {
+        _close()
+      }, peers > 0 ? 1000 * 60 * 5 : 7000)
+      this.mapeo.send('close', null, () => {
+        logger.debug('IPC closed')
+        clearTimeout(timeout)
+        _close()
+      })
     })
   }
 }
