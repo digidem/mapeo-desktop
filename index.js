@@ -69,12 +69,6 @@ var splash = null
 var mainWindowState = null
 var didFinishLoad = false
 
-// Set up Electron main process manager
-const main = new Main({
-  userDataPath,
-  isDev
-})
-
 // Ensure only one instance can be open at a time
 var gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
@@ -99,31 +93,29 @@ if (!logger.configured) {
   })
 }
 
-main.on('error', function (err) {
-  logger.error('background', err)
-  electron.dialog.showErrorBox('Error', err)
+// Set up Electron main process manager
+const main = new Main({
+  userDataPath,
+  isDev
 })
 
-main.on('ready', function () {
-  if (argv.headless) startSequence()
-  else app.whenReady().then(openWindow)
-})
+function onError (err) {
+  logger.error(err)
+  electron.dialog.showErrorBox('Error', err)
+}
+
+main.on('error', onError)
+
+if (argv.headless) main.ready().then(startSequence())
+else app.whenReady().then(openWindow)
 
 // First, open the Electron 'splash' AKA loading window with animation
 function openWindow () {
   logger.info('openWindow')
-  if (!win) {
-    win = createWindow(main.mapeoSocket)
-    // Emitted when the window is closed
-    win.on('closed', function (e) {
-      beforeQuit()
-    })
-
-    splash = createSplashWindow()
-    splash.on('closed', () => {
-      beforeQuit()
-    })
-  }
+  splash = createSplashWindow()
+  splash.on('closed', () => {
+    beforeQuit()
+  })
 
   if (isDev) {
     // for updater to work correctly
@@ -139,28 +131,40 @@ function openWindow () {
       .catch(err => logger.error('Failed to add extension', err))
   }
 
-  // Start Mapeo core
-  // In dev mode, we use an electron background window
-  // for the mapeo core process so we can use the chrome debugger
-  // In production, mapeo core should always be in a node process
-  if (isDev) {
+  // When the main process is ready to go
+  var onMainReady = () => {
+    win = createWindow(main.mapeo.name)
+    // Emitted when the window is closed
+    win.on('closed', function (e) {
+      beforeQuit()
+    })
+
+    createMenu(main.mapeo.ipc)
+
+    // Start Mapeo core
+    // In dev mode, we use an electron background window
+    // for the mapeo core process so we can use the chrome debugger
+    // In production, mapeo core should always be in a node process
+    if (isDev) {
+      // this will get destroyed on app.exit()
+      var BG = 'file://' + path.join(__dirname, './src/background/mapeo-core/index.html')
+      createBgWindow(main.mapeo.name, BG)
+    } else {
+      // this will get destroyed during beforeQuit with main.close()
+      main.startMapeoNodeIPC()
+    }
+
+    // Start map printer
     // this will get destroyed on app.exit()
-    var BG = 'file://' + path.join(__dirname, './src/background/mapeo-core/index.html')
-    createBgWindow(main.mapeoSocket, BG)
-  } else {
-    // this will get destroyed during beforeQuit with main.close()
-    main.startMapeoNodeIPC()
+    var BG2 = 'file://' + path.join(__dirname, './src/background/map-printer/index.html')
+    createBgWindow(main.mapPrinter.name, BG2)
+
+    // Start sequence
+    startSequence()
   }
 
-  createMenu(main.mapeo)
-
-  // Start map printer
-  // this will get destroyed on app.exit()
-  var BG2 = 'file://' + path.join(__dirname, './src/background/map-printer/index.html')
-  createBgWindow(main.mapPrinterSocket, BG2)
-
-  // Start sequence
-  startSequence()
+  const mainReady = main.ready()
+  mainReady.then(onMainReady).catch(onError)
 }
 
 // Some convenience function for logging

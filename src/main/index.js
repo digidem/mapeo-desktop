@@ -5,47 +5,15 @@ const events = require('events')
 const logger = require('../logger')
 const NodePIDmanager = require('../pid-manager')
 
-class Main extends events.EventEmitter {
-  constructor ({
-    userDataPath,
-    isDev
-  }) {
-    super()
-    this.ready = false
-    this.isDev = isDev
-    this.pid = new NodePIDmanager(userDataPath)
-
-    this.mapeo = new rabbit.Client()
-    this.mapPrinter = new rabbit.Client()
-    this.pid.on('close', (err) => {
-      if (err) this.emit('error', err)
-    })
-
-    this.pid.cleanup((err) => {
-      if (err) logger.debug('No stale processes to clean up')
-      else logger.debug('Successfully removed any stale processes')
-      this._findSocket('mapeo', (socket) => {
-        this.mapeoSocket = socket
-        if (this.mapPrinterSocket) this._ready()
-      })
-      this._findSocket('mapPrinter', (socket) => {
-        this.mapPrinterSocket = socket
-        if (this.mapeoSocket) this._ready()
-      })
-    })
+class Socket {
+  constructor (socketName) {
+    this.name = socketName
+    this.ipc = new rabbit.Client()
   }
 
-  _ready () {
-    if (this.ready) return
-    this.ready = true
-    logger.info('main ready')
-    this.mapPrinter.connect(this.mapPrinterSocket)
-    this.mapeo.connect(this.mapeoSocket)
-    this.emit('ready')
-  }
-
-  _findSocket (name, cb) {
-    rabbit.findOpenSocket(name).then((socketName) => {
+  findSocket (cb) {
+    rabbit.findOpenSocket(this.name).then((socketName) => {
+      this.name = socketName
       cb(socketName)
     }).catch((err) => {
       logger.error(err)
@@ -53,9 +21,64 @@ class Main extends events.EventEmitter {
     })
   }
 
+  connectToOpenSocket (cb) {
+    this.findSocket(() => {
+      this.ipc.connect(this.name)
+      cb()
+    })
+  }
+
+  on (name, listener) {
+    this.ipc.on(name, listener)
+  }
+
+  send () {
+    this.ipc.send.apply(this.ipc, arguments)
+  }
+}
+
+class Main extends events.EventEmitter {
+  constructor ({
+    userDataPath,
+    isDev
+  }) {
+    super()
+    this.isDev = isDev
+    this.pid = new NodePIDmanager(userDataPath)
+
+    this.mapeo = new Socket('mapeo')
+    this.mapPrinter = new Socket('mapPrinter')
+    this.pid.on('close', (err) => {
+      if (err) this.emit('error', err)
+    })
+  }
+
+  ready () {
+    return new Promise((resolve, reject) => {
+      logger.info('waiting')
+      this.pid.cleanup((err) => {
+        if (err) logger.debug('No stale processes to clean up')
+        else logger.debug('Successfully removed any stale processes')
+        var pending = 2
+        this.mapeo.connectToOpenSocket(() => {
+          if (--pending === 0) _ready()
+        })
+        this.mapPrinter.connectToOpenSocket(() => {
+          if (--pending === 0) _ready()
+        })
+      })
+
+      var _ready = () => {
+        logger.info('resolve')
+        this.emit('ready')
+        resolve()
+      }
+    })
+  }
+
   startMapeoNodeIPC () {
     this.pid.create({
-      socketName: this.mapeoSocket,
+      socketName: this.mapeo.name,
       filepath: path.join(__dirname, '..', 'background', 'mapeo-core', 'index.js')
     }, (err, process) => {
       if (err) logger.error('Failed to start Mapeo Core', err)
