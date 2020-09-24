@@ -1,7 +1,11 @@
 // @flow
 import React from "react";
 import { defineMessages, useIntl } from "react-intl";
-import type { Field } from "mapeo-schema";
+import type {
+  SelectOneField,
+  SelectOptions,
+  Field
+} from "mapeo-schema";
 
 import { convertSelectOptionsToLabeled } from "../utils/fields";
 
@@ -86,7 +90,11 @@ function getValueLabel(
     // Look up label from field options. This is not necessary for presets
     // created with mapeo-settings-builder@^3.1.0, which will have these options
     // in the translation file, but is needed for older versions of presets
-    const options = field.options ? convertSelectOptionsToLabeled(field.options) : []
+
+    // SelectMultiple is just a subtype of SelectOne, so this typecast is fine.
+    const selectableField = (field: SelectOneField)
+
+    const options = field.options ? convertSelectOptionsToLabeled((selectableField.options: SelectOptions)) : []
     const matchingOption = options.find(option => option.value === value);
     if (matchingOption) return matchingOption.label;
   }

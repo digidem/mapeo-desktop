@@ -95,7 +95,7 @@ export function parseDateString (str: string): Date | void {
 }
 
 
-export function isEmptyValue (value) {
+export function isEmptyValue (value: any) {
   return (
     (typeof value === 'string' && value.length === 0) ||
     value === undefined ||
