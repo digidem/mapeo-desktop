@@ -3,13 +3,13 @@
 [![Build Status](https://github.com/digidem/mapeo-desktop/workflows/Node%20CD/badge.svg)](https://github.com/digidem/mapeo-desktop/actions)
 
 An offline map editing application for indigenous territory mapping in remote
-environments. It uses [osm-p2p](https://github.com/digidem/osm-p2p-db) for
+environments. It uses [mapeo-core](https://github.com/digidem/mapeo-core) for
 offline peer-to-peer synchronization of an OpenStreetMap database, without any
-server. The editor is based on [iDEditor](https://github.com/openstreetmap/iD/),
-a simple and easy to use editor for OpenStreetMap. The app is web app built with
+server. The map editor is based on [iDEditor](https://github.com/openstreetmap/iD/),
+a simple and easy to use editor for OpenStreetMap. The app is built with
 [Electron](http://electron.atom.io).
 
-This project is under active development and we are testing it out in the field in Ecuador.
+This project is considered stable and used by over 150 communities.
 
 ![screenshot](static/screenshot.png)
 
@@ -20,6 +20,8 @@ For a mobile application that is compatible with Mapeo Desktop, see [Mapeo Mobil
 Read the [online user guide](https://digital-democracy.gitbook.io/mapeo/) for
 information on how to install aerial imagery and tiles, custom configurations,
 and more. 
+
+![architecture](docs/desktop-architecture.png)
 
 ## Getting Started
 
@@ -51,7 +53,7 @@ tail -f USERDATA/Mapeo/logs/$DATE.debug.log
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+See [docs/CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 
 ## Community

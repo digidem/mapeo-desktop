@@ -15,9 +15,11 @@ module.exports = function (ipcSend) {
   }
 
   updater.on('error', (err) => {
-    logger.error('[UPDATER] error', err)
-    ipcSend('update-status', 'update-error', err)
-    onError(err)
+    if (err.message.match(/net*/)) logger.debug(err.message)
+    else {
+      logger.error('[UPDATER] error', err)
+      ipcSend('update-status', 'update-error', err)
+    }
   })
 
   updater.on('update-inactive', () => {
