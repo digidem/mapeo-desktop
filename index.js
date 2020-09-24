@@ -107,15 +107,19 @@ function onError (err) {
 main.on('error', onError)
 
 if (argv.headless) main.ready().then(startSequence())
-else app.whenReady().then(openWindow)
+else {
+  app.whenReady().then(() => {
+    splash = createSplashWindow()
+    splash.on('closed', () => {
+      beforeQuit()
+    })
+    splash.webContents.on('did-finish-load', openWindow)
+  })
+}
 
 // First, open the Electron 'splash' AKA loading window with animation
 function openWindow () {
   logger.info('openWindow')
-  splash = createSplashWindow()
-  splash.on('closed', () => {
-    beforeQuit()
-  })
 
   if (isDev) {
     // for updater to work correctly
