@@ -208,7 +208,7 @@ function menuTemplate (ipc) {
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-node', loc)
             })
-            ipc.send('zoom-to-data-get-centroid', 'observation', function (_, loc) {
+            ipc.send('zoom-to-data-get-centroid', 'observation', function (err, loc) {
               if (err) logger.error(err)
               logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
