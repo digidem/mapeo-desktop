@@ -82,8 +82,9 @@ function menuTemplate (ipc) {
             if (!result.filePaths || !result.filePaths.length) return
             userConfig.importSettings(result.filePaths[0], (err) => {
               if (err) return onerror(err)
-              logger.debug('[SYSTEM] Forcing window refresh')
-              ipc.send('reload-config', null, () => {
+              ipc.send('reload-config', (err) => {
+                if (err) logger.error(err)
+                logger.debug('[SYSTEM] Forcing window refresh')
                 focusedWindow.webContents.send('force-refresh-window')
               })
             })
@@ -201,12 +202,14 @@ function menuTemplate (ipc) {
         {
           label: t('menu-zoom-to-data'),
           click: function (item, focusedWindow) {
-            ipc.send('zoom-to-data-get-centroid', 'node', function (_, loc) {
+            ipc.send('zoom-to-data-get-centroid', 'node', function (err, loc) {
+              if (err) logger.error(err)
               logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-node', loc)
             })
             ipc.send('zoom-to-data-get-centroid', 'observation', function (_, loc) {
+              if (err) logger.error(err)
               logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-observation', loc)

@@ -189,7 +189,7 @@
     "@storybook/addon-links": "^5.2.1",
     "@storybook/addons": "^5.2.1",
     "@storybook/react": "^5.2.1",
-    "@zeit/node-file-trace": "^0.8.2",
+    "@vercel/nft": "^0.9.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-react-intl-auto": "^2.3.0",

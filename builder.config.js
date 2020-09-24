@@ -2,7 +2,7 @@
 const { externals } = require('./webpack.common')
 const fs = require('fs')
 const path = require('path')
-const { nodeFileTrace } = require('@zeit/node-file-trace')
+const { nodeFileTrace } = require('@vercel/nft')
 
 const config = {
   afterSign: 'bin/notarize.js',
