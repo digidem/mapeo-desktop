@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.9](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.8...v5.4.0-beta.9) (2020-09-28)
+
+
+### Bug Fixes
+
+* Prevent a bug that caused MapEditor to crash if you have no nodes after a sync. ([9edcc77](https://github.com/digidem/mapeo-desktop/commit/9edcc77))
+
+
+
 ## [5.4.0-beta.8](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.7...v5.4.0-beta.8) (2020-09-28)
 
 
