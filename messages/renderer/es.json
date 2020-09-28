@@ -257,21 +257,31 @@
     "description": "Show all fields in report view",
     "message": "Mostrar todo"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
+    "message": "Created at"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "Detalles"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
+    "message": "Location"
+  },
   "renderer.components.MapFilter.ReportView.PrintButton.print": {
     "description": "Button label to print a report",
     "message": "Imprimir"
   },
-  "renderer.components.MapFilter.ReportView.ReportView.nextPage": {
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "message": "Next"
   },
-  "renderer.components.MapFilter.ReportView.ReportView.noReport": {
+  "renderer.components.MapFilter.ReportView.ReportViewContent.noReport": {
     "description": "Displayed whilst observations and presets load",
     "message": "No observations available."
   },
-  "renderer.components.MapFilter.ReportView.ReportView.prevPage": {
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
     "message": "Previous"
   },
-  "renderer.components.MapFilter.ReportView.ReportView.previewMessage": {
+  "renderer.components.MapFilter.ReportView.ReportViewContent.previewMessage": {
     "message": "Previewing first {numPages} pages"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
