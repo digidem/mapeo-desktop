@@ -5,6 +5,7 @@ import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
 
+import logger from '../../../logger'
 import api from '../../new-api'
 import { defineMessages, useIntl } from 'react-intl'
 import ExportButton from './ExportButton'
@@ -105,7 +106,10 @@ const MapEditor = () => {
 
   const zoomToData = React.useCallback((_, loc) => {
     if (!id.current) return
-    id.current.map().centerZoomEase(loc, 14, 1000)
+    if (!loc) return
+    const map = id.current.map()
+    if (map) map.centerZoomEase(loc, 14, 1000)
+    else logger.error('Zoom failed. Could not get current iD map')
   }, [])
 
   React.useEffect(
