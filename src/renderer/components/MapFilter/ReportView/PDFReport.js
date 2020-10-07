@@ -216,12 +216,11 @@ function ObservationRHS ({ observationView }) {
   return (
     <View style={styles.columnRight}>
       {imageSrc ? (
-        <View style={styles.imageWrapper}>
+        <View style={styles.imageWrapper} wrap={false}>
           <Image
             src={imageSrc}
             key={'minimap-' + observationView.id}
             style={styles.image}
-            wrap={false}
             cache={true}
           />
           <View style={styles.marker} />
@@ -229,12 +228,11 @@ function ObservationRHS ({ observationView }) {
       ) : null}
 
       {observationView.mediaItems.map((src, i) => (
-        <View key={i} style={styles.imageWrapper}>
+        <View key={i} style={styles.imageWrapper} wrap={false}>
           <Image
             cache={true}
             src={src}
             style={styles.image}
-            wrap={false}
           />
         </View>
       ))}
