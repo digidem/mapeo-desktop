@@ -5,62 +5,105 @@ import once from 'once'
 import logger from '../logger'
 
 const concurrency = 3
+const errorsMsg =
+  'There was an error trying to export these files, so they are missing from this export:'
+const missingOriginalsMsg =
+  'The original size of these files could not be found, only preview size ' +
+  '(1,200 pixel) images are included. This can happen because the phone that ' +
+  'took the photos has only synced to other phones, and not directly to ' +
+  'Mapeo Desktop. To try fixing this, find the phone that took the photos ' +
+  'and sync it with Mapeo Desktop before exporting again.'
 
 /**
  * Create a zipfile from a collection of strings/buffers and remote files
  * (remote files will be downloaded concurrently and streamed to the zipfile)
  *
  * @param {Array} localFiles Array of files to add to the zip archive. Must have
- * properties `data` which should be a Buffer or String, and `name`
+ * properties `data` which should be a Buffer or String, and `metadataPath`
  * which is the path to the file in the zipfile. Can also include options from
  * https://github.com/thejoshwolfe/yazl#addfilerealpath-metadatapath-options
  * @param {Array} remoteFiles Array of files to add to the zip archive. Must
- * have properties `url` and `name` which is the path to the file in the
- * zipfile. Can also include options from
+ * have properties `url` and `metadataPath` which is the path to the file in the
+ * zipfile. Can also include `fallbackUrl` which will be tried if `url` fails
+ * with an error, and any options from
  * https://github.com/thejoshwolfe/yazl#addfilerealpath-metadatapath-options
  * @returns {ReadableStream} readableStream of zipfile data
  */
 export default function createZip (localFiles, remoteFiles) {
   const zipfile = new yazl.ZipFile()
-  const missing = []
+  const errors = []
+  const missingOriginals = []
 
   localFiles.forEach(({ data, metadataPath, ...options }) => {
     if (typeof data === 'string') data = Buffer.from(data)
     zipfile.addBuffer(data, metadataPath, options)
   })
 
-  const tasks = remoteFiles.map(({ url, metadataPath, ...options }) => cb => {
-    cb = once(cb)
-    const start = Date.now()
-    logger.debug('Requesting', url)
-    // I tried doing this by adding streams to the zipfile, but it's really hard
-    // to catch errors when trying to download an image, so you end up with
-    // corrupt files in the zip. This uses a bit more memory, but images are
-    // only added once they have downloaded correctly
-    ky.get(url)
-      .arrayBuffer()
-      .then(arrBuf => {
-        logger.debug('Req end in ' + (Date.now() - start) + 'ms ' + metadataPath)
-        zipfile.addBuffer(Buffer.from(arrBuf), metadataPath, {
-          ...options,
-          store: true
+  const tasks = remoteFiles.map(f => downloadTask(f))
+
+  function downloadTask (
+    { url, metadataPath, fallbackUrl, ...options },
+    isFallback
+  ) {
+    return function (cb) {
+      cb = once(cb)
+      const start = Date.now()
+      logger.debug('Requesting', url)
+      // I tried doing this by adding streams to the zipfile, but it's really hard
+      // to catch errors when trying to download an image, so you end up with
+      // corrupt files in the zip. This uses a bit more memory, but images are
+      // only added once they have downloaded correctly
+      ky.get(url)
+        .arrayBuffer()
+        .then(arrBuf => {
+          if (isFallback) missingOriginals.push(metadataPath)
+          logger.debug(
+            'Req end in ' + (Date.now() - start) + 'ms ' + metadataPath
+          )
+          zipfile.addBuffer(Buffer.from(arrBuf), metadataPath, {
+            ...options,
+            store: true
+          })
+          cb()
         })
-        cb()
-      })
-      .catch(err => {
-        missing.push(metadataPath)
-        logger.error('Error downloading file ' + metadataPath, err)
-        cb()
-      })
-  })
+        .catch(err => {
+          logger.error(
+            `Error downloading file ${metadataPath} from ${url}`,
+            err
+          )
+          if (isFallback || !fallbackUrl) {
+            errors.push(metadataPath)
+            cb()
+          } else {
+            logger.info(`Trying fallback URL ${fallbackUrl}`)
+            downloadTask(
+              { url: fallbackUrl, metadataPath, ...options },
+              true
+            )(cb)
+          }
+        })
+    }
+  }
+
   const start = Date.now()
   logger.debug('Starting download')
   run(tasks, concurrency, (...args) => {
     logger.info('Downloaded images in ' + (Date.now() - start) + 'ms')
-    if (missing.length) {
+    if (errors.length) {
       zipfile.addBuffer(
-        Buffer.from(missing.join('\r\n') + '\r\n'),
-        'missing.txt'
+        Buffer.from(errorsMsg + '\r\n\r\n' + errors.join('\r\n') + '\r\n'),
+        'Export Errors.txt'
+      )
+    }
+    if (missingOriginals.length) {
+      zipfile.addBuffer(
+        Buffer.from(
+          missingOriginalsMsg +
+            '\r\n\r\n' +
+            missingOriginals.join('\r\n') +
+            '\r\n'
+        ),
+        'Missing Originals.txt'
       )
     }
     zipfile.end()
