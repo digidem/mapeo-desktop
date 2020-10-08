@@ -100,8 +100,8 @@ const main = new Main({
 })
 
 function onError (err) {
-  logger.error(err)
-  electron.dialog.showErrorBox('Error', err)
+  logger.info('SHOWING ERROR BOX')
+  electron.dialog.showErrorBox('Error', err.toString())
 }
 
 main.on('error', onError)

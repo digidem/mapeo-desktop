@@ -30,7 +30,7 @@ function startNodeIPC (serverHandlers) {
       logger.info('configured', socketName)
       if (!logger.configured) {
         logger.configure({
-          label: 'electron-background',
+          label: 'background',
           userDataPath,
           isDev
         })
