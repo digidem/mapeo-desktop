@@ -267,9 +267,29 @@
   "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
     "message": "Location"
   },
+  "renderer.components.MapFilter.ReportView.PrintButton.close": {
+    "description": "Button label to close print settings dialog",
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Saving Report"
+  },
   "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to print a report",
-    "message": "Imprimir"
+    "description": "Button label to save a report",
+    "message": "Save"
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.printLoading": {
+    "description": "Loading message when report is very long.",
+    "message": "Note: This report is more than 50 pages long. It may take several minutes to prepare."
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.reportName": {
+    "description": "The title of the report on the filesystem",
+    "message": "Report"
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.title": {
+    "description": "Title of the PDF document",
+    "message": "Title"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "message": "Next"
@@ -452,5 +472,9 @@
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Ingresar coordenadas"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "No answer"
   }
 }
