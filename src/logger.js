@@ -2,6 +2,7 @@ const winston = require('winston')
 const path = require('path')
 const DailyRotateFile = require('winston-daily-rotate-file')
 const util = require('util')
+const { format } = require('date-fns')
 
 const store = require('./store')
 const appVersion = require('../package.json').version
@@ -70,6 +71,10 @@ class Logger {
     }
     this.configured = true
     if (this._messageQueue.length > 0) this._drainQueue()
+  }
+
+  get errorFilename () {
+    return path.join(this.dirname, format(Date.now(), 'yyyy-MM') + '.error.log')
   }
 
   debugging (debug) {
