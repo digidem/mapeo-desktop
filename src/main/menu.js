@@ -264,6 +264,9 @@ function menuTemplate (ipc) {
           visible: true
         },
         {
+          type: 'separator'
+        },
+        {
           label: t('menu-debugging'),
           type: 'checkbox',
           checked: logger._debug,
