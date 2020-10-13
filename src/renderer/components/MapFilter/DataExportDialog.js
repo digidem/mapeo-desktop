@@ -163,7 +163,7 @@ const ExportDialogContent = ({
         }
       })
       const output = fsWriteStreamAtomic(filePath)
-      const archive = createZip(localFiles, remoteFiles)
+      const archive = createZip(localFiles, remoteFiles, { formatMessage: t })
 
       pump(archive, output, err => {
         if (err) logger.error('DataExportDialog: pump create zip', err)

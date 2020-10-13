@@ -117,7 +117,7 @@ const EditDialogContent = ({
           metadataPath: 'images/' + point.properties.image
         }))
 
-      const archive = createZip(localFiles, remoteFiles)
+      const archive = createZip(localFiles, remoteFiles, { formatMessage })
 
       pump(archive, output, cb)
     }

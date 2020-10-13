@@ -2,17 +2,25 @@ import yazl from 'yazl'
 import run from 'run-parallel-limit'
 import ky from 'ky/umd'
 import once from 'once'
+import { defineMessages } from 'react-intl'
 import logger from '../logger'
 
+// Photos are downloaded from mapeo core 3 at a time
 const concurrency = 3
-const errorsMsg =
-  'There was an error trying to export these files, so they are missing from this export:'
-const missingOriginalsMsg =
-  'The original size of these files could not be found, only preview size ' +
-  '(1,200 pixel) images are included. This can happen because the phone that ' +
-  'took the photos has only synced to other phones, and not directly to ' +
-  'Mapeo Desktop. To try fixing this, find the phone that took the photos ' +
-  'and sync it with Mapeo Desktop before exporting again.'
+// Need to use carraige return in text files so new lines show in Windows.
+const CR = '\r\n'
+const msgs = defineMessages({
+  // File name for file with information about export errors
+  errorsFilename: 'Export Errors',
+  // File name for file with information about missing originals in export
+  missingOriginalsFilename: 'Missing Originals',
+  // Error message stored in text file in export if there were errors during export
+  errorsMsg:
+    'There was an error trying to export these files, so they are missing from this export:',
+  // Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals
+  missingOriginalsMsg:
+    'The original size of these files could not be found, only preview size (1,200 pixel) images are included. This can happen because the phone that took the photos has only synced to other phones, and not directly to Mapeo Desktop. To try fixing this, find the phone that took the photos and sync it with Mapeo Desktop before exporting again.'
+})
 
 /**
  * Create a zipfile from a collection of strings/buffers and remote files
@@ -27,9 +35,11 @@ const missingOriginalsMsg =
  * zipfile. Can also include `fallbackUrl` which will be tried if `url` fails
  * with an error, and any options from
  * https://github.com/thejoshwolfe/yazl#addfilerealpath-metadatapath-options
+ * @param {Object} options
+ * @param {Function} options.formatMessage From react-intl formatMessage
  * @returns {ReadableStream} readableStream of zipfile data
  */
-export default function createZip (localFiles, remoteFiles) {
+export default function createZip (localFiles, remoteFiles, { formatMessage }) {
   const zipfile = new yazl.ZipFile()
   const errors = []
   const missingOriginals = []
@@ -91,19 +101,22 @@ export default function createZip (localFiles, remoteFiles) {
     logger.info('Downloaded images in ' + (Date.now() - start) + 'ms')
     if (errors.length) {
       zipfile.addBuffer(
-        Buffer.from(errorsMsg + '\r\n\r\n' + errors.join('\r\n') + '\r\n'),
-        'Export Errors.txt'
+        Buffer.from(
+          formatMessage(msgs.errorsMsg) + CR + CR + errors.join(CR) + CR
+        ),
+        formatMessage(msgs.errorsFilename) + '.txt'
       )
     }
     if (missingOriginals.length) {
       zipfile.addBuffer(
         Buffer.from(
-          missingOriginalsMsg +
-            '\r\n\r\n' +
-            missingOriginals.join('\r\n') +
-            '\r\n'
+          formatMessage(msgs.missingOriginalsMsg) +
+            CR +
+            CR +
+            missingOriginals.join(CR) +
+            CR
         ),
-        'Missing Originals.txt'
+        formatMessage(msgs.missingOriginalsFilename) + '.txt'
       )
     }
     zipfile.end()
