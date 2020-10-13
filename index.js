@@ -99,9 +99,22 @@ const main = new Main({
   isDev
 })
 
+function ipcSend (...args) {
+  try {
+    if (win && win.webContents) {
+      win.webContents.send.apply(win.webContents, args)
+      return true
+    } else return false
+  } catch (e) {
+    logger.error('exception win.webContents.send', args, e.stack)
+    return false
+  }
+}
+
 function onError (err) {
-  logger.error(err)
-  electron.dialog.showErrorBox('Error', err)
+  if (!ipcSend('error', err.toString())) {
+    electron.dialog.showErrorBox('Error', err.toString())
+  }
 }
 
 main.on('error', onError)
@@ -218,7 +231,7 @@ function initDirectories (done) {
     chmod(path.join(userDataPath, 'presets'), '0700', (err) => {
       if (err) logger.error('Failed to execute chmod on presets', err)
       chmod(path.join(userDataPath, 'styles'), '0700', (err) => {
-        if (err) logger.error('Failed to execute chmod on styles', err)
+        if (err && !err.message.includes('asar')) logger.error('Failed to execute chmod on styles', err)
         done()
       })
     })
@@ -227,13 +240,6 @@ function initDirectories (done) {
 
 function createServers (done) {
   // Set up Electron IPC bridge with frontend in electron-renderer process
-  function ipcSend (...args) {
-    try {
-      if (win && win.webContents) win.webContents.send.apply(win.webContents, args)
-    } catch (e) {
-      logger.error('exception win.webContents.send', args, e.stack)
-    }
-  }
   electronIpc(ipcSend)
 
   // Start Mapeo HTTP Servers

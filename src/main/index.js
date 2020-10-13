@@ -40,6 +40,9 @@ class Main extends events.EventEmitter {
 
     this.mapeo = new Socket('mapeo')
     this.mapPrinter = new Socket('mapPrinter')
+    this.mapeo.ipc.on('error', (err) => {
+      this.emit('error', err)
+    })
     this.pid.on('close', (err) => {
       if (err) this.emit('error', err)
     })

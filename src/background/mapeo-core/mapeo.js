@@ -74,16 +74,16 @@ class MapeoRPC {
 
     this.closing = false
 
-    // TODO(KM): this progress code isn't being caught & rendered by frontend
     var importer = this.core.importer
     importer.on('error', (err, filename) => {
-      this.ipcSend('import-error', err.toString())
+      this.ipcSend('error', err.toString())
     })
 
     importer.on('complete', (filename) => {
       this.ipcSend('import-complete', path.basename(filename))
     })
 
+    // TODO(KM): this progress code isn't being caught & rendered by frontend
     importer.on('progress', (filename, index, total) => {
       this.ipcSend(
         'import-progress',
@@ -93,7 +93,7 @@ class MapeoRPC {
       )
     })
 
-    this.core.on('error', this._handleError)
+    this.core.on('error', (e) => this._handleError('mapeo core', e))
     this.core.sync.listen((err) => {
       cb(err)
     })
@@ -103,7 +103,7 @@ class MapeoRPC {
     const startTime = Date.now()
     var onend = (err) => {
       if (err) {
-        logger.error('sync error', err)
+        this._handleError('sync error', err)
       } else {
         this.ipcSend('sync-complete')
         const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2)
@@ -123,7 +123,7 @@ class MapeoRPC {
   _onNewPeer (peer) {
     this._throttledSendPeerUpdate(peer)
     if (!peer.sync) {
-      return logger.error('sync', new Error('Could not monitor peer, missing sync property'))
+      return this._handleError('sync', new Error('Could not monitor peer, missing sync property'))
     }
     peer.sync.once('sync-start', () => {
       this._syncWatch(peer.sync)
@@ -148,7 +148,7 @@ class MapeoRPC {
       )
       this.core.sync.join(this.encryptionKey)
     } catch (e) {
-      logger.error('syncJoin', e)
+      this._handleError('syncJoin', e)
     }
   }
 
@@ -160,7 +160,7 @@ class MapeoRPC {
       )
       this.core.sync.leave(this.encryptionKey)
     } catch (e) {
-      logger.error('syncLeave', e)
+      this._handleError('syncLeave', e)
     }
   }
 
@@ -202,8 +202,8 @@ class MapeoRPC {
   }
 
   getDatasetCentroid (type, done) {
-    this.osm.core.api.stats.getMapCenter(type, function (err, center) {
-      if (err) return logger.error(`api.stats.getMapCenter(${type})`, err)
+    this.osm.core.api.stats.getMapCenter(type, (err, center) => {
+      if (err) return this._handleError(`api.stats.getMapCenter(${type})`, err)
       if (!center) return done(null, null)
       logger.info('RESPONSE(getDatasetCentroid):', type, center)
       done(null, [center.lon, center.lat])
@@ -237,10 +237,10 @@ class MapeoRPC {
     }
   }
 
-  _handleError (err) {
+  _handleError (context, err) {
     if (typeof err === 'string') err = new Error(err)
-    logger.error('mapeo', err)
-    this.ipcSend('error', err)
+    logger.error(context, err)
+    this.ipcSend('error', err.toString())
   }
 
   // Send message to frontend whenever there is an update to the peer list

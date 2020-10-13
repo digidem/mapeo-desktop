@@ -1,18 +1,38 @@
 import React from 'react'
+import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from '@material-ui/core/Button'
 
-export default class ErrorDialog extends React.Component {
-  render () {
-    // TODO: escape this html for displaying newlines
-    return (
-      <Dialog open={this.props.open} onClose={this.props.onClose}>
-        <DialogTitle>Error</DialogTitle>
-        <DialogContent>
-          <textarea cols='20' rows='40' value={this.props.message} disabled />
-        </DialogContent>
-      </Dialog>
-    )
+import { shell } from 'electron'
+import logger from '../../../logger'
+
+import { defineMessages, useIntl } from 'react-intl'
+
+const m = defineMessages({
+  openLog: 'Open log...',
+  close: 'Close'
+})
+
+export default ({ onClose, open, message }) => {
+  const { formatMessage: t } = useIntl()
+
+  const handleDownload = event => {
+    shell.openPath(logger.errorFilename)
   }
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Error</DialogTitle>
+      <DialogContent>
+        <TextareaAutosize rowsMin='5' rowsMax='30' cols='40' value={message} disabled />
+        <DialogActions>
+          <Button onClick={handleDownload}>{t(m.openLog)}</Button>
+          <Button variant='contained' color='primary' onClick={onClose}>{t(m.close)}</Button>
+        </DialogActions>
+      </DialogContent>
+    </Dialog>
+  )
 }
