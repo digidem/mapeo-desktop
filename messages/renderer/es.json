@@ -14,6 +14,10 @@
   "renderer.components.Home.update": {
     "message": "Update Mapeo"
   },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Cargando…"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Cerrar"
@@ -162,9 +166,36 @@
   "renderer.components.MapFilter.FilterPanel.filterHeader": {
     "message": "Filtrar datos…"
   },
-  "renderer.components.MapFilter.Loading.loading": {
-    "description": "Displayed whilst observations and presets load",
-    "message": "Cargando…"
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "Desde"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Fecha de observación"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Editar Filtros…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Editado"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Categoría"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Sólo"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Todo"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "Filtrar datos…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
@@ -441,5 +472,25 @@
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Ingresar coordenadas"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Export Errors"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "There was an error trying to export these files, so they are missing from this export:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Missing Originals"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "The original size of these files could not be found, only preview size (1,200 pixel) images are included. This can happen because the phone that took the photos has only synced to other phones, and not directly to Mapeo Desktop. To try fixing this, find the phone that took the photos and sync it with Mapeo Desktop before exporting again."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "No answer"
   }
 }
