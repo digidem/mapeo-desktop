@@ -12,11 +12,11 @@
     "message": "Synchronize"
   },
   "renderer.components.Home.update": {
-    "message": "Update Mapeo"
+    "message": "ปรับปรุง Mapeo"
   },
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
-    "message": "Loading…"
+    "message": "กำลังโหลด…"
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
@@ -62,7 +62,7 @@
     "message": "Feedback & Contribute"
   },
   "renderer.components.MapEditor.index.notes": {
-    "message": "Description"
+    "message": "รายละเอียด"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
@@ -133,11 +133,11 @@
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
-    "message": "To"
+    "message": "ถึง"
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
     "description": "Title of min date field in filter",
-    "message": "From"
+    "message": "จาก"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
     "description": "Label for filter by date observation was created",
@@ -145,15 +145,15 @@
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
     "description": "Button text to change which fields are shown and filterable in the filter pane",
-    "message": "Edit Filters…"
+    "message": "แก้ไขตัวกรอง..."
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
     "description": "Label for filter by date observation was modified (e.g. edited by a user)",
-    "message": "Modified"
+    "message": "แก้ไข"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
     "description": "Label for filter by category (e.g. the preset)",
-    "message": "Category"
+    "message": "หมวดหมู่"
   },
   "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
     "description": "Button text to only show a particular field value in a filter",
@@ -161,10 +161,10 @@
   },
   "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
     "description": "Button text to turn off filters for a field",
-    "message": "All"
+    "message": "ทั้งหมด"
   },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
-    "message": "Filter by…"
+    "message": "กรองข้อมูลโดย"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
@@ -206,7 +206,7 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
-    "message": "Additional data"
+    "message": "ข้อมูลเพิ่มเติม"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
@@ -216,7 +216,7 @@
     "message": "Cancel"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
-    "message": "Discard changes"
+    "message": "ยกเลิกการเปลี่ยนแปลง"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
     "message": "You have made some changes, closing without saving will loose the changes you make"
