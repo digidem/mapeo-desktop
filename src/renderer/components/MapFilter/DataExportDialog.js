@@ -149,12 +149,21 @@ const ExportDialogContent = ({
           metadataPath: t(msgs.defaultExportFilename) + '.' + ext
         }
       ]
-      const remoteFiles = photosToSave.map(id => ({
-        url: getMediaUrl(id, values.photos),
-        metadataPath: 'images/' + id
-      }))
+      const remoteFiles = photosToSave.map(id => {
+        // If the user is trying to export originals, use preview sized images
+        // as a fallback. TODO: Show a warning to the user that originals are
+        // missing and clearly explain why this might be and what the user can
+        // do about it.
+        const fallbackUrl =
+          values.photos === 'original' ? getMediaUrl(id, 'preview') : undefined
+        return {
+          url: getMediaUrl(id, values.photos),
+          fallbackUrl,
+          metadataPath: 'images/' + id
+        }
+      })
       const output = fsWriteStreamAtomic(filePath)
-      const archive = createZip(localFiles, remoteFiles)
+      const archive = createZip(localFiles, remoteFiles, { formatMessage: t })
 
       pump(archive, output, err => {
         if (err) logger.error('DataExportDialog: pump create zip', err)

@@ -109,10 +109,15 @@ const EditDialogContent = ({
         .filter(point => point.properties.image)
         .map(point => ({
           url: getMediaUrl(point.properties.image, 'original'),
+          // If the original is missing, fallback to including the preview sized
+          // image in the export. This can happen if the phone that took the
+          // photo has only synced via another phone, and not synced directly
+          // with Mapeo Desktop
+          fallbackUrl: getMediaUrl(point.properties.image, 'preview'),
           metadataPath: 'images/' + point.properties.image
         }))
 
-      const archive = createZip(localFiles, remoteFiles)
+      const archive = createZip(localFiles, remoteFiles, { formatMessage })
 
       pump(archive, output, cb)
     }
