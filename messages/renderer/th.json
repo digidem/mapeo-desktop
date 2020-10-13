@@ -467,6 +467,12 @@
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
     "message": "Choose a language"
   },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Close"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Open log..."
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"
   },
