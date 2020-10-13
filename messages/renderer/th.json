@@ -141,7 +141,7 @@
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
     "description": "Label for filter by date observation was created",
-    "message": "Date of observation"
+    "message": "วันที่จัดทำการสังเกต"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
     "description": "Button text to change which fields are shown and filterable in the filter pane",
@@ -157,7 +157,7 @@
   },
   "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
     "description": "Button text to only show a particular field value in a filter",
-    "message": "Only"
+    "message": "เท่านั้น"
   },
   "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
     "description": "Button text to turn off filters for a field",
@@ -222,24 +222,24 @@
     "message": "You have made some changes, closing without saving will loose the changes you make"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
-    "message": "Close without saving changes?"
+    "message": "ปิดโดยไม่บันทึกหรือไม่?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "Cancel"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
-    "message": "Yes, delete"
+    "message": "ใช่ ลบได้"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
-    "message": "Delete observation?"
+    "message": "ยืนยันให้ลบการสังเกตนี้หรือไม่?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
     "description": "Menu item to delete an observation",
-    "message": "Delete observation"
+    "message": "ลบการสังเกต"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
     "description": "Header for section that includes the additional details for an observation",
-    "message": "Details"
+    "message": "รายละเอียด"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
@@ -247,7 +247,7 @@
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
-    "message": "Hide All"
+    "message": "ซ่อนทั้งหมด"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
@@ -255,14 +255,14 @@
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
-    "message": "Show All"
+    "message": "แสดงทั้งหมด"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
     "message": "Created at"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
     "description": "Button label for hide fields menu",
-    "message": "Details"
+    "message": "รายละเอียด"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
     "message": "Location"
@@ -315,7 +315,7 @@
   },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
-    "message": "Observation"
+    "message": "การสังเกต"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -416,22 +416,22 @@
     "message": "Select a database to syncronize"
   },
   "renderer.components.UpdaterView.index.calculatingProgress": {
-    "message": "Estimating..."
+    "message": "กำลังประเมิน..."
   },
   "renderer.components.UpdaterView.index.downloadButtonText": {
-    "message": "Download"
+    "message": "ดาวน์โหลด"
   },
   "renderer.components.UpdaterView.index.downloadProgress": {
-    "message": "Downloading"
+    "message": "กำลังดาวน์โหลด"
   },
   "renderer.components.UpdaterView.index.errorMessage": {
-    "message": "There was an error and Mapeo could not update. Try again later."
+    "message": "เกิดข้อผิดพลาดและไม่สามารถอัปเดต Mapeo ได้ โปรดลองอีกครั้งในภายหลัง"
   },
   "renderer.components.UpdaterView.index.errorTitle": {
     "message": "Error"
   },
   "renderer.components.UpdaterView.index.estimatedDownloadTime": {
-    "message": "Estimated download time is"
+    "message": "เวลาดาวน์โหลดไฟล์โดยประมาณ"
   },
   "renderer.components.UpdaterView.index.majorUpdate": {
     "message": "This update will make your application incompatible with earlier verions."
@@ -443,20 +443,20 @@
     "message": "This update includes changes that fix critical errors. Please update as soon as possible."
   },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
-    "message": "Restart"
+    "message": "เริ่มการใช้งานใหม่"
   },
   "renderer.components.UpdaterView.index.restartMapeoText": {
-    "message": "An update to Mapeo has been downloaded. Restart Mapeo to update."
+    "message": "ดาวน์โหลดไฟล์อัปเดต Mapeo แล้ว กรุณาปิดและเปิดโปรแกรม Mapeo เพื่อทำการอัปเดต"
   },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
     "message": "Unknown"
   },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Update"
+    "message": "อัปเดต"
   },
   "renderer.components.UpdaterView.index.updateNotAvailable": {
-    "message": "Mapeo is up to date! You are on the latest version."
+    "message": "Mapeo อัปเดตเป็นเวอร์ชันล่าสุดแล้ว!"
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "Cancel"
