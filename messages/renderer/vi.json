@@ -274,7 +274,6 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
-    "message": "Save"
     "message": "Lưu"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {

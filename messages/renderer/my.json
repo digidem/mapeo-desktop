@@ -334,21 +334,6 @@
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.previewMessage": {
     "message": "Previewing first {numPages} pages"
-  "renderer.components.MapFilter.ReportView.PrintButton.close": {
-    "description": "Button label to close print settings dialog",
-    "message": "Close"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
-    "description": "Title of print settings dialog",
-    "message": "Print settings"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.paperSize": {
-    "description": "Label for paper size selection field",
-    "message": "Paper size"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to print a report",
-    "message": "Print"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Map"

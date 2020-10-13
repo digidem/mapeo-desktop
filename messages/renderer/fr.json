@@ -334,6 +334,7 @@
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.previewMessage": {
     "message": "Previewing first {numPages} pages"
+  },
   "renderer.components.MapFilter.ReportView.PrintButton.close": {
     "description": "Button label to close print settings dialog",
     "message": "Close"
