@@ -9,12 +9,17 @@ const translations = {
   pt: require('../../messages/main/pt.json')
 }
 
+// We only support generalized locales for now (i.e., no difference between
+// Spanish/Espana and Spanish/Latin America)
+function getSystemLocale () { return app.getLocale().substr(0, 2) }
+
 // defaultLocale is the default local of the app, not the user's locale.
 class I18n extends EventEmitter {
   constructor (defaultLocale = 'en') {
     super()
     this.locale = defaultLocale
     this.defaultLocale = defaultLocale
+    logger.info('Locale', this.locale)
     this.t = this.formatMessage.bind(this)
   }
 
@@ -44,12 +49,25 @@ class I18n extends EventEmitter {
     return message
   }
 
-  setLocale (newLocale = this.defaultLocale) {
-    logger.info('Changing locale to [' + newLocale + ']')
+  setLocale (newLocale) {
+    if (!newLocale || newLocale.length !== 2) return logger.error(new Error('Tried to set locale and failed, must be a 2 character string', newLocale))
+    logger.info('Changing locale to', newLocale)
     this.locale = newLocale
     this.genericLocale = newLocale.split('-')[0]
     this.emit('locale-change', newLocale)
-    store.set('locale', newLocale)
+  }
+
+  save (locale = this.locale) {
+    store.set('locale', locale)
+  }
+
+  load () {
+    try {
+      return store.get('locale')
+    } catch (err) {
+      logger.error('Failed to load locale from app settings')
+      return null
+    }
   }
 }
 
@@ -57,10 +75,10 @@ const i18n = new I18n('en')
 module.exports = i18n
 
 app.once('ready', () => {
-  try {
-    i18n.setLocale(store.get('locale'))
-  } catch (err) {
-    logger.error('i18n.setLocale ', err)
-    i18n.setLocale(app.getLocale())
+  var locale = i18n.load()
+  if (!locale) {
+    locale = getSystemLocale()
+    logger.info('Using system locale')
   }
+  i18n.setLocale(locale)
 })

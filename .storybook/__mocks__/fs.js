@@ -18,5 +18,8 @@ module.exports = {
     const blob = new Blob([data], { type: 'application/octet-stream' })
     FileSaver.saveAs(blob, filepath)
     cb()
+  },
+  readFileSync: filepath => {
+    action('fs.readFileSync')(filepath)
   }
 }

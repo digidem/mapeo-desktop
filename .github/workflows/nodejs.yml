@@ -1,6 +1,6 @@
 name: Node CD
 
-on: 
+on:
   push:
     tags:
       - '*'
@@ -15,10 +15,10 @@ jobs:
     strategy:
       matrix:
         config:
-          - { os: macos-latest, arch: x64, name: macos-latest }
-          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest }
-          - { os: windows-latest, arch: x64, name: windows-latest }
-          - { os: windows-latest, arch: ia32, name: windows-latest-32 }
+          - { os: macos-latest, arch: x64 }
+          - { os: ubuntu-latest, arch: x64 }
+          - { os: windows-latest, arch: x64 }
+          - { os: windows-latest, arch: ia32 }
 
     steps:
       - name: Context
@@ -32,7 +32,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.4
-          architecture: ${{matrix.config.arch}}
       - name: npm ci
         run: |
           npm ci
@@ -58,6 +57,10 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
       - name: Cleanup artifacts
         run: |
           npx rimraf@2 'dist/!(*.exe|*.deb|*.AppImage|*.dmg)'
@@ -65,5 +68,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.config.name }}
+          name: '${{ matrix.config.os }}-${{ matrix.config.arch }}'
           path: dist

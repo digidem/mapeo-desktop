@@ -163,6 +163,37 @@
     "description": "Button text to turn off filters for a field",
     "message": "All"
   },
+  "renderer.components.MapFilter.FilterPanel.filterHeader": {
+    "message": "Filtrar por…"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "From"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Date of observation"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Edit Filters…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Modified"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Category"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Only"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "All"
+  },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "Filtrar por…"
   },
@@ -210,10 +241,10 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
     "message": "Discard changes"
@@ -225,7 +256,7 @@
     "message": "Close without saving changes?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
     "message": "Yes, delete"
@@ -243,7 +274,7 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
-    "message": "Save"
+    "message": "Salvar"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
@@ -257,52 +288,21 @@
     "description": "Show all fields in report view",
     "message": "Show All"
   },
-  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
-    "message": "Created at"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
-    "description": "Button label for hide fields menu",
-    "message": "Details"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
-    "message": "Location"
-  },
   "renderer.components.MapFilter.ReportView.PrintButton.close": {
     "description": "Button label to close print settings dialog",
-    "message": "Cancel"
+    "message": "Fechar"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
     "description": "Title of print settings dialog",
-    "message": "Saving Report"
+    "message": "Print settings"
+  },
+  "renderer.components.MapFilter.ReportView.PrintButton.paperSize": {
+    "description": "Label for paper size selection field",
+    "message": "Paper size"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to save a report",
-    "message": "Save"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.printLoading": {
-    "description": "Loading message when report is very long.",
-    "message": "Note: This report is more than 50 pages long. It may take several minutes to prepare."
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.reportName": {
-    "description": "The title of the report on the filesystem",
-    "message": "Report"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.title": {
-    "description": "Title of the PDF document",
-    "message": "Title"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
-    "message": "Next"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.noReport": {
-    "description": "Displayed whilst observations and presets load",
-    "message": "No observations available."
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
-    "message": "Previous"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.previewMessage": {
-    "message": "Previewing first {numPages} pages"
+    "description": "Button label to print a report",
+    "message": "Print"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
@@ -449,7 +449,7 @@
     "message": "An update to Mapeo has been downloaded. Restart Mapeo to update."
   },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
-    "message": "Unknown"
+    "message": "Desconhecido"
   },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",

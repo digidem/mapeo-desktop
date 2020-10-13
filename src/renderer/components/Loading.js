@@ -1,7 +1,19 @@
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
-export default class Loading extends React.Component {
-  render () {
-    return <div>Loading...</div>
-  }
+import Loader from './Loader'
+import CenteredText from './CenteredText'
+
+const m = defineMessages({
+  // Displayed whilst observations and presets load
+  loading: 'Loading…'
+})
+
+const Searching = () => {
+  const { formatMessage: t } = useIntl()
+  return (
+    <CenteredText text={t(m.loading)} icon={<Loader />} />
+  )
 }
+
+export default Searching

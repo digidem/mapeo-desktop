@@ -5,12 +5,14 @@ import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
 
+import logger from '../../../logger'
 import api from '../../new-api'
 import { defineMessages, useIntl } from 'react-intl'
 import ExportButton from './ExportButton'
 
 const m = defineMessages({
-  'feedback-contribute-button': 'Feedback & Contribute'
+  'feedback-contribute-button': 'Feedback & Contribute',
+  notes: 'Description'
 })
 
 // iD Editor style overrides
@@ -104,7 +106,10 @@ const MapEditor = () => {
 
   const zoomToData = React.useCallback((_, loc) => {
     if (!id.current) return
-    id.current.map().centerZoomEase(loc, 14, 1000)
+    if (!loc) return
+    const map = id.current.map()
+    if (map) map.centerZoomEase(loc, 14, 1000)
+    else logger.error('Zoom failed. Could not get current iD map')
   }, [])
 
   React.useEffect(
@@ -126,7 +131,9 @@ const MapEditor = () => {
       var saved = history.toJSON()
       id.current.flush()
       if (saved) history.fromJSON(saved)
-      ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
+      api.getCentroid('node', (_, loc) => {
+        zoomToData(_, loc)
+      })
     }
     const subscription = api.addDataChangedListener('observation-edit', () =>
       refreshWindow()
@@ -159,7 +166,7 @@ const MapEditor = () => {
       var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
       id.current = window.id = iD
         .coreContext()
-        .assetPath('node_modules/id-mapeo/dist/')
+        .assetPath('../node_modules/id-mapeo/dist/')
         .preauth({ url: serverUrl })
         .minEditableZoom(window.localStorage.getItem('minEditableZoom') || 14)
 
@@ -259,7 +266,9 @@ const MapEditor = () => {
       }
     }
     if (presets) {
+      fallbackFields.notes.label = t(m.notes) // translate notes field
       const iDPresets = convertPresets(presets)
+
       if (!id.current) {
         iDPresets.fields = { ...iD.data.presets.fields, ...iDPresets.fields }
         iD.data.presets = iDPresets
@@ -340,6 +349,11 @@ const fallbackFields = {
     type: 'localized',
     label: 'Name',
     placeholder: 'Common name (if any)'
+  },
+  notes: {
+    key: 'notes',
+    type: 'textarea',
+    label: 'Description'
   }
 }
 

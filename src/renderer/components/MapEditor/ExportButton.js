@@ -11,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import Button from '@material-ui/core/Button'
-import { LinearProgress } from '@material-ui/core'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import { makeStyles } from '@material-ui/core/styles'
 import { remote } from 'electron'
 
@@ -71,22 +71,22 @@ const ExportButton = () => {
     remote.dialog.showSaveDialog(
       {
         title: t(m.saveTitle),
-        defaultPath: t(m.defaultFilename),
+        defaultPath: t(m.defaultFilename) + '.' + ext,
         filters: [{ name: format, extensions: [ext] }]
-      },
-      function (filename) {
-        if (!filename) return
-        setStatus('pending')
-        api
-          .exportData(filename, { format })
-          .then(() => {
-            setStatus('success')
-          })
-          .catch(err => {
-            setStatus('reject')
-            logger.error('ExportButton save dialog', err)
-          })
       }
+    ).then(({ canceled, filePath }) => {
+      if (!filePath || canceled) return
+      setStatus('pending')
+      api
+        .exportData(filePath, { format })
+        .then(() => {
+          setStatus('success')
+        })
+        .catch(err => {
+          setStatus('reject')
+          logger.error('ExportButton save dialog', err)
+        })
+    }
     )
   }
 

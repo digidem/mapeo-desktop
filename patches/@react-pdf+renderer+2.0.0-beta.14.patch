@@ -1,0 +1,136 @@
+diff --git a/node_modules/@react-pdf/renderer/lib/react-pdf.browser.cjs.js b/node_modules/@react-pdf/renderer/lib/react-pdf.browser.cjs.js
+index e164b4b..d8693ea 100644
+--- a/node_modules/@react-pdf/renderer/lib/react-pdf.browser.cjs.js
++++ b/node_modules/@react-pdf/renderer/lib/react-pdf.browser.cjs.js
+@@ -153,7 +153,7 @@ var createRenderer = function createRenderer(_ref) {
+   });
+ };
+ 
+-var version = "2.0.0-beta.13";
++var version = "2.0.0-beta.14";
+ 
+ var fontStore = new FontStore();
+ 
+@@ -358,6 +358,10 @@ var InternalBlobProvider = /*#__PURE__*/function (_React$PureComponent) {
+     };
+ 
+     _this.queueDocumentRender = function () {
++      _this.setState({
++        loading: true
++      });
++
+       _this.renderQueue.splice(0, _this.renderQueue.length, function () {
+         return _this.state.error ? Promise.resolve() : _this.instance.toBlob();
+       });
+@@ -377,7 +381,8 @@ var InternalBlobProvider = /*#__PURE__*/function (_React$PureComponent) {
+       _this.setState({
+         blob: blob,
+         url: URL.createObjectURL(blob),
+-        loading: false
++        loading: false,
++        error: null
+       }, function () {
+         return URL.revokeObjectURL(oldBlobUrl);
+       });
+@@ -397,12 +402,18 @@ var InternalBlobProvider = /*#__PURE__*/function (_React$PureComponent) {
+     this.renderQueue.on('success', this.onRenderSuccessful);
+   };
+ 
+-  _proto.componentDidUpdate = function componentDidUpdate() {
+-    this.instance.updateContainer(this.props.document);
++  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
++    if (prevProps.document !== this.props.document) {
++      this.instance.updateContainer(this.props.document);
++    }
+   };
+ 
+   _proto.componentWillUnmount = function componentWillUnmount() {
+     this.renderQueue.end();
++
++    if (this.state.url) {
++      URL.revokeObjectURL(this.state.url);
++    }
+   };
+ 
+   _proto.render = function render() {
+diff --git a/node_modules/@react-pdf/renderer/lib/react-pdf.browser.es.js b/node_modules/@react-pdf/renderer/lib/react-pdf.browser.es.js
+index 31a7dbf..8a171a5 100644
+--- a/node_modules/@react-pdf/renderer/lib/react-pdf.browser.es.js
++++ b/node_modules/@react-pdf/renderer/lib/react-pdf.browser.es.js
+@@ -148,7 +148,7 @@ var createRenderer = function createRenderer(_ref) {
+   });
+ };
+ 
+-var version = "2.0.0-beta.13";
++var version = "2.0.0-beta.14";
+ 
+ var fontStore = new FontStore();
+ 
+@@ -353,6 +353,10 @@ var InternalBlobProvider = /*#__PURE__*/function (_React$PureComponent) {
+     };
+ 
+     _this.queueDocumentRender = function () {
++      _this.setState({
++        loading: true
++      });
++
+       _this.renderQueue.splice(0, _this.renderQueue.length, function () {
+         return _this.state.error ? Promise.resolve() : _this.instance.toBlob();
+       });
+@@ -372,7 +376,8 @@ var InternalBlobProvider = /*#__PURE__*/function (_React$PureComponent) {
+       _this.setState({
+         blob: blob,
+         url: URL.createObjectURL(blob),
+-        loading: false
++        loading: false,
++        error: null
+       }, function () {
+         return URL.revokeObjectURL(oldBlobUrl);
+       });
+@@ -392,12 +397,18 @@ var InternalBlobProvider = /*#__PURE__*/function (_React$PureComponent) {
+     this.renderQueue.on('success', this.onRenderSuccessful);
+   };
+ 
+-  _proto.componentDidUpdate = function componentDidUpdate() {
+-    this.instance.updateContainer(this.props.document);
++  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
++    if (prevProps.document !== this.props.document) {
++      this.instance.updateContainer(this.props.document);
++    }
+   };
+ 
+   _proto.componentWillUnmount = function componentWillUnmount() {
+     this.renderQueue.end();
++
++    if (this.state.url) {
++      URL.revokeObjectURL(this.state.url);
++    }
+   };
+ 
+   _proto.render = function render() {
+diff --git a/node_modules/@react-pdf/renderer/lib/react-pdf.cjs.js b/node_modules/@react-pdf/renderer/lib/react-pdf.cjs.js
+index 8515c9e..2e6f9d3 100644
+--- a/node_modules/@react-pdf/renderer/lib/react-pdf.cjs.js
++++ b/node_modules/@react-pdf/renderer/lib/react-pdf.cjs.js
+@@ -171,7 +171,7 @@ const createRenderer = ({
+   });
+ };
+ 
+-var version = "2.0.0-beta.13";
++var version = "2.0.0-beta.14";
+ 
+ const fontStore = new FontStore();
+ 
+diff --git a/node_modules/@react-pdf/renderer/lib/react-pdf.es.js b/node_modules/@react-pdf/renderer/lib/react-pdf.es.js
+index 579cfb3..672aebe 100644
+--- a/node_modules/@react-pdf/renderer/lib/react-pdf.es.js
++++ b/node_modules/@react-pdf/renderer/lib/react-pdf.es.js
+@@ -166,7 +166,7 @@ const createRenderer = ({
+   });
+ };
+ 
+-var version = "2.0.0-beta.13";
++var version = "2.0.0-beta.14";
+ 
+ const fontStore = new FontStore();
+ 

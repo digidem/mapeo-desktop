@@ -1,25 +1,42 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { ipcRenderer } from 'electron'
 import styled from 'styled-components'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { Transition } from 'react-transition-group'
-import {
-  LocationOn,
-  Map as MapIcon,
-  PhotoLibrary as ObservationIcon,
-  OfflineBolt as SyncIcon
-} from '@material-ui/icons'
+import LocationOn from '@material-ui/icons/LocationOn'
+import MapIcon from '@material-ui/icons/Map'
+import ObservationIcon from '@material-ui/icons/PhotoLibrary'
+import SyncIcon from '@material-ui/icons/OfflineBolt'
+import WarningIcon from '@material-ui/icons/Warning'
 
 import pkg from '../../../package.json'
-import MapEditor from './MapEditor'
 import LatLonDialog from './dialogs/LatLon'
+import ErrorDialog from './dialogs/Error'
 import ChangeLanguage from './dialogs/ChangeLanguage'
 import TitleBarShim from './TitleBarShim'
-import MapFilter from './MapFilter'
 import { defineMessages, useIntl } from 'react-intl'
 import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
+import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
+import useUpdater from './UpdaterView/useUpdater'
+import Loading from './Loading'
+
+const MapFilter = React.lazy(() =>
+  import(
+    /* webpackPrefetch: true */
+    /* webpackChunkName: 'map-filter' */
+    './MapFilter'
+  )
+)
+
+const MapEditor = React.lazy(() =>
+  import(
+    /* webpackPrefetch: true */
+    /* webpackChunkName: 'map-editor' */
+    './MapEditor'
+  )
+)
 
 const m = defineMessages({
   // MapEditor tab label
@@ -27,8 +44,11 @@ const m = defineMessages({
   // MapFilter tab label
   mapfilter: 'Observations',
   // Synchronize tab label
-  sync: 'Synchronize'
+  sync: 'Synchronize',
+  update: 'Update Mapeo'
 })
+
+// const MapEditor = () => <div>MAPEDITOR</div>
 
 const transitionDuration = 100
 
@@ -82,11 +102,9 @@ const MapeoIcon = styled(LocationOn)`
 const StyledTabs = styled(Tabs)`
   border-right: 1px solid rgba(0, 0, 0, 0.12);
   -webkit-app-region: no-drag;
-  // HACK in @material-ui/core v4.11 due to theme bug
   .PrivateTabIndicator-root-1 {
     background-color: #ff9933;
   }
-
 `
 
 const StyledTab = styled(Tab)`
@@ -135,6 +153,14 @@ const Version = styled.div`
   color: #aaaaaa;
 `
 
+const LoadingContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: white;
+`
+
 const focusStates = {
   entering: 'focusing',
   entered: 'focused',
@@ -143,7 +169,10 @@ const focusStates = {
 }
 
 function TabPanel (props) {
-  const { value, index, component: Component } = props
+  const { value, index, component: Component, ...extras } = props
+  // Don't render the tab content until the user has switched to the tab
+  const lazy = React.useRef(value !== index)
+  if (value === index) lazy.current = false
 
   const transitionStyles = {
     entering: { opacity: 1, zIndex: 1, display: 'block' },
@@ -152,32 +181,48 @@ function TabPanel (props) {
     exited: { opacity: 0, display: 'block' }
   }
 
-  return (
-    <Transition in={value === index} timeout={transitionDuration}>
-      {transitionState => (
-        <StyledPanel style={transitionStyles[transitionState]}>
-          {Component && <Component focusState={focusStates[transitionState]} />}
-        </StyledPanel>
-      )}
-    </Transition>
-  )
+  return Component && !lazy.current ? (
+    <Suspense
+      fallback={
+        <LoadingContainer>
+          <Loading />
+        </LoadingContainer>
+      }
+    >
+      <Transition in={value === index} timeout={transitionDuration}>
+        {transitionState => (
+          <StyledPanel style={transitionStyles[transitionState]}>
+            <Component focusState={focusStates[transitionState]} {...extras} />
+          </StyledPanel>
+        )}
+      </Transition>
+    </Suspense>
+  ) : null
 }
 
 const useTabIndex = createPersistedState('currentView')
 
 export default function Home ({ onSelectLanguage }) {
-  const [dialog, setDialog] = React.useState()
+  const [dialog, setDialog] = React.useState(null)
+  const [error, setError] = React.useState(null)
   const [tabIndex, setTabIndex] = useTabIndex(0)
+  const [update, setUpdate] = useUpdater()
   const { formatMessage: t } = useIntl()
 
   React.useEffect(() => {
     const openLatLonDialog = () => setDialog('LatLon')
+    const openErrorDialog = (ev, error) => {
+      console.log(error)
+      setError(error)
+    }
     const openChangeLangDialog = () => setDialog('ChangeLanguage')
     const refreshPage = () => window.location.reload()
+    ipcRenderer.on('error', openErrorDialog)
     ipcRenderer.on('open-latlon-dialog', openLatLonDialog)
     ipcRenderer.on('change-language-request', openChangeLangDialog)
     ipcRenderer.on('force-refresh-window', refreshPage)
     return () => {
+      ipcRenderer.removeListener('error', openErrorDialog)
       ipcRenderer.removeListener('open-latlon-dialog', openLatLonDialog)
       ipcRenderer.removeListener(
         'change-language-request',
@@ -186,6 +231,10 @@ export default function Home ({ onSelectLanguage }) {
       ipcRenderer.removeListener('force-refresh-window', openLatLonDialog)
     }
   }, [])
+
+  const hasUpdate =
+    update.state !== updateStates.IDLE &&
+    update.state !== updateStates.UPDATE_NOT_AVAILABLE
 
   return (
     <Root>
@@ -204,6 +253,12 @@ export default function Home ({ onSelectLanguage }) {
           <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
           <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
           <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
+          {hasUpdate && (
+            <StyledTab
+              icon={<WarningIcon />}
+              label={<UpdateTab update={update} />}
+            />
+          )}
         </StyledTabs>
         <Version>Mapeo v{pkg.version}</Version>
       </Sidebar>
@@ -211,6 +266,13 @@ export default function Home ({ onSelectLanguage }) {
         <TabPanel value={tabIndex} index={0} component={MapEditor} />
         <TabPanel value={tabIndex} index={1} component={MapFilter} />
         <TabPanel value={tabIndex} index={2} component={SyncView} />
+        <TabPanel
+          value={tabIndex}
+          index={3}
+          component={UpdaterView}
+          update={update}
+          setUpdate={setUpdate}
+        />
       </TabContent>
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}
@@ -225,6 +287,11 @@ export default function Home ({ onSelectLanguage }) {
       <LatLonDialog
         open={dialog === 'LatLon'}
         onClose={() => setDialog(null)}
+      />
+      <ErrorDialog
+        open={error !== null}
+        message={error}
+        onClose={() => setError(null)}
       />
     </Root>
   )

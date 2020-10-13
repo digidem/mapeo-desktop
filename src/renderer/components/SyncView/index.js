@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { remote } from 'electron'
 import { useIntl, defineMessages } from 'react-intl'
 import path from 'path'
@@ -50,12 +50,11 @@ const SyncView = ({ focusState }) => {
         title: t(m.openSyncFileDialog),
         properties: ['openFile'],
         filters: fileDialogFilters
-      },
-      filenames => {
-        if (typeof filenames === 'undefined' || filenames.length !== 1) return
-        syncPeer(filenames[0], { file: true })
       }
-    )
+    ).then(({ filePaths }) => {
+      if (typeof filePaths === 'undefined' || filePaths.length !== 1) return
+      syncPeer(filePaths[0], { file: true })
+    }).catch(err => logger.error(err))
   }
 
   const handleClickNewSyncfile = () => {
@@ -64,12 +63,11 @@ const SyncView = ({ focusState }) => {
         title: t(m.openSyncFileDialog),
         defaultPath: 'database.mapeodata',
         filters: fileDialogFilters
-      },
-      filename => {
-        if (!filename) return
-        syncPeer(filename, { file: true })
       }
-    )
+    ).then(({ canceled, filePath }) => {
+      if (canceled || !filePath) return
+      syncPeer(filePath, { file: true })
+    }).catch(err => logger.error(err))
   }
 
   return (

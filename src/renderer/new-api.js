@@ -1,24 +1,20 @@
-import { remote } from 'electron'
 import 'core-js/es/reflect'
 import ky from 'ky/umd'
 import logger from '../logger'
 
-const BASE_URL = 'http://' + remote.getGlobal('osmServerHost') + '/'
-
 export default Api({
   // window.middlewareClient is set in src/middleware/client-preload.js
-  ipc: window.middlewareClient,
-  baseUrl: BASE_URL
+  ipc: window.middlewareClient
 })
 
-function Api ({ baseUrl, mapeo, ipc }) {
+function Api ({ baseUrl, mapUrl, ipc }) {
   // We append this to requests for presets and map styles, in order to override
   // the local static server cache whenever the app is restarted. NB. sprite,
   // font, and map tile requests might still be cached, only changes in the map
   // style will be cache-busted.
   const startupTime = Date.now()
 
-  const req = ky.extend({
+  let req = ky.create({
     prefixUrl: baseUrl,
     // No timeout because indexing after first sync takes a long time, which mean
     // requests to the server take a long time
@@ -58,6 +54,17 @@ function Api ({ baseUrl, mapeo, ipc }) {
 
   // All public methods
   const api = {
+    // Hacky solution, probably need to create the api instance in the app, once
+    // the backend has loaded
+    setBaseUrl: function setBaseUrl (url) {
+      baseUrl = url
+      req = ky.extend({ prefixUrl: baseUrl })
+    },
+
+    setMapUrl: function (url) {
+      mapUrl = url
+    },
+
     /**
      * GET async methods
      */
@@ -73,6 +80,12 @@ function Api ({ baseUrl, mapeo, ipc }) {
 
     getMapStyle: function getMapStyle (id) {
       return get(`styles/${id}/style.json?${startupTime}`)
+    },
+
+    getMetadata: function getMetadata () {
+      return get(`presets/default/metadata.json?${Date.now()}`).then(
+        (data) => data || {}
+      )
     },
 
     /**
@@ -171,7 +184,7 @@ function Api ({ baseUrl, mapeo, ipc }) {
 
     exportData: function (filename, { format = 'geojson' } = {}) {
       return new Promise((resolve, reject) => {
-        ipc.send('export-data', { filename, format }, (err) => {
+        ipc.send('export-data', { filename, format }, err => {
           if (err) {
             logger.error('export data', err)
             reject(err)
@@ -200,6 +213,34 @@ function Api ({ baseUrl, mapeo, ipc }) {
     // Return the url to a map style
     getMapStyleUrl: function getMapStyleUrl (id) {
       return `${baseUrl}styles/${id}/style.json?${startupTime}`
+    },
+
+    getCentroid: function (type, cb) {
+      ipc.send('zoom-to-data-get-centroid', type, cb)
+    },
+
+    getMapImageURL: function ({
+      lon,
+      lat,
+      zoom,
+      width = 300,
+      height = 300,
+      dpi = 1,
+      style,
+      accessToken
+    }) {
+      let url = `${mapUrl}map/${lon}/${lat}/${zoom}/${width}/${height}/x${dpi}.png`
+      const searchParams = []
+      if (typeof style === 'string') {
+        searchParams.push('style=' + style)
+      }
+      if (typeof accessToken === 'string') {
+        searchParams.push('accessToken=' + accessToken)
+      }
+      if (searchParams.length) {
+        url += '?' + searchParams.join('&')
+      }
+      return url
     }
   }
 

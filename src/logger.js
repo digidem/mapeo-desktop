@@ -2,13 +2,14 @@ const winston = require('winston')
 const path = require('path')
 const DailyRotateFile = require('winston-daily-rotate-file')
 const util = require('util')
+const { format } = require('date-fns')
 
 const store = require('./store')
 const appVersion = require('../package.json').version
 
-const BUGSNAG_API_KEY = 'fcd92279c11ac971b4bd29b646ec4125'
-
 let Bugsnag
+
+const BUGSNAG_API_KEY = 'fcd92279c11ac971b4bd29b646ec4125'
 
 class Logger {
   constructor () {
@@ -51,14 +52,6 @@ class Logger {
       level: 'info'
     })
     mainLog.name = 'main'
-    mainLog.on('new', () => {
-      // if debugging is on and a new log file is created, turn it off
-      this.debugging(false)
-    })
-    mainLog.on('rotate', () => {
-      // if debugging is on during a rotate, turn it off
-      this.debugging(false)
-    })
     this.winston.add(mainLog)
 
     const errorTransport = new (DailyRotateFile)({
@@ -78,6 +71,10 @@ class Logger {
     }
     this.configured = true
     if (this._messageQueue.length > 0) this._drainQueue()
+  }
+
+  get errorFilename () {
+    return path.join(this.dirname, format(Date.now(), 'yyyy-MM') + '.error.log')
   }
 
   debugging (debug) {

@@ -1,7 +1,15 @@
 {
   "root": true,
-  "extends": ["standard", "plugin:react/recommended"],
-  "plugins": ["react", "standard", "react-hooks"],
+  "extends": [
+    "standard",
+    "plugin:flowtype/recommended",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react",
+    "prettier/standard"
+  ],
+  "plugins": ["flowtype", "react", "prettier", "standard", "react-hooks"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
@@ -14,6 +22,10 @@
     "es6": true,
     "browser": true
   },
+  "ignorePatterns": [
+    "node_modules/**/*.js",
+    "static/*.js"
+  ],
   "rules": {
     "no-proto": 0,
     "react/prop-types": 0,
@@ -23,7 +35,31 @@
   },
   "settings": {
     "react": {
-      "version": "detect"
+      "version": "detect",
+      "flowVersion": "0.102"
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.js"],
+      "env": {
+        "jest": true // now **/*.test.js files' env has both es6 *and* jest
+      },
+      // Can't extend in overrides: https://github.com/eslint/eslint/issues/8813
+      // "extends": ["plugin:jest/recommended"]
+      "plugins": ["jest"],
+      "rules": {
+        "jest/no-alias-methods": "warn",
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/no-jest-import": "error",
+        "jest/no-jasmine-globals": "warn",
+        "jest/no-test-prefixes": "error",
+        "jest/valid-describe": "error",
+        "jest/valid-expect": "error",
+        "jest/valid-expect-in-promise": "error"
+      }
+    }
+  ]
 }

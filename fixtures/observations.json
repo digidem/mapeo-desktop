@@ -8,6 +8,22 @@
       {
         "id": "2fb09847.jpg",
         "type": "image/jpg"
+      },
+      {
+        "id": "611e97dd.jpg",
+        "type": "image/jpg"
+      },
+      {
+        "id": "9434dfaf.jpg",
+        "type": "image/jpg"
+      },
+      {
+        "id": "af87b30b.jpg",
+        "type": "image/jpg"
+      },
+      {
+        "id": "4a89383c.jpg",
+        "type": "image/jpg"
       }
     ],
     "tags": {
@@ -30,7 +46,7 @@
       "today": "2014-03-11",
       "village": "Parikowaro Naawa",
       "start": "2014-03-11T00:00:00.000Z",
-      "notes": "Laboris qui tempor dolore exercitation adipisicing. In officia eu irure occaecat deserunt mollit do nulla. Id dolor deserunt laborum est.",
+      "notes": "Laboris qui tempor dolore exercitation adipisicing. In officia eu irure occaecat deserunt mollit do nulla. Id dolor deserunt laborum est.\nLaboris qui tempor dolore exercitation adipisicing.",
       "categoryId": "fishing"
     }
   },
@@ -64,7 +80,7 @@
       "placename": "Harold Johnsonburg",
       "region": "South Central",
       "today": "2014-06-28",
-      "village": "Potari Naawa",
+      "village": "village_1",
       "start": "2014-06-28T00:00:00.000Z",
       "notes": "Dolore nisi cupidatat eu.",
       "categoryId": "mining"
@@ -8294,7 +8310,6 @@
     "id": "69af38b4-a4b2-4fb7-a702-f9dd9b9ebaa2",
     "lon": -59.97162444493733,
     "lat": 2.2830180289689452,
-    "created_at": "2014-03-24T00:00:00.000Z",
     "attachments": [
       {
         "id": "4af57b63.jpg",
