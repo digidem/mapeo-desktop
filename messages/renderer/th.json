@@ -219,7 +219,7 @@
     "message": "ยกเลิกการเปลี่ยนแปลง"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
-    "message": "You have made some changes, closing without saving will loose the changes you make"
+    "message": "ปิดโปรแกรมโดยไม่บันทึก ข้อมูลที่แก้ไขไว้จะหายไป"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
     "message": "ปิดโดยไม่บันทึกหรือไม่?"
@@ -251,7 +251,7 @@
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
-    "message": "{count} Hidden Fields"
+    "message": "{count} ฟิลด์ที่ซ่อน"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
@@ -428,19 +428,19 @@
     "message": "เกิดข้อผิดพลาดและไม่สามารถอัปเดต Mapeo ได้ โปรดลองอีกครั้งในภายหลัง"
   },
   "renderer.components.UpdaterView.index.errorTitle": {
-    "message": "Error"
+    "message": "ข้อผิดพลาด"
   },
   "renderer.components.UpdaterView.index.estimatedDownloadTime": {
     "message": "เวลาดาวน์โหลดไฟล์โดยประมาณ"
   },
   "renderer.components.UpdaterView.index.majorUpdate": {
-    "message": "This update will make your application incompatible with earlier verions."
+    "message": "การอัปเดตนี้จะทำให้แอปพลิเคชันของคุณใช้ไม่ได้กับเวอร์ชันก่อนหน้า"
   },
   "renderer.components.UpdaterView.index.minorUpdate": {
-    "message": "This update includes improvements that may change your experience."
+    "message": "การอัปเดตนี้รวมถึงการปรับปรุงที่อาจจะสร้างประสบการณ์ใหม่ให้คุณ"
   },
   "renderer.components.UpdaterView.index.patchUpdate": {
-    "message": "This update includes changes that fix critical errors. Please update as soon as possible."
+    "message": "การอัปเดตนี้รวมถึงการแก้ไขข้อผิดพลาดที่สำคัญ โปรดอัปเดตโดยเร็วที่สุด"
   },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
     "message": "เริ่มการใช้งานใหม่"
