@@ -473,6 +473,22 @@
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Enter Coordinates"
   },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Export Errors"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "There was an error trying to export these files, so they are missing from this export:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Missing Originals"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "The original size of these files could not be found, only preview size (1,200 pixel) images are included. This can happen because the phone that took the photos has only synced to other phones, and not directly to Mapeo Desktop. To try fixing this, find the phone that took the photos and sync it with Mapeo Desktop before exporting again."
+  },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
     "message": "No answer"
