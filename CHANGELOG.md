@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.10](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.9...v5.4.0-beta.10) (2020-10-14)
+
+
+### Bug Fixes
+
+* Add separators in Help menu ([e12a337](https://github.com/digidem/mapeo-desktop/commit/e12a337))
+* Add Vietnamese, Thai, and Khmer to available languages. ([945de46](https://github.com/digidem/mapeo-desktop/commit/945de46))
+* Display error to user when it is a fatal mapeo core error ([#439](https://github.com/digidem/mapeo-desktop/issues/439)) ([c655a2e](https://github.com/digidem/mapeo-desktop/commit/c655a2e))
+* Extract English language messages for CrowdIn ([366b324](https://github.com/digidem/mapeo-desktop/commit/366b324))
+* Fallback to exporting preview-sized images if originals are missing ([#437](https://github.com/digidem/mapeo-desktop/issues/437)) ([69c43ed](https://github.com/digidem/mapeo-desktop/commit/69c43ed))
+* Fix pdf report image wrapping ([#436](https://github.com/digidem/mapeo-desktop/issues/436)) ([97a2b0f](https://github.com/digidem/mapeo-desktop/commit/97a2b0f))
+* Remove duplicate styling for updater loading progress. ([49b6e8d](https://github.com/digidem/mapeo-desktop/commit/49b6e8d))
+
+
+
 ## [5.4.0-beta.9](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.8...v5.4.0-beta.9) (2020-09-28)
 
 
