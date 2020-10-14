@@ -6,7 +6,10 @@ const store = require('../store')
 const translations = {
   en: require('../../messages/main/en.json'),
   es: require('../../messages/main/es.json'),
-  pt: require('../../messages/main/pt.json')
+  pt: require('../../messages/main/pt.json'),
+  th: require('../../messages/main/th.json'),
+  vi: require('../../messages/main/vi.json'),
+  km: require('../../messages/main/km.json')
 }
 
 // We only support generalized locales for now (i.e., no difference between
