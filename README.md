@@ -53,7 +53,7 @@ tail -f USERDATA/Mapeo/logs/$DATE.debug.log
 
 ## Contributing
 
-See [docs/CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for more details.
 
 
 ## Community
