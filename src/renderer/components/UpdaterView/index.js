@@ -140,7 +140,6 @@ const DownloadProgressView = ({ cx, update, percent }) => {
 
   return (
     <div className={cx.searchingText}>
-      <Loader />
       <LinearProgress variant='determinate' value={percent} color='secondary' />
       <Typography>
         {estimatedTimeLeft && <FormattedDuration seconds={estimatedTimeLeft} />}
