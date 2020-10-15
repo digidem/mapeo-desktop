@@ -210,10 +210,10 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
-    "message": "Cancel"
+    "message": "Hủy"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
-    "message": "Cancel"
+    "message": "Hủy"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
     "message": "Discard changes"
@@ -225,7 +225,7 @@
     "message": "Close without saving changes?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
-    "message": "Cancel"
+    "message": "Hủy"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
     "message": "Yes, delete"
@@ -243,7 +243,7 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
-    "message": "Save"
+    "message": "Lưu"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
@@ -269,15 +269,15 @@
   },
   "renderer.components.MapFilter.ReportView.PrintButton.close": {
     "description": "Button label to close print settings dialog",
-    "message": "Cancel"
+    "message": "Đóng"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
     "description": "Title of print settings dialog",
-    "message": "Saving Report"
+    "message": "Print settings"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.print": {
     "description": "Button label to save a report",
-    "message": "Save"
+    "message": "Print"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.printLoading": {
     "description": "Loading message when report is very long.",
