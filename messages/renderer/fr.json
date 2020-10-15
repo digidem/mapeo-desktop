@@ -163,37 +163,6 @@
     "description": "Button text to turn off filters for a field",
     "message": "All"
   },
-  "renderer.components.MapFilter.FilterPanel.filterHeader": {
-    "message": "Filter by…"
-  },
-  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
-    "description": "Title of min date field in filter",
-    "message": "From"
-  },
-  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
-    "description": "Label for filter by date observation was created",
-    "message": "Date of observation"
-  },
-  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
-    "description": "Button text to change which fields are shown and filterable in the filter pane",
-    "message": "Edit Filters…"
-  },
-  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
-    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
-    "message": "Modified"
-  },
-  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
-    "description": "Label for filter by category (e.g. the preset)",
-    "message": "Category"
-  },
-  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
-    "description": "Button text to only show a particular field value in a filter",
-    "message": "Only"
-  },
-  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
-    "description": "Button text to turn off filters for a field",
-    "message": "All"
-  },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "Filter by…"
   },
@@ -334,22 +303,6 @@
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.previewMessage": {
     "message": "Previewing first {numPages} pages"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.close": {
-    "description": "Button label to close print settings dialog",
-    "message": "Close"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
-    "description": "Title of print settings dialog",
-    "message": "Print settings"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.paperSize": {
-    "description": "Label for paper size selection field",
-    "message": "Paper size"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to print a report",
-    "message": "Print"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Map"
@@ -513,6 +466,12 @@
   },
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
     "message": "Choose a language"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Close"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Open log..."
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"
