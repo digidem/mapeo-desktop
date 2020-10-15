@@ -30,49 +30,16 @@ In production mode, `info` and `error` messages are written to
 In debug mode and development mode (via `npm run dev` or in the Help menu),
 Mapeo will verbosely write all messages for 1 day. 
 
+### Styles and tiles
 
-### Testing Automatic Updates
+Create a project configuration and styles using the [User
+Guide](https://docs.mapeo.app) and load it into your application. You can use
+one of our private configurations, such as [2020
+demo](https://github.com/digidem/mapeo-config-2020-demo-en). 
 
-To test automatic updates, you may need to configure your local development
-installation. 
+If you want even better test coverage, ask the program team for an example
+dataset.
 
-1. Ensure `dev-app-update.yml` exists in the root directory (the same as
-package.json).
-
-```
-provider: generic
-url: https://downloads.mapeo.app/desktop
-channel: latest
-```
-
-2. Downgrade your current version of Mapeo manually by changing `version` in
-   `package.json` down one patch, e.g., `5.2.1` -> `5.2.0`.
-
-3. Downloaded updates are stored in `USERDATA/.cache/Mapeo/pending/`, be sure
-   to delete these if you want to re-create a full update flow.
-
-
-### Running a local update server
-
-You can also run an automatic update server locally, in case you don't have access to
-the Internet or want to test new behavior:
-
-```
-$ mkdir updates
-$ cd updates && wget https://downloads.mapeo.app/desktop/latest-{platform}.yml 
-```
-
-1. Then, open latest-linux.yml and find the `url` key. 
-
-2. Download this url (e.g., `https://downloads.mapeo.ap/desktop/Installar_Mapeo_{version}_{platform}.{ext}..` to the `updates` directory. 
-
-3. Run `npx http-server` to host your update server locally, note the
-   PORT.
-
-4. Open `dev-app-update.yml` and change the url to `http://localhost:PORT`. 
-
-**You can run this update server on a local network and create a proxy to that
-server from https://downloads.mapeo.app to prioritize local updates.** 
 
 ### Run a mock device
 
@@ -120,6 +87,51 @@ For Windows, you'll need Windows 10 with a 1366x768 screen.
 
 When running integration tests, keep the mouse on the edge of the screen and don't touch the mouse
 or keyboard while the tests are running.
+
+
+### Testing Automatic Updates
+
+To test automatic updates, you may need to configure your local development
+installation. 
+
+1. Ensure `dev-app-update.yml` exists in the root directory (the same as
+package.json).
+
+```
+provider: generic
+url: https://downloads.mapeo.app/desktop
+channel: latest
+```
+
+2. Downgrade your current version of Mapeo manually by changing `version` in
+   `package.json` down one patch, e.g., `5.2.1` -> `5.2.0`.
+
+3. Downloaded updates are stored in `USERDATA/.cache/Mapeo/pending/`, be sure
+   to delete these if you want to re-create a full update flow.
+
+
+### Running a local update server
+
+You can also run an automatic update server locally, in case you don't have access to
+the Internet or want to test new behavior:
+
+```
+$ mkdir updates
+$ cd updates && wget https://downloads.mapeo.app/desktop/latest-{platform}.yml 
+```
+
+1. Then, open latest-linux.yml and find the `url` key. 
+
+2. Download this url (e.g., `https://downloads.mapeo.ap/desktop/Installar_Mapeo_{version}_{platform}.{ext}..` to the `updates` directory. 
+
+3. Run `npx http-server` to host your update server locally, note the
+   PORT.
+
+4. Open `dev-app-update.yml` and change the url to `http://localhost:PORT`. 
+
+**You can run this update server on a local network and create a proxy to that
+server from https://downloads.mapeo.app to prioritize local updates.** 
+
 
 ### Building locally
 

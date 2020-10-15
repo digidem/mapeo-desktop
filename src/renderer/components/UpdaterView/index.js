@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button'
 import FormattedDuration from 'react-intl-formatted-duration'
 import ErrorIcon from '@material-ui/icons/Error'
 import Paper from '@material-ui/core/Paper'
-import Loader from '../Loader'
 
 import STATES from './states'
 export { default as STATES } from './states'
@@ -140,7 +139,6 @@ const DownloadProgressView = ({ cx, update, percent }) => {
 
   return (
     <div className={cx.searchingText}>
-      <Loader />
       <LinearProgress variant='determinate' value={percent} color='secondary' />
       <Typography>
         {estimatedTimeLeft && <FormattedDuration seconds={estimatedTimeLeft} />}
