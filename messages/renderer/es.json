@@ -210,10 +210,10 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
     "message": "Cerrar sin guardar"
@@ -225,7 +225,7 @@
     "message": "¿Cerrar sin guardar?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
     "message": "Sí, borrar"
@@ -243,7 +243,7 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
-    "message": "Save"
+    "message": "Guardar"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
@@ -269,15 +269,15 @@
   },
   "renderer.components.MapFilter.ReportView.PrintButton.close": {
     "description": "Button label to close print settings dialog",
-    "message": "Cancel"
+    "message": "Cerrar"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
     "description": "Title of print settings dialog",
-    "message": "Saving Report"
+    "message": "Ajustes de impresión"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.print": {
     "description": "Button label to save a report",
-    "message": "Save"
+    "message": "Imprimir"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.printLoading": {
     "description": "Loading message when report is very long.",
@@ -449,7 +449,7 @@
     "message": "An update to Mapeo has been downloaded. Restart Mapeo to update."
   },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
-    "message": "Unknown"
+    "message": "Desconocido"
   },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
