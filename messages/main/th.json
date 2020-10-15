@@ -80,6 +80,8 @@
   "welcome-screen-1-subtitle": "แผนที่ความร่วมมือแบบออฟไลน์",
   "welcome-screen-1-next-button": "เริ่มต้นใช้งาน",
   "welcome-screen-2-title": "Mapeo เป็นโปรแกรมแก้ไขแผนที่แบบออฟไลน์",
+  "welcome-screen-2-text-1": "Mapeo ช่วยสร้างแผนที่และจัดระเบียบเรื่องราวและความรู้ของทีมหรือรายบุคคลได้อย่างง่ายดาย",
+  "welcome-screen-2-text-2": "Mapeo สร้างขึ้นโดยความร่วมมือของชนพื้นเมืองในลุ่มน้ำอเมซอน",
   "welcome-screen-2-text-5": "เรายินดีรับฟังความคิดเห็นและรายงานข้อบกพร่องที่พบ โปรดติดต่อผ่าน <a target=\"_blank\" href=\"https://github.com/digidem/mapeo-desktop\">แหล่งเก็บข้อมูลกิตฮับ (GitHub repository)</a>",
   "welcome-screen-2-next-button": "เริ่มทำแผนที่",
   "welcome-screen-3-title": "เริ่มต้นใช้ Mapeo",
