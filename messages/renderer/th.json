@@ -110,6 +110,27 @@
     "description": "Label for select option to include preview size photos in export",
     "message": "ภาพถ่ายขนาดตัวอย่าง"
   },
+  "renderer.components.MapFilter.DataExportDialog.noData": {
+    "description": "Shown when there is no data to export",
+    "message": "คุณยังไม่มีข้อมูลสำหรับส่งออก"
+  },
+  "renderer.components.MapFilter.DataExportDialog.save": {
+    "description": "Save button",
+    "message": "บันทึก"
+  },
+  "renderer.components.MapFilter.DataExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "ส่งออกการสังเกต"
+  },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "ส่งออกข้อมูลการสังเกต"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "ส่งออกการสังเกต..."
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "ส่งออกเป็น Webmap..."
+  },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
     "message": "ถึง"
@@ -144,6 +165,38 @@
   },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "กรองข้อมูลโดย"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "ยกเลิก"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "รายละเอียดแผนที่"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "บันทึก"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "สไตล์แผนที่"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "เพิ่มข้อกำหนดและข้อจำกัดเกี่ยวกับวิธีใช้ข้อมูลนี้"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "ข้อกำหนดและข้อจำกัด"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "ส่งออกแผนที่เพื่อแบ่งปันออนไลน์"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "ชื่อแผนที่"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
