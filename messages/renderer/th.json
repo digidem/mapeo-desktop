@@ -185,6 +185,56 @@
     "description": "Button when sync is complete",
     "message": "เสร็จสมบูรณ์"
   },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "ขาดการเชื่อมต่อ"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "กำลังจะเสร็จแล้ว..."
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "ลองอีกครั้ง"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "กำลังเริ่ม..."
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "เชื่อมโยงข้อมูลให้ตรงกัน"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "ฐานข้อมูล: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "ข้อผิดพลาดในการเชื่อมโยง"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "เชื่อมโยงล่าสุด:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "รูปภาพ: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "สร้างฐานข้อมูลใหม่เพื่อเชื่อมโยง"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} จำเป็นต้องอัพเกรด Mapeo"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "กรุณาอัพเกรด Mapeo เพื่อเชื่อมต่อกับ {deviceName}"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "เลือกฐานข้อมูลเพื่อเชื่อมโยง"
+  },
   "renderer.components.UpdaterView.index.calculatingProgress": {
     "message": "กำลังประเมิน..."
   },
@@ -218,11 +268,39 @@
   "renderer.components.UpdaterView.index.restartMapeoText": {
     "message": "ดาวน์โหลดไฟล์อัปเดต Mapeo แล้ว กรุณาปิดและเปิดโปรแกรม Mapeo เพื่อทำการอัปเดต"
   },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "ไม่มีข้อมูล"
+  },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
     "message": "อัปเดต"
   },
   "renderer.components.UpdaterView.index.updateNotAvailable": {
     "message": "Mapeo อัปเดตเป็นเวอร์ชันล่าสุดแล้ว!"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "ยกเลิก"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "ส่งข้อมูล"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "เลือกภาษา"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "ปิด"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "เปิดประวัติ..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "ส่งข้อมูล"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "ป้อนพิกัด"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "ข้อผิดพลาดในการส่งออก"
   }
 }
