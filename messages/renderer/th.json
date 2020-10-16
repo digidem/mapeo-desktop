@@ -76,6 +76,40 @@
     "description": "Default filename for exported data",
     "message": "mapeo-observation-data"
   },
+  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+    "message": "การสังเกตทั้งหมด {count} รายการ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+    "message": "การสังเกตที่คัดกรอง {count} รายการ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "เฉพาะข้อมูลที่กรองหรือข้อมูลทั้งหมด?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.format": {
+    "description": "Label for data format selector",
+    "message": "รูปแบบข้อมูล"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "ส่งรูปภาพออกด้วยหรือไม่?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "การส่งออกเป็นไฟล์ zip โดยรวมทั้งข้อมูลและภาพถ่าย"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "ไม่รวมภาพถ่าย"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "ภาพถ่ายขนาดเต็ม"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "ภาพถ่ายขนาดตัวอย่าง"
+  },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
     "message": "ถึง"
@@ -302,5 +336,21 @@
   "renderer.create-zip.errorsFilename": {
     "description": "File name for file with information about export errors",
     "message": "ข้อผิดพลาดในการส่งออก"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "เกิดข้อผิดพลาดในการส่งออกไฟล์ ​ไฟล์เหล่านี้ยังไม่ได้ส่งออก:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "ไม่พบไฟล์ต้นฉบับ​"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "ไม่พบขนาดต้นฉบับของไฟล์เหล่านี้ มีเฉพาะภาพขนาดตัวอย่าง (1,200 พิกเซล) เท่านั้น กรณีนี้เกิดขึ้นได้เนื่องจากโทรศัพท์ที่ใช้ถ่ายภาพได้เชื่อมต่อกับโทรศัพท์เครื่องอื่นและไม่ได้เชื่อมต่อโดยตรงกับ Mapeo Desktop วิธีแก้ไข คือให้เชื่อมต่อโทรศัพท์ที่ใช้ถ่ายภาพเข้ากับ Mapeo Desktop อีกครั้งก่อนส่งออกไฟล์"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "ไม่มีการตอบรับ"
   }
 }
