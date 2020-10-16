@@ -291,9 +291,52 @@
     "description": "Title of the PDF document",
     "message": "ชื่อ"
   },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "message": "ถัดไป"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.noReport": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "ไม่พบการสังเกต"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "message": "ก่อนหน้า"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.previewMessage": {
+    "message": "มุมมองตัวอย่าง {numPages} หน้าแรก"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "แผนที่"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "สื่อ"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "รายงาน"
+  },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
     "message": "การสังเกต"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "ตรวจสอบให้แน่ใจว่าอุปกรณ์เปิดอยู่และเชื่อมต่อภายใต้เครือข่าย Wi-Fi เดียวกัน"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "กำลัง​ค้น​หา..."
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "ขาดการเชื่อมต่อ"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "ในขั้นแรก คุณต้องเชื่อมต่อกับเครือข่าย Wi-Fi ก่อนจึงจะสามารถเชื่อมโยงกับอุปกรณ์อื่นได้"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "สร้างไฟล์เชื่อมต่อใหม่..."
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "คุณภาพ: {quality}%"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
     "message": "สัญญาณเชื่อมต่อดีเยี่ยม"
