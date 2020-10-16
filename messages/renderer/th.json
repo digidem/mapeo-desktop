@@ -26,9 +26,17 @@
     "description": "Default filename for map export",
     "message": "mapeo-map-data"
   },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "การนำไฟล์ออกล้มเหลว เนื่องจากข้อผิดพลาดภายใน"
+  },
   "renderer.components.MapEditor.ExportButton.dialogSuccess": {
     "description": "Export success message,",
     "message": "การนำไฟล์ออกเสร็จสมบูรณ์"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "กำลังส่งออกข้อมูล..."
   },
   "renderer.components.MapEditor.index.notes": {
     "message": "รายละเอียด"
