@@ -363,7 +363,16 @@ const fallbackFields = {
  */
 function convertPresets (presetsObj) {
   const fields = { ...fallbackFields, ...presetsObj.fields }
-  const presets = { ...fallbackPresets, ...presetsObj.presets }
+  // Fallback presets need to override presets with the same id, since in iD it
+  // is essential that tags {} is empty, matchScore is 0.1 & geometry is correct
+  const presets = { ...presetsObj.presets, ...fallbackPresets }
+
+  // Copy the name and fields for fallback presets from the user-defined presets
+  Object.keys(fallbackPresets).forEach(presetId => {
+    if (!presetsObj.presets[presetId]) return
+    fallbackPresets[presetId].name = presetsObj.presets[presetId].name
+    fallbackPresets[presetId].fields = presetsObj.presets[presetId].fields
+  })
 
   // In Mapeo Mobile (and Observation View) we do not yet use the preset.tags
   // property to match presets to entities on the map. Instead we match based on
