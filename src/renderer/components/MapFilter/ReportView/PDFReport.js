@@ -17,7 +17,10 @@ import {
 } from '@react-pdf/renderer'
 import type { Field, Observation } from 'mapeo-schema'
 
-import { FormattedFieldProp, FormattedFieldValue } from '../internal/FormattedData'
+import {
+  FormattedFieldProp,
+  FormattedFieldValue
+} from '../internal/FormattedData'
 import FormattedLocation from '../internal/FormattedLocation'
 import { isEmptyValue } from '../utils/helpers'
 import { get } from '../utils/get_set'
@@ -63,8 +66,6 @@ type PageProps = {
   mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
 }
 
-
-
 /*  TODO: add frontpage
 const FrontPage = ({ bounds }) => {
   var opts = {
@@ -102,11 +103,7 @@ const PDFReport = ({
   length?: number,
   observations: Array<Observation>
 }) => {
-  const {
-    intl,
-    settings = defaultSettings,
-    ...otherProps
-  } = renderer
+  const { intl, settings = defaultSettings, ...otherProps } = renderer
 
   const preview = length ? observations.slice(0, length) : observations
 
@@ -186,7 +183,7 @@ const FeaturePage = ({
   )
 }
 
-function Details ({view}: {view: ObservationView}) {
+function Details ({ view }: { view: ObservationView }) {
   const { formatMessage: t } = useIntl()
   const nonEmptyFields = view.fields.filter(field => {
     const value = get(view.tags, field.key)
@@ -199,10 +196,13 @@ function Details ({view}: {view: ObservationView}) {
       {nonEmptyFields.map(field => (
         <View key={field.id} style={styles.field} wrap={false}>
           <Text style={styles.fieldLabel}>
-            <FormattedFieldProp field={field} propName="label" />
+            <FormattedFieldProp field={field} propName='label' />
           </Text>
           <Text style={styles.fieldValue}>
-            <FormattedFieldValue field={field} value={get(view.tags, field.key)} />
+            <FormattedFieldValue
+              field={field}
+              value={get(view.tags, field.key)}
+            />
           </Text>
         </View>
       ))}
@@ -229,11 +229,7 @@ function ObservationRHS ({ observationView }) {
 
       {observationView.mediaItems.map((src, i) => (
         <View key={i} style={styles.imageWrapper} wrap={false}>
-          <Image
-            cache={true}
-            src={src}
-            style={styles.image}
-          />
+          <Image cache={true} src={src} style={styles.image} />
         </View>
       ))}
     </View>
