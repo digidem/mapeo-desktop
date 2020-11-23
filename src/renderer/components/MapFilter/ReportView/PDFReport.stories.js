@@ -48,20 +48,17 @@ export default {
 export const basic = () =>
   React.createElement(() => {
     const intl = useIntl()
-    const renderer = {
-      getPreset: defaultGetPreset,
-      getMedia,
-      intl,
-      mapStyle,
-      mapboxAccessToken
-    }
+
     return (
       <BlobProvider
         document={
           <PDFReport
-            length={1}
-            renderer={renderer}
-            observations={exampleObservations}
+            getPreset={defaultGetPreset}
+            getMedia={getMedia}
+            intl={intl}
+            mapStyle={mapStyle}
+            mapboxAccessToken={mapboxAccessToken}
+            observations={exampleObservations.slice(0, 1)}
           />
         }
       >

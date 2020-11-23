@@ -34,7 +34,7 @@ export const basic = () => (
   <ReportView
     getMediaUrl={getMediaUrl}
     mapboxAccessToken={mapboxAccessToken}
-    observations={exampleObservations.slice(0, 10)}
+    observations={exampleObservations.slice(0, 100)}
     onUpdateObservation={action('update')}
     onDeleteObservation={action('delete')}
     mapStyle={mapStyle}

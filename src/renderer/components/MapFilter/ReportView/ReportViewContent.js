@@ -12,7 +12,7 @@ import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
 import PdfViewer from './PdfViewer'
-import PrintButton from './PrintButton'
+// import PrintButton from './PrintButton'
 import PDFReport from './PDFReport'
 import type { Observation } from 'mapeo-schema'
 import type {
@@ -24,10 +24,9 @@ import type {
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import { SettingsContext } from '../internal/Context'
 
-type Props = {
+export type ReportViewContentProps = {
   ...$Exact<CommonViewContentProps>,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
+  ...$Exact<MapViewContentProps>
 }
 
 const m = defineMessages({
@@ -48,10 +47,8 @@ const ReportViewContent = ({
   onClick,
   observations,
   getPreset,
-  getMedia,
-  mapStyle,
-  mapboxAccessToken
-}: Props) => {
+  ...otherProps
+}: ReportViewContentProps) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
@@ -92,27 +89,17 @@ const ReportViewContent = ({
     [fieldState, getPreset]
   )
 
-  const renderer = {
-    getPreset: getPresetWithFilteredFields,
-    getMedia,
-    intl,
-    settings,
-    mapStyle,
-    mapboxAccessToken
-  }
-
   const pdf = useMemo(() => {
     return (
       <PDFReport
-        observations={observations}
-        length={5}
-        renderer={renderer}
+        {...otherProps}
+        observations={observations.slice(0, 5)}
+        getPreset={getPresetWithFilteredFields}
+        intl={intl}
+        settings={settings}
       />
     )
-  }, [
-    renderer,
-    observations
-  ])
+  }, [otherProps, observations, getPresetWithFilteredFields, intl, settings])
 
   return (
     <div className={cx.root}>
@@ -127,11 +114,6 @@ const ReportViewContent = ({
                 <HideFieldsButton
                   fieldState={fieldState}
                   onFieldStateUpdate={setFieldState}
-                />
-                <PrintButton
-                  observations={observations}
-                  renderer={renderer}
-                  disabled={error || loading}
                 />
               </Toolbar>
               {loading ? <Loading /> : <ReportPreview url={url} />}

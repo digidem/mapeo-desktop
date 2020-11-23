@@ -13,7 +13,7 @@ import type { Observation } from 'mapeo-schema'
 
 import Loading from '../../Loading'
 import PDFReport from './PDFReport'
-import type { PDFReportOptions } from './PDFReport'
+import type { ReportProps } from './PDFReport'
 
 import ToolbarButton from '../internal/ToolbarButton'
 
@@ -29,7 +29,8 @@ const messages = defineMessages({
   // Button label to save a report
   print: 'Save',
   // Loading message when report is very long.
-  printLoading: 'Note: This report is more than 50 pages long. It may take several minutes to prepare.',
+  printLoading:
+    'Note: This report is more than 50 pages long. It may take several minutes to prepare.',
   // The title of the report on the filesystem
   reportName: 'Report'
 })
@@ -69,20 +70,18 @@ class PrintButton extends React.Component<Props, State> {
           maxWidth='xs'
           className='d-print-none'
         >
-        { dialogOpen
-          ? <SavePDFLoadingDialog
+          {dialogOpen ? (
+            <SavePDFLoadingDialog
               closeDialog={this.closeDialog}
               renderer={renderer}
               observations={observations}
             />
-          : null
-        }
+          ) : null}
         </Dialog>
       </React.Fragment>
     )
   }
 }
-
 
 // SavePDFLoadingDialog shows a loading screen while the PDF is saving,
 // and then opens the save dialog for the PDF once complete.
@@ -102,26 +101,21 @@ class PrintButton extends React.Component<Props, State> {
 
 const SavePDFLoadingDialog = ({ closeDialog, renderer, observations }) => {
   const cx = useStyles()
-  const { formatMessage : t } = useIntl()
+  const { formatMessage: t } = useIntl()
   const pdf = useMemo(() => {
-    return (
-      <PDFReport
-        observations={observations}
-        renderer={renderer}
-      />
-    )
-  }, [
-    renderer,
-    observations
-  ])
+    return <PDFReport observations={observations} renderer={renderer} />
+  }, [renderer, observations])
 
-
-  const finishedLoading = (url) => {
+  const finishedLoading = url => {
     const link = document.createElement('a')
-    const now = new Date();
-    const offsetMs = now.getTimezoneOffset() * 60 * 1000;
-    const dateLocal = new Date(now.getTime() - offsetMs);
-    const str = dateLocal.toISOString().slice(0, 19).replace(/-/g, "/").replace("T", "-");
+    const now = new Date()
+    const offsetMs = now.getTimezoneOffset() * 60 * 1000
+    const dateLocal = new Date(now.getTime() - offsetMs)
+    const str = dateLocal
+      .toISOString()
+      .slice(0, 19)
+      .replace(/-/g, '/')
+      .replace('T', '-')
 
     link.setAttribute('download', `${t(messages.reportName)}-${str}.pdf`)
     link.href = url
@@ -133,37 +127,37 @@ const SavePDFLoadingDialog = ({ closeDialog, renderer, observations }) => {
     closeDialog()
   }
 
-
-  return <BlobProvider document={pdf}>
+  return (
+    <BlobProvider document={pdf}>
       {({ blob, url, loading, error }) => {
         if (!loading && !error) finishedLoading(url)
-        return <>
-        <DialogTitle>
-          <FormattedMessage {...messages.dialogTitle} />
-        </DialogTitle>
-        <DialogContent>
-        { loading
-          ? <div className={cx.loadingBox}>
-              <Loading />
-              { observations.length > LARGE_REPORT_LENGTH
-                ? <div className={cx.loadingMessage}>
-                    <FormattedMessage
-                      {...messages.printLoading}
-                    />
-                  </div>
-                : null }
-            </div>
-          : null
-        }
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialog} color='primary'>
-            <FormattedMessage {...messages.close} />
-          </Button>
-        </DialogActions>
-      </>
-    }}
-  </BlobProvider>
+        return (
+          <>
+            <DialogTitle>
+              <FormattedMessage {...messages.dialogTitle} />
+            </DialogTitle>
+            <DialogContent>
+              {loading ? (
+                <div className={cx.loadingBox}>
+                  <Loading />
+                  {observations.length > LARGE_REPORT_LENGTH ? (
+                    <div className={cx.loadingMessage}>
+                      <FormattedMessage {...messages.printLoading} />
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={closeDialog} color='primary'>
+                <FormattedMessage {...messages.close} />
+              </Button>
+            </DialogActions>
+          </>
+        )
+      }}
+    </BlobProvider>
+  )
 }
 
 export default PrintButton

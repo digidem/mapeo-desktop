@@ -5,7 +5,8 @@ import {
   IntlProvider,
   defineMessages,
   useIntl,
-  FormattedTime
+  FormattedTime,
+  FormattedMessage
 } from 'react-intl'
 import {
   Page,
@@ -44,26 +45,18 @@ const m = defineMessages({
   dateHeader: 'Created at'
 })
 
-export type PDFReportOptions = {
-  ...$Exact<$Diff<CommonViewContentProps, { onClick: *, observations: * }>>,
+export type ReportProps = {
+  ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with useIntl() and provide it as a prop */
   intl?: any,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with React.useContext(SettingsContext) and provide it as a prop */
   settings?: SettingsContextType,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
-  getPreset: $ElementType<PDFReportOptions, 'getPreset'>,
-  getMedia: $ElementType<PDFReportOptions, 'getMedia'>
-}
-
-type PageProps = {
-  getPreset: $ElementType<PDFReportOptions, 'getPreset'>,
-  getMedia: $ElementType<PDFReportOptions, 'getMedia'>,
-  observation: Observation,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
+  /** Called with an index of observationId => pageNumber and the total number
+   * of pages in the rendered PDF */
+  onPageIndex?: (index: Map<string, number>, totalPages: number) => void,
+  ...$Exact<MapViewContentProps>
 }
 
 /*  TODO: add frontpage
@@ -95,26 +88,48 @@ const FrontPage = ({ bounds }) => {
 */
 
 const PDFReport = ({
-  renderer,
-  length,
-  observations
-}: {
-  renderer: PDFReportOptions,
-  length?: number,
-  observations: Array<Observation>
-}) => {
-  const { intl, settings = defaultSettings, ...otherProps } = renderer
+  intl,
+  settings = defaultSettings,
+  onPageIndex,
+  observations,
+  getPreset,
+  getMedia,
+  mapStyle,
+  mapboxAccessToken
+}: ReportProps) => {
+  const pageIndex = new Map()
+  let didCallback = false
 
-  const preview = length ? observations.slice(0, length) : observations
+  // This will be called once for each observation without the totalPages, then
+  // called once for each observation with totalPages set. For each render of
+  // this componenent, onPageIndex will be called once with the index & totalPages
+  function handleRenderObservation ({ id, pageNumber, totalPages }) {
+    pageIndex.set(id, pageNumber)
+    if (typeof totalPages === 'number' && !didCallback && onPageIndex) {
+      didCallback = true
+      onPageIndex(pageIndex, totalPages)
+    }
+  }
 
   const children = (
     <SettingsContext.Provider value={settings}>
       <Document>
-        {preview.map(obs => (
-          <Page key={obs.id} size='A4' style={styles.page} wrap>
-            <FeaturePage key={obs.id} observation={obs} {...otherProps} />
-          </Page>
-        ))}
+        {observations.map(observation => {
+          const view = new ObservationView({
+            observation,
+            getPreset,
+            getMedia,
+            mapStyle,
+            mapboxAccessToken
+          })
+          return (
+            <FeaturePage
+              key={observation.id}
+              observationView={view}
+              onRender={handleRenderObservation}
+            />
+          )
+        })}
       </Document>
     </SettingsContext.Provider>
   )
@@ -128,62 +143,95 @@ const PDFReport = ({
 }
 
 const FeaturePage = ({
-  observation,
-  getPreset,
-  getMedia,
-  mapStyle,
-  mapboxAccessToken
-}: PageProps) => {
-  var view = new ObservationView({
-    observation,
-    getPreset,
-    getMedia,
-    mapStyle,
-    mapboxAccessToken
-  })
-  const { formatMessage: t } = useIntl()
+  observationView: view,
+  onRender
+}: {
+  observationView: ObservationView,
+  onRender: (props: {
+    id: string,
+    pageNumber: number,
+    totalPages: number
+  }) => void
+}) => {
   // TODO: move all of these Views into ObservationView
   return (
-    <View style={styles.pageContent}>
-      <View style={styles.columnLeft}>
-        <Text style={styles.presetName}>
-          {view.preset.name || 'Observation'}
-        </Text>
-        {view.createdAt ? (
-          <Text style={styles.createdAt}>
-            <Text style={styles.createdAtLabel}>{t(m.dateHeader)}: </Text>
-            <FormattedTime
-              key='time'
-              value={view.createdAt}
-              year='numeric'
-              month='long'
-              day='2-digit'
-            />
+    <Page size='A4' style={styles.page} wrap>
+      <Indexer id={view.id} onRender={onRender} />
+      <View style={styles.pageContent}>
+        <View style={styles.columnLeft}>
+          <Text style={styles.presetName}>
+            {view.preset.name || 'Observation'}
           </Text>
-        ) : null}
-        {view.coords ? (
-          <Text style={styles.location}>
-            <Text style={styles.locationLabel}>{t(m.locationHeader)}: </Text>
-            <FormattedLocation {...view.coords} />
-          </Text>
-        ) : null}
-        <View>
-          {view.note
-            ? view.note.split('\n').map((para, idx) => (
-                <Text key={idx} style={styles.description}>
-                  {para}
-                </Text>
-              ))
-            : null}
+          <ObsCreated view={view} />
+          <ObsLocation view={view} />
+          <ObsDescription view={view} />
+          <ObsDetails view={view} />
         </View>
-        <Details view={view} />
+        <View style={styles.columnRight}>
+          <ObsInsetMap view={view} />
+          {view.mediaItems.map((src, i) => (
+            <ObsImage key={i} src={src} />
+          ))}
+        </View>
       </View>
-      <ObservationRHS observationView={view} />
-    </View>
+    </Page>
   )
 }
+/** Render an empty text node so that we can use the callback to
+  read the page number and total pages */
+const Indexer = ({ id, onRender }) => (
+  <View>
+    <Text
+      render={({ pageNumber, totalPages }) => {
+        onRender({
+          id,
+          pageNumber,
+          totalPages
+        })
+        return ''
+      }}
+    />
+  </View>
+)
 
-function Details ({ view }: { view: ObservationView }) {
+const ObsCreated = ({ view }: { view: ObservationView }) =>
+  view.createdAt ? (
+    <Text style={styles.createdAt}>
+      <Text style={styles.createdAtLabel}>
+        <FormattedMessage {...m.dateHeader} />:{' '}
+      </Text>
+      <FormattedTime
+        key='time'
+        value={view.createdAt}
+        year='numeric'
+        month='long'
+        day='2-digit'
+      />
+    </Text>
+  ) : null
+
+const ObsLocation = ({ view }: { view: ObservationView }) =>
+  view.coords ? (
+    <Text style={styles.location}>
+      <Text style={styles.locationLabel}>
+        <FormattedMessage {...m.locationHeader} />:{' '}
+      </Text>
+      <FormattedLocation {...view.coords} />
+    </Text>
+  ) : null
+
+const ObsDescription = ({ view }: { view: ObservationView }) =>
+  view.note ? (
+    <View>
+      {view.note.split('\n').map((para, idx) => (
+        <Text key={idx} style={styles.description}>
+          {para}
+        </Text>
+      ))}
+    </View>
+  ) : null
+
+function ObsDetails ({ view }: { view: ObservationView }) {
   const { formatMessage: t } = useIntl()
   const nonEmptyFields = view.fields.filter(field => {
     const value = get(view.tags, field.key)
@@ -210,31 +258,27 @@ function Details ({ view }: { view: ObservationView }) {
   )
 }
 
-function ObservationRHS ({ observationView }) {
-  var imageSrc = observationView.getMapImageURL()
-
+const ObsInsetMap = ({ view }: { view: ObservationView }) => {
+  var imageSrc = view.getMapImageURL()
+  if (!imageSrc) return null
   return (
-    <View style={styles.columnRight}>
-      {imageSrc ? (
-        <View style={styles.imageWrapper} wrap={false}>
-          <Image
-            src={imageSrc}
-            key={'minimap-' + observationView.id}
-            style={styles.image}
-            cache={true}
-          />
-          <View style={styles.marker} />
-        </View>
-      ) : null}
-
-      {observationView.mediaItems.map((src, i) => (
-        <View key={i} style={styles.imageWrapper} wrap={false}>
-          <Image cache={true} src={src} style={styles.image} />
-        </View>
-      ))}
+    <View style={styles.imageWrapper} wrap={false}>
+      <Image
+        src={imageSrc}
+        key={'minimap-' + view.id}
+        style={styles.image}
+        cache={true}
+      />
+      <View style={styles.marker} />
     </View>
   )
 }
+
+const ObsImage = ({ src }: { src: string }) => (
+  <View style={styles.imageWrapper} wrap={false}>
+    <Image cache={true} src={src} style={styles.image} />
+  </View>
+)
 
 class ObservationView {
   static DEFAULT_ZOOM_LEVEL = 11
