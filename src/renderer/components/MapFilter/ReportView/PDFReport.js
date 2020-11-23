@@ -346,7 +346,12 @@ const styles = StyleSheet.create({
     color: 'grey'
   },
   image: {
-    flex: 1
+    objectFit: 'contain',
+    bottom: 0,
+    right: 0,
+    top: 0,
+    left: 0,
+    position: 'absolute'
   },
   marker: {
     position: 'absolute',
@@ -363,7 +368,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     marginBottom: 10,
-    backgroundColor: '#C8D8E3'
+    paddingBottom: '100%',
+    height: 0,
+    position: 'relative',
+    overflow: 'hidden'
   },
   description: {
     marginBottom: 6,

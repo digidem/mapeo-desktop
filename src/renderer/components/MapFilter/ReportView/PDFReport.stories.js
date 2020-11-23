@@ -11,14 +11,21 @@ const exampleObservations = require('../../../../../fixtures/observations.json')
 
 const imageBaseUrl =
   'https://images.digital-democracy.org/mapfilter-sample/sample-'
-const mapStyle = 'mapbox://styles/mapbox/satellite-v10'
-const mapboxAccessToken = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
+const mapStyle = 'mapbox://styles/mapbox/outdoors-v11'
+const mapboxAccessToken =
+  'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 
-const getMedia = ({ id }) => ({
-  src: imageBaseUrl + ((parseInt(id, 16) % 17) + 1) + '.jpg',
-  type: 'image'
-})
+const getMedia = ({ id }) => {
+  return {
+    src: getMediaUrl(id),
+    type: 'image'
+  }
+}
 
+const getMediaUrl = id => {
+  if (id === 'portrait.jpg') return imageBaseUrl + id
+  return imageBaseUrl + ((parseInt(id, 16) % 17) + 1) + '.jpg'
+}
 export default {
   title: 'ReportView/components/PDFReport',
   component: PDFReport,
@@ -30,7 +37,8 @@ export default {
           height: '100vh',
           backgroundColor: '#ddd',
           overflow: 'auto'
-        }}>
+        }}
+      >
         {storyFn()}
       </div>
     )
@@ -55,7 +63,8 @@ export const basic = () =>
             renderer={renderer}
             observations={exampleObservations}
           />
-        }>
+        }
+      >
         {({ url, loading }) =>
           loading ? (
             <h2>Loading PDF...</h2>

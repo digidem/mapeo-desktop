@@ -12,9 +12,13 @@ const exampleObservations = require('../../../../../fixtures/observations.json')
 const imageBaseUrl =
   'https://images.digital-democracy.org/mapfilter-sample/sample-'
 const mapStyle = 'mapbox://styles/mapbox/satellite-v10'
-const mapboxAccessToken = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
+const mapboxAccessToken =
+  'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 
-const getMediaUrl = id => imageBaseUrl + ((parseInt(id, 16) % 17) + 1) + '.jpg'
+const getMediaUrl = id => {
+  if (id === 'portrait.jpg') return imageBaseUrl + id
+  return imageBaseUrl + ((parseInt(id, 16) % 17) + 1) + '.jpg'
+}
 
 export default {
   title: 'ReportView',
@@ -55,9 +59,7 @@ const presets: PresetWithFields[] = [
         id: 'village',
         key: ['village'],
         label: 'Village?',
-        options: [
-          {value: 'village_1', label: 'Potari Naawa'}
-        ]
+        options: [{ value: 'village_1', label: 'Potari Naawa' }]
       }
     ]
   },
