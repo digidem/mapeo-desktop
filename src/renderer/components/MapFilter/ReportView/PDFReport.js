@@ -53,9 +53,8 @@ export type ReportProps = {
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with React.useContext(SettingsContext) and provide it as a prop */
   settings?: SettingsContextType,
-  /** Called with an index of observationId => pageNumber and the total number
-   * of pages in the rendered PDF */
-  onPageIndex?: (index: Map<string, number>, totalPages: number) => void,
+  /** Called with an index of ids, position in array is page number */
+  onPageIndex?: (index: Array<string>) => void,
   ...$Exact<MapViewContentProps>
 }
 
@@ -97,17 +96,22 @@ const PDFReport = ({
   mapStyle,
   mapboxAccessToken
 }: ReportProps) => {
-  const pageIndex = new Map()
+  // **Assumption: Each observation will be max 3 pages**
+  const sparsePageIndex = new Array(observations.length * 3).fill(undefined)
   let didCallback = false
 
   // This will be called once for each observation without the totalPages, then
   // called once for each observation with totalPages set. For each render of
   // this componenent, onPageIndex will be called once with the index & totalPages
   function handleRenderObservation ({ id, pageNumber, totalPages }) {
-    pageIndex.set(id, pageNumber)
+    sparsePageIndex[pageNumber - 1] = id
     if (typeof totalPages === 'number' && !didCallback && onPageIndex) {
       didCallback = true
-      onPageIndex(pageIndex, totalPages)
+      const pageIndex = sparsePageIndex
+        .slice(0, totalPages)
+        .map((id, i, arr) => id || arr[i - 1])
+      console.log('HANDLE INDEX', pageIndex)
+      onPageIndex(pageIndex)
     }
   }
 

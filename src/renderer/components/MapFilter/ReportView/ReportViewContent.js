@@ -53,6 +53,8 @@ const ReportViewContent = ({
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
   const cx = useStyles()
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [pageIndex, setPageIndex] = React.useState([])
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
@@ -89,17 +91,54 @@ const ReportViewContent = ({
     [fieldState, getPreset]
   )
 
-  const pdf = useMemo(() => {
-    return (
-      <PDFReport
-        {...otherProps}
-        observations={observations.slice(0, 5)}
-        getPreset={getPresetWithFilteredFields}
-        intl={intl}
-        settings={settings}
-      />
-    )
-  }, [otherProps, observations, getPresetWithFilteredFields, intl, settings])
+  const [pdf, currentId] = useMemo(() => {
+    function handleIndex (subIndex) {
+      if (currentPage <= pageIndex.length) return
+      setPageIndex([...pageIndex, ...subIndex])
+    }
+
+    let observation
+    if (currentPage === 1) {
+      observation = observations[0]
+    } else if (currentPage <= pageIndex.length) {
+      observation = observations.find(
+        obs => obs.id === pageIndex[currentPage - 1]
+      )
+    } else {
+      const prevId = pageIndex[pageIndex.length - 1]
+      const prevIndex = observations.findIndex(obs => obs.id === prevId)
+      observation = observations[prevIndex + 1]
+    }
+
+    // TODO Handle undefined observation here, otherwise will crash
+    return observation
+      ? [
+          // eslint-disable-next-line react/jsx-key
+          <PDFReport
+            {...otherProps}
+            observations={[observation]}
+            getPreset={getPresetWithFilteredFields}
+            onPageIndex={handleIndex}
+            intl={intl}
+            settings={settings}
+          />,
+          observation.id
+        ]
+      : [null, null]
+  }, [
+    otherProps,
+    observations,
+    getPresetWithFilteredFields,
+    intl,
+    settings,
+    currentPage,
+    pageIndex
+  ])
+
+  let pdfPageNumber = 1
+  while (pageIndex[currentPage - pdfPageNumber - 1] === currentId) {
+    pdfPageNumber++
+  }
 
   return (
     <div className={cx.root}>
@@ -116,7 +155,18 @@ const ReportViewContent = ({
                   onFieldStateUpdate={setFieldState}
                 />
               </Toolbar>
-              {loading ? <Loading /> : <ReportPreview url={url} />}
+              <NavigationBar
+                currentPage={currentPage}
+                totalPages={999}
+                setCurrentPage={setCurrentPage}
+              />
+              {loading ? (
+                <Loading />
+              ) : (
+                <div className={cx.reportPreview}>
+                  <PdfViewer url={url} pageNumber={pdfPageNumber} />
+                </div>
+              )}
             </>
           )
         }}
@@ -125,54 +175,27 @@ const ReportViewContent = ({
   )
 }
 
-const ReportPreview = React.memo(({ url }) => {
-  const cx = useStyles()
-  const [pageNumber, setPageNumber] = useState(1)
-  const [numPages, setNumPages] = useState(1)
-
-  const validPageNumber = Math.max(1, Math.min(pageNumber, numPages))
-
-  const onLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages)
-  }
-
-  return (
-    <div className={cx.reportPreview}>
-      <NavigationBar
-        pageNumber={validPageNumber}
-        numPages={numPages}
-        setPageNumber={setPageNumber}
-      />
-      <PdfViewer
-        url={url}
-        onLoadSuccess={onLoadSuccess}
-        pageNumber={validPageNumber}
-      />
-    </div>
-  )
-})
-
-const NavigationBar = ({ pageNumber, numPages, setPageNumber }) => {
+const NavigationBar = ({ currentPage, totalPages, setCurrentPage }) => {
   const cx = useStyles()
   const handleNextPage = () => {
-    var page = Math.min(pageNumber + 1, numPages)
-    setPageNumber(page)
+    var page = Math.min(currentPage + 1, totalPages)
+    setCurrentPage(page)
   }
   const handlePrevPage = () => {
-    var page = Math.max(pageNumber - 1, 1)
-    setPageNumber(page)
+    var page = Math.max(currentPage - 1, 1)
+    setCurrentPage(page)
   }
 
   return (
     <div className={cx.navigation}>
-      <Button disabled={pageNumber === 1} onClick={handlePrevPage}>
+      <Button disabled={currentPage === 1} onClick={handlePrevPage}>
         <FormattedMessage {...m.prevPage} />
       </Button>
       <FormattedMessage
         {...m.previewMessage}
-        values={{ pageNumber, numPages }}
+        values={{ currentPage, totalPages }}
       />
-      <Button disabled={pageNumber === numPages} onClick={handleNextPage}>
+      <Button disabled={currentPage === totalPages} onClick={handleNextPage}>
         <FormattedMessage {...m.nextPage} />
       </Button>
     </div>
