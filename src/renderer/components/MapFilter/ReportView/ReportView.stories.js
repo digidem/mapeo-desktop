@@ -25,7 +25,7 @@ export default {
   component: ReportView,
   decorators: [
     (storyFn: any) => (
-      <div style={{ width: '100vw', height: '100vh' }}>{storyFn()}</div>
+      <div style={{ width: '100%', height: '100%' }}>{storyFn()}</div>
     )
   ]
 }

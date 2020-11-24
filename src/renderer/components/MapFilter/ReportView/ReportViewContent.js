@@ -3,6 +3,7 @@ import React, { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { BlobProvider } from '@react-pdf/renderer'
 import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
 
 import Loading from '../../Loading'
 import CenteredText from '../../CenteredText'
@@ -163,9 +164,9 @@ const ReportViewContent = ({
               {loading ? (
                 <Loading />
               ) : (
-                <div className={cx.reportPreview}>
-                  <PdfViewer url={url} pageNumber={pdfPageNumber} />
-                </div>
+                <Paper className={cx.reportPreview} elevation={5}>
+                  <PdfViewer blob={blob} pageNumber={pdfPageNumber} />
+                </Paper>
               )}
             </>
           )
@@ -193,7 +194,7 @@ const NavigationBar = ({ currentPage, totalPages, setCurrentPage }) => {
       </Button>
       <FormattedMessage
         {...m.previewMessage}
-        values={{ currentPage, totalPages }}
+        values={{ currentPage, totalPages: 8 }}
       />
       <Button disabled={currentPage === totalPages} onClick={handleNextPage}>
         <FormattedMessage {...m.nextPage} />
@@ -223,13 +224,15 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     bottom: 0,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor: '#f5f5f5',
+    overflowY: 'scroll',
+    paddingBottom: 20
   },
   reportPreview: {
     display: 'flex',
     margin: 'auto',
     flexDirection: 'column',
-    backgroundColor: '#F5F5F5',
     justifyContent: 'center'
   },
   navigation: {

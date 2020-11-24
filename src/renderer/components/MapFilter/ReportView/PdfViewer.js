@@ -2,15 +2,16 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 
-const PdfViewer = ({ url, onLoadSuccess, pageNumber }) => {
+const PdfViewer = ({ blob, onLoadSuccess, pageNumber }) => {
   const cx = useStyles()
 
   return (
     <div className={cx.pdfWithControls}>
       <Document
-        file={url}
+        file={blob}
         onLoadError={console.log} // TODO: Show user error
-        onLoadSuccess={onLoadSuccess}>
+        onLoadSuccess={onLoadSuccess}
+      >
         <Page pageNumber={pageNumber} />
       </Document>
     </div>
