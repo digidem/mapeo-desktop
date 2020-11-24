@@ -3,12 +3,10 @@ import React, { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { BlobProvider } from '@react-pdf/renderer'
 import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-
-import Loading from '../../Loading'
-import CenteredText from '../../CenteredText'
-import Toolbar from '../internal/Toolbar'
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 import { defineMessages, FormattedMessage, useIntl } from 'react-intl'
+
+import Toolbar from '../internal/Toolbar'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
@@ -144,10 +142,14 @@ const ReportViewContent = ({
   return (
     <div className={cx.root}>
       <BlobProvider document={pdf}>
-        {({ blob, url, loading, error }) => {
-          if (!observations.length) {
-            return <CenteredText text={intl.formatMessage(m.noReport)} />
-          }
+        {({ blob, loading, error }) => {
+          const pdfState = error
+            ? 'error'
+            : loading
+            ? 'loading'
+            : !observations.length || !blob
+            ? 'empty'
+            : 'ready'
           return (
             <>
               <Toolbar>
@@ -161,13 +163,11 @@ const ReportViewContent = ({
                 totalPages={999}
                 setCurrentPage={setCurrentPage}
               />
-              {loading ? (
-                <Loading />
-              ) : (
-                <Paper className={cx.reportPreview} elevation={5}>
-                  <PdfViewer blob={blob} pageNumber={pdfPageNumber} />
-                </Paper>
-              )}
+              <PdfViewer
+                pdf={blob}
+                pdfState={pdfState}
+                pageNumber={pdfPageNumber}
+              />
             </>
           )
         }}
@@ -194,7 +194,7 @@ const NavigationBar = ({ currentPage, totalPages, setCurrentPage }) => {
       </Button>
       <FormattedMessage
         {...m.previewMessage}
-        values={{ currentPage, totalPages: 8 }}
+        values={{ currentPage, numPages: 8 }}
       />
       <Button disabled={currentPage === totalPages} onClick={handleNextPage}>
         <FormattedMessage {...m.nextPage} />
@@ -228,12 +228,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#f5f5f5',
     overflowY: 'scroll',
     paddingBottom: 20
-  },
-  reportPreview: {
-    display: 'flex',
-    margin: 'auto',
-    flexDirection: 'column',
-    justifyContent: 'center'
   },
   navigation: {
     display: 'flex',
