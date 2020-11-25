@@ -86,6 +86,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@mapbox/sexagesimal": "^1.2.0",
     "@mapeo/settings": "^2.1.2",
+    "@mapeo/core": "github:digidem/mapeo-core#ws-sync",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.53",

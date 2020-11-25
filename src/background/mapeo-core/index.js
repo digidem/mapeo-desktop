@@ -158,10 +158,13 @@ module.exports = function init (opts) {
     mapeo.syncStart(target, createFile)
   }
 
-  handlers['sync-join'] = async () => {
-    const mapeo = await manager.deferredMapeo
-    mapeo.syncJoin()
-  }
+handlers['sync-connect'] = async (url) => {
+  manager.mapeo.syncConnect(url)
+}
+
+handlers['sync-join'] = async () => {
+  manager.mapeo.syncJoin()
+}
 
   handlers['sync-leave'] = async () => {
     const mapeo = await manager.deferredMapeo

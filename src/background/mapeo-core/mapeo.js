@@ -135,7 +135,19 @@ class MapeoRPC {
     })
   }
 
-  syncStart (target = {}, createFile) {
+  syncConnect(url) {
+    try {
+      logger.debug(
+        'Connecting to MapeoWeb',
+        this.encryptionKey && this.encryptionKey.slice(0, 4)
+      )
+      this.core.sync.connectWebsocket(url, this.encryptionKey)
+    } catch (e) {
+      this._handleError('syncConnect', e)
+    }
+  }
+
+  syncStart (target = {}) {
     logger.info('Sync start request:', target)
 
     const sync = this.core.sync.replicate(target, {
