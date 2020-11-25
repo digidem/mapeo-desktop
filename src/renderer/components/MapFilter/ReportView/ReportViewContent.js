@@ -24,7 +24,8 @@ import { SettingsContext } from '../internal/Context'
 export type ReportViewContentProps = {
   ...$Exact<CommonViewContentProps>,
   mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>
+  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
+  initialPageNumber?: number
 }
 
 const m = defineMessages({
@@ -45,13 +46,14 @@ const ReportViewContent = ({
   onClick,
   observations,
   getPreset,
+  initialPageNumber = 1,
   ...otherProps
 }: ReportViewContentProps) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
   const cx = useStyles()
-  const [currentPage, setCurrentPage] = React.useState(1)
+  const [currentPage, setCurrentPage] = React.useState(initialPageNumber)
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
@@ -92,7 +94,12 @@ const ReportViewContent = ({
 
   // observations and getPreset should be stable between renders in order for
   // caching to work
-  const { blob, state: pdfState, pageNumber: pdfPageNumber } = usePdfReport({
+  const {
+    blob,
+    state: pdfState,
+    pageNumber: pdfPageNumber,
+    isLastPage
+  } = usePdfReport({
     currentPage,
     observations,
     intl,
@@ -111,7 +118,7 @@ const ReportViewContent = ({
       </Toolbar>
       <NavigationBar
         currentPage={currentPage}
-        totalPages={999}
+        last={isLastPage}
         setCurrentPage={setCurrentPage}
       />
       <PdfViewer pdf={blob} pdfState={pdfState} pageNumber={pdfPageNumber} />
@@ -119,10 +126,10 @@ const ReportViewContent = ({
   )
 }
 
-const NavigationBar = ({ currentPage, totalPages, setCurrentPage }) => {
+const NavigationBar = ({ currentPage, last, setCurrentPage }) => {
   const cx = useStyles()
   const handleNextPage = () => {
-    var page = Math.min(currentPage + 1, totalPages)
+    var page = last ? currentPage : currentPage + 1
     setCurrentPage(page)
   }
   const handlePrevPage = () => {
@@ -139,7 +146,7 @@ const NavigationBar = ({ currentPage, totalPages, setCurrentPage }) => {
         {...m.previewMessage}
         values={{ currentPage, numPages: 8 }}
       />
-      <Button disabled={currentPage === totalPages} onClick={handleNextPage}>
+      <Button disabled={last} onClick={handleNextPage}>
         <FormattedMessage {...m.nextPage} />
       </Button>
     </div>

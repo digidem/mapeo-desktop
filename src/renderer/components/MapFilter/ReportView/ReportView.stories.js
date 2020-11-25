@@ -30,11 +30,45 @@ export default {
   ]
 }
 
-export const basic = () => (
+export const All = () => (
   <ReportView
     getMediaUrl={getMediaUrl}
     mapboxAccessToken={mapboxAccessToken}
-    observations={exampleObservations.slice(0, 100)}
+    observations={exampleObservations}
+    onUpdateObservation={action('update')}
+    onDeleteObservation={action('delete')}
+    mapStyle={mapStyle}
+  />
+)
+
+export const Single = () => (
+  <ReportView
+    getMediaUrl={getMediaUrl}
+    mapboxAccessToken={mapboxAccessToken}
+    observations={exampleObservations.slice(0, 1)}
+    onUpdateObservation={action('update')}
+    onDeleteObservation={action('delete')}
+    mapStyle={mapStyle}
+  />
+)
+
+export const InitialPage10 = () => (
+  <ReportView
+    getMediaUrl={getMediaUrl}
+    mapboxAccessToken={mapboxAccessToken}
+    observations={exampleObservations}
+    initialPageNumber={10}
+    onUpdateObservation={action('update')}
+    onDeleteObservation={action('delete')}
+    mapStyle={mapStyle}
+  />
+)
+
+export const Empty = () => (
+  <ReportView
+    getMediaUrl={getMediaUrl}
+    mapboxAccessToken={mapboxAccessToken}
+    observations={[]}
     onUpdateObservation={action('update')}
     onDeleteObservation={action('delete')}
     mapStyle={mapStyle}

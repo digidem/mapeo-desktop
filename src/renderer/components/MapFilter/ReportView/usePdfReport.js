@@ -23,7 +23,12 @@ function usePdfReport ({
   getPreset,
   mapStyle,
   mapboxAccessToken
-}: Props): { blob?: Blob, pageNumber?: number, state: PdfState } {
+}: Props): {|
+  blob?: Blob,
+  pageNumber?: number,
+  state: PdfState,
+  isLastPage: boolean
+|} {
   // pageIndex is a cached index of observation IDs by page number. If the
   // observations change, or getPreset changes (which changes which fields are
   // displayed) then page numbers will change, so the index is no longer correct
@@ -158,15 +163,16 @@ function usePdfReport ({
 
   // Are there more pages to come in the report (we don't know how many until we
   // have rendered the whole report)
-  let more = false
+  let isLastPage
   if (state === 'ready') {
-    if (pageIndex.length > currentPage) more = true
+    isLastPage = true
+    if (pageIndex.length > currentPage) isLastPage = false
     const lastIndexedObsIdx = observations.findIndex(
       obs => obs.id === pageIndex[pageIndex.length - 1]
     )
-    if (observations[lastIndexedObsIdx + 1]) more = true
+    if (observations[lastIndexedObsIdx + 1]) isLastPage = false
   }
-  return { blob, pageNumber, state, more }
+  return { blob, pageNumber, state, isLastPage }
 }
 
 export default usePdfReport

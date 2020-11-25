@@ -7,7 +7,8 @@ import ReportViewContent from './ReportViewContent'
 type Props = {
   ...$Exact<CommonViewProps>,
   mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>
+  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
+  initialPageNumber?: number
 }
 
 const ReportView = ({
