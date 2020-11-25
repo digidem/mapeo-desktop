@@ -9,6 +9,7 @@ import {
   FormattedMessage
 } from 'react-intl'
 import {
+  pdf,
   Page,
   Text,
   View,
@@ -16,7 +17,7 @@ import {
   Document,
   StyleSheet
 } from '@react-pdf/renderer'
-import type { Field, Observation } from 'mapeo-schema'
+import type { Field } from 'mapeo-schema'
 
 import {
   FormattedFieldProp,
@@ -54,7 +55,7 @@ export type ReportProps = {
    * value with React.useContext(SettingsContext) and provide it as a prop */
   settings?: SettingsContextType,
   /** Called with an index of ids, position in array is page number */
-  onPageIndex?: (index: Array<string>) => void,
+  onPageIndex?: (index: Array<string>) => any,
   ...$Exact<MapViewContentProps>
 }
 
@@ -86,7 +87,19 @@ const FrontPage = ({ bounds }) => {
   </Page>
 */
 
-const PDFReport = ({
+export function renderPdfReport (
+  props: ReportProps
+): Promise<{ blob: Blob, index: Array<string> }> {
+  let pageIndex: Array<string> = []
+  const doc = (
+    <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
+  )
+  return pdf({ initialValue: doc })
+    .toBlob()
+    .then(blob => ({ blob, index: pageIndex }))
+}
+
+export const PDFReport = ({
   intl,
   settings = defaultSettings,
   onPageIndex,
@@ -110,7 +123,7 @@ const PDFReport = ({
       const pageIndex = sparsePageIndex
         .slice(0, totalPages)
         .map((id, i, arr) => id || arr[i - 1])
-      console.log('HANDLE INDEX', pageIndex)
+      // $FlowFixMe - The slice() and map() removes undefined elements
       onPageIndex(pageIndex)
     }
   }
@@ -320,6 +333,7 @@ class ObservationView {
         : undefined
 
     this.preset = getPreset(observation)
+    // $FlowFixMe - need to create Fields type
     this.fields = this.preset.fields.concat(this.preset.additionalFields)
     this.tags = observation.tags || {}
     this.note = this.tags.note || this.tags.notes
@@ -347,8 +361,6 @@ class ObservationView {
     return api.getMapImageURL(opts)
   }
 }
-
-export default PDFReport
 
 // Convert pixel to millimetres
 function mm (v) {

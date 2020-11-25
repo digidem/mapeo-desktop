@@ -3,7 +3,6 @@ import React, { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { BlobProvider } from '@react-pdf/renderer'
 import Button from '@material-ui/core/Button'
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 import { defineMessages, FormattedMessage, useIntl } from 'react-intl'
 
 import Toolbar from '../internal/Toolbar'
@@ -12,7 +11,7 @@ import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
 import PdfViewer from './PdfViewer'
 // import PrintButton from './PrintButton'
-import PDFReport from './PDFReport'
+import usePdfReport from './usePdfReport'
 import type { Observation } from 'mapeo-schema'
 import type {
   PresetWithAdditionalFields,
@@ -25,7 +24,8 @@ import { SettingsContext } from '../internal/Context'
 
 export type ReportViewContentProps = {
   ...$Exact<CommonViewContentProps>,
-  ...$Exact<MapViewContentProps>
+  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
+  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>
 }
 
 const m = defineMessages({
@@ -53,7 +53,6 @@ const ReportViewContent = ({
   const settings = React.useContext(SettingsContext)
   const cx = useStyles()
   const [currentPage, setCurrentPage] = React.useState(1)
-  const [pageIndex, setPageIndex] = React.useState([])
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
@@ -76,6 +75,8 @@ const ReportViewContent = ({
       })
   })
 
+  // WARNING: If this changes between renders, then the PDF will need to
+  // re-index which will take some time.
   const getPresetWithFilteredFields = useCallback(
     (observation: Observation): PresetWithAdditionalFields => {
       const preset = getPreset(observation)
@@ -90,88 +91,31 @@ const ReportViewContent = ({
     [fieldState, getPreset]
   )
 
-  const [pdf, currentId] = useMemo(() => {
-    function handleIndex (subIndex) {
-      if (currentPage <= pageIndex.length) return
-      setPageIndex([...pageIndex, ...subIndex])
-    }
-
-    let observation
-    if (currentPage === 1) {
-      observation = observations[0]
-    } else if (currentPage <= pageIndex.length) {
-      observation = observations.find(
-        obs => obs.id === pageIndex[currentPage - 1]
-      )
-    } else {
-      const prevId = pageIndex[pageIndex.length - 1]
-      const prevIndex = observations.findIndex(obs => obs.id === prevId)
-      observation = observations[prevIndex + 1]
-    }
-
-    // TODO Handle undefined observation here, otherwise will crash
-    return observation
-      ? [
-          // eslint-disable-next-line react/jsx-key
-          <PDFReport
-            {...otherProps}
-            observations={[observation]}
-            getPreset={getPresetWithFilteredFields}
-            onPageIndex={handleIndex}
-            intl={intl}
-            settings={settings}
-          />,
-          observation.id
-        ]
-      : [null, null]
-  }, [
-    otherProps,
+  // observations and getPreset should be stable between renders in order for
+  // caching to work
+  const { blob, state: pdfState, pageNumber: pdfPageNumber } = usePdfReport({
+    currentPage,
     observations,
-    getPresetWithFilteredFields,
     intl,
     settings,
-    currentPage,
-    pageIndex
-  ])
-
-  let pdfPageNumber = 1
-  while (pageIndex[currentPage - pdfPageNumber - 1] === currentId) {
-    pdfPageNumber++
-  }
+    getPreset: getPresetWithFilteredFields,
+    ...otherProps
+  })
 
   return (
     <div className={cx.root}>
-      <BlobProvider document={pdf}>
-        {({ blob, loading, error }) => {
-          const pdfState = error
-            ? 'error'
-            : loading
-            ? 'loading'
-            : !observations.length || !blob
-            ? 'empty'
-            : 'ready'
-          return (
-            <>
-              <Toolbar>
-                <HideFieldsButton
-                  fieldState={fieldState}
-                  onFieldStateUpdate={setFieldState}
-                />
-              </Toolbar>
-              <NavigationBar
-                currentPage={currentPage}
-                totalPages={999}
-                setCurrentPage={setCurrentPage}
-              />
-              <PdfViewer
-                pdf={blob}
-                pdfState={pdfState}
-                pageNumber={pdfPageNumber}
-              />
-            </>
-          )
-        }}
-      </BlobProvider>
+      <Toolbar>
+        <HideFieldsButton
+          fieldState={fieldState}
+          onFieldStateUpdate={setFieldState}
+        />
+      </Toolbar>
+      <NavigationBar
+        currentPage={currentPage}
+        totalPages={999}
+        setCurrentPage={setCurrentPage}
+      />
+      <PdfViewer pdf={blob} pdfState={pdfState} pageNumber={pdfPageNumber} />
     </div>
   )
 }

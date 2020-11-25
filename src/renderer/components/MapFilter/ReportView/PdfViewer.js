@@ -8,6 +8,7 @@ import clsx from 'clsx'
 
 import Loading from '../../Loading'
 import CenteredText from '../../CenteredText'
+import type { PdfState } from './usePdfReport'
 
 const m = defineMessages({
   // Displayed if no observations match current filter, or no observations in Mapeo
@@ -17,8 +18,8 @@ const m = defineMessages({
 
 type Props = {
   pdf?: Blob,
-  pdfState: 'error' | 'loading' | 'empty' | 'ready',
-  pageNumber: number
+  pdfState: PdfState,
+  pageNumber?: number
 }
 
 const PdfViewer = React.memo<Props>(({ pdf, pdfState, pageNumber }: Props) => {
@@ -30,7 +31,7 @@ const PdfViewer = React.memo<Props>(({ pdf, pdfState, pageNumber }: Props) => {
 
   React.useEffect(() => {
     setViewerState('loading')
-  }, [pdf, pageNumber])
+  }, [pdf])
 
   const isLoading = pdfState === 'loading' || viewerState === 'loading' || !pdf
 
@@ -73,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     // Hard-coded A4 size
     position: 'relative',
     width: (210 / 25.4) * 72,
-    height: (297 / 25.4) * 72
+    minHeight: (297 / 25.4) * 72
   },
   objectFill: {
     display: 'flex',
