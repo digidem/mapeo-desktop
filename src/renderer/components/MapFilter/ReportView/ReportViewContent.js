@@ -33,7 +33,7 @@ const m = defineMessages({
   noReport: 'No observations available.',
   nextPage: 'Next',
   prevPage: 'Previous',
-  previewMessage: 'Previewing first {numPages} pages' // TODO: pluralize
+  currentPage: 'Page {currentPage}'
 })
 
 const hiddenTags = {
@@ -142,10 +142,7 @@ const NavigationBar = ({ currentPage, last, setCurrentPage }) => {
       <Button disabled={currentPage === 1} onClick={handlePrevPage}>
         <FormattedMessage {...m.prevPage} />
       </Button>
-      <FormattedMessage
-        {...m.previewMessage}
-        values={{ currentPage, numPages: 8 }}
-      />
+      <FormattedMessage {...m.currentPage} values={{ currentPage }} />
       <Button disabled={last} onClick={handleNextPage}>
         <FormattedMessage {...m.nextPage} />
       </Button>
