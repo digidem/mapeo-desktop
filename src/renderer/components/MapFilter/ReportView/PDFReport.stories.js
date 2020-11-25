@@ -2,7 +2,7 @@
 import React from 'react'
 import { useIntl } from 'react-intl'
 
-import PDFReport from './PDFReport'
+import { PDFReport } from './PDFReport'
 import { BlobProvider } from '@react-pdf/renderer'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 import { defaultGetPreset } from '../utils/helpers'

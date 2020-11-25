@@ -60,7 +60,6 @@ function usePdfReport ({
 
     function cachedRender (obs: Observation) {
       const cached = pdfCache.get(obs)
-      console.log('CACHED?', !!cached)
       if (cached) return cached
       const pdfPromise = renderPdfReport({
         observations: [obs],
