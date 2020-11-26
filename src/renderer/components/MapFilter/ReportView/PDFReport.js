@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {
   RawIntlProvider,
   IntlProvider,
@@ -11,11 +11,12 @@ import {
 import {
   pdf,
   Page,
-  Text,
+  Text as TextOrig,
   View,
   Image,
   Document,
-  StyleSheet
+  StyleSheet,
+  Font
 } from '@react-pdf/renderer'
 import type { Field } from 'mapeo-schema'
 import PQueue from 'p-queue'
@@ -39,6 +40,65 @@ import {
 } from '../internal/Context'
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import api from '../../../new-api'
+
+import sarabunLight from '../../../../../static/fonts/Sarabun-Light.ttf'
+import sarabunLightItalic from '../../../../../static/fonts/Sarabun-LightItalic.ttf'
+import sarabunRegular from '../../../../../static/fonts/Sarabun-Regular.ttf'
+import sarabunItalic from '../../../../../static/fonts/Sarabun-Italic.ttf'
+import sarabunMedium from '../../../../../static/fonts/Sarabun-Medium.ttf'
+import sarabunMediumItalic from '../../../../../static/fonts/Sarabun-MediumItalic.ttf'
+import sarabunBold from '../../../../../static/fonts/Sarabun-Bold.ttf'
+import sarabunBoldItalic from '../../../../../static/fonts/Sarabun-BoldItalic.ttf'
+
+import rubikBold from '../../../../../static/fonts/Rubik-Bold.ttf'
+import rubikBoldItalic from '../../../../../static/fonts/Rubik-BoldItalic.ttf'
+import rubikMedium from '../../../../../static/fonts/Rubik-Medium.ttf'
+import rubikMediumItalic from '../../../../../static/fonts/Rubik-MediumItalic.ttf'
+import rubikRegular from '../../../../../static/fonts/Rubik-Regular.ttf'
+import rubikItalic from '../../../../../static/fonts/Rubik-Italic.ttf'
+import rubikLight from '../../../../../static/fonts/Rubik-Light.ttf'
+import rubikLightItalic from '../../../../../static/fonts/Rubik-LightItalic.ttf'
+
+Font.register({
+  family: 'Sarabun',
+  fonts: [
+    { src: sarabunLight, fontStyle: 'normal', fontWeight: 300 },
+    { src: sarabunLightItalic, fontStyle: 'italic', fontWeight: 300 },
+    { src: sarabunRegular, fontStyle: 'normal', fontWeight: 400 },
+    { src: sarabunItalic, fontStyle: 'italic', fontWeight: 400 },
+    { src: sarabunMedium, fontStyle: 'normal', fontWeight: 500 },
+    { src: sarabunMediumItalic, fontStyle: 'italic', fontWeight: 500 },
+    { src: sarabunBold, fontStyle: 'normal', fontWeight: 700 },
+    { src: sarabunBoldItalic, fontStyle: 'italic', fontWeight: 700 }
+  ]
+})
+
+Font.register({
+  family: 'Rubik',
+  fonts: [
+    { src: rubikLight, fontStyle: 'normal', fontWeight: 300 },
+    { src: rubikLightItalic, fontStyle: 'italic', fontWeight: 300 },
+    { src: rubikRegular, fontStyle: 'normal', fontWeight: 400 },
+    { src: rubikItalic, fontStyle: 'italic', fontWeight: 400 },
+    { src: rubikMedium, fontStyle: 'normal', fontWeight: 500 },
+    { src: rubikMediumItalic, fontStyle: 'italic', fontWeight: 500 },
+    { src: rubikBold, fontStyle: 'normal', fontWeight: 700 },
+    { src: rubikBoldItalic, fontStyle: 'italic', fontWeight: 700 }
+  ]
+})
+
+const DEFAULT_FONT = 'Rubik'
+
+// Our default font (Rubik) does not contain glyphs for all languages. There
+// does not seem to be a suitable open font that contains glyphs for every
+// language, therefore we need to change font family based on the current locale
+const fontFamilyLocaleMapping = {
+  th: 'Sarabun'
+}
+
+function getFontFamily (locale: string): string {
+  return fontFamilyLocaleMapping[locale] || DEFAULT_FONT
+}
 
 const m = defineMessages({
   // Button label for hide fields menu
@@ -106,6 +166,12 @@ export function renderPDFReport (
     <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
   )
   return renderToBlob(doc).then(blob => ({ blob, index: pageIndex }))
+}
+
+const Text = ({ style, ...otherProps }: React.ElementConfig<TextOrig>) => {
+  const intl = useIntl()
+  const fontFamily = getFontFamily(intl.locale)
+  return <TextOrig style={{ ...style, fontFamily }} {...otherProps} />
 }
 
 export const PDFReport = ({
@@ -400,7 +466,8 @@ const styles = StyleSheet.create({
     fontWeight: 700
   },
   createdAt: {
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'Sarabun'
   },
   createdAtLabel: {
     fontSize: 12,
@@ -412,7 +479,8 @@ const styles = StyleSheet.create({
   },
   locationLabel: {
     fontSize: 12,
-    color: 'grey'
+    color: 'grey',
+    fontFamily: 'Sarabun'
   },
   image: {
     objectFit: 'contain',

@@ -11,7 +11,8 @@ import '../static/css/storybook.css'
 const messages = {
   en: require('../translations/en.json'),
   es: require('../translations/es.json'),
-  pt: require('../translations/pt.json')
+  pt: require('../translations/pt.json'),
+  th: require('../translations/th.json')
 }
 
 const MyIntlProvider = props => {
@@ -24,7 +25,7 @@ addParameters({
     providerProps: {
       textComponent: React.Fragment
     },
-    supportedLocales: ['en', 'es', 'pt'],
+    supportedLocales: ['en', 'es', 'pt', 'th'],
     providerLocaleKey: 'locale'
   }
 })

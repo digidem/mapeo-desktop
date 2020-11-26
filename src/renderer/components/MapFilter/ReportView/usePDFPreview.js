@@ -41,11 +41,15 @@ export default function usePDFPreview ({
   isLastPage: boolean,
   observationId?: string
 |} {
+  // The cache should re-render if any of these change -- check these if you are
+  // not seeing the PDF preview change as expected when you change settings
+  const cacheDeps = [observations, getPreset, intl]
+
   // pageIndex is a cached index of observation IDs by page number. If the
   // observations change, or getPreset changes (which changes which fields are
   // displayed) then page numbers will change, so the index is no longer correct
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const pageIndex: string[] = React.useMemo(() => [], [observations, getPreset])
+  const pageIndex: string[] = React.useMemo(() => [], cacheDeps)
 
   // pdfCache is a cache of rendered PDF pages for each observation. If the
   // observations change, or getPreset changes (which changes which fields are
@@ -59,7 +63,7 @@ export default function usePDFPreview ({
         maxSize: 100
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [observations, getPreset]
+    cacheDeps
   )
 
   const [blob, setBlob] = React.useState()

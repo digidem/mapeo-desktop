@@ -275,33 +275,13 @@
     "description": "Displayed if an error occurs when rendering the report",
     "message": "An unknown error occurred trying to create the report"
   },
-  "renderer.components.MapFilter.ReportView.PrintButton.close": {
-    "description": "Button label to close print settings dialog",
-    "message": "Cancel"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
-    "description": "Title of print settings dialog",
-    "message": "Saving Report"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to save a report",
-    "message": "Save"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.printLoading": {
-    "description": "Loading message when report is very long.",
-    "message": "Note: This report is more than 50 pages long. It may take several minutes to prepare."
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.reportName": {
-    "description": "The title of the report on the filesystem",
-    "message": "Report"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.title": {
-    "description": "Title of the PDF document",
-    "message": "Title"
-  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
     "message": "Page {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo Monitoring Report.pdf"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
@@ -310,6 +290,30 @@
   "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
     "description": "Button for nagivating to the previous page in the report",
     "message": "Previous"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Generating report…"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Save PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Continue"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "This report contains {observationCount} observations, and could take a few minutes to create. Are you sure you want to continue?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Warning: Large Report"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Map"

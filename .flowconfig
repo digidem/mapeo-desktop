@@ -16,5 +16,6 @@
 deprecated-utility=off
 
 [options]
+module.name_mapper='.*\(.ttf\)' -> 'empty/object'
 
 [strict]
