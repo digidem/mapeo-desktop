@@ -18,6 +18,7 @@ import {
   StyleSheet
 } from '@react-pdf/renderer'
 import type { Field } from 'mapeo-schema'
+import PQueue from 'p-queue'
 
 import {
   FormattedFieldProp,
@@ -87,16 +88,24 @@ const FrontPage = ({ bounds }) => {
   </Page>
 */
 
-export function renderPDFReport (
-  props: ReportProps
-): Promise<{ blob: Blob, index: Array<string> }> {
-  let pageIndex: Array<string> = []
-  const doc = (
-    <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
-  )
-  return pdf({ initialValue: doc })
-    .toBlob()
-    .then(blob => ({ blob, index: pageIndex }))
+export function createRenderer () {
+  const instance = pdf({})
+  const queue = new PQueue({ concurrency: 1 })
+
+  function renderToBlob (doc) {
+    instance.updateContainer(doc)
+    return queue.add(() => instance.toBlob())
+  }
+
+  return function renderPDFReport (
+    props: ReportProps
+  ): Promise<{ blob: Blob, index: Array<string> }> {
+    let pageIndex: Array<string> = []
+    const doc = (
+      <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
+    )
+    return renderToBlob(doc).then(blob => ({ blob, index: pageIndex }))
+  }
 }
 
 export const PDFReport = ({
