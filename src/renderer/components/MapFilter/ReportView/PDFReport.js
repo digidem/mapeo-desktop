@@ -88,24 +88,24 @@ const FrontPage = ({ bounds }) => {
   </Page>
 */
 
-export function createRenderer () {
-  const instance = pdf({})
-  const queue = new PQueue({ concurrency: 1 })
+// These are global to avoid re-using the same context in multiple renderers
+// (e.g. if we are displaying a PDF preview and also saving at the same time)
+const instance = pdf({})
+const queue = new PQueue({ concurrency: 1 })
 
-  function renderToBlob (doc) {
-    instance.updateContainer(doc)
-    return queue.add(() => instance.toBlob())
-  }
+function renderToBlob (doc) {
+  instance.updateContainer(doc)
+  return queue.add(() => instance.toBlob())
+}
 
-  return function renderPDFReport (
-    props: ReportProps
-  ): Promise<{ blob: Blob, index: Array<string> }> {
-    let pageIndex: Array<string> = []
-    const doc = (
-      <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
-    )
-    return renderToBlob(doc).then(blob => ({ blob, index: pageIndex }))
-  }
+export function renderPDFReport (
+  props: ReportProps
+): Promise<{ blob: Blob, index: Array<string> }> {
+  let pageIndex: Array<string> = []
+  const doc = (
+    <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
+  )
+  return renderToBlob(doc).then(blob => ({ blob, index: pageIndex }))
 }
 
 export const PDFReport = ({

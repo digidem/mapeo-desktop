@@ -2,14 +2,21 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import {
+  DialogContent,
+  DialogContentText,
+  Dialog,
+  CircularProgress
+} from '@material-ui/core'
 import { defineMessages, FormattedMessage, useIntl } from 'react-intl'
+import { saveAs } from 'file-saver'
 
 import Toolbar from '../internal/Toolbar'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
 import PDFViewer from './PDFViewer'
-// import PrintButton from './PrintButton'
+import SaveButton from './SaveButton'
 import usePDFPreview from './usePDFPreview'
 import type { Observation } from 'mapeo-schema'
 import type {
@@ -20,6 +27,7 @@ import type {
 } from '../types'
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import { SettingsContext } from '../internal/Context'
+import { renderPDFReport } from './PDFReport'
 
 export type ReportViewContentProps = {
   ...$Exact<CommonViewContentProps>,
@@ -34,7 +42,11 @@ const m = defineMessages({
   // Button for nagivating to the previous page in the report
   prevPage: 'Previous',
   // Text showing the current page number when previewing a report
-  currentPage: 'Page {currentPage}'
+  currentPage: 'Page {currentPage}',
+  // Shown while the report is generating when saving or printing
+  savingProgress: 'Generating report…',
+  // Default filename for a report (prefixed with date as YYYY-MM-YY)
+  defaultReportName: 'Mapeo Monitoring Report.pdf'
 })
 
 const hiddenTags = {
@@ -55,6 +67,7 @@ const ReportViewContent = ({
   const settings = React.useContext(SettingsContext)
   const cx = useStyles()
   const [currentPage, setCurrentPage] = React.useState(initialPageNumber)
+  const [isSaving, setIsSaving] = React.useState(false)
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
@@ -93,6 +106,22 @@ const ReportViewContent = ({
     [fieldState, getPreset]
   )
 
+  async function handleSaveClick () {
+    setIsSaving(true)
+    const { blob } = await renderPDFReport({
+      observations,
+      intl,
+      settings,
+      getPreset: getPresetWithFilteredFields,
+      ...otherProps
+    })
+    // Prefix filename with date `YYYY-MM-DD`
+    const datePrefix = new Date().toISOString().split('T')[0]
+    const name = intl.formatMessage(m.defaultReportName)
+    saveAs(blob, `${datePrefix} ${name}`)
+    setIsSaving(false)
+  }
+
   // observations and getPreset should be stable between renders in order for
   // caching to work
   const {
@@ -116,6 +145,11 @@ const ReportViewContent = ({
           fieldState={fieldState}
           onFieldStateUpdate={setFieldState}
         />
+        <SaveButton
+          shouldConfirm={observations.length > 50}
+          observationCount={observations.length}
+          onClick={handleSaveClick}
+        />
       </Toolbar>
       <NavigationBar
         currentPage={currentPage}
@@ -123,7 +157,28 @@ const ReportViewContent = ({
         setCurrentPage={setCurrentPage}
       />
       <PDFViewer pdf={blob} pdfState={pdfState} pageNumber={pdfPageNumber} />
+      <SavingDialog open={isSaving} />
     </div>
+  )
+}
+
+export const SavingDialog = ({ open }: { open: boolean }) => {
+  const cx = useStyles()
+  return (
+    <Dialog
+      open={open}
+      disableBackdropClick
+      disableEscapeKeyDown
+      fullWidth
+      maxWidth='xs'
+    >
+      <DialogContent className={cx.savingDialogContent}>
+        <CircularProgress />
+        <DialogContentText className={cx.savingDialogText}>
+          <FormattedMessage {...m.savingProgress} />
+        </DialogContentText>
+      </DialogContent>
+    </Dialog>
   )
 }
 
@@ -181,5 +236,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+  savingDialogContent: {
+    display: 'flex',
+    paddingBottom: 20,
+    alignItems: 'center'
+  },
+  savingDialogText: {
+    marginBottom: 0,
+    marginLeft: 15
   }
 }))

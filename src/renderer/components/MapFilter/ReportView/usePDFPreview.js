@@ -3,7 +3,7 @@ import React from 'react'
 import QuickLRU from 'quick-lru'
 import type { Observation } from 'mapeo-schema'
 
-import { createRenderer } from './PDFReport'
+import { renderPDFReport } from './PDFReport'
 import type { ReportViewContentProps } from './ReportViewContent'
 
 export type PDFState = 'error' | 'loading' | 'empty' | 'ready'
@@ -61,8 +61,6 @@ export default function usePDFPreview ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [observations, getPreset]
   )
-
-  const renderPDFReport = React.useMemo(createRenderer, [])
 
   const [blob, setBlob] = React.useState()
   const [state, setState] = React.useState<PDFState>(
@@ -162,7 +160,6 @@ export default function usePDFPreview ({
     observations,
     pageIndex,
     pdfCache,
-    renderPDFReport,
     settings
   ])
 
