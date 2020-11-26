@@ -162,6 +162,7 @@ export default function usePDFPreview ({
     observations,
     pageIndex,
     pdfCache,
+    renderPDFReport,
     settings
   ])
 
