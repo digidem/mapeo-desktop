@@ -3,10 +3,10 @@ import React from 'react'
 import QuickLRU from 'quick-lru'
 import type { Observation } from 'mapeo-schema'
 
-import { renderPdfReport } from './PDFReport'
+import { renderPDFReport } from './PDFReport'
 import type { ReportViewContentProps } from './ReportViewContent'
 
-export type PdfState = 'error' | 'loading' | 'empty' | 'ready'
+export type PDFState = 'error' | 'loading' | 'empty' | 'ready'
 
 type Props = {
   ...$Exact<$Diff<ReportViewContentProps, { onClick: * }>>,
@@ -14,7 +14,18 @@ type Props = {
   settings: any,
   currentPage: number
 }
-function usePdfReport ({
+
+// This hook generates a PDF for a single observation. It uses the array of all
+// observations to display in the report and the current page to calculate which
+// observation should be shown. This is because (A) we do not know what
+// observation will appear on a given page until we have rendered the report for
+// all previous observations, because they can take more than one page, and (B)
+// because generating the entire report each time the filter changes would take
+// several seconds. Instead this hook renders the report _up to_ the current
+// page, and caches the pages for each observation. This allows the user to
+// navigate through pages in the report and render them dynamically as the user
+// navigates, without needing to render the entire report.
+export default function usePDFPreview ({
   observations = [],
   intl,
   settings,
@@ -26,8 +37,9 @@ function usePdfReport ({
 }: Props): {|
   blob?: Blob,
   pageNumber?: number,
-  state: PdfState,
-  isLastPage: boolean
+  state: PDFState,
+  isLastPage: boolean,
+  observationId?: string
 |} {
   // pageIndex is a cached index of observation IDs by page number. If the
   // observations change, or getPreset changes (which changes which fields are
@@ -51,7 +63,7 @@ function usePdfReport ({
   )
 
   const [blob, setBlob] = React.useState()
-  const [state, setState] = React.useState<PdfState>(
+  const [state, setState] = React.useState<PDFState>(
     observations.length ? 'loading' : 'empty'
   )
 
@@ -66,7 +78,7 @@ function usePdfReport ({
     function cachedRender (obs: Observation) {
       const cached = pdfCache.get(obs)
       if (cached) return cached
-      const pdfPromise = renderPdfReport({
+      const pdfPromise = renderPDFReport({
         observations: [obs],
         intl,
         settings,
@@ -172,7 +184,11 @@ function usePdfReport ({
     )
     if (observations[lastIndexedObsIdx + 1]) isLastPage = false
   }
-  return { blob, pageNumber, state, isLastPage }
+  return {
+    blob,
+    pageNumber,
+    state,
+    isLastPage,
+    observationId: pageIndex[currentPage - 1]
+  }
 }
-
-export default usePdfReport

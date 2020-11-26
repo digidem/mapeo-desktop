@@ -8,17 +8,18 @@ import clsx from 'clsx'
 
 import Loading from '../../Loading'
 import CenteredText from '../../CenteredText'
-import type { PdfState } from './usePdfReport'
+import type { PDFState } from './usePDFPreview'
 
 const m = defineMessages({
   // Displayed if no observations match current filter, or no observations in Mapeo
   noObservations: 'No observations available.',
+  // Displayed if an error occurs when rendering the report
   reportError: 'An unknown error occurred trying to create the report'
 })
 
 type Props = {
   pdf?: Blob,
-  pdfState: PdfState,
+  pdfState: PDFState,
   pageNumber?: number
 }
 
@@ -43,17 +44,21 @@ const PdfViewer = React.memo<Props>(({ pdf, pdfState, pageNumber }: Props) => {
         <CenteredText text={intl.formatMessage(m.reportError)} />
       ) : (
         <>
-          {pdf ? (
+          {pdf && pageNumber ? (
             <Document
               file={pdf}
               onLoadSuccess={() => setViewerState('ready')}
               onLoadError={() => setViewerState('error')}
-              loading={() => null}
+              loading={
+                // Don't render a component during loading, because we render
+                // our own as an overlay
+                () => null
+              }
             >
               <Page pageNumber={pageNumber} />
             </Document>
           ) : null}
-
+          {/** TODO: Remove this after animation is complete, so that the user can select text in the PDF report */}
           <div className={clsx(cx.objectFill, !isLoading && cx.fade)}>
             <Loading />
           </div>
@@ -71,8 +76,8 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     flexDirection: 'column',
     justifyContent: 'center',
-    // Hard-coded A4 size
     position: 'relative',
+    // TODO: Allow user-configurable page-size (Letter)
     width: (210 / 25.4) * 72,
     minHeight: (297 / 25.4) * 72
   },

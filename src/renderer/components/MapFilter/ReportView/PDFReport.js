@@ -87,7 +87,7 @@ const FrontPage = ({ bounds }) => {
   </Page>
 */
 
-export function renderPdfReport (
+export function renderPDFReport (
   props: ReportProps
 ): Promise<{ blob: Blob, index: Array<string> }> {
   let pageIndex: Array<string> = []

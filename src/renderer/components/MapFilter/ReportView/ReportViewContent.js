@@ -8,9 +8,9 @@ import Toolbar from '../internal/Toolbar'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
-import PdfViewer from './PdfViewer'
+import PDFViewer from './PDFViewer'
 // import PrintButton from './PrintButton'
-import usePdfReport from './usePdfReport'
+import usePDFPreview from './usePDFPreview'
 import type { Observation } from 'mapeo-schema'
 import type {
   PresetWithAdditionalFields,
@@ -29,10 +29,11 @@ export type ReportViewContentProps = {
 }
 
 const m = defineMessages({
-  // Displayed whilst observations and presets load
-  noReport: 'No observations available.',
+  // Button for navigating to the next page in the report
   nextPage: 'Next',
+  // Button for nagivating to the previous page in the report
   prevPage: 'Previous',
+  // Text showing the current page number when previewing a report
   currentPage: 'Page {currentPage}'
 })
 
@@ -99,7 +100,7 @@ const ReportViewContent = ({
     state: pdfState,
     pageNumber: pdfPageNumber,
     isLastPage
-  } = usePdfReport({
+  } = usePDFPreview({
     currentPage,
     observations,
     intl,
@@ -121,7 +122,7 @@ const ReportViewContent = ({
         last={isLastPage}
         setCurrentPage={setCurrentPage}
       />
-      <PdfViewer pdf={blob} pdfState={pdfState} pageNumber={pdfPageNumber} />
+      <PDFViewer pdf={blob} pdfState={pdfState} pageNumber={pdfPageNumber} />
     </div>
   )
 }
