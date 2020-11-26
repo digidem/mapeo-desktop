@@ -9,7 +9,9 @@ import type { ReportViewContentProps } from './ReportViewContent'
 export type PDFState = 'error' | 'loading' | 'empty' | 'ready'
 
 type Props = {
-  ...$Exact<$Diff<ReportViewContentProps, { onClick: * }>>,
+  ...$Exact<
+    $Diff<ReportViewContentProps, { onClick: *, totalObservations: * }>
+  >,
   intl: any,
   settings: any,
   currentPage: number
