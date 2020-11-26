@@ -5,6 +5,7 @@ import { action } from '@storybook/addon-actions'
 // import { linkTo } from '@storybook/addon-links'
 
 import ReportView from './ReportView'
+import { SavingDialog, PageNavigator } from './ReportViewContent'
 import type { PresetWithFields } from '../types'
 
 const exampleObservations = require('../../../../../fixtures/observations.json')
@@ -73,6 +74,12 @@ export const Empty = () => (
     onDeleteObservation={action('delete')}
     mapStyle={mapStyle}
   />
+)
+
+export const savingDialog = () => <SavingDialog open />
+
+export const pageNavigator = () => (
+  <PageNavigator currentPage={7} setCurrentPage={action('changePage')} />
 )
 
 const presets: PresetWithFields[] = [

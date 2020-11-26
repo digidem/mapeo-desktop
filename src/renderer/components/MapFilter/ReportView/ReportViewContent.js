@@ -1,13 +1,17 @@
 // @flow
 import React, { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
 import {
   DialogContent,
   DialogContentText,
   Dialog,
-  CircularProgress
+  CircularProgress,
+  Button,
+  ButtonGroup
 } from '@material-ui/core'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+
 import { defineMessages, FormattedMessage, useIntl } from 'react-intl'
 import { saveAs } from 'file-saver'
 
@@ -151,7 +155,7 @@ const ReportViewContent = ({
           onClick={handleSaveClick}
         />
       </Toolbar>
-      <NavigationBar
+      <PageNavigator
         currentPage={currentPage}
         last={isLastPage}
         setCurrentPage={setCurrentPage}
@@ -182,7 +186,17 @@ export const SavingDialog = ({ open }: { open: boolean }) => {
   )
 }
 
-const NavigationBar = ({ currentPage, last, setCurrentPage }) => {
+type PageNavigatorProps = {
+  currentPage: number,
+  last?: boolean,
+  setCurrentPage: (pageNumber: number) => any
+}
+
+export const PageNavigator = ({
+  currentPage,
+  last,
+  setCurrentPage
+}: PageNavigatorProps) => {
   const cx = useStyles()
   const handleNextPage = () => {
     var page = last ? currentPage : currentPage + 1
@@ -194,15 +208,31 @@ const NavigationBar = ({ currentPage, last, setCurrentPage }) => {
   }
 
   return (
-    <div className={cx.navigation}>
-      <Button disabled={currentPage === 1} onClick={handlePrevPage}>
+    <ButtonGroup
+      color='primary'
+      variant='contained'
+      size='large'
+      aria-label='Page navigator button group'
+      className={cx.navigator}
+    >
+      <Button
+        disabled={currentPage === 1}
+        onClick={handlePrevPage}
+        startIcon={<ArrowBackIcon />}
+      >
         <FormattedMessage {...m.prevPage} />
       </Button>
-      <FormattedMessage {...m.currentPage} values={{ currentPage }} />
-      <Button disabled={last} onClick={handleNextPage}>
+      <Button disabled className={cx.navigatorPageButton}>
+        <FormattedMessage {...m.currentPage} values={{ currentPage }} />
+      </Button>
+      <Button
+        disabled={last}
+        onClick={handleNextPage}
+        endIcon={<ArrowForwardIcon />}
+      >
         <FormattedMessage {...m.nextPage} />
       </Button>
-    </div>
+    </ButtonGroup>
   )
 }
 
@@ -245,5 +275,27 @@ const useStyles = makeStyles(theme => ({
   savingDialogText: {
     marginBottom: 0,
     marginLeft: 15
+  },
+  navigator: {
+    position: 'absolute',
+    bottom: 0,
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    zIndex: 99,
+    '& .MuiButton-contained': {
+      textTransform: 'none',
+      backgroundColor: '#000630',
+      color: theme.palette.primary.contrastText,
+      '&:hover': {
+        backgroundColor: '#323659'
+      },
+      '&:not(:last-child)': {
+        borderRight: '1px solid #404363'
+      }
+    }
+  },
+  navigatorPageButton: {
+    paddingLeft: 30,
+    paddingRight: 30
   }
 }))
