@@ -251,7 +251,7 @@
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
-    "message": "{count} Hidden Fields"
+    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
@@ -266,6 +266,14 @@
   },
   "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
     "message": "Location"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "No observations available."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "An unknown error occurred trying to create the report"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.close": {
     "description": "Button label to close print settings dialog",
@@ -291,18 +299,17 @@
     "description": "Title of the PDF document",
     "message": "Title"
   },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Page {currentPage}"
+  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
     "message": "Next"
   },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.noReport": {
-    "description": "Displayed whilst observations and presets load",
-    "message": "No observations available."
-  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
     "message": "Previous"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.previewMessage": {
-    "message": "Previewing first {numPages} pages"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Map"
