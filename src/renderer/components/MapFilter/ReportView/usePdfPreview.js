@@ -169,6 +169,10 @@ export default function usePDFPreview ({
   if (state === 'ready') {
     pageNumber = 1
     while (
+      // Avoid an infinite loop: ensure that the index is not empty and we're
+      // not going to be reading 'undefined'
+      pageIndex.length > currentPage - pageNumber &&
+      !pageIndex.includes(undefined) &&
       pageIndex[currentPage - pageNumber - 1] === pageIndex[currentPage - 1]
     ) {
       pageNumber++
