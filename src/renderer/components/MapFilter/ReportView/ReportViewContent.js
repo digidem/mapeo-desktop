@@ -7,10 +7,12 @@ import {
   Dialog,
   CircularProgress,
   Button,
-  ButtonGroup
+  ButtonGroup,
+  Typography
 } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import EditIcon from '@material-ui/icons/Edit'
 
 import { defineMessages, FormattedMessage, useIntl } from 'react-intl'
 import { saveAs } from 'file-saver'
@@ -32,12 +34,14 @@ import type {
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import { SettingsContext } from '../internal/Context'
 import { renderPDFReport } from './PDFReport'
+import ToolbarButton from '../internal/ToolbarButton'
 
 export type ReportViewContentProps = {
   ...$Exact<CommonViewContentProps>,
   mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
   mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  initialPageNumber?: number
+  initialPageNumber?: number,
+  totalObservations: number
 }
 
 const m = defineMessages({
@@ -50,7 +54,8 @@ const m = defineMessages({
   // Shown while the report is generating when saving or printing
   savingProgress: 'Generating report…',
   // Default filename for a report (prefixed with date as YYYY-MM-YY)
-  defaultReportName: 'Mapeo Monitoring Report.pdf'
+  defaultReportName: 'Mapeo Monitoring Report.pdf',
+  xOfY: 'showing {observationCount} of {totalObservations} observations'
 })
 
 const hiddenTags = {
@@ -64,6 +69,7 @@ const ReportViewContent = ({
   observations,
   getPreset,
   initialPageNumber = 1,
+  totalObservations,
   ...otherProps
 }: ReportViewContentProps) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
@@ -132,7 +138,8 @@ const ReportViewContent = ({
     blob,
     state: pdfState,
     pageNumber: pdfPageNumber,
-    isLastPage
+    isLastPage,
+    observationId
   } = usePDFPreview({
     currentPage,
     observations,
@@ -145,14 +152,32 @@ const ReportViewContent = ({
   return (
     <div className={cx.root}>
       <Toolbar>
-        <HideFieldsButton
-          fieldState={fieldState}
-          onFieldStateUpdate={setFieldState}
-        />
-        <SaveButton
-          shouldConfirm={observations.length > 50}
-          observationCount={observations.length}
-          onClick={handleSaveClick}
+        <div>
+          <HideFieldsButton
+            fieldState={fieldState}
+            onFieldStateUpdate={setFieldState}
+          />
+          <SaveButton
+            shouldConfirm={observations.length > 50}
+            observationCount={observations.length}
+            onClick={handleSaveClick}
+          />
+        </div>
+        <div className={cx.xOfY}>
+          <Typography variant='body1'>
+            <FormattedMessage
+              {...m.xOfY}
+              values={{
+                observationCount: observations.length,
+                totalObservations
+              }}
+            />
+          </Typography>
+        </div>
+        <EditButton
+          className={cx.editButton}
+          disabled={!observationId}
+          onClick={observationId ? () => onClick(observationId) : undefined}
         />
       </Toolbar>
       <PageNavigator
@@ -165,6 +190,17 @@ const ReportViewContent = ({
     </div>
   )
 }
+
+const EditButton = ({ onClick, ...otherProps }: { onClick?: () => any }) => (
+  <ToolbarButton
+    onClick={onClick}
+    variant='outlined'
+    {...otherProps}
+    startIcon={<EditIcon />}
+  >
+    Edit
+  </ToolbarButton>
+)
 
 export const SavingDialog = ({ open }: { open: boolean }) => {
   const cx = useStyles()
@@ -261,6 +297,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#f5f5f5',
     overflowY: 'scroll',
     paddingBottom: 20
+  },
+  xOfY: {
+    display: 'flex',
+    fontStyle: 'italic',
+    color: 'rgba(0,0,0,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   navigation: {
     display: 'flex',

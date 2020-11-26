@@ -12,9 +12,7 @@ const useStyles = makeStyles({
     right: 0,
     padding: '8px !important',
     flexDirection: 'row !important',
-    '@media only print': {
-      display: 'none'
-    }
+    justifyContent: 'space-between'
   }
 })
 
@@ -29,7 +27,7 @@ const Toolbar = ({ children }: Props) => {
       elevation={0}
       color='default'
       position='static'
-      className={classes.root + ' d-print-none'}
+      className={classes.root}
     >
       {children}
     </AppBar>

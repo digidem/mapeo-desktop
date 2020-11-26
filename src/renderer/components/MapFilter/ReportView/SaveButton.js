@@ -49,8 +49,8 @@ const SaveButton = ({
       <ToolbarButton
         onClick={() => (shouldConfirm ? setConfirmDialogOpen(true) : onClick())}
         disabled={disabled}
+        startIcon={<SaveIcon />}
       >
-        <SaveIcon />
         <FormattedMessage {...messages.buttonLabel} />
       </ToolbarButton>
       <Dialog

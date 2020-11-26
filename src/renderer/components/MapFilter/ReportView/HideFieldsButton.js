@@ -85,8 +85,7 @@ const HideFieldsButton = ({ fieldState, onFieldStateUpdate }: Props) => {
   const hiddenCount = fieldState.filter(f => f.hidden).length
   return (
     <React.Fragment>
-      <ToolbarButton onClick={handleClick}>
-        <VisibilityOffIcon />
+      <ToolbarButton onClick={handleClick} startIcon={<VisibilityOffIcon />}>
         <FormattedMessage
           {...msgs.hideFieldsLabel}
           values={{ count: hiddenCount }}
