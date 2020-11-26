@@ -9,7 +9,7 @@ import type { ReportViewContentProps } from './ReportViewContent'
 export type PdfState = 'error' | 'loading' | 'empty' | 'ready'
 
 type Props = {
-  ...$Diff<ReportViewContentProps, { onClick: * }>,
+  ...$Exact<$Diff<ReportViewContentProps, { onClick: * }>>,
   intl: any,
   settings: any,
   currentPage: number
@@ -163,7 +163,7 @@ function usePdfReport ({
 
   // Are there more pages to come in the report (we don't know how many until we
   // have rendered the whole report)
-  let isLastPage
+  let isLastPage = false
   if (state === 'ready') {
     isLastPage = true
     if (pageIndex.length > currentPage) isLastPage = false
