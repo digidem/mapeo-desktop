@@ -73,7 +73,6 @@ export default function usePDFPreview ({
     observations.length ? 'loading' : 'empty'
   )
 
-  // uwc-debug
   React.useEffect(() => {
     if (!observations.length) {
       setState('empty')

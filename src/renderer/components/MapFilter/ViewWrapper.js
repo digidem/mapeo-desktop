@@ -64,11 +64,16 @@ const createFilter = (filter: Filter | void) => {
   return createFilterOrig(presetFilter)
 }
 
+// This is to avoid re-renders - this ensures the fallback value does not change
+// between renders
+const emptyObservations = []
+const emptyPresets = []
+
 const WrappedMapView = ({
-  observations = [],
+  observations = emptyObservations,
   onUpdateObservation = noop,
   onDeleteObservation = noop,
-  presets = [],
+  presets = emptyPresets,
   getMediaUrl,
   filter,
   children,
