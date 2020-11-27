@@ -143,11 +143,6 @@ export default function usePDFPreview ({
       const obs = observations[obsIdx]
       if (!obs) return setState('error')
       const { blob } = await cachedRender(obs)
-      // Eagerly queue up render of next observation
-      const nextObs = observations[obsIdx + 1]
-      if (nextObs) {
-        cachedRender(nextObs)
-      }
       if (cancel) return
       setBlob(blob)
       setState('ready')
