@@ -325,6 +325,8 @@ const useStyles = makeStyles(theme => ({
       textTransform: 'none',
       backgroundColor: '#000630',
       color: theme.palette.primary.contrastText,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
       '&:hover': {
         backgroundColor: '#323659'
       },
