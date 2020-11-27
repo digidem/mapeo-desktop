@@ -150,46 +150,49 @@ const ReportViewContent = ({
   })
 
   return (
-    <div className={cx.root}>
-      <Toolbar>
-        <div>
-          <HideFieldsButton
-            fieldState={fieldState}
-            onFieldStateUpdate={setFieldState}
-          />
-          <SaveButton
-            shouldConfirm={observations.length > 50}
-            observationCount={observations.length}
-            onClick={handleSaveClick}
-          />
-        </div>
-        <div>
-          <Typography variant='body1' className={cx.xOfY}>
-            <FormattedMessage
-              {...m.xOfY}
-              values={{
-                observationCount: observations.length,
-                totalObservations
-              }}
+    <>
+      <div className={cx.root}>
+        <Toolbar>
+          <div>
+            <HideFieldsButton
+              fieldState={fieldState}
+              onFieldStateUpdate={setFieldState}
             />
-          </Typography>
-        </div>
-        <div>
-          <EditButton
-            className={cx.editButton}
-            disabled={!observationId}
-            onClick={observationId ? () => onClick(observationId) : undefined}
-          />
-        </div>
-      </Toolbar>
+            <SaveButton
+              shouldConfirm={observations.length > 50}
+              observationCount={observations.length}
+              onClick={handleSaveClick}
+            />
+          </div>
+          <div>
+            <Typography variant='body1' className={cx.xOfY}>
+              <FormattedMessage
+                {...m.xOfY}
+                values={{
+                  observationCount: observations.length,
+                  totalObservations
+                }}
+              />
+            </Typography>
+          </div>
+          <div>
+            <EditButton
+              className={cx.editButton}
+              disabled={!observationId}
+              onClick={observationId ? () => onClick(observationId) : undefined}
+            />
+          </div>
+        </Toolbar>
+
+        <PDFViewer pdf={blob} pdfState={pdfState} pageNumber={pdfPageNumber} />
+        <SavingDialog open={isSaving} />
+      </div>
       <PageNavigator
         currentPage={currentPage}
         last={isLastPage}
         setCurrentPage={setCurrentPage}
       />
-      <PDFViewer pdf={blob} pdfState={pdfState} pageNumber={pdfPageNumber} />
-      <SavingDialog open={isSaving} />
-    </div>
+    </>
   )
 }
 

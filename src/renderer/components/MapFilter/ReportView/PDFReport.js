@@ -27,6 +27,7 @@ import {
 } from '../internal/FormattedData'
 import FormattedLocation from '../internal/FormattedLocation'
 import { isEmptyValue } from '../utils/helpers'
+import { formatId } from '../utils/strings'
 import { get } from '../utils/get_set'
 import type { ImageMediaItem } from '../ObservationDialog'
 import type {
@@ -40,6 +41,10 @@ import {
 } from '../internal/Context'
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import api from '../../../new-api'
+
+import dateIcon from './iconEvent.png'
+import markerIcon from './iconPlace.png'
+import locationIcon from './iconLocation.png'
 
 import sarabunLight from '../../../../../static/fonts/Sarabun-Light.ttf'
 import sarabunLightItalic from '../../../../../static/fonts/Sarabun-LightItalic.ttf'
@@ -101,10 +106,10 @@ function getFontFamily (locale: string): string {
 }
 
 const m = defineMessages({
-  // Button label for hide fields menu
-  detailsHeader: 'Details',
-  locationHeader: 'Location',
-  dateHeader: 'Created at'
+  // Label for description / notes section of report
+  descriptionLabel: 'Description',
+  // Shown in reports if an observation has no location recorded
+  noLocation: 'No Location Recorded'
 })
 
 export type ReportProps = {
@@ -143,7 +148,7 @@ const FrontPage = ({ bounds }) => {
     ne[1] = Math.max(obs.lat, ne[1])
   })
   var bounds = [sw[0], sw[1], ne[0], ne[1]]
-  <Page key="front" size="A4" style={styles.page}>
+  <Page key="front" size="A4" style={s.page}>
     <FrontPage bounds={bounds} />
   </Page>
 */
@@ -171,7 +176,7 @@ export function renderPDFReport (
 const Text = ({ style, ...otherProps }: React.ElementConfig<TextOrig>) => {
   const intl = useIntl()
   const fontFamily = getFontFamily(intl.locale)
-  return <TextOrig style={{ ...style, fontFamily }} {...otherProps} />
+  return <TextOrig style={{ fontFamily, ...style }} {...otherProps} />
 }
 
 export const PDFReport = ({
@@ -247,23 +252,47 @@ const FeaturePage = ({
 }) => {
   // TODO: move all of these Views into ObservationView
   return (
-    <Page size='A4' style={styles.page} wrap>
+    <Page size='A4' style={s.page} wrap>
       <Indexer id={view.id} onRender={onRender} />
-      <View style={styles.pageContent}>
-        <View style={styles.columnLeft}>
-          <Text style={styles.presetName}>
-            {view.preset.name || 'Observation'}
-          </Text>
-          <ObsCreated view={view} />
-          <ObsLocation view={view} />
-          <ObsDescription view={view} />
-          <ObsDetails view={view} />
+      <View style={s.pageContent}>
+        <View style={s.header}>
+          <View style={s.row}>
+            <View style={[s.col, s.span2, s.headerContent]}>
+              <View style={[s.headerRow, s.titleRow]}>
+                <View style={s.iconContainer}>
+                  <View style={s.circle}>
+                    <Image style={s.categoryIcon} src={markerIcon} />
+                  </View>
+                </View>
+                <Text style={s.presetName}>
+                  {view.preset.name || 'Observation'}
+                </Text>
+              </View>
+              <TitleDetails icon={<Image src={locationIcon} style={s.icon} />}>
+                <ObsLocation view={view} />
+              </TitleDetails>
+              <TitleDetails icon={<Image src={dateIcon} style={s.icon} />}>
+                <ObsCreated view={view} />
+              </TitleDetails>
+              <TitleDetails icon={<IdIcon />}>{formatId(view.id)}</TitleDetails>
+            </View>
+            <View style={[s.col]}>
+              <ObsInsetMap view={view} />
+            </View>
+          </View>
         </View>
-        <View style={styles.columnRight}>
-          <ObsInsetMap view={view} />
-          {view.mediaItems.map((src, i) => (
-            <ObsImage key={i} src={src} />
-          ))}
+        <View style={s.row}>
+          <View style={[s.col, s.span2]}>
+            <View style={s.row}>
+              <ObsDescription view={view} />
+            </View>
+            <ObsDetails view={view} />
+          </View>
+          <View style={[s.col, s.mediaList]}>
+            {view.mediaItems.map((src, i) => (
+              <ObsImage key={i} src={src} />
+            ))}
+          </View>
         </View>
       </View>
     </Page>
@@ -286,37 +315,50 @@ const Indexer = ({ id, onRender }) => (
   </View>
 )
 
-const ObsCreated = ({ view }: { view: ObservationView }) =>
-  view.createdAt ? (
-    <Text style={styles.createdAt}>
-      <Text style={styles.createdAtLabel}>
-        <FormattedMessage {...m.dateHeader} />:{' '}
-      </Text>
-      <FormattedTime
-        key='time'
-        value={view.createdAt}
-        year='numeric'
-        month='long'
-        day='2-digit'
-      />
-    </Text>
-  ) : null
+const TitleDetails = ({
+  icon,
+  children
+}: {
+  icon: React.Node,
+  children: React.Node
+}) => (
+  <View style={s.headerRow}>
+    <View style={s.iconContainer}>{icon}</View>
+    <Text style={s.titleDetails}>{children}</Text>
+  </View>
+)
+
+const IdIcon = () => (
+  <View style={s.idIcon}>
+    <Text>ID</Text>
+  </View>
+)
+
+const ObsCreated = ({ view }: { view: ObservationView }) => (
+  <FormattedTime
+    key='time'
+    value={view.createdAt}
+    year='numeric'
+    month='long'
+    day='2-digit'
+  />
+)
 
 const ObsLocation = ({ view }: { view: ObservationView }) =>
   view.coords ? (
-    <Text style={styles.location}>
-      <Text style={styles.locationLabel}>
-        <FormattedMessage {...m.locationHeader} />:{' '}
-      </Text>
-      <FormattedLocation {...view.coords} />
-    </Text>
-  ) : null
+    <FormattedLocation {...view.coords} />
+  ) : (
+    <FormattedMessage {...m.noLocation} />
+  )
 
 const ObsDescription = ({ view }: { view: ObservationView }) =>
   view.note ? (
-    <View>
+    <View style={[s.col, s.descriptionWrapper]}>
+      <Text style={s.fieldLabel}>
+        <FormattedMessage {...m.descriptionLabel} />
+      </Text>
       {view.note.split('\n').map((para, idx) => (
-        <Text key={idx} style={styles.description}>
+        <Text key={idx} style={s.description}>
           {para}
         </Text>
       ))}
@@ -331,14 +373,13 @@ function ObsDetails ({ view }: { view: ObservationView }) {
   })
   if (nonEmptyFields.length === 0) return null
   return (
-    <>
-      <Text style={styles.details}>{t(m.detailsHeader)}</Text>
-      {nonEmptyFields.map(field => (
-        <View key={field.id} style={styles.field} wrap={false}>
-          <Text style={styles.fieldLabel}>
+    <View style={[s.row, s.fieldsWrapper]}>
+      {view.fields.map(field => (
+        <View key={field.id} style={[s.col, s.field]} wrap={false}>
+          <Text style={s.fieldLabel}>
             <FormattedFieldProp field={field} propName='label' />
           </Text>
-          <Text style={styles.fieldValue}>
+          <Text style={s.fieldValue}>
             <FormattedFieldValue
               field={field}
               value={get(view.tags, field.key)}
@@ -346,7 +387,7 @@ function ObsDetails ({ view }: { view: ObservationView }) {
           </Text>
         </View>
       ))}
-    </>
+    </View>
   )
 }
 
@@ -354,21 +395,21 @@ const ObsInsetMap = ({ view }: { view: ObservationView }) => {
   var imageSrc = view.getMapImageURL()
   if (!imageSrc) return null
   return (
-    <View style={styles.imageWrapper} wrap={false}>
+    <View style={s.mapWrapper} wrap={false}>
       <Image
         src={imageSrc}
         key={'minimap-' + view.id}
-        style={styles.image}
+        style={s.map}
         cache={true}
       />
-      <View style={styles.marker} />
+      <Image src={markerIcon} style={s.marker} />
     </View>
   )
 }
 
 const ObsImage = ({ src }: { src: string }) => (
-  <View style={styles.imageWrapper} wrap={false}>
-    <Image cache={true} src={src} style={styles.image} />
+  <View style={s.imageWrapper} wrap={false}>
+    <Image cache={true} src={src} style={s.image} />
   </View>
 )
 
@@ -376,7 +417,7 @@ class ObservationView {
   static DEFAULT_ZOOM_LEVEL = 11
   id: string
   coords: { longitude: number, latitude: number } | void
-  createdAt: Date | void
+  createdAt: Date
   fields: Field[]
   tags: Object
   mediaItems: ImageMediaItem[]
@@ -402,10 +443,7 @@ class ObservationView {
             latitude: observation.lat
           }
         : undefined
-    this.createdAt =
-      typeof observation.created_at === 'string'
-        ? new Date(observation.created_at)
-        : undefined
+    this.createdAt = new Date(observation.created_at)
 
     this.preset = getPreset(observation)
     // $FlowFixMe - need to create Fields type
@@ -424,8 +462,8 @@ class ObservationView {
     if (!this.coords) return null
 
     var opts = {
-      width: 250,
-      height: 250,
+      width: HEADER_HEIGHT * 1.5,
+      height: HEADER_HEIGHT,
       lon: this.coords.longitude,
       lat: this.coords.latitude,
       zoom: 11,
@@ -437,100 +475,172 @@ class ObservationView {
   }
 }
 
-// Convert pixel to millimetres
-function mm (v) {
-  return v / (25.4 / 72)
-}
+const HEADER_HEIGHT = 110
+const MARKER_SIZE = 24
+// Offset of bottom point of location icon from the icon border, as a proportion
+// of the icon height
+const MARKER_VERTICAL_OFFSET = 8 / 96
+const BORDER_RADIUS = 10
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   page: {
-    backgroundColor: 'white',
-    paddingVertical: mm(20),
-    paddingHorizontal: mm(15),
-    flexDirection: 'row'
+    paddingVertical: 36,
+    paddingHorizontal: 36,
+    flexDirection: 'column'
   },
   pageContent: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'column'
   },
-  columnLeft: {
-    flex: 2,
-    paddingRight: 12,
-    lineHeight: 1.2
+  header: {
+    height: HEADER_HEIGHT,
+    borderWidth: 0.5,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderRadius: BORDER_RADIUS,
+    marginBottom: 20
   },
-  columnRight: {
-    // backgroundColor: 'aqua',
+  headerContent: {
+    padding: 8,
+    paddingRight: 0
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  titleRow: {
+    marginBottom: 5
+  },
+  iconContainer: {
+    width: 30,
+    minHeight: 20,
+    flexBasis: 'auto',
+    marginRight: 8,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  icon: {
+    width: 14
+  },
+  idIcon: {
+    backgroundColor: 'black',
+    borderRadius: 3,
+    padding: '1 3',
+    fontSize: 8,
+    fontWeight: 500,
+    color: 'white'
+  },
+  categoryIcon: {
+    width: 20
+  },
+  circle: {
+    borderRadius: 15,
+    width: 30,
+    height: 30,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#bbbbbb',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  row: {
+    flexDirection: 'row',
+    marginLeft: -10,
+    marginRight: -10
+  },
+  col: {
+    marginLeft: 10,
+    marginRight: 10,
     flex: 1
   },
+  span2: {
+    flex: 2
+  },
+  mediaList: {
+    flexDirection: 'column',
+    marginTop: -5,
+    marginBottom: -5
+  },
   presetName: {
-    fontWeight: 700
+    fontWeight: 500,
+    fontSize: 16,
+    lineHeight: 1.4
   },
-  createdAt: {
-    fontSize: 12,
-    fontFamily: 'Sarabun'
-  },
-  createdAtLabel: {
-    fontSize: 12,
-    color: 'grey'
-  },
-  location: {
-    fontSize: 12,
-    marginBottom: 6
-  },
-  locationLabel: {
-    fontSize: 12,
-    color: 'grey',
-    fontFamily: 'Sarabun'
+  titleDetails: {
+    fontSize: 11
   },
   image: {
     objectFit: 'contain',
-    bottom: 0,
-    right: 0,
-    top: 0,
-    left: 0,
-    position: 'absolute'
+    width: '100%'
+  },
+  map: {
+    borderBottomRightRadius: BORDER_RADIUS,
+    borderTopRightRadius: BORDER_RADIUS,
+    objectFit: 'cover',
+    width: '100%',
+    backgroundColor: '#D7E2CC'
+  },
+  mapWrapper: {
+    position: 'relative'
   },
   marker: {
     position: 'absolute',
-    width: '4mm',
-    height: '4mm',
-    borderRadius: '2mm',
-    top: '28mm',
-    left: '28mm',
-    backgroundColor: 'red'
+    width: MARKER_SIZE,
+    height: MARKER_SIZE,
+    // Center the marker
+    top: '50%',
+    left: '50%',
+    marginTop: -MARKER_SIZE * (1 - MARKER_VERTICAL_OFFSET),
+    marginLeft: -MARKER_SIZE / 2
   },
   imageWrapper: {
-    width: '60mm',
+    // This affects portrait photos
+    maxHeight: 140,
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: 'black',
-    marginBottom: 10,
-    paddingBottom: '100%',
-    height: 0,
-    position: 'relative',
-    overflow: 'hidden'
+    marginBottom: 5,
+    marginTop: 5
   },
   description: {
     marginBottom: 6,
     fontSize: 12
   },
-  details: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    marginBottom: 3,
-    marginTop: 12
+  descriptionWrapper: {
+    marginBottom: 20
+  },
+  fieldsWrapper: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: -4,
+    marginBottom: -4
   },
   field: {
-    marginBottom: 6
+    marginTop: 4,
+    marginBottom: 4,
+    flexDirection: 'column',
+    width: '30%',
+    flexShrink: 0,
+    flexGrow: 1,
+    flexBasis: 'auto'
   },
   fieldLabel: {
-    fontSize: 9,
+    fontSize: 7,
     marginBottom: 1,
-    color: '#333333'
+    textTransform: 'uppercase',
+    fontWeight: 500,
+    lineHeight: 1.3,
+    color: '#666666'
+    // borderBottomWidth: 0.5,
+    // borderBottomStyle: 'solid',
+    // borderBottomColor: 'black'
   },
   fieldValue: {
-    fontSize: 12
+    fontSize: 11,
+    fontWeight: 400,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden'
   },
-  header: {},
   footer: {}
 })

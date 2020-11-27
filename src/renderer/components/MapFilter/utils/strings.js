@@ -1,4 +1,5 @@
 // @flow
+import base32 from 'base32.js'
 import type { Field, Key } from '../types'
 /**
  * Either returns the translated user-defined label for a field, or creates a
@@ -62,4 +63,15 @@ export function titleCase (str: string) {
 
 export function capitalize (str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+/**
+ * Format an observation ID as a base32 string
+ */
+export function formatId (id: string | Buffer): string {
+  if (typeof id === 'string') id = Buffer.from(id, 'hex')
+  // Use first 64 bits
+  const truncated = id.slice(0, 8)
+  const encoder = new base32.Encoder({ type: 'crockford' })
+  return encoder.write(truncated).finalize()
 }
