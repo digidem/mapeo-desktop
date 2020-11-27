@@ -109,7 +109,9 @@ const m = defineMessages({
   // Label for description / notes section of report
   descriptionLabel: 'Description',
   // Shown in reports if an observation has no location recorded
-  noLocation: 'No Location Recorded'
+  noLocation: 'No Location Recorded',
+  // Page number in footer
+  pageNumber: 'Page {pageNumber}'
 })
 
 export type ReportProps = {
@@ -122,6 +124,8 @@ export type ReportProps = {
   settings?: SettingsContextType,
   /** Called with an index of ids, position in array is page number */
   onPageIndex?: (index: Array<string>) => any,
+  /** For previews, should be the cumulative page number. Do not use for final render */
+  startPage?: number,
   ...$Exact<MapViewContentProps>
 }
 
@@ -187,7 +191,8 @@ export const PDFReport = ({
   getPreset,
   getMedia,
   mapStyle,
-  mapboxAccessToken
+  mapboxAccessToken,
+  startPage = 0
 }: ReportProps) => {
   // **Assumption: Each observation will be max 3 pages**
   const sparsePageIndex = new Array(observations.length * 3).fill(undefined)
@@ -224,6 +229,7 @@ export const PDFReport = ({
               key={observation.id}
               observationView={view}
               onRender={handleRenderObservation}
+              startPage={startPage}
             />
           )
         })}
@@ -241,15 +247,18 @@ export const PDFReport = ({
 
 const FeaturePage = ({
   observationView: view,
-  onRender
+  onRender,
+  startPage
 }: {
   observationView: ObservationView,
   onRender: (props: {
     id: string,
     pageNumber: number,
     totalPages: number
-  }) => void
+  }) => void,
+  startPage: number
 }) => {
+  const intl = useIntl()
   // TODO: move all of these Views into ObservationView
   return (
     <Page size='A4' style={s.page} wrap>
@@ -295,6 +304,36 @@ const FeaturePage = ({
           </View>
         </View>
       </View>
+      <View style={s.footer} fixed>
+        <Text>
+          <FormattedTime
+            key='time'
+            value={new Date()}
+            year='numeric'
+            month='long'
+            day='2-digit'
+          />
+        </Text>
+        <View
+          style={
+            // There is a bug in react-pdf where the render part of Text does
+            // not seem to take up any space.
+            { width: 100 }
+          }
+        >
+          <Text
+            fixed
+            style={{
+              textAlign: 'right'
+            }}
+            render={({ pageNumber }) =>
+              intl.formatMessage(m.pageNumber, {
+                pageNumber: startPage + pageNumber
+              })
+            }
+          />
+        </View>
+      </View>
     </Page>
   )
 }
@@ -302,7 +341,7 @@ const FeaturePage = ({
   read the page number and total pages */
 const Indexer = ({ id, onRender }) => (
   <View>
-    <Text
+    <TextOrig
       render={({ pageNumber, totalPages }) => {
         onRender({
           id,
@@ -336,7 +375,6 @@ const IdIcon = () => (
 
 const ObsCreated = ({ view }: { view: ObservationView }) => (
   <FormattedTime
-    key='time'
     value={view.createdAt}
     year='numeric'
     month='long'
@@ -484,8 +522,10 @@ const BORDER_RADIUS = 10
 
 const s = StyleSheet.create({
   page: {
-    paddingVertical: 36,
-    paddingHorizontal: 36,
+    paddingTop: 44,
+    paddingBottom: 44,
+    paddingLeft: 36,
+    paddingRight: 36,
     flexDirection: 'column'
   },
   pageContent: {
@@ -642,5 +682,15 @@ const s = StyleSheet.create({
     textOverflow: 'ellipsis',
     overflow: 'hidden'
   },
-  footer: {}
+  footer: {
+    position: 'absolute',
+    bottom: 36,
+    fontSize: 8,
+    lineHeight: 1,
+    textTransform: 'uppercase',
+    left: 36,
+    right: 36,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
 })

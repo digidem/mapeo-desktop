@@ -81,7 +81,7 @@ export default function usePDFPreview ({
     }
     let cancel = false
 
-    function cachedRender (obs: Observation) {
+    function cachedRender (obs: Observation, startPage: number) {
       const cached = pdfCache.get(obs)
       if (cached) return cached
       const pdfPromise = renderPDFReport({
@@ -91,7 +91,8 @@ export default function usePDFPreview ({
         getMedia,
         getPreset,
         mapStyle,
-        mapboxAccessToken
+        mapboxAccessToken,
+        startPage
       })
       pdfCache.set(obs, pdfPromise)
       return pdfPromise
@@ -132,17 +133,18 @@ export default function usePDFPreview ({
         // report, so this is an error
         if (!obs) return setState('error')
 
-        const { index } = await cachedRender(obs)
+        const { index } = await cachedRender(obs, emptyIdx)
         // Copy page index from PDF of single observation into overall page index
         for (let i = 0; i < index.length; i++) {
           pageIndex[emptyIdx + i] = index[i]
         }
       }
       const obsId = pageIndex[currentPage - 1]
+      const startPage = pageIndex.indexOf(obsId)
       const obsIdx = observations.findIndex(obs => obs.id === obsId)
       const obs = observations[obsIdx]
       if (!obs) return setState('error')
-      const { blob } = await cachedRender(obs)
+      const { blob } = await cachedRender(obs, startPage)
       if (cancel) return
       setBlob(blob)
       setState('ready')
