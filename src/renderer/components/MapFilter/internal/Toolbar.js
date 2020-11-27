@@ -11,8 +11,20 @@ const useStyles = makeStyles({
     left: 0,
     right: 0,
     padding: '8px !important',
-    flexDirection: 'row !important',
-    justifyContent: 'space-between'
+    display: 'grid',
+    gridTemplateColumns: '1fr auto 1fr',
+    '& > *': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      justifyContent: 'center',
+      '&:first-child': {
+        justifyContent: 'flex-start'
+      },
+      '&:last-child': {
+        justifyContent: 'flex-end'
+      }
+    }
   }
 })
 

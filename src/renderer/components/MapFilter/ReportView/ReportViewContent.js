@@ -163,8 +163,8 @@ const ReportViewContent = ({
             onClick={handleSaveClick}
           />
         </div>
-        <div className={cx.xOfY}>
-          <Typography variant='body1'>
+        <div>
+          <Typography variant='body1' className={cx.xOfY}>
             <FormattedMessage
               {...m.xOfY}
               values={{
@@ -174,11 +174,13 @@ const ReportViewContent = ({
             />
           </Typography>
         </div>
-        <EditButton
-          className={cx.editButton}
-          disabled={!observationId}
-          onClick={observationId ? () => onClick(observationId) : undefined}
-        />
+        <div>
+          <EditButton
+            className={cx.editButton}
+            disabled={!observationId}
+            onClick={observationId ? () => onClick(observationId) : undefined}
+          />
+        </div>
       </Toolbar>
       <PageNavigator
         currentPage={currentPage}
@@ -299,11 +301,8 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 20
   },
   xOfY: {
-    display: 'flex',
     fontStyle: 'italic',
-    color: 'rgba(0,0,0,0.7)',
-    justifyContent: 'center',
-    alignItems: 'center'
+    color: 'rgba(0,0,0,0.7)'
   },
   savingDialogContent: {
     display: 'flex',
