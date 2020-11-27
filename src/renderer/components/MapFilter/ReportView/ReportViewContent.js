@@ -305,11 +305,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  navigation: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
   savingDialogContent: {
     display: 'flex',
     paddingBottom: 20,
@@ -325,6 +320,8 @@ const useStyles = makeStyles(theme => ({
     left: '50%',
     transform: 'translate(-50%, 0)',
     zIndex: 99,
+    display: 'inline-grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
     '& .MuiButton-contained': {
       textTransform: 'none',
       backgroundColor: '#000630',
