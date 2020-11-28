@@ -5,6 +5,7 @@ import type { Observation } from 'mapeo-schema'
 
 import { renderPDFReport } from './PDFReport'
 import type { ReportViewContentProps } from './ReportViewContent'
+import logger from '../../../../logger'
 
 export type PDFState = 'error' | 'loading' | 'empty' | 'ready'
 
@@ -132,10 +133,16 @@ export default function usePDFPreview ({
         // report, so this is an error
         if (!obs) return setState('error')
 
-        const { index } = await cachedRender(obs, emptyIdx)
-        // Copy page index from PDF of single observation into overall page index
-        for (let i = 0; i < index.length; i++) {
-          pageIndex[emptyIdx + i] = index[i]
+        try {
+          const { index } = await cachedRender(obs, emptyIdx)
+          // Copy page index from PDF of single observation into overall page index
+          for (let i = 0; i < index.length; i++) {
+            pageIndex[emptyIdx + i] = index[i]
+          }
+        } catch (e) {
+          // This should not happen, something is up with PDF rendering
+          logger.error(e)
+          return setState('error')
         }
       }
       const obsId = pageIndex[currentPage - 1]
@@ -143,10 +150,16 @@ export default function usePDFPreview ({
       const obsIdx = observations.findIndex(obs => obs.id === obsId)
       const obs = observations[obsIdx]
       if (!obs) return setState('error')
-      const { blob } = await cachedRender(obs, startPage)
-      if (cancel) return
-      setBlob(blob)
-      setState('ready')
+      try {
+        const { blob } = await cachedRender(obs, startPage)
+        if (cancel) return
+        setBlob(blob)
+        setState('ready')
+      } catch (e) {
+        // This should not happen, something is up with PDF rendering
+        logger.error(e)
+        return setState('error')
+      }
     })()
 
     return () => {
