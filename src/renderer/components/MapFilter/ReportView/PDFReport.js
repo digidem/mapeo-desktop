@@ -124,7 +124,10 @@ export type ReportProps = {
   settings?: SettingsContextType,
   /** Called with an index of ids, position in array is page number */
   onPageIndex?: (index: Array<string>) => any,
-  /** For previews, should be the cumulative page number. Do not use for final render */
+  /** For previews, the page number the preview section starts on (e.g. first
+   * observation starts on page 1, if that 1st observation takes two pages, then
+   * pdf preview of second observation starts on page 3). Do not use for final
+   * render */
   startPage?: number,
   ...$Exact<MapViewContentProps>
 }
@@ -192,7 +195,7 @@ export const PDFReport = ({
   getMedia,
   mapStyle,
   mapboxAccessToken,
-  startPage = 0
+  startPage = 1
 }: ReportProps) => {
   // **Assumption: Each observation will be max 3 pages**
   const sparsePageIndex = new Array(observations.length * 3).fill(undefined)
@@ -328,7 +331,7 @@ const FeaturePage = ({
             }}
             render={({ pageNumber }) =>
               intl.formatMessage(m.pageNumber, {
-                pageNumber: startPage + pageNumber
+                pageNumber: startPage - 1 + pageNumber
               })
             }
           />

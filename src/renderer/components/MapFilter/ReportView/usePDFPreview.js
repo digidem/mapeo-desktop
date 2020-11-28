@@ -140,7 +140,7 @@ export default function usePDFPreview ({
         if (!obs) return setState('error')
 
         try {
-          const { index } = await cachedRender(obs, emptyIdx)
+          const { index } = await cachedRender(obs, emptyIdx + 1)
           // Copy page index from PDF of single observation into overall page index
           for (let i = 0; i < index.length; i++) {
             pageIndex[emptyIdx + i] = index[i]
@@ -152,7 +152,7 @@ export default function usePDFPreview ({
         }
       }
       const obsId = pageIndex[currentPage - 1]
-      const startPage = pageIndex.indexOf(obsId)
+      const startPage = pageIndex.indexOf(obsId) + 1
       const obsIdx = observations.findIndex(obs => obs.id === obsId)
       const obs = observations[obsIdx]
       if (!obs) return setState('error')
