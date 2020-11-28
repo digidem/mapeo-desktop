@@ -407,7 +407,6 @@ const ObsDescription = ({ view }: { view: ObservationView }) =>
   ) : null
 
 function ObsDetails ({ view }: { view: ObservationView }) {
-  const { formatMessage: t } = useIntl()
   const nonEmptyFields = view.fields.filter(field => {
     const value = get(view.tags, field.key)
     return !isEmptyValue(value)
