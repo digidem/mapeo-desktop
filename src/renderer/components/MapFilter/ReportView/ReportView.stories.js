@@ -53,6 +53,17 @@ export const Single = () => (
   />
 )
 
+export const NoLocation = () => (
+  <ReportView
+    getMediaUrl={getMediaUrl}
+    mapboxAccessToken={mapboxAccessToken}
+    observations={[{ ...exampleObservations[0], lat: null, lon: null }]}
+    onUpdateObservation={action('update')}
+    onDeleteObservation={action('delete')}
+    mapStyle={mapStyle}
+  />
+)
+
 export const InitialPage10 = () => (
   <ReportView
     getMediaUrl={getMediaUrl}
