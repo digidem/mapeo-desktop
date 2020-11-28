@@ -103,8 +103,14 @@ export default function usePDFPreview ({
     // many pages each observation takes up, up to page 10, before we know what
     // to render on page 10
     ;(async function () {
-      // Set pageIndex to be at least as long as currentPage
-      pageIndex.length = Math.max(pageIndex.length, currentPage)
+      // Set pageIndex to be at least as long as currentPage, but trim any
+      // undefined entries off the end (this can happen if the user was on an
+      // invalid page (beyond length of the report) after changing a filter
+      const emptyIdx = pageIndex.findIndex(v => typeof v === 'undefined')
+      pageIndex.length = Math.max(
+        emptyIdx > -1 ? emptyIdx : pageIndex.length,
+        currentPage
+      )
       setState('loading')
 
       // We need to fill the page index up to the current page, so that we know

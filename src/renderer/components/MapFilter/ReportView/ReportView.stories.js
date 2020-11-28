@@ -65,6 +65,18 @@ export const InitialPage10 = () => (
   />
 )
 
+export const InvalidInitialPage = () => (
+  <ReportView
+    getMediaUrl={getMediaUrl}
+    mapboxAccessToken={mapboxAccessToken}
+    observations={exampleObservations.slice(0, 7)}
+    initialPageNumber={20}
+    onUpdateObservation={action('update')}
+    onDeleteObservation={action('delete')}
+    mapStyle={mapStyle}
+  />
+)
+
 export const Empty = () => (
   <ReportView
     getMediaUrl={getMediaUrl}

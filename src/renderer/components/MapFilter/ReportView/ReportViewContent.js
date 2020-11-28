@@ -149,6 +149,15 @@ const ReportViewContent = ({
     ...otherProps
   })
 
+  // If there is an error generating the PDF preview, try resetting to page 1
+  // (this can happen when changing a filter results in a report with fewer
+  // pages than the current page number)
+  React.useEffect(() => {
+    if (pdfState === 'error' && currentPage !== 1) {
+      setCurrentPage(1)
+    }
+  }, [pdfState, currentPage])
+
   return (
     <>
       <div className={cx.root}>
