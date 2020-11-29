@@ -180,7 +180,10 @@ export function renderPDFReport (
   return renderToBlob(doc).then(blob => ({ blob, index: pageIndex }))
 }
 
-const Text = ({ style, ...otherProps }: React.ElementConfig<TextOrig>) => {
+const Text = ({
+  style,
+  ...otherProps
+}: React.ElementConfig<typeof TextOrig>) => {
   const intl = useIntl()
   const fontFamily = getFontFamily(intl.locale)
   return <TextOrig style={{ fontFamily, ...style }} {...otherProps} />
