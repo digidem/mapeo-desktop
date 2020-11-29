@@ -274,11 +274,7 @@ const FeaturePage = ({
           <View style={s.row}>
             <View style={[s.col, s.span2, s.headerContent]}>
               <View style={[s.headerRow, s.titleRow]}>
-                <View style={s.iconContainer}>
-                  <View style={s.circle}>
-                    <Image style={s.categoryIcon} src={markerIcon} />
-                  </View>
-                </View>
+                <ObservationIcon view={view} />
                 <Text style={s.presetName}>
                   {view.preset.name || 'Observation'}
                 </Text>
@@ -372,6 +368,17 @@ const TitleDetails = ({
     <Text style={s.titleDetails}>{children}</Text>
   </View>
 )
+
+const ObservationIcon = ({ view }: { view: ObservationView }) => {
+  const iconUrl = view.getIconURL() || markerIcon
+  return (
+    <View style={s.iconContainer}>
+      <View style={s.circle}>
+        <Image style={s.categoryIcon} src={iconUrl} />
+      </View>
+    </View>
+  )
+}
 
 const IdIcon = () => (
   <View style={s.idIcon}>
@@ -498,6 +505,12 @@ class ObservationView {
       if (item && item.type === 'image') acc.push(item.src)
       return acc
     }, [])
+  }
+
+  getIconURL (size?: 'medium') {
+    if (!api.getBaseUrl()) return // for rendering in storybook
+    if (!this.preset.icon) return
+    return api.getIconUrl(this.preset.icon)
   }
 
   getMapImageURL (zoom) {
