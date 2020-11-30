@@ -345,6 +345,9 @@ const useStyles = makeStyles(theme => ({
       '&:not(:last-child)': {
         borderRight: '1px solid #404363'
       }
+    },
+    '& .Mui-disabled:not(:nth-child(2))': {
+      color: '#656882'
     }
   },
   navigatorPageButton: {
