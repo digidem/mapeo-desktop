@@ -44,7 +44,8 @@ import { type MapViewContentProps } from '../MapView/MapViewContent'
 import api from '../../../new-api'
 
 import dateIcon from './iconEvent.png'
-import markerIcon from './iconPlace.png'
+import fallbackCategoryIcon from './iconPlace.png'
+import mapIcon from './iconObservationMarker.png'
 import locationIcon from './iconLocation.png'
 
 import sarabunLight from '../../../../../static/fonts/Sarabun-Light.ttf'
@@ -388,7 +389,7 @@ const TitleDetails = ({
 )
 
 const ObservationIcon = ({ view }: { view: ObservationView }) => {
-  const iconUrl = view.getIconURL() || markerIcon
+  const iconUrl = view.getIconURL() || fallbackCategoryIcon
   return (
     <View style={s.iconContainer}>
       <View style={s.circle}>
@@ -465,7 +466,7 @@ const ObsInsetMap = ({ view }: { view: ObservationView }) => {
   return (
     <View style={s.mapWrapper} wrap={false}>
       <Image src={imageSrc} key={'minimap-' + view.id} style={s.map} cache />
-      <Image src={markerIcon} style={s.marker} />
+      <Image src={mapIcon} style={s.marker} />
     </View>
   )
 }
@@ -545,10 +546,11 @@ class ObservationView {
 }
 
 const HEADER_HEIGHT = 110
-const MARKER_SIZE = 24
-// Offset of bottom point of location icon from the icon border, as a proportion
-// of the icon height
-const MARKER_VERTICAL_OFFSET = 8 / 96
+const MARKER_WIDTH = 24
+// Marker is 110px x 188px
+const MARKER_HEIGHT = 188 * (24 / 110)
+// Offset of marker map center from top of marker as ratio to height
+const MARKER_VERTICAL_OFFSET = 138 / 188
 const BORDER_RADIUS = 10
 
 const s = StyleSheet.create({
@@ -657,13 +659,13 @@ const s = StyleSheet.create({
   },
   marker: {
     position: 'absolute',
-    width: MARKER_SIZE,
-    height: MARKER_SIZE,
+    width: MARKER_WIDTH,
+    height: MARKER_HEIGHT,
     // Center the marker
     top: '50%',
     left: '50%',
-    marginTop: -MARKER_SIZE * (1 - MARKER_VERTICAL_OFFSET),
-    marginLeft: -MARKER_SIZE / 2
+    marginTop: -MARKER_VERTICAL_OFFSET * MARKER_HEIGHT,
+    marginLeft: -12
   },
   imageWrapper: {
     // This affects portrait photos
