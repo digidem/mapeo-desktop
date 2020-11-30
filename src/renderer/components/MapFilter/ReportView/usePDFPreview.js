@@ -18,6 +18,10 @@ type Props = {
   currentPage: number
 }
 
+// Seeing a race condition which causes the report to never finish rendering, so
+// set a timeout so it does not get stuck in "loading"
+const TIMEOUT = 5000
+
 // This hook generates a PDF for a single observation. It uses the array of all
 // observations to display in the report and the current page to calculate which
 // observation should be shown. This is because (A) we do not know what
@@ -84,16 +88,19 @@ export default function usePDFPreview ({
     function cachedRender (obs: Observation, startPage: number) {
       const cached = pdfCache.get(obs)
       if (cached) return cached
-      const pdfPromise = renderPDFReport({
-        observations: [obs],
-        intl,
-        settings,
-        getMedia,
-        getPreset,
-        mapStyle,
-        mapboxAccessToken,
-        startPage
-      })
+      const pdfPromise = renderPDFReport(
+        {
+          observations: [obs],
+          intl,
+          settings,
+          getMedia,
+          getPreset,
+          mapStyle,
+          mapboxAccessToken,
+          startPage
+        },
+        TIMEOUT
+      )
       pdfCache.set(obs, pdfPromise)
       return pdfPromise
     }

@@ -20,6 +20,7 @@ import {
 } from '@react-pdf/renderer'
 import type { Field } from 'mapeo-schema'
 import PQueue from 'p-queue'
+import pTimeout from 'p-timeout'
 
 import {
   FormattedFieldProp,
@@ -165,13 +166,30 @@ const FrontPage = ({ bounds }) => {
 const instance = pdf({})
 const queue = new PQueue({ concurrency: 1 })
 
-function renderToBlob (doc) {
-  instance.updateContainer(doc)
-  return queue.add(() => instance.toBlob())
+function renderToBlob (doc, timeout?: number) {
+  return queue.add(async () => {
+    instance.updateContainer(doc)
+    // Seeing a race condition where occasionally react-pdf would never complete
+    // the toBlob() promise, so trying to wait for next tick just in case.
+    await nextTick()
+    if (timeout) {
+      return pTimeout(
+        instance.toBlob(),
+        timeout,
+        `Report render timed out after ${timeout}ms`
+      )
+    }
+    return instance.toBlob()
+  })
+}
+
+function nextTick () {
+  return new Promise(resolve => process.nextTick(resolve))
 }
 
 export function renderPDFReport (
-  props: ReportProps
+  props: ReportProps,
+  timeout?: number
 ): Promise<{ blob: Blob, index: Array<string> }> {
   let pageIndex: Array<string> = []
   const doc = (
