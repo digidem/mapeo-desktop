@@ -125,10 +125,10 @@ export default function usePDFPreview ({
       // We need to fill the page index up to the current page, so that we know
       // what observation should be showing on the current page. Ensure that
       // this always runs once (to set pdf)
-      while (pageIndex.includes(undefined)) {
+      while (pageIndex.findIndex(v => typeof v !== 'string') > -1) {
         // Index of first empty value in pageIndex array - will always be > -1
         // because while loop only runs when pageIndex contains undefined values
-        const emptyIdx = pageIndex.findIndex(v => typeof v === 'undefined')
+        const emptyIdx = pageIndex.findIndex(v => typeof v !== 'string')
         let obs
         if (emptyIdx === 0) {
           obs = observations[0]
