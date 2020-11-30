@@ -1,0 +1,33 @@
+diff --git a/node_modules/hidden-mapbox/index.js b/node_modules/hidden-mapbox/index.js
+index 605987b..9f21958 100644
+--- a/node_modules/hidden-mapbox/index.js
++++ b/node_modules/hidden-mapbox/index.js
+@@ -46,6 +46,14 @@ class Map {
+   }) {
+     return new Promise((resolve) => {
+       if (accessToken) mapboxgl.accessToken = accessToken
++      this.map.once('error', reject)
++      this.map.once('idle', () => {
++        // @ts-ignore
++        window.devicePixelRatio = originalPixelRatio
++        this.map.getCanvas().toBlob((blob) => {
++          resolve(blob)
++        })
++      })
+       if (style) this.setStyle(style)
+       this.mapDiv.style.width = width + 'px'
+       this.mapDiv.style.height = height + 'px'
+@@ -54,13 +62,6 @@ class Map {
+       window.devicePixelRatio = pixelRatio
+       this.map.resize()
+       this.map.jumpTo({ center, zoom })
+-      this.map.on('idle', () => {
+-        // @ts-ignore
+-        window.devicePixelRatio = originalPixelRatio
+-        this.map.getCanvas().toBlob((blob) => {
+-          resolve(blob)
+-        })
+-      })
+     })
+   }
+ }
