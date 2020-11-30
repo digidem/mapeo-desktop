@@ -128,6 +128,27 @@ const presets: PresetWithFields[] = [
     ]
   },
   {
+    name: 'Really long preset name to check text wrapping in title',
+    id: 'fishing',
+    geometry: ['point'],
+    tags: {},
+    fields: [
+      {
+        type: 'text',
+        id: 'impacts',
+        key: ['impacts'],
+        label: 'What is the impact?'
+      },
+      {
+        type: 'select_one',
+        id: 'village',
+        key: ['village'],
+        label: 'Village?',
+        options: [{ value: 'village_1', label: 'Potari Naawa' }]
+      }
+    ]
+  },
+  {
     name: 'Logging',
     id: 'logging',
     geometry: ['point'],
