@@ -1,10 +1,13 @@
 diff --git a/node_modules/hidden-mapbox/index.js b/node_modules/hidden-mapbox/index.js
-index 605987b..9f21958 100644
+index 605987b..b8e032e 100644
 --- a/node_modules/hidden-mapbox/index.js
 +++ b/node_modules/hidden-mapbox/index.js
-@@ -46,6 +46,14 @@ class Map {
+@@ -44,8 +44,16 @@ class Map {
+     zoom,
+     pixelRatio
    }) {
-     return new Promise((resolve) => {
+-    return new Promise((resolve) => {
++    return new Promise((resolve, reject) => {
        if (accessToken) mapboxgl.accessToken = accessToken
 +      this.map.once('error', reject)
 +      this.map.once('idle', () => {
