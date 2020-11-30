@@ -392,7 +392,7 @@ const ObservationIcon = ({ view }: { view: ObservationView }) => {
   return (
     <View style={s.iconContainer}>
       <View style={s.circle}>
-        <Image style={s.categoryIcon} src={iconUrl} />
+        <Image cache style={s.categoryIcon} src={iconUrl} />
       </View>
     </View>
   )
@@ -464,12 +464,7 @@ const ObsInsetMap = ({ view }: { view: ObservationView }) => {
   if (!imageSrc) return null
   return (
     <View style={s.mapWrapper} wrap={false}>
-      <Image
-        src={imageSrc}
-        key={'minimap-' + view.id}
-        style={s.map}
-        cache={true}
-      />
+      <Image src={imageSrc} key={'minimap-' + view.id} style={s.map} cache />
       <Image src={markerIcon} style={s.marker} />
     </View>
   )
@@ -477,7 +472,7 @@ const ObsInsetMap = ({ view }: { view: ObservationView }) => {
 
 const ObsImage = ({ src }: { src: string }) => (
   <View style={s.imageWrapper} wrap={false}>
-    <Image cache={true} src={src} style={s.image} />
+    <Image cache src={src} style={s.image} />
   </View>
 )
 
