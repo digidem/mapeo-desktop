@@ -102,6 +102,8 @@ export default function usePDFPreview ({
         TIMEOUT
       )
       pdfCache.set(obs, pdfPromise)
+      // Don't cache if render fails
+      pdfPromise.catch(() => pdfCache.delete(obs))
       return pdfPromise
     }
 
