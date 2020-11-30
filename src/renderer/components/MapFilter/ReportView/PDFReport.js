@@ -443,7 +443,7 @@ function ObsDetails ({ view }: { view: ObservationView }) {
   if (nonEmptyFields.length === 0) return null
   return (
     <View style={[s.row, s.fieldsWrapper]}>
-      {view.fields.map(field => (
+      {nonEmptyFields.map(field => (
         <View key={field.id} style={[s.col, s.field]} wrap={false}>
           <Text style={s.fieldLabel}>
             <FormattedFieldProp field={field} propName='label' />
