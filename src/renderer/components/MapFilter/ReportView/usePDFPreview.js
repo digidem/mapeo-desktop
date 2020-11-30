@@ -125,7 +125,8 @@ export default function usePDFPreview ({
       // We need to fill the page index up to the current page, so that we know
       // what observation should be showing on the current page. Ensure that
       // this always runs once (to set pdf)
-      while (pageIndex.findIndex(v => typeof v !== 'string') > -1) {
+      // eslint-disable-next-line no-unmodified-loop-condition
+      while (pageIndex.findIndex(v => typeof v !== 'string') > -1 && !cancel) {
         // Index of first empty value in pageIndex array - will always be > -1
         // because while loop only runs when pageIndex contains undefined values
         const emptyIdx = pageIndex.findIndex(v => typeof v !== 'string')
@@ -150,11 +151,13 @@ export default function usePDFPreview ({
 
         try {
           const { index } = await cachedRender(obs, emptyIdx + 1)
+          if (cancel) return
           // Copy page index from PDF of single observation into overall page index
           for (let i = 0; i < index.length; i++) {
             pageIndex[emptyIdx + i] = index[i]
           }
         } catch (e) {
+          if (cancel) return
           // This should not happen, something is up with PDF rendering
           logger.error(e)
           return setState('error')
@@ -167,6 +170,7 @@ export default function usePDFPreview ({
       if (!obs) return setState('error')
       try {
         const { blob, index } = await cachedRender(obs, startPage)
+        if (cancel) return
         // Eagerly queue up render of next observation, don't await result
         const nextObs = observations[obsIdx + 1]
         if (nextObs) {
@@ -176,6 +180,7 @@ export default function usePDFPreview ({
         setBlob(blob)
         setState('ready')
       } catch (e) {
+        if (cancel) return
         // This should not happen, something is up with PDF rendering
         logger.error(e)
         return setState('error')
