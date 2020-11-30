@@ -121,12 +121,18 @@ export default function usePDFPreview ({
         currentPage
       )
       setState('loading')
+      let loops = 0
 
       // We need to fill the page index up to the current page, so that we know
       // what observation should be showing on the current page. Ensure that
       // this always runs once (to set pdf)
       // eslint-disable-next-line no-unmodified-loop-condition
       while (pageIndex.findIndex(v => typeof v !== 'string') > -1 && !cancel) {
+        // Avoid infinite loop in case of bug
+        if (loops++ > pageIndex.length) {
+          logger.error(new Error('Inifite loop in PDF preview'))
+          return setState('error')
+        }
         // Index of first empty value in pageIndex array - will always be > -1
         // because while loop only runs when pageIndex contains undefined values
         const emptyIdx = pageIndex.findIndex(v => typeof v !== 'string')
