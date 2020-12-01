@@ -162,30 +162,20 @@ const FrontPage = ({ bounds }) => {
   </Page>
 */
 
-// These are global to avoid re-using the same context in multiple renderers
-// (e.g. if we are displaying a PDF preview and also saving at the same time)
-const instance = pdf({})
+// Only render 1 PDF doc at a time
 const queue = new PQueue({ concurrency: 1 })
 
 function renderToBlob (doc, timeout?: number) {
-  return queue.add(async () => {
-    instance.updateContainer(doc)
-    // Seeing a race condition where occasionally react-pdf would never complete
-    // the toBlob() promise, so trying to wait for next tick just in case.
-    await nextTick()
-    if (timeout) {
-      return pTimeout(
-        instance.toBlob(),
-        timeout,
-        `Report render timed out after ${timeout}ms`
-      )
-    }
-    return instance.toBlob()
+  return queue.add(() => {
+    const instance = pdf({ initialValue: doc })
+    return timeout
+      ? pTimeout(
+          instance.toBlob(),
+          timeout,
+          `Report render timed out after ${timeout}ms`
+        )
+      : instance.toBlob()
   })
-}
-
-function nextTick () {
-  return new Promise(resolve => process.nextTick(resolve))
 }
 
 export function renderPDFReport (
