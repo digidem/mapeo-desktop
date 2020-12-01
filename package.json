@@ -115,7 +115,7 @@
     "fs-extra": "^9.0.1",
     "fs-write-stream-atomic": "^1.0.10",
     "get-scrollbar-width": "^1.0.4",
-    "hidden-mapbox": "^1.0.0",
+    "hidden-mapbox": "^1.0.1",
     "html-react-parser": "^0.9.1",
     "id-mapeo": "^3.3.1",
     "insert-css": "^2.0.0",
