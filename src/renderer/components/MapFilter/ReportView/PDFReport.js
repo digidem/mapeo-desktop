@@ -17,7 +17,7 @@ import {
   Document,
   StyleSheet,
   Font
-} from '@react-pdf/renderer'
+} from '@digidem/react-pdf-renderer'
 import type { Field } from 'mapeo-schema'
 import PQueue from 'p-queue'
 import pTimeout from 'p-timeout'
