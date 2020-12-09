@@ -46,6 +46,9 @@
     "description": "Menu item for exporting GeoJSON",
     "message": "Export GeoJSON…"
   },
+  "renderer.components.MapEditor.ExportButton.exportICCAs": {
+    "message": "Export ICCA Export Package…"
+  },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
     "message": "Export Shapefile…"

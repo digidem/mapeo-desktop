@@ -23,6 +23,8 @@ const m = defineMessages({
   exportButton: 'Export map data',
   // Menu item for exporting GeoJSON
   exportGeoJson: 'Export GeoJSON…',
+  // Menu item for exporting ICCA Export Packages
+  exportICCAPackage: 'Export ICCA Export Package…',
   // Menu item for exporting Shapefile
   exportShapefile: 'Export Shapefile…',
   // OK button after successful export
@@ -162,6 +164,11 @@ const ExportButton = () => {
       >
         <MenuItem onClick={handleMenuItemClick('geojson')}>
           <FormattedMessage {...m.exportGeoJson} />
+        </MenuItem>
+        {/* TODO: display this conditionally when the Mapeo for ICCA
+            custom configuration is present */}
+        <MenuItem onClick={handleMenuItemClick('icca')}>
+          <FormattedMessage {...m.exportICCAPackage} />
         </MenuItem>
       </Menu>
       <Dialog
