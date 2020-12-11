@@ -16,12 +16,13 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import FormLabel from '@material-ui/core/FormLabel'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
-import path, { format } from 'path'
+import path from 'path'
 import { remote } from 'electron'
 import pump from 'pump'
 import insertCss from 'insert-css'
 import logger from '../../../logger'
 import createZip from '../../create-zip'
+import api from '../../new-api'
 
 const msgs = defineMessages({
   // Title for ICCA package export dialog
@@ -130,7 +131,7 @@ const EditDialogContent = ({ onClose }) => {
     onClose()
   }
 
-  const handleSave = e => {
+  const handleSave = async e => {
     e.preventDefault()
 
     // Input validation
@@ -164,7 +165,7 @@ const EditDialogContent = ({ onClose }) => {
     }
 
     setSaving(true)
-    const points = observationsToGeoJson()
+    const points = await getGeoJson()
     const metadata = {
       communityConsent: value1,
       makePublic: value2,
@@ -485,9 +486,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function observationsToGeoJson () {
-  return {
-    type: 'FeatureCollection',
-    features: []
-  }
+async function getGeoJson () {
+  return api.getData({
+    format: 'geojson',
+    filter: ['==', 'protection_title', 'icca']
+  })
 }

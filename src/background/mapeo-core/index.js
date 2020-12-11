@@ -1,7 +1,7 @@
 const rabbit = require('electron-rabbit')
 const os = require('os')
 const http = require('http')
-
+const concat = require('concat-stream')
 const background = require('..')
 const logger = require('../../logger')
 
@@ -175,6 +175,26 @@ handlers['export-data'] = async (args) => {
       }
       resolve()
     })
+  })
+}
+
+handlers['get-data'] = async (opts) => {
+  logger.info('Exporting data stream', opts)
+  return new Promise((resolve, reject) => {
+    const rs = manager.mapeo.core.createDataStream(opts)
+    rs.on('error', (err) => {
+      logger.error(`mapeo.createDataStream(${opts})`, err)
+      rs.destroy()
+      return reject(err)
+    })
+    rs.pipe(concat((stream) => {
+      const geojson = JSON.parse(stream)
+      geojson.features = geojson.features.map((f) => {
+        delete f.id
+        return f
+      })
+      resolve(geojson)
+    }))
   })
 }
 

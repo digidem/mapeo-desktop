@@ -197,6 +197,17 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       })
     },
 
+    getData: function (opts) {
+      return new Promise((resolve, reject) => {
+        ipc.send('get-data', opts, (err, res) => {
+          if (err) {
+            logger.error('export data', err)
+            reject(err)
+          } else resolve(res)
+        })
+      })
+    },
+
     /**
      * HELPER synchronous methods
      */
