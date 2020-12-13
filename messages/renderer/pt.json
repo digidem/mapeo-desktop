@@ -233,6 +233,18 @@
     "description": "Save edit button",
     "message": "Salvar"
   },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Ocultar todos"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count} campos ocultos"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Mostrar todos"
+  },
   "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
     "description": "Button label for hide fields menu",
     "message": "Detalhes"
@@ -257,6 +269,10 @@
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "Relatório"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Observação"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -356,8 +372,30 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Selecionar base de dados para sincronizar"
   },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Baixar"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Baixando"
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Erro"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Reiniciar"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Uma atualização para o Mapeo foi baixada. Reinicie o Mapeo para atualizar."
+  },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
     "message": "Desconhecido"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Atualização"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo está atualizado! Você tem a versão mais recente."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "Cancelar"
