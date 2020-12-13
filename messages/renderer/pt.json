@@ -257,6 +257,9 @@
     "description": "Show all fields in report view",
     "message": "Mostrar todos"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
+    "message": "Criado em"
+  },
   "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
     "description": "Button label for hide fields menu",
     "message": "Detalhes"
@@ -289,7 +292,17 @@
     "message": "Título"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
-    "message": "Próximo"
+    "message": "Próxima"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.noReport": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Não há observações disponíveis."
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "message": "Anterior"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.previewMessage": {
+    "message": "Pré-visualizando as primeiras {numPages} páginas"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
@@ -454,10 +467,36 @@
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
     "message": "Escolha idioma"
   },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Fechar"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Abrir log..."
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Inserir coordenadas"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Exportar erros"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Houve um erro ao tentar exportar esses arquivos, portanto eles estão faltando nesta exportação:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Originais ausentes"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "O tamanho original destes arquivos não foi encontrado, apenas imagens de tamanho pré-visualização (1.200 pixels) estão incluídas. Isso pode acontecer porque o celular que tirou as fotos só sincronizou com outros celulares, e não diretamente com o Mapeo Desktop. Para tentar corrigir isso, encontre o celular que tirou as fotos e sincronize-o com o Mapeo Desktop antes de exportar novamente."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Sem resposta"
   }
 }
