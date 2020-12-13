@@ -11,6 +11,9 @@
     "description": "Synchronize tab label",
     "message": "Sincronizar"
   },
+  "renderer.components.Home.update": {
+    "message": "Atualizar Mapeo"
+  },
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
     "message": "Carregando…"
@@ -57,6 +60,9 @@
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback e contribuição"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Descrição"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
@@ -125,6 +131,26 @@
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "Exportar Mapa da web…"
   },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Data da observação"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Editar filtros…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Categoria"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Apenas"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Todas"
+  },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "Filtrar por…"
   },
@@ -166,6 +192,10 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Que pena! Ocorreu um erro"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Dados adicionais"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
     "message": "Cancelar"
@@ -173,12 +203,39 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
     "message": "Cancelar"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Descartar alterações"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "Você fez algumas alterações. Fechando sem salvar perderá as alterações feitas."
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Fechar sem salvar?"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Sim, excluir"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Excluir observação?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Excluir observação"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Detalhes"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
     "message": "Salvar"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "Detalhes"
   },
   "renderer.components.MapFilter.ReportView.PrintButton.close": {
     "description": "Button label to close print settings dialog",
