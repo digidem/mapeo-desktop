@@ -72,18 +72,6 @@
     "description": "Save edit button",
     "message": "Lưu"
   },
-  "renderer.components.MapFilter.ReportView.PrintButton.close": {
-    "description": "Button label to close print settings dialog",
-    "message": "Đóng"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
-    "description": "Title of print settings dialog",
-    "message": "Print settings"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to save a report",
-    "message": "Print"
-  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Bản đồ"
   },
