@@ -61,6 +61,10 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       req = ky.extend({ prefixUrl: baseUrl })
     },
 
+    getBaseUrl: function getBaseUrl () {
+      return baseUrl
+    },
+
     setMapUrl: function (url) {
       mapUrl = url
     },
@@ -84,7 +88,7 @@ function Api ({ baseUrl, mapUrl, ipc }) {
 
     getMetadata: function getMetadata () {
       return get(`presets/default/metadata.json?${Date.now()}`).then(
-        (data) => data || {}
+        data => data || {}
       )
     },
 

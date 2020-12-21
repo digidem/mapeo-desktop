@@ -11,9 +11,19 @@ const useStyles = makeStyles({
     left: 0,
     right: 0,
     padding: '8px !important',
-    flexDirection: 'row !important',
-    '@media only print': {
-      display: 'none'
+    display: 'grid',
+    gridTemplateColumns: '1fr auto 1fr',
+    '& > *': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      justifyContent: 'center',
+      '&:first-child': {
+        justifyContent: 'flex-start'
+      },
+      '&:last-child': {
+        justifyContent: 'flex-end'
+      }
     }
   }
 })
@@ -29,7 +39,7 @@ const Toolbar = ({ children }: Props) => {
       elevation={0}
       color='default'
       position='static'
-      className={classes.root + ' d-print-none'}
+      className={classes.root}
     >
       {children}
     </AppBar>

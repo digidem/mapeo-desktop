@@ -1,25 +1,34 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import {
   RawIntlProvider,
   IntlProvider,
   defineMessages,
   useIntl,
-  FormattedTime
+  FormattedTime,
+  FormattedMessage
 } from 'react-intl'
 import {
+  pdf,
   Page,
-  Text,
+  Text as TextOrig,
   View,
   Image,
   Document,
-  StyleSheet
-} from '@react-pdf/renderer'
-import type { Field, Observation } from 'mapeo-schema'
+  StyleSheet,
+  Font
+} from '@digidem/react-pdf-renderer'
+import type { Field } from 'mapeo-schema'
+import PQueue from 'p-queue'
+import pTimeout from 'p-timeout'
 
-import { FormattedFieldProp, FormattedFieldValue } from '../internal/FormattedData'
+import {
+  FormattedFieldProp,
+  FormattedFieldValue
+} from '../internal/FormattedData'
 import FormattedLocation from '../internal/FormattedLocation'
 import { isEmptyValue } from '../utils/helpers'
+import { formatId } from '../utils/strings'
 import { get } from '../utils/get_set'
 import type { ImageMediaItem } from '../ObservationDialog'
 import type {
@@ -34,36 +43,96 @@ import {
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import api from '../../../new-api'
 
-const m = defineMessages({
-  // Button label for hide fields menu
-  detailsHeader: 'Details',
-  locationHeader: 'Location',
-  dateHeader: 'Created at'
+import dateIcon from './iconEvent.png'
+import fallbackCategoryIcon from './iconPlace.png'
+import mapIcon from './iconObservationMarker.png'
+import locationIcon from './iconLocation.png'
+
+import sarabunLight from '../../../../../static/fonts/Sarabun-Light.ttf'
+import sarabunLightItalic from '../../../../../static/fonts/Sarabun-LightItalic.ttf'
+import sarabunRegular from '../../../../../static/fonts/Sarabun-Regular.ttf'
+import sarabunItalic from '../../../../../static/fonts/Sarabun-Italic.ttf'
+import sarabunMedium from '../../../../../static/fonts/Sarabun-Medium.ttf'
+import sarabunMediumItalic from '../../../../../static/fonts/Sarabun-MediumItalic.ttf'
+import sarabunBold from '../../../../../static/fonts/Sarabun-Bold.ttf'
+import sarabunBoldItalic from '../../../../../static/fonts/Sarabun-BoldItalic.ttf'
+
+import rubikBold from '../../../../../static/fonts/Rubik-Bold.ttf'
+import rubikBoldItalic from '../../../../../static/fonts/Rubik-BoldItalic.ttf'
+import rubikMedium from '../../../../../static/fonts/Rubik-Medium.ttf'
+import rubikMediumItalic from '../../../../../static/fonts/Rubik-MediumItalic.ttf'
+import rubikRegular from '../../../../../static/fonts/Rubik-Regular.ttf'
+import rubikItalic from '../../../../../static/fonts/Rubik-Italic.ttf'
+import rubikLight from '../../../../../static/fonts/Rubik-Light.ttf'
+import rubikLightItalic from '../../../../../static/fonts/Rubik-LightItalic.ttf'
+
+Font.register({
+  family: 'Sarabun',
+  fonts: [
+    { src: sarabunLight, fontStyle: 'normal', fontWeight: 300 },
+    { src: sarabunLightItalic, fontStyle: 'italic', fontWeight: 300 },
+    { src: sarabunRegular, fontStyle: 'normal', fontWeight: 400 },
+    { src: sarabunItalic, fontStyle: 'italic', fontWeight: 400 },
+    { src: sarabunMedium, fontStyle: 'normal', fontWeight: 500 },
+    { src: sarabunMediumItalic, fontStyle: 'italic', fontWeight: 500 },
+    { src: sarabunBold, fontStyle: 'normal', fontWeight: 700 },
+    { src: sarabunBoldItalic, fontStyle: 'italic', fontWeight: 700 }
+  ]
 })
 
-export type PDFReportOptions = {
-  ...$Exact<$Diff<CommonViewContentProps, { onClick: *, observations: * }>>,
+Font.register({
+  family: 'Rubik',
+  fonts: [
+    { src: rubikLight, fontStyle: 'normal', fontWeight: 300 },
+    { src: rubikLightItalic, fontStyle: 'italic', fontWeight: 300 },
+    { src: rubikRegular, fontStyle: 'normal', fontWeight: 400 },
+    { src: rubikItalic, fontStyle: 'italic', fontWeight: 400 },
+    { src: rubikMedium, fontStyle: 'normal', fontWeight: 500 },
+    { src: rubikMediumItalic, fontStyle: 'italic', fontWeight: 500 },
+    { src: rubikBold, fontStyle: 'normal', fontWeight: 700 },
+    { src: rubikBoldItalic, fontStyle: 'italic', fontWeight: 700 }
+  ]
+})
+
+const DEFAULT_FONT = 'Rubik'
+
+// Our default font (Rubik) does not contain glyphs for all languages. There
+// does not seem to be a suitable open font that contains glyphs for every
+// language, therefore we need to change font family based on the current locale
+const fontFamilyLocaleMapping = {
+  th: 'Sarabun'
+}
+
+function getFontFamily (locale: string): string {
+  return fontFamilyLocaleMapping[locale] || DEFAULT_FONT
+}
+
+const m = defineMessages({
+  // Label for description / notes section of report
+  descriptionLabel: 'Description',
+  // Shown in reports if an observation has no location recorded
+  noLocation: 'No Location Recorded',
+  // Page number in footer
+  pageNumber: 'Page {pageNumber}'
+})
+
+export type ReportProps = {
+  ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with useIntl() and provide it as a prop */
   intl?: any,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with React.useContext(SettingsContext) and provide it as a prop */
   settings?: SettingsContextType,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
-  getPreset: $ElementType<PDFReportOptions, 'getPreset'>,
-  getMedia: $ElementType<PDFReportOptions, 'getMedia'>
+  /** Called with an index of ids, position in array is page number */
+  onPageIndex?: (index: Array<string>) => any,
+  /** For previews, the page number the preview section starts on (e.g. first
+   * observation starts on page 1, if that 1st observation takes two pages, then
+   * pdf preview of second observation starts on page 3). Do not use for final
+   * render */
+  startPage?: number,
+  ...$Exact<MapViewContentProps>
 }
-
-type PageProps = {
-  getPreset: $ElementType<PDFReportOptions, 'getPreset'>,
-  getMedia: $ElementType<PDFReportOptions, 'getMedia'>,
-  observation: Observation,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
-}
-
-
 
 /*  TODO: add frontpage
 const FrontPage = ({ bounds }) => {
@@ -88,36 +157,97 @@ const FrontPage = ({ bounds }) => {
     ne[1] = Math.max(obs.lat, ne[1])
   })
   var bounds = [sw[0], sw[1], ne[0], ne[1]]
-  <Page key="front" size="A4" style={styles.page}>
+  <Page key="front" size="A4" style={s.page}>
     <FrontPage bounds={bounds} />
   </Page>
 */
 
-const PDFReport = ({
-  renderer,
-  length,
-  observations
-}: {
-  renderer: PDFReportOptions,
-  length?: number,
-  observations: Array<Observation>
-}) => {
-  const {
-    intl,
-    settings = defaultSettings,
-    ...otherProps
-  } = renderer
+// Only render 1 PDF doc at a time
+const queue = new PQueue({ concurrency: 1 })
 
-  const preview = length ? observations.slice(0, length) : observations
+function renderToBlob (doc, timeout?: number) {
+  return queue.add(() => {
+    const instance = pdf({ initialValue: doc })
+    return timeout
+      ? pTimeout(
+          instance.toBlob(),
+          timeout,
+          `Report render timed out after ${timeout}ms`
+        )
+      : instance.toBlob()
+  })
+}
+
+export function renderPDFReport (
+  props: ReportProps,
+  timeout?: number
+): Promise<{ blob: Blob, index: Array<string> }> {
+  let pageIndex: Array<string> = []
+  const doc = (
+    <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
+  )
+  return renderToBlob(doc).then(blob => ({ blob, index: pageIndex }))
+}
+
+const Text = ({
+  style,
+  ...otherProps
+}: React.ElementConfig<typeof TextOrig>) => {
+  const intl = useIntl()
+  const fontFamily = getFontFamily(intl.locale)
+  return <TextOrig style={{ fontFamily, ...style }} {...otherProps} />
+}
+
+export const PDFReport = ({
+  intl,
+  settings = defaultSettings,
+  onPageIndex,
+  observations,
+  getPreset,
+  getMedia,
+  mapStyle,
+  mapboxAccessToken,
+  startPage = 1
+}: ReportProps) => {
+  // **Assumption: Each observation will be max 3 pages**
+  const sparsePageIndex = new Array(observations.length * 3).fill(undefined)
+  let didCallback = false
+
+  // This will be called once for each observation without the totalPages, then
+  // called once for each observation with totalPages set. For each render of
+  // this componenent, onPageIndex will be called once with the index & totalPages
+  function handleRenderObservation ({ id, pageNumber, totalPages }) {
+    sparsePageIndex[pageNumber - 1] = id
+    if (typeof totalPages === 'number' && !didCallback && onPageIndex) {
+      didCallback = true
+      const pageIndex = sparsePageIndex
+        .slice(0, totalPages)
+        .map((id, i, arr) => id || arr[i - 1])
+      // $FlowFixMe - The slice() and map() removes undefined elements
+      onPageIndex(pageIndex)
+    }
+  }
 
   const children = (
     <SettingsContext.Provider value={settings}>
       <Document>
-        {preview.map(obs => (
-          <Page key={obs.id} size='A4' style={styles.page} wrap>
-            <FeaturePage key={obs.id} observation={obs} {...otherProps} />
-          </Page>
-        ))}
+        {observations.map(observation => {
+          const view = new ObservationView({
+            observation,
+            getPreset,
+            getMedia,
+            mapStyle,
+            mapboxAccessToken
+          })
+          return (
+            <FeaturePage
+              key={observation.id}
+              observationView={view}
+              onRender={handleRenderObservation}
+              startPage={startPage}
+            />
+          )
+        })}
       </Document>
     </SettingsContext.Provider>
   )
@@ -131,120 +261,217 @@ const PDFReport = ({
 }
 
 const FeaturePage = ({
-  observation,
-  getPreset,
-  getMedia,
-  mapStyle,
-  mapboxAccessToken
-}: PageProps) => {
-  var view = new ObservationView({
-    observation,
-    getPreset,
-    getMedia,
-    mapStyle,
-    mapboxAccessToken
-  })
-  const { formatMessage: t } = useIntl()
+  observationView: view,
+  onRender,
+  startPage
+}: {
+  observationView: ObservationView,
+  onRender: (props: {
+    id: string,
+    pageNumber: number,
+    totalPages: number
+  }) => void,
+  startPage: number
+}) => {
+  const intl = useIntl()
   // TODO: move all of these Views into ObservationView
   return (
-    <View style={styles.pageContent}>
-      <View style={styles.columnLeft}>
-        <Text style={styles.presetName}>
-          {view.preset.name || 'Observation'}
-        </Text>
-        {view.createdAt ? (
-          <Text style={styles.createdAt}>
-            <Text style={styles.createdAtLabel}>{t(m.dateHeader)}: </Text>
-            <FormattedTime
-              key='time'
-              value={view.createdAt}
-              year='numeric'
-              month='long'
-              day='2-digit'
-            />
-          </Text>
-        ) : null}
-        {view.coords ? (
-          <Text style={styles.location}>
-            <Text style={styles.locationLabel}>{t(m.locationHeader)}: </Text>
-            <FormattedLocation {...view.coords} />
-          </Text>
-        ) : null}
-        <View>
-          {view.note
-            ? view.note.split('\n').map((para, idx) => (
-                <Text key={idx} style={styles.description}>
-                  {para}
+    <Page size='A4' style={s.page} wrap>
+      <Indexer id={view.id} onRender={onRender} />
+      <View style={s.pageContent}>
+        <View style={s.header}>
+          <View style={s.row}>
+            <View style={[s.col, s.span2, s.headerContent]}>
+              <View style={[s.headerRow, s.titleRow]}>
+                <ObservationIcon view={view} />
+                <Text style={s.presetName}>
+                  {view.preset.name || 'Observation'}
                 </Text>
-              ))
-            : null}
+              </View>
+              <TitleDetails icon={<Image src={locationIcon} style={s.icon} />}>
+                <ObsLocation view={view} />
+              </TitleDetails>
+              <TitleDetails icon={<Image src={dateIcon} style={s.icon} />}>
+                <ObsCreated view={view} />
+              </TitleDetails>
+              <TitleDetails icon={<IdIcon />}>{formatId(view.id)}</TitleDetails>
+            </View>
+            <View style={[s.col]}>
+              <ObsInsetMap view={view} />
+            </View>
+          </View>
         </View>
-        <Details view={view} />
+        <View style={s.row}>
+          <View style={[s.col, s.span2]}>
+            <View style={s.row}>
+              <ObsDescription view={view} />
+            </View>
+            <ObsDetails view={view} />
+          </View>
+          <View style={[s.col, s.mediaList]}>
+            {view.mediaItems.map((src, i) => (
+              <ObsImage key={i} src={src} />
+            ))}
+          </View>
+        </View>
       </View>
-      <ObservationRHS observationView={view} />
+      <View style={s.footer} fixed>
+        <Text>
+          <FormattedTime
+            key='time'
+            value={new Date()}
+            year='numeric'
+            month='long'
+            day='2-digit'
+          />
+        </Text>
+        <View
+          style={
+            // There is a bug in react-pdf where the render part of Text does
+            // not seem to take up any space.
+            { width: 100 }
+          }
+        >
+          <Text
+            fixed
+            style={{
+              textAlign: 'right'
+            }}
+            render={({ pageNumber }) =>
+              intl.formatMessage(m.pageNumber, {
+                pageNumber: startPage - 1 + pageNumber
+              })
+            }
+          />
+        </View>
+      </View>
+    </Page>
+  )
+}
+/** Render an empty text node so that we can use the callback to
+  read the page number and total pages */
+const Indexer = ({ id, onRender }) => (
+  <View>
+    <TextOrig
+      render={({ pageNumber, totalPages }) => {
+        onRender({
+          id,
+          pageNumber,
+          totalPages
+        })
+        return ''
+      }}
+    />
+  </View>
+)
+
+const TitleDetails = ({
+  icon,
+  children
+}: {
+  icon: React.Node,
+  children: React.Node
+}) => (
+  <View style={s.headerRow}>
+    <View style={s.iconContainer}>{icon}</View>
+    <Text style={s.titleDetails}>{children}</Text>
+  </View>
+)
+
+const ObservationIcon = ({ view }: { view: ObservationView }) => {
+  const iconUrl = view.getIconURL() || fallbackCategoryIcon
+  return (
+    <View style={s.iconContainer}>
+      <View style={s.circle}>
+        <Image cache style={s.categoryIcon} src={iconUrl} />
+      </View>
     </View>
   )
 }
 
-function Details ({view}: {view: ObservationView}) {
-  const { formatMessage: t } = useIntl()
+const IdIcon = () => (
+  <View style={s.idIcon}>
+    <Text>ID</Text>
+  </View>
+)
+
+const ObsCreated = ({ view }: { view: ObservationView }) => (
+  <FormattedTime
+    value={view.createdAt}
+    year='numeric'
+    month='long'
+    day='2-digit'
+  />
+)
+
+const ObsLocation = ({ view }: { view: ObservationView }) =>
+  view.coords ? (
+    <FormattedLocation {...view.coords} />
+  ) : (
+    <FormattedMessage {...m.noLocation} />
+  )
+
+const ObsDescription = ({ view }: { view: ObservationView }) =>
+  view.note ? (
+    <View style={[s.col, s.descriptionWrapper]}>
+      <Text style={s.fieldLabel}>
+        <FormattedMessage {...m.descriptionLabel} />
+      </Text>
+      {view.note.split('\n').map((para, idx) => (
+        <Text key={idx} style={s.description}>
+          {para}
+        </Text>
+      ))}
+    </View>
+  ) : null
+
+function ObsDetails ({ view }: { view: ObservationView }) {
   const nonEmptyFields = view.fields.filter(field => {
     const value = get(view.tags, field.key)
     return !isEmptyValue(value)
   })
   if (nonEmptyFields.length === 0) return null
   return (
-    <>
-      <Text style={styles.details}>{t(m.detailsHeader)}</Text>
+    <View style={[s.row, s.fieldsWrapper]}>
       {nonEmptyFields.map(field => (
-        <View key={field.id} style={styles.field} wrap={false}>
-          <Text style={styles.fieldLabel}>
-            <FormattedFieldProp field={field} propName="label" />
+        <View key={field.id} style={[s.col, s.field]} wrap={false}>
+          <Text style={s.fieldLabel}>
+            <FormattedFieldProp field={field} propName='label' />
           </Text>
-          <Text style={styles.fieldValue}>
-            <FormattedFieldValue field={field} value={get(view.tags, field.key)} />
+          <Text style={s.fieldValue}>
+            <FormattedFieldValue
+              field={field}
+              value={get(view.tags, field.key)}
+            />
           </Text>
-        </View>
-      ))}
-    </>
-  )
-}
-
-function ObservationRHS ({ observationView }) {
-  var imageSrc = observationView.getMapImageURL()
-
-  return (
-    <View style={styles.columnRight}>
-      {imageSrc ? (
-        <View style={styles.imageWrapper} wrap={false}>
-          <Image
-            src={imageSrc}
-            key={'minimap-' + observationView.id}
-            style={styles.image}
-            cache={true}
-          />
-          <View style={styles.marker} />
-        </View>
-      ) : null}
-
-      {observationView.mediaItems.map((src, i) => (
-        <View key={i} style={styles.imageWrapper} wrap={false}>
-          <Image
-            cache={true}
-            src={src}
-            style={styles.image}
-          />
         </View>
       ))}
     </View>
   )
 }
 
+const ObsInsetMap = ({ view }: { view: ObservationView }) => {
+  var imageSrc = view.getMapImageURL()
+  if (!imageSrc) return null
+  return (
+    <View style={s.mapWrapper} wrap={false}>
+      <Image src={imageSrc} key={'minimap-' + view.id} style={s.map} cache />
+      <Image src={mapIcon} style={s.marker} />
+    </View>
+  )
+}
+
+const ObsImage = ({ src }: { src: string }) => (
+  <View style={s.imageWrapper} wrap={false}>
+    <Image cache src={src} style={s.image} />
+  </View>
+)
+
 class ObservationView {
   static DEFAULT_ZOOM_LEVEL = 11
   id: string
   coords: { longitude: number, latitude: number } | void
-  createdAt: Date | void
+  createdAt: Date
   fields: Field[]
   tags: Object
   mediaItems: ImageMediaItem[]
@@ -270,12 +497,10 @@ class ObservationView {
             latitude: observation.lat
           }
         : undefined
-    this.createdAt =
-      typeof observation.created_at === 'string'
-        ? new Date(observation.created_at)
-        : undefined
+    this.createdAt = new Date(observation.created_at)
 
     this.preset = getPreset(observation)
+    // $FlowFixMe - need to create Fields type
     this.fields = this.preset.fields.concat(this.preset.additionalFields)
     this.tags = observation.tags || {}
     this.note = this.tags.note || this.tags.notes
@@ -286,13 +511,19 @@ class ObservationView {
     }, [])
   }
 
+  getIconURL (size?: 'medium') {
+    if (!api.getBaseUrl()) return // for rendering in storybook
+    if (!this.preset.icon) return
+    return api.getIconUrl(this.preset.icon)
+  }
+
   getMapImageURL (zoom) {
     if (!zoom) zoom = ObservationView.DEFAULT_ZOOM_LEVEL
     if (!this.coords) return null
 
     var opts = {
-      width: 250,
-      height: 250,
+      width: HEADER_HEIGHT * 1.5,
+      height: HEADER_HEIGHT,
       lon: this.coords.longitude,
       lat: this.coords.latitude,
       zoom: 11,
@@ -304,92 +535,185 @@ class ObservationView {
   }
 }
 
-export default PDFReport
+const HEADER_HEIGHT = 110
+const MARKER_WIDTH = 24
+// Marker is 110px x 188px
+const MARKER_HEIGHT = 188 * (24 / 110)
+// Offset of marker map center from top of marker as ratio to height
+const MARKER_VERTICAL_OFFSET = 138 / 188
+const BORDER_RADIUS = 10
 
-// Convert pixel to millimetres
-function mm (v) {
-  return v / (25.4 / 72)
-}
-
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   page: {
-    backgroundColor: 'white',
-    paddingVertical: mm(20),
-    paddingHorizontal: mm(15),
-    flexDirection: 'row'
+    paddingTop: 44,
+    paddingBottom: 44,
+    paddingLeft: 36,
+    paddingRight: 36,
+    flexDirection: 'column'
   },
   pageContent: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'column'
   },
-  columnLeft: {
-    flex: 2,
-    paddingRight: 12,
-    lineHeight: 1.2
+  header: {
+    height: HEADER_HEIGHT,
+    borderWidth: 0.5,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderRadius: BORDER_RADIUS,
+    marginBottom: 20
   },
-  columnRight: {
-    // backgroundColor: 'aqua',
+  headerContent: {
+    padding: 8,
+    paddingRight: 0
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  titleRow: {
+    marginBottom: 5
+  },
+  iconContainer: {
+    width: 30,
+    minHeight: 20,
+    flexBasis: 'auto',
+    marginRight: 8,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  icon: {
+    width: 14
+  },
+  idIcon: {
+    backgroundColor: 'black',
+    borderRadius: 3,
+    padding: '1 3',
+    fontSize: 8,
+    fontWeight: 500,
+    color: 'white'
+  },
+  categoryIcon: {
+    width: 20
+  },
+  circle: {
+    borderRadius: 15,
+    width: 30,
+    height: 30,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#bbbbbb',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  row: {
+    flexDirection: 'row',
+    marginLeft: -10,
+    marginRight: -10
+  },
+  col: {
+    marginLeft: 10,
+    marginRight: 10,
     flex: 1
+  },
+  span2: {
+    flex: 2
+  },
+  mediaList: {
+    flexDirection: 'column',
+    marginTop: -5,
+    marginBottom: -5
   },
   presetName: {
-    fontWeight: 700
+    fontWeight: 500,
+    fontSize: 16,
+    lineHeight: 1.4
   },
-  createdAt: {
-    fontSize: 12
-  },
-  createdAtLabel: {
-    fontSize: 12,
-    color: 'grey'
-  },
-  location: {
-    fontSize: 12,
-    marginBottom: 6
-  },
-  locationLabel: {
-    fontSize: 12,
-    color: 'grey'
+  titleDetails: {
+    fontSize: 11
   },
   image: {
-    flex: 1
+    objectFit: 'contain',
+    width: '100%'
+  },
+  map: {
+    borderBottomRightRadius: BORDER_RADIUS,
+    borderTopRightRadius: BORDER_RADIUS,
+    objectFit: 'cover',
+    width: '100%',
+    backgroundColor: '#D7E2CC'
+  },
+  mapWrapper: {
+    position: 'relative'
   },
   marker: {
     position: 'absolute',
-    width: '4mm',
-    height: '4mm',
-    borderRadius: '2mm',
-    top: '28mm',
-    left: '28mm',
-    backgroundColor: 'red'
+    width: MARKER_WIDTH,
+    height: MARKER_HEIGHT,
+    // Center the marker
+    top: '50%',
+    left: '50%',
+    marginTop: -MARKER_VERTICAL_OFFSET * MARKER_HEIGHT,
+    marginLeft: -12
   },
   imageWrapper: {
-    width: '60mm',
+    // This affects portrait photos
+    maxHeight: 140,
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: 'black',
-    marginBottom: 10,
-    backgroundColor: '#C8D8E3'
+    marginBottom: 5,
+    marginTop: 5
   },
   description: {
     marginBottom: 6,
     fontSize: 12
   },
-  details: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    marginBottom: 3,
-    marginTop: 12
+  descriptionWrapper: {
+    marginBottom: 20
+  },
+  fieldsWrapper: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: -4,
+    marginBottom: -4
   },
   field: {
-    marginBottom: 6
+    marginTop: 4,
+    marginBottom: 4,
+    flexDirection: 'column',
+    width: '30%',
+    flexShrink: 0,
+    flexGrow: 1,
+    flexBasis: 'auto'
   },
   fieldLabel: {
-    fontSize: 9,
+    fontSize: 7,
     marginBottom: 1,
-    color: '#333333'
+    textTransform: 'uppercase',
+    fontWeight: 500,
+    lineHeight: 1.3,
+    color: '#666666'
+    // borderBottomWidth: 0.5,
+    // borderBottomStyle: 'solid',
+    // borderBottomColor: 'black'
   },
   fieldValue: {
-    fontSize: 12
+    fontSize: 11,
+    fontWeight: 400,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden'
   },
-  header: {},
-  footer: {}
+  footer: {
+    position: 'absolute',
+    bottom: 36,
+    fontSize: 8,
+    lineHeight: 1,
+    textTransform: 'uppercase',
+    left: 36,
+    right: 36,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
 })
