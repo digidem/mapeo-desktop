@@ -31,8 +31,16 @@ const msgs = defineMessages({
   save: 'Save',
   // cancel button
   cancel: 'Cancel',
+  // OK button
+  ok: 'OK',
   // Form instructions
   formInstructions: 'Please answer these questions before exporting.',
+  // No data to export
+  noDataSummary: 'There are no ICCA boundaries to export.',
+  noDataInstructions: `
+    To draw an ICCA boundary, create an area and tag it with the type
+    "ICCA Boundary." Remember to save your changes to the map before
+    exporting.`,
   aboutYouSection: 'About you:',
   // Question prompts
   question1Prompt: `
@@ -103,8 +111,16 @@ insertCss(`
 const EditDialogContent = ({ onClose }) => {
   const classes = useStyles()
   const { formatMessage } = useIntl()
-  const [saving, setSaving] = useState()
-  const [error, setError] = useState(false)
+  // Valid dialog states:
+  // - `pending` - initial state, checking geo data
+  // - `idle` - default state, form is displayed
+  // - `error` - no boundaries to export, show instructions
+  const [dialogState, setDialogState] = useState('pending')
+  // Valid form states:
+  // - `idle` - default state, user is filling out form
+  // - `error` - a required form field is missing or invalid
+  // - `saving` - saving is in progress, disable inputs
+  const [formState, setFormState] = useState('idle')
   const [value1, setValue1] = useState('')
   const [value2, setValue2] = useState('')
   const [value3a, setValue3a] = useState('')
@@ -126,8 +142,20 @@ const EditDialogContent = ({ onClose }) => {
     ref.current.parentNode.style.willChange = 'transform'
   })
 
+  useEffect(() => {
+    async function determineDialogState () {
+      const data = await getGeoJson()
+      if (data?.features?.length > 0) {
+        setDialogState('idle')
+      } else {
+        setDialogState('error')
+      }
+    }
+    determineDialogState()
+  })
+
   const handleClose = () => {
-    setSaving(false)
+    setFormState('idle')
     onClose()
   }
 
@@ -159,12 +187,12 @@ const EditDialogContent = ({ onClose }) => {
 
     // Bail early if there's a required field missing
     if (error === true) {
-      setError(true)
+      setFormState('error')
       errorShake()
       return
     }
 
-    setSaving(true)
+    setFormState('saving')
     const points = await getGeoJson()
     const metadata = {
       communityConsent: value1,
@@ -232,220 +260,258 @@ const EditDialogContent = ({ onClose }) => {
     }, 500)
   }
 
-  return (
-    <form noValidate autoComplete='off' ref={ref}>
-      <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
-        <FormattedMessage {...msgs.title} />
-      </DialogTitle>
+  const isSaving = formState === 'saving'
 
-      <DialogContent className={classes.content}>
-        <DialogContentText>
-          <strong>{formatMessage(msgs.formInstructions)}</strong>
-        </DialogContentText>
+  let dialogContent
+  switch (dialogState) {
+    case 'pending':
+      dialogContent = null
+      break
+    case 'idle':
+      dialogContent = (
+        <form noValidate autoComplete='off' ref={ref}>
+          <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
+            <FormattedMessage {...msgs.title} />
+          </DialogTitle>
 
-        <Box my={1.5}>
-          <FormControl component="fieldset" error={value1Error}>
-            <FormLabel component="legend" className={classes.formLabel}>
-              1. {formatMessage(msgs.question1Prompt)}
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-label='question1'
-              name='question1'
-              value={value1}
-              onChange={e => {
-                setValue1(e.target.value)
-                setValue1Error(false)
-              }}
+          <DialogContent className={classes.content}>
+            <DialogContentText>
+              <strong>{formatMessage(msgs.formInstructions)}</strong>
+            </DialogContentText>
+
+            <Box my={1.5}>
+              <FormControl component="fieldset" error={value1Error}>
+                <FormLabel component="legend" className={classes.formLabel}>
+                  1. {formatMessage(msgs.question1Prompt)}
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-label='question1'
+                  name='question1'
+                  value={value1}
+                  onChange={e => {
+                    setValue1(e.target.value)
+                    setValue1Error(false)
+                  }}
+                >
+                  <FormControlLabel
+                    value='true'
+                    control={<Radio/>}
+                    label={formatMessage(msgs.answerYes)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value='false'
+                    control={<Radio/>}
+                    label={formatMessage(msgs.answerNo)}
+                    disabled={isSaving}
+                  />
+                </RadioGroup>
+                <FormHelperText>
+                  {value1Error && formatMessage(msgs.requiredAnswer)}
+                </FormHelperText>
+              </FormControl>
+            </Box>
+
+            <Box my={1.5}>
+              <FormControl component="fieldset" error={value2Error}>
+                <FormLabel component="legend" className={classes.formLabel}>
+                  2. {formatMessage(msgs.question2Prompt)}
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-label='question2'
+                  name='question2'
+                  value={value2}
+                  onChange={e => {
+                    setValue2(e.target.value)
+                    setValue2Error(false)
+                  }}
+                >
+                  <FormControlLabel
+                    value='true'
+                    control={<Radio/>}
+                    label={formatMessage(msgs.answerYes)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value='false'
+                    control={<Radio/>}
+                    label={formatMessage(msgs.answerNo)}
+                    disabled={isSaving}
+                  />
+                </RadioGroup>
+                <FormHelperText>
+                  {value2Error && formatMessage(msgs.requiredAnswer)}
+                </FormHelperText>
+              </FormControl>
+            </Box>
+
+            <DialogContentText>
+              <strong>{formatMessage(msgs.aboutYouSection)}</strong>
+            </DialogContentText>
+
+            <Box my={1.5}>
+              <FormControl component="fieldset" error={value3Error}>
+                <FormLabel component="legend" className={classes.formLabel}>
+                  3. {formatMessage(msgs.question3Prompt)}
+                </FormLabel>
+                <TextField
+                  label={formatMessage(msgs.communityOriginalName)}
+                  value={value3a}
+                  fullWidth
+                  variant='outlined'
+                  margin='dense'
+                  onChange={e => {
+                    setValue3a(e.target.value)
+                    setValue3Error(false)
+                  }}
+                  disabled={isSaving}
+                />
+                <TextField
+                  label={formatMessage(msgs.communityEnglishName)}
+                  value={value3b}
+                  fullWidth
+                  variant='outlined'
+                  margin='dense'
+                  onChange={e => {
+                    setValue3b(e.target.value)
+                    setValue3Error(false)
+                  }}
+                  disabled={isSaving}
+                />
+                <FormHelperText>
+                  {formatMessage(msgs.atLeastOneAnswer)}
+                </FormHelperText>
+              </FormControl>
+            </Box>
+
+            <Box my={1.5}>
+              <FormControl component="fieldset" error={value4Error}>
+                <FormLabel component="legend" className={classes.formLabel}>
+                4. {formatMessage(msgs.question4Prompt)}
+                </FormLabel>
+                <RadioGroup
+                  aria-label='question4'
+                  name='question4'
+                  value={value4}
+                  onChange={e => {
+                    setValue4(e.target.value)
+                    setValue4Error(false)
+                  }}
+                >
+                  <FormControlLabel
+                    value='Member of the community/indigenous people'
+                    control={<Radio />}
+                    label={formatMessage(msgs.question4Answer1)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value='Representative or associate of the community/indigenous people'
+                    control={<Radio />}
+                    label={formatMessage(msgs.question4Answer2)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value='Representative of a non-governmental organisation'
+                    control={<Radio />}
+                    label={formatMessage(msgs.question4Answer3)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value='Other'
+                    control={<Radio />}
+                    label={formatMessage(msgs.question4Answer4)}
+                    disabled={isSaving}
+                  />
+                </RadioGroup>
+                <FormHelperText>
+                  {value4Error && formatMessage(msgs.requiredAnswer)}
+                </FormHelperText>
+              </FormControl>
+            </Box>
+
+            <Box my={1.5}>
+              <FormControl component="fieldset" error={value5Error}>
+                <FormLabel component="legend" className={classes.formLabel}>
+                  5. {formatMessage(msgs.question5Prompt)}
+                </FormLabel>
+                <TextField
+                  label={formatMessage(msgs.question5Placeholder)}
+                  value={value5}
+                  fullWidth
+                  rows={3}
+                  rowsMax={6}
+                  multiline
+                  variant='outlined'
+                  disabled={isSaving}
+                  margin='dense'
+                  onChange={e => {
+                    setValue5(e.target.value)
+                    setValue5Error(false)
+                  }}
+                />
+                <FormHelperText>
+                  {value5Error && formatMessage(msgs.requiredAnswer)}
+                </FormHelperText>
+              </FormControl>
+            </Box>
+
+            {formState === 'error' && (
+              <FormControl component="div" error={true}>
+                <FormHelperText>
+                  {formatMessage(msgs.errorMissingRequired)}
+                </FormHelperText>
+              </FormControl>
+            )}
+          </DialogContent>
+
+          <DialogActions>
+            <Button disabled={isSaving} onClick={handleClose}>
+              {formatMessage(msgs.cancel)}
+            </Button>
+            <Button
+              disabled={isSaving}
+              onClick={handleSave}
+              color='primary'
+              variant='contained'
+              type='submit'
             >
-              <FormControlLabel
-                value='true'
-                control={<Radio/>}
-                label={formatMessage(msgs.answerYes)}
-                disabled={saving}
-              />
-              <FormControlLabel
-                value='false'
-                control={<Radio/>}
-                label={formatMessage(msgs.answerNo)}
-                disabled={saving}
-              />
-            </RadioGroup>
-            <FormHelperText>
-              {value1Error && formatMessage(msgs.requiredAnswer)}
-            </FormHelperText>
-          </FormControl>
-        </Box>
+              {formatMessage(msgs.save)}
+            </Button>
+          </DialogActions>
+        </form>
+      )
+      break
+    case 'error':
+      dialogContent = (
+        <>
+          <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
+            <FormattedMessage {...msgs.title} />
+          </DialogTitle>
 
-        <Box my={1.5}>
-          <FormControl component="fieldset" error={value2Error}>
-            <FormLabel component="legend" className={classes.formLabel}>
-              2. {formatMessage(msgs.question2Prompt)}
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-label='question2'
-              name='question2'
-              value={value2}
-              onChange={e => {
-                setValue2(e.target.value)
-                setValue2Error(false)
-              }}
+          <DialogContent className={classes.content}>
+            <DialogContentText>
+              <strong>{formatMessage(msgs.noDataSummary)}</strong>
+            </DialogContentText>
+
+            {formatMessage(msgs.noDataInstructions)}
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              onClick={handleClose}
+              color='primary'
+              variant='contained'
             >
-              <FormControlLabel
-                value='true'
-                control={<Radio/>}
-                label={formatMessage(msgs.answerYes)}
-                disabled={saving}
-              />
-              <FormControlLabel
-                value='false'
-                control={<Radio/>}
-                label={formatMessage(msgs.answerNo)}
-                disabled={saving}
-              />
-            </RadioGroup>
-            <FormHelperText>
-              {value2Error && formatMessage(msgs.requiredAnswer)}
-            </FormHelperText>
-          </FormControl>
-        </Box>
+              {formatMessage(msgs.ok)}
+            </Button>
+          </DialogActions>
+        </>
+      )
+  }
 
-        <DialogContentText>
-          <strong>{formatMessage(msgs.aboutYouSection)}</strong>
-        </DialogContentText>
-
-        <Box my={1.5}>
-          <FormControl component="fieldset" error={value3Error}>
-            <FormLabel component="legend" className={classes.formLabel}>
-              3. {formatMessage(msgs.question3Prompt)}
-            </FormLabel>
-            <TextField
-              label={formatMessage(msgs.communityOriginalName)}
-              value={value3a}
-              fullWidth
-              variant='outlined'
-              margin='dense'
-              onChange={e => {
-                setValue3a(e.target.value)
-                setValue3Error(false)
-              }}
-              disabled={saving}
-            />
-            <TextField
-              label={formatMessage(msgs.communityEnglishName)}
-              value={value3b}
-              fullWidth
-              variant='outlined'
-              margin='dense'
-              onChange={e => {
-                setValue3b(e.target.value)
-                setValue3Error(false)
-              }}
-              disabled={saving}
-            />
-            <FormHelperText>
-              {formatMessage(msgs.atLeastOneAnswer)}
-            </FormHelperText>
-          </FormControl>
-        </Box>
-
-        <Box my={1.5}>
-          <FormControl component="fieldset" error={value4Error}>
-            <FormLabel component="legend" className={classes.formLabel}>
-            4. {formatMessage(msgs.question4Prompt)}
-            </FormLabel>
-            <RadioGroup
-              aria-label='question4'
-              name='question4'
-              value={value4}
-              onChange={e => {
-                setValue4(e.target.value)
-                setValue4Error(false)
-              }}
-            >
-              <FormControlLabel
-                value='Member of the community/indigenous people'
-                control={<Radio />}
-                label={formatMessage(msgs.question4Answer1)}
-                disabled={saving}
-              />
-              <FormControlLabel
-                value='Representative or associate of the community/indigenous people'
-                control={<Radio />}
-                label={formatMessage(msgs.question4Answer2)}
-                disabled={saving}
-              />
-              <FormControlLabel
-                value='Representative of a non-governmental organisation'
-                control={<Radio />}
-                label={formatMessage(msgs.question4Answer3)}
-                disabled={saving}
-              />
-              <FormControlLabel
-                value='Other'
-                control={<Radio />}
-                label={formatMessage(msgs.question4Answer4)}
-                disabled={saving}
-              />
-            </RadioGroup>
-            <FormHelperText>
-              {value4Error && formatMessage(msgs.requiredAnswer)}
-            </FormHelperText>
-          </FormControl>
-        </Box>
-
-        <Box my={1.5}>
-          <FormControl component="fieldset" error={value5Error}>
-            <FormLabel component="legend" className={classes.formLabel}>
-              5. {formatMessage(msgs.question5Prompt)}
-            </FormLabel>
-            <TextField
-              label={formatMessage(msgs.question5Placeholder)}
-              value={value5}
-              fullWidth
-              rows={3}
-              rowsMax={6}
-              multiline
-              variant='outlined'
-              disabled={saving}
-              margin='dense'
-              onChange={e => {
-                setValue5(e.target.value)
-                setValue5Error(false)
-              }}
-            />
-            <FormHelperText>
-              {value5Error && formatMessage(msgs.requiredAnswer)}
-            </FormHelperText>
-          </FormControl>
-        </Box>
-
-        {error && (
-          <FormControl component="div" error={error}>
-            <FormHelperText>
-              {formatMessage(msgs.errorMissingRequired)}
-            </FormHelperText>
-          </FormControl>
-        )}
-      </DialogContent>
-
-      <DialogActions>
-        <Button disabled={saving} onClick={handleClose}>
-          {formatMessage(msgs.cancel)}
-        </Button>
-        <Button
-          disabled={saving}
-          onClick={handleSave}
-          color='primary'
-          variant='contained'
-          type='submit'
-        >
-          {formatMessage(msgs.save)}
-        </Button>
-      </DialogActions>
-    </form>
-  )
+  return dialogContent
 }
 
 export default function ICCAExportDialog ({ onClose, open }) {
