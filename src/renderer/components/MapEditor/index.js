@@ -103,6 +103,7 @@ const MapEditor = () => {
   const customDefs = React.useRef()
   const { formatMessage: t, locale } = useIntl()
   const [toolbarEl, setToolbarEl] = React.useState()
+  const [isIccaConfig, setIccaConfig] = React.useState()
 
   const zoomToData = React.useCallback((_, loc) => {
     if (!id.current) return
@@ -273,6 +274,12 @@ const MapEditor = () => {
         iDPresets.fields = { ...iD.data.presets.fields, ...iDPresets.fields }
         iD.data.presets = iDPresets
       }
+
+      // Enable the ICCA export button if there is a preset with the tag
+      // `protection_title=icca`. Object.keys().find() returns a string
+      // if the preset is found; use `typeof` to coerce it to a boolean.
+      const iccaConfig = Object.keys(presets.presets).find(key => presets.presets[key].tags.protection_title === 'icca')
+      setIccaConfig(typeof iccaConfig === 'string')
     }
     if (customCss) insertCss(customCss)
     if (imagery) {
@@ -297,7 +304,7 @@ const MapEditor = () => {
   return (
     <div className='id-container'>
       <div ref={rootRef} />
-      {toolbarEl && ReactDOM.createPortal(<ExportButton />, toolbarEl)}
+      {toolbarEl && ReactDOM.createPortal(<ExportButton icca={isIccaConfig} />, toolbarEl)}
     </div>
   )
 }
