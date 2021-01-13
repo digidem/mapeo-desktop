@@ -121,6 +121,9 @@ const EditDialogContent = ({ onClose }) => {
   // - `error` - a required form field is missing or invalid
   // - `saving` - saving is in progress, disable inputs
   const [formState, setFormState] = useState('idle')
+
+  // TODO: Adopt a form library throughout Mapeo to cut down on
+  // repeated form logic
   const [value1, setValue1] = useState('')
   const [value2, setValue2] = useState('')
   const [value3a, setValue3a] = useState('')
@@ -195,8 +198,11 @@ const EditDialogContent = ({ onClose }) => {
     setFormState('saving')
     const points = await getGeoJson()
     const metadata = {
-      communityConsent: value1,
-      makePublic: value2,
+      // Values 1 and 2 are stored as strings because that's how HTML
+      // form values like it; we convert it to Boolean values when
+      // exporting as json
+      communityConsent: value1 === 'true',
+      makePublic: value2 === 'true',
       communityOriginalName: value3a,
       communityEnglishName: value3b,
       relationship: value4,
