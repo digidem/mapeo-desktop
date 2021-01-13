@@ -135,7 +135,7 @@ class MapeoRPC {
     })
   }
 
-  syncConnect(url) {
+  connectCloud(url) {
     try {
       logger.debug(
         'Connecting to MapeoWeb',
@@ -144,7 +144,7 @@ class MapeoRPC {
       )
       this.core.sync.connectWebsocket(url, this.encryptionKey)
     } catch (e) {
-      this._handleError('syncConnect', e)
+      this._handleError('connectCloud', e)
     }
   }
 
