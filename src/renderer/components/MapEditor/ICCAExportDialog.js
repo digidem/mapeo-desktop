@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
@@ -108,7 +108,7 @@ insertCss(`
   }
 `)
 
-const EditDialogContent = ({ onClose }) => {
+const EditDialogContent = ({ onClose, onFormError }) => {
   const classes = useStyles()
   const { formatMessage } = useIntl()
   // Valid dialog states:
@@ -135,15 +135,6 @@ const EditDialogContent = ({ onClose }) => {
   const [value3Error, setValue3Error] = useState(false)
   const [value4Error, setValue4Error] = useState(false)
   const [value5Error, setValue5Error] = useState(false)
-  const ref = useRef()
-
-  // Pre-optimize the parent element for the "shake" animation when there's
-  // an error. If we don't do this, the first time the animation plays,
-  // it feels janky
-  useEffect(() => {
-    if (!ref.current) return
-    ref.current.parentNode.style.willChange = 'transform'
-  })
 
   useEffect(() => {
     async function determineDialogState () {
@@ -191,7 +182,7 @@ const EditDialogContent = ({ onClose }) => {
     // Bail early if there's a required field missing
     if (error === true) {
       setFormState('error')
-      errorShake()
+      onFormError()
       return
     }
 
@@ -252,20 +243,6 @@ const EditDialogContent = ({ onClose }) => {
     }
   }
 
-  const errorShake = () => {
-    if (!ref.current) return
-
-    const el = ref.current.parentNode
-    if (el) {
-      el.classList.add('shakeX')
-    }
-    window.setTimeout(() => {
-      if (el) {
-        el.classList.remove('shakeX')
-      }
-    }, 500)
-  }
-
   const isSaving = formState === 'saving'
 
   let dialogContent
@@ -275,7 +252,7 @@ const EditDialogContent = ({ onClose }) => {
       break
     case 'idle':
       dialogContent = (
-        <form noValidate autoComplete='off' ref={ref}>
+        <form noValidate autoComplete='off'>
           <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
             <FormattedMessage {...msgs.title} />
           </DialogTitle>
@@ -521,6 +498,24 @@ const EditDialogContent = ({ onClose }) => {
 }
 
 export default function ICCAExportDialog ({ onClose, open }) {
+  const classes = useStyles()
+  const [isShaking, setShaking] = useState(false)
+
+  function onFormError () {
+    setShaking(true)
+    window.setTimeout(() => {
+      setShaking(false)
+    }, 500)
+  }
+
+  // The 'willChange' class definition pre-optimizes the dialog element
+  // for the "shake" animation when there's an error. If we don't do this,
+  // the first time the animation plays, it feels janky
+  const classNames = [classes.willChange]
+  if (isShaking) {
+    classNames.push('shakeX')
+  }
+
   return (
     <Dialog
       fullWidth
@@ -528,10 +523,14 @@ export default function ICCAExportDialog ({ onClose, open }) {
       onClose={onClose}
       scroll='body'
       aria-labelledby='responsive-dialog-title'
+      classes={{
+        paper: classNames.join(' ')
+      }}
     >
       {open && (
         <EditDialogContent
           onClose={onClose}
+          onFormError={onFormError}
         />
       )}
     </Dialog>
@@ -555,6 +554,9 @@ const useStyles = makeStyles(theme => ({
     // Reset form label line-height. The default class for the <FormLabel>
     // component sets the line-height to 1, which is too cramped for long text
     lineHeight: 'initial'
+  },
+  willChange: {
+    willChange: 'transform'
   }
 }))
 
