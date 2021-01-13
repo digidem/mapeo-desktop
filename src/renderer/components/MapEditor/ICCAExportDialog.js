@@ -179,13 +179,13 @@ const EditDialogContent = ({ onClose }) => {
       .showSaveDialog({
         title: 'ICCA Export Package',
         defaultPath: 'mapeo-icca-export',
-        filters: [{ name: 'Mapeo Webmap Package', extensions: ['mapeomap'] }]
+        filters: [{ name: 'Mapeo ICCA Export Package', extensions: ['mapeoicca'] }]
       })
       .then(({ filePath, canceled }) => {
         if (canceled) return handleClose()
         const filepathWithExtension = path.join(
           path.dirname(filePath),
-          path.basename(filePath, '.mapeomap') + '.mapeomap'
+          path.basename(filePath, '.mapeoicca') + '.mapeoicca'
         )
         createArchive(filepathWithExtension, err => {
           if (err) {
