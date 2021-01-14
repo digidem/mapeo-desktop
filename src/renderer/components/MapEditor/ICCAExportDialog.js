@@ -229,7 +229,7 @@ const EditDialogContent = ({ onClose, onFormError }) => {
       const localFiles = [
         {
           data: JSON.stringify(points, null, 2),
-          metadataPath: 'points.json'
+          metadataPath: 'boundary.geojson'
         },
         {
           data: JSON.stringify(metadata, null, 2),
