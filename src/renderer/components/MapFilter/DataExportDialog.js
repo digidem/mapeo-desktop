@@ -63,7 +63,10 @@ const msgs = defineMessages({
   smartPatrolType: 'Type',
   smartPatrolMandate: 'Mandate',
   smartPatrolObjective: 'Objective',
-  smartPatrolComments: 'Comments'
+  smartPatrolComment: 'Comments',
+  patrolTypeGround: 'Ground',
+  patrolTypeAir: 'Air',
+  patrolTypeMarine: 'Marine'
 })
 
 const ExportDialogContent = ({
@@ -86,10 +89,10 @@ const ExportDialogContent = ({
     format: isSmartConfig ? 'smartpatrol' : 'geojson',
     include: isFiltered && filteredObservations.length ? 'filtered' : 'all',
     photos: 'none',
-    smartPatrolType: 'TBD',
+    smartPatrolType: 'GROUND',
     smartPatrolMandate: 'TBD',
     smartPatrolObjective: 'TBD',
-    smartPatrolComments: ''
+    smartPatrolComment: ''
   })
 
   const handleChange = key => event => {
@@ -131,7 +134,13 @@ const ExportDialogContent = ({
       case 'smartpatrol':
         ext = 'xml'
         exportData = observationsToSmartPatrol(observationsToSave, {
-          photos: values.photos !== 'none'
+          photos: values.photos !== 'none',
+          patrol: { 
+            type: values.smartPatrolType,
+            mandate: values.smartPatrolMandate,
+            objective: values.smartPatrolObjective,
+            comment: values.smartPatrolComment
+          }
         })
     }
 
@@ -292,7 +301,6 @@ const ExportDialogContent = ({
               <>
                 <Divider />
                 <h3>
-                  {/* <FormattedMessage {...msgs.title} /> */}
                   SMART Patrol Package additional information
                 </h3>
                 <FormControl className={classes.formControl}>
@@ -307,8 +315,14 @@ const ExportDialogContent = ({
                     className={classes.select}
                     disabled={saving}
                   >
-                    <MenuItem value='TBD'>
-                      TBD
+                    <MenuItem value='GROUND'>
+                      <FormattedMessage {...msgs.patrolTypeGround} />
+                    </MenuItem>
+                    <MenuItem value='AIR'>
+                      <FormattedMessage {...msgs.patrolTypeAir} />
+                    </MenuItem>
+                    <MenuItem value='MARINE'>
+                      <FormattedMessage {...msgs.patrolTypeMarine} />
                     </MenuItem>
                   </Select>
                 </FormControl>
@@ -348,8 +362,8 @@ const ExportDialogContent = ({
                 </FormControl>
                 <FormControl className={classes.formControl}>
                   <TextField
-                    label={<FormattedMessage {...msgs.smartPatrolComments} />}
-                    value={values.smartPatrolComments}
+                    label={<FormattedMessage {...msgs.smartPatrolComment} />}
+                    value={values.smartPatrolComment}
                     fullWidth
                     rows={3}
                     rowsMax={6}
@@ -357,7 +371,7 @@ const ExportDialogContent = ({
                     variant='outlined'
                     margin='dense'
                     disabled={saving}
-                    onChange={handleChange('smartPatrolComments')}
+                    onChange={handleChange('smartPatrolComment')}
                   />
                 </FormControl>
               </>
@@ -568,7 +582,8 @@ function observationsToSmartCsv (obs, { photos } = {}) {
   return csvFormat(rows, columns)
 }
 
-function observationsToSmartPatrol (obs, { photos } = {}) {
+// Format: https://app.assembla.com/spaces/smart-cs/subversion-2/source/HEAD/trunk/source/java/org.wcs.smart.patrol/src/org/wcs/smart/patrol/xml/model/v13/SmartPatrol.xsd
+function observationsToSmartPatrol (obs, { photos, patrol } = {}) {
   // TODO:
   // Exported observation should include:
   // - coordinates
@@ -577,14 +592,54 @@ function observationsToSmartPatrol (obs, { photos } = {}) {
   // - additional details (fields)
   const builder = new xml2js.Builder()
   const xml = builder.buildObject({
-    ConfigurableModel: {
+    patrol: {
       $: {
-        xmlns: 'http://www.smartconservationsoftware.org/xml/1.0/dataentry',
-        instantGps: 'false',
-        photoFirst: 'false',
-        iconSet: 'color' 
+        xmlns: 'http://www.smartconservationsoftware.org/xml/1.3/patrol',
+        startDate: '', // TODO: set from filters
+        endDate: '', // TODO: set from filters
+        isArmed: false, // Assumed value
+        patrolType: patrol.type
       },
-      lol: {}
+      objective: [
+        {
+          description: patrol.objective
+        }
+      ],
+      legs: [
+        {
+          $: {
+            startDate: '', // TODO
+            endDate: '', // TODO
+            id: ''
+          },
+          transportType: {},
+          members: {},
+          days: [
+            {
+              $: {
+                date: '',
+                startTime: '',
+                endTime: '',
+                restMinutes: 0
+              },
+              waypoints: [
+                // TODO
+              ]
+            }
+          ],
+          mandate: {
+            $: {
+              languageCode: 'en',
+              value: patrol.mandate
+            }
+          }
+        }
+      ],
+      comment: [
+        {
+         _: patrol.comment
+        }
+      ]
     }
   })
   return xml
