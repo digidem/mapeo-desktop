@@ -22,6 +22,7 @@ import { fromLatLon } from 'utm'
 import { ipcRenderer, remote } from 'electron'
 import path from 'path'
 import fs from 'fs'
+import xml2js from 'xml2js'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
 import pump from 'pump'
 
@@ -568,12 +569,25 @@ function observationsToSmartCsv (obs, { photos } = {}) {
 }
 
 function observationsToSmartPatrol (obs, { photos } = {}) {
-  return `
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ConfigurableModel xmlns="http://www.smartconservationsoftware.org/xml/1.0/dataentry" instantGps="false" photoFirst="false" iconSet="color">
-  <lol></lol>
-</ConfigurableModel>
-`
+  // TODO:
+  // Exported observation should include:
+  // - coordinates
+  // - timestamp (created_at)
+  // - description as recorded in Mapeo
+  // - additional details (fields)
+  const builder = new xml2js.Builder()
+  const xml = builder.buildObject({
+    ConfigurableModel: {
+      $: {
+        xmlns: 'http://www.smartconservationsoftware.org/xml/1.0/dataentry',
+        instantGps: 'false',
+        photoFirst: 'false',
+        iconSet: 'color' 
+      },
+      lol: {}
+    }
+  })
+  return xml
 }
 
 function round (num, dp = 0) {
