@@ -17,7 +17,7 @@ import ViewWrapper from './ViewWrapper'
 import flatten from 'flat'
 import isodate from '@segment/isodate'
 import { fromLatLon } from 'utm'
-import { remote } from 'electron'
+import { ipcRenderer, remote } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
@@ -68,8 +68,13 @@ const ExportDialogContent = ({
   const [saving, setSaving] = useState()
   const { formatMessage: t } = useIntl()
   const isFiltered = allObservations.length !== filteredObservations.length
+  // If the Mapeo-SMART integration configuration is loaded, make this an
+  // export option (below) and set it as default export type.
+  // Otherwise the default exportformat is GeoJSON.
+  const config = ipcRenderer.sendSync('get-user-data', 'metadata')
+  const isSmartConfig = config.dataset_id === 'mapeo-config-smart'
   const [values, setValues] = React.useState({
-    format: 'geojson',
+    format: isSmartConfig ? 'smartpatrol' : 'geojson',
     include: isFiltered && filteredObservations.length ? 'filtered' : 'all',
     photos: 'none'
   })
@@ -109,6 +114,11 @@ const ExportDialogContent = ({
           photos: values.photos !== 'none'
         })
         break
+      case 'smartpatrol':
+        ext = 'xml'
+        exportData = observationsToSmartPatrol(observationsToSave, {
+          photos: values.photos !== 'none'
+        })
     }
 
     const saveExt = values.photos === 'none' ? ext : 'zip'
@@ -202,6 +212,7 @@ const ExportDialogContent = ({
                 <MenuItem value='geojson'>GeoJSON</MenuItem>
                 <MenuItem value='csv'>CSV</MenuItem>
                 <MenuItem value='smart'>Smart CSV</MenuItem>
+                {isSmartConfig && <MenuItem value='smartpatrol'>Smart Patrol Package</MenuItem>}
               </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
@@ -467,6 +478,15 @@ function observationsToSmartCsv (obs, { photos } = {}) {
   const columns = 'ID,X,Y,DATE,TIME,COMMENT,PHOTOS,MAPEO_ID'.split(',')
 
   return csvFormat(rows, columns)
+}
+
+function observationsToSmartPatrol (obs, { photos } = {}) {
+  return `
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ConfigurableModel xmlns="http://www.smartconservationsoftware.org/xml/1.0/dataentry" instantGps="false" photoFirst="false" iconSet="color">
+  <lol></lol>
+</ConfigurableModel>
+`
 }
 
 function round (num, dp = 0) {
