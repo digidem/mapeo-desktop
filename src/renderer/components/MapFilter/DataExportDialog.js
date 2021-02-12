@@ -11,6 +11,8 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
+import TextField from '@material-ui/core/TextField'
+import Divider from '@material-ui/core/Divider'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import { csvFormat } from 'd3-dsv'
 import ViewWrapper from './ViewWrapper'
@@ -54,7 +56,13 @@ const msgs = defineMessages({
   // Label for select option to include preview size photos in export
   includePhotosPreview: 'Preview size photos',
   // Default filename for exported data
-  defaultExportFilename: 'mapeo-observation-data'
+  defaultExportFilename: 'mapeo-observation-data',
+  // SMART Patrol Package labels
+  smartPatrolHeading: 'SMART Patrol Package additional information',
+  smartPatrolType: 'Type',
+  smartPatrolMandate: 'Mandate',
+  smartPatrolObjective: 'Objective',
+  smartPatrolComments: 'Comments'
 })
 
 const ExportDialogContent = ({
@@ -76,10 +84,15 @@ const ExportDialogContent = ({
   const [values, setValues] = React.useState({
     format: isSmartConfig ? 'smartpatrol' : 'geojson',
     include: isFiltered && filteredObservations.length ? 'filtered' : 'all',
-    photos: 'none'
+    photos: 'none',
+    smartPatrolType: 'TBD',
+    smartPatrolMandate: 'TBD',
+    smartPatrolObjective: 'TBD',
+    smartPatrolComments: ''
   })
 
   const handleChange = key => event => {
+    event.persist()
     setValues(values => ({ ...values, [key]: event.target.value }))
   }
 
@@ -274,6 +287,80 @@ const ExportDialogContent = ({
                 </FormHelperText>
               )}
             </FormControl>
+            {values.format === 'smartpatrol' && (
+              <>
+                <Divider />
+                <h3>
+                  {/* <FormattedMessage {...msgs.title} /> */}
+                  SMART Patrol Package additional information
+                </h3>
+                <FormControl className={classes.formControl}>
+                  <InputLabel id='select-smart-type-label'>
+                    <FormattedMessage {...msgs.smartPatrolType} />
+                  </InputLabel>
+                  <Select
+                    labelId='select-smart-type-label'
+                    id='select-smart-type'
+                    value={values.smartPatrolType}
+                    onChange={handleChange('smartPatrolType')}
+                    className={classes.select}
+                    disabled={saving}
+                  >
+                    <MenuItem value='TBD'>
+                      TBD
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel id='select-smart-mandate-label'>
+                    <FormattedMessage {...msgs.smartPatrolMandate} />
+                  </InputLabel>
+                  <Select
+                    labelId='select-smart-mandate-label'
+                    id='select-smart-mandate'
+                    value={values.smartPatrolMandate}
+                    onChange={handleChange('smartPatrolMandate')}
+                    className={classes.select}
+                    disabled={saving}
+                  >
+                    <MenuItem value='TBD'>
+                      TBD
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel id='select-smart-objective-label'>
+                    <FormattedMessage {...msgs.smartPatrolObjective} />
+                  </InputLabel>
+                  <Select
+                    labelId='select-smart-objective-label'
+                    id='select-smart-objective'
+                    value={values.smartPatrolObjective}
+                    onChange={handleChange('smartPatrolObjective')}
+                    className={classes.select}
+                    disabled={saving}
+                  >
+                    <MenuItem value='TBD'>
+                      TBD
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <TextField
+                    label={<FormattedMessage {...msgs.smartPatrolComments} />}
+                    value={values.smartPatrolComments}
+                    fullWidth
+                    rows={3}
+                    rowsMax={6}
+                    multiline
+                    variant='outlined'
+                    margin='dense'
+                    disabled={saving}
+                    onChange={handleChange('smartPatrolComments')}
+                  />
+                </FormControl>
+              </>
+            )}
           </>
         )}
       </DialogContent>
