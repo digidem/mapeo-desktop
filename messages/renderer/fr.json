@@ -1,1 +1,8 @@
-{}
+{
+  "renderer.components.Home.update": {
+    "message": "Mettre à jour Mapeo"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Description"
+  }
+}
