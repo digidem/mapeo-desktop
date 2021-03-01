@@ -41,7 +41,8 @@
     "release:beta": "standard-version --prerelease beta",
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
-    "extract-messages": "extract-messages --locales=en --output messages/renderer --descriptions 'src/**/*.js'"
+    "extract-messages": "extract-messages --locales=en --output messages/renderer --descriptions 'src/**/*.js'",
+    "type": "tsc"
   },
   "license": "GPL-3.0",
   "repository": {
@@ -194,6 +195,8 @@
     "@storybook/addon-links": "^5.2.1",
     "@storybook/addons": "^5.2.1",
     "@storybook/react": "^5.2.1",
+    "@types/node": "^12.20.4",
+    "@types/webpack-env": "^1.16.0",
     "@vercel/nft": "^0.9.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
@@ -245,6 +248,7 @@
     "style-loader": "^1.0.0",
     "tape": "^4.9.1",
     "terser-webpack-plugin": "^4.1.0",
+    "typescript": "^4.2.2",
     "url-loader": "^4.1.1",
     "webpack": "^4.40.2",
     "webpack-bundle-analyzer": "^3.8.0",

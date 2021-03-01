@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2018",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "typeRoots": ["types", "node_modules/@types"]
+  },
+  "include": ["src/main/**/*", "src/background/**/*", "index.js"],
+  "exclue": ["node_modules"]
+}
