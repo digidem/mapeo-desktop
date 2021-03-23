@@ -327,6 +327,60 @@
   "renderer.components.SyncView.SyncAppBar.disconnected": {
     "message": "បាន​ផ្ដាច់"
   },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "បានបង្កើត syncfile ថ្មី..."
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "មិន​ស្គាល់"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "បញ្ចប់"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "បាន​ផ្ដាច់"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "កំពុងបញ្ចាប់..."
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "ព្យាយាមម្ដងទៀត"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "កំពុងចាប់ផ្តើម..."
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "ធ្វើសមកាលកម្ម"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "មូលដ្ឋានទិន្នន័យ៖{sofar}/{total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "ការធ្វើសមកាលកម្មមានកំហុសឆ្គង"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "ការធ្វើសមកាលកម្មចុងក្រោយ៖"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "រូបថត៖{sofar}/{total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "បង្កើតមូលដ្ឋានទិន្នន័យថ្មីដើម្បីធ្វើធ្វើសមកាលកម្ម​"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} ត្រូវការតម្លើងកំណែថ្មីរបស់មែបភីអូ"
+  },
   "renderer.components.UpdaterView.index.calculatingProgress": {
     "message": "កំពុងគណនា..."
   },
@@ -360,6 +414,9 @@
   "renderer.components.UpdaterView.index.restartMapeoText": {
     "message": "កំណែរមែបភីអូថ្មីត្រូវបានទាញយក។ បិទហើយបើកមែបភីអូឡើងវិញដើម្បីធ្វើបច្ចុប្បន្នភាព។"
   },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "មិន​ស្គាល់"
+  },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
     "message": "ធ្វើបច្ចុប្បន្នភាព"
@@ -369,6 +426,28 @@
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "បោះបង់"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "បញ្ជូន"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "ជ្រើសរើសភាសា"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "បិទ"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "បើកកំណត់ត្រា..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "បញ្ជូន"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "បញ្ចូលលេខនិយាមកា"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "ការទាញចូលមានបញ្ហា"
   },
   "renderer.create-zip.errorsMsg": {
     "description": "Error message stored in text file in export if there were errors during export",
