@@ -114,6 +114,23 @@
     "description": "Shown when there is no data to export",
     "message": "អ្នកមិនមានទិន្នន័យសម្រាប់នាំចេញទេ។"
   },
+  "renderer.components.MapFilter.DataExportDialog.save": {
+    "description": "Save button",
+    "message": "រក្សាទុក"
+  },
+  "renderer.components.MapFilter.DataExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "នាំចេញការសង្កេត"
+  },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "នាំចេញទិន្នន័យសង្កេត"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "នាំចេញការសង្កេត..."
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "នាំចេញផែនទីគេហទំព័រ..."
+  },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
     "message": "ទៅ"
@@ -148,6 +165,41 @@
   },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "ច្រោះដោយ..."
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "សេចក្ដីពិពណ៌នាផែនទី"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "រក្សាទុក"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "ស្តាយផែនទី"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "បន្ថែមលក្ខណ្ឌនិងការកំហិតពីការប្រើប្រាស់ទិន្នន័យ"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "លក្ខណ្ឌនិងការកំហិត"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "នាំចេញផែនទីដើម្បីចែករំលែកតាមអ៊ីនធឺណិត"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "ចំណងជើងផែនទី"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "ព័ត៌មានលម្អិតខាងក្រោមនឹងមានប្រយោជន៍សម្រាប់ការស្វែងរកវិធីដើម្បីជួសជុលបញ្ហានេះ…"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
