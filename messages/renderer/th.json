@@ -249,6 +249,10 @@
     "description": "Hide all fields in report view",
     "message": "ซ่อนทั้งหมด"
   },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
+  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
     "message": "แสดงทั้งหมด"
