@@ -201,9 +201,19 @@
   "renderer.components.MapFilter.MapFilter.errorDescription": {
     "message": "ព័ត៌មានលម្អិតខាងក្រោមនឹងមានប្រយោជន៍សម្រាប់ការស្វែងរកវិធីដើម្បីជួសជុលបញ្ហានេះ…"
   },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "អូ! កំហុសឆ្គងមួយបានកើតឡើង"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
     "message": "ទិន្នន័យបន្ថែម"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "បោះបង់"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
     "message": "លះបង់​ការកែប្រែ"
@@ -213,6 +223,9 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
     "message": "បិទដោយមិនរក្សាទុកការផ្លាស់ប្តូរ?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "បោះបង់"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
     "message": "បាទ/ចាស លុបចោល"
@@ -228,21 +241,91 @@
     "description": "Header for section that includes the additional details for an observation",
     "message": "ព័ត៌មានលម្អិត"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "រក្សាទុក"
+  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
     "message": "លាក់​ទាំងអស់"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {វាលលាក់} =1 {1 វាលលាក់} other {# វាលលាក់}}"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
     "message": "បង្ហាញ​ទាំងអស់"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
+    "message": "បង្កើតពី"
+  },
   "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
     "description": "Button label for hide fields menu",
     "message": "ព័ត៌មានលម្អិត"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
+    "message": "ទីតាំង"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "មិនមានការសង្កេតទេ។"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "ទំព័រ{currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "របាយការណ៍តាមដាន់មែបភីអូ.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "បន្ទាប់"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "មុន"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "កំពុង​បង្កើត​របាយការណ៍..."
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "រក្សា​ទុក​ជា PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "បន្ត"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "ផែនទី"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "ប្រព័ន្ធផ្សព្វផ្សាយ"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "របាយការណ៍"
+  },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
     "message": "ការសង្កេត"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "ធានាថាឧបករណ៍ផ្សេងទៀតត្រូវបានបើក និងភ្ជាប់ទៅបណ្តាញវ៉ាយហ្វាយតែមួយ"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "កំពុងស្វែងរក…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "បាន​ផ្ដាច់"
   },
   "renderer.components.UpdaterView.index.calculatingProgress": {
     "message": "កំពុងគណនា..."
@@ -283,5 +366,24 @@
   },
   "renderer.components.UpdaterView.index.updateNotAvailable": {
     "message": "មែបភីអូនេះគឺទាន់សម័យ។ អ្នកកំពុងប្រើប្រាស់កំណែចុងក្រោយគេបង្អស់។"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "បោះបង់"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "មានកំហុសក្នុងការព្យាយាមនាំចេញឯកសារទាំងនេះ ដូច្នេះឯកសារទាំងនេះបានបាត់ពីការនាំចេញនេះ៖"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "បាត់បង់ភាពដើម"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "ទំហំដើមនៃឯកសារទាំងនេះមិនអាចរកឃើញទេ មានតែទំហំមើលជាមុន (១២០០ ភីកសែល) តែប៉ុណ្ណោះដែលត្រូវបានបញ្ចូល។ បញ្ហានេះអាចកើតឡើងដោយសារតែទូរស័ព្ទដែលបានថតរូបបានធ្វើសមកាលកម្មទៅនឹងទូរស័ព្ទដទៃទៀតហើយមិនធ្វើសមកាលកម្មទៅកាន់មែបភីអូដេសថប់ទេ។ ដើម្បីសាកល្បងជួសជុល ស្វែងរកទូរស័ព្ទដែលបានថតរូបហើយធ្វើសមកាលកម្មជាមួយមែបភីអូដេសថប់មុនពេលនាំចេញម្តងទៀត។"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "គ្មាន​ចម្លើយ"
   }
 }
