@@ -116,5 +116,15 @@
   },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
     "message": "ចាប់ផ្ដើមឡើងវិញ"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "កំណែរមែបភីអូថ្មីត្រូវបានទាញយក។ បិទហើយបើកមែបភីអូឡើងវិញដើម្បីធ្វើបច្ចុប្បន្នភាព។"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "ធ្វើបច្ចុប្បន្នភាព"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "មែបភីអូនេះគឺទាន់សម័យ។ អ្នកកំពុងប្រើប្រាស់កំណែចុងក្រោយគេបង្អស់។"
   }
 }
