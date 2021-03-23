@@ -303,6 +303,14 @@
     "description": "Button label to confirm saving report",
     "message": "ดำเนินการต่อ"
   },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "รายงานนี้มีการสังเกต {observationCount} รายการ จะใช้เวลาสร้างรายงานสักครู่ คุณต้องการดำเนินการต่อหรือไม่?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "คำเตือน: รายงานนี้มีขนาดใหญ่"
+  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "แผนที่"
   },
