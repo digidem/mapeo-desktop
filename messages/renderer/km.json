@@ -50,5 +50,71 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
     "message": "លះបង់​ការកែប្រែ"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "អ្នកបានធ្វើការផ្លាស់ប្តូរមួយចំនួន ការបិទដោយមិនរក្សាទុកនឹងធ្វើអោយបាត់បង់អ្វីដែលបានផ្លាស់ប្តូរ"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "បិទដោយមិនរក្សាទុកការផ្លាស់ប្តូរ?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "បាទ/ចាស លុបចោល"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "លុបការសង្កេត?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "លុបការសង្កេត"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "ព័ត៌មានលម្អិត"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "លាក់​ទាំងអស់"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "បង្ហាញ​ទាំងអស់"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "ព័ត៌មានលម្អិត"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "ការសង្កេត"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "កំពុងគណនា..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "ទាញយក"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "កំពុងទាញយក"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "មានកំហុសឆ្គងមួយបានកើតឡើង ហើយមែបភីអូមិនអាចធ្វើបច្ចុប្បន្នភាពបានទេ។ សូមព្យាយាម​ម្តង​ទៀត​នៅ​ពេលក្រោយ។"
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "កំហុសឆ្គង"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "រយៈពេលក្នុងការទាញយកដែលបានគណនាគឺ"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "ការធ្វើបច្ចុប្បន្នភាពនេះនឹងធ្វើឱ្យកម្មវិធីរបស់អ្នកមិនអាចដំណើរការបានជាមួយនឹងកំណែមុនៗ។"
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "ការធ្វើបច្ចុប្បន្នភាពនេះរួមបញ្ចូលការកែលម្អដែលអាចផ្លាស់ប្តូរបទពិសោធន៍របស់អ្នក។"
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "ការធ្វើបច្ចុប្បន្នភាពនេះរួមបញ្ចូលការកំណែរដែលជួសជុលកំហុសឆ្គងសំខាន់ៗ។ សូមធ្វើបច្ចុប្បន្នភាពឱ្យបានឆាប់តាមដែលអាចធ្វើទៅបាន។"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "ចាប់ផ្ដើមឡើងវិញ"
   }
 }
