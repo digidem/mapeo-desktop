@@ -1,1 +1,14 @@
-{}
+{
+  "button-submit": "យល់ព្រម",
+  "button-cancel": "បោះបង់",
+  "dialog-enter-latlon-coordinates": "បញ្ចូលលេខនិយាមកា",
+  "replication-data-complete": "កំពុងធ្វើបច្ចុប្បន្នភាពអ៊ិនដិច... វាអាចពន្យាពេលមួយភ្លែត។",
+  "replication-complete": "ការធ្វើសមកាលកម្មបានបញ្ចប់ដោយជោគជ័យ។",
+  "replication-started": "ការធ្វើសមកាលកម្មបានចាប់ផ្តើម កំពុងរង់ចាំការឆ្លើយតប...",
+  "replication-progress": "ការធ្វើសមកាលកម្ម៖ កំពុងដំណើរការ...",
+  "menu-file": "ឯកសារ",
+  "menu-change-language": "ផ្លាស់ប្តូរភាសា",
+  "menu-change-language-title": "បញ្ចូលភាសា (ឧ. ភាសាអង់គ្លេស ឬភាសាអេស្ប៉ាញ)",
+  "menu-import-tiles-file": "ឯកសារ (.tar)",
+  "menu-import-tiles-directory": "ដាយរិកតូរីនៃក្រឡាផែនទី"
+}
