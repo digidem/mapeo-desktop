@@ -1,4 +1,16 @@
 {
+  "renderer.components.Home.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "ដែនដី"
+  },
+  "renderer.components.Home.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "ការសង្កេត"
+  },
+  "renderer.components.Home.sync": {
+    "description": "Synchronize tab label",
+    "message": "ធ្វើសមកាលកម្ម"
+  },
   "renderer.components.Home.update": {
     "message": "ធ្វើបច្ចុប្បន្នភាពមែបភីអូ"
   },
@@ -6,8 +18,101 @@
     "description": "Displayed whilst observations and presets load",
     "message": "កំពុង​ផ្ទុក..."
   },
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": "បិទ"
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "ទិន្នន័យផែនទីមែបភីអូ"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "នាំចេញ​មិន​បាន​សម្រេច​ដោយ​សារ​មាន​បញ្ហា​ផ្ទៃក្នុង"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "ការនាំចេញបានសម្រេច"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "ការនាំចេញទិន្នន័យ"
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": "ការនាំចេញទិន្នន័យផែនទី"
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "ការនាំចេញជាទម្រង់ GeoJSON..."
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "ការនាំចេញជាទម្រង់ Shapefile..."
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": "យល់ព្រម"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "នាំចេញទិន្នន័យផែនទី"
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "មតិយោបល់ និងការចូលរួម"
+  },
   "renderer.components.MapEditor.index.notes": {
     "message": "សេចក្ដីពិពណ៌នា"
+  },
+  "renderer.components.MapFilter.DataExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.DataExportDialog.close": {
+    "description": "Close button (shown if user has no data to export)",
+    "message": "បិទ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "ទិន្នន័យសង្កេតផែនទីមែបភីអូ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+    "message": "ការសង្កេតសរុបចំនួន{count}"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+    "message": "ការសង្កេតដែលបានច្រោះចំនួន{count}"
+  },
+  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "តែទិន្នន័យដែលបានច្រោះ ឬទិន្នន័យទាំងអស់?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.format": {
+    "description": "Label for data format selector",
+    "message": "ទិន្ន័យទម្រង់"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "នាំចេញរូបថតដែរ?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "ការនាំចេញនឹងក្លាយជាឯកសារទម្រង់ Zip ដែលផ្ទុកទិន្នន័យនិងរូបថត"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "គ្មានរូបថត"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "រូបថតទំហំពេញ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "មើលទំហំរូបថតជាមុន"
+  },
+  "renderer.components.MapFilter.DataExportDialog.noData": {
+    "description": "Shown when there is no data to export",
+    "message": "អ្នកមិនមានទិន្នន័យសម្រាប់នាំចេញទេ។"
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
