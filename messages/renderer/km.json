@@ -271,6 +271,10 @@
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
     "message": "មិនមានការសង្កេតទេ។"
   },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "មានកំហុសឆ្គងមិនស្គាល់បានកើតឡើងនៅពេលព្យាយាមបង្កើតរបាយការណ៍"
+  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
     "message": "ទំព័រ{currentPage}"
@@ -303,6 +307,14 @@
     "description": "Button label to confirm saving report",
     "message": "បន្ត"
   },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "របាយការណ៍នេះមានការសង្កេតចំនួន {observationCount} ហើយអាចចំណាយពេលពីរបីនាទីដើម្បីបង្កើត។ តើអ្នកប្រាកដជាចង់បន្តឬទេ?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "ការព្រមាន៖ របាយការណ៍ទំហំធំ"
+  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "ផែនទី"
   },
@@ -327,12 +339,38 @@
   "renderer.components.SyncView.SyncAppBar.disconnected": {
     "message": "បាន​ផ្ដាច់"
   },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "ដំបូងអ្នកត្រូវភ្ជាប់ទៅកាន់បណ្តាញវ៉ាយហ្វាយ មុនពេលអាចធ្វើសមកាលកម្មឧបករណ៍"
+  },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
     "message": "បានបង្កើត syncfile ថ្មី..."
   },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "គុណភាព៖ {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "សេវាតភ្ជាប់មានភាពល្អបំផុត"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "សេវាតភ្ជាប់មានភាពខ្សោយ។ ព្យាយាមខិតទៅជិតទៅកាន់រ៉ោតទ័រវ៉ាយហ្វាយ"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "សេវាតភ្ជាប់មានភាពខ្សោយ។ ការធ្វើសមកាលកម្មអាចអូសបន្លាយពេលយូរដើម្បីបញ្ចប់"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "ធ្វើសមកាលកម្ម​ជាមួយឯកសារ..."
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "ឧបករណ៍​ដែល​អាច​ប្រើ​បាន"
+  },
   "renderer.components.SyncView.SyncAppBar.wifiError": {
     "message": "មិន​ស្គាល់"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "កាត់វ៉ាយហ្វាយ ឬប្រព័ន្ធប្រតិបត្តការ (OS) មិនត្រូវបានស្គាល់"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
@@ -380,6 +418,13 @@
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
     "message": "{deviceName} ត្រូវការតម្លើងកំណែថ្មីរបស់មែបភីអូ"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "អ្នកត្រូវតម្លើងកំណែថ្មីរបស់មែបភីអូដើម្បីធ្វើសមកាលកម្ម​ជាមួយ {deviceName}"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "ជ្រើសរើសមូលដ្ឋានទិន្នន័យដើម្បីធ្វើធ្វើសមកាលកម្ម​"
   },
   "renderer.components.UpdaterView.index.calculatingProgress": {
     "message": "កំពុងគណនា..."
