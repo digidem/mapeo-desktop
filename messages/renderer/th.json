@@ -263,6 +263,22 @@
   "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
     "message": "สถานที่"
   },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "ไม่พบการสังเกต"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "มีข้อผิดพลาดเกิดขึ้นในขณะที่พยายามสร้างรายงาน"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "หน้า {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "รายงานการติดตาม Mapeo.pdf"
+  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
     "message": "ถัดไป"
@@ -270,6 +286,22 @@
   "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
     "description": "Button for nagivating to the previous page in the report",
     "message": "ก่อนหน้า"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "กำลังสร้างรายงาน..."
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "บันทึกเป็น PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "ยกเลิก"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "ดำเนินการต่อ"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "แผนที่"
