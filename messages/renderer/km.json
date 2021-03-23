@@ -1,1 +1,54 @@
-{}
+{
+  "renderer.components.Home.update": {
+    "message": "ធ្វើបច្ចុប្បន្នភាពមែបភីអូ"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "កំពុង​ផ្ទុក..."
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "សេចក្ដីពិពណ៌នា"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "ទៅ"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "ពី"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "កាលបរិច្ឆេទនៃការសង្កេត"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "កែសម្រួល​ការច្រោះ..."
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "បានផ្លាស់ប្តូរ"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "ប្រភេទ"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "តែមួយគត់"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "ទាំងអស់"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "ច្រោះដោយ..."
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "ទិន្នន័យបន្ថែម"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "លះបង់​ការកែប្រែ"
+  }
+}
