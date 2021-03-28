@@ -147,7 +147,7 @@ async function startup ({
     await logger.timedPromise(
       Promise.all([
         // Initialize directories for Mapeo data
-        await logger.timedPromise(
+        logger.timedPromise(
           initDirectories({
             datadir,
             presetsDir: path.join(userDataPath, 'presets'),
@@ -156,13 +156,13 @@ async function startup ({
           'Initialized data, presets & styles folders'
         ),
         // Startup background processes and servers
-        await logger.timedPromise(
+        logger.timedPromise(
           backgroundProcesses.startAll(),
           'Started background processes'
         ),
         // Load main window and show it when it has loaded
         // TODO: Don't show until UI is displayed
-        await logger.timedPromise(
+        logger.timedPromise(
           winMain.loadFile(MainWindow.filePath),
           'Loaded main window'
         )
