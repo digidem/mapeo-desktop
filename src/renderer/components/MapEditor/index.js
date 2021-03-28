@@ -163,7 +163,7 @@ const MapEditor = () => {
       if (!rootRef.current) return
       updateSettings()
 
-      var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
+      var serverUrl = `http://127.0.0.1:${window.mapeoServerPort}`
       id.current = window.id = iD
         .coreContext()
         .assetPath('../node_modules/id-mapeo/dist/')

@@ -12,6 +12,6 @@
     "noEmit": true,
     "typeRoots": ["types", "node_modules/@types"]
   },
-  "include": ["src/main/**/*", "src/background/**/*", "index.js"],
+  "include": ["src/main/**/*", "src/workers/**/*", "index.js", "types/**/*"],
   "exclue": ["node_modules"]
 }

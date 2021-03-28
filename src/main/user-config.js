@@ -36,10 +36,12 @@ function getSettings (type) {
 
 function getFallbackSettings (type) {
   var userDataPath = app.getPath('userData')
-  return new Settings(path.join(userDataPath, DEFAULT_SETTINGS)).getSettings(type)
+  return new Settings(path.join(userDataPath, DEFAULT_SETTINGS)).getSettings(
+    type
+  )
 }
 
-function copyFallbackSettings (fallbackSettings, done) {
+async function copyFallbackSettings (fallbackSettings) {
   // location: the full pathname to the fallback default settings directory
   // which is unzipped and includes presets.json, icons, etc
   // e.g., /path/to/Users/miranda/Mapeo/presets/my-default-fallback-settings/
@@ -55,14 +57,14 @@ function copyFallbackSettings (fallbackSettings, done) {
   // directories, and presets don't get overridden or copied over each other.
   const userDataPath = app.getPath('userData')
   const defaultSettings = path.join(userDataPath, DEFAULT_SETTINGS, 'presets')
-  mkdirp.sync(defaultSettings)
-  fs.copy(fallbackSettings, path.join(defaultSettings, 'default'),
-    (err) => {
-      if (err) logger.error('[ERROR] while unpacking default presets', err)
-      else logger.info('Unpacked new default styles and presets')
-      done()
-    }
-  )
+  await mkdirp(defaultSettings)
+
+  try {
+    await fs.copy(fallbackSettings, path.join(defaultSettings, 'default'))
+  } catch (err) {
+    if (err) logger.error('[ERROR] while unpacking default presets', err)
+    else logger.info('Unpacked new default styles and presets')
+  }
 }
 
 module.exports = {

@@ -1,43 +1,161 @@
-const rabbit = require('electron-rabbit')
-const NodePIDManager = require('../pid-manager')
+// @ts-check
 
-function startNodeIPC (serverHandlers) {
-  if (process.argv[2] === '--subprocess') {
-    const logger = require('../logger')
-    const socketName = process.argv[3]
-    const userDataPath = process.argv[4]
-    if (!logger.configured) {
-      logger.configure({
-        label: 'background',
-        userDataPath
-      })
+const { ipcRenderer, remote } = require('electron')
+const path = require('path')
+
+const logger = require('../logger')
+
+/** @typedef {import('../utils/types').BackgroundProcess} BackgroundProcess */
+/** @typedef {import('../utils/types').IpcResponse} IpcResponse */
+
+const [modulePath, argsJSON] = process.argv.slice(-2)
+const userDataPath = remote.app.getPath('userData')
+const label = path.basename(modulePath)
+
+/** @type {'starting' | 'ready' | 'closing' | 'closed'} */
+let status = 'starting'
+
+logger.configure({ userDataPath, label })
+//
+;(async function initialize () {
+  logger.info('starting async')
+  try {
+    const args = argsJSON && JSON.parse(argsJSON)
+
+    /** @type {unknown} */
+    const init = require(modulePath)
+
+    if (typeof init !== 'function') {
+      throw new Error('Invalid Module in worker, must export a function')
     }
 
-    var manager = new NodePIDManager(userDataPath)
-    manager.pid((err) => {
-      if (err) logger.error('Error writing PID file', err)
-      logger.debug('PID file written successfully.')
-    })
+    /** @type {unknown} */
+    const bp = init(args)
 
-    rabbit.init(socketName, serverHandlers)
-  } else {
-    const electron = require('electron')
-    const logger = require('../logger')
+    if (!isValidBackgroundProcess(bp)) {
+      throw new Error(
+        'Invalid background process module. A backbground process must have a handlers object, with optional start and close functions'
+      )
+    }
 
-    electron.ipcRenderer.on('configure', (event, {
-      socketName, isDev, userDataPath
-    }) => {
-      logger.info('configured', socketName)
-      if (!logger.configured) {
-        logger.configure({
-          label: 'background',
-          userDataPath,
-          isDev
+    window.onbeforeunload = event => {
+      logger.debug('Window unload. Current status: ' + status)
+      // not using async function for event handler, since this returns a
+      // Promise, which _might_ cancel the window close, since spec says that
+      // returning anything other than undefined from the event handler cancels
+      // close
+      if (!bp.close || status === 'closed') return
+      event.returnValue = false // cancel window close
+      if (status === 'closing') return // don't call close twice
+      status = 'closing'
+      // close window after worker has closed
+      bp.close()
+        .catch(err => {
+          logger.error('Error trying to close', err)
         })
+        .finally(() => {
+          status = 'closed'
+          window.onbeforeunload = undefined
+          window.close()
+        })
+    }
+
+    ipcRenderer.on('new-client', event => {
+      logger.debug('New client received')
+      const [port] = event.ports
+      port.onmessage = async event => {
+        handleMessage(bp.handlers, event.data, port)
       }
-      rabbit.init(socketName, serverHandlers)
     })
+
+    let startupResult
+    if (bp.start) {
+      logger.debug('Calling start()')
+      startupResult = await bp.start()
+    }
+    logger.debug('Started; informing main process')
+    ipcRenderer.send('startup', null, startupResult)
+  } catch (error) {
+    logger.error('error', error)
+    ipcRenderer.send('startup', error)
+  }
+})()
+
+/** @typedef {{ id: number, name: string, args: any }} Message */
+
+/**
+ * @param {BackgroundProcess['handlers']} handlers
+ * @param {unknown} message
+ * @param {MessagePort} port
+ */
+async function handleMessage (handlers, message, port) {
+  if (!isValidMessage(message)) {
+    // Cannot return anything here
+    logger.error('Received invalid IPC message')
+    return
+  }
+
+  const { id, name, args } = message
+
+  try {
+    const handler = handlers[name]
+
+    if (typeof handler !== 'function') {
+      throw new Error('Unknown method: ' + name)
+    }
+
+    const result = await Promise.resolve(handler(args))
+
+    port.postMessage(/** @type {IpcResponse} */ ({ type: 'reply', id, result }))
+  } catch (error) {
+    logger.error('IPC error: ' + error.message)
+    port.postMessage(
+      /** @type {IpcResponse} */ ({ type: 'error', id, result: error.message })
+    )
   }
 }
 
-module.exports = startNodeIPC
+/**
+ * Validate worker
+ *
+ * @param {unknown} bp
+ * @returns {bp is BackgroundProcess}
+ */
+function isValidBackgroundProcess (bp) {
+  if (!isObject(bp)) return false
+  if (bp.start && typeof bp.start !== 'function') {
+    return false
+  }
+  if (bp.close && typeof bp.close !== 'function') {
+    return false
+  }
+  if (typeof bp.handlers !== 'object' && bp.handlers !== null) {
+    return false
+  }
+  return true
+}
+
+/**
+ * Validate an IPC message request
+ *
+ * @param {unknown} message
+ * @returns {message is import('../utils/types').IpcRequest}
+ */
+function isValidMessage (message) {
+  if (!isObject(message)) return false
+  if (typeof message.id !== 'number') {
+    return false
+  }
+  if (typeof message.name !== 'string') {
+    return false
+  }
+  return true
+}
+
+/**
+ * @param {unknown} something
+ * @returns {something is { [prop: string]: unknown }}
+ */
+function isObject (something) {
+  return typeof something === 'object' && something !== null
+}

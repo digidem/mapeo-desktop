@@ -3,6 +3,7 @@ const path = require('path')
 const DailyRotateFile = require('winston-daily-rotate-file')
 const util = require('util')
 const { format } = require('date-fns')
+const isDev = require('electron-is-dev')
 
 const store = require('./store')
 const appVersion = require('../package.json').version
@@ -19,16 +20,13 @@ class Logger {
     this._debug = store.get('debugging')
   }
 
-  configure ({
-    userDataPath,
-    isDev,
-    label
-  }) {
-    this.isDev = isDev
+  configure ({ userDataPath, label }) {
     this._startBugsnag(isDev ? 'development' : 'production')
-    const prettyPrint = winston.format.printf(({ level, message, label, timestamp }) => {
-      return `${timestamp} [${label}] ${level}: ${message}`
-    })
+    const prettyPrint = winston.format.printf(
+      ({ level, message, label, timestamp }) => {
+        return `${timestamp} [${label}] ${level}: ${message}`
+      }
+    )
 
     this.winston.format = winston.format.combine(
       winston.format.label({ label }),
@@ -43,7 +41,7 @@ class Logger {
       }
     }
 
-    const mainLog = new (DailyRotateFile)({
+    const mainLog = new DailyRotateFile({
       filename: '%DATE%.log',
       dirname: this.dirname,
       datePattern: 'YYYY-MM-DD',
@@ -54,7 +52,7 @@ class Logger {
     mainLog.name = 'main'
     this.winston.add(mainLog)
 
-    const errorTransport = new (DailyRotateFile)({
+    const errorTransport = new DailyRotateFile({
       filename: '%DATE%.error.log',
       dirname: this.dirname,
       datePattern: 'YYYY-MM',
@@ -65,9 +63,11 @@ class Logger {
     this.winston.add(errorTransport)
 
     if (isDev) {
-      this.winston.add(new winston.transports.Console({
-        level: 'debug'
-      }))
+      this.winston.add(
+        new winston.transports.Console({
+          level: 'debug'
+        })
+      )
     }
     this.configured = true
     if (this._messageQueue.length > 0) this._drainQueue()
@@ -108,7 +108,7 @@ class Logger {
         message: util.format(...args)
       })
       if (level === 'error') {
-        Bugsnag.notify(args[1], (event) => {
+        Bugsnag.notify(args[1], event => {
           event.context = args[0]
         })
       }
