@@ -83,16 +83,15 @@ class BackgroundProcess extends TypedEmitter {
    * @private
    */
   _setState (state) {
-    if (state.value !== this._state.value) {
-      this.emit('state-change', state)
-      if (state.value === 'error') {
-        logger.error(`${this._label} Error: ${state.context.error}`)
-        this.emit('error', state.context.error)
-      } else {
-        logger.debug(`${this._label} State change: ${state.value}`)
-      }
-    }
+    if (state === this._state) return
     this._state = state
+    this.emit('state-change', state)
+    if (state.value === 'error') {
+      logger.error(`${this._label} Error: ${state.context.error}`)
+      this.emit('error', state.context.error)
+    } else {
+      logger.debug(`${this._label} State change: ${state.value}`)
+    }
   }
 
   /**
@@ -275,7 +274,7 @@ class BackgroundProcessManager extends TypedEmitter {
   createProcess (modulePath, { id, ...options }) {
     const bp = new BackgroundProcess(modulePath, options)
     this._processes.set(id, bp)
-    bp.on('state-change', () => {
+    bp.on('state-change', state => {
       this.emit('state-change', this.getState())
     })
   }
