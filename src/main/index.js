@@ -134,22 +134,6 @@ async function startup ({
     )
     winLoading.show()
 
-    // Initialize directories for Mapeo data
-    await logger.timedPromise(
-      initDirectories({
-        datadir,
-        presetsDir: path.join(userDataPath, 'presets'),
-        stylesDir: path.join(userDataPath, 'styles')
-      }),
-      'Initialized data, presets & styles folders'
-    )
-
-    // Startup background processes and servers
-    await logger.timedPromise(
-      backgroundProcesses.startAll(),
-      'Started background processes'
-    )
-
     // Set up a message channel & IPC for communicating between the main process
     // and Mapeo Core, and create the app menu with this IPC channel Once Mapeo
     // Core is loaded, need to pass it port2 - messages will be queued until a
@@ -160,13 +144,32 @@ async function startup ({
     createMenu(ipc)
     backgroundProcesses.addClient('mapeoCore', port2)
 
-    // Load main window and show it when it has loaded
-    // TODO: Don't show until UI is displayed
-    // TODO: Start loading main window in parallel to background process startup
     await logger.timedPromise(
-      winMain.loadFile(MainWindow.filePath),
-      'Loaded main window'
+      Promise.all([
+        // Initialize directories for Mapeo data
+        await logger.timedPromise(
+          initDirectories({
+            datadir,
+            presetsDir: path.join(userDataPath, 'presets'),
+            stylesDir: path.join(userDataPath, 'styles')
+          }),
+          'Initialized data, presets & styles folders'
+        ),
+        // Startup background processes and servers
+        await logger.timedPromise(
+          backgroundProcesses.startAll(),
+          'Started background processes'
+        ),
+        // Load main window and show it when it has loaded
+        // TODO: Don't show until UI is displayed
+        await logger.timedPromise(
+          winMain.loadFile(MainWindow.filePath),
+          'Loaded main window'
+        )
+      ]),
+      'Started frontend & backend'
     )
+
     winMain.show()
     if (debug) winMain.webContents.openDevTools()
     winLoading.hide()
