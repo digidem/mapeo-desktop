@@ -45,6 +45,23 @@ if (!logger.configured) {
 
 const App = () => {
   const [locale, setLocale] = React.useState(initialLocale)
+  const [backendState, setBackendState] = React.useState('loading')
+
+  React.useEffect(() => {
+    ipcRenderer
+      .invoke('get-backend-state')
+      .then(state => onStateChange(null, state))
+
+    ipcRenderer.on('backend-state', onStateChange)
+
+    function onStateChange (_, state) {
+      const newState = getMergedStateValue(state)
+      logger.debug('Backend state ' + newState, state)
+      setBackendState(newState)
+    }
+
+    return () => ipcRenderer.off(onStateChange)
+  }, [])
 
   const handleLanguageChange = React.useCallback(lang => {
     ipcRenderer.send('set-locale', lang)
@@ -57,7 +74,7 @@ const App = () => {
   }, [])
   logger.info('Rendering', locale)
 
-  return (
+  return backendState === 'ready' ? (
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -66,7 +83,7 @@ const App = () => {
         </IntlProvider>
       </ThemeProvider>
     </StylesProvider>
-  )
+  ) : null
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
@@ -76,4 +93,12 @@ window.testMode = function () {
   logger.debug('Test mode, clearing cache')
   localStorage.removeItem('lastView')
   localStorage.removeItem('location')
+}
+
+function getMergedStateValue (state) {
+  const values = Object.values(state).map(s => s.value)
+  if (values.includes('error')) return 'error'
+  if (values.includes('loading')) return 'loading'
+  if (values.every(v => v === 'started')) return 'ready'
+  return 'unknown'
 }

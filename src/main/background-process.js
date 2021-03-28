@@ -322,7 +322,7 @@ class BackgroundProcessManager extends TypedEmitter {
     // Don't subscribe if already subscribed
     if (unsubscribe) return unsubscribe
 
-    ipcMain.handle('get-background-state', event => {
+    ipcMain.handle('get-backend-state', event => {
       if (event.sender !== win.webContents) return
       return this.getState()
     })
@@ -331,7 +331,7 @@ class BackgroundProcessManager extends TypedEmitter {
 
     /** @param {Record<string, State>} state */
     function onStateChange (state) {
-      win.webContents.send('background-state', state)
+      win.webContents.send('backend-state', state)
     }
 
     unsubscribe = () => this.off('state-change', onStateChange)
