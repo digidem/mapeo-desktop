@@ -11,7 +11,7 @@ const unpackStylesIfNew = promisify(styles.unpackIfNew)
 const chmod = promisify(require('chela').mod)
 
 const onExit = require('./exit-hook')
-const BackgroundProcess = require('./background-process')
+const BackgroundProcessManager = require('./background-process')
 const createMenu = require('./menu')
 const updater = require('./auto-updater')
 const userConfig = require('./user-config')
@@ -76,16 +76,31 @@ async function startup ({
 
   winMain.on('close', () => beforeQuit())
 
+  /** @type {import('../utils/types').MapeoCoreOptions} */
+  const mapeoCoreArgs = {
+    datadir,
+    mapeoServerPort,
+    tileServerPort,
+    userDataPath
+  }
+  /** @type {import('../utils/types').MapPrinterOptions} */
+  const mapPrinterArgs = {
+    mapPrinterPort
+  }
+
   // Background processes
-  const mapeoCore = new BackgroundProcess(
-    path.join(__dirname, '../background/mapeo-core')
+  const backgroundProcesses = new BackgroundProcessManager()
+  backgroundProcesses.createProcess(
+    path.join(__dirname, '../background/mapeo-core'),
+    { id: 'mapeoCore', args: mapeoCoreArgs, devTools: debug }
   )
-  const mapPrinter = new BackgroundProcess(
-    path.join(__dirname, '../background/map-printer')
+  backgroundProcesses.createProcess(
+    path.join(__dirname, '../background/map-printer'),
+    { id: 'mapPrinter', args: mapPrinterArgs, devTools: debug }
   )
 
-  mapeoCore.on('error', onError)
-  mapPrinter.on('error', onError)
+  // Subscribe the main window to background process state changes
+  const unsubscribeMainWindow = backgroundProcesses.subscribeWindow(winMain)
 
   app.on('second-instance', () => {
     // Someone tried to run a second instance, we should focus our window.
@@ -106,41 +121,34 @@ async function startup ({
     // This is called first time the main window loads, and whenever it reloads
     logger.debug('Adding new client to Mapeo Core')
     const port = event.ports[0]
-    mapeoCore.addClient(port)
+    backgroundProcesses.addClient('mapeoCore', port)
+    // TODO: Remove client when window reloads? Is this a significant leak?
   })
 
   try {
     // Show loading window straight away
     // TODO: Start other tasks in parallel to this await, but is it worth it?
-    await winLoading.loadFile(LoadingWindow.filePath)
+    await logger.timedPromise(
+      winLoading.loadFile(LoadingWindow.filePath),
+      'Loaded loading window'
+    )
     winLoading.show()
-    logger.debug('[STARTUP] Opened loading window')
-
-    /** @type {import('../utils/types').MapeoCoreOptions} */
-    const mapeoCoreOptions = {
-      datadir,
-      mapeoServerPort,
-      tileServerPort,
-      userDataPath
-    }
-    /** @type {import('../utils/types').MapPrinterOptions} */
-    const mapPrinterOptions = {
-      mapPrinterPort
-    }
 
     // Initialize directories for Mapeo data
-    await initDirectories({
-      datadir,
-      presetsDir: path.join(userDataPath, 'presets'),
-      stylesDir: path.join(userDataPath, 'styles')
-    })
+    await logger.timedPromise(
+      initDirectories({
+        datadir,
+        presetsDir: path.join(userDataPath, 'presets'),
+        stylesDir: path.join(userDataPath, 'styles')
+      }),
+      'Initialized data, presets & styles folders'
+    )
 
     // Startup background processes and servers
-    await Promise.all([
-      mapeoCore.start(mapeoCoreOptions, { devTools: debug }),
-      mapPrinter.start(mapPrinterOptions, { devTools: debug })
-    ])
-    logger.debug('[STARTUP] Started background processes')
+    await logger.timedPromise(
+      backgroundProcesses.startAll(),
+      'Started background processes'
+    )
 
     // Set up a message channel & IPC for communicating between the main process
     // and Mapeo Core, and create the app menu with this IPC channel Once Mapeo
@@ -150,17 +158,19 @@ async function startup ({
     const { port1, port2 } = new MessageChannelMain()
     const ipc = new ClientIpc({ port: port1 })
     createMenu(ipc)
-    mapeoCore.addClient(port2)
+    backgroundProcesses.addClient('mapeoCore', port2)
 
     // Load main window and show it when it has loaded
     // TODO: Don't show until UI is displayed
     // TODO: Start loading main window in parallel to background process startup
-    await winMain.loadFile(MainWindow.filePath)
+    await logger.timedPromise(
+      winMain.loadFile(MainWindow.filePath),
+      'Loaded main window'
+    )
     winMain.show()
     if (debug) winMain.webContents.openDevTools()
     winLoading.hide()
     status = 'ready'
-    logger.debug('[STARTUP] Loaded main window, now ready')
 
     // Load closing window, so it's ready when we need it
     winClosing.loadFile(ClosingWindow.filePath)
@@ -210,9 +220,10 @@ async function startup ({
   async function beforeQuit () {
     if (status === 'exiting') return
     status = 'exiting'
-    logger.debug('Closing background processes')
+    logger.debug('Exiting app')
 
     // Close main window straight away
+    unsubscribeMainWindow()
     winMain && winMain.close()
     winLoading && winLoading.close()
 
@@ -222,9 +233,10 @@ async function startup ({
     }, 300)
 
     // Close background processes
-    await Promise.all([mapeoCore.close(), mapPrinter.close()])
-
-    logger.debug('Background processes closed, now quitting app')
+    await logger.timedPromise(
+      backgroundProcesses.stopAll(),
+      'Stopped background processes'
+    )
 
     winClosing && winClosing.close()
     // De-reference all windows to allow garbage collection
@@ -246,8 +258,6 @@ async function startup ({
  * @returns {Promise<void>}
  */
 async function initDirectories ({ stylesDir, presetsDir, datadir }) {
-  logger.debug('[STARTUP] Unpacking Styles')
-
   await Promise.all([mkdirp(stylesDir), mkdirp(presetsDir), mkdirp(datadir)])
 
   try {

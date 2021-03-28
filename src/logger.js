@@ -132,6 +132,21 @@ class Logger {
     this._log('debug', Array.from(arguments))
   }
 
+  /**
+   * Log the time for a promise to resolve
+   *
+   * @template T
+   * @param {Promise<T>} promise
+   * @param {string} msg
+   * @returns {Promise<T>}
+   */
+  async timedPromise (promise, msg) {
+    const start = Date.now()
+    const result = await promise
+    this.info(`${msg} ${Date.now() - start}ms`)
+    return result
+  }
+
   _startBugsnag (releaseStage) {
     // This is really hacky because the @bugsnag/js package
     // does not properly handle an electron background

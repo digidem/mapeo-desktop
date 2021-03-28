@@ -18,12 +18,13 @@ let status = 'starting'
 logger.configure({ userDataPath, label })
 //
 ;(async function initialize () {
-  logger.info('starting async')
   try {
     const args = argsJSON && JSON.parse(argsJSON)
 
+    const start = Date.now()
     /** @type {unknown} */
     const init = require(modulePath)
+    logger.debug(`Parsed module Javascript in ${Date.now() - start}ms`)
 
     if (typeof init !== 'function') {
       throw new Error('Invalid Module in worker, must export a function')

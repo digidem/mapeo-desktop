@@ -91,12 +91,15 @@ if (!gotTheLock) {
     argv.mapPrinterPort
   ])
   const { headless, debug, datadir } = argv
-  startApp({
-    mapeoServerPort,
-    tileServerPort,
-    mapPrinterPort,
-    headless,
-    debug,
-    datadir
-  })
+  logger.timedPromise(
+    startApp({
+      mapeoServerPort,
+      tileServerPort,
+      mapPrinterPort,
+      headless,
+      debug,
+      datadir
+    }),
+    'Started Mapeo'
+  )
 })()
