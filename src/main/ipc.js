@@ -88,7 +88,6 @@ module.exports = function (ipcSend) {
   })
 
   ipcMain.on('get-locale', function (ev) {
-    console.log('get-locale', i18n && i18n.locale)
     ev.returnValue = i18n.locale
   })
 
