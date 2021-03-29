@@ -42,7 +42,7 @@ class IPC extends EventEmitter {
       const msg = event.data
 
       if (!isValidIpcMessage(msg)) {
-        console.error('Invalid IPC message')
+        console.error('Invalid IPC message', msg)
         return
       }
 
@@ -70,7 +70,7 @@ class IPC extends EventEmitter {
         const msg = event.data
 
         if (!isValidBroadcastMessage(msg)) {
-          console.error('Invalid IPC message')
+          console.error('Invalid Broadcast message', msg)
           return
         }
 
@@ -105,8 +105,6 @@ function isValidIpcMessage (message) {
  */
 function isValidBroadcastMessage (message) {
   if (!message) return false
-  if (typeof message.type !== 'string') return false
-  if (message.type !== 'push') return false
   if (typeof message.name !== 'string') return false
   return true
 }
