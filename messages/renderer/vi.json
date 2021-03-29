@@ -35,6 +35,14 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Xuất dữ liệu"
   },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Xuất dữ liệu dạng GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Xuất dữ liệu dạng Shapefile…"
+  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "OK"
@@ -42,6 +50,9 @@
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
     "message": "Xuất dữ liệu"
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "Phản hồi & Đóng góp"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
