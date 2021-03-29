@@ -1,6 +1,7 @@
 // @ts-check
 
 const { EventEmitter } = require('events')
+const logger = require('./logger')
 
 const channel =
   process.type === 'renderer' ? new BroadcastChannel('mapeo-core') : undefined
@@ -34,6 +35,7 @@ class IPC extends EventEmitter {
     const id = this.id++
     this.replyHandlers.set(id, { cb })
     this.port.postMessage({ id, name, args })
+    logger.debug('Send IPC message', { id, name, args })
   }
 
   _connect () {
@@ -42,9 +44,10 @@ class IPC extends EventEmitter {
       const msg = event.data
 
       if (!isValidIpcMessage(msg)) {
-        console.error('Invalid IPC message', msg)
+        logger.error('Invalid IPC message', msg)
         return
       }
+      logger.debug('Received IPC message', msg)
 
       const { id, result } = msg
       const handler = this.replyHandlers.get(id)
@@ -70,9 +73,10 @@ class IPC extends EventEmitter {
         const msg = event.data
 
         if (!isValidBroadcastMessage(msg)) {
-          console.error('Invalid Broadcast message', msg)
+          logger.error('Invalid Broadcast message', msg)
           return
         }
+        logger.debug('Received broadcast message', msg)
 
         const { name, args } = msg
         this.emit(name, args)

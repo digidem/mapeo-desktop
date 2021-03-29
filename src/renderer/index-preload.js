@@ -1,5 +1,14 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer, remote } = require('electron')
 const IPC = require('../client-ipc')
+const logger = require('../logger')
+
+/** @typedef {import('../utils/types').BackgroundProcess} BackgroundProcess */
+/** @typedef {import('../utils/types').IpcResponse} IpcResponse */
+
+const userDataPath = remote.app.getPath('userData')
+// The logger instance in preload is different from that in the main window
+// So we also need to configure it here
+logger.configure({ userDataPath, label: 'renderer-preload' })
 
 const { port1, port2 } = new MessageChannel()
 

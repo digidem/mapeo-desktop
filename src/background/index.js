@@ -95,6 +95,7 @@ async function handleMessage (handlers, message, port) {
     logger.error('Received invalid IPC message')
     return
   }
+  logger.debug('IPC message', message)
 
   const { id, name, args } = message
 

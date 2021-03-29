@@ -344,8 +344,12 @@ class BackgroundProcessManager extends TypedEmitter {
    * @returns {Promise<void>}
    */
   async startAll () {
-    const processes = Array.from(this._processes.values())
-    await Promise.all(processes.map(bp => bp.start()))
+    const processes = Array.from(this._processes.entries())
+    await Promise.all(
+      processes.map(([id, bp]) =>
+        logger.timedPromise(bp.start(), `Started ${id} process`)
+      )
+    )
   }
 
   /**

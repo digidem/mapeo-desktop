@@ -19,6 +19,7 @@ const channel = new BroadcastChannel('mapeo-core')
  * @param {*} args
  */
 function broadcastMessage (name, args) {
+  logger.debug('Broadcast message', { name, args })
   channel.postMessage({ name, args })
 }
 

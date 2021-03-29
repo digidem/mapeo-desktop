@@ -39,7 +39,8 @@ function MainWindow (options) {
     webPreferences: {
       nodeIntegration: true,
       preload: path.resolve(__dirname, '../renderer/index-preload.js'),
-      additionalArguments: [JSON.stringify(options)]
+      additionalArguments: [JSON.stringify(options)],
+      contextIsolation: false
     }
   })
   mainWindowState.manage(mainWindow)
