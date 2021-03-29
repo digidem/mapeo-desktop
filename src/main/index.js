@@ -19,6 +19,7 @@ const logger = require('../logger')
 const electronIpc = require('./ipc')
 const ClientIpc = require('../client-ipc')
 const { MainWindow, LoadingWindow, ClosingWindow } = require('./windows')
+const { once } = require('events')
 
 /** @typedef {import('../utils/types').MapeoCoreOptions} MapeoCoreOptions */
 /** @typedef {import('electron').BrowserWindow} BrowserWindow */
@@ -161,16 +162,11 @@ async function startup ({
           'Started background processes'
         ),
         // Load main window and show it when it has loaded
-        // TODO: Don't show until UI is displayed
-        logger.timedPromise(
-          winMain.loadFile(MainWindow.filePath),
-          'Loaded main window'
-        )
+        logger.timedPromise(loadMainWindow(), 'First render in main window')
       ]),
-      'Started frontend & backend'
+      'Frontend & backend ready'
     )
 
-    winMain.show()
     if (debug) winMain.webContents.openDevTools()
     winLoading.hide()
     status = 'ready'
@@ -182,6 +178,17 @@ async function startup ({
     updater.periodicUpdates()
   } catch (err) {
     onError(err)
+  }
+
+  // Load main window but wait for first render before showing
+  async function loadMainWindow () {
+    winMain &&
+      (await logger.timedPromise(
+        winMain.loadFile(MainWindow.filePath),
+        'Main window load'
+      ))
+    await once(ipcMain, 'frontend-rendered')
+    winMain && winMain.show()
   }
 
   /**

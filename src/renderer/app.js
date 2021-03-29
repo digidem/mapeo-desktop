@@ -63,6 +63,13 @@ const App = () => {
     return () => ipcRenderer.off(onStateChange)
   }, [])
 
+  React.useEffect(() => {
+    // Let main process know when the first render is complete, so that it can
+    // show this window and close the loading window
+    if (backendState !== 'ready') return
+    ipcRenderer.send('frontend-rendered')
+  }, [backendState])
+
   const handleLanguageChange = React.useCallback(lang => {
     ipcRenderer.send('set-locale', lang)
     setLocale(lang)
