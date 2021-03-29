@@ -15,6 +15,22 @@
     "description": "Close button after export error",
     "message": "Đóng"
   },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "mapeo-bản đồ-dữ liệu"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "Xuất không thành công do lỗi nội bộ"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "Xuất dữ liệu hoàn tất"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "Đang xuất dữ liệu"
+  },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Xuất dữ liệu"
