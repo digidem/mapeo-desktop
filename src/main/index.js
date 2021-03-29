@@ -269,16 +269,27 @@ async function initDirectories ({ stylesDir, presetsDir, datadir }) {
       presetsDir,
       styles.FALLBACK_DIR_NAME
     )
-    if (newSettings) {
-      await userConfig.copyFallbackSettings(fallbackSettingsLocation)
-    }
+    // Go no further if settings have been previously extracted
+    if (!newSettings) return
+
+    await logger.timedPromise(
+      userConfig.copyFallbackSettings(fallbackSettingsLocation),
+      'Extracted new default settings'
+    )
   } catch (err) {
     logger.error('Error while unpacking styles:', err)
   }
 
   try {
     // This is necessary to make sure that the directories are user-writable
-    await Promise.all([chmod(presetsDir, '0700'), chmod(stylesDir, '0700')])
+    // Skipping the stylesDir for now, since the mapeo-styles are not actually
+    // currently used in the app, and this was causing an error when the user
+    // has an asar file with offline tiles, which breaks chmod, and causes this
+    // to take several seconds
+    await logger.timedPromise(
+      chmod(presetsDir, '0700'),
+      'Set permissions on fallback presets dir'
+    )
   } catch (err) {
     logger.error('Failed to execute chmod on styles & presets', err)
   }
