@@ -72,6 +72,8 @@ if (!gotTheLock) {
       `Installar_Mapeo_v${app.getVersion()}_linux.AppImage`
     )
     try {
+      // DevTools do not load in Electron v9 see
+      // https://github.com/electron/electron/issues/24011
       var {
         default: installExtension,
         REACT_DEVELOPER_TOOLS
