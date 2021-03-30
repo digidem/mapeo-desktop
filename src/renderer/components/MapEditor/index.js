@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ipcRenderer, remote, shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
