@@ -227,16 +227,42 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "Hủy"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Có, xóa"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Xóa quan sát?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Xóa quan sát"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Chi tiết"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
     "message": "Lưu"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Ẩn tất cả"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
     "message": "{count, plural, =0 {Các trường bị che đi} =1 {1 Hidden Field} other {# Các trường bị che đi}}"
   },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Hiện Tất cả"
+  },
   "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
     "message": "Được tạo tại"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "Chi tiết"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
     "message": "Vị trí"
@@ -297,6 +323,10 @@
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "Báo cáo"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Quan sát"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -396,8 +426,48 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Chọn một bộ dữ liệu để đồng bộ hóa"
   },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Đang ước lượng..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Tải xuống"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Đang tải xuống"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Đã xảy ra lỗi và Mapeo không thể cập nhật. Hãy thử lại sau."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Lỗi"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Ước lượng thời gian để tải xuống là"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Bản cập nhật này sẽ làm cho ứng dụng của bạn không tương thích với các phiên bản trước đó."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Bản cập nhật này có những cải tiến có thể thay đổi trải nghiệm của bạn."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Bản cập nhật này có những thay đổi để sửa các lỗi quan trọng. Hãy cập nhật càng sớm càng tốt."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Khởi động lại"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Một bản cập nhật của Mapeo vừa được tải xuống. Khởi động lại Mapeo để cập nhật."
+  },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
     "message": "Không xác định"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Cập nhật"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo đã được cập nhật! Bạn đang sử dụng phiên bản mới nhất."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "Hủy"
