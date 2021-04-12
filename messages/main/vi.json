@@ -75,5 +75,14 @@
   "sync-wifi-info": "qua WiFi",
   "sync-file-info": "qua File",
   "sync-searching-targets": "Đang tìm thiết bị",
-  "sync-available-devices": "Các thiết bị có sẵn"
+  "sync-available-devices": "Các thiết bị hiện có",
+  "welcome-screen-1-title": "Chào mứng đến với Mapeo",
+  "welcome-screen-1-subtitle": "Lập bản đồ cộng tác ngoại tuyến",
+  "welcome-screen-1-next-button": "Bắt đầu",
+  "welcome-screen-2-title": "Mapeo là công cụ chỉnh sửa bản đồ ngoại tuyến.",
+  "welcome-screen-2-text-1": "Mapeo giúp các cá nhân hoặc nhóm dễ dàng tạo bản đồ và sắp xếp các câu chuyện và kiến ​​thức.",
+  "welcome-screen-2-text-2": "Mapeo được xây dựng với sự hợp tác của các cộng đồng người bản địa ở Amazon.",
+  "welcome-screen-2-text-3": "Dữ liệu mà bạn tạo ra sẽ được lưu trữ một cách riêng tư trên máy tính của bạn. Bạn có thể chia sẻ nó với những người dùng Mapeo khác bằng file đồng bộ hóa, hoặc xuất dữ liệu dưới dạng GeoJSON.",
+  "welcome-screen-2-text-4": "Đây là bản xem trước của Mapeo, Mapeo đang được tiếp tục phát triển, chúng tôi đang xây dựng một ứng dụng điện thoại đi kèm. <a target=\"_blank\" href=\"https://mapeo.world\"> Đăng ký trên trang web của chúng tôi</a> để nhận thông báo khi phiên bản được phát hành.",
+  "welcome-screen-2-text-5": "Chúng tôi hoan nghênh các phản hồi và báo cáo về lỗi của các bạn, vui lòng liên hệ với chúng tôi qua<a target=\"_blank\" href=\"https://github.com/digidem/mapeo-desktop\">GitHub repository</a>."
 }
