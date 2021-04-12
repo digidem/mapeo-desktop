@@ -11,6 +11,13 @@
     "description": "Synchronize tab label",
     "message": "Đồng bộ"
   },
+  "renderer.components.Home.update": {
+    "message": "Cập nhật Mapeo"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Đang tải…"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Đóng"
@@ -53,6 +60,9 @@
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Phản hồi & Đóng góp"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Mô tả"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
@@ -121,6 +131,38 @@
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "Xuất dạng Bản đồ web…"
   },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "Đến"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "Từ"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Ngày tạo quan sát"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Chỉnh sửa bộ lọc…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Đã sửa đổi"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Phân loại"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Chỉ"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Tất cả"
+  },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "Lọc theo…"
   },
@@ -162,12 +204,25 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Có lỗi xảy ra"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Dữ liệu bổ sung"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
     "message": "Hủy"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
     "message": "Hủy"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Hủy bỏ thay đổi"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "Bạn vừa thực hiện một số thay đổi, đóng mà không lưu sẽ làm mất các thay đổi đó"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Đóng lại mà không lưu thay đổi?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "Hủy"
