@@ -84,5 +84,21 @@
   "welcome-screen-2-text-2": "Mapeo được xây dựng với sự hợp tác của các cộng đồng người bản địa ở Amazon.",
   "welcome-screen-2-text-3": "Dữ liệu mà bạn tạo ra sẽ được lưu trữ một cách riêng tư trên máy tính của bạn. Bạn có thể chia sẻ nó với những người dùng Mapeo khác bằng file đồng bộ hóa, hoặc xuất dữ liệu dưới dạng GeoJSON.",
   "welcome-screen-2-text-4": "Đây là bản xem trước của Mapeo, Mapeo đang được tiếp tục phát triển, chúng tôi đang xây dựng một ứng dụng điện thoại đi kèm. <a target=\"_blank\" href=\"https://mapeo.world\"> Đăng ký trên trang web của chúng tôi</a> để nhận thông báo khi phiên bản được phát hành.",
-  "welcome-screen-2-text-5": "Chúng tôi hoan nghênh các phản hồi và báo cáo về lỗi của các bạn, vui lòng liên hệ với chúng tôi qua<a target=\"_blank\" href=\"https://github.com/digidem/mapeo-desktop\">GitHub repository</a>."
+  "welcome-screen-2-text-5": "Chúng tôi hoan nghênh các phản hồi và báo cáo về lỗi của các bạn, vui lòng liên hệ với chúng tôi qua<a target=\"_blank\" href=\"https://github.com/digidem/mapeo-desktop\">GitHub repository</a>.",
+  "welcome-screen-2-next-button": "Bắt đầu lập bản đồ",
+  "welcome-screen-3-title": "Bắt đầu với Mapeo",
+  "welcome-screen-3-example-dataset": "Tải một dữ liệu OpenStreetMap (bản đồ mở) mẫu từ Rừng Quốc gia Arapaho ở Colorado",
+  "welcome-screen-3-use-presets": "Sử dụng cài đặt để lập bản đồ rừng",
+  "welcome-screen-3-open-map": "Sử dụng cài đặt cho OpenStreetMap (bản đồ mở)",
+  "generating-indexes-title": "Chỉ mục",
+  "generating-indexes-body": "Đang tạo lại chỉ mục",
+  "menu-import-data": "Nhập dữ liệu...",
+  "menu-import-data-dialog": "Chọn một file để nhập...",
+  "menu-import-data-success": "Đã nhập xong!",
+  "menu-import-data-error": "Lỗi khi nhập",
+  "convert-progress": "Đang chuyển đổi các quan sát... {count}% hoàn thành",
+  "convert-button": "Sao chép vào Trình chỉnh sửa",
+  "convert-number": "Bạn đã lọc dữ liệu của mình để hiển thị {count} quan sát",
+  "convert-detail": "{count} trong số này chưa có trong Trình chỉnh sửa bản đồ. Nhấn vào OK để chuyển {count} quan sát này đến Trình chỉnh sửa bản đồ.",
+  "convert-nothing": "Tất cả đều đã có trong Trình chỉnh sửa bản đồ."
 }
