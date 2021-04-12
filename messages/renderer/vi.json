@@ -148,9 +148,19 @@
     "description": "Label for field to enter terms and conditions",
     "message": "Các điều khoản & Giới hạn"
   },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Xuất bản đồ để chia sẻ trực tuyến"
+  },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
     "message": "Tiêu đề bản đồ"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "Những chi tiết dưới đây sẽ hữu ích để khắc phục sự cố này…"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "Có lỗi xảy ra"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
@@ -165,6 +175,10 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
     "message": "Lưu"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Các trường bị che đi} =1 {1 Hidden Field} other {# Các trường bị che đi}}"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Bản đồ"
