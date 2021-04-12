@@ -358,5 +358,31 @@
   },
   "renderer.components.dialogs.Error.openLog": {
     "message": "Mở Nhật kí..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "Gửi"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "Nhập tọa độ"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Lỗi khi xuất"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Đã xảy ra lỗi khi thực hiện xuất các file này, vì vậy chúng sẽ không có trong báo cáo xuất ra:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Thiếu bản gốc"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "Không thể tìm thấy kích thước ban đầu của các file này, chỉ bao gồm các hình ảnh có kích thước xem trước (1.200 pixel). Điều này có thể xảy ra vì điện thoại dùng để chụp những ảnh này chỉ được đồng bộ hóa với các điện thoại khác chứ không phải trực tiếp với Mapeo Desktop. Để sửa lỗi này, hãy tìm điện thoại đã chụp ảnh và đồng bộ hóa nó với Mapeo Desktop trước khi xuất lại báo cáo."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Không có câu trả lời"
   }
 }
