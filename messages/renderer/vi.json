@@ -180,6 +180,60 @@
     "description": "Button label for hide fields menu",
     "message": "{count, plural, =0 {Các trường bị che đi} =1 {1 Hidden Field} other {# Các trường bị che đi}}"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
+    "message": "Được tạo tại"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
+    "message": "Vị trí"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "Chưa có quan sát nào."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Đã xảy ra lỗi chưa xác định khi tạo báo cáo"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Trang {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo Bao cao Giam sat.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Tiếp theo"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Quay lại"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Đang tạo báo cáo…"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Lưu dưới dạng PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Hủy"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Tiếp tục"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Báo cáo này gồm {observationCount} quan sát và có thể mất vài phút để tạo báo cáo. Bạn có chắc muốn tiếp tục?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Cảnh báo: Báo cáo lớn"
+  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Bản đồ"
   },
@@ -196,5 +250,113 @@
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
     "message": "Tìm kiếm…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Ngừng kết nối"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "Trước tiên, bạn cần kết nối với mạng Wifi trước khi có thể đồng bộ hóa các thiết bị"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Tạo file đồng bộ mới…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "Chất lượng: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "Tín hiệu kết nối rất tốt"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "Tín hiệu kết nối rất kém. Hãy thử đến gần bộ định tuyến Wifi hơn"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "Tín hiệu kết nối yếu. Quá trình đồng bộ hóa có thể mất nhiều thời gian hơn để hoàn thành"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "Đồng bộ hóa từ một file…"
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "Các thiết bị có sẵn"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "Không xác định"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "Thẻ WiFi hoặc Hệ điều hành (OS) của bạn chưa được nhận dạng"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "Hoàn thành"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Ngừng kết nối"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Đang hoàn thành…"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "Thử lại"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "Đang bắt đầu…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "Đồng bộ hóa"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "Dữ liệu: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "Lỗi đồng bộ hóa"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "Lần đồng bộ gần nhất:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "Ảnh: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Tạo một bộ dữ liệu mới để đồng bộ hóa"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} cần được nâng cấp phiên bản Mapeo"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "Bạn cần phải nâng cấp phiên bản Mapeo để đồng bộ với {deviceName}"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Chọn một bộ dữ liệu để đồng bộ hóa"
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Không xác định"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Hủy"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "Gửi"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Chọn ngôn ngữ"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Đóng"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Mở Nhật kí..."
   }
 }
