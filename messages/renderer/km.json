@@ -172,7 +172,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
     "description": "Label for field to enter map description",
-    "message": "សេចក្ដីពិពណ៌នាផែនទី"
+    "message": "សេចក្ដីពិពណ៌នាអំពីផែនទី"
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
@@ -277,7 +277,7 @@
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
-    "message": "ទំព័រ{currentPage}"
+    "message": "ទំព័រទី{currentPage}"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
     "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
@@ -319,7 +319,7 @@
     "message": "ផែនទី"
   },
   "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
-    "message": "ប្រព័ន្ធផ្សព្វផ្សាយ"
+    "message": "មេឌៀ"
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "របាយការណ៍"
@@ -492,11 +492,11 @@
   },
   "renderer.create-zip.errorsFilename": {
     "description": "File name for file with information about export errors",
-    "message": "ការទាញចូលមានបញ្ហា"
+    "message": "ការនាំចេញមានបញ្ហា"
   },
   "renderer.create-zip.errorsMsg": {
     "description": "Error message stored in text file in export if there were errors during export",
-    "message": "មានកំហុសក្នុងការព្យាយាមនាំចេញឯកសារទាំងនេះ ដូច្នេះឯកសារទាំងនេះបានបាត់ពីការនាំចេញនេះ៖"
+    "message": "មានកំហុសឆ្គងក្នុងការព្យាយាមនាំចេញឯកសារទាំងនេះ ដូច្នេះឯកសារទាំងនេះបានបាត់ពីការនាំចេញនេះ៖"
   },
   "renderer.create-zip.missingOriginalsFilename": {
     "description": "File name for file with information about missing originals in export",
