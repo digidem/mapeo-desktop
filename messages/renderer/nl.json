@@ -1,1 +1,130 @@
-{}
+{
+  "renderer.components.Home.update": {
+    "message": "Update Mapeo"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Bezig met laden…"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Beschrijving"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "Naar"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "Van"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Datum van de waarneming"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Filters bewerken…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Gewijzigd"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Categorie"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Alleen"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Allemaal"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "Filteren op…"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Aanvullende gegevens"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Wijzigingen niet opslaan"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "U heeft enkele wijzigingen gemaakt, als u Mapeo sluit zonder de wijzigingen te opslaan gaat u ze verliezen"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Sluiten zonder op te slaan?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Ja, verwijderen"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Waarneming annuleren?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Waarneming annuleren"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Details"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Verberg alle"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Toon Alles"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "Details"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Waarneming"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Schatting..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Downloaden"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Bezig met downloaden"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Er is een fout opgetreden en Mapeo kon niet worden bijgewerkt. Probeer het later opnieuw."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Fout"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Geschatte downloadtijd is"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Deze update maakt je applicatie niet compatibel met eerdere versies."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Deze update bevat verbeteringen die uw ervaring kunnen veranderen."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Deze update bevat wijzigingen die kritieke fouten corrigeren. Probeer zo snel mogelijk deze update uit te voeren."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Herstarten"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Er is een Mapeo update gedownload. Herstart Mapeo om te updaten."
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Updaten"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo is up-to-date! U heeft de laatste versie."
+  }
+}
