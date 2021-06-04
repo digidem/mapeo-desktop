@@ -75,9 +75,8 @@ const files = [
   // Don't ship built sourcemaps, because they are 25Mb
   '!static/*.map',
   // Include everything in src/ apart from src/renderer
-  'src/main/**/*',
-  'src/background/**/**/*.{js,html}',
-  'src/*.js',
+  'src/**/*',
+  '!src/renderer/**/*',
   // but also include src/renderer/index-preload.js since this is not included
   // in the renderer bundle
   'src/renderer/index-preload.js',
