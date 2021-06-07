@@ -169,7 +169,13 @@ const focusStates = {
 }
 
 function TabPanel (props) {
-  const { value, index, component: Component, ...extras } = props
+  const {
+    value,
+    index,
+    unmountOnExit = false,
+    component: Component,
+    ...extras
+  } = props
   // Don't render the tab content until the user has switched to the tab
   const lazy = React.useRef(value !== index)
   if (value === index) lazy.current = false
@@ -189,7 +195,11 @@ function TabPanel (props) {
         </LoadingContainer>
       }
     >
-      <Transition in={value === index} timeout={transitionDuration}>
+      <Transition
+        in={value === index}
+        timeout={transitionDuration}
+        unmountOnExit={unmountOnExit}
+      >
         {transitionState => (
           <StyledPanel style={transitionStyles[transitionState]}>
             <Component focusState={focusStates[transitionState]} {...extras} />
@@ -265,7 +275,12 @@ export default function Home ({ onSelectLanguage }) {
       <TabContent>
         <TabPanel value={tabIndex} index={0} component={MapEditor} />
         <TabPanel value={tabIndex} index={1} component={MapFilter} />
-        <TabPanel value={tabIndex} index={2} component={SyncView} />
+        <TabPanel
+          value={tabIndex}
+          index={2}
+          component={SyncView}
+          unmountOnExit
+        />
         <TabPanel
           value={tabIndex}
           index={3}
