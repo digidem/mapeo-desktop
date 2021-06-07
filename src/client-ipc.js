@@ -62,10 +62,11 @@ class IPC extends EventEmitter {
     }
 
     // Slight difference in API when this is running in render process vs main process
-    if ('addEventListener' in this.port) {
-      this.port.addEventListener('message', handleMessage)
+    if ('onmessage' in this.port) {
+      this.port.onmessage = handleMessage
     } else {
       this.port.on('message', handleMessage)
+      this.port.start()
     }
 
     if (channel) {
