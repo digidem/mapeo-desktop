@@ -4,17 +4,12 @@ const path = require('path')
 const { app, dialog, MessageChannelMain, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
 const contextMenu = require('electron-context-menu')
-const { promisify } = require('util')
 const mkdirp = require('mkdirp')
-const styles = require('mapeo-styles')
-const unpackStylesIfNew = promisify(styles.unpackIfNew)
-const chmod = promisify(require('chela').mod)
 
 const onExit = require('./exit-hook')
 const BackgroundProcessManager = require('./background-process')
 const createMenu = require('./menu')
 const updater = require('./auto-updater')
-const userConfig = require('./user-config')
 const logger = require('../logger')
 const electronIpc = require('./ipc')
 const ClientIpc = require('../client-ipc')
@@ -147,15 +142,10 @@ async function startup ({
 
     await logger.timedPromise(
       Promise.all([
-        // Initialize directories for Mapeo data
-        logger.timedPromise(
-          initDirectories({
-            datadir,
-            presetsDir: path.join(userDataPath, 'presets'),
-            stylesDir: path.join(userDataPath, 'styles')
-          }),
-          'Initialized data, presets & styles folders'
-        ),
+        // Create folders for data, custom presets, and custom styles
+        mkdirp(datadir),
+        mkdirp(path.join(userDataPath, 'presets')),
+        mkdirp(path.join(userDataPath, 'styles')),
         // Startup background processes and servers
         logger.timedPromise(
           backgroundProcesses.startAll(),
@@ -255,49 +245,5 @@ async function startup ({
     winLoading = null
 
     app.exit()
-  }
-}
-
-/**
- * Create directories for presets and styles and unpack default settings
- *
- * @param {object} options
- * @param {string} options.stylesDir
- * @param {string} options.presetsDir
- * @param {string} options.datadir
- * @returns {Promise<void>}
- */
-async function initDirectories ({ stylesDir, presetsDir, datadir }) {
-  await Promise.all([mkdirp(stylesDir), mkdirp(presetsDir), mkdirp(datadir)])
-
-  try {
-    const newSettings = await unpackStylesIfNew(userDataPath)
-    const fallbackSettingsLocation = path.join(
-      presetsDir,
-      styles.FALLBACK_DIR_NAME
-    )
-    // Go no further if settings have been previously extracted
-    if (!newSettings) return
-
-    await logger.timedPromise(
-      userConfig.copyFallbackSettings(fallbackSettingsLocation),
-      'Extracted new default settings'
-    )
-  } catch (err) {
-    logger.error('Error while unpacking styles:', err)
-  }
-
-  try {
-    // This is necessary to make sure that the directories are user-writable
-    // Skipping the stylesDir for now, since the mapeo-styles are not actually
-    // currently used in the app, and this was causing an error when the user
-    // has an asar file with offline tiles, which breaks chmod, and causes this
-    // to take several seconds
-    await logger.timedPromise(
-      chmod(presetsDir, '0700'),
-      'Set permissions on fallback presets dir'
-    )
-  } catch (err) {
-    logger.error('Failed to execute chmod on styles & presets', err)
   }
 }

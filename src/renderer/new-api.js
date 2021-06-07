@@ -36,6 +36,8 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       .catch(error => {
         // Preset errors aren't fatal errors.
         if (prefix.indexOf('presets') > -1) logger.info(prefix, error)
+        // Styles errors aren't fatal errors either.
+        else if (prefix.indexOf('styles') > -1) logger.info(prefix, error)
         else logger.error(prefix, error)
       })
     return promise

@@ -1,12 +1,12 @@
 const path = require('path')
 const throttle = require('lodash/throttle')
 const MediaStore = require('safe-fs-blob-store')
-const Settings = require('@mapeo/settings')
 const sublevel = require('subleveldown')
 const level = require('level')
 const createOsmDbOrig = require('kappa-osm')
 const kappa = require('kappa-core')
 const raf = require('random-access-file')
+const { ipcRenderer } = require('electron')
 
 const logger = require('../../logger')
 const TileImporter = require('./tile-importer')
@@ -18,8 +18,8 @@ const installStatsIndex = require('./osm-stats')
 class MapeoRPC {
   constructor ({ datadir, userDataPath, ipcSend }) {
     this.storages = []
-    this.config = new Settings(userDataPath)
-    this.encryptionKey = this.config.getEncryptionKey()
+    const metadata = ipcRenderer.sendSync('get-user-data', 'metadata')
+    this.encryptionKey = metadata && metadata.projectKey
     logger.info(
       'got encryptionKey',
       this.encryptionKey && this.encryptionKey.substr(0, 4)
@@ -170,7 +170,7 @@ class MapeoRPC {
   }
 
   exportData ({ filename, format, id }, cb) {
-    const presets = this.config.getSettings('presets') || {}
+    const presets = ipcRenderer.sendSync('get-user-data', 'presets') || {}
     logger.info('Exporting', filename, format)
     this.core.exportData(filename, { format, presets }, cb)
   }

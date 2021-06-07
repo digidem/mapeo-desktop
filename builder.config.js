@@ -61,6 +61,10 @@ const config = {
     {
       from: 'build/app-update.yml',
       to: 'app-update.yml'
+    },
+    {
+      from: path.dirname(require.resolve('mapeo-default-settings')),
+      to: 'presets/default'
     }
   ]
 }
