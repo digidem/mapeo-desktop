@@ -135,7 +135,7 @@
     "mkdirp": "^0.5.1",
     "network-speed": "^2.0.7",
     "node-fetch": "^2.6.0",
-    "node-wifi": "^2.0.12",
+    "node-wifi": "^2.0.14",
     "object-path-immutable": "^4.1.0",
     "once": "^1.4.0",
     "osm-p2p": "^5.1.0",
