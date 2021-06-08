@@ -256,7 +256,7 @@ class MapeoRPC {
   // Send message to frontend whenever there is an update to the peer list
   _sendPeerUpdate (peer) {
     const peers = this.core.sync.peers().map(peer => {
-      const { connection, ...rest } = peer
+      const { connection, handshake, sync, ...rest } = peer
       return rest
     })
     logger.debug('sending peer update', peers)
