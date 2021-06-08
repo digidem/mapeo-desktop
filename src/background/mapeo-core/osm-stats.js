@@ -85,32 +85,47 @@ function createZoomToDataIndex (ldb) {
       )
     },
     api: {
-      getMapCenter: function (core, type, cb) {
-        if (typeof type === 'function' && !cb) {
-          cb = type
-          type = 'node'
+      getMapCenter: function (core, types, cb) {
+        if (typeof types === 'function' && !cb) {
+          cb = types
+          types = ['node']
         }
-        this.ready(function () {
-          var rs = ldb.createReadStream({
-            gt: 'ztd/' + type + '!',
-            lt: 'ztd/' + type + '~'
-          })
-          var mostDense = null
-          rs.on('data', function (entry) {
-            if (
-              mostDense === null ||
-              Number(entry.value) > Number(mostDense.value)
-            ) {
-              mostDense = entry
+        if (!Array.isArray(types)) {
+          types = [types]
+        }
+        let mostDense = null
+
+        this.ready(async () => {
+          try {
+            for (const type of types) {
+              await streamType(type)
             }
-          })
-          rs.once('end', function () {
             if (!mostDense) return cb(null, null)
             var center = binIdToLatLon(mostDense.key.substring(4))
             cb(null, center)
-          })
-          rs.once('error', cb)
+          } catch (err) {
+            cb(err)
+          }
         })
+
+        async function streamType (type) {
+          return new Promise((resolve, reject) => {
+            var rs = ldb.createReadStream({
+              gt: 'ztd/' + type + '!',
+              lt: 'ztd/' + type + '~'
+            })
+            rs.on('data', function (entry) {
+              if (
+                mostDense === null ||
+                Number(entry.value) > Number(mostDense.value)
+              ) {
+                mostDense = entry
+              }
+            })
+            rs.once('end', resolve)
+            rs.once('error', reject)
+          })
+        }
       }
     }
   }

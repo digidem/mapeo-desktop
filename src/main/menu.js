@@ -202,13 +202,21 @@ function menuTemplate (ipc) {
         {
           label: t('menu-zoom-to-data'),
           click: function (item, focusedWindow) {
-            ipc.send('zoom-to-data-get-centroid', 'node', function (err, loc) {
-              if (err) logger.error(err)
-              logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
-              if (!loc) return
-              focusedWindow.webContents.send('zoom-to-data-node', loc)
-            })
-            ipc.send('zoom-to-data-get-centroid', 'observation', function (err, loc) {
+            ipc.send(
+              'zoom-to-data-get-centroid',
+              // For territory view, we want the centroid of both nodes and observations
+              ['node', 'observation'],
+              function (err, loc) {
+                if (err) logger.error(err)
+                logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
+                if (!loc) return
+                focusedWindow.webContents.send('zoom-to-data-territory', loc)
+              }
+            )
+            ipc.send('zoom-to-data-get-centroid', 'observation', function (
+              err,
+              loc
+            ) {
               if (err) logger.error(err)
               logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
