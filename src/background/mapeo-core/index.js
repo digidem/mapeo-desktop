@@ -85,7 +85,13 @@ class MapeoManager {
 
   async reloadConfig () {
     logger.debug('Closing old mapeo')
-    // Wait for Mapeo to load first
+    await this.close()
+    logger.debug('old mapeo closed')
+    await this.start()
+    logger.info('Configuration reloaded')
+  }
+
+  async close () {
     const mapeo = await this.deferredMapeo
 
     // Setup a new deferred promise that will handle any requests made whilst
@@ -94,13 +100,6 @@ class MapeoManager {
     this.deferredMapeo = deferred.promise
     this._resolveMapeo = deferred.resolve
 
-    await mapeo.close()
-    await this.start()
-    logger.info('Configuration reloaded')
-  }
-
-  async close () {
-    const mapeo = await this.deferredMapeo
     await mapeo.close()
     logger.debug('Closed Mapeo Core')
 
@@ -113,10 +112,6 @@ class MapeoManager {
       await close(this.tileServer)
       logger.debug('Closed Tile Server')
     }
-
-    this.deferredMapeo = Promise.reject(
-      new Error('Mapeo is already closed')
-    ).catch(() => {})
   }
 }
 
