@@ -67,6 +67,9 @@ logger.configure({ userDataPath, label })
       port.onmessage = async event => {
         handleMessage(bp.handlers, event.data, port)
       }
+      port.onmessageerror = event => {
+        logger.error(event.data)
+      }
     })
 
     let startupResult
