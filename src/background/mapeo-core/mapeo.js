@@ -49,7 +49,7 @@ class MapeoRPC {
     })
 
     var idb = sublevel(this.osm.index, 'stats')
-    this.osm.core.use('stats', installStatsIndex(idb))
+    this.osm.core.use('stats', 2, installStatsIndex(idb))
 
     this.media = MediaStore(path.join(datadir, 'media'))
 

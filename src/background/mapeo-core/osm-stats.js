@@ -7,21 +7,35 @@ function createZoomToDataIndex (ldb) {
       var bins = {}
       var pending = 1
       for (var i = 0; i < nodes.length; i++) {
-        var node = nodes[i]
+        // !!Important!! Need const here for node, binId and delete, because if
+        // var is used, it is hoisted to the top of this function, and will
+        // have a different value when the ldb.get callback is called. const and
+        // let are scoped to this for expression, and will retain their value in
+        // the callback
+        const node = nodes[i]
         if (!node.value) continue
-        if (typeof node.value.lat !== 'number' || typeof node.value.lon !== 'number') continue
-
+        if (
+          typeof node.value.lat !== 'number' ||
+          typeof node.value.lon !== 'number'
+        )
+          continue
         // update density map
-        var binId = nodeToBinId(node.value)
-        if (bins[binId]) {
-          bins[binId]++
+        const binId = nodeToBinId(node.value)
+        const deleted = node.value.deleted
+        if (typeof bins[binId] === 'number') {
+          deleted ? bins[binId]-- : bins[binId]++
         } else {
           pending++
-          ldb.get(binId, function (err, num) {
+          ldb.get(binId, function (err, val) {
+            let num
             if (err && err.notFound) num = 0
             else if (err) return next(err)
-            if (bins[binId]) bins[binId]++
-            else bins[binId] = num + 1
+            else num = Number(val)
+            if (typeof bins[binId] === 'number') {
+              deleted ? bins[binId]-- : bins[binId]++
+            } else {
+              bins[binId] = deleted ? num - 1 : num + 1
+            }
             if (!--pending) finish()
           })
         }
@@ -55,16 +69,20 @@ function createZoomToDataIndex (ldb) {
     clearIndex: function (cb) {
       // TODO: mutex to prevent other view APIs from running?
       var batch = []
-      ldb.createKeyStream()
-        .pipe(through(function (key, _, next) {
-          batch.push({ type: 'del', key: key })
-          next()
-        }, function (flush) {
-          ldb.batch(batch, function () {
-            flush()
-            cb()
-          })
-        }))
+      ldb.createKeyStream().pipe(
+        through(
+          function (key, _, next) {
+            batch.push({ type: 'del', key: key })
+            next()
+          },
+          function (flush) {
+            ldb.batch(batch, function () {
+              flush()
+              cb()
+            })
+          }
+        )
+      )
     },
     api: {
       getMapCenter: function (core, type, cb) {
@@ -73,10 +91,16 @@ function createZoomToDataIndex (ldb) {
           type = 'node'
         }
         this.ready(function () {
-          var rs = ldb.createReadStream({ gt: 'ztd/' + type + '!', lt: 'ztd/' + type + '~' })
+          var rs = ldb.createReadStream({
+            gt: 'ztd/' + type + '!',
+            lt: 'ztd/' + type + '~'
+          })
           var mostDense = null
           rs.on('data', function (entry) {
-            if (mostDense === null || Number(entry.value) > Number(mostDense.value)) {
+            if (
+              mostDense === null ||
+              Number(entry.value) > Number(mostDense.value)
+            ) {
               mostDense = entry
             }
           })
@@ -99,15 +123,17 @@ function nodeToBinId (node) {
   var lon = Number(node.lon)
   if (Number.isNaN(lat) || lat === undefined || lat === null) return null
   if (Number.isNaN(lon) || lon === undefined || lon === null) return null
-  var latbin = Math.round(lat * 50) / 50
-  var lonbin = Math.round(lon * 50) / 50
+  // Store in bins 0.01° square ~ 1.1km at equator
+  var latbin = Math.floor(lat * 50)
+  var lonbin = Math.floor(lon * 50)
   return 'ztd/' + node.type + '/' + latbin + ',' + lonbin
 }
 
 function binIdToLatLon (binId) {
   binId = binId.split('/')[1]
-  var lat = Number(binId.split(',')[0])
-  var lon = Number(binId.split(',')[1])
+  // Get center of bin
+  var lat = (Number(binId.split(',')[0]) + 0.5) / 50
+  var lon = (Number(binId.split(',')[1]) + 0.5) / 50
   return {
     lat: lat,
     lon: lon
