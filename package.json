@@ -102,7 +102,7 @@
     "d3-dsv": "^1.1.1",
     "date-fns": "^2.1.0",
     "domain-ping": "^0.1.10",
-    "ecstatic": "^2.2.1",
+    "ecstatic": "^4.1.4",
     "electron-context-menu": "^0.15.0",
     "electron-debug": "^1.5.0",
     "electron-is-dev": "^1.1.0",
