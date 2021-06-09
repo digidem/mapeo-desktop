@@ -114,10 +114,10 @@ const MapEditor = () => {
 
   React.useEffect(
     function setupListeners () {
-      ipcRenderer.on('zoom-to-data-node', zoomToData)
+      ipcRenderer.on('zoom-to-data-territory', zoomToData)
       ipcRenderer.on('zoom-to-latlon-response', zoomToData)
       return () => {
-        ipcRenderer.removeListener('zoom-to-data-node', zoomToData)
+        ipcRenderer.removeListener('zoom-to-data-territory', zoomToData)
         ipcRenderer.removeListener('zoom-to-latlon-response', zoomToData)
       }
     },
