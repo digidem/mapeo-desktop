@@ -43,6 +43,9 @@ insertCss(`
   .id-container #bar .toolbar-item.sidebar-toggle {
     display: none;
   }
+  .id-container.collapsed-sidebar #bar .toolbar-item.sidebar-toggle {
+    display: inherit;
+  }
   .id-container #bar > .toolbar-item.spacer:nth-child(2) {
     display: none;
   }
