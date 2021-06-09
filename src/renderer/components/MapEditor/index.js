@@ -296,7 +296,7 @@ const MapEditor = () => {
 
   return (
     <div className='id-container'>
-      <div ref={rootRef} />
+      <div ref={rootRef} id='id-container' />
       {toolbarEl && ReactDOM.createPortal(<ExportButton />, toolbarEl)}
     </div>
   )
