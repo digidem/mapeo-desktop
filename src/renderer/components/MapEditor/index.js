@@ -43,6 +43,9 @@ insertCss(`
   .id-container #bar .toolbar-item.sidebar-toggle {
     display: none;
   }
+  .id-container.collapsed-sidebar #bar .toolbar-item.sidebar-toggle {
+    display: inherit;
+  }
   .id-container #bar > .toolbar-item.spacer:nth-child(2) {
     display: none;
   }
@@ -114,10 +117,10 @@ const MapEditor = () => {
 
   React.useEffect(
     function setupListeners () {
-      ipcRenderer.on('zoom-to-data-node', zoomToData)
+      ipcRenderer.on('zoom-to-data-territory', zoomToData)
       ipcRenderer.on('zoom-to-latlon-response', zoomToData)
       return () => {
-        ipcRenderer.removeListener('zoom-to-data-node', zoomToData)
+        ipcRenderer.removeListener('zoom-to-data-territory', zoomToData)
         ipcRenderer.removeListener('zoom-to-latlon-response', zoomToData)
       }
     },
@@ -296,7 +299,7 @@ const MapEditor = () => {
 
   return (
     <div className='id-container'>
-      <div ref={rootRef} />
+      <div ref={rootRef} id='id-container' />
       {toolbarEl && ReactDOM.createPortal(<ExportButton />, toolbarEl)}
     </div>
   )
