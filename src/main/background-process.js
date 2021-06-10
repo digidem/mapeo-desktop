@@ -260,7 +260,7 @@ class BackgroundProcess extends TypedEmitter {
  * Manage multiple background processes, starting and stopping them together and
  * attaching BrowserWindow instances
  *
- * @extends {TypedEmitter<{ 'state-change': (state: Record<string, State>) => void }>}
+ * @extends {TypedEmitter<{'state-change': (state: Record<string, State>) => void, error: (error?: Error) => void }>}
  */
 class BackgroundProcessManager extends TypedEmitter {
   constructor () {
@@ -282,6 +282,9 @@ class BackgroundProcessManager extends TypedEmitter {
     this._processes.set(id, bp)
     bp.on('state-change', state => {
       this.emit('state-change', this.getState())
+    })
+    bp.on('error', error => {
+      this.emit('error', error)
     })
   }
 
