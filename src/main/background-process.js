@@ -11,7 +11,7 @@ const logger = require('../logger')
 // Timeout waiting for a worker to close gracefully before it is force-closed
 const CLOSE_TIMEOUT = 5000
 // Timeout waiting for a worker to start
-const STARTUP_TIMEOUT = 5000
+const STARTUP_TIMEOUT = 10000
 const bootstrapHTMLPath = path.join(__dirname, '../background/index.html')
 /** @type {Set<string>} */
 const modulesList = new Set()
