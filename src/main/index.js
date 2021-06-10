@@ -228,7 +228,7 @@ async function startup ({
     winLoading && winLoading.close()
 
     // If closing is taking longer, show closing window
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       winClosing && winClosing.show()
     }, 300)
 
@@ -237,6 +237,7 @@ async function startup ({
       backgroundProcesses.stopAll(),
       'Stopped background processes'
     )
+    clearTimeout(timeoutId)
 
     winClosing && winClosing.close()
     // De-reference all windows to allow garbage collection
