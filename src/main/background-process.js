@@ -342,7 +342,10 @@ class BackgroundProcessManager extends TypedEmitter {
       win.webContents.send('backend-state', state)
     }
 
-    unsubscribe = () => this.off('state-change', onStateChange)
+    unsubscribe = () => {
+      this.off('state-change', onStateChange)
+      this._subscriptions.delete(win)
+    }
     this._subscriptions.set(win, unsubscribe)
 
     return unsubscribe
