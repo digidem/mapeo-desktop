@@ -85,23 +85,27 @@ if (!gotTheLock) {
     }
   }
 
-  // Ensure we have open ports. Small chance the ports could get taken by
-  // another app before we finish loading, but hopefully unlikely!
-  const [mapeoServerPort, tileServerPort, mapPrinterPort] = await getPorts([
-    argv.port,
-    argv.tileport,
-    argv.mapPrinterPort
-  ])
-  const { headless, debug, datadir } = argv
-  logger.timedPromise(
-    startApp({
-      mapeoServerPort,
-      tileServerPort,
-      mapPrinterPort,
-      headless,
-      debug,
-      datadir
-    }),
-    'Started Mapeo'
-  )
+  try {
+    // Ensure we have open ports. Small chance the ports could get taken by
+    // another app before we finish loading, but hopefully unlikely!
+    const [mapeoServerPort, tileServerPort, mapPrinterPort] = await getPorts([
+      argv.port,
+      argv.tileport,
+      argv.mapPrinterPort
+    ])
+    const { headless, debug, datadir } = argv
+    logger.timedPromise(
+      startApp({
+        mapeoServerPort,
+        tileServerPort,
+        mapPrinterPort,
+        headless,
+        debug,
+        datadir
+      }),
+      'Started Mapeo'
+    )
+  } catch (err) {
+    logger.error('Failed to start Mapeo', err)
+  }
 })()
