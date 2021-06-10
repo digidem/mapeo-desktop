@@ -111,14 +111,19 @@ class BackgroundProcess extends TypedEmitter {
       throw new Error(`Worker is in '${this._state.value}' state`)
     }
     if (this._state.value === 'started') return
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const _this = this
       this.on('state-change', onStateChange)
 
       function onStateChange (/** @type {State} */ state) {
-        if (state.value !== 'started') return
-        _this.off('state-change', onStateChange)
-        resolve()
+        if (state.value === 'error') {
+          _this.off('state-change', onStateChange)
+          reject(state.context && state.context.error)
+        } else if (state.value === 'started') {
+          _this.off('state-change', onStateChange)
+          resolve()
+        }
+        // otherwise keep waiting...
       }
     })
   }
