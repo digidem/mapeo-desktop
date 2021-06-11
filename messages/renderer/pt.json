@@ -11,6 +11,9 @@
     "description": "Synchronize tab label",
     "message": "Sincronizar"
   },
+  "renderer.components.Home.update": {
+    "message": "Atualizar Mapeo"
+  },
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
     "message": "Carregando…"
@@ -57,6 +60,9 @@
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback e contribuição"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Descrição"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
@@ -125,6 +131,38 @@
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "Exportar Mapa da web…"
   },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "Até"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "Desde"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Data da observação"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Editar filtros…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Modificado"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Categoria"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Apenas"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Todas"
+  },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "Filtrar por…"
   },
@@ -166,6 +204,10 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Que pena! Ocorreu um erro"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Dados adicionais"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
     "message": "Cancelar"
@@ -173,24 +215,61 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
     "message": "Cancelar"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Descartar alterações"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "Você fez algumas alterações. Fechando sem salvar perderá as alterações feitas."
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Fechar sem salvar?"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Sim, excluir"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Excluir observação?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Excluir observação"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Detalhes"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
     "message": "Salvar"
   },
-  "renderer.components.MapFilter.ReportView.PrintButton.close": {
-    "description": "Button label to close print settings dialog",
-    "message": "Fechar"
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Ocultar todos"
   },
-  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
-    "description": "Title of print settings dialog",
-    "message": "Print settings"
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Mostrar todos"
   },
-  "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to save a report",
-    "message": "Print"
+  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
+    "message": "Criado em"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "Detalhes"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
+    "message": "Localização"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Próxima"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Anterior"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
@@ -200,6 +279,10 @@
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "Relatório"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Observação"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -299,8 +382,48 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Selecionar base de dados para sincronizar"
   },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Estimando..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Baixar"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Baixando"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Ocorreu um erro e o Mapeo não pôde atualizar. Tente novamente mais tarde."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Erro"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Tempo estimado para download:"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Esta atualização tornará seu aplicativo incompatível com versões anteriores."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Esta atualização inclui melhorias que podem mudar a sua experiência."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Esta atualização inclui alterações que resolvem erros críticos. Por favor, atualize o mais rápido possível."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Reiniciar"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Uma atualização para o Mapeo foi baixada. Reinicie o Mapeo para atualizar."
+  },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
     "message": "Desconhecido"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Atualização"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo está atualizado! Você tem a versão mais recente."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "Cancelar"
@@ -311,10 +434,36 @@
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
     "message": "Escolha idioma"
   },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Fechar"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Abrir log..."
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Inserir coordenadas"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Exportar erros"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Houve um erro ao tentar exportar esses arquivos, portanto eles estão faltando nesta exportação:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Originais ausentes"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "O tamanho original destes arquivos não foi encontrado, apenas imagens de tamanho pré-visualização (1.200 pixels) estão incluídas. Isso pode acontecer porque o celular que tirou as fotos só sincronizou com outros celulares, e não diretamente com o Mapeo Desktop. Para tentar corrigir isso, encontre o celular que tirou as fotos e sincronize-o com o Mapeo Desktop antes de exportar novamente."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Sem resposta"
   }
 }

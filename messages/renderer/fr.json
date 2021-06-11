@@ -1,1 +1,60 @@
-{}
+{
+  "renderer.components.Home.update": {
+    "message": "Mettre à jour Mapeo"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Description"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Date d'observation"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Modifier les filtres…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Modifié"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Catégorie"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Oui, supprimer"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Supprimer l'observation?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Supprimer l'observation"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Détails"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Cacher tout"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "Détails"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Observation"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Redémarrer"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Mise à jour"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo est à jour ! Vous êtes sur la dernière version."
+  }
+}
