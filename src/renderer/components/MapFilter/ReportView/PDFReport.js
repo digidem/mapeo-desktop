@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import {
-  RawIntlProvider,
   IntlProvider,
   defineMessages,
   useIntl,
@@ -9,7 +8,6 @@ import {
   FormattedMessage
 } from 'react-intl'
 import {
-  pdf,
   Page,
   Text as TextOrig,
   View,
@@ -18,9 +16,7 @@ import {
   StyleSheet,
   Font
 } from '@react-pdf/renderer'
-import type { Field } from 'mapeo-schema'
-import PQueue from 'p-queue'
-import pTimeout from 'p-timeout'
+import type { Field, Observation } from 'mapeo-schema'
 
 import {
   FormattedFieldProp,
@@ -31,10 +27,7 @@ import { isEmptyValue } from '../utils/helpers'
 import { formatId } from '../utils/strings'
 import { get } from '../utils/get_set'
 import type { ImageMediaItem } from '../ObservationDialog'
-import type {
-  PresetWithAdditionalFields,
-  CommonViewContentProps
-} from '../types'
+import type { PresetWithAdditionalFields } from '../types'
 import {
   SettingsContext,
   defaultSettings,
@@ -117,10 +110,15 @@ const m = defineMessages({
 })
 
 export type ReportProps = {
-  ...$Exact<$Diff<CommonViewContentProps, { onClick: * }>>,
-  /** Rendering a PDF does not inherit context from the parent tree. Get this
-   * value with useIntl() and provide it as a prop */
-  intl?: any,
+  observationsWithPresets: Array<{|
+    observation: Observation,
+    preset: PresetWithAdditionalFields,
+    mediaSources: {
+      [id: string]: { src: string, type: 'image' | 'video' | 'audio' } | void
+    }
+  |}>,
+  locale?: 'string',
+  messages?: any,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with React.useContext(SettingsContext) and provide it as a prop */
   settings?: SettingsContextType,
@@ -162,33 +160,6 @@ const FrontPage = ({ bounds }) => {
   </Page>
 */
 
-// Only render 1 PDF doc at a time
-const queue = new PQueue({ concurrency: 1 })
-
-function renderToBlob (doc, timeout?: number) {
-  return queue.add(() => {
-    const instance = pdf(doc)
-    return timeout
-      ? pTimeout(
-          instance.toBlob(),
-          timeout,
-          `Report render timed out after ${timeout}ms`
-        )
-      : instance.toBlob()
-  })
-}
-
-export function renderPDFReport (
-  props: ReportProps,
-  timeout?: number
-): Promise<{ blob: Blob, index: Array<string> }> {
-  let pageIndex: Array<string> = []
-  const doc = (
-    <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
-  )
-  return renderToBlob(doc).then(blob => ({ blob, index: pageIndex }))
-}
-
 const Text = ({
   style,
   ...otherProps
@@ -199,18 +170,19 @@ const Text = ({
 }
 
 export const PDFReport = ({
-  intl,
   settings = defaultSettings,
   onPageIndex,
-  observations,
-  getPreset,
-  getMedia,
+  observationsWithPresets,
+  locale = 'en',
+  messages,
   mapStyle,
   mapboxAccessToken,
   startPage = 1
 }: ReportProps) => {
   // **Assumption: Each observation will be max 3 pages**
-  const sparsePageIndex = new Array(observations.length * 3).fill(undefined)
+  const sparsePageIndex = new Array(observationsWithPresets.length * 3).fill(
+    undefined
+  )
   let didCallback = false
 
   // This will be called once for each observation without the totalPages, then
@@ -228,35 +200,32 @@ export const PDFReport = ({
     }
   }
 
-  const children = (
-    <SettingsContext.Provider value={settings}>
-      <Document>
-        {observations.map(observation => {
-          const view = new ObservationView({
-            observation,
-            getPreset,
-            getMedia,
-            mapStyle,
-            mapboxAccessToken
-          })
-          return (
-            <FeaturePage
-              key={observation.id}
-              observationView={view}
-              onRender={handleRenderObservation}
-              startPage={startPage}
-            />
-          )
-        })}
-      </Document>
-    </SettingsContext.Provider>
-  )
-  // Need to provide `intl` for dates to format according to language, but will
-  // fallback to `en` with default intl object
-  return intl ? (
-    <RawIntlProvider value={intl}>{children}</RawIntlProvider>
-  ) : (
-    <IntlProvider>{children}</IntlProvider>
+  return (
+    <IntlProvider locale={locale} messages={messages}>
+      <SettingsContext.Provider value={settings}>
+        <Document>
+          {observationsWithPresets.map(
+            ({ observation, preset, mediaSources }) => {
+              const view = new ObservationView({
+                observation,
+                preset,
+                mediaSources,
+                mapStyle,
+                mapboxAccessToken
+              })
+              return (
+                <FeaturePage
+                  key={observation.id}
+                  observationView={view}
+                  onRender={handleRenderObservation}
+                  startPage={startPage}
+                />
+              )
+            }
+          )}
+        </Document>
+      </SettingsContext.Provider>
+    </IntlProvider>
   )
 }
 
@@ -482,8 +451,8 @@ class ObservationView {
 
   constructor ({
     observation,
-    getPreset,
-    getMedia,
+    preset,
+    mediaSources,
     mapStyle,
     mapboxAccessToken
   }) {
@@ -499,13 +468,13 @@ class ObservationView {
         : undefined
     this.createdAt = new Date(observation.created_at)
 
-    this.preset = getPreset(observation)
+    this.preset = preset
     // $FlowFixMe - need to create Fields type
     this.fields = this.preset.fields.concat(this.preset.additionalFields)
     this.tags = observation.tags || {}
     this.note = this.tags.note || this.tags.notes
     this.mediaItems = (observation.attachments || []).reduce((acc, cur) => {
-      const item = getMedia(cur, { width: 800, height: 600 })
+      const item = mediaSources[cur.id]
       if (item && item.type === 'image') acc.push(item.src)
       return acc
     }, [])

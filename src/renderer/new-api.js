@@ -3,8 +3,13 @@ import ky from 'ky/umd'
 import logger from '../logger'
 
 export default Api({
-  // globals are set in src/middleware/client-preload.js
-  ipc: window.middlewareClient,
+  // globals are set in src/renderer/client-preload.js
+  ipc:
+    typeof window !== 'undefined'
+      ? window.middlewareClient
+      : {
+          on: () => {}
+        },
   baseUrl: `http://127.0.0.1:${window.mapeoServerPort}/`,
   mapUrl: `http://127.0.0.1:${window.mapPrinterPort}/`
 })

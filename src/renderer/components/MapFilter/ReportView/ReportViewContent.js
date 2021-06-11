@@ -33,7 +33,7 @@ import type {
 } from '../types'
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import { SettingsContext } from '../internal/Context'
-import { renderPDFReport } from './PDFReport'
+import renderPDFReport from './renderReport'
 import ToolbarButton from '../internal/ToolbarButton'
 
 export type ReportViewContentProps = {
