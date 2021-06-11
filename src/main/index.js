@@ -1,118 +1,250 @@
-const rabbit = require('electron-rabbit')
+// @ts-check
+
 const path = require('path')
-const events = require('events')
+const { app, dialog, MessageChannelMain, ipcMain } = require('electron')
+const isDev = require('electron-is-dev')
+const contextMenu = require('electron-context-menu')
+const mkdirp = require('mkdirp')
 
+const onExit = require('./exit-hook')
+const BackgroundProcessManager = require('./background-process')
+const createMenu = require('./menu')
+const updater = require('./auto-updater')
 const logger = require('../logger')
-const NodePIDmanager = require('../pid-manager')
+const electronIpc = require('./ipc')
+const ClientIpc = require('../client-ipc')
+const { MainWindow, LoadingWindow, ClosingWindow } = require('./windows')
+const { once } = require('events')
 
-class Socket {
-  constructor (socketName) {
-    this.name = socketName
-    this.ipc = new rabbit.Client()
+/** @typedef {import('../utils/types').MapeoCoreOptions} MapeoCoreOptions */
+/** @typedef {import('electron').BrowserWindow} BrowserWindow */
+
+// Path to `userData`, operating system specific, see
+// https://github.com/atom/electron/blob/master/docs/api/app.md#appgetpathname
+var userDataPath = app.getPath('userData')
+
+module.exports = startup
+
+/**
+ * Start the Mapeo app
+ *
+ * @param {object} options
+ * @param {number} options.mapeoServerPort
+ * @param {number} options.tileServerPort
+ * @param {number} options.mapPrinterPort
+ * @param {string} options.datadir Path to dir for all Mapeo data
+ * @param {boolean} [options.debug]
+ * @param {boolean} [options.headless]
+ */
+async function startup ({
+  mapeoServerPort,
+  tileServerPort,
+  mapPrinterPort,
+  debug = false,
+  headless = false,
+  datadir
+}) {
+  // Before we do anything, let's make sure we're ready to gracefully shut down
+  onExit(beforeQuit)
+
+  /** @type {'loading' | 'ready' | 'exiting'} */
+  let status = 'loading'
+
+  // Configure context menu
+  contextMenu({
+    showLookUpSelection: false,
+    showCopyImage: true,
+    showSaveImageAs: true,
+    showInspectElement: isDev
+  })
+
+  // Set up Electron IPC bridge with frontend in electron-renderer process
+  electronIpc(ipcSend)
+
+  // Window Management
+  /** @type {BrowserWindow | null} */
+  let winMain = MainWindow({ mapeoServerPort, tileServerPort, mapPrinterPort })
+  if (debug) winMain.webContents.openDevTools()
+  /** @type {BrowserWindow | null} */
+  let winLoading = LoadingWindow()
+  /** @type {BrowserWindow | null} */
+  let winClosing = ClosingWindow()
+
+  winMain.on('close', () => beforeQuit())
+
+  /** @type {import('../utils/types').MapeoCoreOptions} */
+  const mapeoCoreArgs = {
+    datadir,
+    mapeoServerPort,
+    tileServerPort,
+    userDataPath
+  }
+  /** @type {import('../utils/types').MapPrinterOptions} */
+  const mapPrinterArgs = {
+    mapPrinterPort
   }
 
-  findSocket (cb) {
-    rabbit.findOpenSocket(this.name).then((socketName) => {
-      this.name = socketName
-      cb(socketName)
-    }).catch((err) => {
-      logger.error(err)
-      throw new Error('No socket found!', err)
-    })
-  }
+  // Background processes
+  const backgroundProcesses = new BackgroundProcessManager()
+  backgroundProcesses.createProcess(
+    path.join(__dirname, '../background/mapeo-core'),
+    { id: 'mapeoCore', args: mapeoCoreArgs, devTools: debug }
+  )
+  backgroundProcesses.createProcess(
+    path.join(__dirname, '../background/map-printer'),
+    { id: 'mapPrinter', args: mapPrinterArgs, devTools: debug }
+  )
 
-  connectToOpenSocket (cb) {
-    this.findSocket(() => {
-      this.ipc.connect(this.name)
-      cb()
-    })
-  }
-}
+  // Subscribe the main window to background process state changes
+  const unsubscribeMainWindow = backgroundProcesses.subscribeWindow(winMain)
 
-class Main extends events.EventEmitter {
-  constructor ({
-    userDataPath,
-    isDev
-  }) {
-    super()
-    this.isDev = isDev
-    this.pid = new NodePIDmanager(userDataPath)
-
-    this.mapeo = new Socket('mapeo')
-    this.mapPrinter = new Socket('mapPrinter')
-    this.mapeo.ipc.on('error', (err) => {
-      this.emit('error', err)
-    })
-    this.pid.on('close', (err) => {
-      if (err) this.emit('error', err)
-    })
-  }
-
-  ready () {
-    return new Promise((resolve, reject) => {
-      logger.info('waiting')
-      this.pid.cleanup((err) => {
-        if (err) logger.debug('No stale processes to clean up')
-        else logger.debug('Successfully removed any stale processes')
-        var pending = 2
-        this.mapeo.connectToOpenSocket(() => {
-          if (--pending === 0) _ready()
-        })
-        this.mapPrinter.connectToOpenSocket(() => {
-          if (--pending === 0) _ready()
-        })
-      })
-
-      var _ready = () => {
-        logger.info('resolve')
-        this.emit('ready')
-        resolve()
-      }
-    })
-  }
-
-  startMapeoNodeIPC () {
-    this.pid.create({
-      socketName: this.mapeo.name,
-      filepath: path.join(__dirname, '..', 'background', 'mapeo-core', 'index.js')
-    }, (err, process) => {
-      if (err) logger.error('Failed to start Mapeo Core', err)
-    })
-  }
-
-  close (cb) {
-    var _close = () => {
-      this.pid.cleanup((err) => {
-        if (err) {
-          this.isDev
-            ? logger.debug('Nothing to clean up')
-            : logger.error('Failed to clean up a child process', err)
-        }
-        logger.debug('Successfully removed any stale processes')
-        cb()
-      })
+  app.on('second-instance', () => {
+    // Someone tried to run a second instance, we should focus our window.
+    logger.debug('Second instance of app detected, bringing focus to here')
+    const win =
+      status === 'loading'
+        ? winLoading
+        : status === 'ready'
+        ? winMain
+        : winClosing
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
     }
+  })
 
-    logger.info('process?', !!this.pid.process)
-    if (!this.pid.process) return _close()
+  ipcMain.on('mapeo-client', event => {
+    // This is called first time the main window loads, and whenever it reloads
+    logger.debug('Adding new client to Mapeo Core')
+    const port = event.ports[0]
+    backgroundProcesses.addClient('mapeoCore', port)
+    // TODO: Remove client when window reloads? Is this a significant leak?
+  })
 
-    this.mapeo.ipc.send('get-replicating-peers', null, (err, peers) => {
-      if (err) logger.error(err)
-      logger.info(peers, 'peers still replicating upon close')
-      // If there are peers still replicating, give Mapeo
-      // 5 minutes to complete replication.
-      // If no peers are replicating, give Mapeo core 3 seconds before
-      // sending the kill signal
-      var timeout = setTimeout(() => {
-        _close()
-      }, peers > 0 ? 1000 * 60 * 5 : 7000)
-      this.mapeo.ipc.send('close', null, () => {
-        logger.debug('IPC closed')
-        clearTimeout(timeout)
-        _close()
-      })
-    })
+  try {
+    // Show loading window straight away
+    // TODO: Start other tasks in parallel to this await, but is it worth it?
+    await logger.timedPromise(
+      winLoading.loadFile(LoadingWindow.filePath),
+      'Loaded loading window'
+    )
+    winLoading.show()
+
+    // Set up a message channel & IPC for communicating between the main process
+    // and Mapeo Core, and create the app menu with this IPC channel Once Mapeo
+    // Core is loaded, need to pass it port2 - messages will be queued until a
+    // listener is attached to port2
+    // TODO: Work with raw MessagePort not ClientIpc wrapper
+    const { port1, port2 } = new MessageChannelMain()
+    const ipc = new ClientIpc({ port: port1 })
+    createMenu(ipc)
+    backgroundProcesses.addClient('mapeoCore', port2)
+
+    await logger.timedPromise(
+      Promise.all([
+        // Create folders for data, custom presets, and custom styles
+        mkdirp(datadir),
+        mkdirp(path.join(userDataPath, 'presets')),
+        mkdirp(path.join(userDataPath, 'styles')),
+        // Startup background processes and servers
+        logger.timedPromise(
+          backgroundProcesses.startAll(),
+          'Started background processes'
+        ),
+        // Load main window and show it when it has loaded
+        logger.timedPromise(loadMainWindow(), 'First render in main window')
+      ]),
+      'Frontend & backend ready'
+    )
+
+    if (debug) winMain.webContents.openDevTools()
+    winLoading.hide()
+    status = 'ready'
+
+    // Load closing window, so it's ready when we need it
+    winClosing.loadFile(ClosingWindow.filePath)
+
+    // Start checking for in-app updates
+    updater.periodicUpdates()
+  } catch (err) {
+    onError(err)
+  }
+
+  // Load main window but wait for first render before showing
+  async function loadMainWindow () {
+    winMain &&
+      (await logger.timedPromise(
+        winMain.loadFile(MainWindow.filePath),
+        'Main window load'
+      ))
+    await once(ipcMain, 'frontend-rendered')
+    winMain && winMain.show()
+  }
+
+  /**
+   * Attempt to send an electron IPC message to the main window, return false if
+   * unable to send, used to show error messages in a dialog if the main window
+   * is not available.
+   *
+   * @param {any[]} args
+   * @returns {boolean} true if could send IPC to main window
+   */
+  function ipcSend (...args) {
+    try {
+      if (winMain && winMain.webContents) {
+        winMain.webContents.send.apply(winMain.webContents, args)
+        return true
+      } else return false
+    } catch (e) {
+      logger.error(
+        'exception win.webContents.send ' + JSON.stringify(args),
+        e.stack
+      )
+      return false
+    }
+  }
+
+  /**
+   * Try to send the error to the render process, to show a friendly error to
+   * the user, but if the main window is not open, then we need to resort to the
+   * ugly Electron dialog for showing the error
+   *
+   * @param {Error} err
+   */
+  function onError (err) {
+    if (!ipcSend('error', err.toString())) {
+      dialog.showErrorBox('Error', err.toString())
+    }
+  }
+
+  async function beforeQuit () {
+    if (status === 'exiting') return
+    status = 'exiting'
+    logger.debug('Exiting app')
+
+    // Close main window straight away
+    unsubscribeMainWindow()
+    winMain && winMain.close()
+    winLoading && winLoading.close()
+
+    // If closing is taking longer, show closing window
+    const timeoutId = setTimeout(() => {
+      winClosing && winClosing.show()
+    }, 300)
+
+    // Close background processes
+    await logger.timedPromise(
+      backgroundProcesses.stopAll(),
+      'Stopped background processes'
+    )
+    clearTimeout(timeoutId)
+
+    winClosing && winClosing.close()
+    // De-reference all windows to allow garbage collection
+    winClosing = null
+    winMain = null
+    winLoading = null
+
+    app.exit()
   }
 }
-
-module.exports = Main

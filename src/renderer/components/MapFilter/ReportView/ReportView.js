@@ -6,8 +6,8 @@ import ReportViewContent from './ReportViewContent'
 
 type Props = {
   ...$Exact<CommonViewProps>,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
+  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
+  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>
 }
 
 const ReportView = ({
@@ -34,6 +34,7 @@ const ReportView = ({
           observations={filteredObservations}
           getPreset={getPreset}
           getMedia={getMedia}
+          totalObservations={observations ? observations.length : 0}
           {...otherProps}
         />
       )}

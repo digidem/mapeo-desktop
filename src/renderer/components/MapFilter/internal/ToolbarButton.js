@@ -6,14 +6,9 @@ import Button from '@material-ui/core/Button'
 const useStyles = makeStyles({
   root: {
     color: 'rgba(0, 0, 0, 0.67)',
-    padding: '3px 5px',
-    marginRight: 5,
-    minHeight: 16,
     textTransform: 'initial',
-    '& svg': {
-      height: 18,
-      width: 18,
-      paddingRight: 6
+    '&:not(:last-child)': {
+      marginRight: 10
     }
   }
 })

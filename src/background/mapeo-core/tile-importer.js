@@ -82,32 +82,35 @@ TileImporter.prototype._extractTar = function (tilesPath, destPath, cb) {
 TileImporter.prototype.moveTiles = function (tilesPath, tilesDest, cb) {
   fs.stat(tilesPath, (err, stat) => {
     if (err) return cb(err)
-    mkdirp(tilesDest, err => {
-      if (err) return cb(err)
-      // TODO: deprecate asar support
-      if (path.extname(tilesPath) === '.asar') {
-        var filename = path.basename(tilesPath)
-        // because electron treats asar as a folder, not a file.
-        process.noAsar = true
-        return fs.copyFile(tilesPath, path.join(tilesDest, filename), err => {
-          process.noAsar = false
-          return cb(err)
-        })
-      }
-      if (stat.isDirectory()) {
-        var styleId = path.basename(tilesDest)
-        return this._createAsar(
-          tilesPath,
-          path.join(tilesDest, styleId + '.asar'),
-          cb
-        )
-      }
-      if (path.extname(tilesPath) === '.tar') {
-        this._extractTar(tilesPath, tilesDest, cb)
-      } else {
-        return cb(new Error('Must be a .tar, .asar, or directory with tiles.'))
-      }
-    })
+    mkdirp(tilesDest)
+      .then(() => {
+        // TODO: deprecate asar support
+        if (path.extname(tilesPath) === '.asar') {
+          var filename = path.basename(tilesPath)
+          // because electron treats asar as a folder, not a file.
+          process.noAsar = true
+          return fs.copyFile(tilesPath, path.join(tilesDest, filename), err => {
+            process.noAsar = false
+            return cb(err)
+          })
+        }
+        if (stat.isDirectory()) {
+          var styleId = path.basename(tilesDest)
+          return this._createAsar(
+            tilesPath,
+            path.join(tilesDest, styleId + '.asar'),
+            cb
+          )
+        }
+        if (path.extname(tilesPath) === '.tar') {
+          this._extractTar(tilesPath, tilesDest, cb)
+        } else {
+          return cb(
+            new Error('Must be a .tar, .asar, or directory with tiles.')
+          )
+        }
+      })
+      .catch(cb)
   })
 }
 
@@ -116,7 +119,13 @@ TileImporter.prototype._createAsar = function (tilesPath, destFile, cb) {
   try {
     asar.createPackage(tilesPath, destFile).then(cb)
   } catch (err) {
-    logger.error('ERROR(tile-importer): Got error when creating asar' + tilesPath + ' ' + destFile, err)
+    logger.error(
+      'ERROR(tile-importer): Got error when creating asar' +
+        tilesPath +
+        ' ' +
+        destFile,
+      err
+    )
     return cb(err)
   }
 }

@@ -1,12 +1,12 @@
 const path = require('path')
 const throttle = require('lodash/throttle')
 const MediaStore = require('safe-fs-blob-store')
-const Settings = require('@mapeo/settings')
 const sublevel = require('subleveldown')
 const level = require('level')
 const createOsmDbOrig = require('kappa-osm')
 const kappa = require('kappa-core')
 const raf = require('random-access-file')
+const { ipcRenderer } = require('electron')
 
 const logger = require('../../logger')
 const TileImporter = require('./tile-importer')
@@ -18,9 +18,12 @@ const installStatsIndex = require('./osm-stats')
 class MapeoRPC {
   constructor ({ datadir, userDataPath, ipcSend }) {
     this.storages = []
-    this.config = new Settings(userDataPath)
-    this.encryptionKey = this.config.getEncryptionKey()
-    logger.info('got encryptionKey', this.encryptionKey && this.encryptionKey.substr(0, 4))
+    const metadata = ipcRenderer.sendSync('get-user-data', 'metadata')
+    this.encryptionKey = metadata && metadata.projectKey
+    logger.info(
+      'got encryptionKey',
+      this.encryptionKey && this.encryptionKey.substr(0, 4)
+    )
     this.tiles = TileImporter(userDataPath)
 
     var feedsDir = path.join(datadir, 'storage')
@@ -49,7 +52,7 @@ class MapeoRPC {
     })
 
     var idb = sublevel(this.osm.index, 'stats')
-    this.osm.core.use('stats', installStatsIndex(idb))
+    this.osm.core.use('stats', 2, installStatsIndex(idb))
 
     this.media = MediaStore(path.join(datadir, 'media'))
 
@@ -67,7 +70,7 @@ class MapeoRPC {
     this._onNewPeer = this._onNewPeer.bind(this)
   }
 
-  listen (core, cb) {
+  async listen (core) {
     this.core = core
     this.core.sync.on('peer', this._onNewPeer)
     this.core.sync.on('down', this._throttledSendPeerUpdate)
@@ -79,29 +82,28 @@ class MapeoRPC {
       this.ipcSend('error', err.toString())
     })
 
-    importer.on('complete', (filename) => {
+    importer.on('complete', filename => {
       this.ipcSend('import-complete', path.basename(filename))
     })
 
     // TODO(KM): this progress code isn't being caught & rendered by frontend
     importer.on('progress', (filename, index, total) => {
-      this.ipcSend(
-        'import-progress',
-        path.basename(filename),
-        index,
-        total
-      )
+      this.ipcSend('import-progress', path.basename(filename), index, total)
     })
 
-    this.core.on('error', (e) => this._handleError('mapeo core', e))
-    this.core.sync.listen((err) => {
-      cb(err)
+    this.core.on('error', e => this._handleError('mapeo core', e))
+
+    return new Promise((resolve, reject) => {
+      this.core.sync.listen(err => {
+        if (err) reject(err)
+        else resolve()
+      })
     })
   }
 
   _syncWatch (sync) {
     const startTime = Date.now()
-    var onend = (err) => {
+    var onend = err => {
       if (err) {
         this._handleError('sync error', err)
       } else {
@@ -123,7 +125,10 @@ class MapeoRPC {
   _onNewPeer (peer) {
     this._throttledSendPeerUpdate(peer)
     if (!peer.sync) {
-      return this._handleError('sync', new Error('Could not monitor peer, missing sync property'))
+      return this._handleError(
+        'sync',
+        new Error('Could not monitor peer, missing sync property')
+      )
     }
     peer.sync.once('sync-start', () => {
       this._syncWatch(peer.sync)
@@ -165,7 +170,7 @@ class MapeoRPC {
   }
 
   exportData ({ filename, format, id }, cb) {
-    const presets = this.config.getSettings('presets') || {}
+    const presets = ipcRenderer.sendSync('get-user-data', 'presets') || {}
     logger.info('Exporting', filename, format)
     this.core.exportData(filename, { format, presets }, cb)
   }
@@ -176,8 +181,8 @@ class MapeoRPC {
       .filter(
         peer =>
           peer.state &&
-        (peer.state.topic === 'replication-started' ||
-          peer.state.topic === 'replication-progress')
+          (peer.state.topic === 'replication-started' ||
+            peer.state.topic === 'replication-progress')
       )
   }
 
@@ -210,31 +215,36 @@ class MapeoRPC {
     })
   }
 
-  close (cb) {
+  async close () {
     // Prevents close from being called twice in a row
-    if (this.closing || !this.core) return process.nextTick(cb)
-    this.closing = true
-    let pending = this.storages.length + 2
+    // TODO: BUG This means this will resolve before Mapeo has actually closed
+    if (this.closing || !this.core) return
 
-    this.core.sync.removeListener('peer', this._onNewPeer)
-    this.core.sync.removeListener('down', this._throttledSendPeerUpdate)
-    this.onReplicationComplete(() => {
-      this.core.close(() =>
-        this.osm.core.pause(() => {
-          this.osm.core._logs.close(done)
-          this.storages.forEach(storage => {
-            storage.close(done)
+    return new Promise((resolve, reject) => {
+      this.closing = true
+      let pending = this.storages.length + 2
+
+      this.core.sync.removeListener('peer', this._onNewPeer)
+      this.core.sync.removeListener('down', this._throttledSendPeerUpdate)
+      this.onReplicationComplete(() => {
+        this.core.close(() =>
+          this.osm.core.pause(() => {
+            this.osm.core._logs.close(done)
+            this.storages.forEach(storage => {
+              storage.close(done)
+            })
+            this.indexDb.close(done)
           })
-          this.indexDb.close(done)
-        })
-      )
-    })
+        )
+      })
 
-    var done = () => {
-      if (--pending) return
-      this.closing = false
-      cb()
-    }
+      var done = () => {
+        // TODO: Handle errors when closing
+        if (--pending) return
+        this.closing = false
+        resolve()
+      }
+    })
   }
 
   _handleError (context, err) {
@@ -246,7 +256,7 @@ class MapeoRPC {
   // Send message to frontend whenever there is an update to the peer list
   _sendPeerUpdate (peer) {
     const peers = this.core.sync.peers().map(peer => {
-      const { connection, ...rest } = peer
+      const { connection, handshake, sync, ...rest } = peer
       return rest
     })
     logger.debug('sending peer update', peers)

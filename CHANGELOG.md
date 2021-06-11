@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.11](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.10...v5.4.0-beta.11) (2020-12-21)
+
+
+### Bug Fixes
+
+* PDF reports ([#456](https://github.com/digidem/mapeo-desktop/issues/456)) ([793e8af](https://github.com/digidem/mapeo-desktop/commit/793e8af))
+* **MapExportDialog:** fix React controlled/uncontrolled state warning ([#459](https://github.com/digidem/mapeo-desktop/issues/459)) ([b099b57](https://github.com/digidem/mapeo-desktop/commit/b099b57))
+* Ensure that fallback presets do not break iD Editor ([ed61a84](https://github.com/digidem/mapeo-desktop/commit/ed61a84))
+
+
+### Features
+
+* Add Thai translations ([#451](https://github.com/digidem/mapeo-desktop/issues/451)) ([56cb2b5](https://github.com/digidem/mapeo-desktop/commit/56cb2b5))
+
+
+
 ## [5.4.0-beta.10](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.9...v5.4.0-beta.10) (2020-10-14)
 
 

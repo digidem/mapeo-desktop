@@ -1,19 +1,29 @@
 // @flow
 import React, { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { BlobProvider } from '@react-pdf/renderer'
-import Button from '@material-ui/core/Button'
+import {
+  DialogContent,
+  DialogContentText,
+  Dialog,
+  CircularProgress,
+  Button,
+  ButtonGroup,
+  Typography
+} from '@material-ui/core'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import EditIcon from '@material-ui/icons/Edit'
 
-import Loading from '../../Loading'
-import CenteredText from '../../CenteredText'
-import Toolbar from '../internal/Toolbar'
 import { defineMessages, FormattedMessage, useIntl } from 'react-intl'
+import { saveAs } from 'file-saver'
+
+import Toolbar from '../internal/Toolbar'
 import HideFieldsButton from './HideFieldsButton'
 import { fieldKeyToLabel } from '../utils/strings'
 import getStats from '../stats'
-import PdfViewer from './PdfViewer'
-import PrintButton from './PrintButton'
-import PDFReport from './PDFReport'
+import PDFViewer from './PDFViewer'
+import SaveButton from './SaveButton'
+import usePDFPreview from './usePDFPreview'
 import type { Observation } from 'mapeo-schema'
 import type {
   PresetWithAdditionalFields,
@@ -23,19 +33,29 @@ import type {
 } from '../types'
 import { type MapViewContentProps } from '../MapView/MapViewContent'
 import { SettingsContext } from '../internal/Context'
+import { renderPDFReport } from './PDFReport'
+import ToolbarButton from '../internal/ToolbarButton'
 
-type Props = {
+export type ReportViewContentProps = {
   ...$Exact<CommonViewContentProps>,
+  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
   mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
+  initialPageNumber?: number,
+  totalObservations: number
 }
 
 const m = defineMessages({
-  // Displayed whilst observations and presets load
-  noReport: 'No observations available.',
+  // Button for navigating to the next page in the report
   nextPage: 'Next',
+  // Button for nagivating to the previous page in the report
   prevPage: 'Previous',
-  previewMessage: 'Previewing first {numPages} pages' // TODO: pluralize
+  // Text showing the current page number when previewing a report
+  currentPage: 'Page {currentPage}',
+  // Shown while the report is generating when saving or printing
+  savingProgress: 'Generating report…',
+  // Default filename for a report (prefixed with date as YYYY-MM-YY)
+  defaultReportName: 'Mapeo Monitoring Report.pdf',
+  xOfY: 'showing {observationCount} of {totalObservations} observations'
 })
 
 const hiddenTags = {
@@ -48,14 +68,16 @@ const ReportViewContent = ({
   onClick,
   observations,
   getPreset,
-  getMedia,
-  mapStyle,
-  mapboxAccessToken
-}: Props) => {
+  initialPageNumber = 1,
+  totalObservations,
+  ...otherProps
+}: ReportViewContentProps) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
   const cx = useStyles()
+  const [currentPage, setCurrentPage] = React.useState(initialPageNumber)
+  const [isSaving, setIsSaving] = React.useState(false)
 
   const [fieldState, setFieldState] = useState(() => {
     // Lazy initial state to avoid this being calculated on every render
@@ -78,6 +100,8 @@ const ReportViewContent = ({
       })
   })
 
+  // WARNING: If this changes between renders, then the PDF will need to
+  // re-index which will take some time.
   const getPresetWithFilteredFields = useCallback(
     (observation: Observation): PresetWithAdditionalFields => {
       const preset = getPreset(observation)
@@ -92,108 +116,173 @@ const ReportViewContent = ({
     [fieldState, getPreset]
   )
 
-  const renderer = {
-    getPreset: getPresetWithFilteredFields,
-    getMedia,
-    intl,
-    settings,
-    mapStyle,
-    mapboxAccessToken
+  async function handleSaveClick () {
+    setIsSaving(true)
+    const { blob } = await renderPDFReport({
+      observations,
+      intl,
+      settings,
+      getPreset: getPresetWithFilteredFields,
+      ...otherProps
+    })
+    // Prefix filename with date `YYYY-MM-DD`
+    const datePrefix = new Date().toISOString().split('T')[0]
+    const name = intl.formatMessage(m.defaultReportName)
+    saveAs(blob, `${datePrefix} ${name}`)
+    setIsSaving(false)
   }
 
-  const pdf = useMemo(() => {
-    return (
-      <PDFReport
-        observations={observations}
-        length={5}
-        renderer={renderer}
-      />
-    )
-  }, [
-    renderer,
-    observations
-  ])
+  // observations and getPreset should be stable between renders in order for
+  // caching to work
+  const {
+    blob,
+    state: pdfState,
+    pageNumber: pdfPageNumber,
+    isLastPage,
+    observationId
+  } = usePDFPreview({
+    currentPage,
+    observations,
+    intl,
+    settings,
+    getPreset: getPresetWithFilteredFields,
+    ...otherProps
+  })
+
+  // If there is an error generating the PDF preview, try resetting to page 1
+  // (this can happen when changing a filter results in a report with fewer
+  // pages than the current page number)
+  React.useEffect(() => {
+    if (pdfState === 'error' && currentPage !== 1) {
+      setCurrentPage(1)
+    }
+  }, [pdfState, currentPage])
 
   return (
-    <div className={cx.root}>
-      <BlobProvider document={pdf}>
-        {({ blob, url, loading, error }) => {
-          if (!observations.length) {
-            return <CenteredText text={intl.formatMessage(m.noReport)} />
-          }
-          return (
-            <>
-              <Toolbar>
-                <HideFieldsButton
-                  fieldState={fieldState}
-                  onFieldStateUpdate={setFieldState}
-                />
-                <PrintButton
-                  observations={observations}
-                  renderer={renderer}
-                  disabled={error || loading}
-                />
-              </Toolbar>
-              {loading ? <Loading /> : <ReportPreview url={url} />}
-            </>
-          )
-        }}
-      </BlobProvider>
-    </div>
+    <>
+      <div className={cx.root}>
+        <Toolbar>
+          <div>
+            <HideFieldsButton
+              fieldState={fieldState}
+              onFieldStateUpdate={setFieldState}
+            />
+            <SaveButton
+              shouldConfirm={observations.length > 50}
+              observationCount={observations.length}
+              onClick={handleSaveClick}
+            />
+          </div>
+          <div>
+            <Typography variant='body1' className={cx.xOfY}>
+              <FormattedMessage
+                {...m.xOfY}
+                values={{
+                  observationCount: observations.length,
+                  totalObservations
+                }}
+              />
+            </Typography>
+          </div>
+          <div>
+            <EditButton
+              className={cx.editButton}
+              disabled={!observationId}
+              onClick={observationId ? () => onClick(observationId) : undefined}
+            />
+          </div>
+        </Toolbar>
+
+        <PDFViewer pdf={blob} pdfState={pdfState} pageNumber={pdfPageNumber} />
+        <SavingDialog open={isSaving} />
+      </div>
+      <PageNavigator
+        currentPage={currentPage}
+        last={isLastPage}
+        setCurrentPage={setCurrentPage}
+      />
+    </>
   )
 }
 
-const ReportPreview = React.memo(({ url }) => {
+const EditButton = ({ onClick, ...otherProps }: { onClick?: () => any }) => (
+  <ToolbarButton
+    onClick={onClick}
+    variant='outlined'
+    {...otherProps}
+    startIcon={<EditIcon />}
+  >
+    Edit
+  </ToolbarButton>
+)
+
+export const SavingDialog = ({ open }: { open: boolean }) => {
   const cx = useStyles()
-  const [pageNumber, setPageNumber] = useState(1)
-  const [numPages, setNumPages] = useState(1)
-
-  const validPageNumber = Math.max(1, Math.min(pageNumber, numPages))
-
-  const onLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages)
-  }
-
   return (
-    <div className={cx.reportPreview}>
-      <NavigationBar
-        pageNumber={validPageNumber}
-        numPages={numPages}
-        setPageNumber={setPageNumber}
-      />
-      <PdfViewer
-        url={url}
-        onLoadSuccess={onLoadSuccess}
-        pageNumber={validPageNumber}
-      />
-    </div>
+    <Dialog
+      open={open}
+      disableBackdropClick
+      disableEscapeKeyDown
+      fullWidth
+      maxWidth='xs'
+    >
+      <DialogContent className={cx.savingDialogContent}>
+        <CircularProgress />
+        <DialogContentText className={cx.savingDialogText}>
+          <FormattedMessage {...m.savingProgress} />
+        </DialogContentText>
+      </DialogContent>
+    </Dialog>
   )
-})
+}
 
-const NavigationBar = ({ pageNumber, numPages, setPageNumber }) => {
+type PageNavigatorProps = {
+  currentPage: number,
+  last?: boolean,
+  setCurrentPage: (pageNumber: number) => any
+}
+
+export const PageNavigator = ({
+  currentPage,
+  last,
+  setCurrentPage
+}: PageNavigatorProps) => {
   const cx = useStyles()
   const handleNextPage = () => {
-    var page = Math.min(pageNumber + 1, numPages)
-    setPageNumber(page)
+    var page = last ? currentPage : currentPage + 1
+    setCurrentPage(page)
   }
   const handlePrevPage = () => {
-    var page = Math.max(pageNumber - 1, 1)
-    setPageNumber(page)
+    var page = Math.max(currentPage - 1, 1)
+    setCurrentPage(page)
   }
 
   return (
-    <div className={cx.navigation}>
-      <Button disabled={pageNumber === 1} onClick={handlePrevPage}>
+    <ButtonGroup
+      color='primary'
+      variant='contained'
+      size='large'
+      aria-label='Page navigator button group'
+      className={cx.navigator}
+    >
+      <Button
+        disabled={currentPage === 1}
+        onClick={handlePrevPage}
+        startIcon={<ArrowBackIcon />}
+      >
         <FormattedMessage {...m.prevPage} />
       </Button>
-      <FormattedMessage
-        {...m.previewMessage}
-        values={{ pageNumber, numPages }}
-      />
-      <Button disabled={pageNumber === numPages} onClick={handleNextPage}>
+      <Button disabled className={cx.navigatorPageButton}>
+        <FormattedMessage {...m.currentPage} values={{ currentPage }} />
+      </Button>
+      <Button
+        disabled={last}
+        onClick={handleNextPage}
+        endIcon={<ArrowForwardIcon />}
+      >
         <FormattedMessage {...m.nextPage} />
       </Button>
-    </div>
+    </ButtonGroup>
   )
 }
 
@@ -218,18 +307,51 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     bottom: 0,
     display: 'flex',
-    flexDirection: 'column'
-  },
-  reportPreview: {
-    display: 'flex',
-    margin: 'auto',
     flexDirection: 'column',
-    backgroundColor: '#F5F5F5',
-    justifyContent: 'center'
+    backgroundColor: '#f5f5f5',
+    overflowY: 'scroll',
+    paddingBottom: 20
   },
-  navigation: {
+  xOfY: {
+    fontStyle: 'italic',
+    color: 'rgba(0,0,0,0.7)'
+  },
+  savingDialogContent: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    paddingBottom: 20,
+    alignItems: 'center'
+  },
+  savingDialogText: {
+    marginBottom: 0,
+    marginLeft: 15
+  },
+  navigator: {
+    position: 'absolute',
+    bottom: 0,
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    zIndex: 99,
+    display: 'inline-grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    '& .MuiButton-contained': {
+      textTransform: 'none',
+      backgroundColor: '#000630',
+      color: theme.palette.primary.contrastText,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+      '&:hover': {
+        backgroundColor: '#323659'
+      },
+      '&:not(:last-child)': {
+        borderRight: '1px solid #404363'
+      }
+    },
+    '& .Mui-disabled:not(:nth-child(2))': {
+      color: '#656882'
+    }
+  },
+  navigatorPageButton: {
+    paddingLeft: 30,
+    paddingRight: 30
   }
 }))

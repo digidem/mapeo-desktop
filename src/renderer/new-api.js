@@ -3,8 +3,10 @@ import ky from 'ky/umd'
 import logger from '../logger'
 
 export default Api({
-  // window.middlewareClient is set in src/middleware/client-preload.js
-  ipc: window.middlewareClient
+  // globals are set in src/middleware/client-preload.js
+  ipc: window.middlewareClient,
+  baseUrl: `http://127.0.0.1:${window.mapeoServerPort}/`,
+  mapUrl: `http://127.0.0.1:${window.mapPrinterPort}/`
 })
 
 function Api ({ baseUrl, mapUrl, ipc }) {
@@ -14,7 +16,7 @@ function Api ({ baseUrl, mapUrl, ipc }) {
   // style will be cache-busted.
   const startupTime = Date.now()
 
-  let req = ky.create({
+  const req = ky.create({
     prefixUrl: baseUrl,
     // No timeout because indexing after first sync takes a long time, which mean
     // requests to the server take a long time
@@ -34,6 +36,8 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       .catch(error => {
         // Preset errors aren't fatal errors.
         if (prefix.indexOf('presets') > -1) logger.info(prefix, error)
+        // Styles errors aren't fatal errors either.
+        else if (prefix.indexOf('styles') > -1) logger.info(prefix, error)
         else logger.error(prefix, error)
       })
     return promise
@@ -54,15 +58,8 @@ function Api ({ baseUrl, mapUrl, ipc }) {
 
   // All public methods
   const api = {
-    // Hacky solution, probably need to create the api instance in the app, once
-    // the backend has loaded
-    setBaseUrl: function setBaseUrl (url) {
-      baseUrl = url
-      req = ky.extend({ prefixUrl: baseUrl })
-    },
-
-    setMapUrl: function (url) {
-      mapUrl = url
+    getBaseUrl: function getBaseUrl () {
+      return baseUrl
     },
 
     /**
@@ -84,7 +81,7 @@ function Api ({ baseUrl, mapUrl, ipc }) {
 
     getMetadata: function getMetadata () {
       return get(`presets/default/metadata.json?${Date.now()}`).then(
-        (data) => data || {}
+        data => data || {}
       )
     },
 

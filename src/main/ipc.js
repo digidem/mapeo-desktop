@@ -9,12 +9,13 @@ const i18n = require('./i18n')
  * Miscellaneous ipcMain calls that don't hit mapeo-core
  */
 module.exports = function (ipcSend) {
+  console.log('IPC main')
   function onError (err) {
     logger.error('[MAIN/IPC] error', err)
     ipcSend('error', err.message, err.stack)
   }
 
-  updater.on('error', (err) => {
+  updater.on('error', err => {
     if (err.message.match(/net*/)) logger.debug(err.message)
     else {
       logger.error('[UPDATER] error', err)
@@ -26,7 +27,7 @@ module.exports = function (ipcSend) {
     ipcSend('update-status', 'update-inactive')
   })
 
-  updater.updateDownloaded((updateInfo) => {
+  updater.updateDownloaded(updateInfo => {
     logger.info('[UPDATER] update-downloaded', updateInfo)
     ipcSend('update-status', 'update-downloaded', updateInfo)
   })
@@ -36,7 +37,7 @@ module.exports = function (ipcSend) {
     ipcSend('update-status', 'update-not-available', null)
   })
 
-  updater.downloadProgress((updateInfo) => {
+  updater.downloadProgress(updateInfo => {
     logger.info('[UPDATER] update-progress', updateInfo)
     /*
       {
@@ -53,7 +54,7 @@ module.exports = function (ipcSend) {
     ipcSend('update-status', 'update-progress', updateInfo)
   })
 
-  updater.updateAvailable((updateInfo) => {
+  updater.updateAvailable(updateInfo => {
     // version, files, path, sha512, releaseDate
     logger.info('[UPDATER] update-available', updateInfo)
     ipcSend('update-status', 'update-available', updateInfo)
@@ -93,8 +94,8 @@ module.exports = function (ipcSend) {
   ipcMain.on('save-file', function () {
     var metadata = userConfig.getSettings('metadata')
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
-    dialog.showSaveDialog(
-      {
+    dialog
+      .showSaveDialog({
         title: i18n.t('save-db-dialog'),
         defaultPath: 'database.' + ext,
         filters: [
@@ -103,8 +104,9 @@ module.exports = function (ipcSend) {
             extensions: ['mapeodata', 'mapeo-jungle', ext]
           }
         ]
-      }
-    ).then(onOpen).catch(onError)
+      })
+      .then(onOpen)
+      .catch(onError)
 
     function onOpen ({ filePath, canceled }) {
       if (canceled || typeof filePath === 'undefined') return
@@ -115,8 +117,8 @@ module.exports = function (ipcSend) {
   ipcMain.on('open-file', function () {
     var metadata = userConfig.getSettings('metadata')
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
-    dialog.showOpenDialog(
-      {
+    dialog
+      .showOpenDialog({
         title: i18n.t('open-db-dialog'),
         properties: ['openFile'],
         filters: [
@@ -125,8 +127,9 @@ module.exports = function (ipcSend) {
             extensions: ['mapeodata', 'mapeo-jungle', ext, 'sync', 'zip']
           }
         ]
-      }
-    ).then(onOpen).catch(onError)
+      })
+      .then(onOpen)
+      .catch(onError)
 
     function onOpen ({ canceled, filePaths }) {
       if (canceled || typeof filePaths === 'undefined') return

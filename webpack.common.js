@@ -38,6 +38,14 @@ module.exports = {
         test: /\.js$/,
         include: path.join(__dirname, 'src'),
         loader: 'babel-loader'
+      },
+      {
+        test: /\.ttf$/i,
+        loader: 'url-loader'
+      },
+      {
+        test: /\.png$/i,
+        loader: 'url-loader'
       }
     ]
   }
