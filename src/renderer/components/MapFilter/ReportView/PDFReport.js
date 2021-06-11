@@ -578,7 +578,6 @@ const s = StyleSheet.create({
   iconContainer: {
     width: 30,
     minHeight: 20,
-    flexBasis: 'auto',
     marginRight: 8,
     alignItems: 'center',
     justifyContent: 'center'
@@ -677,16 +676,17 @@ const s = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginTop: -4,
-    marginBottom: -4
+    marginBottom: -4,
+    flex: 1
   },
   field: {
     marginTop: 4,
     marginBottom: 4,
     flexDirection: 'column',
     width: '30%',
-    flexShrink: 0,
+    flexShrink: 1,
     flexGrow: 1,
-    flexBasis: 'auto'
+    flexBasis: '30%'
   },
   fieldLabel: {
     fontSize: 7,
