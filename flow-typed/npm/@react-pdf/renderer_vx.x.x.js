@@ -1,4 +1,4 @@
-declare module '@digidem/react-pdf-renderer' {
+declare module '@react-pdf/renderer' {
   declare type TextPropTypes = {|
     wrap?: boolean,
     render?: (_: {| pageNumber: number, totalPages: number |}) => string,

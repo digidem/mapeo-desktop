@@ -17,7 +17,7 @@ import {
   Document,
   StyleSheet,
   Font
-} from '@digidem/react-pdf-renderer'
+} from '@react-pdf/renderer'
 import type { Field } from 'mapeo-schema'
 import PQueue from 'p-queue'
 import pTimeout from 'p-timeout'
@@ -167,7 +167,7 @@ const queue = new PQueue({ concurrency: 1 })
 
 function renderToBlob (doc, timeout?: number) {
   return queue.add(() => {
-    const instance = pdf({ initialValue: doc })
+    const instance = pdf(doc)
     return timeout
       ? pTimeout(
           instance.toBlob(),
