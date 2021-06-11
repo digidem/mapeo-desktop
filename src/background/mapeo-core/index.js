@@ -1,214 +1,226 @@
-const rabbit = require('electron-rabbit')
+// @ts-check
 const os = require('os')
 const http = require('http')
+const promiseDefer = require('p-defer')
 
-const background = require('..')
 const logger = require('../../logger')
 
 const Mapeo = require('./mapeo')
 const createTileServer = require('./tile-server')
 const createRouter = require('./server')
+const { listen, close } = require('../../utils/async-server')
+
+const channel = new BroadcastChannel('mapeo-core')
+
+/**
+ * Broadcast a message to all listeners
+ *
+ * @param {string} name
+ * @param {*} args
+ */
+function broadcastMessage (name, args) {
+  logger.debug('Broadcast message', { name, args })
+  channel.postMessage({ name, args })
+}
+
+/** @typedef {import('../../utils/types').MapeoCoreOptions} Options */
 
 class MapeoManager {
-  constructor ({ datadir, userDataPath, port, tileport }) {
-    this.mapeo = null
-    this.tileServer = null
-    this.opts = { datadir, userDataPath, port, tileport }
-    this.router = null
+  /**
+   * Creates an instance of MapeoManager.
+   * @param {Options} options
+   */
+  constructor ({ datadir, userDataPath, mapeoServerPort, tileServerPort }) {
+    const deferred = promiseDefer()
+    this.deferredMapeo = deferred.promise
+    /** @type {promiseDefer.DeferredPromise<any>['resolve'] | void} */
+    this._resolveMapeo = deferred.resolve
+    this.opts = { datadir, userDataPath, mapeoServerPort, tileServerPort }
   }
 
-  listen (cb) {
-    let pending = 2
-
-    this._createMapeo(() => {
-      if (!this.server) {
-        this.server = http.createServer((req, res) => {
-          logger.debug('server request', req.url)
-          this.router(req, res)
-        })
-      }
-      this.server.listen(this.opts.port, '127.0.0.1', () => {
-        logger.info('osm-p2p-server listening on :', this.server.address().port)
-        if (--pending === 0) cb()
-      })
-    })
-
-    this.tileServer = createTileServer(this.opts.userDataPath)
-    this.tileServer.listen(this.opts.tileport, () => {
-      logger.info('Tile server listening on :', this.tileServer.address().port)
-      if (--pending === 0) cb()
-    })
-  }
-
-  _createMapeo (cb) {
-    var ipcSend = rabbit.send
+  async start () {
     logger.info('Creating a new mapeo', this.opts)
-    this.mapeo = new Mapeo({
+
+    const mapeo = new Mapeo({
       datadir: this.opts.datadir,
       userDataPath: this.opts.userDataPath,
-      ipcSend
+      ipcSend: broadcastMessage
     })
 
-    var { router, core } = createRouter(this.mapeo.osm, this.mapeo.media, {
+    var { router, core } = createRouter(mapeo.osm, mapeo.media, {
       staticRoot: this.opts.userDataPath,
-      ipcSend
+      ipcSend: broadcastMessage
     })
 
-    this.router = router
+    // Sets up listening for sync
+    await mapeo.listen(core)
 
-    this.mapeo.listen(core, () => {
-      // hostname often includes a TLD, which we remove
-      const computerName = (os.hostname() || 'Mapeo Desktop').split('.')[0]
-      this.mapeo.core.sync.setName(computerName)
-      cb()
+    if (!this._resolveMapeo) throw new Error('Unexpected error')
+    this._resolveMapeo(mapeo)
+    this._resolveMapeo = undefined // Let's be extra-careful not to resolve twice
+
+    // hostname often includes a TLD, which we remove
+    const computerName = (os.hostname() || 'Mapeo Desktop').split('.')[0]
+    mapeo.core.sync.setName(computerName)
+
+    this.mapeoServer = http.createServer((req, res) => {
+      logger.debug('server request', req.url)
+      router(req, res)
     })
+    const mapeoServerUrl = await listen(
+      this.mapeoServer,
+      this.opts.mapeoServerPort,
+      '127.0.0.1'
+    )
+    logger.info('osm-p2p-server listening on:', mapeoServerUrl)
+
+    this.tileServer = createTileServer(this.opts.userDataPath)
+    const tileServerUrl = await listen(
+      this.tileServer,
+      this.opts.tileServerPort,
+      '127.0.0.1'
+    )
+    logger.info('Tile server listening on:', tileServerUrl)
   }
 
-  reloadConfig (cb) {
-    logger.debug('closing old mapeo')
-    this.mapeo.close(() => {
-      this.mapeo = null
-      logger.debug('opening new one')
-      this._createMapeo(cb)
-    })
+  async reloadConfig () {
+    logger.debug('Closing old mapeo')
+    await this.close()
+    logger.debug('old mapeo closed')
+    await this.start()
+    logger.info('Configuration reloaded')
   }
 
-  close (cb) {
-    if (!this.mapeo) return cb()
-    try {
-      this.mapeo.close((err) => {
-        if (err) return cb(err)
-        this.mapeo = null
-        this.server.close((err) => {
-          if (err) return cb(err)
-          this.server = null
-          this.tileServer.close((err) => {
-            if (err) return cb(err)
-            this.tileServer = null
-            cb()
-          })
-        })
-      })
-    } catch (err) {
-      return cb(err)
+  async close () {
+    const mapeo = await this.deferredMapeo
+
+    // Setup a new deferred promise that will handle any requests made whilst
+    // current mapeo is closing
+    const deferred = promiseDefer()
+    this.deferredMapeo = deferred.promise
+    this._resolveMapeo = deferred.resolve
+
+    await mapeo.close()
+    logger.debug('Closed Mapeo Core')
+
+    if (this.mapeoServer && this.mapeoServer.listening) {
+      await close(this.mapeoServer)
+      logger.debug('Closed Mapeo Server')
+    }
+
+    if (this.tileServer && this.tileServer.listening) {
+      await close(this.tileServer)
+      logger.debug('Closed Tile Server')
     }
   }
 }
 
-var handlers = {}
-var manager = null
+/**
+ * @param {Options} opts
+ * @returns {import('../../utils/types').BackgroundProcess}
+ */
+module.exports = function init (opts) {
+  /** @type {import('../../utils/types').BackgroundProcess['handlers']} */
+  var handlers = {}
+  var manager = new MapeoManager(opts)
 
-handlers['reload-config'] = async () => {
-  return new Promise((resolve, reject) => {
-    manager.reloadConfig((err) => {
-      if (err) {
-        logger.error('Reload config', err)
-        return reject(err)
-      }
-      logger.info('Configuration reloaded')
-      resolve()
+  handlers['reload-config'] = async () => manager.reloadConfig()
+
+  /** @type {(filename: string) => Promise<void>} */
+  handlers['import-tiles'] = async filename => {
+    const mapeo = await manager.deferredMapeo
+    return new Promise((resolve, reject) => {
+      // @ts-ignore
+      mapeo.tiles.go(filename, err => {
+        if (err) {
+          logger.error(`mapeo.tiles.go(${filename})`, err)
+          return reject(err)
+        } else resolve()
+      })
     })
-  })
-}
+  }
 
-handlers.close = async () => {
-  return new Promise((resolve, reject) => {
-    if (!manager) return resolve()
-    manager.close((err) => {
-      logger.info('CLOSED')
-      if (err) {
-        logger.error('Could not close', err)
-        return reject(err)
-      }
-      resolve()
+  handlers['encryption-key'] = async () => {
+    const mapeo = await manager.deferredMapeo
+    return mapeo.encryptionKey
+  }
+
+  /** @type {(filename: string) => Promise<void>} */
+  handlers['import-data'] = async filename => {
+    const mapeo = await manager.deferredMapeo
+    mapeo.core.importer.importFromFile(filename)
+  }
+
+  /** @type {(target: any) => Promise<void>} */
+  handlers['sync-start'] = async target => {
+    const mapeo = await manager.deferredMapeo
+    mapeo.syncStart(target)
+  }
+
+  handlers['sync-join'] = async () => {
+    const mapeo = await manager.deferredMapeo
+    mapeo.syncJoin()
+  }
+
+  handlers['sync-leave'] = async () => {
+    const mapeo = await manager.deferredMapeo
+    mapeo.syncLeave()
+  }
+
+  /** @type {(args: any) => Promise<void>} */
+  handlers['export-data'] = async args => {
+    logger.info('Exporting data', args)
+    const mapeo = await manager.deferredMapeo
+    return new Promise((resolve, reject) => {
+      // @ts-ignore
+      mapeo.exportData(args, err => {
+        if (err) {
+          logger.error(`mapeo.exportData(${args})`, err)
+          return reject(err)
+        }
+        resolve()
+      })
     })
-  })
-}
+  }
 
-handlers.listen = async (opts) => {
-  if (!manager) manager = new MapeoManager(opts)
-  return new Promise((resolve, reject) => {
-    manager.listen(resolve)
-  })
-}
-
-handlers['import-tiles'] = async (filename) => {
-  return new Promise((resolve, reject) => {
-    manager.mapeo.tiles.go(filename, (err) => {
-      if (err) {
-        logger.error(`mapeo.tiles.go(${filename})`, err)
-        return reject(err)
-      } else resolve()
+  handlers['zoom-to-data-get-centroid'] = async type => {
+    const mapeo = await manager.deferredMapeo
+    return new Promise((resolve, reject) => {
+      // @ts-ignore
+      mapeo.getDatasetCentroid(type, (err, loc) => {
+        if (err) {
+          logger.error(`mapeo.getDatasetCentroid(${type})`, err)
+          return reject(err)
+        }
+        resolve(loc)
+      })
     })
-  })
-}
+  }
 
-handlers['encryption-key'] = async () => {
-  return new Promise((resolve, reject) => {
-    resolve(manager.mapeo.encryptionKey)
-  })
-}
+  handlers['get-replicating-peers'] = async () => {
+    const mapeo = await manager.deferredMapeo
+    return mapeo.getReplicatingPeers().length
+  }
 
-handlers['import-data'] = async (filename) => {
-  manager.mapeo.core.importer.importFromFile(filename)
-}
-
-handlers['sync-start'] = async (target) => {
-  manager.mapeo.syncStart(target)
-}
-
-handlers['sync-join'] = async () => {
-  manager.mapeo.syncJoin()
-}
-
-handlers['sync-leave'] = async () => {
-  manager.mapeo.syncLeave()
-}
-
-handlers['export-data'] = async (args) => {
-  logger.info('Exporting data', args)
-  return new Promise((resolve, reject) => {
-    manager.mapeo.exportData(args, (err) => {
-      if (err) {
-        logger.error(`mapeo.exportData(${args})`, err)
-        return reject(err)
-      }
-      resolve()
+  handlers['get-database-status'] = async () => {
+    const mapeo = await manager.deferredMapeo
+    return new Promise((resolve, reject) => {
+      // @ts-ignore
+      mapeo.core.getFeedStatus((err, stats) => {
+        if (err) return reject(err)
+        resolve(stats)
+      })
     })
-  })
-}
+  }
 
-handlers['zoom-to-data-get-centroid'] = async (type) => {
-  return new Promise((resolve, reject) => {
-    manager.mapeo.getDatasetCentroid(type, (err, loc) => {
-      if (err) {
-        logger.error(`mapeo.getDatasetCentroid(${type})`, err)
-        return reject(err)
-      }
-      resolve(loc)
-    })
-  })
-}
+  /** @type {(bool: boolean) => Promise<void>} */
+  handlers.debugging = async bool => {
+    logger.debugging(bool)
+  }
 
-handlers['get-replicating-peers'] = async () => {
-  return new Promise((resolve, reject) => {
-    if (!manager.mapeo) return reject(new Error('Start mapeo before getting active peers!'))
-    resolve(manager.mapeo.getReplicatingPeers().length)
-  })
+  return {
+    start: async () => manager.start(),
+    close: async () => manager.close(),
+    handlers
+  }
 }
-
-handlers['get-database-status'] = async () => {
-  return new Promise((resolve, reject) => {
-    if (!manager.mapeo) return reject(new Error('Start mapeo before getting database status!'))
-    manager.mapeo.core.getFeedStatus((err, stats) => {
-      if (err) return reject(err)
-      resolve(stats)
-    })
-  })
-}
-
-handlers.debugging = async (bool) => {
-  logger.debugging(bool)
-}
-
-background(handlers)

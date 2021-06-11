@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ipcRenderer, remote, shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
@@ -166,7 +166,7 @@ const MapEditor = () => {
       if (!rootRef.current) return
       updateSettings()
 
-      var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
+      var serverUrl = `http://127.0.0.1:${window.mapeoServerPort}`
       id.current = window.id = iD
         .coreContext()
         .assetPath('../node_modules/id-mapeo/dist/')

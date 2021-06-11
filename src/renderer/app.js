@@ -6,7 +6,6 @@ import { IntlProvider } from 'react-intl'
 import isDev from 'electron-is-dev'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-import api from './new-api'
 import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
@@ -46,17 +45,30 @@ if (!logger.configured) {
 
 const App = () => {
   const [locale, setLocale] = React.useState(initialLocale)
-  const [isReady, setReady] = React.useState(false)
+  const [backendState, setBackendState] = React.useState('loading')
 
   React.useEffect(() => {
-    ipcRenderer.once('back-end-ready', () => {
-      api.setBaseUrl('http://' + remote.getGlobal('osmServerHost') + '/')
-      api.setMapUrl('http://' + remote.getGlobal('mapPrinterHost') + '/')
-      console.log(remote.getGlobal('osmServerHost'))
-      console.log(remote.getGlobal('mapPrinterHost'))
-      setReady(true)
-    })
+    ipcRenderer
+      .invoke('get-backend-state')
+      .then(state => onStateChange(null, state))
+
+    ipcRenderer.on('backend-state', onStateChange)
+
+    function onStateChange (_, state) {
+      const newState = getMergedStateValue(state)
+      logger.debug('Backend state ' + newState, state)
+      setBackendState(newState)
+    }
+
+    return () => ipcRenderer.off(onStateChange)
   }, [])
+
+  React.useEffect(() => {
+    // Let main process know when the first render is complete, so that it can
+    // show this window and close the loading window
+    if (backendState !== 'ready') return
+    ipcRenderer.send('frontend-rendered')
+  }, [backendState])
 
   const handleLanguageChange = React.useCallback(lang => {
     ipcRenderer.send('set-locale', lang)
@@ -68,9 +80,8 @@ const App = () => {
     ipcRenderer.send('force-refresh-window')
   }, [])
   logger.info('Rendering', locale)
-  logger.info('Ready?', isReady)
 
-  return isReady ? (
+  return backendState === 'ready' ? (
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -89,4 +100,12 @@ window.testMode = function () {
   logger.debug('Test mode, clearing cache')
   localStorage.removeItem('lastView')
   localStorage.removeItem('location')
+}
+
+function getMergedStateValue (state) {
+  const values = Object.values(state).map(s => s.value)
+  if (values.includes('error')) return 'error'
+  if (values.includes('loading')) return 'loading'
+  if (values.every(v => v === 'started')) return 'ready'
+  return 'unknown'
 }

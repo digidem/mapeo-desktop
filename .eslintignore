@@ -10,3 +10,4 @@ translations
 storybook-static
 updates
 flow-typed
+/**/*.d.ts
