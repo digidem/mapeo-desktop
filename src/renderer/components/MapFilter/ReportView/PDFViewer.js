@@ -36,6 +36,8 @@ const PdfViewer = React.memo<Props>(({ pdf, pdfState, pageNumber }: Props) => {
 
   const isLoading = pdfState === 'loading' || viewerState === 'loading' || !pdf
 
+  console.log({ pdf, pdfState, pageNumber, viewerState, isLoading })
+
   return (
     <Paper className={cx.reportPreview} elevation={5}>
       {pdfState === 'empty' ? (
@@ -47,8 +49,14 @@ const PdfViewer = React.memo<Props>(({ pdf, pdfState, pageNumber }: Props) => {
           {pdf && pageNumber ? (
             <Document
               file={pdf}
-              onLoadSuccess={() => setViewerState('ready')}
-              onLoadError={() => setViewerState('error')}
+              onLoadSuccess={() => {
+                console.log('onLoadSuccess')
+                setViewerState('ready')
+              }}
+              onLoadError={() => {
+                console.log('onLoadError')
+                setViewerState('error')
+              }}
               loading={
                 // Don't render a component during loading, because we render
                 // our own as an overlay
@@ -59,9 +67,9 @@ const PdfViewer = React.memo<Props>(({ pdf, pdfState, pageNumber }: Props) => {
             </Document>
           ) : null}
           {/** TODO: Remove this after animation is complete, so that the user can select text in the PDF report */}
-          <div className={clsx(cx.objectFill, !isLoading && cx.fade)}>
+          {/* <div className={clsx(cx.objectFill, !isLoading && cx.fade)}>
             <Loading />
-          </div>
+          </div> */}
         </>
       )}
     </Paper>

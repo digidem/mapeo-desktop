@@ -33,7 +33,15 @@ reportWorker.addEventListener('message', msg => {
 })
 
 export default function renderReport (
-  { observations, getPreset, getMedia, intl, ...otherProps }: Props,
+  {
+    observations,
+    getPreset,
+    getMedia,
+    getIconUrl,
+    onMapMove,
+    intl,
+    ...otherProps
+  }: Props,
   timeout?: number
 ): Promise<ReportData> {
   const id = msgId++

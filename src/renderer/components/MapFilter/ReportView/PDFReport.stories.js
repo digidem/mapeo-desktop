@@ -26,6 +26,15 @@ const getMediaUrl = id => {
   if (id === 'portrait.jpg') return imageBaseUrl + id
   return imageBaseUrl + ((parseInt(id, 16) % 17) + 1) + '.jpg'
 }
+
+const exampleWithPresets = exampleObservations.slice(0, 1).map(o => ({
+  observation: o,
+  preset: defaultGetPreset(o),
+  mediaSources: o.attachments.map(a => getMedia(a))
+}))
+
+console.log(exampleWithPresets)
+
 export default {
   title: 'ReportView/components/PDFReport',
   component: PDFReport,
@@ -53,12 +62,10 @@ export const basic = () =>
       <BlobProvider
         document={
           <PDFReport
-            getPreset={defaultGetPreset}
-            getMedia={getMedia}
             intl={intl}
             mapStyle={mapStyle}
             mapboxAccessToken={mapboxAccessToken}
-            observations={exampleObservations.slice(0, 1)}
+            observationsWithPresets={exampleWithPresets}
           />
         }
       >

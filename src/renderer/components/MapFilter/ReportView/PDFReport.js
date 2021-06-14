@@ -34,7 +34,6 @@ import {
   type SettingsContextType
 } from '../internal/Context'
 import { type MapViewContentProps } from '../MapView/MapViewContent'
-import api from '../../../new-api'
 
 import dateIcon from './iconEvent.png'
 import fallbackCategoryIcon from './iconPlace.png'
@@ -481,26 +480,26 @@ class ObservationView {
   }
 
   getIconURL (size?: 'medium') {
-    if (!api.getBaseUrl()) return // for rendering in storybook
-    if (!this.preset.icon) return
-    return api.getIconUrl(this.preset.icon)
+    // if (!api.getBaseUrl()) return // for rendering in storybook
+    // if (!this.preset.icon) return
+    // return api.getIconUrl(this.preset.icon)
   }
 
   getMapImageURL (zoom) {
     if (!zoom) zoom = ObservationView.DEFAULT_ZOOM_LEVEL
     if (!this.coords) return null
-
-    var opts = {
-      width: HEADER_HEIGHT * 1.5,
-      height: HEADER_HEIGHT,
-      lon: this.coords.longitude,
-      lat: this.coords.latitude,
-      zoom: 11,
-      dpi: 2,
-      style: this.mapStyle,
-      accessToken: this.mapboxAccessToken
-    }
-    return api.getMapImageURL(opts)
+    return null
+    // var opts = {
+    //   width: HEADER_HEIGHT * 1.5,
+    //   height: HEADER_HEIGHT,
+    //   lon: this.coords.longitude,
+    //   lat: this.coords.latitude,
+    //   zoom: 11,
+    //   dpi: 2,
+    //   style: this.mapStyle,
+    //   accessToken: this.mapboxAccessToken
+    // }
+    // return api.getMapImageURL(opts)
   }
 }
 

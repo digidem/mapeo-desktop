@@ -38,6 +38,7 @@ function MainWindow (options) {
     icon: path.resolve(__dirname, '../../static/mapeo_256x256.png'),
     webPreferences: {
       nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       preload: path.resolve(__dirname, '../renderer/index-preload.js'),
       additionalArguments: [JSON.stringify(options)],
       contextIsolation: false
