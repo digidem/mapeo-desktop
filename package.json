@@ -176,6 +176,7 @@
     "terminate": "^2.1.2",
     "through2": "^2.0.5",
     "tiny-typed-emitter": "^2.0.3",
+    "uri-templates": "^0.2.0",
     "utm": "^1.1.1",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2",
