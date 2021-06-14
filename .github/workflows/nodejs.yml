@@ -33,8 +33,13 @@ jobs:
         with:
           node-version: 12.14.1
       - name: npm ci
-        run: |
-          npm ci
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 5
+          retry_on: error
+          retry_wait_seconds: 0
+          command: npm ci
         env:
           npm_config_arch: ${{matrix.config.arch}}
       - name: Lint
