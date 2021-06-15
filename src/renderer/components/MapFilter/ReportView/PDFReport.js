@@ -61,6 +61,8 @@ import rubikItalic from '../../../../../static/fonts/Rubik-Italic.ttf'
 import rubikLight from '../../../../../static/fonts/Rubik-Light.ttf'
 import rubikLightItalic from '../../../../../static/fonts/Rubik-LightItalic.ttf'
 
+import robotoMonoRegular from '../../../../../static/fonts/RobotoMono-Regular.ttf'
+
 Font.register({
   family: 'Sarabun',
   fonts: [
@@ -87,6 +89,11 @@ Font.register({
     { src: rubikBold, fontStyle: 'normal', fontWeight: 700 },
     { src: rubikBoldItalic, fontStyle: 'italic', fontWeight: 700 }
   ]
+})
+
+Font.register({
+  family: 'Roboto Mono',
+  fonts: [{ src: robotoMonoRegular, fontStyle: 'normal', fontWeight: 400 }]
 })
 
 const DEFAULT_FONT = 'Rubik'
@@ -270,7 +277,9 @@ const FeaturePage = ({
               <TitleDetails icon={<Image src={dateIcon} style={s.icon} />}>
                 <ObsCreated view={view} />
               </TitleDetails>
-              <TitleDetails icon={<IdIcon />}>{formatId(view.id)}</TitleDetails>
+              <TitleDetails icon={<IdIcon />}>
+                <Text style={s.id}>{formatId(view.id)}</Text>
+              </TitleDetails>
             </View>
             <View style={[s.col]}>
               <ObsInsetMap view={view} />
@@ -577,6 +586,9 @@ const s = StyleSheet.create({
     fontSize: 8,
     fontWeight: 500,
     color: 'white'
+  },
+  id: {
+    fontFamily: 'Roboto Mono'
   },
   categoryIcon: {
     width: 20
