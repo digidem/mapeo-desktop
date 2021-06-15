@@ -17,7 +17,7 @@ function renderToStream (doc) {
 }
 
 async function renderPDF (
-  props: ReportProps
+  props: $Diff<ReportProps, { onPageIndex: * }>
 ): Promise<{ buffer: Buffer, index: Array<string> }> {
   let pageIndex: Array<string> = []
   const doc = (
@@ -35,9 +35,7 @@ async function renderPDF (
 self.addEventListener('message', async msg => {
   switch (msg.data.action) {
     case 'RENDER_PDF': {
-      console.log('Render!', msg.data.props)
       const { buffer, index } = await renderPDF(msg.data.props)
-      console.log('Ok, ready')
       self.postMessage({ id: msg.data.id, buffer: buffer.buffer, index }, [
         buffer.buffer
       ])

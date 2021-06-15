@@ -67,10 +67,12 @@ const hiddenTags = {
 const ReportViewContent = ({
   onClick,
   observations,
+  getMedia,
   getPreset,
   initialPageNumber = 1,
   totalObservations,
-  ...otherProps
+  mapboxAccessToken,
+  mapStyle
 }: ReportViewContentProps) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
   const intl = useIntl()
@@ -123,7 +125,9 @@ const ReportViewContent = ({
       intl,
       settings,
       getPreset: getPresetWithFilteredFields,
-      ...otherProps
+      getMedia,
+      mapboxAccessToken,
+      mapStyle
     })
     // Prefix filename with date `YYYY-MM-DD`
     const datePrefix = new Date().toISOString().split('T')[0]
@@ -146,7 +150,9 @@ const ReportViewContent = ({
     intl,
     settings,
     getPreset: getPresetWithFilteredFields,
-    ...otherProps
+    getMedia,
+    mapboxAccessToken,
+    mapStyle
   })
 
   // If there is an error generating the PDF preview, try resetting to page 1

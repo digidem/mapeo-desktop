@@ -1,6 +1,7 @@
 import 'core-js/es/reflect'
 import ky from 'ky/umd'
 import logger from '../logger'
+import UriTemplate from 'uri-templates'
 
 export default Api({
   // globals are set in src/middleware/client-preload.js
@@ -216,6 +217,10 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       ipc.send('zoom-to-data-get-centroid', type, cb)
     },
 
+    getMapImageTemplateURL: function () {
+      return `${mapUrl}map/{lon}/{lat}/{zoom}/{width}/{height}/x{dpi}.png{?style,accessToken}`
+    },
+
     getMapImageURL: function ({
       lon,
       lat,
@@ -226,18 +231,17 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       style,
       accessToken
     }) {
-      let url = `${mapUrl}map/${lon}/${lat}/${zoom}/${width}/${height}/x${dpi}.png`
-      const searchParams = []
-      if (typeof style === 'string') {
-        searchParams.push('style=' + style)
-      }
-      if (typeof accessToken === 'string') {
-        searchParams.push('accessToken=' + accessToken)
-      }
-      if (searchParams.length) {
-        url += '?' + searchParams.join('&')
-      }
-      return url
+      const template = new UriTemplate(api.getMapImageTemplateURL())
+      return template.fillFromObject({
+        lon,
+        lat,
+        zoom,
+        width,
+        height,
+        dpi,
+        style,
+        accessToken
+      })
     }
   }
 

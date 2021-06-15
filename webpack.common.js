@@ -2,7 +2,9 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    app: './src/renderer/app.js'
+    app: './src/renderer/app.js',
+    pdfWorker:
+      './src/renderer/components/MapFilter/ReportView/renderReport.worker.js'
   },
   target: 'electron-renderer',
   externals: [
@@ -35,17 +37,13 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.worker\.js$/,
-        use: [{ loader: 'worker-loader' }, { loader: 'babel-loader' }]
-      },
-      {
         test: /\.js$/,
         include: path.join(__dirname, 'src'),
         loader: 'babel-loader'
       },
       {
         test: /\.ttf$/i,
-        loader: 'url-loader'
+        loader: 'file-loader'
       },
       {
         test: /\.png$/i,

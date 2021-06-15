@@ -9,7 +9,6 @@ const i18n = require('./i18n')
  * Miscellaneous ipcMain calls that don't hit mapeo-core
  */
 module.exports = function (ipcSend) {
-  console.log('IPC main')
   function onError (err) {
     logger.error('[MAIN/IPC] error', err)
     ipcSend('error', err.message, err.stack)

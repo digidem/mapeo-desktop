@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react'
+import { nativeImage } from 'electron'
+import ky from 'ky'
 import {
   IntlProvider,
   defineMessages,
@@ -17,6 +19,7 @@ import {
   Font
 } from '@react-pdf/renderer'
 import type { Field, Observation } from 'mapeo-schema'
+import UriTemplate from 'uri-templates'
 
 import {
   FormattedFieldProp,
@@ -112,11 +115,13 @@ export type ReportProps = {
   observationsWithPresets: Array<{|
     observation: Observation,
     preset: PresetWithAdditionalFields,
+    iconURL?: string,
     mediaSources: {
       [id: string]: { src: string, type: 'image' | 'video' | 'audio' } | void
     }
   |}>,
-  locale?: 'string',
+  mapImageTemplateURL: string,
+  locale?: string,
   messages?: any,
   /** Rendering a PDF does not inherit context from the parent tree. Get this
    * value with React.useContext(SettingsContext) and provide it as a prop */
@@ -128,7 +133,7 @@ export type ReportProps = {
    * pdf preview of second observation starts on page 3). Do not use for final
    * render */
   startPage?: number,
-  ...$Exact<MapViewContentProps>
+  ...$Exact<$Diff<MapViewContentProps, { onMapMove: * }>>
 }
 
 /*  TODO: add frontpage
@@ -172,6 +177,7 @@ export const PDFReport = ({
   settings = defaultSettings,
   onPageIndex,
   observationsWithPresets,
+  mapImageTemplateURL,
   locale = 'en',
   messages,
   mapStyle,
@@ -204,13 +210,15 @@ export const PDFReport = ({
       <SettingsContext.Provider value={settings}>
         <Document>
           {observationsWithPresets.map(
-            ({ observation, preset, mediaSources }) => {
+            ({ observation, preset, mediaSources, iconURL }) => {
               const view = new ObservationView({
                 observation,
                 preset,
                 mediaSources,
+                iconURL,
                 mapStyle,
-                mapboxAccessToken
+                mapboxAccessToken,
+                mapImageTemplateURL
               })
               return (
                 <FeaturePage
@@ -431,9 +439,16 @@ const ObsInsetMap = ({ view }: { view: ObservationView }) => {
 
 const ObsImage = ({ src }: { src: string }) => (
   <View style={s.imageWrapper} wrap={false}>
-    <Image cache src={src} style={s.image} />
+    <Image cache={false} src={getResizedImage(src, 600)} style={s.image} />
   </View>
 )
+
+async function getResizedImage (src: string, width: number) {
+  const arrayBuffer = await ky.get(src).arrayBuffer()
+  const image = nativeImage.createFromBuffer(Buffer.from(arrayBuffer))
+  const buf = image.resize({ width, quality: 'better' }).toJPEG(70)
+  return { data: buf, format: 'jpg' }
+}
 
 class ObservationView {
   static DEFAULT_ZOOM_LEVEL = 11
@@ -447,16 +462,22 @@ class ObservationView {
   preset: PresetWithAdditionalFields
   mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>
   mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
+  iconURL: string | void
+  mapImageTemplate: any
 
   constructor ({
     observation,
     preset,
     mediaSources,
+    iconURL,
     mapStyle,
-    mapboxAccessToken
+    mapboxAccessToken,
+    mapImageTemplateURL
   }) {
     this.mapStyle = mapStyle
     this.mapboxAccessToken = mapboxAccessToken
+    this.mapImageTemplate = new UriTemplate(mapImageTemplateURL)
+    this.iconURL = iconURL
     this.id = observation.id
     this.coords =
       typeof observation.lon === 'number' && typeof observation.lat === 'number'
@@ -480,26 +501,22 @@ class ObservationView {
   }
 
   getIconURL (size?: 'medium') {
-    // if (!api.getBaseUrl()) return // for rendering in storybook
-    // if (!this.preset.icon) return
-    // return api.getIconUrl(this.preset.icon)
+    return this.iconURL
   }
 
-  getMapImageURL (zoom) {
-    if (!zoom) zoom = ObservationView.DEFAULT_ZOOM_LEVEL
+  getMapImageURL (zoom = ObservationView.DEFAULT_ZOOM_LEVEL) {
     if (!this.coords) return null
-    return null
-    // var opts = {
-    //   width: HEADER_HEIGHT * 1.5,
-    //   height: HEADER_HEIGHT,
-    //   lon: this.coords.longitude,
-    //   lat: this.coords.latitude,
-    //   zoom: 11,
-    //   dpi: 2,
-    //   style: this.mapStyle,
-    //   accessToken: this.mapboxAccessToken
-    // }
-    // return api.getMapImageURL(opts)
+    var opts = {
+      width: HEADER_HEIGHT * 1.5,
+      height: HEADER_HEIGHT,
+      lon: this.coords.longitude,
+      lat: this.coords.latitude,
+      zoom: 11,
+      dpi: 2,
+      style: this.mapStyle,
+      accessToken: this.mapboxAccessToken
+    }
+    return this.mapImageTemplate.fillFromObject(opts)
   }
 }
 

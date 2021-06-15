@@ -104,7 +104,6 @@ export default function usePDFPreview ({
       pdfCache.set(obs, pdfPromise)
       // Don't cache if render fails
       pdfPromise.catch(e => {
-        console.log('fail', e)
         pdfCache.delete(obs)
       })
       return pdfPromise
@@ -159,9 +158,7 @@ export default function usePDFPreview ({
         if (!obs) return setState('error')
 
         try {
-          console.log('generate index')
           const { index } = await cachedRender(obs, emptyIdx + 1)
-          console.log('INDEX', index)
           if (cancel) return
           // Copy page index from PDF of single observation into overall page index
           for (let i = 0; i < index.length; i++) {
@@ -180,9 +177,7 @@ export default function usePDFPreview ({
       const obs = observations[obsIdx]
       if (!obs) return setState('error')
       try {
-        console.log('render preview')
         const { blob, index } = await cachedRender(obs, startPage)
-        console.log('preview is rendered', cancel)
         if (cancel) return
         // Eagerly queue up render of next observation, don't await result
         const nextObs = observations[obsIdx + 1]
@@ -190,7 +185,6 @@ export default function usePDFPreview ({
           cachedRender(nextObs, startPage + index.length)
         }
         if (cancel) return
-        console.log('setBlob', blob)
         setBlob(blob)
         setState('ready')
       } catch (e) {
@@ -227,11 +221,9 @@ export default function usePDFPreview ({
       !pageIndex.includes(undefined) &&
       pageIndex[currentPage - pageNumber - 1] === pageIndex[currentPage - 1]
     ) {
-      console.log('loop', pageNumber)
       pageNumber++
     }
   }
-  console.log('state', state, pageNumber, blob)
 
   // Are there more pages to come in the report (we don't know how many until we
   // have rendered the whole report)

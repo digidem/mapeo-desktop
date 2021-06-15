@@ -33,8 +33,6 @@ const exampleWithPresets = exampleObservations.slice(0, 1).map(o => ({
   mediaSources: o.attachments.map(a => getMedia(a))
 }))
 
-console.log(exampleWithPresets)
-
 export default {
   title: 'ReportView/components/PDFReport',
   component: PDFReport,
