@@ -17,7 +17,7 @@ declare module '@react-pdf/renderer' {
   |}
   declare type ImagePropTypes = {|
     wrap?: boolean,
-    src?: string,
+    src?: string | Promise<{ data: Buffer, format: 'png' | 'jpg' }>,
     style?: any,
     debug?: boolean,
     fixed?: boolean,

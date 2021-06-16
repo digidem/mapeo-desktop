@@ -2,7 +2,9 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    app: './src/renderer/app.js'
+    app: './src/renderer/app.js',
+    pdfWorker:
+      './src/renderer/components/MapFilter/ReportView/renderReport.worker.js'
   },
   target: 'electron-renderer',
   externals: [
@@ -41,7 +43,7 @@ module.exports = {
       },
       {
         test: /\.ttf$/i,
-        loader: 'url-loader'
+        loader: 'file-loader'
       },
       {
         test: /\.png$/i,

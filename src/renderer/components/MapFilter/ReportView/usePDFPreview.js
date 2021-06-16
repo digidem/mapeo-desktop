@@ -3,7 +3,7 @@ import React from 'react'
 import QuickLRU from 'quick-lru'
 import type { Observation } from 'mapeo-schema'
 
-import { renderPDFReport } from './PDFReport'
+import renderPDFReport from './renderReport'
 import type { ReportViewContentProps } from './ReportViewContent'
 import logger from '../../../../logger'
 
@@ -103,7 +103,9 @@ export default function usePDFPreview ({
       )
       pdfCache.set(obs, pdfPromise)
       // Don't cache if render fails
-      pdfPromise.catch(() => pdfCache.delete(obs))
+      pdfPromise.catch(e => {
+        pdfCache.delete(obs)
+      })
       return pdfPromise
     }
 

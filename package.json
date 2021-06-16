@@ -118,6 +118,7 @@
     "fs-write-stream-atomic": "^1.0.10",
     "get-port": "^5.1.1",
     "get-scrollbar-width": "^1.0.4",
+    "get-stream": "^6.0.0",
     "hidden-mapbox": "^1.0.1",
     "html-react-parser": "^0.9.1",
     "id-mapeo": "^3.4.1",
@@ -168,12 +169,14 @@
     "sanitize-filename": "^1.6.3",
     "semver": "^7.3.2",
     "signal-exit": "^3.0.3",
+    "simple-concat": "^1.0.1",
     "styled-components": "^3.4.4",
     "subleveldown": "^3.0.1",
     "tar-fs": "^1.16.0",
     "terminate": "^2.1.2",
     "through2": "^2.0.5",
     "tiny-typed-emitter": "^2.0.3",
+    "uri-templates": "^0.2.0",
     "utm": "^1.1.1",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2",
@@ -259,10 +262,11 @@
     "typescript": "^4.2.2",
     "url-loader": "^4.1.1",
     "webpack": "^4.40.2",
-    "webpack-bundle-analyzer": "^3.8.0",
+    "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.9",
     "webpack-merge": "^4.2.2",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "worker-loader": "^3.0.5"
   },
   "license-check-config": {
     "src": [
