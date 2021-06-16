@@ -42,21 +42,9 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Exportar dados do mapa"
   },
-  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
-    "description": "Menu item for exporting GeoJSON",
-    "message": "Exportar GeoJSON…"
-  },
-  "renderer.components.MapEditor.ExportButton.exportShapefile": {
-    "description": "Menu item for exporting Shapefile",
-    "message": "Exportar Shapefile…"
-  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "OK"
-  },
-  "renderer.components.MapEditor.ExportButton.saveTitle": {
-    "description": "Save dialog title",
-    "message": "Exportar dados do mapa"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback e contribuição"
