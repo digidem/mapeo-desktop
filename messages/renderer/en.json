@@ -44,11 +44,11 @@
   },
   "renderer.components.MapEditor.ExportButton.exportGeoJson": {
     "description": "Menu item for exporting GeoJSON",
-    "message": "Export GeoJSON…"
+    "message": "Export Territory Data as GeoJSON…"
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
-    "message": "Export Shapefile…"
+    "message": "Export Territory Data as Shapefile…"
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
@@ -56,7 +56,7 @@
   },
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
-    "message": "Export map data"
+    "message": "Export Territory Data"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback & Contribute"
