@@ -92,7 +92,7 @@
   "welcome-screen-3-open-map": "Use settings for OpenStreetMap",
   "generating-indexes-title": "Indexes",
   "generating-indexes-body": "Regenerating indexes",
-  "menu-import-data": "Import data...",
+  "menu-import-data": "Import Territory data...",
   "menu-import-data-dialog": "Choose a file to import...",
   "menu-import-data-success": "Import complete!",
   "menu-import-data-error": "Error on import",
