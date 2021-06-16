@@ -42,21 +42,9 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "ការនាំចេញទិន្នន័យផែនទី"
   },
-  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
-    "description": "Menu item for exporting GeoJSON",
-    "message": "ការនាំចេញជាទម្រង់ GeoJSON..."
-  },
-  "renderer.components.MapEditor.ExportButton.exportShapefile": {
-    "description": "Menu item for exporting Shapefile",
-    "message": "ការនាំចេញជាទម្រង់ Shapefile..."
-  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "យល់ព្រម"
-  },
-  "renderer.components.MapEditor.ExportButton.saveTitle": {
-    "description": "Save dialog title",
-    "message": "នាំចេញទិន្នន័យផែនទី"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "មតិយោបល់ និងការចូលរួម"
