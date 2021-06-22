@@ -68,9 +68,12 @@ const ExportButton = ({ icca = false }) => {
     setMenuAnchor(event.currentTarget)
   }
 
-  const handleMenuItemClick = format => () => {
+  const closeMenu = () => {
     setMenuAnchor(null)
+  }
 
+  const handleMenuItemClick = format => () => {
+    closeMenu()
     if (format === 'icca') {
       setDialog('icca')
     } else {
@@ -165,7 +168,7 @@ const ExportButton = ({ icca = false }) => {
         id='export-menu'
         anchorEl={menuAnchor}
         open={Boolean(menuAnchor)}
-        onClose={handleMenuItemClick(null)}
+        onClose={closeMenu}
       >
         <MenuItem onClick={handleMenuItemClick('geojson')}>
           <FormattedMessage {...m.exportGeoJson} />
