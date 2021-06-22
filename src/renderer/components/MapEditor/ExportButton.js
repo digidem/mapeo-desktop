@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { makeStyles } from '@material-ui/core/styles'
 import { remote } from 'electron'
-
+import ICCAExportDialog from './ICCAExportDialog'
 import logger from '../../../logger'
 import api from '../../new-api'
 
@@ -23,6 +23,8 @@ const m = defineMessages({
   exportButton: 'Export map data',
   // Menu item for exporting GeoJSON
   exportGeoJson: 'Export Territory Data as GeoJSON…',
+  // Menu item for exporting ICCA Export Packages
+  exportICCAPackage: 'Export ICCA Export Package…',
   // Menu item for exporting Shapefile
   exportShapefile: 'Export Territory Data as Shapefile…',
   // OK button after successful export
@@ -55,11 +57,12 @@ const DialogAction = ({ children, onClick }) => (
   </DialogActions>
 )
 
-const ExportButton = () => {
+const ExportButton = ({ icca = false }) => {
   const { formatMessage: t } = useIntl()
   const [status, setStatus] = React.useState('idle')
   const cx = useStyles()
   const [menuAnchor, setMenuAnchor] = React.useState(null)
+  const [dialog, setDialog] = React.useState(null)
 
   const handleExportClick = event => {
     setMenuAnchor(event.currentTarget)
@@ -71,26 +74,30 @@ const ExportButton = () => {
 
   const handleMenuItemClick = format => () => {
     closeMenu()
-    const ext = format === 'shapefile' ? 'zip' : 'geojson'
-    remote.dialog
-      .showSaveDialog({
-        title: t(m.saveTitle),
-        defaultPath: t(m.defaultFilename) + '.' + ext,
-        filters: [{ name: format, extensions: [ext] }]
-      })
-      .then(({ canceled, filePath }) => {
-        if (!filePath || canceled) return
-        setStatus('pending')
-        api
-          .exportData(filePath, { format })
-          .then(() => {
-            setStatus('success')
-          })
-          .catch(err => {
-            setStatus('reject')
-            logger.error('ExportButton save dialog', err)
-          })
-      })
+    if (format === 'icca') {
+      setDialog('icca')
+    } else {
+      const ext = format === 'shapefile' ? 'zip' : 'geojson'
+      remote.dialog
+        .showSaveDialog({
+          title: t(m.saveTitle),
+          defaultPath: t(m.defaultFilename) + '.' + ext,
+          filters: [{ name: format, extensions: [ext] }]
+        })
+        .then(({ canceled, filePath }) => {
+          if (!filePath || canceled) return
+          setStatus('pending')
+          api
+            .exportData(filePath, { format })
+            .then(() => {
+              setStatus('success')
+            })
+            .catch(err => {
+              setStatus('reject')
+              logger.error('ExportButton save dialog', err)
+            })
+        })
+    }
   }
 
   const close = event => {
@@ -166,6 +173,11 @@ const ExportButton = () => {
         <MenuItem onClick={handleMenuItemClick('geojson')}>
           <FormattedMessage {...m.exportGeoJson} />
         </MenuItem>
+        {icca && (
+          <MenuItem onClick={handleMenuItemClick('icca')}>
+            <FormattedMessage {...m.exportICCAPackage} />
+          </MenuItem>
+        )}
       </Menu>
       <Dialog
         open={status !== 'idle'}
@@ -178,6 +190,10 @@ const ExportButton = () => {
       >
         {dialogContent}
       </Dialog>
+      <ICCAExportDialog
+        open={dialog === 'icca'}
+        onClose={() => setDialog(null)}
+      />
     </>
   )
 }

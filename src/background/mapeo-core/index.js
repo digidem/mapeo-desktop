@@ -1,6 +1,7 @@
 // @ts-check
 const os = require('os')
 const http = require('http')
+const concat = require('concat-stream')
 const promiseDefer = require('p-defer')
 
 const logger = require('../../logger')
@@ -180,6 +181,29 @@ module.exports = function init (opts) {
         }
         resolve()
       })
+    })
+  }
+
+  handlers['get-data'] = async opts => {
+    logger.info('Exporting data stream', opts)
+    const mapeo = await manager.deferredMapeo
+    return new Promise((resolve, reject) => {
+      const rs = mapeo.core.createDataStream(opts)
+      rs.on('error', err => {
+        logger.error(`mapeo.createDataStream(${opts})`, err)
+        rs.destroy()
+        return reject(err)
+      })
+      rs.pipe(
+        concat(stream => {
+          const geojson = JSON.parse(stream)
+          geojson.features = geojson.features.map(f => {
+            delete f.id
+            return f
+          })
+          resolve(geojson)
+        })
+      )
     })
   }
 

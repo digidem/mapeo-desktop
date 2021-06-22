@@ -39,7 +39,7 @@ const msgs = defineMessages({
  * @param {Function} options.formatMessage From react-intl formatMessage
  * @returns {ReadableStream} readableStream of zipfile data
  */
-export default function createZip (localFiles, remoteFiles, { formatMessage }) {
+export default function createZip (localFiles, remoteFiles = [], { formatMessage }) {
   const zipfile = new yazl.ZipFile()
   const errors = []
   const missingOriginals = []
