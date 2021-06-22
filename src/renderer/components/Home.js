@@ -92,6 +92,14 @@ const Logo = styled.div`
     cursor: default;
     margin: 0;
   }
+  h2 {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+    cursor: default;
+    margin: 0;
+    line-height: 0.9;
+  }
 `
 
 const MapeoIcon = styled(LocationOn)`
@@ -252,7 +260,10 @@ export default function Home ({ onSelectLanguage }) {
         <TitleBarShim />
         <Logo>
           <MapeoIcon fontSize='large' />
-          <h1>Mapeo</h1>
+          <div>
+            <h1>Mapeo</h1>
+            {buildConfig.variant === 'icca' ? <h2>for ICCAs</h2> : null}
+          </div>
         </Logo>
         <StyledTabs
           orientation='vertical'
