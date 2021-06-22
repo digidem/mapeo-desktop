@@ -15,6 +15,7 @@ const electronIpc = require('./ipc')
 const ClientIpc = require('../client-ipc')
 const { MainWindow, LoadingWindow, ClosingWindow } = require('./windows')
 const { once } = require('events')
+const buildConfig = require('../build-config')
 
 /** @typedef {import('../utils/types').MapeoCoreOptions} MapeoCoreOptions */
 /** @typedef {import('electron').BrowserWindow} BrowserWindow */
@@ -164,8 +165,11 @@ async function startup ({
     // Load closing window, so it's ready when we need it
     winClosing.loadFile(ClosingWindow.filePath)
 
-    // Start checking for in-app updates
-    updater.periodicUpdates()
+    // Start checking for in-app updates only for main variant
+    // TODO: Support auto-updates for other variants
+    if (buildConfig.variant === 'main') {
+      updater.periodicUpdates()
+    }
   } catch (err) {
     onError(err)
   }

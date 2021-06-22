@@ -19,7 +19,9 @@ jobs:
           - { os: ubuntu-latest, arch: x64 }
           - { os: windows-latest, arch: x64 }
           - { os: windows-latest, arch: ia32 }
-
+        variant:
+          - main
+          - icca
     steps:
       - name: Context
         env:
@@ -66,12 +68,13 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          MAPEO_VARIANT: ${{ matrix.variant }}
       - name: Cleanup artifacts
         run: |
-          npx rimraf@2 'dist/!(*.exe|*.deb|*.AppImage|*.dmg)'
+          npx rimraf@2 'dist/${{ matrix.variant }}/!(*.exe|*.deb|*.AppImage|*.dmg)'
         shell: bash
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: '${{ matrix.config.os }}-${{ matrix.config.arch }}'
-          path: dist
+          name: '${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.variant }}'
+          path: dist/${{ matrix.variant }}

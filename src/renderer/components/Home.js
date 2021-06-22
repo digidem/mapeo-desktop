@@ -10,7 +10,6 @@ import ObservationIcon from '@material-ui/icons/PhotoLibrary'
 import SyncIcon from '@material-ui/icons/OfflineBolt'
 import WarningIcon from '@material-ui/icons/Warning'
 
-import pkg from '../../../package.json'
 import LatLonDialog from './dialogs/LatLon'
 import ErrorDialog from './dialogs/Error'
 import ChangeLanguage from './dialogs/ChangeLanguage'
@@ -21,6 +20,7 @@ import SyncView from './SyncView'
 import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import useUpdater from './UpdaterView/useUpdater'
 import Loading from './Loading'
+import buildConfig from '../../build-config'
 
 const MapFilter = React.lazy(() =>
   import(
@@ -71,7 +71,7 @@ const Sidebar = styled.div`
   flex-direction: column;
   -webkit-app-region: drag;
   -webkit-user-select: none;
-  background-color: #000033;
+  background-color: ${buildConfig.variant === 'icca' ? '#63A25C' : '#000033'};
   color: white;
   z-index: 99;
   @media only print {
@@ -117,7 +117,7 @@ const StyledTab = styled(Tab)`
     text-transform: capitalize;
   }
   &.Mui-selected {
-    background-color: #33335c;
+    background-color: ${buildConfig.variant === 'icca' ? '#5a7f4e' : '#33335c'};
   }
   & .MuiTab-wrapper {
     justify-content: flex-start;
@@ -150,7 +150,7 @@ const Version = styled.div`
   align-self: flex-start;
   margin: auto 10px 10px 10px;
   font-size: 0.8rem;
-  color: #aaaaaa;
+  color: ${buildConfig.variant === 'icca' ? '#eeeeee' : '#aaaaaa'};
 `
 
 const LoadingContainer = styled.div`
@@ -270,7 +270,7 @@ export default function Home ({ onSelectLanguage }) {
             />
           )}
         </StyledTabs>
-        <Version>Mapeo v{pkg.version}</Version>
+        <Version>Mapeo v{buildConfig.version}</Version>
       </Sidebar>
       <TabContent>
         <TabPanel value={tabIndex} index={0} component={MapEditor} />

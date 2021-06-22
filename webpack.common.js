@@ -14,7 +14,8 @@ module.exports = {
     '@bugsnag/browser',
     'ajv',
     'electron-debug',
-    'mime-db'
+    'mime-db',
+    '../package.json'
   ],
   // plugins: [new LiveReloadPlugin()],
   // plugins: [new BundleAnalyzerPlugin()],

@@ -6,7 +6,7 @@ const { format } = require('date-fns')
 const isDev = require('electron-is-dev')
 
 const store = require('./store')
-const appVersion = require('../package.json').version
+const appVersion = require('./build-config').version
 
 let Bugsnag
 
