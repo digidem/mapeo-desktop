@@ -65,8 +65,12 @@ const ExportButton = () => {
     setMenuAnchor(event.currentTarget)
   }
 
-  const handleMenuItemClick = format => () => {
+  const closeMenu = () => {
     setMenuAnchor(null)
+  }
+
+  const handleMenuItemClick = format => () => {
+    closeMenu()
     const ext = format === 'shapefile' ? 'zip' : 'geojson'
     remote.dialog
       .showSaveDialog({
@@ -157,7 +161,7 @@ const ExportButton = () => {
         id='export-menu'
         anchorEl={menuAnchor}
         open={Boolean(menuAnchor)}
-        onClose={handleMenuItemClick(null)}
+        onClose={closeMenu}
       >
         <MenuItem onClick={handleMenuItemClick('geojson')}>
           <FormattedMessage {...m.exportGeoJson} />
