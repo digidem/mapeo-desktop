@@ -243,10 +243,6 @@
     "description": "Hide all fields in report view",
     "message": "Ocultar todo"
   },
-  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
-    "description": "Button label for hide fields menu",
-    "message": "{count} Campos ocultos"
-  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
     "message": "Mostrar todo"
@@ -254,18 +250,6 @@
   "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
     "description": "Button label for hide fields menu",
     "message": "Detalles"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.close": {
-    "description": "Button label to close print settings dialog",
-    "message": "Cerrar"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
-    "description": "Title of print settings dialog",
-    "message": "Ajustes de impresión"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to save a report",
-    "message": "Imprimir"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"

@@ -3,6 +3,7 @@ module.exports = {
     dialog: {
       showSaveDialog: (opts, cb) => cb('stubbed-filename')
     },
-    getGlobal: (name) => 'localhost'
-  }
+    getGlobal: name => 'localhost'
+  },
+  app: {}
 }

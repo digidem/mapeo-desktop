@@ -1,4 +1,4 @@
-declare module '@digidem/react-pdf-renderer' {
+declare module '@react-pdf/renderer' {
   declare type TextPropTypes = {|
     wrap?: boolean,
     render?: (_: {| pageNumber: number, totalPages: number |}) => string,
@@ -17,7 +17,7 @@ declare module '@digidem/react-pdf-renderer' {
   |}
   declare type ImagePropTypes = {|
     wrap?: boolean,
-    src?: string,
+    src?: string | Promise<{ data: Buffer, format: 'png' | 'jpg' }>,
     style?: any,
     debug?: boolean,
     fixed?: boolean,

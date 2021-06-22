@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ipcRenderer, remote, shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
@@ -42,6 +42,9 @@ insertCss(`
   }
   .id-container #bar .toolbar-item.sidebar-toggle {
     display: none;
+  }
+  .id-container.collapsed-sidebar #bar .toolbar-item.sidebar-toggle {
+    display: inherit;
   }
   .id-container #bar > .toolbar-item.spacer:nth-child(2) {
     display: none;
@@ -115,10 +118,10 @@ const MapEditor = () => {
 
   React.useEffect(
     function setupListeners () {
-      ipcRenderer.on('zoom-to-data-node', zoomToData)
+      ipcRenderer.on('zoom-to-data-territory', zoomToData)
       ipcRenderer.on('zoom-to-latlon-response', zoomToData)
       return () => {
-        ipcRenderer.removeListener('zoom-to-data-node', zoomToData)
+        ipcRenderer.removeListener('zoom-to-data-territory', zoomToData)
         ipcRenderer.removeListener('zoom-to-latlon-response', zoomToData)
       }
     },
@@ -164,7 +167,7 @@ const MapEditor = () => {
       if (!rootRef.current) return
       updateSettings()
 
-      var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
+      var serverUrl = `http://127.0.0.1:${window.mapeoServerPort}`
       id.current = window.id = iD
         .coreContext()
         .assetPath('../node_modules/id-mapeo/dist/')
@@ -278,7 +281,9 @@ const MapEditor = () => {
       // Enable the ICCA export button if there is a preset with the tag
       // `protection_title=icca`. Object.keys().find() returns a string
       // if the preset is found; use `typeof` to coerce it to a boolean.
-      const iccaConfig = Object.keys(presets.presets).find(key => presets.presets[key].tags.protection_title === 'icca')
+      const iccaConfig = Object.keys(presets.presets).find(
+        key => presets.presets[key].tags.protection_title === 'icca'
+      )
       setIccaConfig(typeof iccaConfig === 'string')
     }
     if (customCss) insertCss(customCss)
@@ -304,7 +309,8 @@ const MapEditor = () => {
   return (
     <div className='id-container'>
       <div ref={rootRef} />
-      {toolbarEl && ReactDOM.createPortal(<ExportButton icca={isIccaConfig} />, toolbarEl)}
+      {toolbarEl &&
+        ReactDOM.createPortal(<ExportButton icca={isIccaConfig} />, toolbarEl)}
     </div>
   )
 }

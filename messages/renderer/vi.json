@@ -11,13 +11,44 @@
     "description": "Synchronize tab label",
     "message": "Đồng bộ"
   },
+  "renderer.components.Home.update": {
+    "message": "Cập nhật Mapeo"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Đang tải…"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Đóng"
   },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "mapeo-bản đồ-dữ liệu"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "Xuất không thành công do lỗi nội bộ"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "Xuất dữ liệu hoàn tất"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "Đang xuất dữ liệu"
+  },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Xuất dữ liệu"
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Xuất dữ liệu dạng GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Xuất dữ liệu dạng Shapefile…"
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
@@ -27,6 +58,12 @@
     "description": "Save dialog title",
     "message": "Xuất dữ liệu"
   },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "Phản hồi & Đóng góp"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Mô tả"
+  },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
     "message": "Hủy"
@@ -35,9 +72,96 @@
     "description": "Close button (shown if user has no data to export)",
     "message": "Đóng"
   },
+  "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "dữ liệu-quansát-mapeo"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+    "message": "Tất cả {count} quan sát"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+    "message": "{count} quan sát đã được lọc"
+  },
+  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "Chỉ dữ liệu đã được lọc hay tất cả dữ liệu?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.format": {
+    "description": "Label for data format selector",
+    "message": "Định dạng dữ liệu"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "Đồng thời xuất các ảnh?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "Kết quả xuất ra sẽ dưới dạng file nén bao gồm cả dữ liệu và các hình ảnh"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "Không có ảnh"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "Các ảnh với kích thước đầy đủ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "Các ảnh với kích thước xem trước"
+  },
+  "renderer.components.MapFilter.DataExportDialog.noData": {
+    "description": "Shown when there is no data to export",
+    "message": "Bạn chưa có dữ liệu nào để xuất ra."
+  },
   "renderer.components.MapFilter.DataExportDialog.save": {
     "description": "Save button",
     "message": "Lưu"
+  },
+  "renderer.components.MapFilter.DataExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Xuất các quan sát"
+  },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "Xuất dữ liệu quan sát"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "Xuất các quan sát…"
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "Xuất dạng Bản đồ web…"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "Đến"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "Từ"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Ngày tạo quan sát"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Chỉnh sửa bộ lọc…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Đã sửa đổi"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Phân loại"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Chỉ"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Tất cả"
   },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "Lọc theo…"
@@ -45,6 +169,10 @@
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
     "message": "Hủy"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "Mô tả bản đồ"
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
@@ -54,9 +182,31 @@
     "description": "Label for field to enter custom map style",
     "message": "Kiểu bản đồ"
   },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "Thêm các điều khoản và giới hạn về cách sử dụng dữ liệu này"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "Các điều khoản & Giới hạn"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Xuất bản đồ để chia sẻ trực tuyến"
+  },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
     "message": "Tiêu đề bản đồ"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "Những chi tiết dưới đây sẽ hữu ích để khắc phục sự cố này…"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "Có lỗi xảy ra"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Dữ liệu bổ sung"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
@@ -65,24 +215,105 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
     "message": "Hủy"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Hủy bỏ thay đổi"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "Bạn vừa thực hiện một số thay đổi, đóng mà không lưu sẽ làm mất các thay đổi đó"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Đóng lại mà không lưu thay đổi?"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "Hủy"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Có, xóa"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Xóa quan sát?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Xóa quan sát"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Chi tiết"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
     "message": "Lưu"
   },
-  "renderer.components.MapFilter.ReportView.PrintButton.close": {
-    "description": "Button label to close print settings dialog",
-    "message": "Đóng"
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Ẩn tất cả"
   },
-  "renderer.components.MapFilter.ReportView.PrintButton.dialogTitle": {
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Các trường bị che đi} =1 {1 Hidden Field} other {# Các trường bị che đi}}"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Hiện Tất cả"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
+    "message": "Được tạo tại"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "Chi tiết"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
+    "message": "Vị trí"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "Chưa có quan sát nào."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Đã xảy ra lỗi chưa xác định khi tạo báo cáo"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Trang {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo Bao cao Giam sat.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Tiếp theo"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Quay lại"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Đang tạo báo cáo…"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Lưu dưới dạng PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Hủy"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Tiếp tục"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Báo cáo này gồm {observationCount} quan sát và có thể mất vài phút để tạo báo cáo. Bạn có chắc muốn tiếp tục?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
     "description": "Title of print settings dialog",
-    "message": "Print settings"
-  },
-  "renderer.components.MapFilter.ReportView.PrintButton.print": {
-    "description": "Button label to save a report",
-    "message": "Print"
+    "message": "Cảnh báo: Báo cáo lớn"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Bản đồ"
@@ -93,6 +324,10 @@
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "Báo cáo"
   },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Quan sát"
+  },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
     "message": "Đảm bảo rằng các thiết bị khác được bật lên và kết nối với cùng mạng Wifi"
@@ -100,5 +335,179 @@
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
     "message": "Tìm kiếm…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Ngừng kết nối"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "Trước tiên, bạn cần kết nối với mạng Wifi trước khi có thể đồng bộ hóa các thiết bị"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Tạo file đồng bộ mới…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "Chất lượng: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "Tín hiệu kết nối rất tốt"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "Tín hiệu kết nối rất kém. Hãy thử đến gần bộ định tuyến Wifi hơn"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "Tín hiệu kết nối yếu. Quá trình đồng bộ hóa có thể mất nhiều thời gian hơn để hoàn thành"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "Đồng bộ hóa từ một file…"
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "Các thiết bị có sẵn"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "Không xác định"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "Thẻ WiFi hoặc Hệ điều hành (OS) của bạn chưa được nhận dạng"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "Hoàn thành"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Ngừng kết nối"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Đang hoàn thành…"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "Thử lại"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "Đang bắt đầu…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "Đồng bộ hóa"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "Dữ liệu: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "Lỗi đồng bộ hóa"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "Lần đồng bộ gần nhất:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "Ảnh: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Tạo một bộ dữ liệu mới để đồng bộ hóa"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} cần được nâng cấp phiên bản Mapeo"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "Bạn cần phải nâng cấp phiên bản Mapeo để đồng bộ với {deviceName}"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Chọn một bộ dữ liệu để đồng bộ hóa"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Đang ước lượng..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Tải xuống"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Đang tải xuống"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Đã xảy ra lỗi và Mapeo không thể cập nhật. Hãy thử lại sau."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Lỗi"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Ước lượng thời gian để tải xuống là"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Bản cập nhật này sẽ làm cho ứng dụng của bạn không tương thích với các phiên bản trước đó."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Bản cập nhật này có những cải tiến có thể thay đổi trải nghiệm của bạn."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Bản cập nhật này có những thay đổi để sửa các lỗi quan trọng. Hãy cập nhật càng sớm càng tốt."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Khởi động lại"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Một bản cập nhật của Mapeo vừa được tải xuống. Khởi động lại Mapeo để cập nhật."
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Không xác định"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Cập nhật"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo đã được cập nhật! Bạn đang sử dụng phiên bản mới nhất."
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Hủy"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "Gửi"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Chọn ngôn ngữ"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Đóng"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Mở Nhật kí..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "Gửi"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "Nhập tọa độ"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Lỗi khi xuất"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Đã xảy ra lỗi khi thực hiện xuất các file này, vì vậy chúng sẽ không có trong báo cáo xuất ra:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Thiếu bản gốc"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "Không thể tìm thấy kích thước ban đầu của các file này, chỉ bao gồm các hình ảnh có kích thước xem trước (1.200 pixel). Điều này có thể xảy ra vì điện thoại dùng để chụp những ảnh này chỉ được đồng bộ hóa với các điện thoại khác chứ không phải trực tiếp với Mapeo Desktop. Để sửa lỗi này, hãy tìm điện thoại đã chụp ảnh và đồng bộ hóa nó với Mapeo Desktop trước khi xuất lại báo cáo."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Không có câu trả lời"
   }
 }

@@ -4,8 +4,10 @@ dist
 examples/.dat
 static/*.bundle.js*
 static/*.worker.js*
+static/*.ttf
 test/lib/test-data
 bin/test-data
 translations
 storybook-static
 updates
+temp-resources

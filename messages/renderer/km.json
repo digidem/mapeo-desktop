@@ -1,1 +1,513 @@
-{}
+{
+  "renderer.components.Home.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "ដែនដី"
+  },
+  "renderer.components.Home.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "ការសង្កេត"
+  },
+  "renderer.components.Home.sync": {
+    "description": "Synchronize tab label",
+    "message": "ធ្វើសមកាលកម្ម"
+  },
+  "renderer.components.Home.update": {
+    "message": "ធ្វើបច្ចុប្បន្នភាពមែបភីអូ"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "កំពុង​ផ្ទុក..."
+  },
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": "បិទ"
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "ទិន្នន័យផែនទីមែបភីអូ"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "នាំចេញ​មិន​បាន​សម្រេច​ដោយ​សារ​មាន​បញ្ហា​ផ្ទៃក្នុង"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "ការនាំចេញបានសម្រេច"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "ការនាំចេញទិន្នន័យ"
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": "ការនាំចេញទិន្នន័យផែនទី"
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "ការនាំចេញជាទម្រង់ GeoJSON..."
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "ការនាំចេញជាទម្រង់ Shapefile..."
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": "យល់ព្រម"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "នាំចេញទិន្នន័យផែនទី"
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "មតិយោបល់ និងការចូលរួម"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "សេចក្ដីពិពណ៌នា"
+  },
+  "renderer.components.MapFilter.DataExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.DataExportDialog.close": {
+    "description": "Close button (shown if user has no data to export)",
+    "message": "បិទ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "ទិន្នន័យសង្កេតផែនទីមែបភីអូ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+    "message": "ការសង្កេតសរុបចំនួន{count}"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+    "message": "ការសង្កេតដែលបានច្រោះចំនួន{count}"
+  },
+  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "តែទិន្នន័យដែលបានច្រោះ ឬទិន្នន័យទាំងអស់?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.format": {
+    "description": "Label for data format selector",
+    "message": "ទិន្ន័យទម្រង់"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "នាំចេញរូបថតដែរ?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "ការនាំចេញនឹងក្លាយជាឯកសារទម្រង់ Zip ដែលផ្ទុកទិន្នន័យនិងរូបថត"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "គ្មានរូបថត"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "រូបថតទំហំពេញ"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "មើលទំហំរូបថតជាមុន"
+  },
+  "renderer.components.MapFilter.DataExportDialog.noData": {
+    "description": "Shown when there is no data to export",
+    "message": "អ្នកមិនមានទិន្នន័យសម្រាប់នាំចេញទេ។"
+  },
+  "renderer.components.MapFilter.DataExportDialog.save": {
+    "description": "Save button",
+    "message": "រក្សាទុក"
+  },
+  "renderer.components.MapFilter.DataExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "នាំចេញការសង្កេត"
+  },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "នាំចេញទិន្នន័យសង្កេត"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "នាំចេញការសង្កេត..."
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "នាំចេញផែនទីគេហទំព័រ..."
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "ទៅ"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "ពី"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "កាលបរិច្ឆេទនៃការសង្កេត"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "កែសម្រួល​ការច្រោះ..."
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "បានផ្លាស់ប្តូរ"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "ប្រភេទ"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "តែមួយគត់"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "ទាំងអស់"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "ច្រោះដោយ..."
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "សេចក្ដីពិពណ៌នាអំពីផែនទី"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "រក្សាទុក"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "ស្តាយផែនទី"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "បន្ថែមលក្ខណ្ឌនិងការកំហិតពីការប្រើប្រាស់ទិន្នន័យ"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "លក្ខណ្ឌនិងការកំហិត"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "នាំចេញផែនទីដើម្បីចែករំលែកតាមអ៊ីនធឺណិត"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "ចំណងជើងផែនទី"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "ព័ត៌មានលម្អិតខាងក្រោមនឹងមានប្រយោជន៍សម្រាប់ការស្វែងរកវិធីដើម្បីជួសជុលបញ្ហានេះ…"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "អូ! កំហុសឆ្គងមួយបានកើតឡើង"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "ទិន្នន័យបន្ថែម"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "លះបង់​ការកែប្រែ"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "អ្នកបានធ្វើការផ្លាស់ប្តូរមួយចំនួន ការបិទដោយមិនរក្សាទុកនឹងធ្វើអោយបាត់បង់អ្វីដែលបានផ្លាស់ប្តូរ"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "បិទដោយមិនរក្សាទុកការផ្លាស់ប្តូរ?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "បាទ/ចាស លុបចោល"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "លុបការសង្កេត?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "លុបការសង្កេត"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "ព័ត៌មានលម្អិត"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "រក្សាទុក"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "លាក់​ទាំងអស់"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {វាលលាក់} =1 {1 វាលលាក់} other {# វាលលាក់}}"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "បង្ហាញ​ទាំងអស់"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
+    "message": "បង្កើតពី"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "ព័ត៌មានលម្អិត"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
+    "message": "ទីតាំង"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "មិនមានការសង្កេតទេ។"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "មានកំហុសឆ្គងមិនស្គាល់បានកើតឡើងនៅពេលព្យាយាមបង្កើតរបាយការណ៍"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "ទំព័រទី{currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "របាយការណ៍តាមដាន់មែបភីអូ.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "បន្ទាប់"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "មុន"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "កំពុង​បង្កើត​របាយការណ៍..."
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "រក្សា​ទុក​ជា PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "បោះបង់"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "បន្ត"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "របាយការណ៍នេះមានការសង្កេតចំនួន {observationCount} ហើយអាចចំណាយពេលពីរបីនាទីដើម្បីបង្កើត។ តើអ្នកប្រាកដជាចង់បន្តឬទេ?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "ការព្រមាន៖ របាយការណ៍ទំហំធំ"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "ផែនទី"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "មេឌៀ"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "របាយការណ៍"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "ការសង្កេត"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "ធានាថាឧបករណ៍ផ្សេងទៀតត្រូវបានបើក និងភ្ជាប់ទៅបណ្តាញវ៉ាយហ្វាយតែមួយ"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "កំពុងស្វែងរក…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "បាន​ផ្ដាច់"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "ដំបូងអ្នកត្រូវភ្ជាប់ទៅកាន់បណ្តាញវ៉ាយហ្វាយ មុនពេលអាចធ្វើសមកាលកម្មឧបករណ៍"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "បានបង្កើត syncfile ថ្មី..."
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "គុណភាព៖ {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "សេវាតភ្ជាប់មានភាពល្អបំផុត"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "សេវាតភ្ជាប់មានភាពខ្សោយ។ ព្យាយាមខិតទៅជិតទៅកាន់រ៉ោតទ័រវ៉ាយហ្វាយ"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "សេវាតភ្ជាប់មានភាពខ្សោយ។ ការធ្វើសមកាលកម្មអាចអូសបន្លាយពេលយូរដើម្បីបញ្ចប់"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "ធ្វើសមកាលកម្ម​ជាមួយឯកសារ..."
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "ឧបករណ៍​ដែល​អាច​ប្រើ​បាន"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "មិន​ស្គាល់"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "កាត់វ៉ាយហ្វាយ ឬប្រព័ន្ធប្រតិបត្តការ (OS) មិនត្រូវបានស្គាល់"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "បញ្ចប់"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "បាន​ផ្ដាច់"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "កំពុងបញ្ចាប់..."
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "ព្យាយាមម្ដងទៀត"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "កំពុងចាប់ផ្តើម..."
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "ធ្វើសមកាលកម្ម"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "មូលដ្ឋានទិន្នន័យ៖{sofar}/{total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "ការធ្វើសមកាលកម្មមានកំហុសឆ្គង"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "ការធ្វើសមកាលកម្មចុងក្រោយ៖"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "រូបថត៖{sofar}/{total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "បង្កើតមូលដ្ឋានទិន្នន័យថ្មីដើម្បីធ្វើធ្វើសមកាលកម្ម​"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} ត្រូវការតម្លើងកំណែថ្មីរបស់មែបភីអូ"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "អ្នកត្រូវតម្លើងកំណែថ្មីរបស់មែបភីអូដើម្បីធ្វើសមកាលកម្ម​ជាមួយ {deviceName}"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "ជ្រើសរើសមូលដ្ឋានទិន្នន័យដើម្បីធ្វើធ្វើសមកាលកម្ម​"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "កំពុងគណនា..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "ទាញយក"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "កំពុងទាញយក"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "មានកំហុសឆ្គងមួយបានកើតឡើង ហើយមែបភីអូមិនអាចធ្វើបច្ចុប្បន្នភាពបានទេ។ សូមព្យាយាម​ម្តង​ទៀត​នៅ​ពេលក្រោយ។"
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "កំហុសឆ្គង"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "រយៈពេលក្នុងការទាញយកដែលបានគណនាគឺ"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "ការធ្វើបច្ចុប្បន្នភាពនេះនឹងធ្វើឱ្យកម្មវិធីរបស់អ្នកមិនអាចដំណើរការបានជាមួយនឹងកំណែមុនៗ។"
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "ការធ្វើបច្ចុប្បន្នភាពនេះរួមបញ្ចូលការកែលម្អដែលអាចផ្លាស់ប្តូរបទពិសោធន៍របស់អ្នក។"
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "ការធ្វើបច្ចុប្បន្នភាពនេះរួមបញ្ចូលការកំណែរដែលជួសជុលកំហុសឆ្គងសំខាន់ៗ។ សូមធ្វើបច្ចុប្បន្នភាពឱ្យបានឆាប់តាមដែលអាចធ្វើទៅបាន។"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "ចាប់ផ្ដើមឡើងវិញ"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "កំណែរមែបភីអូថ្មីត្រូវបានទាញយក។ បិទហើយបើកមែបភីអូឡើងវិញដើម្បីធ្វើបច្ចុប្បន្នភាព។"
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "មិន​ស្គាល់"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "ធ្វើបច្ចុប្បន្នភាព"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "មែបភីអូនេះគឺទាន់សម័យ។ អ្នកកំពុងប្រើប្រាស់កំណែចុងក្រោយគេបង្អស់។"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "បោះបង់"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "បញ្ជូន"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "ជ្រើសរើសភាសា"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "បិទ"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "បើកកំណត់ត្រា..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "បញ្ជូន"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "បញ្ចូលលេខនិយាមកា"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "ការនាំចេញមានបញ្ហា"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "មានកំហុសឆ្គងក្នុងការព្យាយាមនាំចេញឯកសារទាំងនេះ ដូច្នេះឯកសារទាំងនេះបានបាត់ពីការនាំចេញនេះ៖"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "បាត់បង់ភាពដើម"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "ទំហំដើមនៃឯកសារទាំងនេះមិនអាចរកឃើញទេ មានតែទំហំមើលជាមុន (១២០០ ភីកសែល) តែប៉ុណ្ណោះដែលត្រូវបានបញ្ចូល។ បញ្ហានេះអាចកើតឡើងដោយសារតែទូរស័ព្ទដែលបានថតរូបបានធ្វើសមកាលកម្មទៅនឹងទូរស័ព្ទដទៃទៀតហើយមិនធ្វើសមកាលកម្មទៅកាន់មែបភីអូដេសថប់ទេ។ ដើម្បីសាកល្បងជួសជុល ស្វែងរកទូរស័ព្ទដែលបានថតរូបហើយធ្វើសមកាលកម្មជាមួយមែបភីអូដេសថប់មុនពេលនាំចេញម្តងទៀត។"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "គ្មាន​ចម្លើយ"
+  }
+}

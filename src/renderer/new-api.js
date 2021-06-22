@@ -1,10 +1,13 @@
 import 'core-js/es/reflect'
 import ky from 'ky/umd'
 import logger from '../logger'
+import UriTemplate from 'uri-templates'
 
 export default Api({
-  // window.middlewareClient is set in src/middleware/client-preload.js
-  ipc: window.middlewareClient
+  // globals are set in src/middleware/client-preload.js
+  ipc: window.middlewareClient,
+  baseUrl: `http://127.0.0.1:${window.mapeoServerPort}/`,
+  mapUrl: `http://127.0.0.1:${window.mapPrinterPort}/`
 })
 
 function Api ({ baseUrl, mapUrl, ipc }) {
@@ -14,7 +17,7 @@ function Api ({ baseUrl, mapUrl, ipc }) {
   // style will be cache-busted.
   const startupTime = Date.now()
 
-  let req = ky.create({
+  const req = ky.create({
     prefixUrl: baseUrl,
     // No timeout because indexing after first sync takes a long time, which mean
     // requests to the server take a long time
@@ -34,6 +37,8 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       .catch(error => {
         // Preset errors aren't fatal errors.
         if (prefix.indexOf('presets') > -1) logger.info(prefix, error)
+        // Styles errors aren't fatal errors either.
+        else if (prefix.indexOf('styles') > -1) logger.info(prefix, error)
         else logger.error(prefix, error)
       })
     return promise
@@ -54,19 +59,8 @@ function Api ({ baseUrl, mapUrl, ipc }) {
 
   // All public methods
   const api = {
-    // Hacky solution, probably need to create the api instance in the app, once
-    // the backend has loaded
-    setBaseUrl: function setBaseUrl (url) {
-      baseUrl = url
-      req = ky.extend({ prefixUrl: baseUrl })
-    },
-
     getBaseUrl: function getBaseUrl () {
       return baseUrl
-    },
-
-    setMapUrl: function (url) {
-      mapUrl = url
     },
 
     /**
@@ -234,6 +228,10 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       ipc.send('zoom-to-data-get-centroid', type, cb)
     },
 
+    getMapImageTemplateURL: function () {
+      return `${mapUrl}map/{lon}/{lat}/{zoom}/{width}/{height}/x{dpi}.png{?style,accessToken}`
+    },
+
     getMapImageURL: function ({
       lon,
       lat,
@@ -244,18 +242,17 @@ function Api ({ baseUrl, mapUrl, ipc }) {
       style,
       accessToken
     }) {
-      let url = `${mapUrl}map/${lon}/${lat}/${zoom}/${width}/${height}/x${dpi}.png`
-      const searchParams = []
-      if (typeof style === 'string') {
-        searchParams.push('style=' + style)
-      }
-      if (typeof accessToken === 'string') {
-        searchParams.push('accessToken=' + accessToken)
-      }
-      if (searchParams.length) {
-        url += '?' + searchParams.join('&')
-      }
-      return url
+      const template = new UriTemplate(api.getMapImageTemplateURL())
+      return template.fillFromObject({
+        lon,
+        lat,
+        zoom,
+        width,
+        height,
+        dpi,
+        style,
+        accessToken
+      })
     }
   }
 
