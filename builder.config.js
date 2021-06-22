@@ -188,7 +188,7 @@ module.exports = async () => {
 
   let variantConfigTransform = config => config
   const variant = process.env.MAPEO_VARIANT
-  if (variant) {
+  if (variant && variant !== 'main') {
     try {
       variantConfigTransform = require(path.join(
         __dirname,
@@ -197,7 +197,7 @@ module.exports = async () => {
         'builder.config.js'
       ))
     } catch (e) {
-      throw new Error('No configuration for variant ' + variant)
+      console.warn('No configuration for variant ' + variant)
     }
   }
 
