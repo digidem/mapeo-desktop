@@ -18,6 +18,10 @@ const config = {
     entitlements: 'build/entitlements.mac.plist',
     entitlementsInherit: 'build/entitlements.mac.plist'
   },
+  directories: {
+    buildResources: 'build',
+    output: 'dist/main'
+  },
   win: {
     target: 'NSIS',
     artifactName: 'Installar_Mapeo_v${version}_${os}-${env.ARCH}.${ext}',
@@ -182,5 +186,20 @@ module.exports = async () => {
 
   config.files = [...files, ...excludeModules, ...extraIncludeFiles]
 
-  return config
+  let variantConfigTransform = config => config
+  const variant = process.env.MAPEO_VARIANT
+  if (variant && variant !== 'main') {
+    try {
+      variantConfigTransform = require(path.join(
+        __dirname,
+        'variants',
+        variant,
+        'builder.config.js'
+      ))
+    } catch (e) {
+      console.warn('No configuration for variant ' + variant)
+    }
+  }
+
+  return variantConfigTransform(config)
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import semver from 'semver'
-import { version as appVersion } from '../../../../package.json'
+import { version as appVersion } from '../../../build-config'
 import STATES from './states'
 import electronIpc from '../../electron-ipc'
 
@@ -12,9 +12,9 @@ export default function useUpdater () {
     state: STATES.IDLE
   })
 
-  useEffect(
-    () => {
-      const updateListener = electronIpc.addUpdateStatusListener(({ serverState, info }) => {
+  useEffect(() => {
+    const updateListener = electronIpc.addUpdateStatusListener(
+      ({ serverState, info }) => {
         switch (serverState) {
           case 'update-error':
             setUpdate({
@@ -50,7 +50,9 @@ export default function useUpdater () {
             info.minor = next.minor > past.minor
             info.patch = next.patch > past.patch
 
-            info.size = info.files.map((file) => file.size).reduce((a, b) => a + b, 0)
+            info.size = info.files
+              .map(file => file.size)
+              .reduce((a, b) => a + b, 0)
 
             setUpdate({
               updateInfo: info,
@@ -65,12 +67,12 @@ export default function useUpdater () {
               state: STATES.UPDATE_INACTIVE
             })
         }
-      })
-      return () => {
-        if (updateListener) updateListener.remove()
       }
+    )
+    return () => {
+      if (updateListener) updateListener.remove()
     }
-    , [])
+  }, [])
 
   function downloadUpdate () {
     setUpdate({

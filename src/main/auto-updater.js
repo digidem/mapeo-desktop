@@ -2,7 +2,7 @@ const { autoUpdater } = require('electron-updater')
 const events = require('events')
 const fetch = require('node-fetch')
 const compareVersions = require('compare-versions')
-const currentVersion = require('../../package.json').version
+const currentVersion = require('../build-config').version
 
 const networkSpeed = require('./network-speed')
 const store = require('../store')
@@ -76,35 +76,44 @@ class MapeoUpdater extends events.EventEmitter {
   }
 
   updateAvailable (onupdate) {
-    autoUpdater.on('update-available', async ({
-      version, files, path, sha512, releaseDate
-    }) => {
-      // this is a hack for a bug when you switch between channels,
-      // it'll continue to say there is an update available when there is not
-      // anymore
-      if (compareVersions(version, currentVersion) <= 0) {
-        return logger.info('Version', version, 'was less than curent version', currentVersion, 'ignoring update')
-      }
-      // TODO: Expose this in the UI somehow.
-      if (!this.isActive()) {
-        this.emit('update-inactive')
-        return logger.info('[UPDATER] Must use an AppImage, dmg, or exe for automatic updates.')
-      }
+    autoUpdater.on(
+      'update-available',
+      async ({ version, files, path, sha512, releaseDate }) => {
+        // this is a hack for a bug when you switch between channels,
+        // it'll continue to say there is an update available when there is not
+        // anymore
+        if (compareVersions(version, currentVersion) <= 0) {
+          return logger.info(
+            'Version',
+            version,
+            'was less than curent version',
+            currentVersion,
+            'ignoring update'
+          )
+        }
+        // TODO: Expose this in the UI somehow.
+        if (!this.isActive()) {
+          this.emit('update-inactive')
+          return logger.info(
+            '[UPDATER] Must use an AppImage, dmg, or exe for automatic updates.'
+          )
+        }
 
-      var downloadSpeed = await this._getDownloadSpeed()
+        var downloadSpeed = await this._getDownloadSpeed()
 
-      var args = {
-        version,
-        files,
-        path,
-        sha512,
-        releaseDate,
-        downloadSpeed,
-        releaseSummary: null // TODO: this._getReleaseSummary(version)
+        var args = {
+          version,
+          files,
+          path,
+          sha512,
+          releaseDate,
+          downloadSpeed,
+          releaseSummary: null // TODO: this._getReleaseSummary(version)
+        }
+
+        onupdate(args)
       }
-
-      onupdate(args)
-    })
+    )
   }
 
   updateNotAvailable (cb) {
@@ -112,7 +121,7 @@ class MapeoUpdater extends events.EventEmitter {
   }
 
   downloadProgress (onprogress) {
-    autoUpdater.on('download-progress', (progress) => {
+    autoUpdater.on('download-progress', progress => {
       logger.info('[UPDATER] Progress', progress)
       onprogress({
         progress: progress
@@ -151,9 +160,7 @@ class MapeoUpdater extends events.EventEmitter {
     if (!cb) cb = () => {}
     try {
       var promise = autoUpdater.checkForUpdates()
-      promise
-        .then(update => cb(null, update))
-        .catch(this._onerror)
+      promise.then(update => cb(null, update)).catch(this._onerror)
     } catch (err) {
       // TODO: error codes for internationalization.
       var error = new Error('[UPDATER] Could not check for updates.', err)

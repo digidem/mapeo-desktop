@@ -1,7 +1,7 @@
 var path = require('path')
 var APP_NAME = 'Mapeo'
 var APP_TEAM = 'Digital Democracy'
-var APP_VERSION = require('./package.json').version
+var APP_VERSION = require('./src/build-config').version
 
 var isElectron = typeof process.type === 'string'
 // Is `true` when running from Node
