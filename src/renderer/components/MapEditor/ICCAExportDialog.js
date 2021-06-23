@@ -65,7 +65,8 @@ const msgs = defineMessages({
   answerNo: 'No',
   // Choices for question 4
   question4Answer1: 'Member of the community/indigenous people',
-  question4Answer2: 'Representative or associate of the community/indigenous people',
+  question4Answer2:
+    'Representative or associate of the community/indigenous people',
   question4Answer3: 'Representative of a non-governmental organisation',
   question4Answer4: 'Other',
   // Placeholder for question 5
@@ -204,7 +205,9 @@ const EditDialogContent = ({ onClose, onFormError }) => {
       .showSaveDialog({
         title: 'ICCA Export Package',
         defaultPath: 'mapeo-icca-export',
-        filters: [{ name: 'Mapeo ICCA Export Package', extensions: ['mapeoicca'] }]
+        filters: [
+          { name: 'Mapeo ICCA Export Package', extensions: ['mapeoicca'] }
+        ]
       })
       .then(({ filePath, canceled }) => {
         if (canceled) return handleClose()
@@ -253,7 +256,10 @@ const EditDialogContent = ({ onClose, onFormError }) => {
     case 'idle':
       dialogContent = (
         <form noValidate autoComplete='off'>
-          <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
+          <DialogTitle
+            id='responsive-dialog-title'
+            style={{ paddingBottom: 8 }}
+          >
             <FormattedMessage {...msgs.title} />
           </DialogTitle>
 
@@ -263,8 +269,8 @@ const EditDialogContent = ({ onClose, onFormError }) => {
             </DialogContentText>
 
             <Box my={1.5}>
-              <FormControl component="fieldset" error={value1Error}>
-                <FormLabel component="legend" className={classes.formLabel}>
+              <FormControl component='fieldset' error={value1Error}>
+                <FormLabel component='legend' className={classes.formLabel}>
                   1. {formatMessage(msgs.question1Prompt)}
                 </FormLabel>
                 <RadioGroup
@@ -279,13 +285,13 @@ const EditDialogContent = ({ onClose, onFormError }) => {
                 >
                   <FormControlLabel
                     value='true'
-                    control={<Radio/>}
+                    control={<Radio />}
                     label={formatMessage(msgs.answerYes)}
                     disabled={isSaving}
                   />
                   <FormControlLabel
                     value='false'
-                    control={<Radio/>}
+                    control={<Radio />}
                     label={formatMessage(msgs.answerNo)}
                     disabled={isSaving}
                   />
@@ -297,8 +303,8 @@ const EditDialogContent = ({ onClose, onFormError }) => {
             </Box>
 
             <Box my={1.5}>
-              <FormControl component="fieldset" error={value2Error}>
-                <FormLabel component="legend" className={classes.formLabel}>
+              <FormControl component='fieldset' error={value2Error}>
+                <FormLabel component='legend' className={classes.formLabel}>
                   2. {formatMessage(msgs.question2Prompt)}
                 </FormLabel>
                 <RadioGroup
@@ -313,13 +319,13 @@ const EditDialogContent = ({ onClose, onFormError }) => {
                 >
                   <FormControlLabel
                     value='true'
-                    control={<Radio/>}
+                    control={<Radio />}
                     label={formatMessage(msgs.answerYes)}
                     disabled={isSaving}
                   />
                   <FormControlLabel
                     value='false'
-                    control={<Radio/>}
+                    control={<Radio />}
                     label={formatMessage(msgs.answerNo)}
                     disabled={isSaving}
                   />
@@ -335,8 +341,8 @@ const EditDialogContent = ({ onClose, onFormError }) => {
             </DialogContentText>
 
             <Box my={1.5}>
-              <FormControl component="fieldset" error={value3Error}>
-                <FormLabel component="legend" className={classes.formLabel}>
+              <FormControl component='fieldset' error={value3Error}>
+                <FormLabel component='legend' className={classes.formLabel}>
                   3. {formatMessage(msgs.question3Prompt)}
                 </FormLabel>
                 <TextField
@@ -370,9 +376,9 @@ const EditDialogContent = ({ onClose, onFormError }) => {
             </Box>
 
             <Box my={1.5}>
-              <FormControl component="fieldset" error={value4Error}>
-                <FormLabel component="legend" className={classes.formLabel}>
-                4. {formatMessage(msgs.question4Prompt)}
+              <FormControl component='fieldset' error={value4Error}>
+                <FormLabel component='legend' className={classes.formLabel}>
+                  4. {formatMessage(msgs.question4Prompt)}
                 </FormLabel>
                 <RadioGroup
                   aria-label='question4'
@@ -415,8 +421,8 @@ const EditDialogContent = ({ onClose, onFormError }) => {
             </Box>
 
             <Box my={1.5}>
-              <FormControl component="fieldset" error={value5Error}>
-                <FormLabel component="legend" className={classes.formLabel}>
+              <FormControl component='fieldset' error={value5Error}>
+                <FormLabel component='legend' className={classes.formLabel}>
                   5. {formatMessage(msgs.question5Prompt)}
                 </FormLabel>
                 <TextField
@@ -441,7 +447,7 @@ const EditDialogContent = ({ onClose, onFormError }) => {
             </Box>
 
             {formState === 'error' && (
-              <FormControl component="div" error={true}>
+              <FormControl component='div' error={true}>
                 <FormHelperText>
                   {formatMessage(msgs.errorMissingRequired)}
                 </FormHelperText>
@@ -469,7 +475,10 @@ const EditDialogContent = ({ onClose, onFormError }) => {
     case 'error':
       dialogContent = (
         <>
-          <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
+          <DialogTitle
+            id='responsive-dialog-title'
+            style={{ paddingBottom: 8 }}
+          >
             <FormattedMessage {...msgs.title} />
           </DialogTitle>
 
@@ -482,11 +491,7 @@ const EditDialogContent = ({ onClose, onFormError }) => {
           </DialogContent>
 
           <DialogActions>
-            <Button
-              onClick={handleClose}
-              color='primary'
-              variant='contained'
-            >
+            <Button onClick={handleClose} color='primary' variant='contained'>
               {formatMessage(msgs.ok)}
             </Button>
           </DialogActions>
@@ -528,10 +533,7 @@ export default function ICCAExportDialog ({ onClose, open }) {
       }}
     >
       {open && (
-        <EditDialogContent
-          onClose={onClose}
-          onFormError={onFormError}
-        />
+        <EditDialogContent onClose={onClose} onFormError={onFormError} />
       )}
     </Dialog>
   )
@@ -563,6 +565,7 @@ const useStyles = makeStyles(theme => ({
 async function getGeoJson () {
   return api.getData({
     format: 'geojson',
-    filter: ['==', 'protection_title', 'icca']
+    filter: ['==', 'protection_title', 'icca'],
+    metadata: ['id', 'timestamp']
   })
 }
