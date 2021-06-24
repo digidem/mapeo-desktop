@@ -196,12 +196,7 @@ module.exports = function init (opts) {
       })
       rs.pipe(
         concat(stream => {
-          const geojson = JSON.parse(stream)
-          geojson.features = geojson.features.map(f => {
-            delete f.id
-            return f
-          })
-          resolve(geojson)
+          resolve(JSON.parse(stream))
         })
       )
     })
