@@ -245,15 +245,9 @@
     "description": "Show all fields in report view",
     "message": "แสดงทั้งหมด"
   },
-  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
-    "message": "สร้างเมื่อ"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
-    "description": "Button label for hide fields menu",
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
     "message": "รายละเอียด"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
-    "message": "สถานที่"
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
