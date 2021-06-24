@@ -241,15 +241,9 @@
     "description": "Show all fields in report view",
     "message": "Mostrar todos"
   },
-  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
-    "message": "Criado em"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
-    "description": "Button label for hide fields menu",
-    "message": "Detalhes"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
-    "message": "Localização"
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "Descrição"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
