@@ -245,15 +245,9 @@
     "description": "Show all fields in report view",
     "message": "Hiện Tất cả"
   },
-  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
-    "message": "Được tạo tại"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
-    "description": "Button label for hide fields menu",
-    "message": "Chi tiết"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
-    "message": "Vị trí"
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "Mô tả"
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
