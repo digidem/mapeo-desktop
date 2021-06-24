@@ -235,10 +235,6 @@
     "description": "Show all fields in report view",
     "message": "Mostrar todo"
   },
-  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
-    "description": "Button label for hide fields menu",
-    "message": "Detalles"
-  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
   },
