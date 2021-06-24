@@ -46,7 +46,8 @@
     "description": "Menu item for exporting GeoJSON",
     "message": "Export Territory Data as GeoJSON…"
   },
-  "renderer.components.MapEditor.ExportButton.exportICCAs": {
+  "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
+    "description": "Menu item for exporting ICCA Export Packages",
     "message": "Export ICCA Export Package…"
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
@@ -60,6 +61,93 @@
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
     "message": "Export Territory Data"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "About you:"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "No"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "Yes"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
+    "message": "Please fill in at least one field."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancel"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
+    "message": "English"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
+    "description": "Labels for community name",
+    "message": "Original language"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
+    "message": "Please fill out all required fields."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
+    "description": "Form instructions",
+    "message": "Please answer these questions before exporting."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
+    "message": "To draw an ICCA boundary, create an area and tag it with the type\n    \"ICCA Boundary.\" Remember to save your changes to the map before\n    exporting."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
+    "description": "No data to export",
+    "message": "There are no ICCA boundaries to export."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "OK"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "Has your community or indigenous people collectively consented to the map\n    and other information being shared with UNEP-WCMC?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "Do you want the map and other information to be available for anyone to\n    view and download?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "Name of the community, indigenous people, or individual providing the\n    information"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
+    "description": "Choices for question 4",
+    "message": "Member of the community/indigenous people"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
+    "message": "Representative or associate of the community/indigenous people"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
+    "message": "Representative of a non-governmental organisation"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
+    "message": "Other"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
+    "message": "If you are an individual, what is your relationship to the indigenous\n    people or community?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Placeholder": {
+    "description": "Placeholder for question 5",
+    "message": "Your contact information"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
+    "message": "Email address, phone number or address where we can contact you. We will\n    contact you to confirm we have received your information and to discuss\n    the information further where needed. We will also contact you periodically\n    to make sure the information is up to date."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
+    "description": "Helper texts",
+    "message": "This answer is required."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "Save"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.title": {
+    "description": "Title for ICCA package export dialog",
+    "message": "Export an ICCA export package"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback & Contribute"
@@ -260,15 +348,17 @@
     "description": "Show all fields in report view",
     "message": "Show All"
   },
-  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
-    "message": "Created at"
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "Description"
   },
-  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
-    "description": "Button label for hide fields menu",
-    "message": "Details"
+  "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
+    "description": "Shown in reports if an observation has no location recorded",
+    "message": "No Location Recorded"
   },
-  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
-    "message": "Location"
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "Page {pageNumber}"
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
@@ -297,6 +387,9 @@
   "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
     "description": "Shown while the report is generating when saving or printing",
     "message": "Generating report…"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "showing {observationCount} of {totalObservations} observations"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
     "description": "Button label for Save PDF Button",
