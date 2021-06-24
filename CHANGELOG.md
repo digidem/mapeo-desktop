@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.12](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.11...v5.4.0-beta.12) (2021-06-24)
+
+
+### Bug Fixes
+
+* **icca:** include feature id in ICCA export ([#491](https://github.com/digidem/mapeo-desktop/issues/491)) ([d849157](https://github.com/digidem/mapeo-desktop/commit/d849157))
+* do not show download dialog when closing export menu ([#489](https://github.com/digidem/mapeo-desktop/issues/489)) ([8d65630](https://github.com/digidem/mapeo-desktop/commit/8d65630))
+* Don't allow observation location to be changed in territory view ([fd04983](https://github.com/digidem/mapeo-desktop/commit/fd04983)), closes [#479](https://github.com/digidem/mapeo-desktop/issues/479)
+* Fix "zoom to data": include deletions & correct density calc ([#475](https://github.com/digidem/mapeo-desktop/issues/475)) ([1e40812](https://github.com/digidem/mapeo-desktop/commit/1e40812))
+* Fix crash when trying to resize sidebar ([#478](https://github.com/digidem/mapeo-desktop/issues/478)) ([d9df37b](https://github.com/digidem/mapeo-desktop/commit/d9df37b)), closes [#473](https://github.com/digidem/mapeo-desktop/issues/473)
+* Fix errors from Wifi Status display and disable on MacOS ([#470](https://github.com/digidem/mapeo-desktop/issues/470)) ([3259588](https://github.com/digidem/mapeo-desktop/commit/3259588)), closes [#469](https://github.com/digidem/mapeo-desktop/issues/469)
+* Fix Mapeo window randomly not opening at startup ([#465](https://github.com/digidem/mapeo-desktop/issues/465)) ([5467c19](https://github.com/digidem/mapeo-desktop/commit/5467c19)), closes [#469](https://github.com/digidem/mapeo-desktop/issues/469)
+* Fix npm ci failure in Github actions by retrying until it works ([5601c49](https://github.com/digidem/mapeo-desktop/commit/5601c49))
+* Move PDF reports to a web worker ([#482](https://github.com/digidem/mapeo-desktop/issues/482)) ([e4be8d3](https://github.com/digidem/mapeo-desktop/commit/e4be8d3))
+* Update import/export labels for territory data ([#486](https://github.com/digidem/mapeo-desktop/issues/486)) ([fa94e46](https://github.com/digidem/mapeo-desktop/commit/fa94e46))
+
+
+### Features
+
+* Add "Mapeo for ICCAs" variant, with custom presets & icon ([#490](https://github.com/digidem/mapeo-desktop/issues/490)) ([613c10c](https://github.com/digidem/mapeo-desktop/commit/613c10c))
+* Add export for WCMC ICCAs ([#462](https://github.com/digidem/mapeo-desktop/issues/462)) ([e06fb1b](https://github.com/digidem/mapeo-desktop/commit/e06fb1b))
+* Add Khmer, Dutch & French translations, fix th,pt,vi ([#460](https://github.com/digidem/mapeo-desktop/issues/460)) ([b83059b](https://github.com/digidem/mapeo-desktop/commit/b83059b))
+* Update iD Editor background imagery (fix mapbox satellite) ([#477](https://github.com/digidem/mapeo-desktop/issues/477)) ([8c7215f](https://github.com/digidem/mapeo-desktop/commit/8c7215f)), closes [#476](https://github.com/digidem/mapeo-desktop/issues/476)
+
+
+
 ## [5.4.0-beta.11](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.10...v5.4.0-beta.11) (2020-12-21)
 
 
