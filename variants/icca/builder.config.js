@@ -10,7 +10,7 @@ module.exports = async function (config) {
     artifactName: 'Mapeo_ICCAs_v${version}_${os}.${ext}',
     win: {
       ...config.win,
-      artifactName: 'Mapeo_ICCAs_v${version}_${os}-${env.ARCH}.${ext}'
+      artifactName: 'Mapeo_ICCAs_v${version}_${os}-${arch}.${ext}'
     },
     extraMetadata: {
       name: 'mapeo-icca',

@@ -23,8 +23,8 @@ const config = {
     output: 'dist/main'
   },
   win: {
-    target: 'NSIS',
-    artifactName: 'Installar_Mapeo_v${version}_${os}-${env.ARCH}.${ext}',
+    target: [{ target: 'nsis', arch: ['x64', 'ia32'] }],
+    artifactName: 'Installar_Mapeo_v${version}_${os}-${arch}.${ext}',
     rfc3161TimeStampServer: 'http://timestamp.digicert.com',
     timeStampServer: 'http://timestamp.digicert.com'
   },
