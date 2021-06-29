@@ -15,10 +15,13 @@ jobs:
     strategy:
       matrix:
         config:
-          - { os: macos-latest, arch: x64 }
-          - { os: ubuntu-latest, arch: x64 }
-          - { os: windows-latest, arch: x64 }
-          - { os: windows-latest, arch: ia32 }
+          # - { os: macos-latest, arch: x64 }
+          # - { os: ubuntu-latest, arch: x64 }
+          # - { os: windows-latest, arch: x64 }
+          # - { os: windows-latest, arch: ia32 }
+          - { os: macos-latest }
+          - { os: ubuntu-latest }
+          - { os: windows-latest }
         variant:
           - main
           - icca
@@ -42,8 +45,8 @@ jobs:
           retry_on: error
           retry_wait_seconds: 0
           command: npm ci
-        env:
-          npm_config_arch: ${{matrix.config.arch}}
+        # env:
+        #   npm_config_arch: ${{matrix.config.arch}}
       - name: Lint
         run: |
           npm run lint
@@ -53,10 +56,12 @@ jobs:
         env:
           CI: true
       - name: Publish
+        # run: |
+        #   npm run dist -- --${{matrix.config.arch}}
         run: |
-          npm run dist -- --${{matrix.config.arch}}
+            npm run dist --
         env:
-          ARCH: ${{matrix.config.arch}}
+          # ARCH: ${{matrix.config.arch}}
           CI: true
           GITHUB_CI_REF: ${{ github.ref }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -76,5 +81,6 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: '${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.variant }}'
+          # name: '${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.variant }}'
+          name: '${{ matrix.config.os }}-${{ matrix.variant }}'
           path: dist/${{ matrix.variant }}
