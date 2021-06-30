@@ -42,8 +42,6 @@ jobs:
           retry_on: error
           retry_wait_seconds: 0
           command: npm ci
-        env:
-          npm_config_arch: ${{matrix.config.arch}}
       - name: Lint
         run: |
           npm run lint
@@ -71,7 +69,7 @@ jobs:
           MAPEO_VARIANT: ${{ matrix.variant }}
       - name: Cleanup artifacts
         run: |
-          npx rimraf@2 'dist/${{ matrix.variant }}/!(*.exe|*.deb|*.AppImage|*.dmg)'
+          npx rimraf@2 'dist/${{ matrix.variant }}/!(*.exe|*.deb|*.AppImage|*.dmg|*.yml|github)'
         shell: bash
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
