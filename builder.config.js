@@ -54,7 +54,7 @@ const config = {
     {
       provider: 's3',
       bucket: 'downloads.mapeo.app',
-      path: '/desktop'
+      path: process.env.ARCH === 'ia32' ? '/desktop-win-ia32' : '/desktop'
     },
     {
       provider: 'github',
