@@ -42,6 +42,8 @@ jobs:
           retry_on: error
           retry_wait_seconds: 0
           command: npm ci
+        env:
+          npm_config_arch: ${{matrix.config.arch}}
       - name: Lint
         run: |
           npm run lint
