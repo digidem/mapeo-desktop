@@ -58,7 +58,8 @@ const config = {
     },
     {
       provider: 'github',
-      releaseType: 'release'
+      releaseType: 'release',
+      publishAutoUpdate: false
     }
   ],
   extraResources: [
