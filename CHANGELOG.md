@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.13](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.12...v5.4.0-beta.13) (2021-07-12)
+
+
+### Bug Fixes
+
+* change publish path for win-ia32 ([#496](https://github.com/digidem/mapeo-desktop/issues/496)) ([d122275](https://github.com/digidem/mapeo-desktop/commit/d122275))
+* Use separate autoupdate feed url for Windows 32-bit build ([#495](https://github.com/digidem/mapeo-desktop/issues/495)) ([ec1a25a](https://github.com/digidem/mapeo-desktop/commit/ec1a25a))
+
+
+
 ## [5.4.0-beta.12](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.11...v5.4.0-beta.12) (2021-06-24)
 
 
