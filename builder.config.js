@@ -58,14 +58,11 @@ const config = {
     },
     {
       provider: 'github',
-      releaseType: 'release'
+      releaseType: 'release',
+      publishAutoUpdate: false
     }
   ],
   extraResources: [
-    {
-      from: 'build/app-update.yml',
-      to: 'app-update.yml'
-    },
     {
       from: path.dirname(require.resolve('mapeo-default-settings')),
       to: 'presets/default'
