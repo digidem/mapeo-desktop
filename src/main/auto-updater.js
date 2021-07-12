@@ -14,11 +14,21 @@ const logger = require('../logger')
 
 const PERSISTED_STORE_KEY = 'updater.channel'
 const VALID_CHANNELS = ['beta', 'latest', 'alpha']
+const RELEASE_SERVER = 'https://releases.mapeo.app'
+// We proxy our auto-updates through Cloudflare, so we treat the release server
+// as a generic http server.
+const PUBLISH_CONFIG = {
+  provider: 'generic',
+  url:
+    RELEASE_SERVER + process.env.ARCH === 'ia32' ? '/desktop/ia32' : '/desktop',
+  useMultipleRangeRequest: false
+}
 
 class MapeoUpdater extends events.EventEmitter {
   constructor () {
     super()
     // Settings
+    autoUpdater.setFeedURL(PUBLISH_CONFIG)
     autoUpdater.channel = this.channel
     autoUpdater.autoDownload = false
     autoUpdater.logger = logger
@@ -54,7 +64,7 @@ class MapeoUpdater extends events.EventEmitter {
   async _getReleaseSummary (version) {
     let releaseSummary
     try {
-      const baseUrl = `https://downloads.mapeo.app/desktop/${version}/SUMMARY`
+      const baseUrl = `https://releases.mapeo.app/desktop/${version}/SUMMARY`
       releaseSummary = await fetch(baseUrl)
     } catch (err) {
       logger.error('[UPDATER] Error getting release notes', err)
