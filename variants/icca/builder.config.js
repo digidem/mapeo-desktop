@@ -21,7 +21,8 @@ module.exports = async function (config) {
       {
         provider: 's3',
         bucket: 'downloads.mapeo.app',
-        path: '/desktop-icca'
+        path:
+          process.env.ARCH === 'ia32' ? '/desktop-icca/ia32' : '/desktop-icca'
       }
     ],
     directories: {
