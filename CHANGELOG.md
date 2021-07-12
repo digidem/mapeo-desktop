@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.14](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.13...v5.4.0-beta.14) (2021-07-12)
+
+
+### Bug Fixes
+
+* Fix auto-updater win32 for ICCA variant ([80b959b](https://github.com/digidem/mapeo-desktop/commit/80b959b))
+
+
+
 ## [5.4.0-beta.13](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.12...v5.4.0-beta.13) (2021-07-12)
 
 
