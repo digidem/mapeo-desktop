@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.15](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.14...v5.4.0-beta.15) (2021-07-16)
+
+
+### Bug Fixes
+
+* fix built url in autoupdater ([#501](https://github.com/digidem/mapeo-desktop/issues/501)) ([5fcb7b7](https://github.com/digidem/mapeo-desktop/commit/5fcb7b7))
+
+
+
 ## [5.4.0-beta.14](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.13...v5.4.0-beta.14) (2021-07-12)
 
 
