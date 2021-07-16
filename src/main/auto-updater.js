@@ -20,7 +20,8 @@ const RELEASE_SERVER = 'https://releases.mapeo.app'
 const PUBLISH_CONFIG = {
   provider: 'generic',
   url:
-    RELEASE_SERVER + process.env.ARCH === 'ia32' ? '/desktop/ia32' : '/desktop',
+    RELEASE_SERVER +
+    (process.env.ARCH === 'ia32' ? '/desktop/ia32' : '/desktop'),
   useMultipleRangeRequest: false
 }
 
