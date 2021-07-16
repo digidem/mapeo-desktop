@@ -96,6 +96,15 @@ insertCss(`
     justify-content: center;
     position: relative;
   }
+  .id-container .inspector-body .raw-tag-editor {
+    display: none;
+  }
+  .id-container .inspector-body .raw-member-editor {
+    display: none;
+  }
+  .id-container .inspector-body .raw-membership-editor {
+    display: none;
+  }  
 `)
 
 const { localStorage, location } = window
