@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { MapView, ReportView, MediaView } from 'react-mapfilter'
 import { ipcRenderer } from 'electron'
 import debounce from 'lodash/debounce'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import mapboxgl from 'mapbox-gl'
 import ErrorBoundary from 'react-error-boundary'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 
 import logger from '../../../logger'
 import Toolbar from './Toolbar'
 import FilterPanel from './FilterPanel'
-import Loading from './Loading'
+import Loading from '../Loading'
 import MapStyleProvider from './MapStyleProvider'
 import api from '../../new-api'
 import MapExportDialog from './MapExportDialog'
 import DataExportDialog from './DataExportDialog'
 import ExportButton from './ExportButton'
+import MapView from './MapView'
+import ReportView from './ReportView'
+import MediaView from './MediaView'
+import config from '../../../../config'
 
 const m = defineMessages({
   errorTitle: 'Oh dear! An error has occurred',
@@ -27,8 +30,7 @@ const m = defineMessages({
 // This is very strange. Something to do with the bundling is stopping this
 // being set from within the react-mapbox-gl library. We need to set this here
 // to force mapbox to understand the accessToken is set
-const MAPBOX_ACCESS_TOKEN = (mapboxgl.accessToken =
-  'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg')
+const MAPBOX_ACCESS_TOKEN = (mapboxgl.accessToken = config.MAPBOX_ACCESS_TOKEN)
 
 /**
  * Using normal state for this causes performance issues because it causes React
@@ -173,10 +175,10 @@ function useObservations () {
           const updatedObservations =
             index > -1
               ? [
-                ...observations.slice(0, index),
-                obs,
-                ...observations.slice(index + 1)
-              ]
+                  ...observations.slice(0, index),
+                  obs,
+                  ...observations.slice(index + 1)
+                ]
               : [...observations, obs]
           setObservations(updatedObservations)
         })
@@ -223,11 +225,9 @@ function useObservations () {
   }
 
   useEffect(() => {
-    const subscription = api.addDataChangedListener(
-      'territory-edit',
-      () => {
-        loadObservations()
-      })
+    const subscription = api.addDataChangedListener('territory-edit', () => {
+      loadObservations()
+    })
     return () => {
       subscription.remove()
     }

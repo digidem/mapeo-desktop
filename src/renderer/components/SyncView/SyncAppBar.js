@@ -4,28 +4,36 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
-import { Wifi, WifiOff } from '@material-ui/icons'
+import Wifi from '@material-ui/icons/Wifi'
+import WifiOff from '@material-ui/icons/WifiOff'
 import { defineMessages, useIntl } from 'react-intl'
 import wifi from 'node-wifi'
-import { Tooltip } from '@material-ui/core'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import logger from '../../../logger'
 
-let wifiInit = true
-try {
-  wifi.init()
-} catch (e) {
-  logger.error('Failed to init node-wifi', e)
-  wifiInit = false
+// On MacOS Big Sur, when running a signed electron app, the wifi status check
+// freezes the app and makes it unusable.
+// https://github.com/digidem/mapeo-desktop/issues/469
+const wifiStatusIsSupported = ['win32', 'linux'].includes(process.platform)
+let wifiInit = false
+if (wifiStatusIsSupported) {
+  try {
+    wifi.init()
+    wifiInit = true
+  } catch (e) {
+    logger.error('Failed to init node-wifi', e)
+  }
 }
 
-const getQualityStyle = (connection) => {
+const getQualityStyle = connection => {
   if (connection.quality < 30) return { color: 'white', backgroundColor: 'red' }
-  if (connection.quality < 60) return { color: 'white', backgroundColor: 'orange' }
+  if (connection.quality < 60)
+    return { color: 'white', backgroundColor: 'orange' }
   return { backgroundColor: '#E0E0E0' }
 }
 
-const getWifiConnectionMessage = (connection) => {
+const getWifiConnectionMessage = connection => {
   if (connection.quality < 30) return m.qualityTooltipPoor
   if (connection.quality < 60) return m.qualityTooltipWeak
   return m.qualityTooltipAdequate
@@ -38,7 +46,8 @@ const m = defineMessages({
   disconnectedTooltip:
     'You first need to connect to a WiFi network before being able to synchronize devices',
   wifiError: 'Unknown',
-  wifiErrorTooltip: 'Your WiFi card or Operating System (OS) has not been recognized',
+  wifiErrorTooltip:
+    'Your WiFi card or Operating System (OS) has not been recognized',
   qualityTooltipPoor:
     'The connection signal is very poor. Try getting closer to the WiFi router',
   qualityTooltipWeak:
@@ -50,7 +59,8 @@ const m = defineMessages({
   // Button to create a new sync file
   newSyncfile: 'Create new syncfile…'
 })
-const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
+
+const WifiStatus = () => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
   const [currentConnection, setCurrentConnection] = useState(null)
@@ -58,23 +68,106 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
 
   // Check connection every 2 seconds
   useEffect(() => {
+    // Don't try to run this if init failed or we got an error
+    if (wifiError || !wifiInit || !wifiStatusIsSupported) return
+    let timeoutId
+    let cancelled = false
+
     const check = async () => {
       try {
         const conn = await wifi.getCurrentConnections()
-        setCurrentConnection(conn && conn[0])
+        // Component could have unmounted at this stage
+        if (cancelled) return
+        // On MacOS, when Wifi is turned off, node-wifi still returns a
+        // connection object, but with an empty ssid string
+        if (conn && conn[0] && conn[0].ssid) {
+          setCurrentConnection(conn[0])
+        } else {
+          setCurrentConnection(null)
+        }
+        setWifiError(false)
+        // Run again in 7 seconds if it did not error. Important that this does
+        // not keep running if it errors
+        timeoutId = setTimeout(check, 7000)
       } catch (err) {
         logger.error('SyncAppBar failed to get current connections', err)
+        // Component could have unmounted at this stage
+        if (cancelled) return
         setWifiError(true)
         setCurrentConnection(null)
       }
     }
 
-    // Run initial check, then refresh it every 2 seconds
+    // Run initial check
     check()
-    const intervalCheck = setInterval(check, 2000)
-    return () => clearInterval(intervalCheck)
-  }, [])
 
+    return () => {
+      cancelled = true
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [wifiError])
+
+  if (!wifiStatusIsSupported) return null
+
+  if (wifiError) {
+    return (
+      <Tooltip title={t(m.wifiErrorTooltip)}>
+        <div className={cx.wifi}>
+          <WifiOff className={cx.wifiIcon} />
+          <Typography
+            variant='overline'
+            component='span'
+            className={cx.wifiName}
+          >
+            {t(m.wifiError)}
+          </Typography>
+        </div>
+      </Tooltip>
+    )
+  }
+
+  if (currentConnection) {
+    return (
+      <Tooltip title={t(getWifiConnectionMessage(currentConnection))}>
+        <div className={cx.wifi}>
+          <Wifi className={cx.wifiIcon} />
+          <Typography
+            variant='overline'
+            component='span'
+            className={cx.wifiName}
+          >
+            {currentConnection.ssid}
+          </Typography>
+          <Typography
+            variant='overline'
+            component='span'
+            className={cx.wifiQuality}
+            style={getQualityStyle(currentConnection)}
+          >
+            {t(m.quality, {
+              quality: Math.min(100, currentConnection.quality).toFixed(0)
+            })}
+          </Typography>
+        </div>
+      </Tooltip>
+    )
+  }
+
+  return (
+    <Tooltip title={t(m.disconnectedTooltip)}>
+      <div className={cx.wifi}>
+        <WifiOff className={cx.wifiIcon} />
+        <Typography variant='overline' component='span' className={cx.wifiName}>
+          {t(m.disconnected)}
+        </Typography>
+      </div>
+    </Tooltip>
+  )
+}
+
+const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
+  const cx = useStyles()
+  const { formatMessage: t } = useIntl()
   return (
     <AppBar position='static' color='default' elevation={0} className={cx.root}>
       <Toolbar>
@@ -83,44 +176,7 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
             {t(m.title)}
           </Typography>
 
-          {currentConnection ? (
-            <Tooltip title={t(getWifiConnectionMessage(currentConnection))}>
-              <span className={cx.wifi}>
-                <Wifi className={cx.wifiIcon} />
-                <Typography variant='overline' component='span' className={cx.wifiName}>
-                  {currentConnection.ssid}
-                </Typography>
-                <Typography
-                  variant='overline'
-                  component='span'
-                  className={cx.wifiQuality}
-                  style={getQualityStyle(currentConnection)}
-                >
-                  {t(m.quality, {
-                    quality: Math.min(100, currentConnection.quality).toFixed(0)
-                  })}
-                </Typography>
-              </span>
-            </Tooltip>
-          ) : !wifiError ? (
-            <Tooltip title={t(m.disconnectedTooltip)}>
-              <span className={cx.wifi}>
-                <WifiOff className={cx.wifiIcon} />
-                <Typography variant='overline' component='span' className={cx.wifiName}>
-                  {t(m.disconnected)}
-                </Typography>
-              </span>
-            </Tooltip>
-          ) : (
-            <Tooltip title={t(m.wifiErrorTooltip)}>
-              <span className={cx.wifi}>
-                <WifiOff className={cx.wifiIcon} />
-                <Typography variant='overline' component='span' className={cx.wifiName}>
-                  {t(m.wifiError)}
-                </Typography>
-              </span>
-            </Tooltip>
-          )}
+          <WifiStatus />
         </div>
         <Button
           onClick={onClickSelectSyncfile}
@@ -145,7 +201,7 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
 
 export default SyncAppBar
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: 'white'
   },
@@ -160,7 +216,9 @@ const useStyles = makeStyles((theme) => ({
   },
   wifi: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    cursor: 'help',
+    marginTop: 3
   },
   wifiIcon: {
     fontSize: '1rem',

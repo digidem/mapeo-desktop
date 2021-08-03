@@ -11,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import Button from '@material-ui/core/Button'
-import { LinearProgress } from '@material-ui/core'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import { makeStyles } from '@material-ui/core/styles'
 import { remote } from 'electron'
 
@@ -22,9 +22,9 @@ const m = defineMessages({
   // Button tooltip on iD Editor toolbar
   exportButton: 'Export map data',
   // Menu item for exporting GeoJSON
-  exportGeoJson: 'Export GeoJSON…',
+  exportGeoJson: 'Export Territory Data as GeoJSON…',
   // Menu item for exporting Shapefile
-  exportShapefile: 'Export Shapefile…',
+  exportShapefile: 'Export Territory Data as Shapefile…',
   // OK button after successful export
   okButton: 'OK',
   // Close button after export error
@@ -36,7 +36,7 @@ const m = defineMessages({
   // Expor error message - if there was an error during export
   dialogError: 'Export failed due to an internal error',
   // Save dialog title
-  saveTitle: 'Export map data',
+  saveTitle: 'Export Territory Data',
   // Default filename for map export
   defaultFilename: 'mapeo-map-data'
 })
@@ -68,17 +68,17 @@ const ExportButton = () => {
   const handleMenuItemClick = format => () => {
     setMenuAnchor(null)
     const ext = format === 'shapefile' ? 'zip' : 'geojson'
-    remote.dialog.showSaveDialog(
-      {
+    remote.dialog
+      .showSaveDialog({
         title: t(m.saveTitle),
-        defaultPath: t(m.defaultFilename),
+        defaultPath: t(m.defaultFilename) + '.' + ext,
         filters: [{ name: format, extensions: [ext] }]
-      },
-      function (filename) {
-        if (!filename) return
+      })
+      .then(({ canceled, filePath }) => {
+        if (!filePath || canceled) return
         setStatus('pending')
         api
-          .exportData(filename, { format })
+          .exportData(filePath, { format })
           .then(() => {
             setStatus('success')
           })
@@ -86,8 +86,7 @@ const ExportButton = () => {
             setStatus('reject')
             logger.error('ExportButton save dialog', err)
           })
-      }
-    )
+      })
   }
 
   const close = event => {

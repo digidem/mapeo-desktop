@@ -1,0 +1,495 @@
+{
+  "renderer.components.Home.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "Gebied"
+  },
+  "renderer.components.Home.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "Waarnemingen"
+  },
+  "renderer.components.Home.sync": {
+    "description": "Synchronize tab label",
+    "message": "Synchroniseren"
+  },
+  "renderer.components.Home.update": {
+    "message": "Update Mapeo"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Bezig met laden…"
+  },
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": "Afsluiten"
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "mapeo-map-data"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "Exporteren is mislukt door een interne fout"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "Exporteren voltooid"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "Gegevens exporteren"
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": "Kaartgegevens exporteren"
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": "OK"
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "Feedback & Draag bij"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Beschrijving"
+  },
+  "renderer.components.MapFilter.DataExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Annuleren"
+  },
+  "renderer.components.MapFilter.DataExportDialog.close": {
+    "description": "Close button (shown if user has no data to export)",
+    "message": "Afsluiten"
+  },
+  "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "mapeo-observation-data"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+    "message": "Alle waarnemingen van {count}"
+  },
+  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+    "message": "{count} gefilterde waarnemingen"
+  },
+  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "Alleen gefilterde gegevens of alle gegevens?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.format": {
+    "description": "Label for data format selector",
+    "message": "Data formaat"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "Exporteer ook foto's?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "Export zal een zip-bestand zijn inclusief gegevens en foto's"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "Geen Foto's"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "Foto's op volledige grootte"
+  },
+  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "Bekijk foto's grootte"
+  },
+  "renderer.components.MapFilter.DataExportDialog.noData": {
+    "description": "Shown when there is no data to export",
+    "message": "U heeft nog geen gegevens om te exporteren."
+  },
+  "renderer.components.MapFilter.DataExportDialog.save": {
+    "description": "Save button",
+    "message": "Opslaan"
+  },
+  "renderer.components.MapFilter.DataExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Waarnemingen exporteren"
+  },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "Waarnemingsgegevens exporteren"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "Waarnemingen exporteren…"
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "Webmap exporteren…"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "Naar"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "Van"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Datum van de waarneming"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Filters bewerken…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Gewijzigd"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Categorie"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Alleen"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Allemaal"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "Filteren op…"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Annuleren"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "Kaart Beschrijving"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "Opslaan"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "Kaart stijl"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "Voeg termen en beperkingen toe over hoe deze gegevens kunnen worden gebruikt"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "Voorwaarden & beperkingen"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Exporteer een kaart om online te delen"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "Kaart Titel"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "De details hieronder zijn handig om een manier te vinden om dit op te lossen…"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "Oh jee! Er is een fout opgetreden"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Aanvullende gegevens"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "Annuleren"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "Annuleren"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Wijzigingen niet opslaan"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "U heeft enkele wijzigingen gemaakt, als u Mapeo sluit zonder de wijzigingen te opslaan gaat u ze verliezen"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Sluiten zonder op te slaan?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "Annuleren"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Ja, verwijderen"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Waarneming annuleren?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Waarneming annuleren"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Details"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "Opslaan"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Verberg alle"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, one {} =0 {Verberg Fields} =1 {1 Verborgen veld} other {# Verborgen Velden}}"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Toon Alles"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "Beschrijving"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "Geen waarnemingen beschikbaar."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Er is een onbekende fout opgetreden bij het maken van het rapport"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Pagina {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo monitoring Report.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Volgende"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Vorige"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Rapport aan het genereren…"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "PDF opslaan"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Annuleren"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Doorgaan"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Dit rapport bevat {observationCount} waarnemingen en kan enkele minuten duren. Weet u zeker dat u wilt doorgaan?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Waarschuwing: groot rapport"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Kaart"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Media"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Rapport"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Waarneming"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "Zorg ervoor dat andere apparaten ingeschakeld zijn en verbonden zijn met hetzelfde WiFi netwerk"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Zoeken…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Losgekoppeld"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "U moet eerst verbinding maken met een WiFi-netwerk voordat u apparaten kunt synchroniseren"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Maak nieuwe syncfile aan…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "Kwaliteit: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "Het verbindingssignaal is uitstekend"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "Het verbindingssignaal is erg slecht. Probeer dichter bij de wifi-router te komen"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "Het verbindingssignaal is zwak. De synchronisatie kan langer duren om te voltooien"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "Synchroniseer van een bestand…"
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "Beschikbare apparaten"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "Onbekend"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "Uw WiFi kaart of Operating System (OS) is niet herkend"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "Voltooid"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Losgekoppeld"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Afronden…"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "Opnieuw proberen"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "Beginnen…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "Synchroniseer"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "Database: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "Synchronisatie fout"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "Laatst gesynchroniseerd:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "Foto's: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Maak een nieuwe database om te synchroniseren"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} moet Mapeo upgraden"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "U moet Mapeo upgraden om te synchroniseren met {deviceName}"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Selecteer een database om te synchroniseren"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Schatting..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Downloaden"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Bezig met downloaden"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Er is een fout opgetreden en Mapeo kon niet worden bijgewerkt. Probeer het later opnieuw."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Fout"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Geschatte downloadtijd is"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Deze update maakt je applicatie niet compatibel met eerdere versies."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Deze update bevat verbeteringen die uw ervaring kunnen veranderen."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Deze update bevat wijzigingen die kritieke fouten corrigeren. Probeer zo snel mogelijk deze update uit te voeren."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Herstarten"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Er is een Mapeo update gedownload. Herstart Mapeo om te updaten."
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Onbekend"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Updaten"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo is up-to-date! U heeft de laatste versie."
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Annuleren"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "Toevoegen"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Kies een taal"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Afsluiten"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Log openen..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "Toevoegen"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "Coördinaten invoeren"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Exporteerfout"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Er is een fout opgetreden bij het exporteren van deze bestanden, dus ze ontbreken bij deze export:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Originelen ontbreekt"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "De oorspronkelijke grootte van deze bestanden kon niet worden gevonden, alleen de grootte van de preview (1,200 pixel) afbeeldingen zijn inbegrepen. Dit kan gebeuren omdat de telefoon die de foto's heeft maakt alleen is gesynchroniseerd met andere telefoons, en niet direct naar Mapeo Desktop. Om dit te proberen te verhelpen, zoek de telefoon die de foto's maakt en synchroniseer deze met Mapeo Desktop voordat u opnieuw exporteert."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Geen antwoord"
+  }
+}

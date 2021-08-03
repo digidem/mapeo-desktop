@@ -5,14 +5,15 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { TextField, DialogContentText } from '@material-ui/core'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import TextField from '@material-ui/core/TextField'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
 import path from 'path'
 import { remote } from 'electron'
 import pump from 'pump'
 
-import ViewWrapper from 'react-mapfilter/commonjs/ViewWrapper'
+import ViewWrapper from './ViewWrapper'
 
 import logger from '../../../logger'
 import createZip from '../../create-zip'
@@ -47,16 +48,16 @@ const EditDialogContent = ({
   const classes = useStyles()
   const { formatMessage } = useIntl()
   const [saving, setSaving] = useState()
-  const [title, setTitle] = useState()
-  const [description, setDescription] = useState()
-  // const [terms, setTerms] = useState()
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  // const [terms, setTerms] = useState('')
   // const [mapStyle, setMapStyle] = useState(defaultMapStyle)
 
   const handleClose = () => {
     setSaving(false)
-    setTitle(undefined)
-    setDescription(undefined)
-    // setTerms(undefined)
+    setTitle('')
+    setDescription('')
+    // setTerms('')
     // setMapStyle(defaultMapStyle)
     onClose()
   }
@@ -67,16 +68,17 @@ const EditDialogContent = ({
     const points = observationsToGeoJson(observations, getPreset)
     const metadata = { title: title || '', description: description || '' }
 
-    remote.dialog.showSaveDialog(
-      {
+    remote.dialog
+      .showSaveDialog({
         title: 'Guardar Mapa',
         defaultPath: 'mapa-para-web',
         filters: [{ name: 'Mapeo Webmap Package', extensions: ['mapeomap'] }]
-      },
-      filepath => {
+      })
+      .then(({ filePath, canceled }) => {
+        if (canceled) return handleClose()
         const filepathWithExtension = path.join(
-          path.dirname(filepath),
-          path.basename(filepath, '.mapeomap') + '.mapeomap'
+          path.dirname(filePath),
+          path.basename(filePath, '.mapeomap') + '.mapeomap'
         )
         createArchive(filepathWithExtension, err => {
           if (err) {
@@ -86,11 +88,11 @@ const EditDialogContent = ({
           }
           handleClose()
         })
-      }
-    )
+      })
+      .catch(handleClose)
 
-    function createArchive (filepath, cb) {
-      const output = fsWriteStreamAtomic(filepath)
+    function createArchive (filePath, cb) {
+      const output = fsWriteStreamAtomic(filePath)
 
       const localFiles = [
         {
@@ -107,10 +109,15 @@ const EditDialogContent = ({
         .filter(point => point.properties.image)
         .map(point => ({
           url: getMediaUrl(point.properties.image, 'original'),
+          // If the original is missing, fallback to including the preview sized
+          // image in the export. This can happen if the phone that took the
+          // photo has only synced via another phone, and not synced directly
+          // with Mapeo Desktop
+          fallbackUrl: getMediaUrl(point.properties.image, 'preview'),
           metadataPath: 'images/' + point.properties.image
         }))
 
-      const archive = createZip(localFiles, remoteFiles)
+      const archive = createZip(localFiles, remoteFiles, { formatMessage })
 
       pump(archive, output, cb)
     }
@@ -124,9 +131,7 @@ const EditDialogContent = ({
 
       <DialogContent className={classes.content}>
         <DialogContentText>
-          {`Vas a exportar ${
-            observations.length
-          } puntos a un mapa para compartir por internet.`}
+          {`Vas a exportar ${observations.length} puntos a un mapa para compartir por internet.`}
         </DialogContentText>
         <TextField
           label={formatMessage(msgs.titleLabel)}

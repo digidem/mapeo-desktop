@@ -1,16 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ipcRenderer, remote, shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
 
+import logger from '../../../logger'
 import api from '../../new-api'
 import { defineMessages, useIntl } from 'react-intl'
 import ExportButton from './ExportButton'
 
 const m = defineMessages({
-  'feedback-contribute-button': 'Feedback & Contribute'
+  'feedback-contribute-button': 'Feedback & Contribute',
+  notes: 'Description'
 })
 
 // iD Editor style overrides
@@ -40,6 +42,9 @@ insertCss(`
   }
   .id-container #bar .toolbar-item.sidebar-toggle {
     display: none;
+  }
+  .id-container.collapsed-sidebar #bar .toolbar-item.sidebar-toggle {
+    display: inherit;
   }
   .id-container #bar > .toolbar-item.spacer:nth-child(2) {
     display: none;
@@ -104,15 +109,18 @@ const MapEditor = () => {
 
   const zoomToData = React.useCallback((_, loc) => {
     if (!id.current) return
-    id.current.map().centerZoomEase(loc, 14, 1000)
+    if (!loc) return
+    const map = id.current.map()
+    if (map) map.centerZoomEase(loc, 14, 1000)
+    else logger.error('Zoom failed. Could not get current iD map')
   }, [])
 
   React.useEffect(
     function setupListeners () {
-      ipcRenderer.on('zoom-to-data-node', zoomToData)
+      ipcRenderer.on('zoom-to-data-territory', zoomToData)
       ipcRenderer.on('zoom-to-latlon-response', zoomToData)
       return () => {
-        ipcRenderer.removeListener('zoom-to-data-node', zoomToData)
+        ipcRenderer.removeListener('zoom-to-data-territory', zoomToData)
         ipcRenderer.removeListener('zoom-to-latlon-response', zoomToData)
       }
     },
@@ -126,7 +134,9 @@ const MapEditor = () => {
       var saved = history.toJSON()
       id.current.flush()
       if (saved) history.fromJSON(saved)
-      ipcRenderer.send('zoom-to-data-get-centroid', 'node', zoomToData)
+      api.getCentroid('node', (_, loc) => {
+        zoomToData(_, loc)
+      })
     }
     const subscription = api.addDataChangedListener('observation-edit', () =>
       refreshWindow()
@@ -156,10 +166,10 @@ const MapEditor = () => {
       if (!rootRef.current) return
       updateSettings()
 
-      var serverUrl = 'http://' + remote.getGlobal('osmServerHost')
+      var serverUrl = `http://127.0.0.1:${window.mapeoServerPort}`
       id.current = window.id = iD
         .coreContext()
-        .assetPath('node_modules/id-mapeo/dist/')
+        .assetPath('../node_modules/id-mapeo/dist/')
         .preauth({ url: serverUrl })
         .minEditableZoom(window.localStorage.getItem('minEditableZoom') || 14)
 
@@ -259,7 +269,9 @@ const MapEditor = () => {
       }
     }
     if (presets) {
+      fallbackFields.notes.label = t(m.notes) // translate notes field
       const iDPresets = convertPresets(presets)
+
       if (!id.current) {
         iDPresets.fields = { ...iD.data.presets.fields, ...iDPresets.fields }
         iD.data.presets = iDPresets
@@ -287,7 +299,7 @@ const MapEditor = () => {
 
   return (
     <div className='id-container'>
-      <div ref={rootRef} />
+      <div ref={rootRef} id='id-container' />
       {toolbarEl && ReactDOM.createPortal(<ExportButton />, toolbarEl)}
     </div>
   )
@@ -340,6 +352,11 @@ const fallbackFields = {
     type: 'localized',
     label: 'Name',
     placeholder: 'Common name (if any)'
+  },
+  notes: {
+    key: 'notes',
+    type: 'textarea',
+    label: 'Description'
   }
 }
 
@@ -349,7 +366,16 @@ const fallbackFields = {
  */
 function convertPresets (presetsObj) {
   const fields = { ...fallbackFields, ...presetsObj.fields }
-  const presets = { ...fallbackPresets, ...presetsObj.presets }
+  // Fallback presets need to override presets with the same id, since in iD it
+  // is essential that tags {} is empty, matchScore is 0.1 & geometry is correct
+  const presets = { ...presetsObj.presets, ...fallbackPresets }
+
+  // Copy the name and fields for fallback presets from the user-defined presets
+  Object.keys(fallbackPresets).forEach(presetId => {
+    if (!presetsObj.presets[presetId]) return
+    fallbackPresets[presetId].name = presetsObj.presets[presetId].name
+    fallbackPresets[presetId].fields = presetsObj.presets[presetId].fields
+  })
 
   // In Mapeo Mobile (and Observation View) we do not yet use the preset.tags
   // property to match presets to entities on the map. Instead we match based on

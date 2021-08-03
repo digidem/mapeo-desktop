@@ -1,4 +1,3 @@
-const { action } = require('@storybook/addon-actions')
 const through = require('through2')
 const concat = require('concat-stream')
 const FileSaver = require('file-saver')
@@ -8,15 +7,18 @@ module.exports = {
     const stream = through()
     stream.pipe(
       concat(data => {
-        action('fs.createWriteStream')(filepath)
+        console.log('fs.createWriteStream', filepath)
       })
     )
     return stream
   },
   writeFile: (filepath, data, cb) => {
-    action('fs.writeFile')(filepath)
+    console.log('fs.writeFile', filepath)
     const blob = new Blob([data], { type: 'application/octet-stream' })
     FileSaver.saveAs(blob, filepath)
     cb()
+  },
+  readFileSync: filepath => {
+    console.log('fs.readFileSync', filepath)
   }
 }

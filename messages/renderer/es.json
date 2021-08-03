@@ -11,6 +11,10 @@
     "description": "Synchronize tab label",
     "message": "Síncronizar"
   },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Cargando…"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Cerrar"
@@ -35,21 +39,9 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Exportar datos del mapa"
   },
-  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
-    "description": "Menu item for exporting GeoJSON",
-    "message": "Exportar GeoJSON…"
-  },
-  "renderer.components.MapEditor.ExportButton.exportShapefile": {
-    "description": "Menu item for exporting Shapefile",
-    "message": "Exportar Shapefile…"
-  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "OK"
-  },
-  "renderer.components.MapEditor.ExportButton.saveTitle": {
-    "description": "Save dialog title",
-    "message": "Exportar datos del mapa"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Comentarios y Contribuciones"
@@ -121,12 +113,40 @@
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "Exportar mapa para Web…"
   },
-  "renderer.components.MapFilter.FilterPanel.filterHeader": {
-    "message": "Filtrar datos…"
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "A"
   },
-  "renderer.components.MapFilter.Loading.loading": {
-    "description": "Displayed whilst observations and presets load",
-    "message": "Cargando…"
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "Desde"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Fecha de observación"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Editar Filtros…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Editado"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Categoría"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Sólo"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Todo"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "Filtrar datos…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
@@ -166,6 +186,55 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Disculpas, hay un error"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Datos adicionales"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Cerrar sin guardar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "Has editado la observación. Cerrar sin guardar borraría a los cambios."
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "¿Cerrar sin guardar?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Sí, borrar"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "¿Eliminar observación?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Eliminar observación"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Detalles"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "Guardar"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Ocultar todo"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Mostrar todo"
+  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
   },
@@ -174,6 +243,10 @@
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "Informe"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Observación"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -272,6 +345,9 @@
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Seleccionar base de datos para sincronizar"
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Desconocido"
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "Cancelar"

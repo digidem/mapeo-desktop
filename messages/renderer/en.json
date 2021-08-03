@@ -11,6 +11,13 @@
     "description": "Synchronize tab label",
     "message": "Synchronize"
   },
+  "renderer.components.Home.update": {
+    "message": "Update Mapeo"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Loading…"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Close"
@@ -37,11 +44,11 @@
   },
   "renderer.components.MapEditor.ExportButton.exportGeoJson": {
     "description": "Menu item for exporting GeoJSON",
-    "message": "Export GeoJSON…"
+    "message": "Export Territory Data as GeoJSON…"
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
-    "message": "Export Shapefile…"
+    "message": "Export Territory Data as Shapefile…"
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
@@ -49,10 +56,13 @@
   },
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
-    "message": "Export map data"
+    "message": "Export Territory Data"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback & Contribute"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Description"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
@@ -121,12 +131,40 @@
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "Export Webmap…"
   },
-  "renderer.components.MapFilter.FilterPanel.filterHeader": {
-    "message": "Filter by…"
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "To"
   },
-  "renderer.components.MapFilter.Loading.loading": {
-    "description": "Displayed whilst observations and presets load",
-    "message": "Loading…"
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "From"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Date of observation"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Edit Filters…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Modified"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Category"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Only"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "All"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "Filter by…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
@@ -166,6 +204,117 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Oh dear! An error has occurred"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Additional data"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Discard changes"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "You have made some changes, closing without saving will loose the changes you make"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Close without saving changes?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Yes, delete"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Delete observation?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Delete observation"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Details"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "Save"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Hide All"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Show All"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.dateHeader": {
+    "message": "Created at"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.detailsHeader": {
+    "description": "Button label for hide fields menu",
+    "message": "Details"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.locationHeader": {
+    "message": "Location"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "No observations available."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "An unknown error occurred trying to create the report"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Page {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo Monitoring Report.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Next"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Previous"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Generating report…"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Save PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Cancel"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Continue"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "This report contains {observationCount} observations, and could take a few minutes to create. Are you sure you want to continue?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Warning: Large Report"
+  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Map"
   },
@@ -174,6 +323,10 @@
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "Report"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Observation"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -273,6 +426,49 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Select a database to syncronize"
   },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Estimating..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Download"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Downloading"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "There was an error and Mapeo could not update. Try again later."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Error"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Estimated download time is"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "This update will make your application incompatible with earlier verions."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "This update includes improvements that may change your experience."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "This update includes changes that fix critical errors. Please update as soon as possible."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Restart"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "An update to Mapeo has been downloaded. Restart Mapeo to update."
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Unknown"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Update"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo is up to date! You are on the latest version."
+  },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "Cancel"
   },
@@ -282,10 +478,36 @@
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
     "message": "Choose a language"
   },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Close"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Open log..."
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Enter Coordinates"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Export Errors"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "There was an error trying to export these files, so they are missing from this export:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Missing Originals"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "The original size of these files could not be found, only preview size (1,200 pixel) images are included. This can happen because the phone that took the photos has only synced to other phones, and not directly to Mapeo Desktop. To try fixing this, find the phone that took the photos and sync it with Mapeo Desktop before exporting again."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "No answer"
   }
 }
