@@ -245,6 +245,10 @@
     "description": "Label for description / notes section of report",
     "message": "Descrição"
   },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Página {currentPage}"
+  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
     "message": "Próxima"
@@ -252,6 +256,18 @@
   "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
     "description": "Button for nagivating to the previous page in the report",
     "message": "Anterior"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Gerando relatório…"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Salvar como PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
