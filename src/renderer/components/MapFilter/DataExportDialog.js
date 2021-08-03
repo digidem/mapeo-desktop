@@ -5,7 +5,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
+import { DialogContentText } from '@material-ui/core'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import { csvFormat } from 'd3-dsv'
-import ViewWrapper from './ViewWrapper'
+import ViewWrapper from 'react-mapfilter/commonjs/ViewWrapper'
 import flatten from 'flat'
 import isodate from '@segment/isodate'
 import { fromLatLon } from 'utm'
@@ -112,24 +112,24 @@ const ExportDialogContent = ({
     }
 
     const saveExt = values.photos === 'none' ? ext : 'zip'
-    remote.dialog
-      .showSaveDialog({
+    remote.dialog.showSaveDialog(
+      {
         title: t(msgs.title),
         defaultPath: t(msgs.defaultExportFilename) + '.' + saveExt,
         filters: [{ name: saveExt + ' files', extensions: [saveExt] }]
-      })
-      .then(({ canceled, filePath }) => {
-        if (canceled) return handleClose()
+      },
+      filepath => {
         const filepathWithExtension = path.join(
-          path.dirname(filePath),
-          path.basename(filePath, '.' + saveExt) + '.' + saveExt
+          path.dirname(filepath),
+          path.basename(filepath, '.' + saveExt) + '.' + saveExt
         )
         onSelectFile(filepathWithExtension)
-      })
+      }
+    )
 
-    function onSelectFile (filePath) {
+    function onSelectFile (filepath) {
       if (values.photos === 'none') {
-        fs.writeFile(filePath, exportData, err => {
+        fs.writeFile(filepath, exportData, err => {
           if (err) logger.error('DataExportDialog: onSelectFile', err)
           handleClose()
         })
@@ -149,21 +149,12 @@ const ExportDialogContent = ({
           metadataPath: t(msgs.defaultExportFilename) + '.' + ext
         }
       ]
-      const remoteFiles = photosToSave.map(id => {
-        // If the user is trying to export originals, use preview sized images
-        // as a fallback. TODO: Show a warning to the user that originals are
-        // missing and clearly explain why this might be and what the user can
-        // do about it.
-        const fallbackUrl =
-          values.photos === 'original' ? getMediaUrl(id, 'preview') : undefined
-        return {
-          url: getMediaUrl(id, values.photos),
-          fallbackUrl,
-          metadataPath: 'images/' + id
-        }
-      })
-      const output = fsWriteStreamAtomic(filePath)
-      const archive = createZip(localFiles, remoteFiles, { formatMessage: t })
+      const remoteFiles = photosToSave.map(id => ({
+        url: getMediaUrl(id, values.photos),
+        metadataPath: 'images/' + id
+      }))
+      const output = fsWriteStreamAtomic(filepath)
+      const archive = createZip(localFiles, remoteFiles)
 
       pump(archive, output, err => {
         if (err) logger.error('DataExportDialog: pump create zip', err)
@@ -346,9 +337,9 @@ function observationsToGeoJson (obs, { photos } = {}) {
         o.lat == null || o.lon == null
           ? null
           : {
-              type: 'Point',
-              coordinates: [o.lon, o.lat]
-            },
+            type: 'Point',
+            coordinates: [o.lon, o.lat]
+          },
       id: o.id,
       properties: {
         ...o.tags,

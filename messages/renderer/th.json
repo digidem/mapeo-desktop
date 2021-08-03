@@ -1,26 +1,19 @@
 {
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
-    "message": "อาณาเขต"
+    "message": "Territory"
   },
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
-    "message": "การสังเกต"
+    "message": "Observations"
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
-    "message": "เชื่อมโยงข้อมูลให้ตรงกัน"
-  },
-  "renderer.components.Home.update": {
-    "message": "ปรับปรุง Mapeo"
-  },
-  "renderer.components.Loading.loading": {
-    "description": "Displayed whilst observations and presets load",
-    "message": "กำลังโหลด…"
+    "message": "Synchronize"
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
-    "message": "ปิด"
+    "message": "Close"
   },
   "renderer.components.MapEditor.ExportButton.defaultFilename": {
     "description": "Default filename for map export",
@@ -28,468 +21,271 @@
   },
   "renderer.components.MapEditor.ExportButton.dialogError": {
     "description": "Expor error message - if there was an error during export",
-    "message": "การนำไฟล์ออกล้มเหลว เนื่องจากข้อผิดพลาดภายใน"
+    "message": "Export failed due to an internal error"
   },
   "renderer.components.MapEditor.ExportButton.dialogSuccess": {
     "description": "Export success message,",
-    "message": "การส่งออกเสร็จสมบูรณ์"
+    "message": "Export complete"
   },
   "renderer.components.MapEditor.ExportButton.dialogTitle": {
     "description": "Export dialog title - shown during export progress and after success/failure",
-    "message": "กำลังส่งออกข้อมูล..."
+    "message": "Exporting data"
   },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
-    "message": "ส่งออกข้อมูลแผนที่"
+    "message": "Export map data"
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Export GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Export Shapefile…"
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
-    "message": "ตกลง"
+    "message": "OK"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "Export map data"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
-    "message": "ข้อเสนอแนะและสนับสนุน"
-  },
-  "renderer.components.MapEditor.index.notes": {
-    "message": "รายละเอียด"
+    "message": "Feedback & Contribute"
   },
   "renderer.components.MapFilter.DataExportDialog.cancel": {
     "description": "cancel button",
-    "message": "ยกเลิก"
+    "message": "Cancel"
   },
   "renderer.components.MapFilter.DataExportDialog.close": {
     "description": "Close button (shown if user has no data to export)",
-    "message": "ปิด"
+    "message": "Close"
   },
   "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
     "description": "Default filename for exported data",
     "message": "mapeo-observation-data"
   },
   "renderer.components.MapFilter.DataExportDialog.exportAll": {
-    "message": "การสังเกตทั้งหมด {count} รายการ"
+    "message": "All {count} observations"
   },
   "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
-    "message": "การสังเกตที่คัดกรอง {count} รายการ"
+    "message": "{count} filtered observations"
   },
   "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
-    "message": "เฉพาะข้อมูลที่กรองหรือข้อมูลทั้งหมด?"
+    "message": "Only filtered data or all data?"
   },
   "renderer.components.MapFilter.DataExportDialog.format": {
     "description": "Label for data format selector",
-    "message": "รูปแบบข้อมูล"
+    "message": "Data format"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotos": {
     "description": "Label for select to include photos in export",
-    "message": "ส่งรูปภาพออกด้วยหรือไม่?"
+    "message": "Also export photos?"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
-    "message": "การส่งออกเป็นไฟล์ zip โดยรวมทั้งข้อมูลและภาพถ่าย"
+    "message": "Export will be a zip file including data and photos"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
-    "message": "ไม่รวมภาพถ่าย"
+    "message": "No Photos"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
-    "message": "ภาพถ่ายขนาดเต็ม"
+    "message": "Full size photos"
   },
   "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": "ภาพถ่ายขนาดตัวอย่าง"
+    "message": "Preview size photos"
   },
   "renderer.components.MapFilter.DataExportDialog.noData": {
     "description": "Shown when there is no data to export",
-    "message": "คุณยังไม่มีข้อมูลสำหรับส่งออก"
+    "message": "You don't yet have any data to export."
   },
   "renderer.components.MapFilter.DataExportDialog.save": {
     "description": "Save button",
-    "message": "บันทึก"
+    "message": "Save"
   },
   "renderer.components.MapFilter.DataExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": "ส่งออกการสังเกต"
+    "message": "Export Observations"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "ส่งออกข้อมูลการสังเกต"
+    "message": "Export Observation Data"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
-    "message": "ส่งออกการสังเกต..."
+    "message": "Export Observations…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
-    "message": "ส่งออกเป็น Webmap..."
+    "message": "Export Webmap…"
   },
-  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
-    "description": "Title of max date field in filter",
-    "message": "ถึง"
+  "renderer.components.MapFilter.FilterPanel.filterHeader": {
+    "message": "Filter by…"
   },
-  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
-    "description": "Title of min date field in filter",
-    "message": "จาก"
-  },
-  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
-    "description": "Label for filter by date observation was created",
-    "message": "วันที่จัดทำการสังเกต"
-  },
-  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
-    "description": "Button text to change which fields are shown and filterable in the filter pane",
-    "message": "แก้ไขตัวกรอง..."
-  },
-  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
-    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
-    "message": "แก้ไข"
-  },
-  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
-    "description": "Label for filter by category (e.g. the preset)",
-    "message": "หมวดหมู่"
-  },
-  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
-    "description": "Button text to only show a particular field value in a filter",
-    "message": "เท่านั้น"
-  },
-  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
-    "description": "Button text to turn off filters for a field",
-    "message": "ทั้งหมด"
-  },
-  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
-    "message": "กรองข้อมูลโดย"
+  "renderer.components.MapFilter.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Loading…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
-    "message": "ยกเลิก"
+    "message": "Cancel"
   },
   "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
     "description": "Label for field to enter map description",
-    "message": "รายละเอียดแผนที่"
+    "message": "Map Description"
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
-    "message": "บันทึก"
+    "message": "Save"
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": "สไตล์แผนที่"
+    "message": "Map Style"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": "เพิ่มข้อกำหนดและข้อจำกัดเกี่ยวกับวิธีใช้ข้อมูลนี้"
+    "message": "Add terms & limitations about how this data can be used"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": "ข้อกำหนดและข้อจำกัด"
+    "message": "Terms & Limitations"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": "ส่งออกแผนที่เพื่อแบ่งปันออนไลน์"
+    "message": "Export a map to share online"
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
-    "message": "ชื่อแผนที่"
+    "message": "Map Title"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
-    "message": "รายละเอียดด้านล่างนี้สำหรับค้นหาวิธีแก้ไข..."
+    "message": "The details below will be useful for finding a way to fix this…"
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
-    "message": "เกิดข้อผิดพลาด!"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
-    "description": "Header for section with additional fields that are not defined in the preset",
-    "message": "ข้อมูลเพิ่มเติม"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
-    "description": "Cancel button once observation has been edited",
-    "message": "ยกเลิก"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
-    "message": "ยกเลิก"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
-    "message": "ยกเลิกการเปลี่ยนแปลง"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
-    "message": "ปิดโปรแกรมโดยไม่บันทึก ข้อมูลที่แก้ไขไว้จะหายไป"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
-    "message": "ปิดโดยไม่บันทึกหรือไม่?"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
-    "message": "ยกเลิก"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
-    "message": "ใช่ ลบได้"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
-    "message": "ยืนยันให้ลบการสังเกตนี้หรือไม่?"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
-    "description": "Menu item to delete an observation",
-    "message": "ลบการสังเกต"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
-    "description": "Header for section that includes the additional details for an observation",
-    "message": "รายละเอียด"
-  },
-  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
-    "description": "Save edit button",
-    "message": "บันทึก"
-  },
-  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
-    "description": "Hide all fields in report view",
-    "message": "ซ่อนทั้งหมด"
-  },
-  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
-    "description": "Button label for hide fields menu",
-    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
-  },
-  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
-    "description": "Show all fields in report view",
-    "message": "แสดงทั้งหมด"
-  },
-  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
-    "description": "Label for description / notes section of report",
-    "message": "รายละเอียด"
-  },
-  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
-    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
-    "message": "ไม่พบการสังเกต"
-  },
-  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
-    "description": "Displayed if an error occurs when rendering the report",
-    "message": "มีข้อผิดพลาดเกิดขึ้นในขณะที่พยายามสร้างรายงาน"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
-    "description": "Text showing the current page number when previewing a report",
-    "message": "หน้า {currentPage}"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
-    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
-    "message": "รายงานการติดตาม Mapeo.pdf"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
-    "description": "Button for navigating to the next page in the report",
-    "message": "ถัดไป"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
-    "description": "Button for nagivating to the previous page in the report",
-    "message": "ก่อนหน้า"
-  },
-  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
-    "description": "Shown while the report is generating when saving or printing",
-    "message": "กำลังสร้างรายงาน..."
-  },
-  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
-    "description": "Button label for Save PDF Button",
-    "message": "บันทึกเป็น PDF"
-  },
-  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
-    "description": "Button label to cancel saving report",
-    "message": "ยกเลิก"
-  },
-  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
-    "description": "Button label to confirm saving report",
-    "message": "ดำเนินการต่อ"
-  },
-  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
-    "description": "Loading message when report is very long.",
-    "message": "รายงานนี้มีการสังเกต {observationCount} รายการ จะใช้เวลาสร้างรายงานสักครู่ คุณต้องการดำเนินการต่อหรือไม่?"
-  },
-  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
-    "description": "Title of print settings dialog",
-    "message": "คำเตือน: รายงานนี้มีขนาดใหญ่"
+    "message": "Oh dear! An error has occurred"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
-    "message": "แผนที่"
+    "message": "Map"
   },
   "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
-    "message": "สื่อ"
+    "message": "Media"
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
-    "message": "รายงาน"
-  },
-  "renderer.components.MapFilter.messages.defaultObservationName": {
-    "description": "Name to show for an observation when it does not match any preset",
-    "message": "การสังเกต"
+    "message": "Report"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "ตรวจสอบให้แน่ใจว่าอุปกรณ์เปิดอยู่และเชื่อมต่อภายใต้เครือข่าย Wi-Fi เดียวกัน"
+    "message": "Make sure devices are turned on and connected to the same wifi network"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
-    "message": "กำลัง​ค้น​หา..."
+    "message": "Searching…"
   },
   "renderer.components.SyncView.SyncAppBar.disconnected": {
-    "message": "ขาดการเชื่อมต่อ"
+    "message": "Disconnected"
   },
   "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
-    "message": "ในขั้นแรก คุณต้องเชื่อมต่อกับเครือข่าย Wi-Fi ก่อนจึงจะสามารถเชื่อมโยงกับอุปกรณ์อื่นได้"
+    "message": "You first need to connect to a WiFi network before being able to synchronize devices"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
-    "message": "สร้างไฟล์เชื่อมต่อใหม่..."
+    "message": "Create new syncfile…"
   },
   "renderer.components.SyncView.SyncAppBar.quality": {
-    "message": "คุณภาพ: {quality}%"
+    "message": "Quality: {quality}%"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
-    "message": "สัญญาณเชื่อมต่อดีเยี่ยม"
+    "message": "The connection signal is excellent"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
-    "message": "สัญญาณเชื่อมต่อไม่เสถียร ลองเข้าใกล้ตัวปล่อยสัญญาณ Wi-Fi มากขึ้น"
+    "message": "The connection signal is very poor. Try getting closer to the WiFi router"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
-    "message": "สัญญาณเชื่อมต่ออ่อน การเชื่อมโยงข้อมูลอาจใช้เวลานานกว่าจะเสร็จสมบูรณ์"
+    "message": "The connection signal is weak. The synchronization might take a longer time to complete"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
-    "message": "เชื่อมต่อด้วยไฟล์"
+    "message": "Sync from a file…"
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
-    "message": "อุปกรณ์ที่พบ"
+    "message": "Available Devices"
   },
   "renderer.components.SyncView.SyncAppBar.wifiError": {
-    "message": "ไม่มีข้อมูล"
+    "message": "Unknown"
   },
   "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
-    "message": "การ์ด Wi-Fi หรือระบบปฏิบัติการ (OS) ของคุณไม่เป็นที่ยอมรับ"
+    "message": "Your WiFi card or Operating System (OS) has not been recognized"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
-    "message": "เสร็จสมบูรณ์"
+    "message": "Complete"
   },
   "renderer.components.SyncView.SyncButton.disconnected": {
     "description": "Disconnected",
-    "message": "ขาดการเชื่อมต่อ"
+    "message": "Disconnected"
   },
   "renderer.components.SyncView.SyncButton.finishing": {
     "description": "Almost done! But progress is inaccurate.",
-    "message": "กำลังจะเสร็จแล้ว..."
+    "message": "Finishing…"
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
-    "message": "ลองอีกครั้ง"
+    "message": "Retry"
   },
   "renderer.components.SyncView.SyncButton.starting": {
     "description": "Displayed when sync is starting",
-    "message": "กำลังเริ่ม..."
+    "message": "Starting…"
   },
   "renderer.components.SyncView.SyncButton.sync": {
     "description": "Button to sync a device",
-    "message": "เชื่อมโยงข้อมูลให้ตรงกัน"
+    "message": "Synchronize"
   },
   "renderer.components.SyncView.SyncTarget.database": {
     "description": "Prompt of how many database objects have synced",
-    "message": "ฐานข้อมูล: {sofar} / {total}"
+    "message": "Database: {sofar} / {total}"
   },
   "renderer.components.SyncView.SyncTarget.errorMsg": {
     "description": "Message shown when there is an error while syncing",
-    "message": "ข้อผิดพลาดในการเชื่อมโยง"
+    "message": "Syncronization Error"
   },
   "renderer.components.SyncView.SyncTarget.lastSync": {
     "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
-    "message": "เชื่อมโยงล่าสุด:"
+    "message": "Last synchronized:"
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
-    "message": "รูปภาพ: {sofar} / {total}"
+    "message": "Photos: {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
-    "message": "สร้างฐานข้อมูลใหม่เพื่อเชื่อมโยง"
+    "message": "Create a new database to syncronize"
   },
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} จำเป็นต้องอัพเกรด Mapeo"
+    "message": "{deviceName} needs to upgrade Mapeo"
   },
   "renderer.components.SyncView.index.errorMsgVersionUsBad": {
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": "กรุณาอัพเกรด Mapeo เพื่อเชื่อมต่อกับ {deviceName}"
+    "message": "You need to upgrade Mapeo to sync with {deviceName}"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
-    "message": "เลือกฐานข้อมูลเพื่อเชื่อมโยง"
-  },
-  "renderer.components.UpdaterView.index.calculatingProgress": {
-    "message": "กำลังประเมิน..."
-  },
-  "renderer.components.UpdaterView.index.downloadButtonText": {
-    "message": "ดาวน์โหลด"
-  },
-  "renderer.components.UpdaterView.index.downloadProgress": {
-    "message": "กำลังดาวน์โหลด"
-  },
-  "renderer.components.UpdaterView.index.errorMessage": {
-    "message": "เกิดข้อผิดพลาดและไม่สามารถอัปเดต Mapeo ได้ โปรดลองอีกครั้งในภายหลัง"
-  },
-  "renderer.components.UpdaterView.index.errorTitle": {
-    "message": "ข้อผิดพลาด"
-  },
-  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
-    "message": "เวลาดาวน์โหลดไฟล์โดยประมาณ"
-  },
-  "renderer.components.UpdaterView.index.majorUpdate": {
-    "message": "การอัปเดตนี้จะทำให้แอปพลิเคชันของคุณใช้ไม่ได้กับเวอร์ชันก่อนหน้า"
-  },
-  "renderer.components.UpdaterView.index.minorUpdate": {
-    "message": "การอัปเดตนี้รวมถึงการปรับปรุงที่อาจจะสร้างประสบการณ์ใหม่ให้คุณ"
-  },
-  "renderer.components.UpdaterView.index.patchUpdate": {
-    "message": "การอัปเดตนี้รวมถึงการแก้ไขข้อผิดพลาดที่สำคัญ โปรดอัปเดตโดยเร็วที่สุด"
-  },
-  "renderer.components.UpdaterView.index.restartMapeoButton": {
-    "message": "เริ่มการใช้งานใหม่"
-  },
-  "renderer.components.UpdaterView.index.restartMapeoText": {
-    "message": "ดาวน์โหลดไฟล์อัปเดต Mapeo แล้ว กรุณาปิดและเปิดโปรแกรม Mapeo เพื่อทำการอัปเดต"
-  },
-  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
-    "message": "ไม่มีข้อมูล"
-  },
-  "renderer.components.UpdaterView.index.updateAvailable": {
-    "description": "Title on sync screen when searching for devices",
-    "message": "อัปเดต"
-  },
-  "renderer.components.UpdaterView.index.updateNotAvailable": {
-    "message": "Mapeo อัปเดตเป็นเวอร์ชันล่าสุดแล้ว!"
+    "message": "Select a database to syncronize"
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
-    "message": "ยกเลิก"
+    "message": "Cancel"
   },
   "renderer.components.dialogs.ChangeLanguage.button-submit": {
-    "message": "ส่งข้อมูล"
+    "message": "Submit"
   },
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": "เลือกภาษา"
-  },
-  "renderer.components.dialogs.Error.close": {
-    "message": "ปิด"
-  },
-  "renderer.components.dialogs.Error.openLog": {
-    "message": "เปิดประวัติ..."
+    "message": "Choose a language"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
-    "message": "ส่งข้อมูล"
+    "message": "Submit"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
-    "message": "ป้อนพิกัด"
-  },
-  "renderer.create-zip.errorsFilename": {
-    "description": "File name for file with information about export errors",
-    "message": "ข้อผิดพลาดในการส่งออก"
-  },
-  "renderer.create-zip.errorsMsg": {
-    "description": "Error message stored in text file in export if there were errors during export",
-    "message": "เกิดข้อผิดพลาดในการส่งออกไฟล์ ​ไฟล์เหล่านี้ยังไม่ได้ส่งออก:"
-  },
-  "renderer.create-zip.missingOriginalsFilename": {
-    "description": "File name for file with information about missing originals in export",
-    "message": "ไม่พบไฟล์ต้นฉบับ​"
-  },
-  "renderer.create-zip.missingOriginalsMsg": {
-    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
-    "message": "ไม่พบขนาดต้นฉบับของไฟล์เหล่านี้ มีเฉพาะภาพขนาดตัวอย่าง (1,200 พิกเซล) เท่านั้น กรณีนี้เกิดขึ้นได้เนื่องจากโทรศัพท์ที่ใช้ถ่ายภาพได้เชื่อมต่อกับโทรศัพท์เครื่องอื่นและไม่ได้เชื่อมต่อโดยตรงกับ Mapeo Desktop วิธีแก้ไข คือให้เชื่อมต่อโทรศัพท์ที่ใช้ถ่ายภาพเข้ากับ Mapeo Desktop อีกครั้งก่อนส่งออกไฟล์"
-  },
-  "screens.Observation.ObservationView.noAnswer": {
-    "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "ไม่มีการตอบรับ"
+    "message": "Enter Coordinates"
   }
 }

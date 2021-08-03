@@ -1,14 +1,14 @@
 const { shell, dialog, app, Menu } = require('electron')
 
-const updater = require('./auto-updater')
+const userConfig = require('./user-config')
 const i18n = require('./i18n')
 const logger = require('../logger')
-const config = require('../../config')
-const userConfig = require('./user-config')
 
 const t = i18n.t
 
-module.exports = function createMenu (ipc) {
+module.exports = async function createMenu (ipc) {
+  await app.whenReady()
+
   function setMenu () {
     var menu = Menu.buildFromTemplate(menuTemplate(ipc))
     Menu.setApplicationMenu(menu)
@@ -19,16 +19,6 @@ module.exports = function createMenu (ipc) {
   i18n.on('locale-change', () => setMenu())
 }
 
-function onUpdate (err, update) {
-  if (err) logger.error('[UPDATER]', err)
-  if (!update) {
-    dialog.showMessageBox({
-      message: t('menu-no-updates-available'),
-      buttons: ['OK']
-    })
-  }
-}
-
 function menuTemplate (ipc) {
   var template = [
     {
@@ -36,7 +26,7 @@ function menuTemplate (ipc) {
       submenu: [
         {
           label: t('menu-import-tiles'),
-          click: async function (item, focusedWindow) {
+          click: function (item, focusedWindow) {
             var opts = {
               title: t('menu-import-tiles'),
               properties: ['openFile'],
@@ -44,64 +34,63 @@ function menuTemplate (ipc) {
                 { name: 'Tar', extensions: ['tar'] }
               ]
             }
-            const result = await dialog.showOpenDialog(opts)
-            if (result.canceled) return
-            if (!result.filePaths || !result.filePaths.length) return
-            ipc.send('import-tiles', result.filePaths[0], cb)
-            function cb (err) {
-              if (err) {
-                logger.error('[IMPORT TILES] error', err)
-                dialog.showErrorBox(
-                  t('menu-import-tiles-error'),
-                  t('menu-import-tiles-error-known') + ': ' + err
-                )
-              } else {
-                logger.debug('[IMPORT TILES] success')
-                dialog.showMessageBox({
-                  message: t('menu-import-data-success'),
-                  buttons: ['OK']
-                })
+            dialog.showOpenDialog(opts, function (filenames) {
+              if (!filenames || !filenames.length) return
+              ipc.send('import-tiles', filenames[0], cb)
+              function cb (err) {
+                if (err) {
+                  logger.error('[IMPORT TILES] error', err)
+                  dialog.showErrorBox(
+                    t('menu-import-tiles-error'),
+                    t('menu-import-tiles-error-known') + ': ' + err
+                  )
+                } else {
+                  logger.debug('[IMPORT TILES] success')
+                  dialog.showMessageBox({
+                    message: t('menu-import-data-success'),
+                    buttons: ['OK']
+                  })
+                }
               }
-            }
+            })
           }
         },
         {
           label: t('menu-import-configuration'),
-          click: async function (item, focusedWindow) {
-            const result = await dialog.showOpenDialog(
+          click: function (item, focusedWindow) {
+            dialog.showOpenDialog(
               {
                 title: t('menu-import-configuration-dialog'),
                 filters: [
                   { name: 'Mapeo Settings', extensions: ['mapeosettings'] }
                 ],
                 properties: ['openFile']
+              },
+              function (filenames) {
+                if (!filenames || !filenames.length) return
+                userConfig.importSettings(filenames[0], cb)
+                function cb (err) {
+                  if (!err) {
+                    logger.debug('reloading')
+                    ipc.send('reload-config', null, () => {
+                      focusedWindow.webContents.send('force-refresh-window')
+                    })
+                    return
+                  }
+                  dialog.showErrorBox(
+                    t('menu-import-configuration-error'),
+                    t('menu-import-configuration-error-known') + ': ' + err
+                  )
+                }
               }
             )
-            logger.info('[MENU] Import Configuration', result)
-            if (result.canceled) return
-            if (!result.filePaths || !result.filePaths.length) return
-            userConfig.importSettings(result.filePaths[0], (err) => {
-              if (err) return onerror(err)
-              ipc.send('reload-config', (err) => {
-                if (err) logger.error(err)
-                logger.debug('[SYSTEM] Forcing window refresh')
-                focusedWindow.webContents.send('force-refresh-window')
-              })
-            })
-
-            function onerror (err) {
-              dialog.showErrorBox(
-                t('menu-import-configuration-error'),
-                t('menu-import-configuration-error-known') + ': ' + err
-              )
-            }
           }
         },
         {
           label: t('menu-import-data'),
-          click: async function (item, focusedWindow) {
+          click: function (item, focusedWindow) {
             // TODO: handle multiple files
-            const result = await dialog.showOpenDialog(
+            dialog.showOpenDialog(
               {
                 title: t('menu-import-data-dialog'),
                 filters: [
@@ -109,14 +98,14 @@ function menuTemplate (ipc) {
                   { name: 'Shape', extensions: ['shp'] }
                 ],
                 properties: ['openFile']
+              },
+              function (filenames) {
+                if (!filenames || !filenames.length) return
+                var filename = filenames[0]
+                logger.info('[IMPORTING]', filename)
+                ipc.send('import-data', filename)
               }
             )
-
-            if (result.canceled) return
-            if (!result.filePaths || !result.filePaths.length) return
-            var filename = result.filePaths[0]
-            logger.info('[IMPORTING]', filename)
-            ipc.send('import-data', filename)
           },
           visible: true
         }
@@ -125,6 +114,21 @@ function menuTemplate (ipc) {
     {
       label: t('menu-edit'),
       submenu: [
+        {
+          label: t('menu-undo'),
+          accelerator: 'CmdOrCtrl+Z',
+          role: 'undo',
+          visible: false
+        },
+        {
+          label: t('menu-redo'),
+          accelerator: 'Shift+CmdOrCtrl+Z',
+          role: 'redo',
+          visible: false
+        },
+        {
+          type: 'separator'
+        },
         {
           label: t('menu-cut'),
           accelerator: 'CmdOrCtrl+X',
@@ -202,22 +206,12 @@ function menuTemplate (ipc) {
         {
           label: t('menu-zoom-to-data'),
           click: function (item, focusedWindow) {
-            ipc.send(
-              'zoom-to-data-get-centroid',
-              // For territory view, we want the centroid of both nodes and observations
-              ['node', 'observation'],
-              function (err, loc) {
-                if (err) logger.error(err)
-                logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
-                if (!loc) return
-                focusedWindow.webContents.send('zoom-to-data-territory', loc)
-              }
-            )
-            ipc.send('zoom-to-data-get-centroid', 'observation', function (
-              err,
-              loc
-            ) {
-              if (err) logger.error(err)
+            ipc.send('zoom-to-data-get-centroid', 'node', function (_, loc) {
+              logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
+              if (!loc) return
+              focusedWindow.webContents.send('zoom-to-data-node', loc)
+            })
+            ipc.send('zoom-to-data-get-centroid', 'observation', function (_, loc) {
               logger.debug('RESPONSE(menu,getDatasetCentroid):', loc)
               if (!loc) return
               focusedWindow.webContents.send('zoom-to-data-observation', loc)
@@ -255,26 +249,6 @@ function menuTemplate (ipc) {
       role: 'help',
       submenu: [
         {
-          label: t('menu-check-for-updates'),
-          click: function (item, focusedWindow) {
-            updater.checkForUpdates(onUpdate)
-          },
-          visible: true
-        },
-        {
-          label: t('menu-get-beta'),
-          type: 'checkbox',
-          checked: updater.channel === 'beta',
-          click: function (item, focusedWindow) {
-            updater.channel = (updater.channel === 'beta') ? 'latest' : 'beta'
-            updater.checkForUpdates(onUpdate)
-          },
-          visible: true
-        },
-        {
-          type: 'separator'
-        },
-        {
           label: t('menu-debugging'),
           type: 'checkbox',
           checked: logger._debug,
@@ -283,6 +257,12 @@ function menuTemplate (ipc) {
             logger.debugging(bool)
             ipc.send('debugging', bool)
             focusedWindow.webContents.send('debugging', bool)
+          }
+        },
+        {
+          label: t('menu-report'),
+          click: function (item, focusedWindow) {
+            shell.openExternal('https://github.com/digidem/mapeo-desktop/issues/new?template=bug_report.md')
           }
         },
         {
@@ -309,12 +289,6 @@ function menuTemplate (ipc) {
                 })
               }
             })
-          }
-        },
-        {
-          label: t('menu-report'),
-          click: function (item, focusedWindow) {
-            shell.openExternal(`${config.GITHUB_URL}/issues/new?template=bug_report.md`)
           }
         }
       ]

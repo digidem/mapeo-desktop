@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { defineMessages, useIntl } from 'react-intl'
-import Typography from '@material-ui/core/Typography'
+import { Typography } from '@material-ui/core'
 
 import Loader from '../Loader'
 
@@ -21,7 +21,7 @@ const Searching = () => {
       <div className={cx.searching}>
         <Loader />
         <div className={cx.searchingText}>
-          <Typography gutterBottom variant="h2" className={cx.searchingTitle}>
+          <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
             {t(m.searchingTitle)}
           </Typography>
 

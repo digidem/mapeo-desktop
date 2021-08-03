@@ -1,6 +1,6 @@
 name: Node CD
 
-on:
+on: 
   push:
     tags:
       - '*'
@@ -13,12 +13,13 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     strategy:
+      max-parallel: 1
       matrix:
         config:
-          - { os: macos-latest, arch: x64 }
-          - { os: ubuntu-latest, arch: x64 }
-          - { os: windows-latest, arch: x64 }
-          - { os: windows-latest, arch: ia32 }
+          - { os: macos-latest, arch: x64, name: macos-latest }
+          - { os: ubuntu-latest, arch: x64, name: ubuntu-latest, needs: [ macos-latest] }
+          - { os: windows-latest, arch: x64, name: windows-latest, needs: [ ubuntu-latest ]  }
+          - { os: windows-latest, arch: ia32, name: windows-latest-32,needs: [ windows-latest] }
 
     steps:
       - name: Context
@@ -28,18 +29,14 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
-      - name: Use Node.js 12.14.1
-        uses: actions/setup-node@v2
+      - name: Use Node.js 12.4
+        uses: actions/setup-node@v1
         with:
-          node-version: 12.14.1
+          node-version: 12.4
+          architecture: ${{matrix.config.arch}}
       - name: npm ci
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 5
-          retry_on: error
-          retry_wait_seconds: 0
-          command: npm ci
+        run: |
+          npm ci
         env:
           npm_config_arch: ${{matrix.config.arch}}
       - name: Lint
@@ -62,10 +59,6 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
       - name: Cleanup artifacts
         run: |
           npx rimraf@2 'dist/!(*.exe|*.deb|*.AppImage|*.dmg)'
@@ -73,5 +66,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: '${{ matrix.config.os }}-${{ matrix.config.arch }}'
+          name: ${{ matrix.config.name }}
           path: dist

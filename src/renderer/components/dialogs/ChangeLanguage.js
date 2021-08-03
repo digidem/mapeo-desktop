@@ -14,10 +14,7 @@ const languages = {
   es: 'Español',
   en: 'English',
   fr: 'Français',
-  pt: 'Português',
-  th: 'Thai',
-  vi: 'Vietnamese',
-  km: 'Khmer'
+  pt: 'Português'
 }
 
 const m = defineMessages({

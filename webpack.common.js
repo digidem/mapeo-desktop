@@ -1,26 +1,13 @@
 const path = require('path')
+const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
-  entry: {
-    app: './src/renderer/app.js',
-    pdfWorker:
-      './src/renderer/components/MapFilter/ReportView/renderReport.worker.js'
-  },
+  entry: './src/renderer/app.js',
   target: 'electron-renderer',
-  externals: [
-    'winston',
-    'winston-daily-rotate-file',
-    '@bugsnag/node',
-    '@bugsnag/browser',
-    'ajv',
-    'electron-debug',
-    'mime-db'
-  ],
+  externals: [nodeExternals()],
   // plugins: [new LiveReloadPlugin()],
-  // plugins: [new BundleAnalyzerPlugin()],
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: 'build.js',
     path: path.resolve(__dirname, 'static'),
     libraryTarget: 'commonjs2'
   },
@@ -40,14 +27,6 @@ module.exports = {
         test: /\.js$/,
         include: path.join(__dirname, 'src'),
         loader: 'babel-loader'
-      },
-      {
-        test: /\.ttf$/i,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.png$/i,
-        loader: 'url-loader'
       }
     ]
   }

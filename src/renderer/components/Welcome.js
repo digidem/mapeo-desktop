@@ -70,7 +70,8 @@ export default class Welcome extends React.Component {
                 {i18n('welcome-screen-3-open-map')}
               </button>
             </div>
-          </div>}
+          </div>
+      }
     </div>
     )
   }

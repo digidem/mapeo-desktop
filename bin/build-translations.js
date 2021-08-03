@@ -9,13 +9,14 @@ const fs = require('fs')
 
 const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
+const mkdirpPromise = util.promisify(mkdirp)
 
 async function readJson (file) {
   return JSON.parse(await readFile(file))
 }
 
 async function writeJson (file, data) {
-  await mkdirp(path.dirname(file))
+  await mkdirpPromise(path.dirname(file))
   await writeFile(file, JSON.stringify(data, null, 2))
 }
 

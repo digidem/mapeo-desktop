@@ -2,15 +2,13 @@ const winston = require('winston')
 const path = require('path')
 const DailyRotateFile = require('winston-daily-rotate-file')
 const util = require('util')
-const { format } = require('date-fns')
-const isDev = require('electron-is-dev')
 
 const store = require('./store')
 const appVersion = require('../package.json').version
 
-let Bugsnag
-
 const BUGSNAG_API_KEY = 'fcd92279c11ac971b4bd29b646ec4125'
+
+let Bugsnag
 
 class Logger {
   constructor () {
@@ -20,13 +18,16 @@ class Logger {
     this._debug = store.get('debugging')
   }
 
-  configure ({ userDataPath, label }) {
+  configure ({
+    userDataPath,
+    isDev,
+    label
+  }) {
+    this.isDev = isDev
     this._startBugsnag(isDev ? 'development' : 'production')
-    const prettyPrint = winston.format.printf(
-      ({ level, message, label, timestamp }) => {
-        return `${timestamp} [${label}] ${level}: ${message}`
-      }
-    )
+    const prettyPrint = winston.format.printf(({ level, message, label, timestamp }) => {
+      return `${timestamp} [${label}] ${level}: ${message}`
+    })
 
     this.winston.format = winston.format.combine(
       winston.format.label({ label }),
@@ -41,7 +42,7 @@ class Logger {
       }
     }
 
-    const mainLog = new DailyRotateFile({
+    const mainLog = new (DailyRotateFile)({
       filename: '%DATE%.log',
       dirname: this.dirname,
       datePattern: 'YYYY-MM-DD',
@@ -50,9 +51,17 @@ class Logger {
       level: 'info'
     })
     mainLog.name = 'main'
+    mainLog.on('new', () => {
+      // if debugging is on and a new log file is created, turn it off
+      this.debugging(false)
+    })
+    mainLog.on('rotate', () => {
+      // if debugging is on during a rotate, turn it off
+      this.debugging(false)
+    })
     this.winston.add(mainLog)
 
-    const errorTransport = new DailyRotateFile({
+    const errorTransport = new (DailyRotateFile)({
       filename: '%DATE%.error.log',
       dirname: this.dirname,
       datePattern: 'YYYY-MM',
@@ -63,18 +72,12 @@ class Logger {
     this.winston.add(errorTransport)
 
     if (isDev) {
-      this.winston.add(
-        new winston.transports.Console({
-          level: 'debug'
-        })
-      )
+      this.winston.add(new winston.transports.Console({
+        level: 'debug'
+      }))
     }
     this.configured = true
     if (this._messageQueue.length > 0) this._drainQueue()
-  }
-
-  get errorFilename () {
-    return path.join(this.dirname, format(Date.now(), 'yyyy-MM') + '.error.log')
   }
 
   debugging (debug) {
@@ -108,7 +111,7 @@ class Logger {
         message: util.format(...args)
       })
       if (level === 'error') {
-        Bugsnag.notify(args[1], event => {
+        Bugsnag.notify(args[1], (event) => {
           event.context = args[0]
         })
       }
@@ -130,21 +133,6 @@ class Logger {
 
   debug () {
     this._log('debug', Array.from(arguments))
-  }
-
-  /**
-   * Log the time for a promise to resolve
-   *
-   * @template T
-   * @param {Promise<T>} promise
-   * @param {string} msg
-   * @returns {Promise<T>}
-   */
-  async timedPromise (promise, msg) {
-    const start = Date.now()
-    const result = await promise
-    this.info(`${msg} ${Date.now() - start}ms`)
-    return result
   }
 
   _startBugsnag (releaseStage) {
