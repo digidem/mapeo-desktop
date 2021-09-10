@@ -104,7 +104,10 @@ insertCss(`
   }
   .id-container .inspector-body .raw-membership-editor {
     display: none;
-  }  
+  }
+  .id-container .layer-list li.switch {
+    background: none;
+  }
 `)
 
 const { localStorage, location } = window
