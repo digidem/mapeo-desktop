@@ -105,6 +105,21 @@ insertCss(`
   .id-container .inspector-body .raw-membership-editor {
     display: none;
   }  
+  .id-container .map-panes .map-data-photo-overlays {
+    display: none;
+  }
+  .id-container .map-panes .map-data-area-fills {
+    display: none;
+  }
+  .id-container .map-panes .background-overlay-list-container {
+    display: none;
+  }
+  .id-container .map-panes .background-display-options {
+    display: none;
+  }
+  .id-container .map-panes .background-offset {
+    display: none;
+  }
 `)
 
 const { localStorage, location } = window
