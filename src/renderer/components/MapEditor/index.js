@@ -104,6 +104,9 @@ insertCss(`
   }
   .id-container .inspector-body .raw-membership-editor {
     display: none;
+  }
+  .id-container .layer-list li.switch {
+    background: none;
   }  
   .id-container .map-panes .map-data-photo-overlays {
     display: none;
