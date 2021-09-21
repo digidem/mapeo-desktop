@@ -54,7 +54,7 @@ const m = defineMessages({
   // Shown while the report is generating when saving or printing
   savingProgress: 'Generating report…',
   // Default filename for a report (prefixed with date as YYYY-MM-YY)
-  defaultReportName: 'Mapeo Monitoring Report.pdf',
+  defaultReportName: 'Mapeo Observation Report.pdf',
   xOfY: 'showing {observationCount} of {totalObservations} observations'
 })
 
