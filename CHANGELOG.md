@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.16](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.15...v5.4.0-beta.16) (2021-09-27)
+
+
+### Bug Fixes
+
+* Hide tag & relationship editors on Territory sidebar ([#504](https://github.com/digidem/mapeo-desktop/issues/504)) ([0d306a1](https://github.com/digidem/mapeo-desktop/commit/0d306a1))
+* Hide non-useful iD Background and Map Data options ([#524](https://github.com/digidem/mapeo-desktop/issues/524)) ([91d41aa](https://github.com/digidem/mapeo-desktop/commit/91d41aaf07f6e7b323ae0152172eead4c7201fef))
+* Remove background color from .switch in Background list ([#517](https://github.com/digidem/mapeo-desktop/issues/517)) ([3c41ee3](https://github.com/digidem/mapeo-desktop/commit/3c41ee3a794419e42b5f1a825a45f08f1990e1bb))
+* Restore default tile server port to 5005 ([#529](https://github.com/digidem/mapeo-desktop/issues/529)) ([e1b5cd6](https://github.com/digidem/mapeo-desktop/commit/e1b5cd6))
+* Update default name for downloaded report ([#526](https://github.com/digidem/mapeo-desktop/issues/526)) ([72f9387](https://github.com/digidem/mapeo-desktop/commit/72f9387))
+
+
+
 ## [5.4.0-beta.15](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.14...v5.4.0-beta.15) (2021-07-16)
 
 
