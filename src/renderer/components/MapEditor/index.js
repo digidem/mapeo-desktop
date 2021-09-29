@@ -114,9 +114,6 @@ insertCss(`
   .id-container .map-panes .map-data-area-fills {
     display: none;
   }
-  .id-container .map-panes .background-overlay-list-container {
-    display: none;
-  }
   .id-container .map-panes .background-display-options {
     display: none;
   }
