@@ -26,7 +26,10 @@ const config = {
     target: 'NSIS',
     artifactName: 'Installar_Mapeo_v${version}_${os}-${env.ARCH}.${ext}',
     rfc3161TimeStampServer: 'http://timestamp.digicert.com',
-    timeStampServer: 'http://timestamp.digicert.com'
+    timeStampServer: 'http://timestamp.digicert.com',
+    forceCodeSigning: false,
+    signAndEditExecutable: false,
+    sign: async () => {}
   },
   linux: {
     target: ['AppImage', 'deb'],
