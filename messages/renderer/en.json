@@ -374,7 +374,7 @@
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
     "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
-    "message": "Mapeo Monitoring Report.pdf"
+    "message": "Mapeo Observation Report.pdf"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
