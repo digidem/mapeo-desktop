@@ -176,8 +176,8 @@ function Api ({ baseUrl, mapUrl, ipc }) {
     },
 
     // Start sync with a peer
-    syncStart: function syncStart (target) {
-      ipc.send('sync-start', target)
+    syncStart: function syncStart (target, fromNewlyCreatedSyncFile) {
+      ipc.send('sync-start', { target, fromNewlyCreatedSyncFile })
     },
 
     exportData: function (filename, { format = 'geojson' } = {}) {

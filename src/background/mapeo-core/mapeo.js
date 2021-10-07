@@ -135,11 +135,12 @@ class MapeoRPC {
     })
   }
 
-  syncStart (target = {}) {
+  syncStart (target = {}, fromNewlyCreatedSyncFile) {
     logger.info('Sync start request:', target)
 
     const sync = this.core.sync.replicate(target, {
-      projectKey: this.encryptionKey
+      projectKey: this.encryptionKey,
+      fromNewlyCreatedSyncFile
     })
     this._sendPeerUpdate()
     this._syncWatch(sync)
