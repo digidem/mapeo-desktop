@@ -152,10 +152,10 @@ module.exports = function init (opts) {
     mapeo.core.importer.importFromFile(filename)
   }
 
-  /** @type {(info: {target: any, fromNewlyCreatedSyncFile: ?boolean}) => Promise<void>} */
-  handlers['sync-start'] = async ({ target, fromNewlyCreatedSyncFile }) => {
+  /** @type {(info: {target: any, createFile: ?boolean}) => Promise<void>} */
+  handlers['sync-start'] = async ({ target, createFile }) => {
     const mapeo = await manager.deferredMapeo
-    mapeo.syncStart(target, fromNewlyCreatedSyncFile)
+    mapeo.syncStart(target, createFile)
   }
 
   handlers['sync-join'] = async () => {

@@ -66,7 +66,7 @@ const SyncView = ({ focusState }) => {
       }
     ).then(({ canceled, filePath }) => {
       if (canceled || !filePath) return
-      syncPeer(filePath, { file: true, fromNewlyCreatedSyncFile: true })
+      syncPeer(filePath, { file: true, createFile: true })
     }).catch(err => logger.error(err))
   }
 
@@ -183,7 +183,7 @@ function usePeers (listen) {
   const syncPeer = useCallback(
     (peerId, opts) => {
       logger.info('Request sync start', peerId, serverPeers)
-      if (opts && opts.file) return api.syncStart({ filename: peerId }, opts && opts.fromNewlyCreatedSyncFile)
+      if (opts && opts.file) return api.syncStart({ filename: peerId }, opts && opts.createFile)
       const peer = serverPeers.find(peer => peer.id === peerId)
       // Peer could have vanished in the moment the button was pressed
       if (peer) {
