@@ -44,7 +44,9 @@
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
     "extract-messages": "extract-messages --locales=en --output messages/renderer --descriptions 'src/**/*.js'",
-    "type": "tsc"
+    "type": "tsc",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "license": "GPL-3.0",
   "repository": {
@@ -242,9 +244,11 @@
     "flow-typed": "^3.2.1",
     "glob": "^7.1.5",
     "hubfs.js": "^1.0.0",
+    "husky": "^7.0.2",
     "hyperquest": "^2.1.3",
     "jest": "^24.9.0",
     "license-check": "^1.1.5",
+    "lint-staged": "^11.1.2",
     "mapeo-config-icca": "^1.4.0",
     "mock-data": "^1.5.5",
     "npm-run-all": "^4.0.0",
@@ -279,5 +283,10 @@
     "blocking": false,
     "logInfo": false,
     "logError": true
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier-standard"
+    ]
   }
 }
