@@ -134,7 +134,7 @@
     "mapeo-default-settings": "^3.4.0",
     "mapeo-entity-filter": "^2.0.0",
     "mapeo-schema": "^2.0.2",
-    "mapeo-server": "^17.0.7",
+    "mapeo-server": "^17.1.1",
     "mapeo-styles": "^3.0.2",
     "mime": "^2.4.6",
     "minimist": "^1.2.0",
