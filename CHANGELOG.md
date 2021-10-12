@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.18](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.17...v5.4.0-beta.18) (2021-10-12)
+
+
+### Bug Fixes
+
+* Prevent importing custom project sync files into default project ([#606](https://github.com/digidem/mapeo-desktop/issues/606)) ([bded981](https://github.com/digidem/mapeo-desktop/commit/bded981))
+* Update @mapeo/settings with sync file import fix ([#608](https://github.com/digidem/mapeo-desktop/issues/608)) ([8699156](https://github.com/digidem/mapeo-desktop/commit/8699156))
+
+
+
 ## [5.4.0-beta.17](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.15...v5.4.0-beta.17) (2021-10-12)
 
 
