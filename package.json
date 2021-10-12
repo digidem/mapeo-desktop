@@ -3,7 +3,7 @@
   "name": "mapeo-desktop",
   "description": "Mapping and monitoring in remote environments.",
   "productName": "Mapeo",
-  "version": "5.4.0-beta.16",
+  "version": "5.4.0-beta.17",
   "productDescription": "Offline Map Editor",
   "author": {
     "name": "Digital Democracy",
@@ -44,7 +44,9 @@
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
     "extract-messages": "extract-messages --locales=en --output messages/renderer --descriptions 'src/**/*.js'",
-    "type": "tsc"
+    "type": "tsc",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "license": "GPL-3.0",
   "repository": {
@@ -83,7 +85,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.11.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@mapbox/sexagesimal": "^1.2.0",
-    "@mapeo/settings": "^2.1.1",
+    "@mapeo/settings": "^2.1.2",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.53",
@@ -132,7 +134,7 @@
     "mapeo-default-settings": "^3.4.0",
     "mapeo-entity-filter": "^2.0.0",
     "mapeo-schema": "^2.0.2",
-    "mapeo-server": "^17.0.7",
+    "mapeo-server": "^17.1.1",
     "mapeo-styles": "^3.0.2",
     "mime": "^2.4.6",
     "minimist": "^1.2.0",
@@ -242,9 +244,11 @@
     "flow-typed": "^3.2.1",
     "glob": "^7.1.5",
     "hubfs.js": "^1.0.0",
+    "husky": "^7.0.2",
     "hyperquest": "^2.1.3",
     "jest": "^24.9.0",
     "license-check": "^1.1.5",
+    "lint-staged": "^11.1.2",
     "mapeo-config-icca": "^1.4.0",
     "mock-data": "^1.5.5",
     "npm-run-all": "^4.0.0",
@@ -279,5 +283,10 @@
     "blocking": false,
     "logInfo": false,
     "logError": true
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier-standard"
+    ]
   }
 }

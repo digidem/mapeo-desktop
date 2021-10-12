@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0-beta.17](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.15...v5.4.0-beta.17) (2021-10-12)
+
+
+### Bug Fixes
+
+* Fix translation entry for default report file name ([#535](https://github.com/digidem/mapeo-desktop/issues/535)) ([e71a194](https://github.com/digidem/mapeo-desktop/commit/e71a194))
+* Hide tag & relationship editors on Territory sidebar ([#504](https://github.com/digidem/mapeo-desktop/issues/504)) ([0d306a1](https://github.com/digidem/mapeo-desktop/commit/0d306a1))
+* Reactivate Overlays menu in Background settings ([#533](https://github.com/digidem/mapeo-desktop/issues/533)) ([6d3c468](https://github.com/digidem/mapeo-desktop/commit/6d3c468))
+* Restore default tile server port to 5005 ([#529](https://github.com/digidem/mapeo-desktop/issues/529)) ([e1b5cd6](https://github.com/digidem/mapeo-desktop/commit/e1b5cd6))
+* update default name for downloaded report ([#526](https://github.com/digidem/mapeo-desktop/issues/526)) ([72f9387](https://github.com/digidem/mapeo-desktop/commit/72f9387))
+* Update Windows code-signing certificate ([eddad35](https://github.com/digidem/mapeo-desktop/commit/eddad35))
+
+
+
 ## [5.4.0-beta.16](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.15...v5.4.0-beta.16) (2021-09-27)
 
 
