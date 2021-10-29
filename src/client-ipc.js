@@ -85,7 +85,7 @@ class IPC extends EventEmitter {
         const { name, args } = msg
         if (name === 'error') {
           // TODO: Think through how/whether to handle these errors in the UX
-          logger.error(args[0])
+          logger.error('Broadcast message error', args)
           return
         }
         this.emit(name, args)
