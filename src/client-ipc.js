@@ -83,6 +83,11 @@ class IPC extends EventEmitter {
         logger.debug('Received broadcast message', msg)
 
         const { name, args } = msg
+        if (name === 'error') {
+          // TODO: Think through how/whether to handle these errors in the UX
+          logger.error(args[0])
+          return
+        }
         this.emit(name, args)
       }
     }
