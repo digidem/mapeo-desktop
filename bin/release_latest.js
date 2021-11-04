@@ -32,10 +32,10 @@ gh.readFile(config.filename, { ref: config.branches[0] }, function (err, data) {
     }
   }
   var version = config.version
-  var macLine = `/mapeo/latest/mac https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_mac.dmg 302`
-  var windowsLine = `/mapeo/latest/windows https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_win-x64.exe 302`
-  var win32Line = `/mapeo/latest/win32 https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_win-ia32.exe 302`
-  var linuxLine = `/mapeo/latest/linux https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installar_Mapeo_v${version}_linux.deb 302`
+  var macLine = `/mapeo/latest/mac https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installer_Mapeo_v${version}_mac.dmg 302`
+  var windowsLine = `/mapeo/latest/windows https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installer_Mapeo_v${version}_win-x64.exe 302`
+  var win32Line = `/mapeo/latest/win32 https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installer_Mapeo_v${version}_win-ia32.exe 302`
+  var linuxLine = `/mapeo/latest/linux https://github.com/digidem/mapeo-desktop/releases/download/v${version}/Installer_Mapeo_v${version}_linux.deb 302`
   var res = []
   data
     .toString()
