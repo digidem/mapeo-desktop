@@ -96,6 +96,11 @@ insertCss(`
     justify-content: center;
     position: relative;
   }
+  .id-container .inspector-body .preset-point,
+  .id-container .inspector-body .preset-line,
+  .id-container .inspector-body .preset-area {
+    display: none;
+  }
   .id-container .inspector-body .raw-tag-editor {
     display: none;
   }
