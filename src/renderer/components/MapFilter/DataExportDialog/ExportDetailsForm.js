@@ -1,38 +1,31 @@
-import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import * as React from 'react'
+import { remote } from 'electron'
 import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import FormControl from '@material-ui/core/FormControl'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import { csvFormat } from 'd3-dsv'
-import ViewWrapper from './ViewWrapper'
-import flatten from 'flat'
+import { makeStyles } from '@material-ui/core/styles'
 import isodate from '@segment/isodate'
-import { fromLatLon } from 'utm'
-import { remote } from 'electron'
-import path from 'path'
+import { csvFormat } from 'd3-dsv'
+import flatten from 'flat'
 import fs from 'fs'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
+import path from 'path'
 import pump from 'pump'
+import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
+import { fromLatLon } from 'utm'
 
-import logger from '../../../logger'
-import createZip from '../../create-zip'
+import logger from '../../../../logger'
+import createZip from '../../../create-zip'
+import { Template } from './Template'
 
 const msgs = defineMessages({
-  // Title for webmaps export dialog
+  // Title for export dialog
   title: 'Export Observations',
   // Save button
   save: 'Save',
-  // Close button (shown if user has no data to export)
-  close: 'Close',
   // cancel button
   cancel: 'Cancel',
   // Label for data format selector
@@ -41,8 +34,6 @@ const msgs = defineMessages({
   filteredOrAll: 'Only filtered data or all data?',
   exportAll: 'All {count} observations',
   exportFiltered: '{count} filtered observations',
-  // Shown when there is no data to export
-  noData: "You don't yet have any data to export.",
   // Label for select to include photos in export
   includePhotos: 'Also export photos?',
   // Hint shown when user has selected photos to be included in the export
@@ -57,17 +48,19 @@ const msgs = defineMessages({
   defaultExportFilename: 'mapeo-observation-data'
 })
 
-const ExportDialogContent = ({
-  filteredObservations = [],
-  allObservations = [],
-  getPreset,
+export const ExportDetailsForm = ({
+  allObservations,
+  filteredObservations,
   getMediaUrl,
-  onClose
+  onClose,
+  onSuccess
 }) => {
-  const classes = useStyles()
-  const [saving, setSaving] = useState()
   const { formatMessage: t } = useIntl()
+  const classes = useStyles()
+
   const isFiltered = allObservations.length !== filteredObservations.length
+
+  const [saving, setSaving] = React.useState(false)
   const [values, setValues] = React.useState({
     format: 'geojson',
     include: isFiltered && filteredObservations.length ? 'filtered' : 'all',
@@ -83,35 +76,38 @@ const ExportDialogContent = ({
     onClose()
   }
 
-  const handleSave = e => {
-    e.preventDefault()
+  const handleSave = event => {
+    event.preventDefault()
+
     setSaving(true)
 
     const observationsToSave =
       values.include === 'all' ? allObservations : filteredObservations
 
-    let exportData
+    let dataToExport
     let ext = values.format
+
     switch (values.format) {
       case 'geojson':
-        exportData = observationsToGeoJson(observationsToSave, {
+        dataToExport = observationsToGeoJson(observationsToSave, {
           photos: values.photos !== 'none'
         })
         break
       case 'csv':
-        exportData = observationsToCsv(observationsToSave, {
+        dataToExport = observationsToCsv(observationsToSave, {
           photos: values.photos !== 'none'
         })
         break
       case 'smart':
         ext = 'csv'
-        exportData = observationsToSmartCsv(observationsToSave, {
+        dataToExport = observationsToSmartCsv(observationsToSave, {
           photos: values.photos !== 'none'
         })
         break
     }
 
     const saveExt = values.photos === 'none' ? ext : 'zip'
+
     remote.dialog
       .showSaveDialog({
         title: t(msgs.title),
@@ -119,20 +115,22 @@ const ExportDialogContent = ({
         filters: [{ name: saveExt + ' files', extensions: [saveExt] }]
       })
       .then(({ canceled, filePath }) => {
-        if (canceled) return handleClose()
+        if (canceled) {
+          handleClose()
+          return
+        }
+
         const filepathWithExtension = path.join(
           path.dirname(filePath),
           path.basename(filePath, '.' + saveExt) + '.' + saveExt
         )
-        onSelectFile(filepathWithExtension)
+
+        exportData(filepathWithExtension)
       })
 
-    function onSelectFile (filePath) {
+    function exportData (filePath) {
       if (values.photos === 'none') {
-        fs.writeFile(filePath, exportData, err => {
-          if (err) logger.error('DataExportDialog: onSelectFile', err)
-          handleClose()
-        })
+        fs.writeFile(filePath, dataToExport, onFinish('onSelectFile'))
         return
       }
 
@@ -145,10 +143,11 @@ const ExportDialogContent = ({
 
       const localFiles = [
         {
-          data: exportData,
+          data: dataToExport,
           metadataPath: t(msgs.defaultExportFilename) + '.' + ext
         }
       ]
+
       const remoteFiles = photosToSave.map(id => {
         // If the user is trying to export originals, use preview sized images
         // as a fallback. TODO: Show a warning to the user that originals are
@@ -162,30 +161,44 @@ const ExportDialogContent = ({
           metadataPath: 'images/' + id
         }
       })
+
       const output = fsWriteStreamAtomic(filePath)
       const archive = createZip(localFiles, remoteFiles, { formatMessage: t })
 
-      pump(archive, output, err => {
-        if (err) logger.error('DataExportDialog: pump create zip', err)
-        handleClose()
-      })
+      pump(archive, output, onFinish('pump create zip'))
+
+      function onFinish (namespace) {
+        return function (err) {
+          if (err) {
+            logger.error(`ExportDetailsForm: ${namespace}`, err)
+            handleClose()
+          } else {
+            onSuccess()
+          }
+        }
+      }
     }
   }
 
-  const noData = allObservations.length === 0
-
   return (
-    <form noValidate autoComplete='off'>
-      <DialogTitle id='responsive-dialog-title' style={{ paddingBottom: 8 }}>
-        <FormattedMessage {...msgs.title} />
-      </DialogTitle>
-
-      <DialogContent className={classes.content}>
-        {noData ? (
-          <DialogContentText>
-            <FormattedMessage {...msgs.noData} />
-          </DialogContentText>
-        ) : (
+    <form noValidate autoComplete='off' onSubmit={handleSave}>
+      <Template
+        actions={
+          <>
+            <Button disabled={saving} onClick={handleClose} type='button'>
+              <FormattedMessage {...msgs.cancel} />
+            </Button>
+            <Button
+              disabled={saving}
+              color='primary'
+              variant='contained'
+              type='submit'
+            >
+              <FormattedMessage {...msgs.save} />
+            </Button>
+          </>
+        }
+        content={
           <>
             <FormControl className={classes.formControl}>
               <InputLabel id='select-format-label'>
@@ -264,79 +277,23 @@ const ExportDialogContent = ({
               )}
             </FormControl>
           </>
-        )}
-      </DialogContent>
-
-      <DialogActions>
-        {noData ? (
-          <Button
-            onClick={handleClose}
-            color='primary'
-            variant='contained'
-            type='submit'
-          >
-            <FormattedMessage {...msgs.close} />
-          </Button>
-        ) : (
-          <>
-            <Button disabled={saving} onClick={handleClose}>
-              <FormattedMessage {...msgs.cancel} />
-            </Button>
-            <Button
-              disabled={saving}
-              onClick={handleSave}
-              color='primary'
-              variant='contained'
-              type='submit'
-            >
-              <FormattedMessage {...msgs.save} />
-            </Button>
-          </>
-        )}
-      </DialogActions>
+        }
+      />
     </form>
   )
 }
 
-export default function DataExportDialog ({
-  observations,
-  presets,
-  filter,
-  getMediaUrl,
-  onClose,
-  open,
-  ...otherProps
-}) {
-  return (
-    <Dialog
-      fullWidth
-      open={open}
-      onClose={onClose}
-      scroll='body'
-      aria-labelledby='responsive-dialog-title'
-    >
-      {open && (
-        <ViewWrapper
-          observations={observations}
-          presets={presets}
-          filter={filter}
-          getMediaUrl={getMediaUrl}
-        >
-          {({ filteredObservations, getPreset }) => (
-            <ExportDialogContent
-              filteredObservations={filteredObservations}
-              allObservations={observations}
-              getPreset={getPreset}
-              getMediaUrl={getMediaUrl}
-              onClose={onClose}
-              {...otherProps}
-            />
-          )}
-        </ViewWrapper>
-      )}
-    </Dialog>
-  )
-}
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    marginBottom: theme.spacing(2),
+    '&:not(:last-child)': {
+      marginBottom: theme.spacing(4)
+    }
+  },
+  select: {
+    fontFamily: theme.typography.body1.fontFamily
+  }
+}))
 
 function observationsToGeoJson (obs, { photos } = {}) {
   const features = obs.map(o => {
@@ -509,27 +466,3 @@ function leftPad (num, len, char = 0) {
   }
   return pad + str
 }
-
-const useStyles = makeStyles(theme => ({
-  appBar: {
-    position: 'relative'
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 0
-  },
-  formControl: {
-    marginBottom: theme.spacing(2),
-    '&:not(:last-child)': {
-      marginBottom: theme.spacing(4)
-    }
-  },
-  select: {
-    fontFamily: theme.typography.body1.fontFamily
-  }
-}))
