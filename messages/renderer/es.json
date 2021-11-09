@@ -46,62 +46,53 @@
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Comentarios y Contribuciones"
   },
-  "renderer.components.MapFilter.DataExportDialog.cancel": {
-    "description": "cancel button",
-    "message": "Cancelar"
-  },
-  "renderer.components.MapFilter.DataExportDialog.close": {
-    "description": "Close button (shown if user has no data to export)",
-    "message": "Cerrar"
-  },
-  "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
     "message": "datos-observaciones-mapeo"
   },
-  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
     "message": "Todas las observaciones ({count})"
   },
-  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
     "message": "{count} observaciones filtradas"
   },
-  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
     "message": "¿Solo datos filtrado o todos los datos?"
   },
-  "renderer.components.MapFilter.DataExportDialog.format": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
     "description": "Label for data format selector",
     "message": "Formato de datos"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
     "description": "Label for select to include photos in export",
     "message": "¿Exportar fotos también?"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
     "message": "Archivo exportado sera un Zip con los fotos incluidos"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
     "message": "Sin fotos"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
     "message": "Con fotos tamaño original"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
     "message": "Con fotos tamaño prevista"
   },
-  "renderer.components.MapFilter.DataExportDialog.noData": {
-    "description": "Shown when there is no data to export",
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
+    "description": "Title for export dialog",
+    "message": "Exportar datos"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
     "message": "No tienes datos para exportar todavía."
   },
-  "renderer.components.MapFilter.DataExportDialog.save": {
-    "description": "Save button",
-    "message": "Guardar"
-  },
-  "renderer.components.MapFilter.DataExportDialog.title": {
-    "description": "Title for webmaps export dialog",
+  "renderer.components.MapFilter.DataExportDialog.Template.title": {
+    "description": "Title for observations export dialog",
     "message": "Exportar datos"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
