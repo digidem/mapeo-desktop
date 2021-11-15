@@ -69,7 +69,7 @@ if (!gotTheLock) {
     process.env.APPIMAGE = path.join(
       __dirname,
       'dist',
-      `Installar_Mapeo_v${app.getVersion()}_linux.AppImage`
+      `Install_Mapeo_v${app.getVersion()}_linux.AppImage`
     )
     try {
       // DevTools do not load in Electron v9 see
