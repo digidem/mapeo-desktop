@@ -10,7 +10,7 @@ const config = {
   generateUpdatesFilesForAllChannels: true,
   appId: 'org.digital-democracy.mapeo-desktop',
   productName: 'Mapeo',
-  artifactName: 'Installer_Mapeo_v${version}_${os}.${ext}',
+  artifactName: 'Install_Mapeo_v${version}_${os}.${ext}',
   mac: {
     category: 'public.app-category.utilities',
     gatekeeperAssess: false,
@@ -24,7 +24,7 @@ const config = {
   },
   win: {
     target: 'NSIS',
-    artifactName: 'Installer_Mapeo_v${version}_${os}-${env.ARCH}.${ext}',
+    artifactName: 'Install_Mapeo_v${version}_${os}-${env.ARCH}.${ext}',
     rfc3161TimeStampServer: 'http://timestamp.digicert.com',
     timeStampServer: 'http://timestamp.digicert.com'
   },

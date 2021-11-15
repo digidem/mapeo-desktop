@@ -122,7 +122,7 @@ $ cd updates && wget https://downloads.mapeo.app/desktop/latest-{platform}.yml
 
 1. Then, open latest-linux.yml and find the `url` key. 
 
-2. Download this url (e.g., `https://downloads.mapeo.ap/desktop/Installer_Mapeo_{version}_{platform}.{ext}..` to the `updates` directory. 
+2. Download this url (e.g., `https://downloads.mapeo.ap/desktop/Install_Mapeo_{version}_{platform}.{ext}..` to the `updates` directory. 
 
 3. Run `npx http-server` to host your update server locally, note the
    PORT.
