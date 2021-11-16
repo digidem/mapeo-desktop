@@ -68,6 +68,7 @@ function menuTemplate (ipc) {
         {
           label: t('menu-import-configuration'),
           click: async function (item, focusedWindow) {
+            
             const result = await dialog.showOpenDialog(
               {
                 title: t('menu-import-configuration-dialog'),
@@ -80,16 +81,27 @@ function menuTemplate (ipc) {
             logger.info('[MENU] Import Configuration', result)
             if (result.canceled) return
             if (!result.filePaths || !result.filePaths.length) return
-            userConfig.importSettings(result.filePaths[0], (err) => {
+            userConfig.importSettings(result.filePaths[0], (err) => 
+            {
               if (err) return onerror(err)
-              ipc.send('reload-config', (err) => {
-                if (err) logger.error(err)
-                logger.debug('[SYSTEM] Forcing window refresh')
+              ipc.send('reload-config', async (err) => 
+              {
+                if (err) 
+                {
+                  logger.error(err)
+                  logger.debug('[SYSTEM] Forcing window refresh')
+                  focusedWindow.webContents.send('force-refresh-window')
+                  logger
+                  return
+                }
+                await dialog.showMessageBox({message:t('menu-config-complete'), buttons:[t("button-submit")]})
                 focusedWindow.webContents.send('force-refresh-window')
+
               })
             })
 
-            function onerror (err) {
+            async function onerror (err) 
+            {
               dialog.showErrorBox(
                 t('menu-import-configuration-error'),
                 t('menu-import-configuration-error-known') + ': ' + err
