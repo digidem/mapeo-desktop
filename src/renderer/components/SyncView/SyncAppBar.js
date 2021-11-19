@@ -164,39 +164,39 @@ const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
   )
 }
 
-const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
-  const cx = useStyles()
-  const { formatMessage: t } = useIntl()
-  return (
-    <AppBar position='static' color='default' elevation={0} className={cx.root}>
-      <Toolbar>
-        <div className={cx.titleBar}>
-          <Typography variant='h6' component='h1' className={cx.title}>
-            {t(m.title)}
-          </Typography>
+// const SyncAppBar = ({ onClickSelectSyncfile, onClickNewSyncfile }) => {
+//   const cx = useStyles()
+//   const { formatMessage: t } = useIntl()
+//   return (
+//     <AppBar position='static' color='default' elevation={0} className={cx.root}>
+//       <Toolbar>
+//         <div className={cx.titleBar}>
+//           <Typography variant='h6' component='h1' className={cx.title}>
+//             {t(m.title)}
+//           </Typography>
 
-          <WifiStatus />
-        </div>
-        <Button
-          onClick={onClickSelectSyncfile}
-          color='inherit'
-          variant='outlined'
-          className={cx.button}
-        >
-          {t(m.selectSyncfile)}
-        </Button>
-        <Button
-          onClick={onClickNewSyncfile}
-          color='inherit'
-          variant='outlined'
-          className={cx.button}
-        >
-          {t(m.newSyncfile)}
-        </Button>
-      </Toolbar>
-    </AppBar>
-  )
-}
+//           <WifiStatus />
+//         </div>
+//         <Button
+//           onClick={onClickSelectSyncfile}
+//           color='inherit'
+//           variant='outlined'
+//           className={cx.button}
+//         >
+//           {t(m.selectSyncfile)}
+//         </Button>
+//         <Button
+//           onClick={onClickNewSyncfile}
+//           color='inherit'
+//           variant='outlined'
+//           className={cx.button}
+//         >
+//           {t(m.newSyncfile)}
+//         </Button>
+//       </Toolbar>
+//     </AppBar>
+//   )
+// }
 
 export default SyncAppBar
 
