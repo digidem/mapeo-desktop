@@ -9,7 +9,7 @@
   "menu-file": "File",
   "menu-change-language": "Change language...",
   "menu-change-language-title": "Enter the language (e.g., 'en' or 'es')",
-  "menu-config-complete": "Successfully Imported Config: ",
+  "menu-config-complete": "Successfully imported config: ",
   "menu-import-tiles-file": "File (.tar)",
   "menu-import-tiles-directory": "Directory of tiles",
   "menu-import-tiles": "Import Offline Map Tiles...",
