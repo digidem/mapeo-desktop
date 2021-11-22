@@ -71,7 +71,7 @@ jobs:
           MAPEO_VARIANT: ${{ matrix.variant }}
       - name: Cleanup artifacts
         run: |
-          npx rimraf@2 'dist/${{ matrix.variant }}/!(*.exe|*.deb|*.AppImage|*.dmg|*.yml|github)'
+          npx rimraf@2 'dist/${{ matrix.variant }}/!(*.exe|*.deb|*.AppImage|*.dmg|*.yml|*.zip|github)'
         shell: bash
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
