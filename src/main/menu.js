@@ -82,7 +82,6 @@ function menuTemplate (ipc) {
                   logger.error(err)
                   logger.debug('[SYSTEM] Forcing window refresh')
                   focusedWindow.webContents.send('force-refresh-window')
-                  logger
                   return
                 }
                 const data = userConfig.getSettings('metadata')
