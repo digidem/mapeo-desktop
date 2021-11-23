@@ -42,15 +42,38 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Exportar dados do mapa"
   },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Exportar dados de território como GeoJSON…"
+  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "OK"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "Não"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "Sim"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancelar"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "Salvar"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback e contribuição"
   },
   "renderer.components.MapEditor.index.notes": {
     "message": "Descrição"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
+    "description": "cancel button",
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
@@ -89,6 +112,10 @@
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
     "message": "Com fotos em miniatura"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
+    "description": "Save button",
+    "message": "Salvar"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
     "description": "Title for export dialog",
