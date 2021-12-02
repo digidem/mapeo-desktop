@@ -30,10 +30,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
-      - name: Use Node.js 12.14.1
+      - name: Use Node.js 14.18.X
         uses: actions/setup-node@v2
         with:
-          node-version: 12.14.1
+          node-version: 14.18
       - name: npm ci
         uses: nick-invision/retry@v2
         with:
@@ -71,7 +71,7 @@ jobs:
           MAPEO_VARIANT: ${{ matrix.variant }}
       - name: Cleanup artifacts
         run: |
-          npx rimraf@2 'dist/${{ matrix.variant }}/!(*.exe|*.deb|*.AppImage|*.dmg|*.yml|github)'
+          npx rimraf@2 'dist/${{ matrix.variant }}/!(*.exe|*.deb|*.AppImage|*.dmg|*.yml|*.zip|github)'
         shell: bash
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
