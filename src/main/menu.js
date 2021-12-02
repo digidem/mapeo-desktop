@@ -5,7 +5,6 @@ const i18n = require('./i18n')
 const logger = require('../logger')
 const config = require('../../config')
 const userConfig = require('./user-config')
-
 const t = i18n.t
 
 module.exports = function createMenu (ipc) {
@@ -40,9 +39,7 @@ function menuTemplate (ipc) {
             var opts = {
               title: t('menu-import-tiles'),
               properties: ['openFile'],
-              filters: [
-                { name: 'Tar', extensions: ['tar'] }
-              ]
+              filters: [{ name: 'Tar', extensions: ['tar'] }]
             }
             const result = await dialog.showOpenDialog(opts)
             if (result.canceled) return
@@ -68,23 +65,30 @@ function menuTemplate (ipc) {
         {
           label: t('menu-import-configuration'),
           click: async function (item, focusedWindow) {
-            const result = await dialog.showOpenDialog(
-              {
-                title: t('menu-import-configuration-dialog'),
-                filters: [
-                  { name: 'Mapeo Settings', extensions: ['mapeosettings'] }
-                ],
-                properties: ['openFile']
-              }
-            )
+            const result = await dialog.showOpenDialog({
+              title: t('menu-import-configuration-dialog'),
+              filters: [
+                { name: 'Mapeo Settings', extensions: ['mapeosettings'] }
+              ],
+              properties: ['openFile']
+            })
             logger.info('[MENU] Import Configuration', result)
             if (result.canceled) return
             if (!result.filePaths || !result.filePaths.length) return
-            userConfig.importSettings(result.filePaths[0], (err) => {
+            userConfig.importSettings(result.filePaths[0], err => {
               if (err) return onerror(err)
-              ipc.send('reload-config', (err) => {
-                if (err) logger.error(err)
-                logger.debug('[SYSTEM] Forcing window refresh')
+              ipc.send('reload-config', async err => {
+                if (err) {
+                  logger.error(err)
+                  logger.debug('[SYSTEM] Forcing window refresh')
+                  focusedWindow.webContents.send('force-refresh-window')
+                  return
+                }
+                const data = userConfig.getSettings('metadata')
+                await dialog.showMessageBox({
+                  message: t('menu-config-complete') + data.name,
+                  buttons: [t('button-submit')]
+                })
                 focusedWindow.webContents.send('force-refresh-window')
               })
             })
@@ -101,16 +105,14 @@ function menuTemplate (ipc) {
           label: t('menu-import-data'),
           click: async function (item, focusedWindow) {
             // TODO: handle multiple files
-            const result = await dialog.showOpenDialog(
-              {
-                title: t('menu-import-data-dialog'),
-                filters: [
-                  { name: 'GeoJSON', extensions: ['geojson'] },
-                  { name: 'Shape', extensions: ['shp'] }
-                ],
-                properties: ['openFile']
-              }
-            )
+            const result = await dialog.showOpenDialog({
+              title: t('menu-import-data-dialog'),
+              filters: [
+                { name: 'GeoJSON', extensions: ['geojson'] },
+                { name: 'Shape', extensions: ['shp'] }
+              ],
+              properties: ['openFile']
+            })
 
             if (result.canceled) return
             if (!result.filePaths || !result.filePaths.length) return
@@ -266,7 +268,7 @@ function menuTemplate (ipc) {
           type: 'checkbox',
           checked: updater.channel === 'beta',
           click: function (item, focusedWindow) {
-            updater.channel = (updater.channel === 'beta') ? 'latest' : 'beta'
+            updater.channel = updater.channel === 'beta' ? 'latest' : 'beta'
             updater.checkForUpdates(onUpdate)
           },
           visible: true
@@ -294,12 +296,14 @@ function menuTemplate (ipc) {
                 dialog.showErrorBox(t('menu-status-error-known') + ': ' + err)
               } else {
                 logger.info('[DATABASE STATUS]', feeds)
-                var incomplete = feeds.filter((s) => s.sofar < s.total)
+                var incomplete = feeds.filter(s => s.sofar < s.total)
                 var message
                 // TODO: make this display more nicely
                 if (!incomplete.length) message = t('menu-status-complete')
                 else {
-                  var display = incomplete.map(d => `${d.id.substr(0, 7)}\n${d.sofar}/${d.total}`).join('\n\n')
+                  var display = incomplete
+                    .map(d => `${d.id.substr(0, 7)}\n${d.sofar}/${d.total}`)
+                    .join('\n\n')
                   message = t('menu-status-incomplete') + '\n\n' + display
                 }
 
@@ -314,7 +318,9 @@ function menuTemplate (ipc) {
         {
           label: t('menu-report'),
           click: function (item, focusedWindow) {
-            shell.openExternal(`${config.GITHUB_URL}/issues/new?template=bug_report.md`)
+            shell.openExternal(
+              `${config.GITHUB_URL}/issues/new?template=bug_report.md`
+            )
           }
         }
       ]
