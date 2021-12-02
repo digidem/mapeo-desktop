@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         config:
-          - { os: macos-latest, arch: x64 }
+          - { os: macos-11, arch: x64 }
           - { os: ubuntu-latest, arch: x64 }
           - { os: windows-latest, arch: x64 }
           - { os: windows-latest, arch: ia32 }
