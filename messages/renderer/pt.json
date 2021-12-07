@@ -129,6 +129,15 @@
     "description": "Title for export dialog",
     "message": "Exportar observações"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
+    "message": "Observações exportadas com sucesso."
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
+    "message": "OK"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.close": {
+    "message": "Fechar"
+  },
   "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
     "message": "Você ainda não tem dados para exportar."
   },
@@ -263,6 +272,10 @@
     "description": "Hide all fields in report view",
     "message": "Ocultar todos"
   },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Ocultar campos} =1 {1 campo oculto} other {# campos ocultos Fields}}"
+  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
     "message": "Mostrar todos"
@@ -271,9 +284,29 @@
     "description": "Label for description / notes section of report",
     "message": "Descrição"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
+    "description": "Shown in reports if an observation has no location recorded",
+    "message": "Sem localização gravada"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "Página {pageNumber}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "Não há observações disponíveis."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Ocorreu um erro desconhecido ao tentar criar o relatório"
+  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
     "message": "Página {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo_relatório_observações.pdf"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
@@ -287,6 +320,9 @@
     "description": "Shown while the report is generating when saving or printing",
     "message": "Gerando relatório…"
   },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "mostrando {observationCount} de {totalObservations} observações"
+  },
   "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
     "description": "Button label for Save PDF Button",
     "message": "Salvar como PDF"
@@ -294,6 +330,18 @@
   "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
     "description": "Button label to cancel saving report",
     "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Continuar"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Este relatório contém {observationCount} observações e pode levar alguns minutos para criar. Tem certeza que deseja continuar?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Aviso: Relatório grande"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
