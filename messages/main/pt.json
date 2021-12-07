@@ -9,6 +9,7 @@
   "menu-file": "Arquivo",
   "menu-change-language": "Mudar idioma...",
   "menu-change-language-title": "Escolha o idioma",
+  "menu-config-complete": "Configuração importada com sucesso: ",
   "menu-import-tiles-file": "Arquivo (.tar)",
   "menu-import-tiles-directory": "Pasta",
   "menu-import-tiles": "Importar mapa offline...",
