@@ -46,9 +46,17 @@
     "description": "Menu item for exporting GeoJSON",
     "message": "Exportar dados de território como GeoJSON…"
   },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Exportar dados de território como Shapefile…"
+  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "OK"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "Exportar dados de território"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
     "message": "Não"
