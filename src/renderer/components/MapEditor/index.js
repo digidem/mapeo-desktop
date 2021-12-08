@@ -101,6 +101,10 @@ insertCss(`
   .id-container .inspector-body .preset-area {
     display: none;
   }
+  }
+  .id-container .inspector-body .more-fields {
+    display: none;
+  }
   .id-container .inspector-body .raw-tag-editor {
     display: none;
   }
@@ -110,8 +114,18 @@ insertCss(`
   .id-container .inspector-body .raw-membership-editor {
     display: none;
   }
+  
+  .id-container .save-success .link-out { 
+    display: none;
+  }
+  .id-container .save-success .summary-table { 
+    display: none;
+  }
   .id-container .layer-list li.switch {
     background: none;
+  }  
+  .id-container .map-panes .imagery-faq {
+    display: none;
   }
   .id-container .map-controls .help-control {
     display: none;
