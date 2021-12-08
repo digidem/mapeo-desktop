@@ -112,7 +112,10 @@ insertCss(`
   }
   .id-container .layer-list li.switch {
     background: none;
-  }  
+  }
+  .id-container .map-controls .help-control {
+    display: none;
+  }
   .id-container .map-panes .map-data-photo-overlays {
     display: none;
   }
