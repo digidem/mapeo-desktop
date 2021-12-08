@@ -4,6 +4,8 @@ const updater = require('./auto-updater')
 const logger = require('../logger')
 const userConfig = require('./user-config')
 const i18n = require('./i18n')
+const path = require('path')
+const fs = require('fs')
 
 /**
  * Miscellaneous ipcMain calls that don't hit mapeo-core
@@ -81,8 +83,12 @@ module.exports = function (ipcSend) {
     onError(new Error(message))
   })
 
-  ipcMain.on('set-locale', function (ev, locale) {
-    app.translations = i18n.setLocale(locale)
+  ipcMain.on('set-locale', function (ev, { lang, message }) {
+    const closeFilePath = path.join(app.getPath('temp'), 'closing' + '.json')
+    //I am purposely doing this syncronously as it is a very small file and we want
+    //to make sure it get written before the user is able to close
+    fs.writeFileSync(closeFilePath, JSON.stringify({ closingMessage: message }))
+    app.translations = i18n.setLocale(lang)
     i18n.save()
   })
 

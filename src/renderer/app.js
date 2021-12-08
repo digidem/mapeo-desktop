@@ -9,6 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
+import messages from './components/MapFilter/messages'
 
 if (!logger.configured) {
   logger.configure({
@@ -71,7 +72,9 @@ const App = () => {
   }, [backendState])
 
   const handleLanguageChange = React.useCallback(lang => {
-    ipcRenderer.send('set-locale', lang)
+    const message = msgs[lang]['closing']
+    ipcRenderer.send('set-locale', { lang, message })
+    console.log(message)
     setLocale(lang)
     // Ideally this would just re-render the app in the new locale, but the way
     // we squeeze iD editor into React and patch in React Components on top of
