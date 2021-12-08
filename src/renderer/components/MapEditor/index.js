@@ -127,6 +127,9 @@ insertCss(`
   .id-container .map-panes .imagery-faq {
     display: none;
   }
+  .id-container .map-controls .help-control {
+    display: none;
+  }
   .id-container .map-panes .map-data-photo-overlays {
     display: none;
   }
