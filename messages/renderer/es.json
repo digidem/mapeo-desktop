@@ -88,6 +88,9 @@
     "description": "Title for export dialog",
     "message": "Exportar datos"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
+    "message": "Observaciones exportadas con éxito."
+  },
   "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
     "message": "No tienes datos para exportar todavía."
   },
