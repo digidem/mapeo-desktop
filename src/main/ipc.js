@@ -6,6 +6,8 @@ const userConfig = require('./user-config')
 const i18n = require('./i18n')
 const path = require('path')
 const fs = require('fs')
+const { changeClosingEvent } = require('./changeClosing')
+const t = i18n.t
 
 /**
  * Miscellaneous ipcMain calls that don't hit mapeo-core
@@ -83,17 +85,16 @@ module.exports = function (ipcSend) {
     onError(new Error(message))
   })
 
-  ipcMain.on('set-locale', function (ev, { lang, message }) {
-    const closeFilePath = path.join(app.getPath('temp'), 'closing' + '.json')
-    //I am purposely doing this syncronously as it is a very small file and we want
-    //to make sure it get written before the user is able to close
-    fs.writeFileSync(closeFilePath, JSON.stringify({ closingMessage: message }))
-    app.translations = i18n.setLocale(lang)
+  ipcMain.on('set-locale', function (ev, locale) {
+    app.translations = i18n.setLocale(locale)
     i18n.save()
+    setClosingString()
+    changeClosingEvent.emit('change-closing')
   })
 
   ipcMain.on('get-locale', function (ev) {
     ev.returnValue = i18n.locale
+    setClosingString()
   })
 
   ipcMain.on('save-file', function () {
@@ -156,4 +157,15 @@ module.exports = function (ipcSend) {
   ipcMain.on('refresh-window', function () {
     ipcSend('refresh-window')
   })
+}
+
+function setClosingString () {
+  const closeFilePath = path.join(app.getPath('temp'), 'closing' + '.json')
+  fs.writeFile(
+    closeFilePath,
+    JSON.stringify({ closingMessage: t('closing-screen') }),
+    err => {
+      if (err) console.log(err)
+    }
+  )
 }

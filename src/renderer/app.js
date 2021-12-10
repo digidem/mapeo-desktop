@@ -72,9 +72,7 @@ const App = () => {
   }, [backendState])
 
   const handleLanguageChange = React.useCallback(lang => {
-    const message = msgs[lang]['closing']
-    ipcRenderer.send('set-locale', { lang, message })
-    console.log(message)
+    ipcRenderer.send('set-locale', lang)
     setLocale(lang)
     // Ideally this would just re-render the app in the new locale, but the way
     // we squeeze iD editor into React and patch in React Components on top of
