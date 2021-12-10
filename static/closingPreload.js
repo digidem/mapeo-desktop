@@ -1,9 +1,11 @@
-const { remote } = require('electron')
-
-const closing = require(remote.app.getPath("temp")+"closing.json")
+const { ipcRenderer } = require('electron')
 
 window.addEventListener('DOMContentLoaded', () => {
-    const closingH1 = document.getElementById("closingText")
-    if (closingH1) closingH1.innerHTML=closing.closingMessage;
-    console.log(closingH1)
+  ipcRenderer.invoke('CLOSING:get-message').then(updateDom)
+  ipcRenderer.on('CLOSING:update-message', (ev, message) => updateDom(message))
 })
+
+function updateDom (message) {
+  const closingH1 = document.getElementById('closingText')
+  if (closingH1) closingH1.textContent = message
+}

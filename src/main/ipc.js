@@ -4,10 +4,6 @@ const updater = require('./auto-updater')
 const logger = require('../logger')
 const userConfig = require('./user-config')
 const i18n = require('./i18n')
-const path = require('path')
-const fs = require('fs')
-const { changeClosingEvent } = require('./changeClosing')
-const t = i18n.t
 
 /**
  * Miscellaneous ipcMain calls that don't hit mapeo-core
@@ -88,13 +84,15 @@ module.exports = function (ipcSend) {
   ipcMain.on('set-locale', function (ev, locale) {
     app.translations = i18n.setLocale(locale)
     i18n.save()
-    setClosingString()
-    changeClosingEvent.emit('change-closing')
+    ipcSend('CLOSING:update-message', i18n.t('closing-screen'))
   })
 
   ipcMain.on('get-locale', function (ev) {
     ev.returnValue = i18n.locale
-    setClosingString()
+  })
+
+  ipcMain.handle('CLOSING:get-message', function () {
+    return i18n.t('closing-screen')
   })
 
   ipcMain.on('save-file', function () {
@@ -157,15 +155,4 @@ module.exports = function (ipcSend) {
   ipcMain.on('refresh-window', function () {
     ipcSend('refresh-window')
   })
-}
-
-function setClosingString () {
-  const closeFilePath = path.join(app.getPath('temp'), 'closing' + '.json')
-  fs.writeFile(
-    closeFilePath,
-    JSON.stringify({ closingMessage: t('closing-screen') }),
-    err => {
-      if (err) console.log(err)
-    }
-  )
 }

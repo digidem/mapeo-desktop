@@ -16,7 +16,6 @@ const ClientIpc = require('../client-ipc')
 const { MainWindow, LoadingWindow, ClosingWindow } = require('./windows')
 const { once } = require('events')
 const buildConfig = require('../build-config')
-const { changeClosingEvent } = require('./changeClosing')
 
 /** @typedef {import('../utils/types').MapeoCoreOptions} MapeoCoreOptions */
 /** @typedef {import('electron').BrowserWindow} BrowserWindow */
@@ -71,8 +70,6 @@ async function startup ({
   let winLoading = LoadingWindow()
   /** @type {BrowserWindow | null} */
   let winClosing = ClosingWindow()
-
-  changeClosingEvent.on('change-closing', updateClosing)
 
   winMain.on('close', () => beforeQuit())
 
@@ -200,6 +197,15 @@ async function startup ({
     try {
       if (winMain && winMain.webContents) {
         winMain.webContents.send.apply(winMain.webContents, args)
+
+        if (
+          winClosing &&
+          winClosing.webContents &&
+          args[0].startsWith('CLOSING:')
+        ) {
+          winClosing.webContents.send.apply(winClosing.webContents, args)
+        }
+
         return true
       } else return false
     } catch (e) {
@@ -254,13 +260,5 @@ async function startup ({
     winLoading = null
 
     app.exit()
-  }
-
-  //the closing window is preloaded, so when the translation changes we
-  //need to clear the closing screen and reload it
-  function updateClosing () {
-    winClosing?.destroy()
-    winClosing = ClosingWindow()
-    winClosing.loadFile(ClosingWindow.filePath)
   }
 }
