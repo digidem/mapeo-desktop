@@ -197,6 +197,15 @@ async function startup ({
     try {
       if (winMain && winMain.webContents) {
         winMain.webContents.send.apply(winMain.webContents, args)
+
+        if (
+          winClosing &&
+          winClosing.webContents &&
+          args[0].startsWith('CLOSING:')
+        ) {
+          winClosing.webContents.send.apply(winClosing.webContents, args)
+        }
+
         return true
       } else return false
     } catch (e) {

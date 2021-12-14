@@ -84,10 +84,15 @@ module.exports = function (ipcSend) {
   ipcMain.on('set-locale', function (ev, locale) {
     app.translations = i18n.setLocale(locale)
     i18n.save()
+    ipcSend('CLOSING:update-message', i18n.t('closing-screen'))
   })
 
   ipcMain.on('get-locale', function (ev) {
     ev.returnValue = i18n.locale
+  })
+
+  ipcMain.handle('CLOSING:get-message', function () {
+    return i18n.t('closing-screen')
   })
 
   ipcMain.on('save-file', function () {
