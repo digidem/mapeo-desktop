@@ -9,7 +9,6 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
-import messages from './components/MapFilter/messages'
 
 if (!logger.configured) {
   logger.configure({
