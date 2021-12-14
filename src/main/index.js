@@ -245,7 +245,6 @@ async function startup ({
       winClosing && winClosing.show()
     }, 300)
 
-    winClosing && winClosing.show()
     // Close background processes
     await logger.timedPromise(
       backgroundProcesses.stopAll(),
