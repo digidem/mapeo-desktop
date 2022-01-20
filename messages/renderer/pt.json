@@ -58,6 +58,9 @@
     "description": "Save dialog title",
     "message": "Exportar dados de território"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "Sobre você:"
+  },
   "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
     "message": "Não"
   },
