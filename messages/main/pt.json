@@ -101,5 +101,6 @@
   "convert-button": "Copiar para o Editor",
   "convert-number": "Você filtrou seus dados para mostrar {count} observações",
   "convert-detail": "{count} destas ainda não estão no Editor de mapa. Clique em OK para mover estas {count} observações para o Editor de mapa.",
-  "convert-nothing": "Todos já estão no Editor de mapa."
+  "convert-nothing": "Todos já estão no Editor de mapa.",
+  "closing-screen": "O Mapeo está fechando..."
 }
