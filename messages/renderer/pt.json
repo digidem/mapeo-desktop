@@ -72,6 +72,10 @@
     "description": "cancel button",
     "message": "Cancelar"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "OK"
+  },
   "renderer.components.MapEditor.ICCAExportDialog.save": {
     "description": "Save button",
     "message": "Salvar"
