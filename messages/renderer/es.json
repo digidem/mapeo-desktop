@@ -11,6 +11,9 @@
     "description": "Synchronize tab label",
     "message": "Síncronizar"
   },
+  "renderer.components.Home.update": {
+    "message": "Actualizar Mapeo"
+  },
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
     "message": "Cargando…"
@@ -46,6 +49,9 @@
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Comentarios y Contribuciones"
   },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Descripción"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
     "message": "datos-observaciones-mapeo"
@@ -70,7 +76,7 @@
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
-    "message": "Archivo exportado sera un Zip con los fotos incluidos"
+    "message": "El archivo exportado será un Zip con las fotos incluidas"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
@@ -229,6 +235,10 @@
     "description": "Show all fields in report view",
     "message": "Mostrar todo"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "Descripción"
+  },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
   },
@@ -340,8 +350,48 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Seleccionar base de datos para sincronizar"
   },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Estimando..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Descargar"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Descargando"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Hubo un error y Mapeo no pudo actualizarse. Inténtalo de nuevo más tarde."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Error"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Tiempo estimado de descarga es"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Esta actualización hará que su aplicación sea incompatible con versiones anteriores."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Esta actualización incluye mejoras que pueden cambiar su experiencia."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Esta actualización incluye cambios que corrigen errores críticos. Por favor, actualice lo antes posible."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Reiniciar"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Se ha descargado una actualización de Mapeo. Reinicie Mapeo para actualizar."
+  },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
     "message": "Desconocido"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Actualizar"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "¡Mapeo está actualizado! Estás en la última versión."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "Cancelar"
