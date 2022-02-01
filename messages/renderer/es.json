@@ -42,15 +42,122 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Exportar datos del mapa"
   },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Exportar datos de territorio como GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
+    "description": "Menu item for exporting ICCA Export Packages",
+    "message": "Exportar Paquete de Exportación ICCA…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Exportar datos de territorio como Shapefile…"
+  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "OK"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "Exportar datos de territorio"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "Acerca de ti:"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "No \t"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "Sí"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
+    "message": "Por favor, rellene al menos un campo."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancelar"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
+    "message": "Inglés"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
+    "description": "Labels for community name",
+    "message": "Idioma original"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
+    "message": "Por favor, rellene todos los campos obligatorios."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
+    "description": "Form instructions",
+    "message": "Por favor, responda a estas preguntas antes de exportar."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
+    "message": "Para dibujar un límite ICCA, crea un área y etiquetala con el tipo\n    \"Límite ICCA\". Recuerda guardar tus cambios en el mapa antes de\n    exportar."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
+    "description": "No data to export",
+    "message": "No hay límites ICCA para exportar."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "OK"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "¿Su comunidad o pueblo indígena han consentido colectivamente que el mapa\n    y otra información sea compartida con UNEP-WCMC?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "¿Quieres que el mapa y otra información estén disponibles para que cualquier \n    persona pueda ver y descargarlos?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "Nombre de la comunidad, pueblo indígena, o individuo proporcionando \n    la información"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
+    "description": "Choices for question 4",
+    "message": "Miembro de la comunidad/pueblo indígena"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
+    "message": "Representante o asociado de la comunidad/pueblo indígena"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
+    "message": "Representante de una organización no gubernamental"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
+    "message": "Otro"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
+    "message": "Si eres un individuo, ¿cuál es tu relación con el pueblo o comunidad \n    indígena?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Placeholder": {
+    "description": "Placeholder for question 5",
+    "message": "Tu información de contacto"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
+    "message": "Dirección de correo electrónico, número de teléfono o dirección dónde podamos contactarte. \n    Te contactaremos para confirmarte que hemos recibido tu información y para discutir más\n    sobre ella si fuera necesario. También te contactaremos periódicamente\n    para asegurar que la información está actualizada."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
+    "description": "Helper texts",
+    "message": "Esta respuesta es necesaria."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "Guardar"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.title": {
+    "description": "Title for ICCA package export dialog",
+    "message": "Exportar Paquete de Exportación ICCA"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Comentarios y Contribuciones"
   },
   "renderer.components.MapEditor.index.notes": {
     "message": "Descripción"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
+    "description": "cancel button",
+    "message": "Cancelar"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
@@ -90,12 +197,22 @@
     "description": "Label for select option to include preview size photos in export",
     "message": "Con fotos tamaño prevista"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
+    "description": "Save button",
+    "message": "Guardar"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
     "description": "Title for export dialog",
     "message": "Exportar datos"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
     "message": "Observaciones exportadas con éxito."
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
+    "message": "OK"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.close": {
+    "message": "Cerrar"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
     "message": "No tienes datos para exportar todavía."
@@ -231,6 +348,10 @@
     "description": "Hide all fields in report view",
     "message": "Ocultar todo"
   },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Ocultar campos} =1 {1 Campos oculto} other {# Campos ocultos}}"
+  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
     "message": "Mostrar todo"
@@ -238,6 +359,65 @@
   "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
     "description": "Label for description / notes section of report",
     "message": "Descripción"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
+    "description": "Shown in reports if an observation has no location recorded",
+    "message": "No hay ubicación registrada"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "Página {pageNumber}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "No hay observaciones disponibles."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Se ha producido un error desconocido al intentar crear el informe"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Página {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Informe de Observaciones de Mapeo.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Siguiente"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Anterior"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Generando informe…"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "mostrando {observationCount} de {totalObservations} observaciones"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Guardar PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Continuar"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Este informe contiene {observationCount} observaciones y podría tardar unos minutos en crearse. ¿Está seguro de que desea continuar?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Advertencia: Informe extenso"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
@@ -402,10 +582,36 @@
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
     "message": "Elegir un idioma"
   },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Cerrar"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Abrir registro..."
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Ir"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Ingresar coordenadas"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Exportar errores"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Se ha producido un error al intentar exportar estos archivos, así que no se encuentran en esta exportación:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Faltan los originales"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "No se pudo encontrar el tamaño original de estos archivos, sólo se incluyen imágenes de tamaño de vista previa (1,200 píxeles). Esto puede suceder porque el teléfono que tomó las fotos sólo se ha sincronizado con otros teléfonos, y no directamente con Mapeo Desktop. Para intentar arreglar esto, busque el teléfono que tomó las fotos y sincronícelo con Mapeo Desktop antes de exportar de nuevo."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Sin respuesta"
   }
 }
