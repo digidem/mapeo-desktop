@@ -1,4 +1,22 @@
 {
   "button-submit": "හරි",
-  "button-cancel": "අවලංගු කරන්න"
+  "button-cancel": "අවලංගු කරන්න",
+  "dialog-enter-latlon-coordinates": "ඛණ්ඩාංක ඇතුළත් කරන්න",
+  "replication-data-complete": "දර්ශක යාවත්කාලීන කරමින්... එය මොහොතක් ප්‍රමාද විය හැක.",
+  "replication-complete": "සමමුහුර්තකරණය සාර්ථකව සම්පූර්ණ කර ඇත.",
+  "replication-started": "සමමුහුර්තකරණය කර ඇත, ප්‍රතිචාරය බලාපොරොත්තුවෙන්...",
+  "replication-progress": "සමමුහුර්තකරණය: සිදුවෙමින් පවතී...",
+  "menu-file": "ගොනුව",
+  "menu-change-language": "18 / 5,000\nTranslation results\nභාෂාව වෙනස් කරන්න...",
+  "menu-change-language-title": "භාෂාව ඇතුළු කරන්න (උදා., 'en' හෝ 'es')",
+  "menu-config-complete": "සාර්ථකව ආනයනය කරන ලද වින්‍යාසය: ",
+  "menu-import-tiles-file": "ගොනුව (.tar)",
+  "menu-import-tiles-directory": "ටයිල් නාමාවලිය",
+  "menu-import-tiles": "නොබැඳි සිතියම් ටයිල් ආයාත කරන්න...",
+  "menu-import-tiles-error": "ටයිල් ආනයනය කිරීමට නොහැකි විය",
+  "menu-import-tiles-error-known": "දෝෂයක් නිසා ටයිල් ආනයනය කළ නොහැක",
+  "menu-import-configuration": "ආයාත වින්‍යාසය...",
+  "menu-import-configuration-title": "වින්‍යාස ගොනුව තෝරන්න",
+  "menu-import-configuration-error": "වින්‍යාසය ආයාත කිරීමට නොහැකි විය",
+  "menu-import-configuration-error-known": "දෝෂයක් නිසා වින්‍යාසය ආයාත කිරීමට නොහැකි විය"
 }
