@@ -1,1 +1,6 @@
-{}
+{
+  "renderer.components.Home.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "භූමිය"
+  }
+}
