@@ -2,5 +2,17 @@
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
     "message": "භූමිය"
+  },
+  "renderer.components.Home.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "නිරීක්ෂණය"
+  },
+  "renderer.components.Home.sync": {
+    "description": "Synchronize tab label",
+    "message": "සමමුහුර්ත කරන්න"
+  },
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": "වසන්න"
   }
 }
