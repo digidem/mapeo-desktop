@@ -131,7 +131,7 @@
     "lodash": "^4.17.4",
     "mapbox-gl": "^1.4.1",
     "mapbox-map-image-stream": "^2.1.1",
-    "mapeo-default-settings": "^3.6.0",
+    "mapeo-default-settings": "^3.6.1",
     "mapeo-entity-filter": "^2.0.0",
     "mapeo-schema": "^2.0.2",
     "mapeo-server": "^17.1.2",
