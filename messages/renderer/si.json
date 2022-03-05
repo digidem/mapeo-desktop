@@ -11,6 +11,9 @@
     "description": "Synchronize tab label",
     "message": "සමමුහුර්ත කරන්න"
   },
+  "renderer.components.Home.update": {
+    "message": "Mapeo යාවත්කාලීන කරන්න"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "වසන්න"
@@ -145,9 +148,19 @@
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "ප්‍රතිපෝෂණ සහ දායකත්වය"
   },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "විස්තර"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
     "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "mapeo-නිරීක්ෂණ-දත්ත"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
+    "message": "සියලුම {count} නිරීක්ෂණ"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
     "description": "Save button",
@@ -226,6 +239,10 @@
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
     "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "විස්තර"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
     "description": "Shown in reports if an observation has no location recorded",
