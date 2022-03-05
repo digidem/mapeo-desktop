@@ -239,6 +239,122 @@
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
     "message": "නිරීක්ෂණ නොමැත."
   },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "වාර්තාව සෑදීමට උත්සාහ කිරීමේදී හඳුනා නොගත් දෝෂයක් ඇති විය"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "පිටුව {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo නිරීක්ෂණ වාර්තාව.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "ඊළඟ"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "ආපසු"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "වාර්තාව සැකෙසෙමින් ඇත…"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "{totalObservations} නිරීක්ෂණවලින් {observationCount} පෙන්වයි"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "PDF ආකාරයට සුරකින්න"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "ඉදිරියට යන්න"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "මෙම වාර්තාවේ නිරීක්ෂණ {observationCount} අඩංගු වන අතර, වාර්තාව නිර්මාණය කිරීමට මිනිත්තු කිහිපයක් ගත විය හැක. ඔබට ඉදිරියට යාමට අවශ්‍ය බව විශ්වාසද?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "අවවාදයයි: වාර්තාව විශාලයි"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "සිතියම"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "මාධ්‍යය"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "වාර්තා කරන්න"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "වෙනත් උපාංග සක්‍රිය කර ඇති බවත් එම WiFi ජාලයට සම්බන්ධ වී ඇති බවත් සහතික කර ගන්න"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "සොයමින්…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "සම්බන්ද තාවයක් නැත"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "උපාංග සමමුහුර්ත කිරීමට සඳහා ඔබ මුලින්ම WiFi ජාලයකට සම්බන්ධ විය යුතුය"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "නව සමමුහුර්ත ගොනුවක් සාදන්න…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "ගුණාත්මකභාවය: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "සම්බන්ධතා සංඥාව විශිෂ්ටයි"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "සම්බන්ධතා සංඥාව ඉතා දුර්වලයි. WiFi රවුටරය වෙත සමීප වීමට උත්සාහ කරන්න"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "සම්බන්ධතා සංඥාව දුර්වලයි. සමමුහුර්තකරණය සම්පූර්ණ වීමට වැඩි කාලයක් ගත විය හැකිය"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "ගොනුවකින් සමමුහුර්ත කරන්න…"
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "පවතින උපාංග"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "නොදන්නා"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "ඔබගේ WiFi කාඩ්පත හෝ මෙහෙයුම් පද්ධතිය (OS) හඳුනාගෙන නොමැත"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "සම්පූර්ණයි"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "සම්බන්ද තාවයක් නැත"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "අවසන් කරමින් පවතී…"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "නැවත උත්සාහ කරන්න"
+  },
   "renderer.components.SyncView.index.createSyncFileDialog": {
     "message": "සමමුහුර්ත කිරීමට නව දත්ත සමුදායක් සාදන්න"
   },
