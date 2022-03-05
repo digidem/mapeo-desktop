@@ -355,6 +355,30 @@
     "description": "Button to retry sync after error",
     "message": "නැවත උත්සාහ කරන්න"
   },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "සමමුහුර්ත කිරීම ආරම්භ වේ…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "සමමුහුර්ත කරන්න"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "දත්ත සමුදාය:{sofar}/{total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "සමමුහුර්ත කිරීමේදී දෝෂයක් ඇතිවිය"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "අවසන් වරට සමමුහුර්ත කළේ:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "ඡායාරූප: {sofar} / {total}"
+  },
   "renderer.components.SyncView.index.createSyncFileDialog": {
     "message": "සමමුහුර්ත කිරීමට නව දත්ත සමුදායක් සාදන්න"
   },
