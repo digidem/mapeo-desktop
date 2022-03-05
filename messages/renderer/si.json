@@ -35,6 +35,18 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "සිතියම් දත්ත අපනයනය කරන්න"
   },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "ප්‍රදේශ දත්ත GeoJSON ලෙස අපනයනය කරන්න…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
+    "description": "Menu item for exporting ICCA Export Packages",
+    "message": "ICCA පැකේජය අපනයනය කරන්න…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "ප්‍රදේශ දත්ත Shapefile ලෙස අපනයනය කරන්න…"
+  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "හරි"
@@ -53,6 +65,86 @@
     "description": "Yes/no answers",
     "message": "ඔව්"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
+    "message": "කරුණාකර අවම වශයෙන් එක් ක්ෂේත්‍රයක් වත් පුරවන්න."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
+    "message": "ඉංග්‍රීසි"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
+    "description": "Labels for community name",
+    "message": "මුල් භාෂාව"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
+    "message": "කරුණාකර අවශ්‍ය සියලුම ක්ෂේත්‍ර පුරවන්න."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
+    "description": "Form instructions",
+    "message": "අපනයනය කිරීමට පෙර කරුණාකර මෙම ප්‍රශ්නවලට පිළිතුරු දෙන්න."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
+    "message": "ICCA සීමාවක් ඇඳීමට, ප්‍රදේශයක් සාදා එය වර්ගය සමඟ ටැග් කරන්න\n     \"ICCA සීමාව.\" ඔබගේ වෙනස්කම් පෙර සිතියමට සුරැකීමට මතක තබා ගන්න\n     අපනයනය කරනවා."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
+    "description": "No data to export",
+    "message": "අපනයනය කිරීමට ICCA සීමාවන් නොමැත."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "හරි"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "ඔබේ ප්‍රජාව හෝ ආදිවාසීන් සිතියමට සාමූහිකව කැමැත්ත ලබා දී තිබේද?\n     සහ අනෙකුත් තොරතුරු UNEP-WCMC සමඟ බෙදාගෙන තිබේද?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "සිතියම සහ අනෙකුත් තොරතුරු ඕනෑම කෙනෙකුට ලබා ගැනීමට ඔබට අවශ්‍යද?\n     බැලීම සහ බාගත කිරීම?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "ප්‍රජාවගේ නම, ආදිවාසීන්, හෝ සපයන පුද්ගලයා\n     විස්තර"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
+    "description": "Choices for question 4",
+    "message": "ප්‍රජාවේ/ආදිවාසී ජනතාවගේ සාමාජිකයා"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
+    "message": "ප්‍රජාව/ආදිවාසී ජනයාගේ නියෝජිතයා හෝ ආශ්‍රය කරන්නා"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
+    "message": "රාජ්‍ය නොවන සංවිධානයක නියෝජිතයා"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
+    "message": "වෙනත්"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
+    "message": "ඔබ තනි පුද්ගලයෙක් නම්, ආදිවාසීන් සමඟ ඔබේ සම්බන්ධතාවය කුමක්ද?\n     මිනිසුන් හෝ ප්රජාව?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Placeholder": {
+    "description": "Placeholder for question 5",
+    "message": "ඔබගේ සම්බන්ධතා තොරතුරු"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
+    "message": "අපට ඔබව සම්බන්ධ කර ගත හැකි ඊමේල් ලිපිනය, දුරකථන අංකය හෝ ලිපිනය. අපි කරන්නෙමු\n     ඔබගේ තොරතුරු අපට ලැබී ඇති බව තහවුරු කිරීමට සහ සාකච්ඡා කිරීමට ඔබව සම්බන්ධ කරගන්න\n     අවශ්‍ය තැන්වල තොරතුරු තවදුරටත්. අපි ද වරින් වර ඔබ හා සම්බන්ධ වන්නෙමු\n     තොරතුරු යාවත්කාලීන බව තහවුරු කර ගැනීමට."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
+    "description": "Helper texts",
+    "message": "මෙම පිළිතුර අවශ්ය වේ."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "සුරකින්න"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.title": {
+    "description": "Title for ICCA package export dialog",
+    "message": "ICCA අපනයන පැකේජයක් අපනයනය කරන්න"
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "ප්‍රතිපෝෂණ සහ දායකත්වය"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
     "message": "අවලංගු කරන්න"
@@ -61,11 +153,20 @@
     "description": "Save button",
     "message": "සුරකින්න"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
+    "message": "නිරීක්ෂණ සාර්ථකව අපනයනය කරන ලදී."
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
     "message": "හරි"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.close": {
     "message": "වසන්න"
+  },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "නිරීක්ෂණ දත්ත අපනයනය කරන්න"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "නිරීක්ෂණ අපනයන කරන්න…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "දත්ත සමුදා තත්ත්වය…"
@@ -85,5 +186,13 @@
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
     "message": "සිතියම් විලාසය"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "මෙම දත්ත භාවිතා කළ හැකි ආකාරය පිළිබඳ කොන්දේසි සහ සීමාවන් එක් කරන්න"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "කොන්දේසි සහ සීමාවන්"
   }
 }
