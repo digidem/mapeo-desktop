@@ -194,5 +194,87 @@
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
     "message": "කොන්දේසි සහ සීමාවන්"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "මාර්ගගතව බෙදා ගැනීමට සිතියම අපනයනය කරන්න"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "සිතියම් මාතෘකාව"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "මෙය නිවැරදි කිරීමට ක්රමයක් සොයා ගැනීමට පහත විස්තර ප්රයෝජනවත් වනු ඇත…"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "අහෝ හිතවත! දෝෂයක් සිදුවී ඇත"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "සමමුහුර්ත කිරීමට නව දත්ත සමුදායක් සාදන්න"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} හට Mapeo උත්ශ්‍රේණි කිරීමට අවශ්‍යයි"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "ඔබ {deviceName} සමඟ සමමුහුර්ත කිරීමට Mapeo upgrade කිරීමට අවශ්‍ය වේ"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "සමමුහුර්ත කිරීමට නව දත්ත සමුදායක් සාදන්න"
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "නොදන්නා"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "පිළිගන්වන්න"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "භාෂාව තෝරන්න"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "වසන්න"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "ලොගය විවෘත කරන්න..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "පිළිගන්වන්න"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "ඛණ්ඩාංක ඇතුළත් කරන්න"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "අපනයන දෝෂ"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "මෙම ගොනු නිර්යාත කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය, එබැවින් ඒවා මෙම නිර්යාතයෙන් මග හැරී ඇත:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "මඟහැරුණු මුල් පිටපත්"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "මෙම ගොනුවල මුල් ප්‍රමාණය සොයාගත නොහැකි විය, පෙරදසුන් ප්‍රමාණයේ (පික්සල 1,200) රූප පමණක් ඇතුළත් වේ. මෙය සිදු විය හැක්කේ ඡායාරූප ගත් දුරකථනය වෙනත් දුරකථන වලට පමණක් සමමුහුර්ත කර ඇති නිසා මිස කෙලින්ම Mapeo ඩෙස්ක්ටොප් එකට නොවේ. මෙය නිවැරදි කිරීමට, ඡායාරූප ගත් දුරකථනය සොයාගෙන එය නැවත අපනයනය කිරීමට පෙර Mapeo Desktop සමඟ සමමුහුර්ත කරන්න."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "පිළිතුරක් නැත"
   }
 }
