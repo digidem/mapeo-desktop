@@ -162,9 +162,44 @@
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
     "message": "සියලුම {count} නිරීක්ෂණ"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
+    "message": "තෝරාගත් නිරීක්ෂණ {count}"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "තෝරාගත් දත්ත පමණක් ද නැතහොත් සියලු දත්ත ද?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
+    "description": "Label for data format selector",
+    "message": "දත්ත ආකෘතිය"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "ඡායාරූප අපනයනය කරන්නද?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "අපනයනය දත්ත සහ ඡායාරූප ඇතුළුව zip ගොනුවක් වනු ඇත"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "ඡායාරූප නැත"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "සම්පූර්ණ ප්‍රමාණයේ ඡායාරූප"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "පෙරදසුන් ප්‍රමාණයේ ඡායාරූප"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
     "description": "Save button",
     "message": "සුරකින්න"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
+    "description": "Title for export dialog",
+    "message": "නිරීක්ෂණ අපනයනය"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
     "message": "නිරීක්ෂණ සාර්ථකව අපනයනය කරන ලදී."
@@ -175,6 +210,13 @@
   "renderer.components.MapFilter.DataExportDialog.NoData.close": {
     "message": "වසන්න"
   },
+  "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
+    "message": "ඔබට තවමත් නිර්යාත කිරීමට දත්ත නොමැත."
+  },
+  "renderer.components.MapFilter.DataExportDialog.Template.title": {
+    "description": "Title for observations export dialog",
+    "message": "නිරීක්ෂණ අපනයනය"
+  },
   "renderer.components.MapFilter.ExportButton.exportButton": {
     "message": "නිරීක්ෂණ දත්ත අපනයනය කරන්න"
   },
@@ -183,6 +225,38 @@
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "දත්ත සමුදා තත්ත්වය…"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "දක්වා"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "සිට"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "නිරීක්ෂණ දිනය"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "පෙරහන් සංස්කරණය කරන්න…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "නවීකරණය කරන ලද"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "ප්‍රවර්ගය"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "පමණි"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "සියල්ල"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
