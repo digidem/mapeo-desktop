@@ -14,5 +14,76 @@
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "වසන්න"
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "මැපිඕ-සිතියම්-දත්ත"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "අභ්‍යන්තර දෝෂයක් හේතුවෙන් අපනයනය අසාර්ථක විය"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "අපනයනය සම්පුර්ණයි"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "දත්ත අපනයනය කෙරෙමින් පවතී"
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": "සිතියම් දත්ත අපනයනය කරන්න"
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": "හරි"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "දේශසීමා දත්ත අපනයනය කරන්න"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "ඔබ ගැන:"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "නැහැ"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "ඔව්"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
+    "description": "cancel button",
+    "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
+    "description": "Save button",
+    "message": "සුරකින්න"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
+    "message": "හරි"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.close": {
+    "message": "වසන්න"
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "දත්ත සමුදා තත්ත්වය…"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "සිතියමේ තොරතුරු"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "සුරකින්න"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "සිතියම් විලාසය"
   }
 }
