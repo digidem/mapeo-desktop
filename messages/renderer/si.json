@@ -219,6 +219,26 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "අවලංගු කරන්න"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "සුරකින්න"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
+    "description": "Shown in reports if an observation has no location recorded",
+    "message": "ස්ථානයක් වාර්තා කර නොමැත"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "පිටුව {pageNumber}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "නිරීක්ෂණ නොමැත."
+  },
   "renderer.components.SyncView.index.createSyncFileDialog": {
     "message": "සමමුහුර්ත කිරීමට නව දත්ත සමුදායක් සාදන්න"
   },
