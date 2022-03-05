@@ -14,6 +14,10 @@
   "renderer.components.Home.update": {
     "message": "Mapeo යාවත්කාලීන කරන්න"
   },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "පූරණය වෙමින්…"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "වසන්න"
@@ -258,6 +262,9 @@
     "description": "Button text to turn off filters for a field",
     "message": "සියල්ල"
   },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "පෙරහන් කීරීම…"
+  },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
     "message": "අවලංගු කරන්න"
@@ -296,6 +303,10 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "අහෝ හිතවත! දෝෂයක් සිදුවී ඇත"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "අමතර දත්ත"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
     "message": "අවලංගු කරන්න"
@@ -303,16 +314,47 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
     "message": "අවලංගු කරන්න"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "වෙනස්කම් ඉවතලන්න"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "ඔබ යම් වෙනස්කම් සිදු කර ඇත, සුරැකීමකින් තොරව වසා දැමීමෙන් ඔබ කරන වෙනස්කම් නැති වේ"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "වෙනස්කම් සුරැකීමකින් තොරව වසන්නද?"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "අවලංගු කරන්න"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "ඔව්, මකන්න"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "නිරීක්ෂණය මකන්නද?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "නිරීක්ෂණය මකන්න"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "විස්තරය"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
     "message": "සුරකින්න"
   },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "සියල්ල සඟවන්න"
+  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
     "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "සියල්ල පෙන්වන්න"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
     "description": "Label for description / notes section of report",
@@ -385,6 +427,10 @@
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "වාර්තා කරන්න"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "නිරීක්ෂණ"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -484,8 +530,48 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "සමමුහුර්ත කිරීමට නව දත්ත සමුදායක් සාදන්න"
   },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "ඇස්තමේන්තු කරමින්..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "බාගත කරන්න"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "බාගත වෙමින් පවතී"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "දෝෂයක් ඇති අතර Mapeo යාවත්කාලීන කිරීමට නොහැකි විය. පසුව නැවත උත්සාහ කරන්න."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "දෝෂයකි"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "ඇස්තමේන්තුගත බාගත කාලය"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "මෙම යාවත්කාලීනය ඔබගේ යෙදුම පෙර සංස්කරණ සමඟ නොගැළපීම් ඇති කරයි."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "මෙම යාවත්කාලීනයේ ඇති වැඩිදියුණු කිරීම් මගින් ඔබේ අත්දැකීම වෙනස් අත්දැකීමක් ලැබිය හැක."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "මෙම යාවත්කාලීනය තුල බරපතල දෝෂ නිවැරදි කරන වෙනස්කම් ඇතුළත් වේ. කරුණාකර හැකි ඉක්මනින් යාවත්කාලීන කරන්න."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "නැවත ආරම්භ"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Mapeo වෙත යාවත්කාලීනයක් බාගත කර ඇත. යාවත්කාලීන කිරීමට Mapeo නැවත ආරම්භ කරන්න."
+  },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
     "message": "නොදන්නා"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "යාවත්කාලීන කරන්න"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo යාවත්කාලීනයි! ඔබ සිටින්නේ නවතම සංස්කරණයේ ය."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "අවලංගු කරන්න"
