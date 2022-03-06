@@ -1,4 +1,24 @@
 {
   "button-submit": "சரி",
-  "button-cancel": "ரத்து செய்க"
+  "button-cancel": "ரத்து செய்க",
+  "dialog-enter-latlon-coordinates": "ஒருங்கிணைப்புகள் உள்ளிடவும்",
+  "replication-data-complete": "குறியீடுகளைப் புதுப்பிக்கிறது... ஒரு கணம் தாமதமாகலாம்.",
+  "replication-complete": "ஒத்திசைவு வெற்றிகரமாக முடிந்தது.",
+  "replication-started": "ஒத்திசைவு செய்யப்பட்டுள்ளது, பதிலுக்காகக் காத்திருக்கிறது...",
+  "replication-progress": "ஒத்திசைவு: செயல்பாட்டில் உள்ளது...",
+  "menu-file": "கோப்பு",
+  "menu-change-language": "மொழியை மாற்றவும்",
+  "menu-change-language-title": "மொழியை உள்ளிடவும் (உ. தா., 'en' அல்லது 'es')",
+  "menu-config-complete": "வெற்றிகரமாக இறக்குமதி செய்யப்பட்ட கட்டமைப்பு:",
+  "menu-import-tiles-directory": "ஓடுகளின் அடைவு",
+  "menu-import-tiles": "ஆஃப்லைன் மேப் டைல்களை இறக்குமதி செய்...",
+  "menu-minimize": "சிறிதாக்கு",
+  "menu-close": "மூடுக",
+  "menu-undo": "செயல்தவிர்",
+  "menu-redo": "மீண்டும் செய்",
+  "menu-cut": "வெட்டு (Cut)",
+  "menu-copy": "நகலெடு",
+  "menu-paste": "ஒட்டுக (Paste)",
+  "menu-selectall": "எல்லாவற்றையும் தேர்ந்தெடு",
+  "menu-debugging": "பிழைநீக்கு"
 }
