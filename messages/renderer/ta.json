@@ -1,1 +1,50 @@
-{}
+{
+  "renderer.components.Home.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "பிரதேசம்"
+  },
+  "renderer.components.Home.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "அவதானிப்புகள்"
+  },
+  "renderer.components.Home.sync": {
+    "description": "Synchronize tab label",
+    "message": "ஒத்திசைவாக்குங்கள்"
+  },
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": "மூடுக"
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "mapeo - வரைபடம் - தரவு"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "உள் பிழை காரணமாக ஏற்றுமதி தோல்வியடைந்தது"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "பதிவேற்றம் முடிந்தது"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "தரவைப் பதிவேற்றம் செய்"
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": "வரைபடத் தரவைப் பதிவேற்றம் செய்யவும்"
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "பிராந்தியத் தரவை GeoJSON ஆகப் பதிவேற்றம் செய்யவும்…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
+    "description": "Menu item for exporting ICCA Export Packages",
+    "message": "ICCA ஏற்றுமதி தொகுப்பைப் பதிவேற்றம் செய்…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "பிராந்தியத் தரவை GeoJSON ஆகப் பதிவேற்றம் செய்யவும்…"
+  }
+}
