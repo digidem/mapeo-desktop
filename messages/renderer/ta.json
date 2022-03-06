@@ -46,5 +46,51 @@
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
     "message": "பிராந்தியத் தரவை GeoJSON ஆகப் பதிவேற்றம் செய்யவும்…"
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": "சரி"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "பிராந்திய தரவு பதிவேற்றம்"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "உங்களைப் பற்றி:"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "இல்லை"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "ஆம்"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
+    "message": "குறைந்தது ஒரு புலத்தையாவது நிரப்பவும்."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "ரத்து செய்க"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
+    "message": "ஆங்கிலம்"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
+    "description": "Labels for community name",
+    "message": "அசல் மொழி"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
+    "description": "cancel button",
+    "message": "ரத்து செய்க"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
+    "description": "Save button",
+    "message": "சேமிக்கவும்"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
+    "message": "சரி"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.close": {
+    "message": "மூடுக"
   }
 }
