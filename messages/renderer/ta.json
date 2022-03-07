@@ -82,12 +82,68 @@
   "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
     "message": "தேவையான அனைத்து புலங்களையும் நிரப்பவும்."
   },
+  "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
+    "description": "Form instructions",
+    "message": "பதிவேற்றம் செய்வதற்கு முன் இந்தக் கேள்விகளுக்குப் பதிலளிக்கவும்."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
+    "message": "ICCA எல்லையை வரைய, ஒரு பகுதியை உருவாக்கி, அதை வகையுடன் குறியிடவும்\n     \"ICCA எல்லை.\" உங்கள் மாற்றங்களை வரைபடத்தில் சேமிக்க நினைவில் கொள்ளுங்கள்\n     பதிவேற்றம் செய்கிறது."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
+    "description": "No data to export",
+    "message": "பதிவேற்றம் செய்வதற்கு ICCA எல்லைகள் எதுவும் இல்லை."
+  },
   "renderer.components.MapEditor.ICCAExportDialog.ok": {
     "description": "OK button",
     "message": "சரி"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "வரைபடத்திற்கு உங்கள் சமூகம் அல்லது பழங்குடியினர் கூட்டாக ஒப்புதல் அளித்துள்ளீர்களா\n     மற்றும் பிற தகவல்கள் UNEP-WCMC உடன் பகிரப்படுகிறதா?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "வரைபடமும் பிற தகவல்களும் யாருக்கும் கிடைக்க வேண்டும் என்று விரும்புகிறீர்களா\n     பார்க்கவும் பதிவிறக்கவும்?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "சமூகத்தின் பெயர், பழங்குடி மக்கள், அல்லது தனிநபர்கள் வழங்கும்\n     தகவல்"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
+    "description": "Choices for question 4",
+    "message": "சமூகத்தின் உறுப்பினர்/பழங்குடி மக்கள்"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
+    "message": "சமூகம்/பழங்குடி மக்களின் பிரதிநிதி அல்லது கூட்டாளி"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
+    "message": "ஒரு அரசு சாரா அமைப்பின் பிரதிநிதி"
+  },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
     "message": "மற்றவை"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
+    "message": "நீங்கள் ஒரு தனி நபராக இருந்தால், பழங்குடியினருடன் உங்களுக்கு என்ன உறவு\n     மக்கள் அல்லது சமூகம்?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Placeholder": {
+    "description": "Placeholder for question 5",
+    "message": "உங்களைத் தொடர்பு கொள்ள வேண்டிய முகவரி "
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
+    "message": "மின்னஞ்சல் முகவரி, தொலைபேசி எண் அல்லது நாங்கள் உங்களைத் தொடர்பு கொள்ளக்கூடிய முகவரி. நாங்கள் செய்வோம்\n     உங்கள் தகவலைப் பெற்றுள்ளோம் என்பதை உறுதிப்படுத்தவும் விவாதிக்கவும் உங்களைத் தொடர்பு கொள்ளவும்\n     தேவையான இடங்களில் மேலும் தகவல். நாங்களும் உங்களை அவ்வப்போது தொடர்புகொள்வோம்\n     தகவல் புதுப்பித்த நிலையில் இருப்பதை உறுதிசெய்ய."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
+    "description": "Helper texts",
+    "message": "இதற்கான பதில் தேவை."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "சேமிக்கவும்"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.title": {
+    "description": "Title for ICCA package export dialog",
+    "message": "ICCA ஏற்றுமதி தொகுப்பைப் பதிவேற்றம் செய்"
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "கருத்து & பங்களிப்பு"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
@@ -97,19 +153,61 @@
     "description": "Save button",
     "message": "சேமிக்கவும்"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
+    "message": "அவதானிப்புகள் வெற்றிகரமாகப் பதிவேற்றம் செய்யப்பட்டன."
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
     "message": "சரி"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.close": {
     "message": "மூடுக"
   },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "பதிவேற்றம் கண்காணிப்பு தரவு"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "பதிவேற்ற கண்காணிப்பு"
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "இணைய வரைபடத்தைப் பதிவேற்றம் செய்…"
+  },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
     "message": "ரத்து செய்க"
   },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "வரைபட விளக்கம்"
+  },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
     "message": "சேமிக்கவும்"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "மேப் ஸ்டைல்"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "இந்தத் தரவை எவ்வாறு பயன்படுத்தலாம் என்பது குறித்த விதிமுறைகளையும் வரம்புகளையும் சேர்க்கவும்"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "விதிமுறைகள் மற்றும் வரம்புகள்"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "ஆன்லைனில் பகிர வரைபடத்தைப் பதிவேற்றம் செய்யவும்"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "வரைபடத்தின் தலைப்பு"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "இதைச் சரிசெய்வதற்கான வழியைக் கண்டறிய கீழே உள்ள விவரங்கள் பயனுள்ளதாக இருக்கும்…"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "அன்பே! தவறு நிகழ்ந்துவிட்டது"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
@@ -125,6 +223,34 @@
     "description": "Save edit button",
     "message": "சேமிக்கவும்"
   },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
+    "description": "Shown in reports if an observation has no location recorded",
+    "message": "இடம் பதிவு செய்யப்படவில்லை"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "பக்கம் {பக்க எண்}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "அவதானிப்புகள் எதுவும் இல்லை."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "அறிக்கையை உருவாக்கும் முயற்சியில் அறியப்படாத பிழை ஏற்பட்டது"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Page {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo கண்காணிப்பு அறிக்கை.pdf"
+  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
     "message": "அடுத்து"
@@ -137,8 +263,27 @@
     "description": "Shown while the report is generating when saving or printing",
     "message": "அறிக்கை தயாரிக்கிறது..."
   },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "{total Observations} அவதானிப்புகளின் {observation Count}ஐக் காட்டுகிறது"
+  },
   "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
     "description": "Button label for Save PDF Button",
     "message": "PDF ஆகச் சேமி"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "ரத்து செய்க"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "தொடரவும்"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "இந்த அறிக்கையில் {observation Count} அவதானிப்புகள் உள்ளன, மேலும் உருவாக்கச் சில நிமிடங்கள் ஆகலாம். நீங்கள் நிச்சயமாகத் தொடர விரும்புகிறீர்களா?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "எச்சரிக்கை: பெரிய அறிக்கை"
   }
 }
