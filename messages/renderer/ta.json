@@ -14,6 +14,10 @@
   "renderer.components.Home.update": {
     "message": "மேபியோவைப் புதுப்பிக்கவும்"
   },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "ஏற்றுகிறது..."
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "மூடுக"
@@ -148,6 +152,9 @@
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "கருத்து & பங்களிப்பு"
   },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "விளக்கம்"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
     "message": "ரத்து செய்க"
@@ -173,6 +180,10 @@
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "இணைய வரைபடத்தைப் பதிவேற்றம் செய்…"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "அனைத்தும்"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
@@ -219,6 +230,9 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
     "message": "ரத்து செய்க"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "மாற்றங்களை நிராகரிக்கவும்"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "ரத்து செய்க"
   },
@@ -229,6 +243,14 @@
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
     "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "அனைத்தையும் காட்டு"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "விளக்கம்"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
     "description": "Shown in reports if an observation has no location recorded",
@@ -297,6 +319,10 @@
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
     "message": "அறிக்கை"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "அவதானிப்புகள்"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -395,6 +421,15 @@
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "ஒத்திசைக்க ஒரு தரவுத்தளத்தைத் தேர்ந்தெடுக்கவும்"
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "பதிவிறக்கு"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "பதிவிறக்கப்படுகிறது"
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "பிழை"
   },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
     "message": "தெரியாத"
