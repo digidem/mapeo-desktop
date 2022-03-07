@@ -285,5 +285,144 @@
   "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
     "description": "Title of print settings dialog",
     "message": "எச்சரிக்கை: பெரிய அறிக்கை"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "வரைபடம்"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "ஊடகம்"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "அறிக்கை"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "சாதனங்கள் இயக்கப்பட்டு, அதே வைஃபை நெட்வொர்க்குடன் இணைக்கப்பட்டுள்ளதை உறுதிசெய்யவும்"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "தேடு…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "துண்டிக்கப்பட்டது"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "சாதனங்களை ஒத்திசைக்க நீங்கள் முதலில் வைஃபை நெட்வொர்க்குடன் இணைக்க வேண்டும்"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "புதிய ஒத்திசைவை உருவாக்கவும்…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "தரம்: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "இணைப்புச் சமிக்ஞை சிறந்தது"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "இணைப்புச் சமிக்ஞை மிகவும் மோசமாக உள்ளது. வைஃபை ரூட்டரை நெருங்க முயற்சிக்கவும்"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "இணைப்புச் சமிக்ஞை பலவீனமாக உள்ளது. ஒத்திசைவு முடிவடைய அதிக நேரம் ஆகலாம்"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "ஒரு கோப்பிலிருந்து ஒத்திசை..."
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "கிடைக்கும் சாதனங்கள்"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "தெரியாத"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "உங்கள் வைஃபை கார்டு அல்லது ஆப்பரேட்டிங் சிஸ்டம் (ஓஎஸ்) அங்கீகரிக்கப்படவில்லை"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "முடிந்தது!"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "துண்டிக்கப்பட்டது"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "முடிக்கிறது…"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "மீண்டும் முயற்சிக்கவும்"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "தொடங்குகிறது…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "ஒத்திசைவாக்குங்கள்"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "தரவுத்தளம்: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "ஒத்திசைவு பிழை"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "கடைசியாக ஒத்திசைக்கப்பட்டது:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "புகைப்படங்கள்: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "ஒத்திசைக்க புதிய தரவுத்தளத்தை உருவாக்கவும்"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{சாதனத்தின் பெயர்} Mapeoஐ மேம்படுத்த வேண்டும்"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "{deviceName} உடன் ஒத்திசைக்க Mapeo ஐ மேம்படுத்த வேண்டும்"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "ஒத்திசைக்க ஒரு தரவுத்தளத்தைத் தேர்ந்தெடுக்கவும்"
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "தெரியாத"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "சமர்ப்பிக்கவும்"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "மொழியைத் தேர்ந்தெடுக்கவும்"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "மூடுக"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "பதிவைத் திற..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "சமர்ப்பிக்கவும்"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "ஒருங்கிணைப்புகள் உள்ளிடவும்"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "பதிவேற்ற பிழை"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "இந்தக் கோப்புகளை ஏற்றுமதி செய்வதில் பிழை ஏற்பட்டதால், இந்த ஏற்றுமதியில் அவை காணவில்லை:"
   }
 }
