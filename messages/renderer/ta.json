@@ -79,6 +79,13 @@
     "description": "Labels for community name",
     "message": "அசல் மொழி"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "சரி"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
+    "message": "மற்றவை"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
     "message": "ரத்து செய்க"
@@ -92,5 +99,43 @@
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.close": {
     "message": "மூடுக"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "ரத்து செய்க"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "சேமிக்கவும்"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "ரத்து செய்க"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "ரத்து செய்க"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "ரத்து செய்க"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "சேமிக்கவும்"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "அடுத்து"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "முந்தையது"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "அறிக்கை தயாரிக்கிறது..."
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "PDF ஆகச் சேமி"
   }
 }
