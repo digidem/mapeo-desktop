@@ -79,6 +79,9 @@
     "description": "Labels for community name",
     "message": "அசல் மொழி"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
+    "message": "தேவையான அனைத்து புலங்களையும் நிரப்பவும்."
+  },
   "renderer.components.MapEditor.ICCAExportDialog.ok": {
     "description": "OK button",
     "message": "சரி"
