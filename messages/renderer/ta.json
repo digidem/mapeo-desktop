@@ -11,6 +11,9 @@
     "description": "Synchronize tab label",
     "message": "ஒத்திசைவாக்குங்கள்"
   },
+  "renderer.components.Home.update": {
+    "message": "மேபியோவைப் புதுப்பிக்கவும்"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "மூடுக"
@@ -424,5 +427,17 @@
   "renderer.create-zip.errorsMsg": {
     "description": "Error message stored in text file in export if there were errors during export",
     "message": "இந்தக் கோப்புகளை ஏற்றுமதி செய்வதில் பிழை ஏற்பட்டதால், இந்த ஏற்றுமதியில் அவை காணவில்லை:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "அசலை  காணவில்லை"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "இந்தக் கோப்புகளின் அசல் அளவைக் கண்டறிய முடியவில்லை, முன்னோட்ட அளவு (1,200 பிக்சல்) படங்கள் மட்டுமே சேர்க்கப்பட்டுள்ளன. புகைப்படங்களை எடுத்த ஃபோன் மற்ற ஃபோன்களுடன் மட்டுமே ஒத்திசைக்கப்பட்டுள்ளது, மேலும் நேரடியாக மேபியோ டெஸ்க்டாப்பில் அல்ல. இதை சரிசெய்ய முயற்சிக்க, புகைப்படங்களை எடுத்த மொபைலைக் கண்டுபிடித்து, மீண்டும் ஏற்றுமதி செய்வதற்கு முன் அதை Mapeo டெஸ்க்டாப்புடன் ஒத்திசைக்கவும்."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "பதில் இல்லை"
   }
 }
