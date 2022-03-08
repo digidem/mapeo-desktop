@@ -159,6 +159,44 @@
     "description": "cancel button",
     "message": "ரத்து செய்க"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "மேபியோ-கவனிப்பு-தரவு"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
+    "message": "அனைத்து {count} அவதானிப்புகள்"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
+    "message": "{எண்ணிக்கை} வடிகட்டப்பட்ட அவதானிப்புகள்"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "வடிகட்டப்பட்ட தரவு மட்டுமா அல்லது எல்லாத் தரவும்?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
+    "description": "Label for data format selector",
+    "message": "தரவு வடிவம்"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "புகைப்படங்களையும் பதிவேற்றம் செய்யவா?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "பதிவேற்ற தரவு மற்றும் புகைப்படங்கள் உட்பட ஜிப் கோப்பாக இருக்கும்"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "படங்கள் எதுவுமில்லை"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "முழு அளவிலான புகைப்படங்கள்"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "முந்தைய அளவுப் புகைப்படங்கள்"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
     "description": "Save button",
     "message": "சேமிக்கவும்"
