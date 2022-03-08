@@ -201,6 +201,10 @@
     "description": "Save button",
     "message": "சேமிக்கவும்"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
+    "description": "Title for export dialog",
+    "message": "பதிவேற்ற கண்காணிப்பு"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
     "message": "அவதானிப்புகள் வெற்றிகரமாகப் பதிவேற்றம் செய்யப்பட்டன."
   },
@@ -209,6 +213,13 @@
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.close": {
     "message": "மூடுக"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
+    "message": "பதிவேற்றம் செய்வதற்கான தரவு எதுவும் உங்களிடம் இல்லை."
+  },
+  "renderer.components.MapFilter.DataExportDialog.Template.title": {
+    "description": "Title for observations export dialog",
+    "message": "பதிவேற்ற கண்காணிப்பு"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
     "message": "பதிவேற்றம் கண்காணிப்பு தரவு"
@@ -219,9 +230,40 @@
   "renderer.components.MapFilter.ExportButton.exportMap": {
     "message": "இணைய வரைபடத்தைப் பதிவேற்றம் செய்…"
   },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "இடத்திற்கு (To)"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "இருந்து"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "கவனிக்கப்பட்ட தேதி"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "வடிப்பான்களைத் திருத்து..."
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "மாற்றியமைக்கப்பட்டது"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "வகை"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "மட்டும்"
+  },
   "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
     "description": "Button text to turn off filters for a field",
     "message": "அனைத்தும்"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "இதன்படி வடிகட்டவும்…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
@@ -261,6 +303,10 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "அன்பே! தவறு நிகழ்ந்துவிட்டது"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "மேலதிக தகவல்கள்"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
     "message": "ரத்து செய்க"
@@ -271,12 +317,36 @@
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
     "message": "மாற்றங்களை நிராகரிக்கவும்"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "நீங்கள் சில மாற்றங்களைச் செய்துள்ளீர்கள், சேமிக்காமல் மூடுவது நீங்கள் செய்யும் மாற்றங்களை இழக்கும்"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "மாற்றங்களைச் சேமிக்காமல் மூடவா?"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
     "message": "ரத்து செய்க"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "ஆம், நீக்குக"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "அவதானிப்புகளை நீக்கவா?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "அவதானிப்புகளை நீக்கவா?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "விபரங்கள்"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
     "message": "சேமிக்கவும்"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "அனைத்தையும் மறைக்கவும்"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
@@ -460,17 +530,48 @@
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "ஒத்திசைக்க ஒரு தரவுத்தளத்தைத் தேர்ந்தெடுக்கவும்"
   },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "மதிப்பிடுகிறது..."
+  },
   "renderer.components.UpdaterView.index.downloadButtonText": {
     "message": "பதிவிறக்கு"
   },
   "renderer.components.UpdaterView.index.downloadProgress": {
     "message": "பதிவிறக்கப்படுகிறது"
   },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "பிழை ஏற்பட்டதால் Mapeo ஐப் புதுப்பிக்க முடியவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்."
+  },
   "renderer.components.UpdaterView.index.errorTitle": {
     "message": "பிழை"
   },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "மதிப்பிடப்பட்ட பதிவிறக்க நேரம்"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "இந்தப் புதுப்பிப்பு உங்கள் பயன்பாட்டை முந்தைய பதிப்புகளுடன் இணக்கமாக மாற்றும்."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "இந்தப் புதுப்பிப்பில் உங்கள் அனுபவத்தை மாற்றக்கூடிய மேம்பாடுகள் உள்ளன."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "இந்தப் புதுப்பிப்பில் முக்கியமான பிழைகளைச் சரிசெய்யும் மாற்றங்கள் உள்ளன. கூடிய விரைவில் புதுப்பிக்கவும்."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "மீண்டும் தொடங்கவும் "
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Mapeo க்கான புதுப்பிப்பு பதிவிறக்கப்பட்டது. புதுப்பிக்க Mapeo ஐ மீண்டும் தொடங்கவும்."
+  },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
     "message": "தெரியாத"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "புதுப்பி"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "மேபியோ அனைத்தும் புதுப்பித்த நிலையில் உள்ளது! சமீபத்திய பதிப்பைப் பயன்படுத்துகிறீர்கள்."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
     "message": "ரத்து செய்க"
