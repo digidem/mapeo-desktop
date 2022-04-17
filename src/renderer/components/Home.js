@@ -9,6 +9,7 @@ import MapIcon from '@material-ui/icons/Map'
 import ObservationIcon from '@material-ui/icons/PhotoLibrary'
 import SyncIcon from '@material-ui/icons/OfflineBolt'
 import WarningIcon from '@material-ui/icons/Warning'
+import SettingsIcon from '@material-ui/icons/Settings'
 
 import LatLonDialog from './dialogs/LatLon'
 import ErrorDialog from './dialogs/Error'
@@ -21,6 +22,8 @@ import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import useUpdater from './UpdaterView/useUpdater'
 import Loading from './Loading'
 import buildConfig from '../../build-config'
+import { Settings } from './Settings'
+import { makeStyles } from '@material-ui/core'
 
 const MapFilter = React.lazy(() =>
   import(
@@ -47,8 +50,6 @@ const m = defineMessages({
   sync: 'Synchronize',
   update: 'Update Mapeo'
 })
-
-// const MapEditor = () => <div>MAPEDITOR</div>
 
 const transitionDuration = 100
 
@@ -135,6 +136,9 @@ const StyledTab = styled(Tab)`
     margin-bottom: 4px;
     margin-right: 11px;
   }
+  & .MuiTab-root > *:last-child {
+    align-self: flex-end;
+  }
 `
 
 const TabContent = styled.div`
@@ -154,12 +158,7 @@ const StyledPanel = styled.div`
   }
 `
 
-const Version = styled.div`
-  align-self: flex-start;
-  margin: auto 10px 10px 10px;
-  font-size: 0.8rem;
-  color: ${buildConfig.variant === 'icca' ? '#eeeeee' : '#aaaaaa'};
-`
+// {buildConfig.variant === 'icca' ? '#eeeeee' : '#aaaaaa'};
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -227,6 +226,10 @@ export default function Home ({ onSelectLanguage }) {
   const [update, setUpdate] = useUpdater()
   const { formatMessage: t } = useIntl()
 
+  const [settingsReset, setSettingsReset] = React.useState(false)
+
+  const classes = useStyle()
+
   React.useEffect(() => {
     const openLatLonDialog = () => setDialog('LatLon')
     const openErrorDialog = (ev, error) => {
@@ -266,10 +269,15 @@ export default function Home ({ onSelectLanguage }) {
           </div>
         </Logo>
         <StyledTabs
+          style={{ height: '100%' }}
+          className={classes.root}
           orientation='vertical'
           variant='scrollable'
           value={tabIndex}
-          onChange={(e, value) => setTabIndex(value)}
+          onChange={(e, value) => {
+            if (value === 4) setSettingsReset(true)
+            setTabIndex(value)
+          }}
         >
           <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
           <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
@@ -280,8 +288,14 @@ export default function Home ({ onSelectLanguage }) {
               label={<UpdateTab update={update} />}
             />
           )}
+
+          <StyledTab
+            style={{ marginTop: 'auto' }}
+            value={4}
+            icon={<SettingsIcon />}
+            label={'Settings'}
+          />
         </StyledTabs>
-        <Version>Mapeo v{buildConfig.version}</Version>
       </Sidebar>
       <TabContent>
         <TabPanel value={tabIndex} index={0} component={MapEditor} />
@@ -299,6 +313,13 @@ export default function Home ({ onSelectLanguage }) {
           update={update}
           setUpdate={setUpdate}
         />
+        {tabIndex === 4 && (
+          <Settings
+            fadeIn={tabIndex === 4}
+            reset={settingsReset}
+            setReset={setSettingsReset}
+          />
+        )}
       </TabContent>
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}
@@ -322,3 +343,11 @@ export default function Home ({ onSelectLanguage }) {
     </Root>
   )
 }
+
+const useStyle = makeStyles({
+  root: {
+    '& .MuiTabs-flexContainerVertical': {
+      height: '100%'
+    }
+  }
+})
