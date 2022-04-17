@@ -1,25 +1,19 @@
+// @ts-check
 import * as React from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { useIntl } from 'react-intl'
 
-/** @typedef {{tabId:string, icon:React.ReactNode, label:MessageDescriptor}} SettingsTabs */
+/** @typedef {{tabId:string, icon:(string | React.ReactElement<any, string | React.JSXElementConstructor<any>>), label:import('react-intl').MessageDescriptor}} SettingsTabs */
 
 /**
- *
  * @typedef SettingMenuProp
- * @prop {SettingsTabs} tabs
+ * @prop {SettingsTabs[]} tabs
  * @prop {string | false} currentTab
- * @prop {function(string|false):void} setCurrentTab
- *
- *
+ * @prop {React.Dispatch<React.SetStateAction<boolean>>} setCurrentTab
  */
 
-/**
- *
- * @param {SettingMenuProp} props
- *
- */
+/** @param {SettingMenuProp} props */
 export const SettingsMenu = ({ tabs, currentTab, setCurrentTab }) => {
   const { formatMessage: t } = useIntl()
 
