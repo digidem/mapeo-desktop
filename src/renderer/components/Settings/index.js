@@ -1,3 +1,4 @@
+// I turned off ts check because of tabType being both a string and false. JSDOC seems to not like that
 import * as React from 'react'
 import { SettingsMenu } from './SettingsMenu'
 import { defineMessages } from 'react-intl'
@@ -46,7 +47,7 @@ const useStyles = makeStyles({
 
 const FADE_DURATION = 700
 
-/** @typedef {{tabId:string, icon:React.ReactNode, label:MessageDescriptor}} SettingsTabs */
+/** @typedef {{tabId:string, icon:(string | React.ReactElement<any, string | React.JSXElementConstructor<any>>), label:import('react-intl').MessageDescriptor}} SettingsTabs */
 
 /** @type {SettingsTabs[]} */
 const tabs = /** @typedef {const} */ [
@@ -63,6 +64,10 @@ const tabs = /** @typedef {const} */ [
 ]
 
 /**
+ * @typedef {SettingsTabs['tabId'] | false} tabType
+ */
+
+/**
  *
  * @typedef SettingsProp
  * @prop {boolean} reset
@@ -70,26 +75,19 @@ const tabs = /** @typedef {const} */ [
  * @prop {boolean} fadeIn
  */
 
-/**
- *
- * @param {SettingsProp} props
- *
- */
-
+/** @param {SettingsProp} props */
 export const Settings = ({ reset, setReset, fadeIn }) => {
   /**
    * @type {[boolean, (boolean)=>void]} menu
    */
   const [menuVisible, setMenuVisibility] = React.useState(true)
 
-  /**
-   * @type {[SettingsTabs["tabId"] |false, function(SettingsTabs["tabId"] | false):void]} tab
-   */
-  const [tabValue, setTabValue] = React.useState(false)
+  /** @type {tabType} */
+  const initialState = false
+
+  const [tabValue, setTabValue] = React.useState(initialState)
 
   const classes = useStyles()
-
-  const showBGMap = tabValue === 'BackgroundMap'
 
   // bit hacky: when user presses settingsTab, we DO NOT WANT background map to be selected
   // because when background map is selected, the entire settings menu is hidden
@@ -122,8 +120,8 @@ export const Settings = ({ reset, setReset, fadeIn }) => {
           </Fade>
         )}
 
-        {showBGMap && (
-          <Fade in={showBGMap} timeout={FADE_DURATION}>
+        {tabValue === 'BackgroundMap' && (
+          <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
             <Paper className={classes.container}>
               <BGMaps setCurrentTab={setTabValue} />
             </Paper>

@@ -1,3 +1,4 @@
+// @ts-check
 import * as React from 'react'
 import Button from '@material-ui/core/Button'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
@@ -60,18 +61,14 @@ const useStyles = makeStyles({
 
 /** @typedef {{mapId:string, mapTitle:string, size:number, offlineAreaCount:number}} OfflineMap */
 
-/**
- *
- * @typedef BGMapsProps
- * @prop {function(string|false):void} setCurrentTab
- *
- */
+/** @typedef {OfflineMap['mapId']|false} mapType */
 
 /**
- *
- * @param {BGMapsProps} param
- *
+ * @typedef BGMapsProps
+ * @prop {React.Dispatch<React.SetStateAction<import('./index').tabType>>} setCurrentTab
  */
+
+/** @param {BGMapsProps} param */
 export const BGMaps = ({ setCurrentTab }) => {
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
@@ -79,7 +76,7 @@ export const BGMaps = ({ setCurrentTab }) => {
   /** @type [OfflineMap[]|undefined, function(OfflineMap[]):void] */
   const [offlineMaps, setOfflineMaps] = React.useState(undefined)
 
-  /** @type [(OfflineMap | false), function(OfflineMap | false):void] */
+  /** @type {[mapType, Function]} */
   const [mapValue, setMapValue] = React.useState(false)
 
   React.useEffect(() => {
@@ -119,7 +116,7 @@ export const BGMaps = ({ setCurrentTab }) => {
         </Button>
         <div className={classes.buttonContainer}>
           <Button
-            className={[classes.button, classes.firstButton]}
+            className={`${classes.button} ${classes.firstButton}`}
             variant='outlined'
           >
             {t(m.addMap)}
