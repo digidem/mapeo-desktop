@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import Loader from '../../components/Loader'
 
 import { MapCard } from '../MapCard'
+import { OfflineMapInfo } from '../OfflineMapInfo'
 
 const m = defineMessages({
   // Button to add map background
@@ -128,9 +129,19 @@ export const BGMaps = ({ setCurrentTab }) => {
           </Button>
         </div>
 
-        <MapCard setMap={setMapValue} />
-
-        {offlineMaps === undefined && <Loader />}
+        {offlineMaps === undefined ? (
+          <Loader />
+        ) : (
+          offlineMaps.map(offlineMap => (
+            <MapCard
+              // @ts-ignore JSDOC sucks
+              setMap={setMapValue}
+              key={offlineMap.mapId}
+              offlineMap={offlineMap}
+              mapBeingViewed={mapValue}
+            />
+          ))
+        )}
       </div>
 
       {!mapValue ? (
@@ -164,7 +175,16 @@ export const BGMaps = ({ setCurrentTab }) => {
           </Typography>
         </div>
       ) : (
-        <>Offline Maps Here</>
+        //    Lazy loading each one here: aka will only load when clicked
+        <React.Fragment>
+          {offlineMaps.map(offlineMap => (
+            <OfflineMapInfo
+              key={offlineMap.mapId}
+              currentMapId={mapValue}
+              mapId={offlineMap.mapId}
+            />
+          ))}
+        </React.Fragment>
       )}
     </React.Fragment>
   )
