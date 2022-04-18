@@ -481,9 +481,11 @@
     "message": "Managing Map Backgrounds and Offline Areas"
   },
   "renderer.components.Settings.index.aboutMapeo": {
+    "description": "Setting Tab title to open information about mapeo",
     "message": "About Mapeo"
   },
   "renderer.components.Settings.index.backgroundMap": {
+    "description": "Setting Tab title to open background maps",
     "message": "Background Map"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
