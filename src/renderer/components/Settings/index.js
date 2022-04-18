@@ -10,7 +10,9 @@ import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 
 const m = defineMessages({
+  // Setting Tab title to open background maps
   backgroundMap: 'Background Map',
+  // Setting Tab title to open information about mapeo
   aboutMapeo: 'About Mapeo'
 })
 
