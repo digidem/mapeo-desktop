@@ -18,6 +18,14 @@
     "description": "Displayed whilst observations and presets load",
     "message": "Loading…"
   },
+  "renderer.components.MapCard.areas": {
+    "description": "indicates how many offline areas",
+    "message": "offline areas"
+  },
+  "renderer.components.MapCard.mb": {
+    "description": "Abbreviation for megabytes",
+    "message": "MB"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Close"
