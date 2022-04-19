@@ -13,9 +13,9 @@ const m = defineMessages({
 
 /**
  * @typedef MapCardProps
- * @prop {import('./Settings/BGMaps').OfflineMap} offlineMap
- * @prop {React.Dispatch<React.SetStateAction<import('./Settings/BGMaps').mapType>>} setMap
- * @prop {import('./Settings/BGMaps').mapType} mapBeingViewed
+ * @prop {import('../Settings/BGMaps').OfflineMap} offlineMap
+ * @prop {React.Dispatch<React.SetStateAction<import('../Settings/BGMaps').OfflineMap['mapId'] | false>>} setMap
+ * @prop {import('../Settings/BGMaps').OfflineMap['mapId'] |false } mapBeingViewed
  */
 
 /** @param {MapCardProps} param */

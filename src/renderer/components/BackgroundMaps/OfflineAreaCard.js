@@ -1,20 +1,9 @@
 // @ts-check
-import {
-  Button,
-  Card,
-  Fade,
-  IconButton,
-  makeStyles,
-  Paper,
-  Typography
-} from '@material-ui/core'
 import * as React from 'react'
-import { defineMessages, useIntl } from 'react-intl'
-import Loading from './Loading'
+import { Card, IconButton, makeStyles } from '@material-ui/core'
+import { defineMessages } from 'react-intl'
 
 const m = defineMessages({
-  // Title for Offline Areas
-  offlineAreas: 'Offline Areas',
   // Button to create an offline area
   createOfflineArea: 'Create Offline Area',
   // Level of detail seen on map - farthest zoom level
@@ -46,75 +35,6 @@ const m = defineMessages({
 })
 
 /**
- * @typedef OfflineMapInfoProps
- * @prop {string} mapId
- * @prop {string} currentMapId
- */
-
-/** @param {OfflineMapInfoProps} props */
-export const OfflineMapInfo = ({ mapId, currentMapId }) => {
-  const shouldLoad = React.useMemo(() => mapId === currentMapId, [
-    mapId,
-    currentMapId
-  ])
-
-  const [info, setInfo] = React.useState(null)
-  const { formatMessage: t } = useIntl()
-
-  const classes = useStyles()
-
-  React.useEffect(() => {
-    /**
-     * @param {string} mapId
-     */
-    async function getMapInfo (mapId) {
-      setTimeout(() => setInfo('Map Title: ' + mapId), 1000)
-    }
-
-    if (shouldLoad) {
-      getMapInfo(mapId)
-    }
-  }, [shouldLoad, mapId])
-
-  return shouldLoad ? (
-    <Fade in={shouldLoad} timeout={600}>
-      <Paper style={{ flex: 1, width: '100%' }}>
-        {!info ? (
-          <div style={{ padding: 40 }}>
-            <Loading />
-          </div>
-        ) : (
-          <div style={{ height: '100%' }}>
-            <div className={classes.imgContainer}>
-              <img
-                className={classes.img}
-                src='https://via.placeholder.com/500'
-                alt='Map'
-              />
-            </div>
-            <div style={{ padding: 40 }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}
-              >
-                <Typography>{t(m.offlineAreas)}</Typography>
-                <Button style={{ color: '#0066FF', textTransform: 'none' }}>
-                  {t(m.createOfflineArea)}
-                </Button>
-              </div>
-              <div></div>
-            </div>
-          </div>
-        )}
-      </Paper>
-    </Fade>
-  ) : null
-}
-
-/**
  * @typedef OfflineAreaCardProps
  * @prop {number} zoomLevel
  * @prop {string} title
@@ -122,7 +42,7 @@ export const OfflineMapInfo = ({ mapId, currentMapId }) => {
  */
 
 /** @param {OfflineAreaCardProps} props */
-const OfflineAreaCard = ({ zoomLevel, title, size }) => {
+export const OfflineAreaCard = ({ zoomLevel, title, size }) => {
   const classes = useStyles()
 
   const lvlOfDetail = React.useMemo(() => {

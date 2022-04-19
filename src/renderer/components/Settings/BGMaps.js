@@ -7,8 +7,8 @@ import { defineMessages, useIntl } from 'react-intl'
 import Typography from '@material-ui/core/Typography'
 import Loader from '../../components/Loader'
 
-import { MapCard } from '../MapCard'
-import { OfflineMapInfo } from '../OfflineMapInfo'
+import { MapCard } from '../BackgroundMaps/MapCard'
+import { OfflineMapInfo } from '../BackgroundMaps/OfflineMapInfo'
 
 const m = defineMessages({
   // Button to add map background
@@ -19,45 +19,6 @@ const m = defineMessages({
   mapBackgroundTitle: 'Managing Map Backgrounds and Offline Areas',
   // button to go back to settings
   backToSettings: 'Back to Settings'
-})
-
-const useStyles = makeStyles({
-  sidePanel: {
-    width: 'auto',
-    borderRight: '1px solid #E0E0E0',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    minWidth: '35%'
-  },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: 20
-  },
-  button: {
-    textTransform: 'none'
-  },
-  firstButton: {
-    marginRight: 10
-  },
-  noMapContainer: {
-    padding: 40
-  },
-  backHeader: {
-    justifyContent: 'flex-start',
-    alignSelf: 'flex-start',
-    paddingLeft: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-    width: '100%',
-    display: 'flex',
-    textTransform: 'none',
-    '& :first-child': {
-      marginRight: 20
-    }
-  }
 })
 
 /** @typedef {{mapId:string, mapTitle:string, size:number, offlineAreaCount:number}} OfflineMap */
@@ -134,7 +95,6 @@ export const BGMaps = ({ setCurrentTab }) => {
         ) : (
           offlineMaps.map(offlineMap => (
             <MapCard
-              // @ts-ignore JSDOC sucks
               setMap={setMapValue}
               key={offlineMap.mapId}
               offlineMap={offlineMap}
@@ -189,3 +149,42 @@ export const BGMaps = ({ setCurrentTab }) => {
     </React.Fragment>
   )
 }
+
+const useStyles = makeStyles({
+  sidePanel: {
+    width: 'auto',
+    borderRight: '1px solid #E0E0E0',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    minWidth: '35%'
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: 20
+  },
+  button: {
+    textTransform: 'none'
+  },
+  firstButton: {
+    marginRight: 10
+  },
+  noMapContainer: {
+    padding: 40
+  },
+  backHeader: {
+    justifyContent: 'flex-start',
+    alignSelf: 'flex-start',
+    paddingLeft: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    width: '100%',
+    display: 'flex',
+    textTransform: 'none',
+    '& :first-child': {
+      marginRight: 20
+    }
+  }
+})
