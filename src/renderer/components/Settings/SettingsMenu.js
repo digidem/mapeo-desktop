@@ -4,13 +4,13 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { useIntl } from 'react-intl'
 
-/** @typedef {{tabId:string, icon:(string | React.ReactElement<any, string | React.JSXElementConstructor<any>>), label:import('react-intl').MessageDescriptor}} SettingsTabs */
+/** @typedef {{tabId:import('.').SettingTabId, icon:(string | React.ReactElement<any, string | React.JSXElementConstructor<any>>), label:import('react-intl').MessageDescriptor}} SettingsTabs */
 
 /**
  * @typedef SettingMenuProp
  * @prop {SettingsTabs[]} tabs
- * @prop {string | false} currentTab
- * @prop {React.Dispatch<React.SetStateAction<boolean>>} setCurrentTab
+ * @prop {SettingsTabs['tabId'] | false} currentTab
+ * @prop {React.Dispatch<React.SetStateAction<false | SettingsTabs['tabId']>>} setCurrentTab
  */
 
 /** @param {SettingMenuProp} props */
