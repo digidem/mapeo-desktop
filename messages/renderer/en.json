@@ -1,4 +1,76 @@
 {
+  "renderer.components.BackgroundMaps.MapCard.areas": {
+    "description": "indicates how many offline areas",
+    "message": "offline areas"
+  },
+  "renderer.components.BackgroundMaps.MapCard.mb": {
+    "description": "Abbreviation for megabytes",
+    "message": "MB"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.createOfflineArea": {
+    "description": "Button to create an offline area",
+    "message": "Create Offline Area"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Address"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "City"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Global"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Large Country"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Large Metropolitan Area"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Small Country"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Small Road"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Street"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Street Block"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailStreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Street Intersection"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Subcontinent"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Town"
+  },
+  "renderer.components.BackgroundMaps.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Village"
+  },
+  "renderer.components.BackgroundMaps.OfflineMapInfo.createOfflineArea": {
+    "description": "Button to create an offline area",
+    "message": "Create Offline Area"
+  },
+  "renderer.components.BackgroundMaps.OfflineMapInfo.offlineAreas": {
+    "description": "Title for Offline Areas",
+    "message": "Offline Areas"
+  },
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
     "message": "Territory"
@@ -17,14 +89,6 @@
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
     "message": "Loading…"
-  },
-  "renderer.components.MapCard.areas": {
-    "description": "indicates how many offline areas",
-    "message": "offline areas"
-  },
-  "renderer.components.MapCard.mb": {
-    "description": "Abbreviation for megabytes",
-    "message": "MB"
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
@@ -471,66 +535,6 @@
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
-  },
-  "renderer.components.OfflineMapInfo.createOfflineArea": {
-    "description": "Button to create an offline area",
-    "message": "Create Offline Area"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailAddress": {
-    "description": "Level of detail seen on map - can see addresses on map",
-    "message": "Address"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailCity": {
-    "description": "Level of detail seen on map - can see most Cities on Map",
-    "message": "City"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailGlobal": {
-    "description": "Level of detail seen on map - farthest zoom level",
-    "message": "Global"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailLargeCountry": {
-    "description": "Level of detail seen on map - can see large countries",
-    "message": "Large Country"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailLargeMetro": {
-    "description": "Level of detail seen on map - can see details of large metropolitan areas",
-    "message": "Large Metropolitan Area"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailSmallCountry": {
-    "description": "Level of detail seen on map - can see smaller countries",
-    "message": "Small Country"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailSmallRoad": {
-    "description": "Level of detail seen on map - can see small roads on map",
-    "message": "Small Road"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailStreet": {
-    "description": "Level of detail seen on map - can see most streets on map",
-    "message": "Street"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailStreetBlock": {
-    "description": "Level of detail seen on map - can see details of street blocks on map",
-    "message": "Street Block"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailStreetIntersection": {
-    "description": "Level of detail seen on map - can see street intersections on map",
-    "message": "Street Intersection"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailSubcontinent": {
-    "description": "Level of detail seen on map - second farthest zoom level",
-    "message": "Subcontinent"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailTown": {
-    "description": "Level of detail seen on map - can see most towns on map",
-    "message": "Town"
-  },
-  "renderer.components.OfflineMapInfo.lvlDetailVillage": {
-    "description": "Level of detail seen on map - can see villages on map",
-    "message": "Village"
-  },
-  "renderer.components.OfflineMapInfo.offlineAreas": {
-    "description": "Title for Offline Areas",
-    "message": "Offline Areas"
   },
   "renderer.components.Settings.BGMaps.addMap": {
     "description": "Button to add map background",
