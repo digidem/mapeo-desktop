@@ -1,4 +1,4 @@
-// I turned off ts check because of tabType being both a string and false. JSDOC seems to not like that
+// @ts-check
 import * as React from 'react'
 import { SettingsMenu } from './SettingsMenu'
 import { defineMessages } from 'react-intl'
@@ -10,9 +10,7 @@ import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 
 const m = defineMessages({
-  // Setting Tab title to open background maps
   backgroundMap: 'Background Map',
-  // Setting Tab title to open information about mapeo
   aboutMapeo: 'About Mapeo'
 })
 
@@ -20,7 +18,8 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     textAlign: 'start',
-    height: '100%'
+    height: '100%',
+    flex: 1
   },
   tabs: {
     padding: '6px 24px 6px 40',
@@ -49,7 +48,9 @@ const useStyles = makeStyles({
 
 const FADE_DURATION = 700
 
-/** @typedef {{tabId:string, icon:(string | React.ReactElement<any, string | React.JSXElementConstructor<any>>), label:import('react-intl').MessageDescriptor}} SettingsTabs */
+/** @typedef {import('./SettingsMenu').SettingsTabs} SettingsTabs */
+
+/** @typedef {'BackgroundMap' | 'AboutMapeo'} SettingTabId */
 
 /** @type {SettingsTabs[]} */
 const tabs = /** @typedef {const} */ [
@@ -66,10 +67,6 @@ const tabs = /** @typedef {const} */ [
 ]
 
 /**
- * @typedef {SettingsTabs['tabId'] | false} tabType
- */
-
-/**
  *
  * @typedef SettingsProp
  * @prop {boolean} reset
@@ -79,13 +76,10 @@ const tabs = /** @typedef {const} */ [
 
 /** @param {SettingsProp} props */
 export const Settings = ({ reset, setReset, fadeIn }) => {
-  /**
-   * @type {[boolean, (boolean)=>void]} menu
-   */
   const [menuVisible, setMenuVisibility] = React.useState(true)
 
-  /** @type {tabType} */
-  const initialState = false
+  /** @type {SettingsTabs['tabId'] | false} */
+  const initialState = /** {const} */ (false)
 
   const [tabValue, setTabValue] = React.useState(initialState)
 

@@ -61,11 +61,9 @@ const useStyles = makeStyles({
 
 /** @typedef {{mapId:string, mapTitle:string, size:number, offlineAreaCount:number}} OfflineMap */
 
-/** @typedef {OfflineMap['mapId']|false} mapType */
-
 /**
  * @typedef BGMapsProps
- * @prop {React.Dispatch<React.SetStateAction<import('./index').tabType>>} setCurrentTab
+ * @prop {React.Dispatch<React.SetStateAction<import('.').SettingsTabs['tabId'] | false>>} setCurrentTab
  */
 
 /** @param {BGMapsProps} param */
@@ -73,11 +71,15 @@ export const BGMaps = ({ setCurrentTab }) => {
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
 
-  /** @type [OfflineMap[]|undefined, function(OfflineMap[]):void] */
-  const [offlineMaps, setOfflineMaps] = React.useState(undefined)
+  /** @type {OfflineMap[]} */
+  const initialMapState = /** {const} */ undefined
 
-  /** @type {[mapType, Function]} */
-  const [mapValue, setMapValue] = React.useState(false)
+  const [offlineMaps, setOfflineMaps] = React.useState(initialMapState)
+
+  /** @type {OfflineMap['mapId']|false} */
+  const initialMapId = /** {const} */ (false)
+
+  const [mapValue, setMapValue] = React.useState(initialMapId)
 
   React.useEffect(() => {
     // To Do: API call to get map value
