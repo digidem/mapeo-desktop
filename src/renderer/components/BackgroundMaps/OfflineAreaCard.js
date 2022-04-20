@@ -1,7 +1,7 @@
 // @ts-check
 import * as React from 'react'
-import { Card, IconButton, makeStyles } from '@material-ui/core'
-import { defineMessages } from 'react-intl'
+import { Card, makeStyles, Typography } from '@material-ui/core'
+import { defineMessages, useIntl } from 'react-intl'
 
 const m = defineMessages({
   // Button to create an offline area
@@ -31,7 +31,11 @@ const m = defineMessages({
   // Level of detail seen on map - can see addresses on map
   lvlDetailAddress: 'Address',
   // Level of detail seen on map - can see street intersections on map
-  lvlDetailStreetIntersection: 'Street Intersection'
+  lvlDetailStreetIntersection: 'Street Intersection',
+  // Abbreviation for megabytes
+  mb: 'MB',
+  // indicated zoom level
+  zoomLevel: 'Zoom Level'
 })
 
 /**
@@ -44,6 +48,7 @@ const m = defineMessages({
 /** @param {OfflineAreaCardProps} props */
 export const OfflineAreaCard = ({ zoomLevel, title, size }) => {
   const classes = useStyles()
+  const { formatMessage: t } = useIntl()
 
   const lvlOfDetail = React.useMemo(() => {
     switch (true) {
@@ -80,11 +85,18 @@ export const OfflineAreaCard = ({ zoomLevel, title, size }) => {
 
   return (
     <Card className={classes.card}>
-      <div></div>
-      <div className={classes.cardOptions}>
-        <IconButton></IconButton>
+      <div className={classes.topContainer}>
+        <Typography variant='body1'>{title}</Typography>
+        <Typography variant='body1'>{`${size.toString()} ${t(
+          m.mb
+        )}`}</Typography>
       </div>
-      {lvlOfDetail}
+      <Typography style={{ flexBasis: '100%' }} variant='subtitle1'>{`${t(
+        m.zoomLevel
+      )}: ${zoomLevel.toString()}`}</Typography>
+      <Typography style={{ flexBasis: '100%' }} variant='body2'>
+        {t(lvlOfDetail)}
+      </Typography>
     </Card>
   )
 }
@@ -100,9 +112,17 @@ const useStyles = makeStyles({
     height: '45%'
   },
   card: {
-    display: 'flex'
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexBasis: '45%',
+    minWidth: 225,
+    height: 100,
+    marginTop: 20,
+    padding: '10px 5px'
   },
-  cardOptions: {
-    flexBasis: '20%'
+  topContainer: {
+    flexBasis: '100%',
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })

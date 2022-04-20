@@ -3,6 +3,9 @@ import * as React from 'react'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Typography } from '@material-ui/core'
 import { useIntl, defineMessages } from 'react-intl'
+import ReactMapboxGl from 'react-mapbox-gl'
+
+import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 
 const m = defineMessages({
   // Abbreviation for megabytes
@@ -28,6 +31,19 @@ export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
     [offlineMap, mapBeingViewed]
   )
 
+  const Mapbox = React.useMemo(
+    () =>
+      ReactMapboxGl({
+        accessToken: MAPBOX_ACCESS_TOKEN,
+        dragRotate: false,
+        pitchWithRotate: false,
+        attributionControl: false,
+        injectCSS: false,
+        interactive: false
+      }),
+    []
+  )
+
   return (
     <Button
       variant='outlined'
@@ -38,7 +54,17 @@ export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
         className={classes.inner}
         style={{ backgroundColor: !isBeingViewed ? '#CCCCD6' : '#0066FF' }}
       >
-        <div style={{ width: '30%', border: '1px solid red' }}>hldr</div>
+        <div style={{ width: '30%' }}>
+          <Mapbox
+            containerStyle={{
+              height: '100%',
+              width: '100%'
+            }}
+            // We need to replace this style with a styleJSON, but for the purpose of this demo, im just using the url in order not to build a dummy styleJSON (only accepts an entire styleJSON)
+            // style={offlineMap.styleJson}
+            style='mapbox://styles/mapbox/streets-v11'
+          />
+        </div>
         <div className={classes.text}>
           <Typography variant='subtitle1'>{offlineMap.mapTitle}</Typography>
           <Typography>

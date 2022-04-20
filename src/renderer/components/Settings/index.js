@@ -14,6 +14,95 @@ const m = defineMessages({
   aboutMapeo: 'About Mapeo'
 })
 
+const FADE_DURATION = 700
+
+/** @typedef {'BackgroundMap' | 'AboutMapeo'} SettingTabId */
+
+/** @type {import('./SettingsMenu').SettingsTabs[]} */
+const tabs = /** @typedef {const} */ [
+  {
+    tabId: 'BackgroundMap',
+    icon: <MapIcon />,
+    label: m.backgroundMap
+  },
+  {
+    tabId: 'AboutMapeo',
+    icon: <InfoIcon />,
+    label: m.aboutMapeo
+  }
+]
+
+/**
+ *
+ * @typedef SettingsProp
+ * @prop {boolean} reset
+ * @prop {function(boolean):void} setReset
+ * @prop {boolean} fadeIn
+ */
+
+/** @param {SettingsProp} props */
+export const Settings = ({ reset, setReset, fadeIn }) => {
+  const [menuVisible, setMenuVisibility] = React.useState(true)
+
+  /** @type {import('./SettingsMenu').SettingsTabs['tabId'] | false} */
+  const initialState = /** {const} */ (false)
+
+  const [tabValue, setTabValue] = React.useState(initialState)
+
+  const classes = useStyles()
+
+  if (reset) {
+    setReset(false)
+    if (tabValue === 'BackgroundMap') setTabValue(false)
+  }
+
+  React.useEffect(() => {
+    if (tabValue === 'BackgroundMap') {
+      setMenuVisibility(false)
+      return
+    }
+
+    if (!menuVisible) setMenuVisibility(true)
+  }, [tabValue, menuVisible])
+
+  // Controlling most of the fade in animations here
+  return (
+    <Fade in={reset || fadeIn} timeout={FADE_DURATION}>
+      <Paper className={classes.container}>
+        {menuVisible && (
+          <Fade in={menuVisible} timeout={FADE_DURATION}>
+            <Paper className={classes.tabs}>
+              <SettingsMenu
+                tabs={tabs}
+                currentTab={tabValue}
+                setCurrentTab={setTabValue}
+              />
+            </Paper>
+          </Fade>
+        )}
+
+        {tabValue === 'BackgroundMap' && (
+          <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
+            <Paper className={classes.container}>
+              <BGMaps
+                openSettings={() => {
+                  setTabValue(false)
+                }}
+              />
+            </Paper>
+          </Fade>
+        )}
+
+        {tabValue === 'AboutMapeo' && (
+          <div>
+            <h1>Build About Mapeo Here</h1>
+          </div>
+        )}
+      </Paper>
+    </Fade>
+  )
+}
+
 const useStyles = makeStyles({
   container: {
     display: 'flex',
@@ -45,91 +134,3 @@ const useStyles = makeStyles({
     }
   }
 })
-
-const FADE_DURATION = 700
-
-/** @typedef {import('./SettingsMenu').SettingsTabs} SettingsTabs */
-
-/** @typedef {'BackgroundMap' | 'AboutMapeo'} SettingTabId */
-
-/** @type {SettingsTabs[]} */
-const tabs = /** @typedef {const} */ [
-  {
-    tabId: 'BackgroundMap',
-    icon: <MapIcon />,
-    label: m.backgroundMap
-  },
-  {
-    tabId: 'AboutMapeo',
-    icon: <InfoIcon />,
-    label: m.aboutMapeo
-  }
-]
-
-/**
- *
- * @typedef SettingsProp
- * @prop {boolean} reset
- * @prop {function(boolean):void} setReset
- * @prop {boolean} fadeIn
- */
-
-/** @param {SettingsProp} props */
-export const Settings = ({ reset, setReset, fadeIn }) => {
-  const [menuVisible, setMenuVisibility] = React.useState(true)
-
-  /** @type {SettingsTabs['tabId'] | false} */
-  const initialState = /** {const} */ (false)
-
-  const [tabValue, setTabValue] = React.useState(initialState)
-
-  const classes = useStyles()
-
-  // bit hacky: when user presses settingsTab, we DO NOT WANT background map to be selected
-  // because when background map is selected, the entire settings menu is hidden
-  if (reset) {
-    setReset(false)
-    if (tabValue === 'BackgroundMap') setTabValue(false)
-  }
-
-  React.useEffect(() => {
-    if (tabValue === 'BackgroundMap') {
-      setMenuVisibility(false)
-      return
-    }
-
-    if (!menuVisible) setMenuVisibility(true)
-  }, [tabValue, menuVisible])
-
-  return (
-    <Fade in={reset || fadeIn} timeout={FADE_DURATION}>
-      <Paper className={classes.container}>
-        {menuVisible && (
-          <Fade in={menuVisible} timeout={FADE_DURATION}>
-            <Paper className={classes.tabs}>
-              <SettingsMenu
-                tabs={tabs}
-                currentTab={tabValue}
-                setCurrentTab={setTabValue}
-              />
-            </Paper>
-          </Fade>
-        )}
-
-        {tabValue === 'BackgroundMap' && (
-          <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
-            <Paper className={classes.container}>
-              <BGMaps setCurrentTab={setTabValue} />
-            </Paper>
-          </Fade>
-        )}
-
-        {tabValue === 'AboutMapeo' && (
-          <div>
-            <h1>Build About Mapeo Here</h1>
-          </div>
-        )}
-      </Paper>
-    </Fade>
-  )
-}
