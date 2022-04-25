@@ -125,7 +125,6 @@ const MapInfo = ({ bgMap }) => {
   function deleteMap (mapId) {
     // To do: Api Call to delete map
     try {
-      return
     } catch (err) {
       remote.dialog.showErrorBox(
         t(m.deleteErrorTitle),

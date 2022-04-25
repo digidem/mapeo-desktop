@@ -50,7 +50,7 @@ export const SidePanel = ({
     if (!result.filePaths || !result.filePaths.length) return
 
     try {
-      const filePath = result.filePaths[0]
+      // const filePath = result.filePaths[0]
       // to do: Api call to import map
     } catch (err) {
       onError(err)
