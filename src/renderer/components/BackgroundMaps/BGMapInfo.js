@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
 import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import Loading from '../Loading'
 import { OfflineAreaCard } from './OfflineAreaCard'
+import { remote } from 'electron'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -15,7 +16,11 @@ const m = defineMessages({
   // Button to create an offline area
   createOfflineArea: 'Create Offline Area',
   // Button to delete style
-  deleteStyle: 'Delete Style'
+  deleteStyle: 'Delete Style',
+  // Title for error message when deleting style
+  deleteErrorTitle: 'Error Deleting Style',
+  // Description for error message when deleting style,
+  deleteErrorDescription: 'There was an error deleting the style'
 })
 
 /** @typedef {{id:string, size:number, zoomLevel:number, title:string}} OfflineArea */
@@ -113,6 +118,22 @@ const MapInfo = ({ bgMap }) => {
     accessToken: MAPBOX_ACCESS_TOKEN
   })
 
+  /**
+   *
+   * @param {string} mapId
+   */
+  function deleteMap (mapId) {
+    // To do: Api Call to delete map
+    try {
+      return
+    } catch (err) {
+      remote.dialog.showErrorBox(
+        t(m.deleteErrorTitle),
+        t(m.deleteErrorDescription) + ': ' + err
+      )
+    }
+  }
+
   return (
     <React.Fragment>
       {/* Banner */}
@@ -120,7 +141,7 @@ const MapInfo = ({ bgMap }) => {
         <Typography variant='h5'>{styleTitle}</Typography>
 
         <div>
-          <Button variant='outlined' onClick={() => {}}>
+          <Button variant='outlined' onClick={() => deleteMap(bgMap.styleId)}>
             <DeleteIcon />
             <Typography style={{ textTransform: 'none' }} variant='subtitle2'>
               {t(m.deleteStyle)}

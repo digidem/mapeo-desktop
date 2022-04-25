@@ -8,6 +8,7 @@ import { BGMaps } from './BGMaps'
 import { makeStyles } from '@material-ui/core'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
+import { AboutMapeo } from './AboutMapeo'
 
 const m = defineMessages({
   backgroundMap: 'Background Map',
@@ -94,9 +95,11 @@ export const Settings = ({ reset, setReset, fadeIn }) => {
         )}
 
         {tabValue === 'AboutMapeo' && (
-          <div>
-            <h1>Build About Mapeo Here</h1>
-          </div>
+          <Fade in={tabValue === 'AboutMapeo'} timeout={FADE_DURATION}>
+            <Paper className={classes.container}>
+              <AboutMapeo />
+            </Paper>
+          </Fade>
         )}
       </Paper>
     </Fade>

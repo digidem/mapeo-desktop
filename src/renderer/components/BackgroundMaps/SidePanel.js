@@ -1,6 +1,7 @@
 // @ts-check
 import { Button, makeStyles } from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
+import { remote } from 'electron'
 import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import Loader from '../Loader'
@@ -12,7 +13,12 @@ const m = defineMessages({
   // Button to create an offline area for a map backgroun
   createOfflineMap: 'Create Offline Map',
   // button to go back to settings
-  backToSettings: 'Back to Settings'
+  backToSettings: 'Back to Settings',
+  // Title for import errot pop up dialog,
+  importErrorTitle: 'Background Maps Import Error',
+  // Description of map import error
+  importErrorDescription:
+    'There was an error importing the background maps. Please try again.'
 })
 /**
  * @typedef SidePanelProps
@@ -33,6 +39,35 @@ export const SidePanel = ({
 
   const classes = useStyles()
 
+  async function selectMbTileFile () {
+    const result = await remote.dialog.showOpenDialog({
+      filters: [{ name: 'MbTiles', extensions: ['mbtiles'] }],
+      properties: ['openFile']
+    })
+
+    if (result.canceled) return
+
+    if (!result.filePaths || !result.filePaths.length) return
+
+    try {
+      const filePath = result.filePaths[0]
+      // to do: Api call to import map
+    } catch (err) {
+      onError(err)
+    }
+
+    /**
+     *
+     * @param {string} err
+     */
+    function onError (err) {
+      remote.dialog.showErrorBox(
+        t(m.importErrorTitle),
+        t(m.importErrorDescription) + ': ' + err
+      )
+    }
+  }
+
   return (
     <div className={classes.sidePanel}>
       <Button onClick={openSettings} className={classes.backHeader}>
@@ -41,6 +76,7 @@ export const SidePanel = ({
       </Button>
       <div className={classes.buttonContainer}>
         <Button
+          onClick={selectMbTileFile}
           className={`${classes.button} ${classes.firstButton}`}
           variant='outlined'
         >

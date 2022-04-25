@@ -66,8 +66,8 @@ export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
           />
         </div>
         <div className={classes.text}>
-          <Typography variant='subtitle1'>{offlineMap.mapTitle}</Typography>
-          <Typography>
+          <Typography>{offlineMap.mapTitle}</Typography>
+          <Typography variant='subtitle1'>
             {offlineMap.size} {t(m.mb)}
           </Typography>
           <Typography>
