@@ -3,6 +3,14 @@
     "description": "Button to create an offline area",
     "message": "Create Offline Area"
   },
+  "renderer.components.BackgroundMaps.BGMapInfo.deleteErrorDescription": {
+    "description": "Description for error message when deleting style,",
+    "message": "There was an error deleting the style"
+  },
+  "renderer.components.BackgroundMaps.BGMapInfo.deleteErrorTitle": {
+    "description": "Title for error message when deleting style",
+    "message": "Error Deleting Style"
+  },
   "renderer.components.BackgroundMaps.BGMapInfo.deleteStyle": {
     "description": "Button to delete style",
     "message": "Delete Style"
@@ -94,6 +102,14 @@
   "renderer.components.BackgroundMaps.SidePanel.createOfflineMap": {
     "description": "Button to create an offline area for a map backgroun",
     "message": "Create Offline Map"
+  },
+  "renderer.components.BackgroundMaps.SidePanel.importErrorDescription": {
+    "description": "Description of map import error",
+    "message": "There was an error importing the background maps. Please try again."
+  },
+  "renderer.components.BackgroundMaps.SidePanel.importErrorTitle": {
+    "description": "Title for import errot pop up dialog,",
+    "message": "Background Maps Import Error"
   },
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
@@ -559,6 +575,10 @@
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
+  },
+  "renderer.components.Settings.AboutMapeo.version": {
+    "description": "Used to indicate the version of mapeo the user is using",
+    "message": "Version"
   },
   "renderer.components.Settings.BGMaps.mapBackgroundTitle": {
     "description": "Title for description of offline maps",
