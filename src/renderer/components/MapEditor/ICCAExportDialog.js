@@ -44,21 +44,29 @@ const msgs = defineMessages({
   aboutYouSection: 'About you:',
   // Question prompts
   question1Prompt: `
-    Has your community or indigenous people collectively consented to the map
+    Have your community or indigenous people collectively consented to the map 
     and other information being shared with UNEP-WCMC?`,
   question2Prompt: `
-    Do you want the map and other information to be available for anyone to
-    view and download?`,
+    Do you want the map and other information to be available for anyone 
+    to view and download?`,
   question3Prompt: `
     Name of the community, indigenous people, or individual providing the
-    information`,
+    information (Original language, English)`,
   question4Prompt: `
     If you are an individual, what is your relationship to the indigenous
     people or community?`,
   question5Prompt: `
-    Email address, phone number or address where we can contact you. We will
-    contact you to confirm we have received your information and to discuss
-    the information further where needed. We will also contact you periodically
+    Has the ICCA information been reviewed either by a peer-review process 
+    (i.e., by other communities) or by a government body? For more information on this topic, 
+    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual`,
+  question6Prompt: `
+    Would you like to submit the ICCA as a protected area or an other effective 
+    area-based conservation measure (OECM)?  For more information on this topic, 
+    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual`,
+  question7Prompt: `
+    Email address where we can contact you. We will contact you 
+    to confirm we have received your information and to discuss 
+    the information further where needed. We will also contact you periodically 
     to make sure the information is up to date.`,
   // Yes/no answers
   answerYes: 'Yes',
@@ -69,8 +77,18 @@ const msgs = defineMessages({
     'Representative or associate of the community/indigenous people',
   question4Answer3: 'Representative of a non-governmental organisation',
   question4Answer4: 'Other',
-  // Placeholder for question 5
-  question5Placeholder: 'Your contact information',
+  // Choices for question 5
+  question5Answer1: 'Yes - peer review',
+  question5Answer2: 'Yes – government review',
+  question5Answer3: 'No',
+  question5Answer4: 'Don’t know',
+  // Choices for question 6
+  question6Answer1: 'Yes – as a protected area',
+  question6Answer2: 'Yes - as an OECM',
+  question6Answer3: 'No – only as an ICCA',
+  question6Answer4: 'Don’t know',
+  // Placeholder for question 7
+  question7Placeholder: 'Your contact information',
   // Helper texts
   requiredAnswer: 'This answer is required.',
   atLeastOneAnswer: 'Please fill in at least one field.',
@@ -131,11 +149,15 @@ const EditDialogContent = ({ onClose, onFormError }) => {
   const [value3b, setValue3b] = useState('')
   const [value4, setValue4] = useState('')
   const [value5, setValue5] = useState('')
+  const [value6, setValue6] = useState('')
+  const [value7, setValue7] = useState('')
   const [value1Error, setValue1Error] = useState(false)
   const [value2Error, setValue2Error] = useState(false)
   const [value3Error, setValue3Error] = useState(false)
   const [value4Error, setValue4Error] = useState(false)
   const [value5Error, setValue5Error] = useState(false)
+  const [value6Error, setValue6Error] = useState(false)
+  const [value7Error, setValue7Error] = useState(false)
 
   useEffect(() => {
     async function determineDialogState () {
@@ -177,6 +199,14 @@ const EditDialogContent = ({ onClose, onFormError }) => {
     }
     if (value5 === '') {
       setValue5Error(true)
+      error = true
+    }
+    if (value6 === '') {
+      setValue6Error(true)
+      error = true
+    }
+    if (value7 === '') {
+      setValue7Error(true)
       error = true
     }
 
@@ -421,13 +451,105 @@ const EditDialogContent = ({ onClose, onFormError }) => {
             </Box>
 
             <Box my={1.5}>
-              <FormControl component='fieldset' error={value5Error}>
+              <FormControl component='fieldset' error={value2Error}>
                 <FormLabel component='legend' className={classes.formLabel}>
                   5. {formatMessage(msgs.question5Prompt)}
                 </FormLabel>
-                <TextField
-                  label={formatMessage(msgs.question5Placeholder)}
+                <RadioGroup
+                  row
+                  aria-label='question5'
+                  name='question5'
                   value={value5}
+                  onChange={e => {
+                    setValue5(e.target.value)
+                    setValue5Error(false)
+                  }}
+                >
+                  <FormControlLabel
+                    value={msgs.question5Answer1}
+                    control={<Radio />}
+                    label={formatMessage(msgs.question5Answer1)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value={msgs.question5Answer2}
+                    control={<Radio />}
+                    label={formatMessage(msgs.question5Answer2)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value={msgs.question5Answer3}
+                    control={<Radio />}
+                    label={formatMessage(msgs.question5Answer3)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value={msgs.question5Answer4}
+                    control={<Radio />}
+                    label={formatMessage(msgs.question5Answer4)}
+                    disabled={isSaving}
+                  />
+                </RadioGroup>
+                <FormHelperText>
+                  {value2Error && formatMessage(msgs.requiredAnswer)}
+                </FormHelperText>
+              </FormControl>
+            </Box>
+
+            <Box my={1.5}>
+              <FormControl component='fieldset' error={value2Error}>
+                <FormLabel component='legend' className={classes.formLabel}>
+                  6. {formatMessage(msgs.question6Prompt)}
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-label='question5'
+                  name='question5'
+                  value={value6}
+                  onChange={e => {
+                    setValue6(e.target.value)
+                    setValue6Error(false)
+                  }}
+                >
+                  <FormControlLabel
+                    value={msgs.question6Answer1}
+                    control={<Radio />}
+                    label={formatMessage(msgs.question6Answer1)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value={msgs.question6Answer2}
+                    control={<Radio />}
+                    label={formatMessage(msgs.question6Answer2)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value={msgs.question6Answer3}
+                    control={<Radio />}
+                    label={formatMessage(msgs.question6Answer3)}
+                    disabled={isSaving}
+                  />
+                  <FormControlLabel
+                    value={msgs.question6Answer4}
+                    control={<Radio />}
+                    label={formatMessage(msgs.question6Answer4)}
+                    disabled={isSaving}
+                  />
+                </RadioGroup>
+                <FormHelperText>
+                  {value2Error && formatMessage(msgs.requiredAnswer)}
+                </FormHelperText>
+              </FormControl>
+            </Box>
+
+            <Box my={1.5}>
+              <FormControl component='fieldset' error={value5Error}>
+                <FormLabel component='legend' className={classes.formLabel}>
+                  7. {formatMessage(msgs.question7Prompt)}
+                </FormLabel>
+                <TextField
+                  label={formatMessage(msgs.question7Placeholder)}
+                  value={value7}
                   fullWidth
                   rows={3}
                   rowsMax={6}
@@ -436,12 +558,12 @@ const EditDialogContent = ({ onClose, onFormError }) => {
                   disabled={isSaving}
                   margin='dense'
                   onChange={e => {
-                    setValue5(e.target.value)
-                    setValue5Error(false)
+                    setValue7(e.target.value)
+                    setValue7Error(false)
                   }}
                 />
                 <FormHelperText>
-                  {value5Error && formatMessage(msgs.requiredAnswer)}
+                  {value7Error && formatMessage(msgs.requiredAnswer)}
                 </FormHelperText>
               </FormControl>
             </Box>

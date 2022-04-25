@@ -94,7 +94,7 @@
     "message": "Please answer these questions before exporting."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
-    "message": "To draw an ICCA boundary, create an area and tag it with the type\n    \"ICCA Boundary.\" Remember to save your changes to the map before\n    exporting."
+    "message": "To draw an ICCA boundary, create an area and tag it with the type \n    \"ICCA Boundary.\" Remember to save your changes to the map before\n    exporting."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
     "description": "No data to export",
@@ -106,13 +106,13 @@
   },
   "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
     "description": "Question prompts",
-    "message": "Has your community or indigenous people collectively consented to the map\n    and other information being shared with UNEP-WCMC?"
+    "message": "Have your community or indigenous people collectively consented to the map \n    and other information being shared with UNEP-WCMC?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
-    "message": "Do you want the map and other information to be available for anyone to\n    view and download?"
+    "message": "Do you want the map and other information to be available for anyone \n    to view and download?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
-    "message": "Name of the community, indigenous people, or individual providing the\n    information"
+    "message": "Name of the community, indigenous people, or individual providing the \n    information (Original language, English)"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
@@ -128,14 +128,46 @@
     "message": "Other"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
-    "message": "If you are an individual, what is your relationship to the indigenous\n    people or community?"
+    "message": "If you are an individual, what is your relationship to the indigenous \n    people or community?"
   },
-  "renderer.components.MapEditor.ICCAExportDialog.question5Placeholder": {
-    "description": "Placeholder for question 5",
-    "message": "Your contact information"
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
+    "description": "Choices for question 5",
+    "message": "Yes - peer review"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer2": {
+    "message": "Yes – government review"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer3": {
+    "message": "No"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer4": {
+    "message": "Don’t know"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
-    "message": "Email address, phone number or address where we can contact you. We will\n    contact you to confirm we have received your information and to discuss\n    the information further where needed. We will also contact you periodically\n    to make sure the information is up to date."
+    "message": "Has the ICCA information been reviewed either by a peer-review process \n    (i.e., by other communities) or by a government body? For more information on this topic, \n    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer1": {
+    "description": "Choices for question 6",
+    "message": "Yes – as a protected area"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer2": {
+    "message": "Yes - as an OECM"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer3": {
+    "message": "No – only as an ICCA"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer4": {
+    "message": "Don’t know"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Prompt": {
+    "message": "Would you like to submit the ICCA as a protected area or an other effective \n    area-based conservation measure (OECM)?  For more information on this topic, \n    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Placeholder": {
+    "description": "Placeholder for question 7",
+    "message": "Your contact information"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Prompt": {
+    "message": "Email address where we can contact you. We will contact you \n    to confirm we have received your information and to discuss \n    the information further where needed. We will also contact you periodically \n    to make sure the information is up to date."
   },
   "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
     "description": "Helper texts",
