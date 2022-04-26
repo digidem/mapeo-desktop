@@ -94,7 +94,7 @@
     "message": "Please answer these questions before exporting."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
-    "message": "To draw an ICCA boundary, create an area and tag it with the type \n    \"ICCA Boundary.\" Remember to save your changes to the map before\n    exporting."
+    "message": "To draw an ICCA boundary, create an area and tag it with the type\n    \"ICCA Boundary.\" Remember to save your changes to the map before\n    exporting."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
     "description": "No data to export",
@@ -112,7 +112,7 @@
     "message": "Do you want the map and other information to be available for anyone \n    to view and download?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
-    "message": "Name of the community, indigenous people, or individual providing the \n    information (Original language, English)"
+    "message": "Name of the community, indigenous people, or individual providing the\n    information (Original language, English)"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
@@ -128,7 +128,7 @@
     "message": "Other"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
-    "message": "If you are an individual, what is your relationship to the indigenous \n    people or community?"
+    "message": "If you are an individual, what is your relationship to the indigenous\n    people or community?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
     "description": "Choices for question 5",
