@@ -451,7 +451,7 @@ const EditDialogContent = ({ onClose, onFormError }) => {
             </Box>
 
             <Box my={1.5}>
-              <FormControl component='fieldset' error={value2Error}>
+              <FormControl component='fieldset' error={value5Error}>
                 <FormLabel component='legend' className={classes.formLabel}>
                   5. {formatMessage(msgs.question5Prompt)}
                 </FormLabel>
@@ -491,13 +491,13 @@ const EditDialogContent = ({ onClose, onFormError }) => {
                   />
                 </RadioGroup>
                 <FormHelperText>
-                  {value2Error && formatMessage(msgs.requiredAnswer)}
+                  {value5Error && formatMessage(msgs.requiredAnswer)}
                 </FormHelperText>
               </FormControl>
             </Box>
 
             <Box my={1.5}>
-              <FormControl component='fieldset' error={value2Error}>
+              <FormControl component='fieldset' error={value6Error}>
                 <FormLabel component='legend' className={classes.formLabel}>
                   6. {formatMessage(msgs.question6Prompt)}
                 </FormLabel>
@@ -537,13 +537,13 @@ const EditDialogContent = ({ onClose, onFormError }) => {
                   />
                 </RadioGroup>
                 <FormHelperText>
-                  {value2Error && formatMessage(msgs.requiredAnswer)}
+                  {value6Error && formatMessage(msgs.requiredAnswer)}
                 </FormHelperText>
               </FormControl>
             </Box>
 
             <Box my={1.5}>
-              <FormControl component='fieldset' error={value5Error}>
+              <FormControl component='fieldset' error={value7Error}>
                 <FormLabel component='legend' className={classes.formLabel}>
                   7. {formatMessage(msgs.question7Prompt)}
                 </FormLabel>
