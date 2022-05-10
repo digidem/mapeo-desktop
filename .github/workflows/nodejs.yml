@@ -53,6 +53,7 @@ jobs:
         env:
           CI: true
       - name: Publish
+        if: github.repository == 'digidem/mapeo-desktop'
         run: |
           npm run dist -- --${{matrix.config.arch}}
         env:
@@ -68,6 +69,13 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          MAPEO_VARIANT: ${{ matrix.variant }}
+      - name: Publish (unsigned)
+        if: github.repository != 'digidem/mapeo-desktop'
+        run: |
+          npm run dist -- --${{matrix.config.arch}}
+        env:
+          CI: true
           MAPEO_VARIANT: ${{ matrix.variant }}
       - name: Cleanup artifacts
         run: |
