@@ -53,7 +53,8 @@ jobs:
         env:
           CI: true
       - name: Publish
-        if: github.repository == 'digidem/mapeo-desktop'
+        # Currently undocumented, but if it is None (e.g. PR from a fork) then secrets are not defined
+        if: github.secret_source != 'None'
         run: |
           npm run dist -- --${{matrix.config.arch}}
         env:
@@ -71,7 +72,8 @@ jobs:
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           MAPEO_VARIANT: ${{ matrix.variant }}
       - name: Publish (unsigned)
-        if: github.repository != 'digidem/mapeo-desktop'
+        # Currently undocumented, but if it is None (e.g. PR from a fork) then secrets are not defined
+        if: github.secret_source == 'None'
         run: |
           npm run dist -- --${{matrix.config.arch}}
         env:
