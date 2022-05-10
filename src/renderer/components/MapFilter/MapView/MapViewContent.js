@@ -78,7 +78,8 @@ const MapViewContent = (
     initialMapPosition = {},
     onMapMove = noop,
     mapStyle = 'mapbox://styles/mapbox/outdoors-v10',
-    print = false
+    print = false,
+    presets
   }: Props,
   ref
 ) => {
@@ -239,6 +240,7 @@ const MapViewContent = (
       <ObservationLayer
         observations={observations}
         onClick={onClick}
+        presets={presets}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
         print={print}

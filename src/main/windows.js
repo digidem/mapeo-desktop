@@ -86,6 +86,9 @@ function ClosingWindow () {
     center: true,
     frame: false,
     show: false,
-    alwaysOnTop: true
+    alwaysOnTop: true,
+    webPreferences: {
+      preload: path.join(__dirname, '../../static/closingPreload.js')
+    }
   })
 }

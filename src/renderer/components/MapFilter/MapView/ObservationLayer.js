@@ -1,19 +1,22 @@
 // @flow
 import React, { useMemo, useCallback, useContext, useRef } from 'react'
 import { Layer, Source, MapContext } from 'react-mapbox-gl'
+import validateColor from 'validate-color'
 import type { Observation } from 'mapeo-schema'
 import type {
   Point2D,
   FeatureTemplate,
   FeatureCollectionTemplate
 } from 'flow-geojson'
+import type { PresetWithFields } from '../types'
 
 type Props = {
   observations: Array<Observation>,
   onMouseMove: any => any,
   onMouseLeave: any => any,
   onClick?: (id: string) => any,
-  print?: boolean
+  print?: boolean,
+  presets: PresetWithFields[]
 }
 
 type FeaturePoint2D = FeatureTemplate<Point2D>
@@ -24,68 +27,7 @@ type GeoJsonSource = {
 }
 
 const observationSourceId = 'mapeo-observations-internal'
-
-// const labelStyleLayer = {
-//   id: 'labels',
-//   type: 'symbol',
-//   source: 'features',
-//   layout: {
-//     'text-field': '',
-//     'text-allow-overlap': true,
-//     'text-ignore-placement': true,
-//     'text-size': 9,
-//     'text-font': ['DIN Offc Pro Bold', 'Arial Unicode MS Bold']
-//   },
-//   paint: {
-//     'text-color': '#fff',
-//     'text-halo-color': 'rgba(100,100,100, 0.3)',
-//     'text-halo-width': 0.3
-//   }
-// }
-
-const pointStyleLayer = {
-  id: 'points',
-  type: 'circle',
-  sourceId: observationSourceId,
-  paint: {
-    // make circles larger as the user zooms from z12 to z22
-    'circle-radius': {
-      base: 1.5,
-      stops: [
-        [7, 5],
-        [18, 25]
-      ]
-    },
-    'circle-color': '#ff0000',
-    'circle-opacity': 0.75,
-    'circle-stroke-width': 1.5,
-    'circle-stroke-color': '#ffffff',
-    'circle-stroke-opacity': 0.9
-  }
-}
-
-const pointHoverStyleLayer = {
-  id: 'points-hover',
-  type: 'circle',
-  sourceId: observationSourceId,
-  paint: {
-    ...pointStyleLayer.paint,
-    'circle-opacity': [
-      'case',
-      ['boolean', ['feature-state', 'hover'], false],
-      1,
-      0
-    ],
-    'circle-stroke-width': 2.5,
-    'circle-stroke-color': '#ffffff',
-    'circle-stroke-opacity': [
-      'case',
-      ['boolean', ['feature-state', 'hover'], false],
-      1,
-      0
-    ]
-  }
-}
+const DEFAULT_MARKER_COLOR = '#ff0000'
 
 function observationsToGeoJsonSource (
   observations: Observation[]
@@ -105,7 +47,9 @@ function observationsToGeoJsonSource (
             coordinates: [obs.lon, obs.lat]
           },
           properties: {
-            id: obs.id
+            id: obs.id,
+            categoryId:
+              obs.tags && obs.tags.categoryId ? obs.tags.categoryId : undefined
           }
         }
         acc.push(point)
@@ -122,6 +66,7 @@ const ObservationLayer = ({
   onClick = noop,
   onMouseLeave,
   onMouseMove,
+  presets,
   print = false
 }: Props) => {
   const hovered = useRef(null)
@@ -131,6 +76,74 @@ const ObservationLayer = ({
     () => observationsToGeoJsonSource(observations),
     [observations]
   )
+
+  const [observationStyleLayer, pointHoverStyleLayer] = useMemo(() => {
+    // Based on example implementation:
+    // https://github.com/react-native-mapbox-gl/maps/blob/d6e7257e705b8e0be5d2d365a495c514b7f015f5/example/src/examples/SymbolCircleLayer/DataDrivenCircleColors.js
+    const categoryColorPairs = presets.reduce((pairs, preset) => {
+      const { color, id } = preset
+
+      if (color && validateColor(color)) {
+        pairs.push(id, preset.color)
+      }
+
+      return pairs
+    }, [])
+
+    const obsStyle = {
+      id: 'points',
+      type: 'circle',
+      sourceId: observationSourceId,
+      paint: {
+        // make circles larger as the user zooms from z12 to z22
+        'circle-radius': {
+          base: 1.5,
+          stops: [
+            [7, 5],
+            [18, 25]
+          ]
+        },
+        'circle-color':
+          categoryColorPairs.length > 0
+            ? [
+                'match',
+                ['get', 'categoryId'],
+                ...categoryColorPairs,
+                DEFAULT_MARKER_COLOR
+              ]
+            : DEFAULT_MARKER_COLOR,
+        'circle-opacity': 0.75,
+        'circle-stroke-width': 1.5,
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-opacity': 0.9
+      }
+    }
+
+    const hoverStyle = {
+      id: 'points-hover',
+      type: 'circle',
+      sourceId: observationSourceId,
+      paint: {
+        ...obsStyle.paint,
+        'circle-opacity': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          1,
+          0
+        ],
+        'circle-stroke-width': 2.5,
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-opacity': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          1,
+          0
+        ]
+      }
+    }
+
+    return [obsStyle, hoverStyle]
+  }, [presets])
 
   const handleMouseMove = useCallback(
     e => {
@@ -182,7 +195,7 @@ const ObservationLayer = ({
     <>
       <Source id={observationSourceId} geoJsonSource={geoJsonSource} />
       <Layer
-        {...pointStyleLayer}
+        {...observationStyleLayer}
         onClick={handleClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}

@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.5.0](https://github.com/digidem/mapeo-desktop/compare/v5.5.0-beta.1...v5.5.0) (2022-03-10)
+
+
+
+## [5.5.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v5.5.0-beta.0...v5.5.0-beta.1) (2022-03-02)
+
+
+### Bug Fixes
+
+* Properly use fallback settings metadata when user-defined one is missing ([#663](https://github.com/digidem/mapeo-desktop/issues/663)) ([53bd684](https://github.com/digidem/mapeo-desktop/commit/53bd684))
+
+
+
+## [5.5.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v5.4.0...v5.5.0-beta.0) (2022-01-24)
+
+
+### Bug Fixes
+
+* Add translation support for closing window ([#640](https://github.com/digidem/mapeo-desktop/issues/640)) ([2c8123c](https://github.com/digidem/mapeo-desktop/commit/2c8123c))
+* Correct spelling for name of builds ([#617](https://github.com/digidem/mapeo-desktop/issues/617)) ([660754e](https://github.com/digidem/mapeo-desktop/commit/660754e))
+* hide generic geometry presets in iD pane ([#621](https://github.com/digidem/mapeo-desktop/issues/621)) ([34fc54f](https://github.com/digidem/mapeo-desktop/commit/34fc54f))
+* hide iD Help pane until customized for Mapeo ([#635](https://github.com/digidem/mapeo-desktop/issues/635)) ([130d14e](https://github.com/digidem/mapeo-desktop/commit/130d14e))
+* hiding more superfluous iD Editor content ([#636](https://github.com/digidem/mapeo-desktop/issues/636)) ([133534e](https://github.com/digidem/mapeo-desktop/commit/133534e))
+* Log instead of emit errors from IPC ([#614](https://github.com/digidem/mapeo-desktop/issues/614)) ([c9c3382](https://github.com/digidem/mapeo-desktop/commit/c9c3382))
+* Upgrade electron builder to latest version ([#629](https://github.com/digidem/mapeo-desktop/issues/629)) ([6f76531](https://github.com/digidem/mapeo-desktop/commit/6f76531))
+* Upgrade mapeo-server to fix syncfile close issue ([#624](https://github.com/digidem/mapeo-desktop/issues/624)) ([c06b647](https://github.com/digidem/mapeo-desktop/commit/c06b647))
+
+
+### Features
+
+* Show success message when observations export finishes ([#622](https://github.com/digidem/mapeo-desktop/issues/622)) ([0713c5b](https://github.com/digidem/mapeo-desktop/commit/0713c5b))
+* Support custom colors for displayed observations ([#644](https://github.com/digidem/mapeo-desktop/issues/644)) ([edbca5f](https://github.com/digidem/mapeo-desktop/commit/edbca5f))
+
+
+
 ## [5.4.0](https://github.com/digidem/mapeo-desktop/compare/v5.4.0-beta.18...v5.4.0) (2021-10-19)
 
 

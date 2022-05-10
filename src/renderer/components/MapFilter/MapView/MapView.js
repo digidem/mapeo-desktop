@@ -40,6 +40,7 @@ const MapView = (
           observations={filteredObservations}
           getPreset={getPreset}
           getMedia={getMedia}
+          presets={presets}
           {...otherProps}
         />
       )}
