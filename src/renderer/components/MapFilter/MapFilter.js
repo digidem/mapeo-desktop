@@ -135,9 +135,19 @@ function usePresets () {
       try {
         const data = await api.getPresets()
         const presets = mapToArray(data.presets)
-        const fields = mapToArray(data.fields)
-        const presetsWithFields = presets
+          // Only point data is shown in the Observation view, so only show
+          // presets which match point data
           .filter(p => p.geometry.includes('point'))
+        const usedFields = new Set()
+        for (const preset of presets) {
+          for (const fieldId of preset.fields) {
+            usedFields.add(fieldId)
+          }
+        }
+        const fields = mapToArray(data.fields)
+          // Only show fields which are used in a preset
+          .filter(field => usedFields.has(field.id))
+        const presetsWithFields = presets
           // Replace field ids with full field definitions
           .map(p => addFieldDefinitions(p, fields))
         setLoading(false)
