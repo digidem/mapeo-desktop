@@ -57,12 +57,12 @@ const msgs = defineMessages({
     people or community?`,
   question5Prompt: `
     Has the ICCA information been reviewed either by a peer-review process 
-    (i.e., by other communities) or by a government body? For more information on this topic, 
-    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual`,
+    (i.e., by other communities) or by a government body? (For more information on this topic, 
+    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual)`,
   question6Prompt: `
     Would you like to submit the ICCA as a protected area or an other effective 
-    area-based conservation measure (OECM)?  For more information on this topic, 
-    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual`,
+    area-based conservation measure (OECM)?  (For more information on this topic, 
+    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual)`,
   question7Prompt: `
     Email address where we can contact you. We will contact you 
     to confirm we have received your information and to discuss 
@@ -79,13 +79,13 @@ const msgs = defineMessages({
   question4Answer4: 'Other',
   // Choices for question 5
   question5Answer1: 'Yes - peer review',
-  question5Answer2: 'Yes – government review',
+  question5Answer2: 'Yes - government review',
   question5Answer3: 'No',
   question5Answer4: 'Don’t know',
   // Choices for question 6
-  question6Answer1: 'Yes – as a protected area',
+  question6Answer1: 'Yes - as a protected area',
   question6Answer2: 'Yes - as an OECM',
-  question6Answer3: 'No – only as an ICCA',
+  question6Answer3: 'No - only as an ICCA',
   question6Answer4: 'Don’t know',
   // Placeholder for question 7
   question7Placeholder: 'Your contact information',
@@ -228,7 +228,9 @@ const EditDialogContent = ({ onClose, onFormError }) => {
       communityOriginalName: value3a,
       communityEnglishName: value3b,
       relationship: value4,
-      contact: value5
+      information: value5,
+      protected: value6,
+      contact: value7
     }
 
     remote.dialog
@@ -466,25 +468,25 @@ const EditDialogContent = ({ onClose, onFormError }) => {
                   }}
                 >
                   <FormControlLabel
-                    value={msgs.question5Answer1}
+                    value='Yes - peer review'
                     control={<Radio />}
                     label={formatMessage(msgs.question5Answer1)}
                     disabled={isSaving}
                   />
                   <FormControlLabel
-                    value={msgs.question5Answer2}
+                    value='Yes - government review'
                     control={<Radio />}
                     label={formatMessage(msgs.question5Answer2)}
                     disabled={isSaving}
                   />
                   <FormControlLabel
-                    value={msgs.question5Answer3}
+                    value='No'
                     control={<Radio />}
                     label={formatMessage(msgs.question5Answer3)}
                     disabled={isSaving}
                   />
                   <FormControlLabel
-                    value={msgs.question5Answer4}
+                    value='Don’t know'
                     control={<Radio />}
                     label={formatMessage(msgs.question5Answer4)}
                     disabled={isSaving}
@@ -503,8 +505,8 @@ const EditDialogContent = ({ onClose, onFormError }) => {
                 </FormLabel>
                 <RadioGroup
                   row
-                  aria-label='question5'
-                  name='question5'
+                  aria-label='question6'
+                  name='question6'
                   value={value6}
                   onChange={e => {
                     setValue6(e.target.value)
@@ -512,25 +514,25 @@ const EditDialogContent = ({ onClose, onFormError }) => {
                   }}
                 >
                   <FormControlLabel
-                    value={msgs.question6Answer1}
+                    value='Yes - as a protected area'
                     control={<Radio />}
                     label={formatMessage(msgs.question6Answer1)}
                     disabled={isSaving}
                   />
                   <FormControlLabel
-                    value={msgs.question6Answer2}
+                    value='Yes - as an OECM'
                     control={<Radio />}
                     label={formatMessage(msgs.question6Answer2)}
                     disabled={isSaving}
                   />
                   <FormControlLabel
-                    value={msgs.question6Answer3}
+                    value='No - only as an ICCA'
                     control={<Radio />}
                     label={formatMessage(msgs.question6Answer3)}
                     disabled={isSaving}
                   />
                   <FormControlLabel
-                    value={msgs.question6Answer4}
+                    value='Don’t know'
                     control={<Radio />}
                     label={formatMessage(msgs.question6Answer4)}
                     disabled={isSaving}

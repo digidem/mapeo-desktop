@@ -135,7 +135,7 @@
     "message": "Yes - peer review"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer2": {
-    "message": "Yes – government review"
+    "message": "Yes - government review"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer3": {
     "message": "No"
@@ -144,23 +144,23 @@
     "message": "Don’t know"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
-    "message": "Has the ICCA information been reviewed either by a peer-review process \n    (i.e., by other communities) or by a government body? For more information on this topic, \n    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual"
+    "message": "Has the ICCA information been reviewed either by a peer-review process \n    (i.e., by other communities) or by a government body? (For more information on this topic, \n    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual)"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Answer1": {
     "description": "Choices for question 6",
-    "message": "Yes – as a protected area"
+    "message": "Yes - as a protected area"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Answer2": {
     "message": "Yes - as an OECM"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Answer3": {
-    "message": "No – only as an ICCA"
+    "message": "No - only as an ICCA"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Answer4": {
     "message": "Don’t know"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Prompt": {
-    "message": "Would you like to submit the ICCA as a protected area or an other effective \n    area-based conservation measure (OECM)?  For more information on this topic, \n    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual"
+    "message": "Would you like to submit the ICCA as a protected area or an other effective \n    area-based conservation measure (OECM)?  (For more information on this topic, \n    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual)"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question7Placeholder": {
     "description": "Placeholder for question 7",
