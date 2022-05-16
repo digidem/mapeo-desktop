@@ -104,16 +104,6 @@
     "description": "OK button",
     "message": "OK"
   },
-  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
-    "description": "Question prompts",
-    "message": "¿Su comunidad o pueblo indígena han consentido colectivamente que el mapa\n    y otra información sea compartida con UNEP-WCMC?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
-    "message": "¿Quieres que el mapa y otra información estén disponibles para que cualquier \n    persona pueda ver y descargarlos?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
-    "message": "Nombre de la comunidad, pueblo indígena, o individuo proporcionando \n    la información"
-  },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
     "message": "Miembro de la comunidad/pueblo indígena"
@@ -129,13 +119,6 @@
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
     "message": "Si eres un individuo, ¿cuál es tu relación con el pueblo o comunidad \n    indígena?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question5Placeholder": {
-    "description": "Placeholder for question 5",
-    "message": "Tu información de contacto"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
-    "message": "Dirección de correo electrónico, número de teléfono o dirección dónde podamos contactarte. \n    Te contactaremos para confirmarte que hemos recibido tu información y para discutir más\n    sobre ella si fuera necesario. También te contactaremos periódicamente\n    para asegurar que la información está actualizada."
   },
   "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
     "description": "Helper texts",
