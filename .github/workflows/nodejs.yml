@@ -53,6 +53,8 @@ jobs:
         env:
           CI: true
       - name: Publish
+        # Currently undocumented, but if it is None (e.g. PR from a fork) then secrets are not defined
+        if: github.secret_source != 'None'
         run: |
           npm run dist -- --${{matrix.config.arch}}
         env:
@@ -68,6 +70,15 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          MAPEO_VARIANT: ${{ matrix.variant }}
+      - name: Publish (unsigned)
+        # Currently undocumented, but if it is None (e.g. PR from a fork) then secrets are not defined
+        if: github.secret_source == 'None'
+        run: |
+          npm run dist -- --${{matrix.config.arch}}
+        env:
+          ARCH: ${{matrix.config.arch}}
+          CI: true
           MAPEO_VARIANT: ${{ matrix.variant }}
       - name: Cleanup artifacts
         run: |
