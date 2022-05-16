@@ -104,16 +104,6 @@
     "description": "OK button",
     "message": "சரி"
   },
-  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
-    "description": "Question prompts",
-    "message": "வரைபடத்திற்கு உங்கள் சமூகம் அல்லது பழங்குடியினர் கூட்டாக ஒப்புதல் அளித்துள்ளீர்களா\n     மற்றும் பிற தகவல்கள் UNEP-WCMC உடன் பகிரப்படுகிறதா?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
-    "message": "வரைபடமும் பிற தகவல்களும் யாருக்கும் கிடைக்க வேண்டும் என்று விரும்புகிறீர்களா\n     பார்க்கவும் பதிவிறக்கவும்?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
-    "message": "சமூகத்தின் பெயர், பழங்குடி மக்கள், அல்லது தனிநபர்கள் வழங்கும்\n     தகவல்"
-  },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
     "message": "சமூகத்தின் உறுப்பினர்/பழங்குடி மக்கள்"
@@ -129,13 +119,6 @@
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
     "message": "நீங்கள் ஒரு தனி நபராக இருந்தால், பழங்குடியினருடன் உங்களுக்கு என்ன உறவு\n     மக்கள் அல்லது சமூகம்?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question5Placeholder": {
-    "description": "Placeholder for question 5",
-    "message": "உங்களைத் தொடர்பு கொள்ள வேண்டிய முகவரி "
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
-    "message": "மின்னஞ்சல் முகவரி, தொலைபேசி எண் அல்லது நாங்கள் உங்களைத் தொடர்பு கொள்ளக்கூடிய முகவரி. நாங்கள் செய்வோம்\n     உங்கள் தகவலைப் பெற்றுள்ளோம் என்பதை உறுதிப்படுத்தவும் விவாதிக்கவும் உங்களைத் தொடர்பு கொள்ளவும்\n     தேவையான இடங்களில் மேலும் தகவல். நாங்களும் உங்களை அவ்வப்போது தொடர்புகொள்வோம்\n     தகவல் புதுப்பித்த நிலையில் இருப்பதை உறுதிசெய்ய."
   },
   "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
     "description": "Helper texts",
