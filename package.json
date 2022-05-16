@@ -128,7 +128,7 @@
     "kappa-osm": "^3.0.0",
     "ky": "^0.14.0",
     "level": "^5.0.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "mapbox-gl": "^1.4.1",
     "mapbox-map-image-stream": "^2.1.1",
     "mapeo-default-settings": "^3.6.1",
