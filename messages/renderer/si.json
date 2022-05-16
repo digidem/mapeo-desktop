@@ -104,16 +104,6 @@
     "description": "OK button",
     "message": "හරි"
   },
-  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
-    "description": "Question prompts",
-    "message": "ඔබේ ප්‍රජාව හෝ ආදිවාසීන් සිතියමට සාමූහිකව කැමැත්ත ලබා දී තිබේද?\n     සහ අනෙකුත් තොරතුරු UNEP-WCMC සමඟ බෙදාගෙන තිබේද?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
-    "message": "සිතියම සහ අනෙකුත් තොරතුරු ඕනෑම කෙනෙකුට ලබා ගැනීමට ඔබට අවශ්‍යද?\n     බැලීම සහ බාගත කිරීම?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
-    "message": "ප්‍රජාවගේ නම, ආදිවාසීන්, හෝ සපයන පුද්ගලයා\n     විස්තර"
-  },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
     "message": "ප්‍රජාවේ/ආදිවාසී ජනතාවගේ සාමාජිකයා"
@@ -129,13 +119,6 @@
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
     "message": "ඔබ තනි පුද්ගලයෙක් නම්, ආදිවාසීන් සමඟ ඔබේ සම්බන්ධතාවය කුමක්ද?\n     මිනිසුන් හෝ ප්රජාව?"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question5Placeholder": {
-    "description": "Placeholder for question 5",
-    "message": "ඔබගේ සම්බන්ධතා තොරතුරු"
-  },
-  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
-    "message": "අපට ඔබව සම්බන්ධ කර ගත හැකි ඊමේල් ලිපිනය, දුරකථන අංකය හෝ ලිපිනය. අපි කරන්නෙමු\n     ඔබගේ තොරතුරු අපට ලැබී ඇති බව තහවුරු කිරීමට සහ සාකච්ඡා කිරීමට ඔබව සම්බන්ධ කරගන්න\n     අවශ්‍ය තැන්වල තොරතුරු තවදුරටත්. අපි ද වරින් වර ඔබ හා සම්බන්ධ වන්නෙමු\n     තොරතුරු යාවත්කාලීන බව තහවුරු කර ගැනීමට."
   },
   "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
     "description": "Helper texts",
