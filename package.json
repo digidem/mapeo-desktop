@@ -136,7 +136,7 @@
     "mapeo-schema": "^2.0.2",
     "mapeo-server": "^17.1.2",
     "mime": "^2.4.6",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.6",
     "mkdirp": "^1.0.4",
     "network-speed": "^2.0.7",
     "node-fetch": "^2.6.0",
