@@ -1,600 +1,600 @@
 {
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
-    "message": "Territorio"
+    "message": "பிரதேசம்"
   },
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
-    "message": "Observaciones"
+    "message": "அவதானிப்புகள்"
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
-    "message": "Síncronizar"
+    "message": "ஒத்திசைவாக்குங்கள்"
   },
   "renderer.components.Home.update": {
-    "message": "Actualizar Mapeo"
+    "message": "மேபியோவைப் புதுப்பிக்கவும்"
   },
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
-    "message": "Cargando…"
+    "message": "ஏற்றுகிறது..."
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
-    "message": "Cerrar"
+    "message": "மூடுக"
   },
   "renderer.components.MapEditor.ExportButton.defaultFilename": {
     "description": "Default filename for map export",
-    "message": "datos-mapa-mapeo"
+    "message": "mapeo - வரைபடம் - தரவு"
   },
   "renderer.components.MapEditor.ExportButton.dialogError": {
     "description": "Expor error message - if there was an error during export",
-    "message": "La exportación ha fallado debido a un error interno"
+    "message": "உள் பிழை காரணமாக ஏற்றுமதி தோல்வியடைந்தது"
   },
   "renderer.components.MapEditor.ExportButton.dialogSuccess": {
     "description": "Export success message,",
-    "message": "Exportación completada"
+    "message": "பதிவேற்றம் முடிந்தது"
   },
   "renderer.components.MapEditor.ExportButton.dialogTitle": {
     "description": "Export dialog title - shown during export progress and after success/failure",
-    "message": "Exportando datos"
+    "message": "தரவைப் பதிவேற்றம் செய்"
   },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
-    "message": "Exportar datos del mapa"
+    "message": "வரைபடத் தரவைப் பதிவேற்றம் செய்யவும்"
   },
   "renderer.components.MapEditor.ExportButton.exportGeoJson": {
     "description": "Menu item for exporting GeoJSON",
-    "message": "Exportar datos de territorio como GeoJSON…"
+    "message": "பிராந்தியத் தரவை GeoJSON ஆகப் பதிவேற்றம் செய்யவும்…"
   },
   "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
     "description": "Menu item for exporting ICCA Export Packages",
-    "message": "Exportar Paquete de Exportación ICCA…"
+    "message": "ICCA ஏற்றுமதி தொகுப்பைப் பதிவேற்றம் செய்…"
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
-    "message": "Exportar datos de territorio como Shapefile…"
+    "message": "பிராந்தியத் தரவை GeoJSON ஆகப் பதிவேற்றம் செய்யவும்…"
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
-    "message": "OK"
+    "message": "சரி"
   },
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
-    "message": "Exportar datos de territorio"
+    "message": "பிராந்திய தரவு பதிவேற்றம்"
   },
   "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
-    "message": "Acerca de ti:"
+    "message": "உங்களைப் பற்றி:"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
-    "message": "No \t"
+    "message": "இல்லை"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
     "description": "Yes/no answers",
-    "message": "Sí"
+    "message": "ஆம்"
   },
   "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
-    "message": "Por favor, rellene al menos un campo."
+    "message": "குறைந்தது ஒரு புலத்தையாவது நிரப்பவும்."
   },
   "renderer.components.MapEditor.ICCAExportDialog.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "ரத்து செய்க"
   },
   "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
-    "message": "Inglés"
+    "message": "ஆங்கிலம்"
   },
   "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
     "description": "Labels for community name",
-    "message": "Idioma original"
+    "message": "அசல் மொழி"
   },
   "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
-    "message": "Por favor, rellene todos los campos obligatorios."
+    "message": "தேவையான அனைத்து புலங்களையும் நிரப்பவும்."
   },
   "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
     "description": "Form instructions",
-    "message": "Por favor, responda a estas preguntas antes de exportar."
+    "message": "பதிவேற்றம் செய்வதற்கு முன் இந்தக் கேள்விகளுக்குப் பதிலளிக்கவும்."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
-    "message": "Para dibujar un límite ICCA, crea un área y etiquetala con el tipo\n    \"Límite ICCA\". Recuerda guardar tus cambios en el mapa antes de\n    exportar."
+    "message": "ICCA எல்லையை வரைய, ஒரு பகுதியை உருவாக்கி, அதை வகையுடன் குறியிடவும்\n     \"ICCA எல்லை.\" உங்கள் மாற்றங்களை வரைபடத்தில் சேமிக்க நினைவில் கொள்ளுங்கள்\n     பதிவேற்றம் செய்கிறது."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
     "description": "No data to export",
-    "message": "No hay límites ICCA para exportar."
+    "message": "பதிவேற்றம் செய்வதற்கு ICCA எல்லைகள் எதுவும் இல்லை."
   },
   "renderer.components.MapEditor.ICCAExportDialog.ok": {
     "description": "OK button",
-    "message": "OK"
+    "message": "சரி"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
-    "message": "Miembro de la comunidad/pueblo indígena"
+    "message": "சமூகத்தின் உறுப்பினர்/பழங்குடி மக்கள்"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
-    "message": "Representante o asociado de la comunidad/pueblo indígena"
+    "message": "சமூகம்/பழங்குடி மக்களின் பிரதிநிதி அல்லது கூட்டாளி"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
-    "message": "Representante de una organización no gubernamental"
+    "message": "ஒரு அரசு சாரா அமைப்பின் பிரதிநிதி"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
-    "message": "Otro"
+    "message": "மற்றவை"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
-    "message": "Si eres un individuo, ¿cuál es tu relación con el pueblo o comunidad \n    indígena?"
+    "message": "நீங்கள் ஒரு தனி நபராக இருந்தால், பழங்குடியினருடன் உங்களுக்கு என்ன உறவு\n     மக்கள் அல்லது சமூகம்?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
     "description": "Helper texts",
-    "message": "Esta respuesta es necesaria."
+    "message": "இதற்கான பதில் தேவை."
   },
   "renderer.components.MapEditor.ICCAExportDialog.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "சேமிக்கவும்"
   },
   "renderer.components.MapEditor.ICCAExportDialog.title": {
     "description": "Title for ICCA package export dialog",
-    "message": "Exportar Paquete de Exportación ICCA"
+    "message": "ICCA ஏற்றுமதி தொகுப்பைப் பதிவேற்றம் செய்"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
-    "message": "Comentarios y Contribuciones"
+    "message": "கருத்து & பங்களிப்பு"
   },
   "renderer.components.MapEditor.index.notes": {
-    "message": "Descripción"
+    "message": "விளக்கம்"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "ரத்து செய்க"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
-    "message": "datos-observaciones-mapeo"
+    "message": "மேபியோ-கவனிப்பு-தரவு"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
-    "message": "Todas las observaciones ({count})"
+    "message": "அனைத்து {count} அவதானிப்புகள்"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
-    "message": "{count} observaciones filtradas"
+    "message": "{எண்ணிக்கை} வடிகட்டப்பட்ட அவதானிப்புகள்"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
-    "message": "¿Solo datos filtrado o todos los datos?"
+    "message": "வடிகட்டப்பட்ட தரவு மட்டுமா அல்லது எல்லாத் தரவும்?"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
     "description": "Label for data format selector",
-    "message": "Formato de datos"
+    "message": "தரவு வடிவம்"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
     "description": "Label for select to include photos in export",
-    "message": "¿Exportar fotos también?"
+    "message": "புகைப்படங்களையும் பதிவேற்றம் செய்யவா?"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
-    "message": "El archivo exportado será un Zip con las fotos incluidas"
+    "message": "பதிவேற்ற தரவு மற்றும் புகைப்படங்கள் உட்பட ஜிப் கோப்பாக இருக்கும்"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
-    "message": "Sin fotos"
+    "message": "படங்கள் எதுவுமில்லை"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
-    "message": "Con fotos tamaño original"
+    "message": "முழு அளவிலான புகைப்படங்கள்"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": "Con fotos tamaño prevista"
+    "message": "முந்தைய அளவுப் புகைப்படங்கள்"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "சேமிக்கவும்"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
     "description": "Title for export dialog",
-    "message": "Exportar datos"
+    "message": "பதிவேற்ற கண்காணிப்பு"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
-    "message": "Observaciones exportadas con éxito."
+    "message": "அவதானிப்புகள் வெற்றிகரமாகப் பதிவேற்றம் செய்யப்பட்டன."
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
-    "message": "OK"
+    "message": "சரி"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.close": {
-    "message": "Cerrar"
+    "message": "மூடுக"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
-    "message": "No tienes datos para exportar todavía."
+    "message": "பதிவேற்றம் செய்வதற்கான தரவு எதுவும் உங்களிடம் இல்லை."
   },
   "renderer.components.MapFilter.DataExportDialog.Template.title": {
     "description": "Title for observations export dialog",
-    "message": "Exportar datos"
+    "message": "பதிவேற்ற கண்காணிப்பு"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "Exportar observaciones"
+    "message": "பதிவேற்றம் கண்காணிப்பு தரவு"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
-    "message": "Exportar observaciones…"
+    "message": "பதிவேற்ற கண்காணிப்பு"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
-    "message": "Exportar mapa para Web…"
+    "message": "இணைய வரைபடத்தைப் பதிவேற்றம் செய்…"
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
-    "message": "A"
+    "message": "இடத்திற்கு (To)"
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
     "description": "Title of min date field in filter",
-    "message": "Desde"
+    "message": "இருந்து"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
     "description": "Label for filter by date observation was created",
-    "message": "Fecha de observación"
+    "message": "கவனிக்கப்பட்ட தேதி"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
     "description": "Button text to change which fields are shown and filterable in the filter pane",
-    "message": "Editar Filtros…"
+    "message": "வடிப்பான்களைத் திருத்து..."
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
     "description": "Label for filter by date observation was modified (e.g. edited by a user)",
-    "message": "Editado"
+    "message": "மாற்றியமைக்கப்பட்டது"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
     "description": "Label for filter by category (e.g. the preset)",
-    "message": "Categoría"
+    "message": "வகை"
   },
   "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
     "description": "Button text to only show a particular field value in a filter",
-    "message": "Sólo"
+    "message": "மட்டும்"
   },
   "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
     "description": "Button text to turn off filters for a field",
-    "message": "Todo"
+    "message": "அனைத்தும்"
   },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
-    "message": "Filtrar datos…"
+    "message": "இதன்படி வடிகட்டவும்…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "ரத்து செய்க"
   },
   "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
     "description": "Label for field to enter map description",
-    "message": "Descripción de este mapa"
+    "message": "வரைபட விளக்கம்"
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "சேமிக்கவும்"
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": "Estilo de mapa"
+    "message": "மேப் ஸ்டைல்"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": "Añadir términos y limitaciones sobre cómo se pueden utilizar estos datos"
+    "message": "இந்தத் தரவை எவ்வாறு பயன்படுத்தலாம் என்பது குறித்த விதிமுறைகளையும் வரம்புகளையும் சேர்க்கவும்"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": "Términos y limitaciones"
+    "message": "விதிமுறைகள் மற்றும் வரம்புகள்"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": "Exportar un mapa para compartir en el internet"
+    "message": "ஆன்லைனில் பகிர வரைபடத்தைப் பதிவேற்றம் செய்யவும்"
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
-    "message": "Título de este mapa"
+    "message": "வரைபடத்தின் தலைப்பு"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
-    "message": "Los detalles abajo (en Inglés) pueden apoyar a resolver este error…"
+    "message": "இதைச் சரிசெய்வதற்கான வழியைக் கண்டறிய கீழே உள்ள விவரங்கள் பயனுள்ளதாக இருக்கும்…"
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
-    "message": "Disculpas, hay un error"
+    "message": "அன்பே! தவறு நிகழ்ந்துவிட்டது"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
-    "message": "Datos adicionales"
+    "message": "மேலதிக தகவல்கள்"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
-    "message": "Cancelar"
+    "message": "ரத்து செய்க"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
-    "message": "Cancelar"
+    "message": "ரத்து செய்க"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
-    "message": "Cerrar sin guardar"
+    "message": "மாற்றங்களை நிராகரிக்கவும்"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
-    "message": "Has editado la observación. Cerrar sin guardar borraría a los cambios."
+    "message": "நீங்கள் சில மாற்றங்களைச் செய்துள்ளீர்கள், சேமிக்காமல் மூடுவது நீங்கள் செய்யும் மாற்றங்களை இழக்கும்"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
-    "message": "¿Cerrar sin guardar?"
+    "message": "மாற்றங்களைச் சேமிக்காமல் மூடவா?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
-    "message": "Cancelar"
+    "message": "ரத்து செய்க"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
-    "message": "Sí, borrar"
+    "message": "ஆம், நீக்குக"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
-    "message": "¿Eliminar observación?"
+    "message": "அவதானிப்புகளை நீக்கவா?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
     "description": "Menu item to delete an observation",
-    "message": "Eliminar observación"
+    "message": "அவதானிப்புகளை நீக்கவா?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
     "description": "Header for section that includes the additional details for an observation",
-    "message": "Detalles"
+    "message": "விபரங்கள்"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
-    "message": "Guardar"
+    "message": "சேமிக்கவும்"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
-    "message": "Ocultar todo"
+    "message": "அனைத்தையும் மறைக்கவும்"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
-    "message": "{count, plural, =0 {Ocultar campos} =1 {1 Campos oculto} other {# Campos ocultos}}"
+    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
-    "message": "Mostrar todo"
+    "message": "அனைத்தையும் காட்டு"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
     "description": "Label for description / notes section of report",
-    "message": "Descripción"
+    "message": "விளக்கம்"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
     "description": "Shown in reports if an observation has no location recorded",
-    "message": "No hay ubicación registrada"
+    "message": "இடம் பதிவு செய்யப்படவில்லை"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
     "description": "Page number in footer",
-    "message": "Página {pageNumber}"
+    "message": "பக்கம் {பக்க எண்}"
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
-    "message": "No hay observaciones disponibles."
+    "message": "அவதானிப்புகள் எதுவும் இல்லை."
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
     "description": "Displayed if an error occurs when rendering the report",
-    "message": "Se ha producido un error desconocido al intentar crear el informe"
+    "message": "அறிக்கையை உருவாக்கும் முயற்சியில் அறியப்படாத பிழை ஏற்பட்டது"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
-    "message": "Página {currentPage}"
+    "message": "Page {currentPage}"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
     "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
-    "message": "Informe de Observaciones de Mapeo.pdf"
+    "message": "Mapeo கண்காணிப்பு அறிக்கை.pdf"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
-    "message": "Siguiente"
+    "message": "அடுத்து"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
     "description": "Button for nagivating to the previous page in the report",
-    "message": "Anterior"
+    "message": "முந்தையது"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
     "description": "Shown while the report is generating when saving or printing",
-    "message": "Generando informe…"
+    "message": "அறிக்கை தயாரிக்கிறது..."
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
-    "message": "mostrando {observationCount} de {totalObservations} observaciones"
+    "message": "{total Observations} அவதானிப்புகளின் {observation Count}ஐக் காட்டுகிறது"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
     "description": "Button label for Save PDF Button",
-    "message": "Guardar PDF"
+    "message": "PDF ஆகச் சேமி"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
     "description": "Button label to cancel saving report",
-    "message": "Cancelar"
+    "message": "ரத்து செய்க"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
     "description": "Button label to confirm saving report",
-    "message": "Continuar"
+    "message": "தொடரவும்"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
     "description": "Loading message when report is very long.",
-    "message": "Este informe contiene {observationCount} observaciones y podría tardar unos minutos en crearse. ¿Está seguro de que desea continuar?"
+    "message": "இந்த அறிக்கையில் {observation Count} அவதானிப்புகள் உள்ளன, மேலும் உருவாக்கச் சில நிமிடங்கள் ஆகலாம். நீங்கள் நிச்சயமாகத் தொடர விரும்புகிறீர்களா?"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
     "description": "Title of print settings dialog",
-    "message": "Advertencia: Informe extenso"
+    "message": "எச்சரிக்கை: பெரிய அறிக்கை"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
-    "message": "Mapa"
+    "message": "வரைபடம்"
   },
   "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
-    "message": "Fotos"
+    "message": "ஊடகம்"
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
-    "message": "Informe"
+    "message": "அறிக்கை"
   },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
-    "message": "Observación"
+    "message": "அவதானிப்புகள்"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "Asegurar que los equipos están encendidos y conectados a la misma red WiFi"
+    "message": "சாதனங்கள் இயக்கப்பட்டு, அதே வைஃபை நெட்வொர்க்குடன் இணைக்கப்பட்டுள்ளதை உறுதிசெய்யவும்"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Buscando…"
+    "message": "தேடு…"
   },
   "renderer.components.SyncView.SyncAppBar.disconnected": {
-    "message": "Desconectado"
+    "message": "துண்டிக்கப்பட்டது"
   },
   "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
-    "message": "Primero necesita conectarse a una red WiFi antes de poder sincronizar dispositivos"
+    "message": "சாதனங்களை ஒத்திசைக்க நீங்கள் முதலில் வைஃபை நெட்வொர்க்குடன் இணைக்க வேண்டும்"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
-    "message": "Crear nuevo archivo de sincronización…"
+    "message": "புதிய ஒத்திசைவை உருவாக்கவும்…"
   },
   "renderer.components.SyncView.SyncAppBar.quality": {
-    "message": "Calidad: {quality}%"
+    "message": "தரம்: {quality}%"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
-    "message": "La señal de conexión es excelente"
+    "message": "இணைப்புச் சமிக்ஞை சிறந்தது"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
-    "message": "La señal de conexión es muy pobre. Intenta acercarte más al router WiFi"
+    "message": "இணைப்புச் சமிக்ஞை மிகவும் மோசமாக உள்ளது. வைஃபை ரூட்டரை நெருங்க முயற்சிக்கவும்"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
-    "message": "La señal de conexión es débil. La sincronización puede tardar más tiempo en completarse"
+    "message": "இணைப்புச் சமிக்ஞை பலவீனமாக உள்ளது. ஒத்திசைவு முடிவடைய அதிக நேரம் ஆகலாம்"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
-    "message": "Sincronizar con archivo…"
+    "message": "ஒரு கோப்பிலிருந்து ஒத்திசை..."
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
-    "message": "Equipo disponibles"
+    "message": "கிடைக்கும் சாதனங்கள்"
   },
   "renderer.components.SyncView.SyncAppBar.wifiError": {
-    "message": "Desconocido"
+    "message": "தெரியாத"
   },
   "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
-    "message": "Tu tarjeta WiFi u sistema operativo (OS) no ha sido reconocida"
+    "message": "உங்கள் வைஃபை கார்டு அல்லது ஆப்பரேட்டிங் சிஸ்டம் (ஓஎஸ்) அங்கீகரிக்கப்படவில்லை"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
-    "message": "Completo"
+    "message": "முடிந்தது!"
   },
   "renderer.components.SyncView.SyncButton.disconnected": {
     "description": "Disconnected",
-    "message": "Desconectado"
+    "message": "துண்டிக்கப்பட்டது"
   },
   "renderer.components.SyncView.SyncButton.finishing": {
     "description": "Almost done! But progress is inaccurate.",
-    "message": "Terminando…"
+    "message": "முடிக்கிறது…"
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
-    "message": "Reintentar"
+    "message": "மீண்டும் முயற்சிக்கவும்"
   },
   "renderer.components.SyncView.SyncButton.starting": {
     "description": "Displayed when sync is starting",
-    "message": "Iniciando…"
+    "message": "தொடங்குகிறது…"
   },
   "renderer.components.SyncView.SyncButton.sync": {
     "description": "Button to sync a device",
-    "message": "Sincronizar"
+    "message": "ஒத்திசைவாக்குங்கள்"
   },
   "renderer.components.SyncView.SyncTarget.database": {
     "description": "Prompt of how many database objects have synced",
-    "message": "Datos: {sofar} / {total}"
+    "message": "தரவுத்தளம்: {sofar} / {total}"
   },
   "renderer.components.SyncView.SyncTarget.errorMsg": {
     "description": "Message shown when there is an error while syncing",
-    "message": "Error de sincronización"
+    "message": "ஒத்திசைவு பிழை"
   },
   "renderer.components.SyncView.SyncTarget.lastSync": {
     "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
-    "message": "Ultima sincronización:"
+    "message": "கடைசியாக ஒத்திசைக்கப்பட்டது:"
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
-    "message": "Fotos: {sofar} / {total}"
+    "message": "புகைப்படங்கள்: {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
-    "message": "Crear nuevo base de datos para sincronizar"
+    "message": "ஒத்திசைக்க புதிய தரவுத்தளத்தை உருவாக்கவும்"
   },
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} necesita actualizar a Mapeo"
+    "message": "{சாதனத்தின் பெயர்} Mapeoஐ மேம்படுத்த வேண்டும்"
   },
   "renderer.components.SyncView.index.errorMsgVersionUsBad": {
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": "Tienes que actualizar to versión de Mapeo para poder sincronizar con {deviceName}"
+    "message": "{deviceName} உடன் ஒத்திசைக்க Mapeo ஐ மேம்படுத்த வேண்டும்"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
-    "message": "Seleccionar base de datos para sincronizar"
+    "message": "ஒத்திசைக்க ஒரு தரவுத்தளத்தைத் தேர்ந்தெடுக்கவும்"
   },
   "renderer.components.UpdaterView.index.calculatingProgress": {
-    "message": "Estimando..."
+    "message": "மதிப்பிடுகிறது..."
   },
   "renderer.components.UpdaterView.index.downloadButtonText": {
-    "message": "Descargar"
+    "message": "பதிவிறக்கு"
   },
   "renderer.components.UpdaterView.index.downloadProgress": {
-    "message": "Descargando"
+    "message": "பதிவிறக்கப்படுகிறது"
   },
   "renderer.components.UpdaterView.index.errorMessage": {
-    "message": "Hubo un error y Mapeo no pudo actualizarse. Inténtalo de nuevo más tarde."
+    "message": "பிழை ஏற்பட்டதால் Mapeo ஐப் புதுப்பிக்க முடியவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்."
   },
   "renderer.components.UpdaterView.index.errorTitle": {
-    "message": "Error"
+    "message": "பிழை"
   },
   "renderer.components.UpdaterView.index.estimatedDownloadTime": {
-    "message": "Tiempo estimado de descarga es"
+    "message": "மதிப்பிடப்பட்ட பதிவிறக்க நேரம்"
   },
   "renderer.components.UpdaterView.index.majorUpdate": {
-    "message": "Esta actualización hará que su aplicación sea incompatible con versiones anteriores."
+    "message": "இந்தப் புதுப்பிப்பு உங்கள் பயன்பாட்டை முந்தைய பதிப்புகளுடன் இணக்கமாக மாற்றும்."
   },
   "renderer.components.UpdaterView.index.minorUpdate": {
-    "message": "Esta actualización incluye mejoras que pueden cambiar su experiencia."
+    "message": "இந்தப் புதுப்பிப்பில் உங்கள் அனுபவத்தை மாற்றக்கூடிய மேம்பாடுகள் உள்ளன."
   },
   "renderer.components.UpdaterView.index.patchUpdate": {
-    "message": "Esta actualización incluye cambios que corrigen errores críticos. Por favor, actualice lo antes posible."
+    "message": "இந்தப் புதுப்பிப்பில் முக்கியமான பிழைகளைச் சரிசெய்யும் மாற்றங்கள் உள்ளன. கூடிய விரைவில் புதுப்பிக்கவும்."
   },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
-    "message": "Reiniciar"
+    "message": "மீண்டும் தொடங்கவும் "
   },
   "renderer.components.UpdaterView.index.restartMapeoText": {
-    "message": "Se ha descargado una actualización de Mapeo. Reinicie Mapeo para actualizar."
+    "message": "Mapeo க்கான புதுப்பிப்பு பதிவிறக்கப்பட்டது. புதுப்பிக்க Mapeo ஐ மீண்டும் தொடங்கவும்."
   },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
-    "message": "Desconocido"
+    "message": "தெரியாத"
   },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Actualizar"
+    "message": "புதுப்பி"
   },
   "renderer.components.UpdaterView.index.updateNotAvailable": {
-    "message": "¡Mapeo está actualizado! Estás en la última versión."
+    "message": "மேபியோ அனைத்தும் புதுப்பித்த நிலையில் உள்ளது! சமீபத்திய பதிப்பைப் பயன்படுத்துகிறீர்கள்."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
-    "message": "Cancelar"
+    "message": "ரத்து செய்க"
   },
   "renderer.components.dialogs.ChangeLanguage.button-submit": {
-    "message": "Aceptar"
+    "message": "சமர்ப்பிக்கவும்"
   },
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": "Elegir un idioma"
+    "message": "மொழியைத் தேர்ந்தெடுக்கவும்"
   },
   "renderer.components.dialogs.Error.close": {
-    "message": "Cerrar"
+    "message": "மூடுக"
   },
   "renderer.components.dialogs.Error.openLog": {
-    "message": "Abrir registro..."
+    "message": "பதிவைத் திற..."
   },
   "renderer.components.dialogs.LatLon.button-submit": {
-    "message": "Ir"
+    "message": "சமர்ப்பிக்கவும்"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
-    "message": "Ingresar coordenadas"
+    "message": "ஒருங்கிணைப்புகள் உள்ளிடவும்"
   },
   "renderer.create-zip.errorsFilename": {
     "description": "File name for file with information about export errors",
-    "message": "Exportar errores"
+    "message": "பதிவேற்ற பிழை"
   },
   "renderer.create-zip.errorsMsg": {
     "description": "Error message stored in text file in export if there were errors during export",
-    "message": "Se ha producido un error al intentar exportar estos archivos, así que no se encuentran en esta exportación:"
+    "message": "இந்தக் கோப்புகளை ஏற்றுமதி செய்வதில் பிழை ஏற்பட்டதால், இந்த ஏற்றுமதியில் அவை காணவில்லை:"
   },
   "renderer.create-zip.missingOriginalsFilename": {
     "description": "File name for file with information about missing originals in export",
-    "message": "Faltan los originales"
+    "message": "அசலை  காணவில்லை"
   },
   "renderer.create-zip.missingOriginalsMsg": {
     "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
-    "message": "No se pudo encontrar el tamaño original de estos archivos, sólo se incluyen imágenes de tamaño de vista previa (1,200 píxeles). Esto puede suceder porque el teléfono que tomó las fotos sólo se ha sincronizado con otros teléfonos, y no directamente con Mapeo Desktop. Para intentar arreglar esto, busque el teléfono que tomó las fotos y sincronícelo con Mapeo Desktop antes de exportar de nuevo."
+    "message": "இந்தக் கோப்புகளின் அசல் அளவைக் கண்டறிய முடியவில்லை, முன்னோட்ட அளவு (1,200 பிக்சல்) படங்கள் மட்டுமே சேர்க்கப்பட்டுள்ளன. புகைப்படங்களை எடுத்த ஃபோன் மற்ற ஃபோன்களுடன் மட்டுமே ஒத்திசைக்கப்பட்டுள்ளது, மேலும் நேரடியாக மேபியோ டெஸ்க்டாப்பில் அல்ல. இதை சரிசெய்ய முயற்சிக்க, புகைப்படங்களை எடுத்த மொபைலைக் கண்டுபிடித்து, மீண்டும் ஏற்றுமதி செய்வதற்கு முன் அதை Mapeo டெஸ்க்டாப்புடன் ஒத்திசைக்கவும்."
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "Sin respuesta"
+    "message": "பதில் இல்லை"
   }
 }

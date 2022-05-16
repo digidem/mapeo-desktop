@@ -1,600 +1,600 @@
 {
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
-    "message": "Territorio"
+    "message": "භූමිය"
   },
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
-    "message": "Observaciones"
+    "message": "නිරීක්ෂණය"
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
-    "message": "Síncronizar"
+    "message": "සමමුහුර්ත කරන්න"
   },
   "renderer.components.Home.update": {
-    "message": "Actualizar Mapeo"
+    "message": "Mapeo යාවත්කාලීන කරන්න"
   },
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
-    "message": "Cargando…"
+    "message": "පූරණය වෙමින්…"
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
-    "message": "Cerrar"
+    "message": "වසන්න"
   },
   "renderer.components.MapEditor.ExportButton.defaultFilename": {
     "description": "Default filename for map export",
-    "message": "datos-mapa-mapeo"
+    "message": "මැපිඕ-සිතියම්-දත්ත"
   },
   "renderer.components.MapEditor.ExportButton.dialogError": {
     "description": "Expor error message - if there was an error during export",
-    "message": "La exportación ha fallado debido a un error interno"
+    "message": "අභ්‍යන්තර දෝෂයක් හේතුවෙන් අපනයනය අසාර්ථක විය"
   },
   "renderer.components.MapEditor.ExportButton.dialogSuccess": {
     "description": "Export success message,",
-    "message": "Exportación completada"
+    "message": "අපනයනය සම්පුර්ණයි"
   },
   "renderer.components.MapEditor.ExportButton.dialogTitle": {
     "description": "Export dialog title - shown during export progress and after success/failure",
-    "message": "Exportando datos"
+    "message": "දත්ත අපනයනය කෙරෙමින් පවතී"
   },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
-    "message": "Exportar datos del mapa"
+    "message": "සිතියම් දත්ත අපනයනය කරන්න"
   },
   "renderer.components.MapEditor.ExportButton.exportGeoJson": {
     "description": "Menu item for exporting GeoJSON",
-    "message": "Exportar datos de territorio como GeoJSON…"
+    "message": "ප්‍රදේශ දත්ත GeoJSON ලෙස අපනයනය කරන්න…"
   },
   "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
     "description": "Menu item for exporting ICCA Export Packages",
-    "message": "Exportar Paquete de Exportación ICCA…"
+    "message": "ICCA පැකේජය අපනයනය කරන්න…"
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
-    "message": "Exportar datos de territorio como Shapefile…"
+    "message": "ප්‍රදේශ දත්ත Shapefile ලෙස අපනයනය කරන්න…"
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
-    "message": "OK"
+    "message": "හරි"
   },
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
-    "message": "Exportar datos de territorio"
+    "message": "දේශසීමා දත්ත අපනයනය කරන්න"
   },
   "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
-    "message": "Acerca de ti:"
+    "message": "ඔබ ගැන:"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
-    "message": "No \t"
+    "message": "නැහැ"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
     "description": "Yes/no answers",
-    "message": "Sí"
+    "message": "ඔව්"
   },
   "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
-    "message": "Por favor, rellene al menos un campo."
+    "message": "කරුණාකර අවම වශයෙන් එක් ක්ෂේත්‍රයක් වත් පුරවන්න."
   },
   "renderer.components.MapEditor.ICCAExportDialog.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "අවලංගු කරන්න"
   },
   "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
-    "message": "Inglés"
+    "message": "ඉංග්‍රීසි"
   },
   "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
     "description": "Labels for community name",
-    "message": "Idioma original"
+    "message": "මුල් භාෂාව"
   },
   "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
-    "message": "Por favor, rellene todos los campos obligatorios."
+    "message": "කරුණාකර අවශ්‍ය සියලුම ක්ෂේත්‍ර පුරවන්න."
   },
   "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
     "description": "Form instructions",
-    "message": "Por favor, responda a estas preguntas antes de exportar."
+    "message": "අපනයනය කිරීමට පෙර කරුණාකර මෙම ප්‍රශ්නවලට පිළිතුරු දෙන්න."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
-    "message": "Para dibujar un límite ICCA, crea un área y etiquetala con el tipo\n    \"Límite ICCA\". Recuerda guardar tus cambios en el mapa antes de\n    exportar."
+    "message": "ICCA සීමාවක් ඇඳීමට, ප්‍රදේශයක් සාදා එය වර්ගය සමඟ ටැග් කරන්න\n     \"ICCA සීමාව.\" ඔබගේ වෙනස්කම් පෙර සිතියමට සුරැකීමට මතක තබා ගන්න\n     අපනයනය කරනවා."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
     "description": "No data to export",
-    "message": "No hay límites ICCA para exportar."
+    "message": "අපනයනය කිරීමට ICCA සීමාවන් නොමැත."
   },
   "renderer.components.MapEditor.ICCAExportDialog.ok": {
     "description": "OK button",
-    "message": "OK"
+    "message": "හරි"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
-    "message": "Miembro de la comunidad/pueblo indígena"
+    "message": "ප්‍රජාවේ/ආදිවාසී ජනතාවගේ සාමාජිකයා"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
-    "message": "Representante o asociado de la comunidad/pueblo indígena"
+    "message": "ප්‍රජාව/ආදිවාසී ජනයාගේ නියෝජිතයා හෝ ආශ්‍රය කරන්නා"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
-    "message": "Representante de una organización no gubernamental"
+    "message": "රාජ්‍ය නොවන සංවිධානයක නියෝජිතයා"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
-    "message": "Otro"
+    "message": "වෙනත්"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
-    "message": "Si eres un individuo, ¿cuál es tu relación con el pueblo o comunidad \n    indígena?"
+    "message": "ඔබ තනි පුද්ගලයෙක් නම්, ආදිවාසීන් සමඟ ඔබේ සම්බන්ධතාවය කුමක්ද?\n     මිනිසුන් හෝ ප්රජාව?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
     "description": "Helper texts",
-    "message": "Esta respuesta es necesaria."
+    "message": "මෙම පිළිතුර අවශ්ය වේ."
   },
   "renderer.components.MapEditor.ICCAExportDialog.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "සුරකින්න"
   },
   "renderer.components.MapEditor.ICCAExportDialog.title": {
     "description": "Title for ICCA package export dialog",
-    "message": "Exportar Paquete de Exportación ICCA"
+    "message": "ICCA අපනයන පැකේජයක් අපනයනය කරන්න"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
-    "message": "Comentarios y Contribuciones"
+    "message": "ප්‍රතිපෝෂණ සහ දායකත්වය"
   },
   "renderer.components.MapEditor.index.notes": {
-    "message": "Descripción"
+    "message": "විස්තර"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "අවලංගු කරන්න"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
-    "message": "datos-observaciones-mapeo"
+    "message": "mapeo-නිරීක්ෂණ-දත්ත"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
-    "message": "Todas las observaciones ({count})"
+    "message": "සියලුම {count} නිරීක්ෂණ"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
-    "message": "{count} observaciones filtradas"
+    "message": "තෝරාගත් නිරීක්ෂණ {count}"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
-    "message": "¿Solo datos filtrado o todos los datos?"
+    "message": "තෝරාගත් දත්ත පමණක් ද නැතහොත් සියලු දත්ත ද?"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
     "description": "Label for data format selector",
-    "message": "Formato de datos"
+    "message": "දත්ත ආකෘතිය"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
     "description": "Label for select to include photos in export",
-    "message": "¿Exportar fotos también?"
+    "message": "ඡායාරූප අපනයනය කරන්නද?"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
-    "message": "El archivo exportado será un Zip con las fotos incluidas"
+    "message": "අපනයනය දත්ත සහ ඡායාරූප ඇතුළුව zip ගොනුවක් වනු ඇත"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
-    "message": "Sin fotos"
+    "message": "ඡායාරූප නැත"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
-    "message": "Con fotos tamaño original"
+    "message": "සම්පූර්ණ ප්‍රමාණයේ ඡායාරූප"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": "Con fotos tamaño prevista"
+    "message": "පෙරදසුන් ප්‍රමාණයේ ඡායාරූප"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "සුරකින්න"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
     "description": "Title for export dialog",
-    "message": "Exportar datos"
+    "message": "නිරීක්ෂණ අපනයනය"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
-    "message": "Observaciones exportadas con éxito."
+    "message": "නිරීක්ෂණ සාර්ථකව අපනයනය කරන ලදී."
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
-    "message": "OK"
+    "message": "හරි"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.close": {
-    "message": "Cerrar"
+    "message": "වසන්න"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
-    "message": "No tienes datos para exportar todavía."
+    "message": "ඔබට තවමත් නිර්යාත කිරීමට දත්ත නොමැත."
   },
   "renderer.components.MapFilter.DataExportDialog.Template.title": {
     "description": "Title for observations export dialog",
-    "message": "Exportar datos"
+    "message": "නිරීක්ෂණ අපනයනය"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "Exportar observaciones"
+    "message": "නිරීක්ෂණ දත්ත අපනයනය කරන්න"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
-    "message": "Exportar observaciones…"
+    "message": "නිරීක්ෂණ අපනයන කරන්න…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
-    "message": "Exportar mapa para Web…"
+    "message": "දත්ත සමුදා තත්ත්වය…"
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
-    "message": "A"
+    "message": "දක්වා"
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
     "description": "Title of min date field in filter",
-    "message": "Desde"
+    "message": "සිට"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
     "description": "Label for filter by date observation was created",
-    "message": "Fecha de observación"
+    "message": "නිරීක්ෂණ දිනය"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
     "description": "Button text to change which fields are shown and filterable in the filter pane",
-    "message": "Editar Filtros…"
+    "message": "පෙරහන් සංස්කරණය කරන්න…"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
     "description": "Label for filter by date observation was modified (e.g. edited by a user)",
-    "message": "Editado"
+    "message": "නවීකරණය කරන ලද"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
     "description": "Label for filter by category (e.g. the preset)",
-    "message": "Categoría"
+    "message": "ප්‍රවර්ගය"
   },
   "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
     "description": "Button text to only show a particular field value in a filter",
-    "message": "Sólo"
+    "message": "පමණි"
   },
   "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
     "description": "Button text to turn off filters for a field",
-    "message": "Todo"
+    "message": "සියල්ල"
   },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
-    "message": "Filtrar datos…"
+    "message": "පෙරහන් කීරීම…"
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "අවලංගු කරන්න"
   },
   "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
     "description": "Label for field to enter map description",
-    "message": "Descripción de este mapa"
+    "message": "සිතියමේ තොරතුරු"
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "සුරකින්න"
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": "Estilo de mapa"
+    "message": "සිතියම් විලාසය"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": "Añadir términos y limitaciones sobre cómo se pueden utilizar estos datos"
+    "message": "මෙම දත්ත භාවිතා කළ හැකි ආකාරය පිළිබඳ කොන්දේසි සහ සීමාවන් එක් කරන්න"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": "Términos y limitaciones"
+    "message": "කොන්දේසි සහ සීමාවන්"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": "Exportar un mapa para compartir en el internet"
+    "message": "මාර්ගගතව බෙදා ගැනීමට සිතියම අපනයනය කරන්න"
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
-    "message": "Título de este mapa"
+    "message": "සිතියම් මාතෘකාව"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
-    "message": "Los detalles abajo (en Inglés) pueden apoyar a resolver este error…"
+    "message": "මෙය නිවැරදි කිරීමට ක්රමයක් සොයා ගැනීමට පහත විස්තර ප්රයෝජනවත් වනු ඇත…"
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
-    "message": "Disculpas, hay un error"
+    "message": "අහෝ හිතවත! දෝෂයක් සිදුවී ඇත"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
-    "message": "Datos adicionales"
+    "message": "අමතර දත්ත"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
-    "message": "Cancelar"
+    "message": "අවලංගු කරන්න"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
-    "message": "Cancelar"
+    "message": "අවලංගු කරන්න"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
-    "message": "Cerrar sin guardar"
+    "message": "වෙනස්කම් ඉවතලන්න"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
-    "message": "Has editado la observación. Cerrar sin guardar borraría a los cambios."
+    "message": "ඔබ යම් වෙනස්කම් සිදු කර ඇත, සුරැකීමකින් තොරව වසා දැමීමෙන් ඔබ කරන වෙනස්කම් නැති වේ"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
-    "message": "¿Cerrar sin guardar?"
+    "message": "වෙනස්කම් සුරැකීමකින් තොරව වසන්නද?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
-    "message": "Cancelar"
+    "message": "අවලංගු කරන්න"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
-    "message": "Sí, borrar"
+    "message": "ඔව්, මකන්න"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
-    "message": "¿Eliminar observación?"
+    "message": "නිරීක්ෂණය මකන්නද?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
     "description": "Menu item to delete an observation",
-    "message": "Eliminar observación"
+    "message": "නිරීක්ෂණය මකන්න"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
     "description": "Header for section that includes the additional details for an observation",
-    "message": "Detalles"
+    "message": "විස්තරය"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
-    "message": "Guardar"
+    "message": "සුරකින්න"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
-    "message": "Ocultar todo"
+    "message": "සියල්ල සඟවන්න"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
     "description": "Button label for hide fields menu",
-    "message": "{count, plural, =0 {Ocultar campos} =1 {1 Campos oculto} other {# Campos ocultos}}"
+    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
-    "message": "Mostrar todo"
+    "message": "සියල්ල පෙන්වන්න"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
     "description": "Label for description / notes section of report",
-    "message": "Descripción"
+    "message": "විස්තර"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
     "description": "Shown in reports if an observation has no location recorded",
-    "message": "No hay ubicación registrada"
+    "message": "ස්ථානයක් වාර්තා කර නොමැත"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
     "description": "Page number in footer",
-    "message": "Página {pageNumber}"
+    "message": "පිටුව {pageNumber}"
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
-    "message": "No hay observaciones disponibles."
+    "message": "නිරීක්ෂණ නොමැත."
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
     "description": "Displayed if an error occurs when rendering the report",
-    "message": "Se ha producido un error desconocido al intentar crear el informe"
+    "message": "වාර්තාව සෑදීමට උත්සාහ කිරීමේදී හඳුනා නොගත් දෝෂයක් ඇති විය"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
-    "message": "Página {currentPage}"
+    "message": "පිටුව {currentPage}"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
     "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
-    "message": "Informe de Observaciones de Mapeo.pdf"
+    "message": "Mapeo නිරීක්ෂණ වාර්තාව.pdf"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
-    "message": "Siguiente"
+    "message": "ඊළඟ"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
     "description": "Button for nagivating to the previous page in the report",
-    "message": "Anterior"
+    "message": "ආපසු"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
     "description": "Shown while the report is generating when saving or printing",
-    "message": "Generando informe…"
+    "message": "වාර්තාව සැකෙසෙමින් ඇත…"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
-    "message": "mostrando {observationCount} de {totalObservations} observaciones"
+    "message": "{totalObservations} නිරීක්ෂණවලින් {observationCount} පෙන්වයි"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
     "description": "Button label for Save PDF Button",
-    "message": "Guardar PDF"
+    "message": "PDF ආකාරයට සුරකින්න"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
     "description": "Button label to cancel saving report",
-    "message": "Cancelar"
+    "message": "අවලංගු කරන්න"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
     "description": "Button label to confirm saving report",
-    "message": "Continuar"
+    "message": "ඉදිරියට යන්න"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
     "description": "Loading message when report is very long.",
-    "message": "Este informe contiene {observationCount} observaciones y podría tardar unos minutos en crearse. ¿Está seguro de que desea continuar?"
+    "message": "මෙම වාර්තාවේ නිරීක්ෂණ {observationCount} අඩංගු වන අතර, වාර්තාව නිර්මාණය කිරීමට මිනිත්තු කිහිපයක් ගත විය හැක. ඔබට ඉදිරියට යාමට අවශ්‍ය බව විශ්වාසද?"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
     "description": "Title of print settings dialog",
-    "message": "Advertencia: Informe extenso"
+    "message": "අවවාදයයි: වාර්තාව විශාලයි"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
-    "message": "Mapa"
+    "message": "සිතියම"
   },
   "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
-    "message": "Fotos"
+    "message": "මාධ්‍යය"
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
-    "message": "Informe"
+    "message": "වාර්තා කරන්න"
   },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
-    "message": "Observación"
+    "message": "නිරීක්ෂණ"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "Asegurar que los equipos están encendidos y conectados a la misma red WiFi"
+    "message": "වෙනත් උපාංග සක්‍රිය කර ඇති බවත් එම WiFi ජාලයට සම්බන්ධ වී ඇති බවත් සහතික කර ගන්න"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Buscando…"
+    "message": "සොයමින්…"
   },
   "renderer.components.SyncView.SyncAppBar.disconnected": {
-    "message": "Desconectado"
+    "message": "සම්බන්ද තාවයක් නැත"
   },
   "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
-    "message": "Primero necesita conectarse a una red WiFi antes de poder sincronizar dispositivos"
+    "message": "උපාංග සමමුහුර්ත කිරීමට සඳහා ඔබ මුලින්ම WiFi ජාලයකට සම්බන්ධ විය යුතුය"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
-    "message": "Crear nuevo archivo de sincronización…"
+    "message": "නව සමමුහුර්ත ගොනුවක් සාදන්න…"
   },
   "renderer.components.SyncView.SyncAppBar.quality": {
-    "message": "Calidad: {quality}%"
+    "message": "ගුණාත්මකභාවය: {quality}%"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
-    "message": "La señal de conexión es excelente"
+    "message": "සම්බන්ධතා සංඥාව විශිෂ්ටයි"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
-    "message": "La señal de conexión es muy pobre. Intenta acercarte más al router WiFi"
+    "message": "සම්බන්ධතා සංඥාව ඉතා දුර්වලයි. WiFi රවුටරය වෙත සමීප වීමට උත්සාහ කරන්න"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
-    "message": "La señal de conexión es débil. La sincronización puede tardar más tiempo en completarse"
+    "message": "සම්බන්ධතා සංඥාව දුර්වලයි. සමමුහුර්තකරණය සම්පූර්ණ වීමට වැඩි කාලයක් ගත විය හැකිය"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
-    "message": "Sincronizar con archivo…"
+    "message": "ගොනුවකින් සමමුහුර්ත කරන්න…"
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
-    "message": "Equipo disponibles"
+    "message": "පවතින උපාංග"
   },
   "renderer.components.SyncView.SyncAppBar.wifiError": {
-    "message": "Desconocido"
+    "message": "නොදන්නා"
   },
   "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
-    "message": "Tu tarjeta WiFi u sistema operativo (OS) no ha sido reconocida"
+    "message": "ඔබගේ WiFi කාඩ්පත හෝ මෙහෙයුම් පද්ධතිය (OS) හඳුනාගෙන නොමැත"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
-    "message": "Completo"
+    "message": "සම්පූර්ණයි"
   },
   "renderer.components.SyncView.SyncButton.disconnected": {
     "description": "Disconnected",
-    "message": "Desconectado"
+    "message": "සම්බන්ද තාවයක් නැත"
   },
   "renderer.components.SyncView.SyncButton.finishing": {
     "description": "Almost done! But progress is inaccurate.",
-    "message": "Terminando…"
+    "message": "අවසන් කරමින් පවතී…"
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
-    "message": "Reintentar"
+    "message": "නැවත උත්සාහ කරන්න"
   },
   "renderer.components.SyncView.SyncButton.starting": {
     "description": "Displayed when sync is starting",
-    "message": "Iniciando…"
+    "message": "සමමුහුර්ත කිරීම ආරම්භ වේ…"
   },
   "renderer.components.SyncView.SyncButton.sync": {
     "description": "Button to sync a device",
-    "message": "Sincronizar"
+    "message": "සමමුහුර්ත කරන්න"
   },
   "renderer.components.SyncView.SyncTarget.database": {
     "description": "Prompt of how many database objects have synced",
-    "message": "Datos: {sofar} / {total}"
+    "message": "දත්ත සමුදාය:{sofar}/{total}"
   },
   "renderer.components.SyncView.SyncTarget.errorMsg": {
     "description": "Message shown when there is an error while syncing",
-    "message": "Error de sincronización"
+    "message": "සමමුහුර්ත කිරීමේදී දෝෂයක් ඇතිවිය"
   },
   "renderer.components.SyncView.SyncTarget.lastSync": {
     "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
-    "message": "Ultima sincronización:"
+    "message": "අවසන් වරට සමමුහුර්ත කළේ:"
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
-    "message": "Fotos: {sofar} / {total}"
+    "message": "ඡායාරූප: {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
-    "message": "Crear nuevo base de datos para sincronizar"
+    "message": "සමමුහුර්ත කිරීමට නව දත්ත සමුදායක් සාදන්න"
   },
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} necesita actualizar a Mapeo"
+    "message": "{deviceName} හට Mapeo උත්ශ්‍රේණි කිරීමට අවශ්‍යයි"
   },
   "renderer.components.SyncView.index.errorMsgVersionUsBad": {
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": "Tienes que actualizar to versión de Mapeo para poder sincronizar con {deviceName}"
+    "message": "ඔබ {deviceName} සමඟ සමමුහුර්ත කිරීමට Mapeo upgrade කිරීමට අවශ්‍ය වේ"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
-    "message": "Seleccionar base de datos para sincronizar"
+    "message": "සමමුහුර්ත කිරීමට නව දත්ත සමුදායක් සාදන්න"
   },
   "renderer.components.UpdaterView.index.calculatingProgress": {
-    "message": "Estimando..."
+    "message": "ඇස්තමේන්තු කරමින්..."
   },
   "renderer.components.UpdaterView.index.downloadButtonText": {
-    "message": "Descargar"
+    "message": "බාගත කරන්න"
   },
   "renderer.components.UpdaterView.index.downloadProgress": {
-    "message": "Descargando"
+    "message": "බාගත වෙමින් පවතී"
   },
   "renderer.components.UpdaterView.index.errorMessage": {
-    "message": "Hubo un error y Mapeo no pudo actualizarse. Inténtalo de nuevo más tarde."
+    "message": "දෝෂයක් ඇති අතර Mapeo යාවත්කාලීන කිරීමට නොහැකි විය. පසුව නැවත උත්සාහ කරන්න."
   },
   "renderer.components.UpdaterView.index.errorTitle": {
-    "message": "Error"
+    "message": "දෝෂයකි"
   },
   "renderer.components.UpdaterView.index.estimatedDownloadTime": {
-    "message": "Tiempo estimado de descarga es"
+    "message": "ඇස්තමේන්තුගත බාගත කාලය"
   },
   "renderer.components.UpdaterView.index.majorUpdate": {
-    "message": "Esta actualización hará que su aplicación sea incompatible con versiones anteriores."
+    "message": "මෙම යාවත්කාලීනය ඔබගේ යෙදුම පෙර සංස්කරණ සමඟ නොගැළපීම් ඇති කරයි."
   },
   "renderer.components.UpdaterView.index.minorUpdate": {
-    "message": "Esta actualización incluye mejoras que pueden cambiar su experiencia."
+    "message": "මෙම යාවත්කාලීනයේ ඇති වැඩිදියුණු කිරීම් මගින් ඔබේ අත්දැකීම වෙනස් අත්දැකීමක් ලැබිය හැක."
   },
   "renderer.components.UpdaterView.index.patchUpdate": {
-    "message": "Esta actualización incluye cambios que corrigen errores críticos. Por favor, actualice lo antes posible."
+    "message": "මෙම යාවත්කාලීනය තුල බරපතල දෝෂ නිවැරදි කරන වෙනස්කම් ඇතුළත් වේ. කරුණාකර හැකි ඉක්මනින් යාවත්කාලීන කරන්න."
   },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
-    "message": "Reiniciar"
+    "message": "නැවත ආරම්භ"
   },
   "renderer.components.UpdaterView.index.restartMapeoText": {
-    "message": "Se ha descargado una actualización de Mapeo. Reinicie Mapeo para actualizar."
+    "message": "Mapeo වෙත යාවත්කාලීනයක් බාගත කර ඇත. යාවත්කාලීන කිරීමට Mapeo නැවත ආරම්භ කරන්න."
   },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
-    "message": "Desconocido"
+    "message": "නොදන්නා"
   },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Actualizar"
+    "message": "යාවත්කාලීන කරන්න"
   },
   "renderer.components.UpdaterView.index.updateNotAvailable": {
-    "message": "¡Mapeo está actualizado! Estás en la última versión."
+    "message": "Mapeo යාවත්කාලීනයි! ඔබ සිටින්නේ නවතම සංස්කරණයේ ය."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
-    "message": "Cancelar"
+    "message": "අවලංගු කරන්න"
   },
   "renderer.components.dialogs.ChangeLanguage.button-submit": {
-    "message": "Aceptar"
+    "message": "පිළිගන්වන්න"
   },
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": "Elegir un idioma"
+    "message": "භාෂාව තෝරන්න"
   },
   "renderer.components.dialogs.Error.close": {
-    "message": "Cerrar"
+    "message": "වසන්න"
   },
   "renderer.components.dialogs.Error.openLog": {
-    "message": "Abrir registro..."
+    "message": "ලොගය විවෘත කරන්න..."
   },
   "renderer.components.dialogs.LatLon.button-submit": {
-    "message": "Ir"
+    "message": "පිළිගන්වන්න"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
-    "message": "Ingresar coordenadas"
+    "message": "ඛණ්ඩාංක ඇතුළත් කරන්න"
   },
   "renderer.create-zip.errorsFilename": {
     "description": "File name for file with information about export errors",
-    "message": "Exportar errores"
+    "message": "අපනයන දෝෂ"
   },
   "renderer.create-zip.errorsMsg": {
     "description": "Error message stored in text file in export if there were errors during export",
-    "message": "Se ha producido un error al intentar exportar estos archivos, así que no se encuentran en esta exportación:"
+    "message": "මෙම ගොනු නිර්යාත කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය, එබැවින් ඒවා මෙම නිර්යාතයෙන් මග හැරී ඇත:"
   },
   "renderer.create-zip.missingOriginalsFilename": {
     "description": "File name for file with information about missing originals in export",
-    "message": "Faltan los originales"
+    "message": "මඟහැරුණු මුල් පිටපත්"
   },
   "renderer.create-zip.missingOriginalsMsg": {
     "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
-    "message": "No se pudo encontrar el tamaño original de estos archivos, sólo se incluyen imágenes de tamaño de vista previa (1,200 píxeles). Esto puede suceder porque el teléfono que tomó las fotos sólo se ha sincronizado con otros teléfonos, y no directamente con Mapeo Desktop. Para intentar arreglar esto, busque el teléfono que tomó las fotos y sincronícelo con Mapeo Desktop antes de exportar de nuevo."
+    "message": "මෙම ගොනුවල මුල් ප්‍රමාණය සොයාගත නොහැකි විය, පෙරදසුන් ප්‍රමාණයේ (පික්සල 1,200) රූප පමණක් ඇතුළත් වේ. මෙය සිදු විය හැක්කේ ඡායාරූප ගත් දුරකථනය වෙනත් දුරකථන වලට පමණක් සමමුහුර්ත කර ඇති නිසා මිස කෙලින්ම Mapeo ඩෙස්ක්ටොප් එකට නොවේ. මෙය නිවැරදි කිරීමට, ඡායාරූප ගත් දුරකථනය සොයාගෙන එය නැවත අපනයනය කිරීමට පෙර Mapeo Desktop සමඟ සමමුහුර්ත කරන්න."
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "Sin respuesta"
+    "message": "පිළිතුරක් නැත"
   }
 }

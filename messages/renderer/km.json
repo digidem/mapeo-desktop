@@ -52,62 +52,53 @@
   "renderer.components.MapEditor.index.notes": {
     "message": "សេចក្ដីពិពណ៌នា"
   },
-  "renderer.components.MapFilter.DataExportDialog.cancel": {
-    "description": "cancel button",
-    "message": "បោះបង់"
-  },
-  "renderer.components.MapFilter.DataExportDialog.close": {
-    "description": "Close button (shown if user has no data to export)",
-    "message": "បិទ"
-  },
-  "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
     "message": "ទិន្នន័យសង្កេតផែនទីមែបភីអូ"
   },
-  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
     "message": "ការសង្កេតសរុបចំនួន{count}"
   },
-  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
     "message": "ការសង្កេតដែលបានច្រោះចំនួន{count}"
   },
-  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
     "message": "តែទិន្នន័យដែលបានច្រោះ ឬទិន្នន័យទាំងអស់?"
   },
-  "renderer.components.MapFilter.DataExportDialog.format": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
     "description": "Label for data format selector",
     "message": "ទិន្ន័យទម្រង់"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
     "description": "Label for select to include photos in export",
     "message": "នាំចេញរូបថតដែរ?"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
     "message": "ការនាំចេញនឹងក្លាយជាឯកសារទម្រង់ Zip ដែលផ្ទុកទិន្នន័យនិងរូបថត"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
     "message": "គ្មានរូបថត"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
     "message": "រូបថតទំហំពេញ"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
     "message": "មើលទំហំរូបថតជាមុន"
   },
-  "renderer.components.MapFilter.DataExportDialog.noData": {
-    "description": "Shown when there is no data to export",
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
+    "description": "Title for export dialog",
+    "message": "នាំចេញការសង្កេត"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
     "message": "អ្នកមិនមានទិន្នន័យសម្រាប់នាំចេញទេ។"
   },
-  "renderer.components.MapFilter.DataExportDialog.save": {
-    "description": "Save button",
-    "message": "រក្សាទុក"
-  },
-  "renderer.components.MapFilter.DataExportDialog.title": {
-    "description": "Title for webmaps export dialog",
+  "renderer.components.MapFilter.DataExportDialog.Template.title": {
+    "description": "Title for observations export dialog",
     "message": "នាំចេញការសង្កេត"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {

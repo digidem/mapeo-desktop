@@ -9,6 +9,7 @@
   "menu-file": "Arquivo",
   "menu-change-language": "Mudar idioma...",
   "menu-change-language-title": "Escolha o idioma",
+  "menu-config-complete": "Configuração importada com sucesso: ",
   "menu-import-tiles-file": "Arquivo (.tar)",
   "menu-import-tiles-directory": "Pasta",
   "menu-import-tiles": "Importar mapa offline...",
@@ -92,7 +93,7 @@
   "welcome-screen-3-open-map": "Usar configurações para o OpenStreetMap",
   "generating-indexes-title": "Índices",
   "generating-indexes-body": "Recriando índices",
-  "menu-import-data": "Importar dados...",
+  "menu-import-data": "Importar dados de território...",
   "menu-import-data-dialog": "Selecionar arquivo para importar...",
   "menu-import-data-success": "Importação concluída!",
   "menu-import-data-error": "Erro ao importar",
@@ -100,5 +101,6 @@
   "convert-button": "Copiar para o Editor",
   "convert-number": "Você filtrou seus dados para mostrar {count} observações",
   "convert-detail": "{count} destas ainda não estão no Editor de mapa. Clique em OK para mover estas {count} observações para o Editor de mapa.",
-  "convert-nothing": "Todos já estão no Editor de mapa."
+  "convert-nothing": "Todos já estão no Editor de mapa.",
+  "closing-screen": "O Mapeo está fechando..."
 }

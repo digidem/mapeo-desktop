@@ -42,9 +42,43 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Exportar dados do mapa"
   },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Exportar dados de território como GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Exportar dados de território como Shapefile…"
+  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "OK"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "Exportar dados de território"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "Sobre você:"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "Não"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "Sim"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Cancelar"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "OK"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "Salvar"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Feedback e contribuição"
@@ -52,62 +86,70 @@
   "renderer.components.MapEditor.index.notes": {
     "message": "Descrição"
   },
-  "renderer.components.MapFilter.DataExportDialog.cancel": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
     "message": "Cancelar"
   },
-  "renderer.components.MapFilter.DataExportDialog.close": {
-    "description": "Close button (shown if user has no data to export)",
-    "message": "Fechar"
-  },
-  "renderer.components.MapFilter.DataExportDialog.defaultExportFilename": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
     "message": "dados-observacoes-mapeo"
   },
-  "renderer.components.MapFilter.DataExportDialog.exportAll": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
     "message": "Todas as {count} observações"
   },
-  "renderer.components.MapFilter.DataExportDialog.exportFiltered": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
     "message": "{count} observações filtradas"
   },
-  "renderer.components.MapFilter.DataExportDialog.filteredOrAll": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
     "message": "Somente dados filtrados ou todos os dados?"
   },
-  "renderer.components.MapFilter.DataExportDialog.format": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
     "description": "Label for data format selector",
     "message": "Formato de dados"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotos": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
     "description": "Label for select to include photos in export",
     "message": "Também exportar fotos?"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosHint": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
     "message": "A exportação será um arquivo zip, incluindo dados e fotos"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosNone": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
     "message": "Sem fotos"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosOriginal": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
     "message": "Com fotos em tamanho original"
   },
-  "renderer.components.MapFilter.DataExportDialog.includePhotosPreview": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
     "message": "Com fotos em miniatura"
   },
-  "renderer.components.MapFilter.DataExportDialog.noData": {
-    "description": "Shown when there is no data to export",
-    "message": "Você ainda não tem dados para exportar."
-  },
-  "renderer.components.MapFilter.DataExportDialog.save": {
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
     "description": "Save button",
     "message": "Salvar"
   },
-  "renderer.components.MapFilter.DataExportDialog.title": {
-    "description": "Title for webmaps export dialog",
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
+    "description": "Title for export dialog",
+    "message": "Exportar observações"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
+    "message": "Observações exportadas com sucesso."
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
+    "message": "OK"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.close": {
+    "message": "Fechar"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
+    "message": "Você ainda não tem dados para exportar."
+  },
+  "renderer.components.MapFilter.DataExportDialog.Template.title": {
+    "description": "Title for observations export dialog",
     "message": "Exportar observações"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
@@ -237,6 +279,10 @@
     "description": "Hide all fields in report view",
     "message": "Ocultar todos"
   },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Ocultar campos} =1 {1 campo oculto} other {# campos ocultos Fields}}"
+  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
     "message": "Mostrar todos"
@@ -245,9 +291,29 @@
     "description": "Label for description / notes section of report",
     "message": "Descrição"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
+    "description": "Shown in reports if an observation has no location recorded",
+    "message": "Sem localização gravada"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "Página {pageNumber}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "Não há observações disponíveis."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Ocorreu um erro desconhecido ao tentar criar o relatório"
+  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
     "message": "Página {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo_relatório_observações.pdf"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
@@ -261,6 +327,9 @@
     "description": "Shown while the report is generating when saving or printing",
     "message": "Gerando relatório…"
   },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "mostrando {observationCount} de {totalObservations} observações"
+  },
   "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
     "description": "Button label for Save PDF Button",
     "message": "Salvar como PDF"
@@ -268,6 +337,18 @@
   "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
     "description": "Button label to cancel saving report",
     "message": "Cancelar"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Continuar"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Este relatório contém {observationCount} observações e pode levar alguns minutos para criar. Tem certeza que deseja continuar?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Aviso: Relatório grande"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
     "message": "Mapa"
