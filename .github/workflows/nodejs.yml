@@ -53,8 +53,8 @@ jobs:
         env:
           CI: true
       - name: Publish
-        # Currently undocumented, but if it is None (e.g. PR from a fork) then secrets are not defined
-        if: github.secret_source != 'None'
+        # Currently undocumented, but if it is None or Dependabot (e.g. PR from a fork) then secrets are not defined
+        if: github.secret_source == 'Actions'
         run: |
           npm run dist -- --${{matrix.config.arch}}
         env:
@@ -73,7 +73,7 @@ jobs:
           MAPEO_VARIANT: ${{ matrix.variant }}
       - name: Publish (unsigned)
         # Currently undocumented, but if it is None (e.g. PR from a fork) then secrets are not defined
-        if: github.secret_source == 'None'
+        if: github.secret_source != 'Actions'
         run: |
           npm run dist -- --${{matrix.config.arch}}
         env:
