@@ -104,6 +104,16 @@
     "description": "OK button",
     "message": "OK"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "¿Desea que el mapa y otra información estén disponibles para que todos los vean y descarguen?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "¿Desea que el mapa y otra información estén disponibles para que todos los vean y descarguen?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "Nombre de la comunidad, pueblo indígena o individuo que proporciona la información (Idioma original, inglés)"
+  },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
     "message": "Miembro de la comunidad/pueblo indígena"
@@ -118,7 +128,46 @@
     "message": "Otro"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
-    "message": "Si eres un individuo, ¿cuál es tu relación con el pueblo o comunidad \n    indígena?"
+    "message": "¿Cuál es su relación con el pueblo o comunidad indígena?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
+    "description": "Choices for question 5",
+    "message": "Sí, revisión por pares"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer2": {
+    "message": "Sí, revisión del gobierno"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer3": {
+    "message": "No"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer4": {
+    "message": "No sé"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
+    "message": "¿La información del TICCA ha sido revisada por un proceso de revisión por pares (es decir, por otras comunidades) o por un organismo gubernamental? (Para obtener más información sobre este tema, consulte el manual de datos de TICCA: https://www.wcmc.io/iccadatamanual)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer1": {
+    "description": "Choices for question 6",
+    "message": "Sí - como área protegida"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer2": {
+    "message": "Sí - como OMEC"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer3": {
+    "message": "No - solo como TICCA"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer4": {
+    "message": "No sé"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Prompt": {
+    "message": "¿Le gustaría presentar el TICCA como un área protegida u Otras Medidas Efectivas de Conservación Basadas en Áreas (OMEC)? (Para obtener más información sobre este tema, consulte el manual de datos de TICCA: https://www.wcmc.io/iccadatamanual_ESP)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Placeholder": {
+    "description": "Placeholder for question 7",
+    "message": "Su información de contacto"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Prompt": {
+    "message": "Dirección de correo electrónico donde podamos contactarlo. Nos pondremos en contacto con usted para confirmar que hemos recibido su información y para discutir la información más a fondo cuando sea necesario. También nos comunicaremos con usted periódicamente para asegurarnos de que la información esté actualizada."
   },
   "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
     "description": "Helper texts",
