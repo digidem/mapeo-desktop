@@ -2,6 +2,13 @@
   "renderer.components.Home.update": {
     "message": "Mettre à jour Mapeo"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "Non"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "Oui"
+  },
   "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
     "description": "Question prompts",
     "message": "Votre communauté ou votre peuple autochtone a-t-il collectivement consenti à ce que la carte et les autres informations soient partagées avec l’UNEP-WCMC?"
@@ -25,8 +32,51 @@
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
     "message": "Autre"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
+    "message": "¿Cuál es su relación con el pueblo o comunidad indígena?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
+    "description": "Choices for question 5",
+    "message": "Oui - examen par les pairs"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer2": {
+    "message": "Oui - examen gouvernemental"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer3": {
+    "message": "Non"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer4": {
+    "message": "Je ne sais pas"
+  },
   "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
     "message": "Les informations sur l'APAC ont-elles été examinées soit par un processus d'examen par les pairs (c'est-à-dire par d'autres communautés) soit par un organisme gouvernemental? (Pour plus d'informations sur ce sujet, veuillez consulter le manuel de données ACAP: https://www.wcmc.io/iccadatamanual)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer1": {
+    "description": "Choices for question 6",
+    "message": "Oui - en tant qu'aire protégée"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer2": {
+    "message": "Oui - en tant qu'OECM"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer3": {
+    "message": "Non - uniquement en tant qu'APAC"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer4": {
+    "message": "Je ne sais pas"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Prompt": {
+    "message": "Souhaitez-vous soumettre l'APAC en tant qu'aire protégée ou autre mesure de conservation efficace par zone (OECM)? (Pour plus d'informations à ce sujet, veuillez consulter le manuel de données APAC: https://www.wcmc.io/iccadatamanual_FR)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Placeholder": {
+    "description": "Placeholder for question 7",
+    "message": "Vos coordonnées"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Prompt": {
+    "message": "Adresse e-mail à laquelle nous pouvons vous contacter. Nous vous contacterons pour confirmer que nous avons bien reçu vos informations et pour en discuter plus avant si nécessaire. Nous vous contacterons également périodiquement pour nous assurer que les informations sont à jour."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
+    "description": "Helper texts",
+    "message": "Une réponse est requise."
   },
   "renderer.components.MapEditor.index.notes": {
     "message": "Description"
