@@ -33,7 +33,7 @@
     "message": "Autre"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
-    "message": "¿Cuál es su relación con el pueblo o comunidad indígena?"
+    "message": "Quelle est votre relation avec le peuple ou la communauté indigène?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
     "description": "Choices for question 5",
