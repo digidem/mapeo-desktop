@@ -2,6 +2,32 @@
   "renderer.components.Home.update": {
     "message": "Mettre à jour Mapeo"
   },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "Votre communauté ou votre peuple autochtone a-t-il collectivement consenti à ce que la carte et les autres informations soient partagées avec l’UNEP-WCMC?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "Souhaitez-vous que la carte et les autres informations soient disponibles pour que tout le monde puisse les visualiser et les télécharger ?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "Nom de la communauté, du peuple autochtone ou de la personne fournissant les informations (langue originale, anglais)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
+    "description": "Choices for question 4",
+    "message": "Membre de la communauté/peuple autochtone"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
+    "message": "Représentant ou associé de la communauté/peuple autochtone"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
+    "message": "Représentant d'une organisation non gouvernementale"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
+    "message": "Autre"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
+    "message": "Les informations sur l'APAC ont-elles été examinées soit par un processus d'examen par les pairs (c'est-à-dire par d'autres communautés) soit par un organisme gouvernemental? (Pour plus d'informations sur ce sujet, veuillez consulter le manuel de données ACAP: https://www.wcmc.io/iccadatamanual)"
+  },
   "renderer.components.MapEditor.index.notes": {
     "message": "Description"
   },
