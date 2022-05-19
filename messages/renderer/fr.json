@@ -546,7 +546,7 @@
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
-    "message": "Base de données : {sofar} / {total}"
+    "message": "Photos : {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
     "message": "Créer une nouvelle base de données pour synchroniser"
@@ -640,7 +640,7 @@
   },
   "renderer.create-zip.missingOriginalsMsg": {
     "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
-    "message": "La taille originale de ces fichiers n'a pas pu être trouvée, seules les images de prévisualisation (1 200 pixels) sont incluses. Cela peut se produire parce que le téléphone qui a pris les photos a seulement synchronisé sur d'autres téléphones, et pas directement sur Mapeo Desktop. Pour essayer de réparer ceci, trouvez le téléphone qui a pris les photos et synchronisez avec Mapeo Desktop avant d'exporter à nouveau."
+    "message": "La taille originale de ces fichiers n'a pas pu être trouvée, seules les images de prévisualisation (1 200 pixels) sont inclues. Cela peut se produire parce que le téléphone qui a pris les photos a seulement synchronisé avec d'autres téléphones, et pas directement sur Mapeo Desktop. Pour essayer de réparer ceci, trouvez le téléphone qui a pris les photos et synchronisez avec Mapeo Desktop avant d'exporter à nouveau."
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
