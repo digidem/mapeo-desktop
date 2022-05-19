@@ -248,7 +248,7 @@
     "jest": "^24.9.0",
     "license-check": "^1.1.5",
     "lint-staged": "^11.1.2",
-    "mapeo-config-icca": "^1.6.0",
+    "mapeo-config-icca": "^1.7.0",
     "mock-data": "^1.5.5",
     "npm-run-all": "^4.0.0",
     "patch-package": "^6.4.7",
