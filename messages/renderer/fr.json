@@ -179,7 +179,7 @@
   },
   "renderer.components.MapEditor.ICCAExportDialog.title": {
     "description": "Title for ICCA package export dialog",
-    "message": "Exporter le paquet d'exportation ICCA"
+    "message": "Exporter le paquet d'exportation APAC"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Commentaires & Contribuer"
@@ -238,7 +238,7 @@
     "message": "Exporter les observations"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
-    "message": "Extension exportée avec succès."
+    "message": "Observations exportées avec succès."
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
     "message": "OK"
@@ -254,7 +254,7 @@
     "message": "Exporter les observations"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "Saisir données d'observation"
+    "message": "Exporter les données d'observation"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
     "message": "Exporter les observations…"
@@ -406,7 +406,7 @@
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
     "description": "Displayed if an error occurs when rendering the report",
-    "message": "Une erreur s'est produite lors de la création du répertoire"
+    "message": "Une erreur s'est produite lors de la création du rapport"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
@@ -466,7 +466,7 @@
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "Assurez-vous que d'autres appareils sont allumés et connectés au même réseau WiFi"
+    "message": "Assurez-vous que les appareils sont allumés et connectés au même réseau WiFi"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
@@ -476,7 +476,7 @@
     "message": "Déconnecté"
   },
   "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
-    "message": "Vous devez d'abord vous connecter à un réseau WiFi avant de pouvoir synchroniser les périphériques"
+    "message": "Vous devez d'abord vous connecter à un réseau WiFi avant de pouvoir synchroniser les appareils"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
@@ -492,7 +492,7 @@
     "message": "Le signal de connexion est très faible. Essayez de vous rapprocher du routeur WiFi"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
-    "message": "Le signal de connexion est faible. La synchronisation peut prendre plus de temps à se terminer"
+    "message": "Le signal de connexion est faible. La synchronisation pourrait prendre plus de temps à se terminer"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
@@ -510,7 +510,7 @@
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
-    "message": "Terminer"
+    "message": "Terminé"
   },
   "renderer.components.SyncView.SyncButton.disconnected": {
     "description": "Disconnected",
