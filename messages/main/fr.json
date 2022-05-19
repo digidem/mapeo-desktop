@@ -88,5 +88,19 @@
   "welcome-screen-2-text-5": "Nous sommes heureux de vos commentaires et de vos rapports de bogues, veuillez contacter notre <a target=\"_blank\" href=\"https://github.com/digidem/mapeo-desktop\">dépôt GitHub</a>.",
   "welcome-screen-2-next-button": "Commencer la cartographie",
   "welcome-screen-3-title": "Commencer avec Mapeo",
-  "welcome-screen-3-example-dataset": "Charger un jeu de données OpenStreetMap depuis Arapaho National Forest au Colorado"
+  "welcome-screen-3-example-dataset": "Charger un jeu de données OpenStreetMap depuis Arapaho National Forest au Colorado",
+  "welcome-screen-3-use-presets": "Utiliser les paramètres pour la cartographie des forêts",
+  "welcome-screen-3-open-map": "Utiliser les paramètres pour OpenStreetMap",
+  "generating-indexes-title": "Index",
+  "generating-indexes-body": "Régénérer les index",
+  "menu-import-data": "Exporter les données territoriales...",
+  "menu-import-data-dialog": "Choisissez un fichier à importer ...",
+  "menu-import-data-success": "Importation terminée !",
+  "menu-import-data-error": "Erreur pendant l'exportation",
+  "convert-progress": "Conversion des observations... {count}% terminée",
+  "convert-button": "Rédacteur en chef",
+  "convert-number": "Vous avez filtré vos données pour afficher les observations de {count}",
+  "convert-detail": "{count} d’entre eux ne sont pas encore dans Map Editor. Cliquez sur OK pour déplacer ces {count} observations vers l’éditeur de carte.",
+  "convert-nothing": "Tous ces éléments sont déjà dans l'éditeur de cartes.",
+  "closing-screen": "Mapeo est en train de fermer..."
 }
