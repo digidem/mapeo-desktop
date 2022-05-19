@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.6.0-beta.0](https://github.com/digidem/mapeo-desktop/compare/v5.5.0...v5.6.0-beta.0) (2022-05-19)
+
+
+### Bug Fixes
+
+* Fix publish step for PRs from forks ([bbd5816](https://github.com/digidem/mapeo-desktop/commit/bbd5816))
+* fix translations of presets in territory view ([#689](https://github.com/digidem/mapeo-desktop/issues/689)) ([e556f7a](https://github.com/digidem/mapeo-desktop/commit/e556f7a))
+* **obs:** only show filters for fields in point presets ([#680](https://github.com/digidem/mapeo-desktop/issues/680)) ([133cba5](https://github.com/digidem/mapeo-desktop/commit/133cba5))
+
+
+### Features
+
+* translation in French (thank you WCMC-UNEP 🙌) ([#688](https://github.com/digidem/mapeo-desktop/issues/688)) ([d1d6c01](https://github.com/digidem/mapeo-desktop/commit/d1d6c01))
+* translation updates inc. Sinhalese & Tamil ([#623](https://github.com/digidem/mapeo-desktop/issues/623)) ([b3970e0](https://github.com/digidem/mapeo-desktop/commit/b3970e0))
+
+
+
 ## [5.5.0](https://github.com/digidem/mapeo-desktop/compare/v5.5.0-beta.1...v5.5.0) (2022-03-10)
 
 
