@@ -1,6 +1,69 @@
 {
+  "renderer.components.Home.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "Territoire"
+  },
+  "renderer.components.Home.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "Observations"
+  },
+  "renderer.components.Home.sync": {
+    "description": "Synchronize tab label",
+    "message": "Synchroniser"
+  },
   "renderer.components.Home.update": {
     "message": "Mettre à jour Mapeo"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Chargement en cours…"
+  },
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": "Fermer"
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "données mapeo-map"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "Échec de la sauvegarde : erreur interne"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "L'export est terminé"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "Exporter des données"
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": "Exporter des données"
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Exporter les données territoriales en GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
+    "description": "Menu item for exporting ICCA Export Packages",
+    "message": "Exporter le paquet d'exportation ICCA…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Exporter les données territoriales en GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": "OK"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "Exporter les données territoriales"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "About you:"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
     "message": "Non"
@@ -8,6 +71,38 @@
   "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
     "description": "Yes/no answers",
     "message": "Oui"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
+    "message": "Veuillez ajouter au moins un champ."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Annuler"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
+    "message": "Anglais"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
+    "description": "Labels for community name",
+    "message": "Langue source"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
+    "message": "Veuillez remplir tous les champs nécessaires."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
+    "description": "Form instructions",
+    "message": "Merci de répondre aux questions avant d’avancer à la prochaine étape."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
+    "message": "Pour tracer une frontière ICCA, créez une zone et taguez-la avec le type\n    \"Limite ICCA. N'oubliez pas d'enregistrer vos modifications sur la carte avant\n    d'exportation."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
+    "description": "No data to export",
+    "message": "Il n'y a pas de limites ICCA à exporter."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "OK"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
     "description": "Question prompts",
@@ -78,8 +173,102 @@
     "description": "Helper texts",
     "message": "Une réponse est requise."
   },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "Enregistrer"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.title": {
+    "description": "Title for ICCA package export dialog",
+    "message": "Exporter le paquet d'exportation ICCA"
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "Commentaires & Contribuer"
+  },
   "renderer.components.MapEditor.index.notes": {
     "message": "Description"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
+    "description": "cancel button",
+    "message": "Annuler"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "données d'observation mapeo"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
+    "message": "Tout {count} observations"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
+    "message": "{count} observations filtrées"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "Seulement les données filtrées ou toutes les données?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
+    "description": "Label for data format selector",
+    "message": "Format des données"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "Exporter également les photos ?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "L'exportation sera un fichier zip contenant des données et des photos"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "Pas de photos"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "Images originales"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "Aperçu de la taille des photos"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
+    "description": "Save button",
+    "message": "Enregistrer"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
+    "description": "Title for export dialog",
+    "message": "Exporter les observations"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
+    "message": "Extension exportée avec succès."
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
+    "message": "OK"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.close": {
+    "message": "Fermer"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
+    "message": "Vous n'avez pas encore de données à exporter."
+  },
+  "renderer.components.MapFilter.DataExportDialog.Template.title": {
+    "description": "Title for observations export dialog",
+    "message": "Exporter les observations"
+  },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "Saisir données d'observation"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "Exporter les observations…"
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "Exporter la Webmap…"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "À"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "De"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
     "description": "Label for filter by date observation was created",
@@ -97,6 +286,78 @@
     "description": "Label for filter by category (e.g. the preset)",
     "message": "Catégorie"
   },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Uniquement"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Tout"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "Filtré par…"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Annuler"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "Description de la carte"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "Enregistrer"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "Style de Carte"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "Ajouter des termes et des limitations sur la façon dont ces données peuvent être utilisées"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "Termes et limitations"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Exporter une carte pour la partager en ligne"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "Titre de la carte"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "Les détails ci-dessous seront utiles pour trouver un moyen de corriger ceci…"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "Une erreur est survenue"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Données supplémentaires"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "Annuler"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "Annuler"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Annuler les modifications"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "Vous avez fait quelques modifications, la fermeture sans enregistrer perdra les modifications que vous faites"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Fermer sans enregistrer les modifications ?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "Annuler"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
     "message": "Oui, supprimer"
   },
@@ -111,20 +372,231 @@
     "description": "Header for section that includes the additional details for an observation",
     "message": "Détails"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "Enregistrer"
+  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
     "message": "Cacher tout"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, =0 {Hide Fields} =1 {1 Hidden Field} other {# Hidden Fields}}"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Tout afficher"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
     "description": "Label for description / notes section of report",
     "message": "Description"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
+    "description": "Shown in reports if an observation has no location recorded",
+    "message": "Aucun emplacement enregistré"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "Page {pageNumber}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "Aucune observation disponible."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Une erreur s'est produite lors de la création du répertoire"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Page {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Rapport d'observation Mapeo.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Suivant"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Précédent"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Génération du rapport…"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "affichage de {observationCount} observations sur {totalObservations}"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Sauvegarder PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Annuler"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Continuer"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Ce rapport contient {observationCount} observations, et pourrait prendre quelques minutes pour être créé. Êtes-vous sûr de vouloir continuer ?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Avertissement: Rapport volumineux"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Carte"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Lecteur"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Rapport"
+  },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
   },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "Assurez-vous que d'autres appareils sont allumés et connectés au même réseau WiFi"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Recherche…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Déconnecté"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "Vous devez d'abord vous connecter à un réseau WiFi avant de pouvoir synchroniser les périphériques"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Créer un nouveau fichier de synchronisation…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "Qualité: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "Le signal de connexion est excellent"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "Le signal de connexion est très faible. Essayez de vous rapprocher du routeur WiFi"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "Le signal de connexion est faible. La synchronisation peut prendre plus de temps à se terminer"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "Synchroniser depuis un fichier…"
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "Appareils disponibles"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "Inconnu"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "Votre carte WiFi ou votre système d'exploitation (OS) n'a pas été reconnu"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "Terminer"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Déconnecté"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Phase finale…"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "Réessayer"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "Lancement…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "Synchroniser"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "Base de données : {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "Erreur de synchronisation"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "Dernière synchronisation :"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "Base de données : {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Créer une nouvelle base de données pour synchroniser"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} a besoin de mettre à jour Mapeo"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "Vous devez mettre à jour Mapeo pour synchroniser avec {deviceName}"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Créer une nouvelle base de données pour synchroniser"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Estimation..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Télécharger"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Téléchargement en cours"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Une erreur s’est produite en sauvegardant votre message. Essayez de nouveau plus tard."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Erreur"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Le temps de téléchargement estimé est"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Cette mise à jour rendra votre application incompatible avec les vérifications précédentes."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Cette mise à jour inclut des améliorations qui peuvent changer votre expérience."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Cette mise à jour inclut des modifications qui corrigent les erreurs critiques. Veuillez mettre à jour dès que possible."
+  },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
     "message": "Redémarrer"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Une mise à jour de Mapeo a été téléchargée. Redémarrez Mapeo pour mettre à jour."
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Inconnu"
   },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
@@ -132,5 +604,46 @@
   },
   "renderer.components.UpdaterView.index.updateNotAvailable": {
     "message": "Mapeo est à jour ! Vous êtes sur la dernière version."
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Annuler"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "Envoyer"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Choisir une langue"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Fermer"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Ouvrir les logs..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "Envoyer"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "Entrer les coordonnées"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Erreur d'exportation"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Il y a eu une erreur en essayant d'exporter ces fichiers, ils sont donc absents de cette exportation:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Origines manquantes"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "La taille originale de ces fichiers n'a pas pu être trouvée, seules les images de prévisualisation (1 200 pixels) sont incluses. Cela peut se produire parce que le téléphone qui a pris les photos a seulement synchronisé sur d'autres téléphones, et pas directement sur Mapeo Desktop. Pour essayer de réparer ceci, trouvez le téléphone qui a pris les photos et synchronisez avec Mapeo Desktop avant d'exporter à nouveau."
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Pas de réponse"
   }
 }
