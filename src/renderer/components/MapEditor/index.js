@@ -114,16 +114,16 @@ insertCss(`
   .id-container .inspector-body .raw-membership-editor {
     display: none;
   }
-  
-  .id-container .save-success .link-out { 
+
+  .id-container .save-success .link-out {
     display: none;
   }
-  .id-container .save-success .summary-table { 
+  .id-container .save-success .summary-table {
     display: none;
   }
   .id-container .layer-list li.switch {
     background: none;
-  }  
+  }
   .id-container .map-panes .imagery-faq {
     display: none;
   }
@@ -311,8 +311,9 @@ const MapEditor = () => {
         translations[Object.keys(translations)[0]] ||
         {}
       if (translationsInLocale.presets) {
-        ;(iD.translations[currentLocale] || iD.translations.en).presets =
-          translationsInLocale.presets
+        ;(
+          iD.translations[currentLocale] || iD.translations.en
+        ).presets = translationsInLocale
       }
     }
     if (presets) {
