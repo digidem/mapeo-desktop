@@ -28,19 +28,19 @@
   },
   "renderer.components.MapEditor.ExportButton.dialogError": {
     "description": "Expor error message - if there was an error during export",
-    "message": "Échec de la sauvegarde : erreur interne"
+    "message": "Échec de l'exportation : erreur interne"
   },
   "renderer.components.MapEditor.ExportButton.dialogSuccess": {
     "description": "Export success message,",
-    "message": "L'export est terminé"
+    "message": "L'exportation est terminée"
   },
   "renderer.components.MapEditor.ExportButton.dialogTitle": {
     "description": "Export dialog title - shown during export progress and after success/failure",
-    "message": "Exporter des données"
+    "message": "Exportation des données"
   },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
-    "message": "Exporter des données"
+    "message": "Exporter les données de carte"
   },
   "renderer.components.MapEditor.ExportButton.exportGeoJson": {
     "description": "Menu item for exporting GeoJSON",
@@ -52,7 +52,7 @@
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
-    "message": "Exporter les données territoriales en GeoJSON…"
+    "message": "Exporter les données territoriales en format Shapefile…"
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
@@ -63,7 +63,7 @@
     "message": "Exporter les données territoriales"
   },
   "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
-    "message": "About you:"
+    "message": "À propos de vous :"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
     "message": "Non"
@@ -73,7 +73,7 @@
     "message": "Oui"
   },
   "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
-    "message": "Veuillez ajouter au moins un champ."
+    "message": "Veuillez remplir au moins un champ."
   },
   "renderer.components.MapEditor.ICCAExportDialog.cancel": {
     "description": "cancel button",
@@ -84,21 +84,21 @@
   },
   "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
     "description": "Labels for community name",
-    "message": "Langue source"
+    "message": "Langue originale"
   },
   "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
     "message": "Veuillez remplir tous les champs nécessaires."
   },
   "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
     "description": "Form instructions",
-    "message": "Merci de répondre aux questions avant d’avancer à la prochaine étape."
+    "message": "Merci de répondre aux questions avant d’exporter."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
-    "message": "Pour tracer une frontière ICCA, créez une zone et taguez-la avec le type\n    \"Limite ICCA. N'oubliez pas d'enregistrer vos modifications sur la carte avant\n    d'exportation."
+    "message": "Pour tracer une frontière APAC, créez une zone et taguez-la avec le type\n    \"Limite APAC\". N'oubliez pas d'enregistrer vos modifications sur la carte avant\n    d'exporter."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
     "description": "No data to export",
-    "message": "Il n'y a pas de limites ICCA à exporter."
+    "message": "Il n'y a pas de limites APAC à exporter."
   },
   "renderer.components.MapEditor.ICCAExportDialog.ok": {
     "description": "OK button",
@@ -128,7 +128,7 @@
     "message": "Autre"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
-    "message": "Quelle est votre relation avec le peuple ou la communauté indigène?"
+    "message": "Si vous êtes un individus, quelle est votre relation avec le peuple ou la communauté indigène?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
     "description": "Choices for question 5",
