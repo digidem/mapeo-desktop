@@ -26,6 +26,7 @@ const initialLocale = ipcRenderer.sendSync('get-locale') // navigator.language.s
 const msgs = {
   en: require('../../translations/en.json'),
   es: require('../../translations/es.json'),
+  fr: require('../../translations/fr.json'),
   pt: require('../../translations/pt.json'),
   vi: require('../../translations/vi.json'),
   km: require('../../translations/km.json'),

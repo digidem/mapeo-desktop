@@ -6,6 +6,7 @@ const store = require('../store')
 const translations = {
   en: require('../../messages/main/en.json'),
   es: require('../../messages/main/es.json'),
+  fr: require('../../messages/main/fr.json'),
   pt: require('../../messages/main/pt.json'),
   th: require('../../messages/main/th.json'),
   vi: require('../../messages/main/vi.json'),
@@ -14,7 +15,9 @@ const translations = {
 
 // We only support generalized locales for now (i.e., no difference between
 // Spanish/Espana and Spanish/Latin America)
-function getSystemLocale () { return app.getLocale().substr(0, 2) }
+function getSystemLocale () {
+  return app.getLocale().substr(0, 2)
+}
 
 // defaultLocale is the default local of the app, not the user's locale.
 class I18n extends EventEmitter {
@@ -53,7 +56,13 @@ class I18n extends EventEmitter {
   }
 
   setLocale (newLocale) {
-    if (!newLocale || newLocale.length !== 2) return logger.error(new Error('Tried to set locale and failed, must be a 2 character string', newLocale))
+    if (!newLocale || newLocale.length !== 2)
+      return logger.error(
+        new Error(
+          'Tried to set locale and failed, must be a 2 character string',
+          newLocale
+        )
+      )
     logger.info('Changing locale to', newLocale)
     this.locale = newLocale
     this.genericLocale = newLocale.split('-')[0]
