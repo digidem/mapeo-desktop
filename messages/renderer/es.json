@@ -350,7 +350,7 @@
     "message": "Cerrar sin guardar"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
-    "message": "Has editado la observación. Cerrar sin guardar borraría a los cambios."
+    "message": "Has realizado algunos cambios, si cierras sin guardar se perderán los cambios realizados"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
     "message": "¿Cerrar sin guardar?"
