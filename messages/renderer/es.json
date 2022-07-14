@@ -9,7 +9,7 @@
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
-    "message": "Síncronizar"
+    "message": "Sincronizar"
   },
   "renderer.components.Home.update": {
     "message": "Actualizar Mapeo"
@@ -311,7 +311,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": "Estilo de mapa"
+    "message": "Estilo del mapa"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
@@ -323,7 +323,7 @@
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": "Exportar un mapa para compartir en el internet"
+    "message": "Exportar un mapa para compartir en internet"
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
@@ -333,7 +333,7 @@
     "message": "Los detalles abajo (en Inglés) pueden apoyar a resolver este error…"
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
-    "message": "Disculpas, hay un error"
+    "message": "Disculpas, ha ocurrido un error"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
@@ -500,7 +500,7 @@
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
-    "message": "Equipo disponibles"
+    "message": "Equipos disponibles"
   },
   "renderer.components.SyncView.SyncAppBar.wifiError": {
     "message": "Desconocido"
@@ -549,15 +549,15 @@
     "message": "Fotos: {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
-    "message": "Crear nuevo base de datos para sincronizar"
+    "message": "Crear nueva base de datos para sincronizar"
   },
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} necesita actualizar a Mapeo"
+    "message": "{deviceName} necesita actualizar Mapeo"
   },
   "renderer.components.SyncView.index.errorMsgVersionUsBad": {
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": "Tienes que actualizar to versión de Mapeo para poder sincronizar con {deviceName}"
+    "message": "Tienes que actualizar la versión de Mapeo para poder sincronizar con {deviceName}"
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
     "message": "Seleccionar base de datos para sincronizar"
