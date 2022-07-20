@@ -432,6 +432,10 @@
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
   },
+  "renderer.components.PracticeModeBar.practiceMode": {
+    "description": "indicates that user in practice mode",
+    "message": "Practice Mode"
+  },
   "renderer.components.Settings.BGMaps.addMap": {
     "description": "Button to add map background",
     "message": "Add Map Background"
@@ -448,13 +452,37 @@
     "description": "Title for description of offline maps",
     "message": "Managing Map Backgrounds and Offline Areas"
   },
+  "renderer.components.Settings.ProjectConfig.config": {
+    "description": "Label to indicate the config",
+    "message": "Config"
+  },
+  "renderer.components.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import a new config",
+    "message": "Import Config"
+  },
+  "renderer.components.Settings.ProjectConfig.joinProject": {
+    "description": "Button to join a new project",
+    "message": "Join A Project"
+  },
+  "renderer.components.Settings.ProjectConfig.projConfigTitle": {
+    "description": "Title from the Project Configuration Page",
+    "message": "Project Configuration"
+  },
+  "renderer.components.Settings.ProjectConfig.projectName": {
+    "description": "Label to indicate the project name",
+    "message": "Project Name"
+  },
   "renderer.components.Settings.index.aboutMapeo": {
-    "description": "Setting Tab title to open information about mapeo",
+    "description": "Setting menu option: About Mapeo",
     "message": "About Mapeo"
   },
   "renderer.components.Settings.index.backgroundMap": {
-    "description": "Setting Tab title to open background maps",
+    "description": "Setting menu option: Background maps",
     "message": "Background Map"
+  },
+  "renderer.components.Settings.index.projConfig": {
+    "description": "Setting menu option: Project Configuration",
+    "message": "Project Configuration"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -617,6 +645,30 @@
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Enter Coordinates"
+  },
+  "renderer.components.dialogs.ProjectInvite.bringObservations": {
+    "description": "Asks user to confirm if the would like to bring their observations from practice mode",
+    "message": "Bring observations from Practice Mode to the project?"
+  },
+  "renderer.components.dialogs.ProjectInvite.deleteObservations": {
+    "description": "Confirmation that user would like to discard observations when joining a new project",
+    "message": "No, delete my observations"
+  },
+  "renderer.components.dialogs.ProjectInvite.keepObservations": {
+    "description": "Confirmation that user would like to keep observations when joining a new project",
+    "message": "Yes, keep my observations"
+  },
+  "renderer.components.dialogs.ProjectInvite.titleJoinProject": {
+    "description": "Title of join project modal",
+    "message": "Join Project"
+  },
+  "renderer.components.dialogs.ProjectInvite.titleLeavePractice": {
+    "description": "Title of modal asking user to confirm that they are leaving practice mode",
+    "message": "Leave Practice Mode"
+  },
+  "renderer.components.dialogs.ProjectInvite.titleProjectJoined": {
+    "description": "Title of modal confirming that the user was successfully invited to project",
+    "message": "You've Been Invited"
   },
   "renderer.create-zip.errorsFilename": {
     "description": "File name for file with information about export errors",
