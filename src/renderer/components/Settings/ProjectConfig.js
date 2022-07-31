@@ -4,7 +4,6 @@ import { Button, makeStyles, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import api from '../../new-api'
-import Dialog from '@material-ui/core/Dialog'
 import { ProjectInviteDialog } from '../dialogs/ProjectInvite'
 
 const m = defineMessages({
