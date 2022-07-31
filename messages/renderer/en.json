@@ -1,4 +1,12 @@
 {
+  "renderer.components.CopyToClipboard.copied": {
+    "description": "message indicated that text has been copied to clipboard",
+    "message": "Copied to clipboard"
+  },
+  "renderer.components.CopyToClipboard.copyText": {
+    "description": "message to user indicating that clicking the button will copy text",
+    "message": "Copy text"
+  },
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
     "message": "Territory"
@@ -650,6 +658,18 @@
     "description": "Asks user to confirm if the would like to bring their observations from practice mode",
     "message": "Bring observations from Practice Mode to the project?"
   },
+  "renderer.components.dialogs.ProjectInvite.cancel": {
+    "description": "button text to cancel action",
+    "message": "Cancel"
+  },
+  "renderer.components.dialogs.ProjectInvite.close": {
+    "description": "button text to close dialog,",
+    "message": "Close"
+  },
+  "renderer.components.dialogs.ProjectInvite.copyUrl": {
+    "description": "instructions for user to send a join request",
+    "message": "Copy the url and send it to the Project Coordinator"
+  },
   "renderer.components.dialogs.ProjectInvite.deleteObservations": {
     "description": "Confirmation that user would like to discard observations when joining a new project",
     "message": "No, delete my observations"
@@ -657,6 +677,14 @@
   "renderer.components.dialogs.ProjectInvite.keepObservations": {
     "description": "Confirmation that user would like to keep observations when joining a new project",
     "message": "Yes, keep my observations"
+  },
+  "renderer.components.dialogs.ProjectInvite.sendJoinRequest": {
+    "description": "alternative instructions for user send a join request instead of using the QR code",
+    "message": "Or Send Join Request"
+  },
+  "renderer.components.dialogs.ProjectInvite.showQr": {
+    "description": "instructions for user to show qr code to the project admin",
+    "message": "Show this QR code to a Project Coordinator"
   },
   "renderer.components.dialogs.ProjectInvite.titleJoinProject": {
     "description": "Title of join project modal",
