@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 import { ProjectConfig } from './ProjectConfig'
+import { SettingsProvider } from './SettingsContext'
 
 const m = defineMessages({
   // Setting menu option: Background maps
@@ -51,10 +52,18 @@ const tabs = /** @typedef {const} */ [
  * @prop {boolean} reset
  * @prop {function(boolean):void} setReset
  * @prop {boolean} fadeIn
+ * @prop {boolean} practiceModeOn
+ * @prop {string|null} invite
  */
 
 /** @param {SettingsProp} props */
-export const Settings = ({ reset, setReset, fadeIn }) => {
+export const Settings = ({
+  reset,
+  setReset,
+  fadeIn,
+  practiceModeOn,
+  invite
+}) => {
   const [menuVisible, setMenuVisibility] = React.useState(true)
 
   /** @type {SettingsTabs['tabId'] | false} */
@@ -81,43 +90,45 @@ export const Settings = ({ reset, setReset, fadeIn }) => {
   // }, [tabValue, menuVisible])
 
   return (
-    <Fade in={reset || fadeIn} timeout={FADE_DURATION}>
-      <Paper className={classes.container}>
-        {menuVisible && (
-          <Fade in={menuVisible} timeout={FADE_DURATION}>
-            <Paper className={classes.tabs}>
-              <SettingsMenu
-                tabs={tabs}
-                currentTab={tabValue}
-                setCurrentTab={setTabValue}
-              />
-            </Paper>
-          </Fade>
-        )}
+    <SettingsProvider practiceModeOn={practiceModeOn} invite={invite}>
+      <Fade in={reset || fadeIn} timeout={FADE_DURATION}>
+        <Paper className={classes.container}>
+          {menuVisible && (
+            <Fade in={menuVisible} timeout={FADE_DURATION}>
+              <Paper className={classes.tabs}>
+                <SettingsMenu
+                  tabs={tabs}
+                  currentTab={tabValue}
+                  setCurrentTab={setTabValue}
+                />
+              </Paper>
+            </Fade>
+          )}
 
-        {/* {tabValue === 'BackgroundMap' && (
-          <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
-            <Paper className={classes.container}>
-              <BGMaps setCurrentTab={setTabValue} />
-            </Paper>
-          </Fade>
-        )}
+          {/* {tabValue === 'BackgroundMap' && (
+            <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
+              <Paper className={classes.container}>
+                <BGMaps setCurrentTab={setTabValue} />
+              </Paper>
+            </Fade>
+          )}
+      
+          {tabValue === 'AboutMapeo' && (
+            <div>
+              <h1>Build About Mapeo Here</h1>
+            </div>
+          )} */}
 
-        {tabValue === 'AboutMapeo' && (
-          <div>
-            <h1>Build About Mapeo Here</h1>
-          </div>
-        )} */}
-
-        {tabValue === 'ProjConfig' && (
-          <Fade in={tabValue === 'ProjConfig'} timeout={FADE_DURATION}>
-            <Paper className={classes.container}>
-              <ProjectConfig />
-            </Paper>
-          </Fade>
-        )}
-      </Paper>
-    </Fade>
+          {tabValue === 'ProjConfig' && (
+            <Fade in={tabValue === 'ProjConfig'} timeout={FADE_DURATION}>
+              <Paper className={classes.container}>
+                <ProjectConfig />
+              </Paper>
+            </Fade>
+          )}
+        </Paper>
+      </Fade>
+    </SettingsProvider>
   )
 }
 

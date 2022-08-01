@@ -23,7 +23,8 @@ import useUpdater from './UpdaterView/useUpdater'
 import Loading from './Loading'
 import buildConfig from '../../build-config'
 import { Settings } from './Settings'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
+import api from '../new-api'
 
 const MapFilter = React.lazy(() =>
   import(
@@ -48,7 +49,9 @@ const m = defineMessages({
   mapfilter: 'Observations',
   // Synchronize tab label
   sync: 'Synchronize',
-  update: 'Update Mapeo'
+  update: 'Update Mapeo',
+  // title indicating that user is in practice mode
+  practiceMode: 'Practice Mode'
 })
 
 const transitionDuration = 100
@@ -59,6 +62,8 @@ const Root = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   @media only print {
     display: block;
     height: auto;
@@ -227,8 +232,19 @@ export default function Home ({ onSelectLanguage }) {
   const { formatMessage: t } = useIntl()
 
   const [settingsReset, setSettingsReset] = React.useState(false)
+  const [practiceModeOn, setPracticeModeOn] = React.useState(false)
 
   const classes = useStyle()
+
+  React.useEffect(() => {
+    api.getMetadata().then(metadata => {
+      if (metadata.name === 'mapeo-default-settings') {
+        setPracticeModeOn(true)
+        return
+      }
+      setPracticeModeOn(false)
+    })
+  }, [api, setPracticeModeOn])
 
   React.useEffect(() => {
     const openLatLonDialog = () => setDialog('LatLon')
@@ -259,68 +275,83 @@ export default function Home ({ onSelectLanguage }) {
 
   return (
     <Root>
-      <Sidebar>
-        <TitleBarShim />
-        <Logo>
-          <MapeoIcon fontSize='large' />
-          <div>
-            <h1>Mapeo</h1>
-            {buildConfig.variant === 'icca' ? <h2>for ICCAs</h2> : null}
-          </div>
-        </Logo>
-        <StyledTabs
-          style={{ height: '100%' }}
-          className={classes.root}
-          orientation='vertical'
-          variant='scrollable'
-          value={tabIndex}
-          onChange={(e, value) => {
-            if (value === 4) setSettingsReset(true)
-            setTabIndex(value)
-          }}
-        >
-          <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
-          <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
-          <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
-          {hasUpdate && (
+      <div style={{ display: 'flex', flex: 1 }}>
+        <Sidebar>
+          <TitleBarShim />
+          <Logo>
+            <MapeoIcon fontSize='large' />
+            <div>
+              <h1>Mapeo</h1>
+              {buildConfig.variant === 'icca' ? <h2>for ICCAs</h2> : null}
+            </div>
+          </Logo>
+          <StyledTabs
+            style={{ height: '100%' }}
+            className={classes.root}
+            orientation='vertical'
+            variant='scrollable'
+            value={tabIndex}
+            onChange={(e, value) => {
+              if (value === 4) setSettingsReset(true)
+              setTabIndex(value)
+            }}
+          >
+            <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
+            <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
+            <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
+            {hasUpdate && (
+              <StyledTab
+                icon={<WarningIcon />}
+                label={<UpdateTab update={update} />}
+              />
+            )}
+
             <StyledTab
-              icon={<WarningIcon />}
-              label={<UpdateTab update={update} />}
+              style={{ marginTop: 'auto' }}
+              value={4}
+              icon={<SettingsIcon />}
+              label={'Settings'}
+            />
+          </StyledTabs>
+        </Sidebar>
+        <TabContent style={{ flex: 1 }}>
+          <TabPanel value={tabIndex} index={0} component={MapEditor} />
+          <TabPanel value={tabIndex} index={1} component={MapFilter} />
+          <TabPanel
+            value={tabIndex}
+            index={2}
+            component={SyncView}
+            unmountOnExit
+          />
+          <TabPanel
+            value={tabIndex}
+            index={3}
+            component={UpdaterView}
+            update={update}
+            setUpdate={setUpdate}
+          />
+          {tabIndex === 4 && (
+            <Settings
+              fadeIn={tabIndex === 4}
+              reset={settingsReset}
+              setReset={setSettingsReset}
+              practiceModeOn={practiceModeOn}
             />
           )}
+        </TabContent>
+      </div>
+      <Paper
+        className={classes.practiceMode}
+        elevation={24}
+        square={true}
+        style={practiceModeOn ? undefined : { display: 'none' }}
+      >
+        <Typography style={{ color: '#FFFFFF' }}>
+          {t(m.practiceMode)}{' '}
+        </Typography>
+      </Paper>
 
-          <StyledTab
-            style={{ marginTop: 'auto' }}
-            value={4}
-            icon={<SettingsIcon />}
-            label={'Settings'}
-          />
-        </StyledTabs>
-      </Sidebar>
-      <TabContent>
-        <TabPanel value={tabIndex} index={0} component={MapEditor} />
-        <TabPanel value={tabIndex} index={1} component={MapFilter} />
-        <TabPanel
-          value={tabIndex}
-          index={2}
-          component={SyncView}
-          unmountOnExit
-        />
-        <TabPanel
-          value={tabIndex}
-          index={3}
-          component={UpdaterView}
-          update={update}
-          setUpdate={setUpdate}
-        />
-        {tabIndex === 4 && (
-          <Settings
-            fadeIn={tabIndex === 4}
-            reset={settingsReset}
-            setReset={setSettingsReset}
-          />
-        )}
-      </TabContent>
+      {/* ***** Dialogs ****** */}
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}
         onCancel={() => {
@@ -349,5 +380,14 @@ const useStyle = makeStyles({
     '& .MuiTabs-flexContainerVertical': {
       height: '100%'
     }
+  },
+  practiceMode: {
+    width: '100%',
+    height: 30,
+    backgroundColor: '#E86826',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 100
   }
 })

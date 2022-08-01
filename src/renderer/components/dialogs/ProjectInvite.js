@@ -14,6 +14,7 @@ import FormControl from '@material-ui/core/FormControl'
 import { CopyToClipboard } from '../CopyToClipboard'
 import QRCode from 'react-qr-code'
 import Divider from '@material-ui/core/Divider'
+import { SettingsContext } from '../Settings/SettingsContext'
 
 const m = defineMessages({
   // Title of modal asking user to confirm that they are leaving practice mode
@@ -44,24 +45,13 @@ const m = defineMessages({
  * @typedef ProjectInviteDialogProps
  * @prop {boolean} isOpen
  * @prop {function(boolean?):void} toggleOpenClose
- * @prop {boolean} [inPracticeMode]
- * @prop {boolean} [successfulInvite]
  */
 
 /** @param {ProjectInviteDialogProps} props */
-export const ProjectInviteDialog = ({
-  isOpen,
-  toggleOpenClose,
-  inPracticeMode,
-  successfulInvite
-}) => {
+export const ProjectInviteDialog = ({ isOpen, toggleOpenClose }) => {
   return (
     <Dialog open={isOpen}>
-      <CustomDialogContent
-        inPracticeMode={inPracticeMode}
-        successfulInvite={successfulInvite}
-        closeDialog={() => toggleOpenClose(false)}
-      />
+      <CustomDialogContent closeDialog={() => toggleOpenClose(false)} />
     </Dialog>
   )
 }
@@ -69,17 +59,13 @@ export const ProjectInviteDialog = ({
 /**
  * @typedef CustomDialogContentProps
  * @prop {function():void} closeDialog
- * @prop {boolean} [inPracticeMode]
- * @prop {boolean} [successfulInvite]
  */
 
 /** @param {CustomDialogContentProps} props */
-const CustomDialogContent = ({
-  inPracticeMode,
-  closeDialog,
-  successfulInvite
-}) => {
+const CustomDialogContent = ({ closeDialog }) => {
   const { formatMessage: t } = useIntl()
+
+  const { practiceModeOn, invite } = React.useContext(SettingsContext)
 
   /** @type {[boolean|null, function]} */
   const [migrateObservations, setMigrateObservations] = React.useState(null)
@@ -90,11 +76,12 @@ const CustomDialogContent = ({
 
   const classes = useStyles()
 
-  if (!!successfulInvite) {
+  if (!!invite) {
+    // To do, on close make sure to reset invite to null
     return <React.Fragment></React.Fragment>
   }
 
-  if (inPracticeMode && !migrationPlanConfirmed) {
+  if (practiceModeOn && !migrationPlanConfirmed) {
     return (
       <React.Fragment>
         <DialogTitle>{t(m.titleLeavePractice)}</DialogTitle>
