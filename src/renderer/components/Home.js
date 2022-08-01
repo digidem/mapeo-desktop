@@ -233,6 +233,7 @@ export default function Home ({ onSelectLanguage }) {
 
   const [settingsReset, setSettingsReset] = React.useState(false)
   const [practiceModeOn, setPracticeModeOn] = React.useState(false)
+  const [invite, setInvite] = React.useState(null)
 
   const classes = useStyle()
 
@@ -336,6 +337,7 @@ export default function Home ({ onSelectLanguage }) {
               reset={settingsReset}
               setReset={setSettingsReset}
               practiceModeOn={practiceModeOn}
+              invite={invite}
             />
           )}
         </TabContent>

@@ -15,6 +15,10 @@
     "description": "MapFilter tab label",
     "message": "Observations"
   },
+  "renderer.components.Home.practiceMode": {
+    "description": "title indicating that user is in practice mode",
+    "message": "Practice Mode"
+  },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
     "message": "Synchronize"
