@@ -239,7 +239,7 @@ export default function Home ({ onSelectLanguage }) {
   const [invite, setInvite] = React.useState(null)
 
   const handleInvite = useCallback(() => {
-    //To do, handle invite here
+    // To do, handle invite here
 
     setInvite(null)
   }, [setInvite])
