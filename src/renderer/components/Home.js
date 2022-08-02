@@ -238,7 +238,9 @@ export default function Home ({ onSelectLanguage }) {
   const [practiceModeOn, setPracticeModeOn] = React.useState(false)
   const [invite, setInvite] = React.useState(null)
 
-  const resetInvite = useCallback(() => {
+  const handleInvite = useCallback(() => {
+    //To do, handle invite here
+
     setInvite(null)
   }, [setInvite])
 
@@ -257,7 +259,7 @@ export default function Home ({ onSelectLanguage }) {
       }
       setPracticeModeOn(false)
     })
-  }, [api, setPracticeModeOn])
+  }, [setPracticeModeOn])
 
   React.useEffect(() => {
     const openLatLonDialog = () => setDialog('LatLon')
@@ -305,7 +307,7 @@ export default function Home ({ onSelectLanguage }) {
             variant='scrollable'
             value={tabIndex}
             onChange={(e, value) => {
-              if (value === 4) setSettingsReset(true)
+              if (value === 'Settings') setSettingsReset(true)
               setTabIndex(value)
             }}
           >
@@ -321,7 +323,7 @@ export default function Home ({ onSelectLanguage }) {
 
             <StyledTab
               style={{ marginTop: 'auto' }}
-              value={4}
+              value={'Settings'}
               icon={<SettingsIcon />}
               label={'Settings'}
             />
@@ -343,9 +345,9 @@ export default function Home ({ onSelectLanguage }) {
             update={update}
             setUpdate={setUpdate}
           />
-          {tabIndex === 4 && (
+          {tabIndex === 'Settings' && (
             <Settings
-              fadeIn={tabIndex === 4}
+              fadeIn={tabIndex === 'Settings'}
               reset={settingsReset}
               setReset={setSettingsReset}
               practiceModeOn={practiceModeOn}
@@ -388,7 +390,7 @@ export default function Home ({ onSelectLanguage }) {
       />
       <SuccessfulInvite
         open={invite !== null}
-        closeAndResetInvite={resetInvite}
+        closeAndResetInvite={handleInvite}
         projectName={invite}
       />
     </Root>

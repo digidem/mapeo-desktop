@@ -38,14 +38,12 @@ const tabs = /** @typedef {const} */ [
 
 /**
  * @typedef SettingsProp
- * @prop {boolean} reset
- * @prop {function(boolean):void} setReset
  * @prop {boolean} fadeIn
  * @prop {boolean} practiceModeOn
  */
 
 /** @param {SettingsProp} props */
-export const Settings = ({ reset, fadeIn, practiceModeOn }) => {
+export const Settings = ({ fadeIn, practiceModeOn }) => {
   // eslint-disable-next-line no-unused-vars
   const [menuVisible, setMenuVisibility] = React.useState(true)
 
@@ -58,7 +56,7 @@ export const Settings = ({ reset, fadeIn, practiceModeOn }) => {
 
   return (
     <SettingsProvider practiceModeOn={practiceModeOn}>
-      <Fade in={reset || fadeIn} timeout={FADE_DURATION}>
+      <Fade in={fadeIn} timeout={FADE_DURATION}>
         <Paper className={classes.container}>
           {menuVisible && (
             <Fade in={menuVisible} timeout={FADE_DURATION}>

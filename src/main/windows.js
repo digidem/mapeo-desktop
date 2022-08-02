@@ -71,7 +71,6 @@ function LoadingWindow () {
     height: 410,
     center: true,
     show: false,
-    transparent: true,
     resizable: false,
     frame: false
   })
