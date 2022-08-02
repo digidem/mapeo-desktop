@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useCallback } from 'react'
 import { ipcRenderer } from 'electron'
 import styled from 'styled-components'
 import Tabs from '@material-ui/core/Tabs'
@@ -25,6 +25,8 @@ import buildConfig from '../../build-config'
 import { Settings } from './Settings'
 import { makeStyles, Paper, Typography } from '@material-ui/core'
 import api from '../new-api'
+import { SuccessfulInvite } from './dialogs/SuccessfulInvite'
+import useProjectInviteListener from '../hooks/useProjectInviteListener'
 
 const MapFilter = React.lazy(() =>
   import(
@@ -235,7 +237,16 @@ export default function Home ({ onSelectLanguage }) {
   const [practiceModeOn, setPracticeModeOn] = React.useState(false)
   const [invite, setInvite] = React.useState(null)
 
+  const resetInvite = useCallback(() => {
+    setInvite(null)
+  }, [setInvite])
+
   const classes = useStyle()
+
+  // useProjectInviteListener(invite=>{
+  //   setInvite(invite)
+
+  // })
 
   React.useEffect(() => {
     api.getMetadata().then(metadata => {
@@ -338,6 +349,7 @@ export default function Home ({ onSelectLanguage }) {
               setReset={setSettingsReset}
               practiceModeOn={practiceModeOn}
               invite={invite}
+              setInvite={setInvite}
             />
           )}
         </TabContent>
@@ -372,6 +384,11 @@ export default function Home ({ onSelectLanguage }) {
         open={error !== null}
         message={error}
         onClose={() => setError(null)}
+      />
+      <SuccessfulInvite
+        open={invite !== null}
+        closeAndResetInvite={resetInvite}
+        projectName={invite}
       />
     </Root>
   )

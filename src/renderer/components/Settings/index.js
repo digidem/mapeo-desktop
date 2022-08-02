@@ -1,49 +1,35 @@
 // @ts-check
 import * as React from 'react'
-import { SettingsMenu } from './SettingsMenu'
-import { defineMessages } from 'react-intl'
-// import MapIcon from '@material-ui/icons/MapOutlined'
-import InfoIcon from '@material-ui/icons/InfoOutlined'
-// import { BGMaps } from './BGMaps'
+import { defineMessages, MessageDescriptor } from 'react-intl'
+import AssignmentIcon from '@material-ui/icons/Assignment'
 import { makeStyles } from '@material-ui/core'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
+
+import { SettingsMenu } from './SettingsMenu'
 import { ProjectConfig } from './ProjectConfig'
 import { SettingsProvider } from './SettingsContext'
 
 const m = defineMessages({
-  // Setting menu option: Background maps
-  backgroundMap: 'Background Map',
-  // Setting menu option: About Mapeo
-  aboutMapeo: 'About Mapeo',
   // Setting menu option: Project Configuration
-  projConfig: 'Project Configuration'
+  projConfig: 'Project Configuration',
+  projConfiSubHeader: 'Categories, icons, and questions'
 })
 
 const FADE_DURATION = 700
 
-/** @typedef {import('./SettingsMenu').SettingsTabs} SettingsTabs */
+/** @typedef {{tabId:SettingTabId, icon:(string | React.ReactElement<any, string | React.JSXElementConstructor<any>>), label:MessageDescriptor, subHeader:MessageDescriptor}} SettingsTabs */
 
-// This is for strong typing of the props for the SettingsMenu component tab values
-// We could dynamically build this with `as const` if we upgraded typescript
+// This is for strong typing of the props for the SettingsMenu component tab values. When we have more tabs, we can them to this type.
 /** @typedef {'ProjConfig'} SettingTabId */
 
 /** @type {SettingsTabs[]} */
 const tabs = /** @typedef {const} */ [
-  // {
-  //   tabId: 'BackgroundMap',
-  //   icon: <MapIcon />,
-  //   label: m.backgroundMap
-  // },
-  // {
-  //   tabId: 'AboutMapeo',
-  //   icon: <InfoIcon />,
-  //   label: m.aboutMapeo
-  // },
   {
     tabId: 'ProjConfig',
-    icon: <InfoIcon />,
-    label: m.projConfig
+    icon: <AssignmentIcon />,
+    label: m.projConfig,
+    subHeader: m.projConfiSubHeader
   }
 ]
 
@@ -53,17 +39,10 @@ const tabs = /** @typedef {const} */ [
  * @prop {function(boolean):void} setReset
  * @prop {boolean} fadeIn
  * @prop {boolean} practiceModeOn
- * @prop {string|null} invite
  */
 
 /** @param {SettingsProp} props */
-export const Settings = ({
-  reset,
-  setReset,
-  fadeIn,
-  practiceModeOn,
-  invite
-}) => {
+export const Settings = ({ reset, fadeIn, practiceModeOn }) => {
   const [menuVisible, setMenuVisibility] = React.useState(true)
 
   /** @type {SettingsTabs['tabId'] | false} */
@@ -73,24 +52,8 @@ export const Settings = ({
 
   const classes = useStyles()
 
-  // // bit hacky: when user presses settingsTab, we DO NOT WANT background map to be selected
-  // // because when background map is selected, the entire settings menu is hidden
-  // if (reset) {
-  //   setReset(false)
-  //   if (tabValue === 'BackgroundMap') setTabValue(false)
-  // }
-
-  // React.useEffect(() => {
-  //   if (tabValue === 'BackgroundMap') {
-  //     setMenuVisibility(false)
-  //     return
-  //   }
-  //
-  //   if (!menuVisible) setMenuVisibility(true)
-  // }, [tabValue, menuVisible])
-
   return (
-    <SettingsProvider practiceModeOn={practiceModeOn} invite={invite}>
+    <SettingsProvider practiceModeOn={practiceModeOn}>
       <Fade in={reset || fadeIn} timeout={FADE_DURATION}>
         <Paper className={classes.container}>
           {menuVisible && (
@@ -104,20 +67,6 @@ export const Settings = ({
               </Paper>
             </Fade>
           )}
-
-          {/* {tabValue === 'BackgroundMap' && (
-            <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
-              <Paper className={classes.container}>
-                <BGMaps setCurrentTab={setTabValue} />
-              </Paper>
-            </Fade>
-          )}
-      
-          {tabValue === 'AboutMapeo' && (
-            <div>
-              <h1>Build About Mapeo Here</h1>
-            </div>
-          )} */}
 
           {tabValue === 'ProjConfig' && (
             <Fade in={tabValue === 'ProjConfig'} timeout={FADE_DURATION}>

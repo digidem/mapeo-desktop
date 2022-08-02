@@ -24,7 +24,7 @@ const m = defineMessages({
   // Title of modal confirming that the user was successfully invited to project
   titleProjectJoined: "You've Been Invited",
   // Asks user to confirm if the would like to bring their observations from practice mode
-  bringObservations: 'Bring observations from Practice Mode to the project?',
+  bringObservations: 'Bring observations from Practice Mode to the project',
   // Confirmation that user would like to keep observations when joining a new project
   keepObservations: 'Yes, keep my observations',
   // Confirmation that user would like to discard observations when joining a new project
@@ -65,7 +65,7 @@ export const ProjectInviteDialog = ({ isOpen, toggleOpenClose }) => {
 const CustomDialogContent = ({ closeDialog }) => {
   const { formatMessage: t } = useIntl()
 
-  const { practiceModeOn, invite } = React.useContext(SettingsContext)
+  const { practiceModeOn } = React.useContext(SettingsContext)
 
   /** @type {[boolean|null, function]} */
   const [migrateObservations, setMigrateObservations] = React.useState(null)
@@ -76,18 +76,15 @@ const CustomDialogContent = ({ closeDialog }) => {
 
   const classes = useStyles()
 
-  if (!!invite) {
-    // To do, on close make sure to reset invite to null
-    return <React.Fragment></React.Fragment>
-  }
-
   if (practiceModeOn && !migrationPlanConfirmed) {
     return (
       <React.Fragment>
         <DialogTitle>{t(m.titleLeavePractice)}</DialogTitle>
         <DialogContent>
-          <Typography>{t(m.bringObservations)}</Typography>
-          <FormControl component='fieldset'>
+          <Typography style={{ marginBottom: 20 }}>
+            {t(m.bringObservations)}
+          </Typography>
+          <FormControl style={{ marginBottom: 200 }} component='fieldset'>
             <RadioGroup value={migrateObservations}>
               <FormControlLabel
                 value={true}
@@ -108,16 +105,27 @@ const CustomDialogContent = ({ closeDialog }) => {
             </RadioGroup>
           </FormControl>
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            margin: 20
+          }}
+        >
           <Button
-            style={{ textTransform: 'none' }}
-            variant='contained'
+            style={{ textTransform: 'none', color: '#0066FF' }}
             onClick={() => closeDialog()}
           >
             {t(m.cancel)}
           </Button>
           <Button
-            style={{ textTransform: 'none' }}
+            disabled={migrateObservations === null}
+            style={{
+              textTransform: 'none',
+              backgroundColor:
+                migrateObservations === null ? '#ECECEC' : '#0066FF',
+              color: 'white'
+            }}
             variant='contained'
             onClick={() => setMigrationPlanConfirmed(true)}
           >

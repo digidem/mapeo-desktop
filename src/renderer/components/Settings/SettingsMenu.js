@@ -3,8 +3,9 @@ import * as React from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { useIntl } from 'react-intl'
+import { Typography } from '@material-ui/core'
 
-/** @typedef {{tabId:import('.').SettingTabId, icon:(string | React.ReactElement<any, string | React.JSXElementConstructor<any>>), label:import('react-intl').MessageDescriptor}} SettingsTabs */
+/** @typedef {import('.').SettingsTabs} SettingsTabs */
 
 /**
  * @typedef SettingMenuProp
@@ -26,7 +27,9 @@ export const SettingsMenu = ({ tabs, currentTab, setCurrentTab }) => {
       {tabs.map(tab => (
         <Tab
           style={{ textTransform: 'none' }}
-          label={t(tab.label)}
+          label={
+            <MenuLabel header={t(tab.label)} subHeader={t(tab.subHeader)} />
+          }
           key={tab.tabId}
           value={tab.tabId}
           icon={tab.icon}
@@ -35,3 +38,12 @@ export const SettingsMenu = ({ tabs, currentTab, setCurrentTab }) => {
     </Tabs>
   )
 }
+
+const MenuLabel = ({ header, subHeader }) => (
+  <div>
+    <Typography style={{ textAlign: 'start' }}>{header}</Typography>
+    <Typography style={{ textAlign: 'start', fontSize: 13 }}>
+      {subHeader}
+    </Typography>
+  </div>
+)
