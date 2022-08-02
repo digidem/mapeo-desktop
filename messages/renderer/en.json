@@ -448,22 +448,6 @@
     "description": "indicates that user in practice mode",
     "message": "Practice Mode"
   },
-  "renderer.components.Settings.BGMaps.addMap": {
-    "description": "Button to add map background",
-    "message": "Add Map Background"
-  },
-  "renderer.components.Settings.BGMaps.backToSettings": {
-    "description": "button to go back to settings",
-    "message": "Back to Settings"
-  },
-  "renderer.components.Settings.BGMaps.createOfflineMap": {
-    "description": "Button to create an offline area for a map backgroun",
-    "message": "Create Offline Map"
-  },
-  "renderer.components.Settings.BGMaps.mapBackgroundTitle": {
-    "description": "Title for description of offline maps",
-    "message": "Managing Map Backgrounds and Offline Areas"
-  },
   "renderer.components.Settings.ProjectConfig.config": {
     "description": "Label to indicate the config",
     "message": "Config"
@@ -484,13 +468,8 @@
     "description": "Label to indicate the project name",
     "message": "Project Name"
   },
-  "renderer.components.Settings.index.aboutMapeo": {
-    "description": "Setting menu option: About Mapeo",
-    "message": "About Mapeo"
-  },
-  "renderer.components.Settings.index.backgroundMap": {
-    "description": "Setting menu option: Background maps",
-    "message": "Background Map"
+  "renderer.components.Settings.index.projConfiSubHeader": {
+    "message": "Categories, icons, and questions"
   },
   "renderer.components.Settings.index.projConfig": {
     "description": "Setting menu option: Project Configuration",
@@ -660,7 +639,7 @@
   },
   "renderer.components.dialogs.ProjectInvite.bringObservations": {
     "description": "Asks user to confirm if the would like to bring their observations from practice mode",
-    "message": "Bring observations from Practice Mode to the project?"
+    "message": "Bring observations from Practice Mode to the project"
   },
   "renderer.components.dialogs.ProjectInvite.cancel": {
     "description": "button text to cancel action",
@@ -700,6 +679,19 @@
   },
   "renderer.components.dialogs.ProjectInvite.titleProjectJoined": {
     "description": "Title of modal confirming that the user was successfully invited to project",
+    "message": "You've Been Invited"
+  },
+  "renderer.components.dialogs.SuccessfulInvite.declineInvite": {
+    "message": "Decline Invite"
+  },
+  "renderer.components.dialogs.SuccessfulInvite.joinAndSync": {
+    "message": "Join and Sync"
+  },
+  "renderer.components.dialogs.SuccessfulInvite.joinProject": {
+    "message": "Join Project"
+  },
+  "renderer.components.dialogs.SuccessfulInvite.youvebeenInvited": {
+    "description": "Title for successful invite dialog",
     "message": "You've Been Invited"
   },
   "renderer.create-zip.errorsFilename": {
