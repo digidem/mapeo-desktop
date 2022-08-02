@@ -1,9 +1,9 @@
 // @ts-check
 import { useEffect, useRef } from 'react'
 
-/** @param {function(string):void} callback  */
-const subscribeToProjectInvites = callback => {
-  const intervalId = setInterval(() => callback('abc123'), 3000)
+/** @param {function(string):void} callBack  */
+const subscribeToProjectInvites = callBack => {
+  const intervalId = setInterval(() => callBack('abc123'), 3000)
   return () => clearInterval(intervalId)
 }
 

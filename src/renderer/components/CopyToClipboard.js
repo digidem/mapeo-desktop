@@ -1,11 +1,12 @@
 // @ts-check
 import * as React from 'react'
 import TextField from '@material-ui/core/TextField'
-import { Button, Typography } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 import FileCopy from '@material-ui/icons/FileCopy'
 import Snackbar from '@material-ui/core/Snackbar'
 import { defineMessages, useIntl } from 'react-intl'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 import MuiAlert from '@material-ui/lab/Alert'
 

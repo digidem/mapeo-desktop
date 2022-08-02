@@ -26,6 +26,7 @@ import { Settings } from './Settings'
 import { makeStyles, Paper, Typography } from '@material-ui/core'
 import api from '../new-api'
 import { SuccessfulInvite } from './dialogs/SuccessfulInvite'
+// eslint-disable-next-line no-unused-vars
 import useProjectInviteListener from '../hooks/useProjectInviteListener'
 
 const MapFilter = React.lazy(() =>

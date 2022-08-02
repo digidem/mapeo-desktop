@@ -4,7 +4,7 @@ import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 const m = defineMessages({
-  //indicates that user in practice mode
+  // indicates that user in practice mode
   practiceMode: 'Practice Mode'
 })
 

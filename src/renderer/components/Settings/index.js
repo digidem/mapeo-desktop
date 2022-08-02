@@ -1,5 +1,8 @@
 // @ts-check
 import * as React from 'react'
+
+// used for typedef
+// eslint-disable-next-line no-unused-vars
 import { defineMessages, MessageDescriptor } from 'react-intl'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import { makeStyles } from '@material-ui/core'
@@ -43,6 +46,7 @@ const tabs = /** @typedef {const} */ [
 
 /** @param {SettingsProp} props */
 export const Settings = ({ reset, fadeIn, practiceModeOn }) => {
+  // eslint-disable-next-line no-unused-vars
   const [menuVisible, setMenuVisibility] = React.useState(true)
 
   /** @type {SettingsTabs['tabId'] | false} */
