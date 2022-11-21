@@ -35,6 +35,8 @@ npm run build:translations
 npm run watch
 ```
 
+Before proceeding, you will have to wait until some background processes have culminated. You will know this has taken place when you see terminal output indicating that your app (and assets such as translations) have been built.
+
 Then, in another terminal, run the app in development mode:
 
 ```sh
