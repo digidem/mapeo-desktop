@@ -140,6 +140,7 @@ function usePresets () {
           .filter(p => p.geometry.includes('point'))
         const usedFields = new Set()
         for (const preset of presets) {
+          if (!Array.isArray(preset.fields)) continue
           for (const fieldId of preset.fields) {
             usedFields.add(fieldId)
           }
