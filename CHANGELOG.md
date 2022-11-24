@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.6.0-beta.2](https://github.com/digidem/mapeo-desktop/compare/v5.6.0-beta.1...v5.6.0-beta.2) (2022-11-24)
+
+
+### Bug Fixes
+
+* Fix error when a preset has no fields defined ([5819d87](https://github.com/digidem/mapeo-desktop/commit/5819d87))
+
+
+
 ## [5.6.0-beta.1](https://github.com/digidem/mapeo-desktop/compare/v5.6.0-beta.0...v5.6.0-beta.1) (2022-05-24)
 
 
