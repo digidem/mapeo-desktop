@@ -24,8 +24,10 @@ var argv = minimist(process.argv.slice(2), {
   default: {
     port: 5000,
     datadir: path.join(userDataPath, 'kappa.db'),
+    mapsdir: path.join(userDataPath, 'background-maps'),
     tileport: 5005,
-    mapPrinterPort: 5200
+    mapPrinterPort: 5200,
+    mapServerPort: 5300
   },
   boolean: ['headless', 'debug'],
   alias: {
@@ -88,20 +90,28 @@ if (!gotTheLock) {
   try {
     // Ensure we have open ports. Small chance the ports could get taken by
     // another app before we finish loading, but hopefully unlikely!
-    const [mapeoServerPort, tileServerPort, mapPrinterPort] = await getPorts([
+    const [
+      mapeoServerPort,
+      tileServerPort,
+      mapPrinterPort,
+      mapServerPort
+    ] = await getPorts([
       argv.port,
       argv.tileport,
-      argv.mapPrinterPort
+      argv.mapPrinterPort,
+      argv.mapServerPort
     ])
-    const { headless, debug, datadir } = argv
+    const { headless, debug, datadir, mapsdir } = argv
     logger.timedPromise(
       startApp({
         mapeoServerPort,
         tileServerPort,
         mapPrinterPort,
+        mapServerPort,
         headless,
         debug,
-        datadir
+        datadir,
+        mapsdir
       }),
       'Started Mapeo'
     )
