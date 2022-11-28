@@ -20,3 +20,8 @@ export type MapeoCoreOptions = {
 export type MapPrinterOptions = {
   mapPrinterPort: number
 }
+
+export type MapServerOptions = {
+  mapServerPort: number
+  mapsdir: string
+}
