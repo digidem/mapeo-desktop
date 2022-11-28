@@ -18,6 +18,7 @@ MainWindow.filePath = path.join(__dirname, '../../static/main.html')
  * @param {number} options.mapeoServerPort
  * @param {number} options.tileServerPort
  * @param {number} options.mapPrinterPort
+ * @param {number} options.mapServerPort
  * @returns {BrowserWindow}
  */
 function MainWindow (options) {
