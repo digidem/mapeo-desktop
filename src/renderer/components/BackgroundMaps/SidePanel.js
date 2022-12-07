@@ -4,6 +4,7 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import { remote } from 'electron'
 import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useMapServerMutation } from '../../hooks/useMapServerMutation'
 import Loader from '../Loader'
 import { MapCard } from './MapCard'
 
@@ -23,8 +24,9 @@ const m = defineMessages({
 /**
  * @typedef SidePanelProps
  * @prop {()=>void} openSettings
- * @prop {import('../Settings/BGMaps').OfflineMap[]|false} offlineMaps
+ * @prop {import('../Settings/BackgroundMaps').MapServerStyleInfo[]|false} offlineMaps
  * @prop {string|false} mapValue
+ * @prop {boolean} isFetching
  * @prop {React.Dispatch<React.SetStateAction<string | false>>} setMapValue
  */
 
@@ -33,11 +35,14 @@ export const SidePanel = ({
   openSettings,
   offlineMaps,
   mapValue,
-  setMapValue
+  setMapValue,
+  isFetching
 }) => {
   const { formatMessage: t } = useIntl()
 
   const classes = useStyles()
+
+  const mutation = useMapServerMutation('post', `/tilesets/import`)
 
   async function selectMbTileFile () {
     const result = await remote.dialog.showOpenDialog({
@@ -50,8 +55,8 @@ export const SidePanel = ({
     if (!result.filePaths || !result.filePaths.length) return
 
     try {
-      // const filePath = result.filePaths[0]
-      // to do: Api call to import map
+      const filePath = result.filePaths[0]
+      mutation.mutate({ filePath })
     } catch (err) {
       onError(err)
     }
@@ -82,23 +87,20 @@ export const SidePanel = ({
         >
           {t(m.addMap)}
         </Button>
-        {/* <Button className={classes.button} variant='outlined'>
-                {t(m.createOfflineMap)}
-            </Button> */}
       </div>
 
-      {!offlineMaps ? (
+      {isFetching ? (
         <Loader />
-      ) : (
+      ) : offlineMaps ? (
         offlineMaps.map(offlineMap => (
           <MapCard
             setMap={setMapValue}
-            key={offlineMap.mapId}
+            key={offlineMap.id}
             offlineMap={offlineMap}
             mapBeingViewed={mapValue}
           />
         ))
-      )}
+      ) : null}
     </div>
   )
 }

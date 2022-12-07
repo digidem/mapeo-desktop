@@ -16,9 +16,9 @@ const m = defineMessages({
 
 /**
  * @typedef MapCardProps
- * @prop {import('../Settings/BGMaps').OfflineMap} offlineMap
- * @prop {React.Dispatch<React.SetStateAction<import('../Settings/BGMaps').OfflineMap['mapId'] | false>>} setMap
- * @prop {import('../Settings/BGMaps').OfflineMap['mapId'] |false } mapBeingViewed
+ * @prop {import('../Settings/BackgroundMaps').MapServerStyleInfo} offlineMap
+ * @prop {React.Dispatch<React.SetStateAction<import('../Settings/BackgroundMaps').MapServerStyleInfo['id'] | false>>} setMap
+ * @prop {import('../Settings/BackgroundMaps').MapServerStyleInfo['id'] |false } mapBeingViewed
  */
 
 /** @param {MapCardProps} param */
@@ -26,10 +26,10 @@ export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
 
-  const isBeingViewed = React.useMemo(
-    () => offlineMap.mapId === mapBeingViewed,
-    [offlineMap, mapBeingViewed]
-  )
+  const isBeingViewed = React.useMemo(() => offlineMap.id === mapBeingViewed, [
+    offlineMap,
+    mapBeingViewed
+  ])
 
   const Mapbox = React.useMemo(
     () =>
@@ -48,7 +48,7 @@ export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
     <Button
       variant='outlined'
       className={classes.root}
-      onClick={() => setMap(offlineMap.mapId)}
+      onClick={() => setMap(offlineMap.id)}
     >
       <div
         className={classes.inner}
@@ -60,18 +60,13 @@ export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
               height: '100%',
               width: '100%'
             }}
-            // We need to replace this style with a styleJSON, but for the purpose of this demo, im just using the url in order not to build a dummy styleJSON (only accepts an entire styleJSON)
-            // style={offlineMap.styleJson}
             style='mapbox://styles/mapbox/streets-v11'
           />
         </div>
         <div className={classes.text}>
-          <Typography>{offlineMap.mapTitle}</Typography>
+          <Typography>{offlineMap.name}</Typography>
           <Typography variant='subtitle1'>
-            {offlineMap.size} {t(m.mb)}
-          </Typography>
-          <Typography>
-            {offlineMap.offlineAreaCount} {t(m.areas)}
+            {offlineMap.bytesStored} {t(m.mb)}
           </Typography>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { SettingsMenu } from './SettingsMenu'
 import { defineMessages } from 'react-intl'
 import MapIcon from '@material-ui/icons/MapOutlined'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
-import { BGMaps } from './BGMaps'
+import { BackgroundMaps } from './BackgroundMaps'
 import { makeStyles } from '@material-ui/core'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
@@ -85,7 +85,7 @@ export const Settings = ({ reset, setReset, fadeIn }) => {
         {tabValue === 'BackgroundMap' && (
           <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
             <Paper className={classes.container}>
-              <BGMaps
+              <BackgroundMaps
                 openSettings={() => {
                   setTabValue(false)
                 }}

@@ -3,72 +3,47 @@ import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import Typography from '@material-ui/core/Typography'
 
-import { BGMapInfo } from '../BackgroundMaps/BGMapInfo'
+import { BackgroundMapInfo } from '../BackgroundMaps/BackgroundMapInfo'
 import { SidePanel } from '../BackgroundMaps/SidePanel'
+import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 
 const m = defineMessages({
   // Title for description of offline maps
   mapBackgroundTitle: 'Managing Map Backgrounds and Offline Areas'
 })
 
-/** @typedef {{mapId:string, mapTitle:string, size:number, offlineAreaCount:number, styleJson:import('mapbox-gl').Style}} OfflineMap */
+/** @typedef {import('../../hooks/useMapServerQuery').MapServerStyleInfo} MapServerStyleInfo */
 
 /**
- * @typedef BGMapsProps
+ * @typedef BackgroundMapsProps
  * @prop {()=>void} openSettings
  */
 
-/** @param {BGMapsProps} param */
-export const BGMaps = ({ openSettings }) => {
+/** @param {BackgroundMapsProps} param */
+export const BackgroundMaps = ({ openSettings }) => {
   const { formatMessage: t } = useIntl()
 
-  /** @type {OfflineMap[]|false} */
+  /** @type {MapServerStyleInfo[]|false} */
   const initialMapState = /** {const} */ (false)
 
-  const [offlineMaps, setOfflineMaps] = React.useState(initialMapState)
-
-  /** @type {OfflineMap['mapId']|false} */
+  /** @type {MapServerStyleInfo['id']|false} */
   const initialMapId = /** {const} */ (false)
 
   const [mapValue, setMapValue] = React.useState(initialMapId)
 
-  React.useEffect(() => {
-    // To Do: API call to get map value
-    /**
-     * @returns {OfflineMap[]}
-     */
-    function getListOfOfflineMaps () {
-      return [
-        {
-          mapId: '1',
-          mapTitle: 'Map 1',
-          size: 100,
-          offlineAreaCount: 10,
-          styleJson: { layers: [], sources: {}, version: 1 }
-        },
-        {
-          mapId: '2',
-          mapTitle: 'Map 2',
-          size: 200,
-          offlineAreaCount: 20,
-          styleJson: { layers: [], sources: {}, version: 1 }
-        }
-      ]
-    }
-
-    setOfflineMaps(getListOfOfflineMaps())
-  }, [])
+  const { data, isFetching } = useMapServerQuery('/styles')
 
   return (
     <React.Fragment>
       <SidePanel
         mapValue={mapValue}
-        offlineMaps={offlineMaps}
+        offlineMaps={data || false}
         openSettings={openSettings}
         setMapValue={setMapValue}
+        isFetching={isFetching}
       />
 
-      {!mapValue || !offlineMaps ? (
+      {!mapValue || !data ? (
         <div style={{ padding: 40 }}>
           <Typography variant='h4'> {t(m.mapBackgroundTitle)}</Typography>
 
@@ -84,13 +59,13 @@ export const BGMaps = ({ openSettings }) => {
           </Typography>
         </div>
       ) : (
-        // Lazy loading each one here: aka will only load when clicked
         <React.Fragment>
-          {offlineMaps.map(offlineMap => (
-            <BGMapInfo
-              key={offlineMap.mapId}
-              mapIDBeingViewed={mapValue}
-              bgMapId={offlineMap.mapId}
+          {data.map(offlineMap => (
+            <BackgroundMapInfo
+              key={offlineMap.id}
+              idBeingViewed={mapValue}
+              id={offlineMap.id}
+              setMapValue={setMapValue}
             />
           ))}
         </React.Fragment>

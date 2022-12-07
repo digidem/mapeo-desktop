@@ -7,8 +7,9 @@ import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
 
 import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import Loading from '../Loading'
-import { OfflineAreaCard } from './OfflineAreaCard'
 import { remote } from 'electron'
+import { useMapServerQuery } from '../../hooks/useMapServerQuery'
+// import { useMapServerMutation } from '../../hooks/useMapServerMutation'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -23,67 +24,23 @@ const m = defineMessages({
   deleteErrorDescription: 'There was an error deleting the style'
 })
 
-/** @typedef {{id:string, size:number, zoomLevel:number, title:string}} OfflineArea */
-
-/** @typedef {{styleId:string, styleJson:import('mapbox-gl').Style, styleTitle:string, offlineAreas:OfflineArea[]}} BGMap */
-
 /**
- * @typedef BGMapInfoProps
- * @prop {string} bgMapId
- * @prop {string} mapIDBeingViewed
+ * @typedef BackgroundMapInfoProps
+ * @prop {string} id
+ * @prop {string} idBeingViewed
+ * @prop {React.Dispatch<React.SetStateAction<string | false>>} setMapValue
  */
 
-/** @param {BGMapInfoProps} props */
-export const BGMapInfo = ({ bgMapId, mapIDBeingViewed }) => {
-  const shouldLoad = React.useMemo(() => bgMapId === mapIDBeingViewed, [
-    bgMapId,
-    mapIDBeingViewed
+/** @param {BackgroundMapInfoProps} props */
+export const BackgroundMapInfo = ({ id, idBeingViewed, setMapValue }) => {
+  const shouldLoad = React.useMemo(() => id === idBeingViewed, [
+    id,
+    idBeingViewed
   ])
 
-  /** @type {BGMap | null} */
-  const initialBgMap = /** {const} */ (null)
+  const { data } = useMapServerQuery(`/styles/${id}`, shouldLoad)
 
-  const [bgMap, setbgMap] = React.useState(initialBgMap)
-
-  React.useEffect(() => {
-    /**
-     * @param {string} stylesId
-     * @returns {Promise<BGMap>}
-     */
-    async function getMapInfo (stylesId) {
-      // To do: Api Call to get map info
-      return {
-        styleId: bgMapId,
-        styleJson: { layers: [], sources: {}, version: 1 },
-        styleTitle: `Map ${bgMapId}`,
-        offlineAreas: [
-          {
-            title: 'offline-area-1',
-            size: 100,
-            zoomLevel: 10,
-            id: 'idMap1'
-          },
-          {
-            title: 'offline-area-2',
-            size: 200,
-            zoomLevel: 20,
-            id: 'idMap2'
-          },
-          {
-            title: 'offline-area-3',
-            size: 300,
-            zoomLevel: 30,
-            id: 'idMap3'
-          }
-        ]
-      }
-    }
-
-    if (shouldLoad) {
-      getMapInfo(bgMapId).then(styles => setbgMap(styles))
-    }
-  }, [shouldLoad, bgMapId])
-
+  // Lazy loading each one here: aka will only load when clicked
   return shouldLoad ? (
     <Fade in={shouldLoad} timeout={600}>
       <Paper
@@ -91,10 +48,14 @@ export const BGMapInfo = ({ bgMapId, mapIDBeingViewed }) => {
           flex: 1,
           width: '100%',
           height: '100%',
-          padding: !bgMap ? 40 : 0
+          padding: !data ? 40 : 0
         }}
       >
-        {!bgMap ? <Loading /> : <MapInfo bgMap={bgMap} />}
+        {!data ? (
+          <Loading />
+        ) : (
+          <MapInfo backgroundMap={data} id={id} setMapValue={setMapValue} />
+        )}
       </Paper>
     </Fade>
   ) : null
@@ -102,13 +63,15 @@ export const BGMapInfo = ({ bgMapId, mapIDBeingViewed }) => {
 
 /**
  * @typedef MapInfoProps
- * @prop {BGMap} bgMap
- *
+ * @prop {import('@mapeo/map-server/dist/lib/stylejson').StyleJSON} backgroundMap
+ * @prop {string} id
+ * @prop {React.Dispatch<React.SetStateAction<string | false>>} setMapValue
  */
 
 /** @param {MapInfoProps} props */
-const MapInfo = ({ bgMap }) => {
-  const { offlineAreas, styleTitle } = bgMap
+const MapInfo = ({ backgroundMap, id, setMapValue }) => {
+  const { name } = backgroundMap
+  // const mutation = useMapServerMutation('delete', `/styles/${id}`)
 
   const classes = useStyles()
 
@@ -123,8 +86,9 @@ const MapInfo = ({ bgMap }) => {
    * @param {string} mapId
    */
   function deleteMap (mapId) {
-    // To do: Api Call to delete map
     try {
+      // mutation.mutate(mapId)
+      // setMapValue(false)
     } catch (err) {
       remote.dialog.showErrorBox(
         t(m.deleteErrorTitle),
@@ -137,10 +101,10 @@ const MapInfo = ({ bgMap }) => {
     <React.Fragment>
       {/* Banner */}
       <Paper className={classes.banner}>
-        <Typography variant='h5'>{styleTitle}</Typography>
+        <Typography variant='h5'>{name}</Typography>
 
         <div>
-          <Button variant='outlined' onClick={() => deleteMap(bgMap.styleId)}>
+          <Button variant='outlined' onClick={() => deleteMap(id)}>
             <DeleteIcon />
             <Typography style={{ textTransform: 'none' }} variant='subtitle2'>
               {t(m.deleteStyle)}
@@ -163,18 +127,6 @@ const MapInfo = ({ bgMap }) => {
           <Button style={{ color: '#0066FF', textTransform: 'none' }}>
             {t(m.createOfflineArea)}
           </Button>
-        </div>
-
-        {/* List of offline areas Card */}
-        <div className={classes.offlineCardContainer}>
-          {offlineAreas.map(offlineArea => (
-            <OfflineAreaCard
-              key={offlineArea.id}
-              size={offlineArea.size}
-              zoomLevel={offlineArea.zoomLevel}
-              title={offlineArea.title}
-            />
-          ))}
         </div>
       </div>
     </React.Fragment>
