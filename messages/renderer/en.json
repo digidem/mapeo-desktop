@@ -1,21 +1,21 @@
 {
-  "renderer.components.BackgroundMaps.BGMapInfo.createOfflineArea": {
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.createOfflineArea": {
     "description": "Button to create an offline area",
     "message": "Create Offline Area"
   },
-  "renderer.components.BackgroundMaps.BGMapInfo.deleteErrorDescription": {
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteErrorDescription": {
     "description": "Description for error message when deleting style,",
     "message": "There was an error deleting the style"
   },
-  "renderer.components.BackgroundMaps.BGMapInfo.deleteErrorTitle": {
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteErrorTitle": {
     "description": "Title for error message when deleting style",
     "message": "Error Deleting Style"
   },
-  "renderer.components.BackgroundMaps.BGMapInfo.deleteStyle": {
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteStyle": {
     "description": "Button to delete style",
     "message": "Delete Style"
   },
-  "renderer.components.BackgroundMaps.BGMapInfo.offlineAreas": {
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.offlineAreas": {
     "description": "Title for Offline Areas",
     "message": "Offline Areas"
   },
@@ -580,7 +580,7 @@
     "description": "Used to indicate the version of mapeo the user is using",
     "message": "Version"
   },
-  "renderer.components.Settings.BGMaps.mapBackgroundTitle": {
+  "renderer.components.Settings.BackgroundMaps.mapBackgroundTitle": {
     "description": "Title for description of offline maps",
     "message": "Managing Map Backgrounds and Offline Areas"
   },
