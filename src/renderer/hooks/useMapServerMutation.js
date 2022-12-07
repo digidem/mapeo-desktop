@@ -17,6 +17,9 @@ export function useMapServerMutation (mutationType, resourcePath, body) {
 
   return useMutation({
     mutationFn: () => kyFunction(MAP_SERVER_URL + resourcePath, body),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [resourcePath] })
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [resourcePath, `/${resourcePath.split('/')[1]}`]
+      })
   })
 }
