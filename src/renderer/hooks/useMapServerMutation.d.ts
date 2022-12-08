@@ -11,11 +11,12 @@ type StyleBody = {
     accessToken:string
 }
 
-export declare function useMapServerMutation(mutationType:'post', resourcePath:`/tilesets`, body:TileJSON):UseMutationResult<TileJSON>
+export declare function useMapServerMutation(mutationType:'post', resourcePath:`/tilesets`):UseMutationResult<TileJSON, unknown,TileJSON>
 
-export declare function useMapServerMutation(mutationType:'put', resourcePath:`/tilesets/${string}`,body:TileJSON):UseMutationResult<TileJSON>
+export declare function useMapServerMutation(mutationType:'post', resourcePath:`/tilesets/import`):UseMutationResult<TileJSON, unknown, {filePath:string}>
 
-export declare function useMapServerMutation(mutationType:'post', resourcePath:`/styles`, body:StyleBody):UseMutationResult<StyleJSON>
+export declare function useMapServerMutation(mutationType:'put', resourcePath:`/tilesets/${string}`):UseMutationResult<TileJSON, unknown,TileJSON>
 
-export declare function useMapServerMutation(mutationType:'delete', resourcePath:`/styles/${string}`,):UseMutationResult<204>
+export declare function useMapServerMutation(mutationType:'post', resourcePath:`/styles`):UseMutationResult<StyleJSON, unknown,StyleBody>
 
+export declare function useMapServerMutation(mutationType:'delete', resourcePath:`/styles/${string}`):UseMutationResult<204>
