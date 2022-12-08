@@ -6,9 +6,10 @@ import { useQuery } from '@tanstack/react-query'
 // @ts-ignore
 const MAP_SERVER_URL = 'http://127.0.0.1:' + window.mapServerPort
 
-export function useMapServerQuery (resourcePath) {
+export function useMapServerQuery (resourcePath, enabled) {
   return useQuery({
     queryKey: [resourcePath],
-    queryFn: () => ky.get(MAP_SERVER_URL + resourcePath).json()
+    queryFn: () => ky.get(MAP_SERVER_URL + resourcePath).json(),
+    enabled
   })
 }

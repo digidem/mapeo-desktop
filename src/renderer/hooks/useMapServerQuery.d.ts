@@ -16,8 +16,7 @@ type MapServerStyleInfo = Unpacked<ReturnType<StylesApi["listStyles"]>>
 type Tileset = Unpacked<ReturnType<TilesetsApi["getTileset"]>>;
 type MapServerImport = Unpacked<ReturnType<ImportsApi["getImport"]>>;
 
-
-export declare function useMapServerQuery(resourcePath: '/styles'): UseQueryResult<MapServerStyleInfo[]>
-export declare function useMapServerQuery(resourcePath: `/styles/${string}`): UseQueryResult<StyleJSON>
-export declare function useMapServerQuery(resourcePath: `/tilesets`): UseQueryResult<Tileset>
-export declare function useMapServerQuery(resourcePath: `/imports/${string}`): UseQueryResult<MapServerImport>
+export declare function useMapServerQuery(resourcePath: '/styles', enabled?:boolean): UseQueryResult<MapServerStyleInfo[]>
+export declare function useMapServerQuery(resourcePath: `/styles/${string}`,enabled?:boolean): UseQueryResult<StyleJSON>
+export declare function useMapServerQuery(resourcePath: `/tilesets`, enabled?:boolean): UseQueryResult<Tileset>
+export declare function useMapServerQuery(resourcePath: `/imports/${string}`, enabled?:boolean): UseQueryResult<MapServerImport>
