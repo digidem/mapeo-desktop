@@ -28,6 +28,7 @@ const m = defineMessages({
  * @prop {string|false} mapValue
  * @prop {boolean} isFetching
  * @prop {React.Dispatch<React.SetStateAction<string | false>>} setMapValue
+ * @prop {unknown} error
  */
 
 /** @param {SidePanelProps} param */
@@ -36,9 +37,12 @@ export const SidePanel = ({
   offlineMaps,
   mapValue,
   setMapValue,
-  isFetching
+  isFetching,
+  error
 }) => {
   const { formatMessage: t } = useIntl()
+
+  if (error) console.log(error)
 
   const classes = useStyles()
 

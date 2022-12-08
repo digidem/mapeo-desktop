@@ -31,7 +31,7 @@ export const BackgroundMaps = ({ openSettings }) => {
 
   const [mapValue, setMapValue] = React.useState(initialMapId)
 
-  const { data, isFetching } = useMapServerQuery('/styles')
+  const { data, isFetching, error } = useMapServerQuery('/styles')
 
   return (
     <React.Fragment>
@@ -41,6 +41,7 @@ export const BackgroundMaps = ({ openSettings }) => {
         openSettings={openSettings}
         setMapValue={setMapValue}
         isFetching={isFetching}
+        error={error}
       />
 
       {!mapValue || !data ? (

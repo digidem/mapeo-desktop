@@ -9,7 +9,7 @@ import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import Loading from '../Loading'
 import { remote } from 'electron'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
-// import { useMapServerMutation } from '../../hooks/useMapServerMutation'
+import { useMapServerMutation } from '../../hooks/useMapServerMutation'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -71,7 +71,7 @@ export const BackgroundMapInfo = ({ id, idBeingViewed, setMapValue }) => {
 /** @param {MapInfoProps} props */
 const MapInfo = ({ backgroundMap, id, setMapValue }) => {
   const { name } = backgroundMap
-  // const mutation = useMapServerMutation('delete', `/styles/${id}`)
+  const mutation = useMapServerMutation('delete', `/styles/${id}`)
 
   const classes = useStyles()
 
