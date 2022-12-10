@@ -5,6 +5,7 @@ import { remote } from 'electron'
 import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useMapServerMutation } from '../../hooks/useMapServerMutation'
+import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 import Loader from '../Loader'
 import { MapCard } from './MapCard'
 
@@ -24,27 +25,17 @@ const m = defineMessages({
 /**
  * @typedef SidePanelProps
  * @prop {()=>void} openSettings
- * @prop {import('../Settings/BackgroundMaps').MapServerStyleInfo[]|false} offlineMaps
  * @prop {string|false} mapValue
- * @prop {boolean} isFetching
  * @prop {React.Dispatch<React.SetStateAction<string | false>>} setMapValue
- * @prop {unknown} error
  */
 
 /** @param {SidePanelProps} param */
-export const SidePanel = ({
-  openSettings,
-  offlineMaps,
-  mapValue,
-  setMapValue,
-  isFetching,
-  error
-}) => {
+export const SidePanel = ({ openSettings, mapValue, setMapValue }) => {
   const { formatMessage: t } = useIntl()
 
-  if (error) console.log(error)
-
   const classes = useStyles()
+
+  const { data, isLoading } = useMapServerQuery('/styles', true)
 
   const mutation = useMapServerMutation('post', `/tilesets/import`)
 
@@ -93,10 +84,10 @@ export const SidePanel = ({
         </Button>
       </div>
 
-      {isFetching ? (
+      {isLoading ? (
         <Loader />
-      ) : offlineMaps ? (
-        offlineMaps.map(offlineMap => (
+      ) : data ? (
+        data.map(offlineMap => (
           <MapCard
             setMap={setMapValue}
             key={offlineMap.id}

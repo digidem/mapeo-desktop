@@ -23,25 +23,23 @@ const m = defineMessages({
 export const BackgroundMaps = ({ openSettings }) => {
   const { formatMessage: t } = useIntl()
 
-  /** @type {MapServerStyleInfo[]|false} */
-  const initialMapState = /** {const} */ (false)
-
   /** @type {MapServerStyleInfo['id']|false} */
   const initialMapId = /** {const} */ (false)
 
   const [mapValue, setMapValue] = React.useState(initialMapId)
 
-  const { data, isFetching, error } = useMapServerQuery('/styles')
+  const { data } = useMapServerQuery('/styles')
+
+  function unsetMapValue () {
+    setMapValue(false)
+  }
 
   return (
     <React.Fragment>
       <SidePanel
         mapValue={mapValue}
-        offlineMaps={data || false}
         openSettings={openSettings}
         setMapValue={setMapValue}
-        isFetching={isFetching}
-        error={error}
       />
 
       {!mapValue || !data ? (
@@ -66,7 +64,8 @@ export const BackgroundMaps = ({ openSettings }) => {
               key={offlineMap.id}
               idBeingViewed={mapValue}
               id={offlineMap.id}
-              setMapValue={setMapValue}
+              unsetMapValue={unsetMapValue}
+              url={offlineMap.url}
             />
           ))}
         </React.Fragment>

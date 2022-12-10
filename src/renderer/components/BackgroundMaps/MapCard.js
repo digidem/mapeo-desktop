@@ -60,7 +60,7 @@ export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
               height: '100%',
               width: '100%'
             }}
-            style='mapbox://styles/mapbox/streets-v11'
+            style={offlineMap.url}
           />
         </div>
         <div className={classes.text}>

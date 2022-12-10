@@ -28,11 +28,17 @@ const m = defineMessages({
  * @typedef BackgroundMapInfoProps
  * @prop {string} id
  * @prop {string} idBeingViewed
- * @prop {React.Dispatch<React.SetStateAction<string | false>>} setMapValue
+ * @prop {string} url
+ * @prop {()=>void} unsetMapValue
  */
 
 /** @param {BackgroundMapInfoProps} props */
-export const BackgroundMapInfo = ({ id, idBeingViewed, setMapValue }) => {
+export const BackgroundMapInfo = ({
+  id,
+  idBeingViewed,
+  unsetMapValue,
+  url
+}) => {
   const shouldLoad = React.useMemo(() => id === idBeingViewed, [
     id,
     idBeingViewed
@@ -54,7 +60,12 @@ export const BackgroundMapInfo = ({ id, idBeingViewed, setMapValue }) => {
         {!data ? (
           <Loading />
         ) : (
-          <MapInfo backgroundMap={data} id={id} setMapValue={setMapValue} />
+          <MapInfo
+            backgroundMap={data}
+            id={id}
+            unsetMapValue={unsetMapValue}
+            url={url}
+          />
         )}
       </Paper>
     </Fade>
@@ -65,13 +76,13 @@ export const BackgroundMapInfo = ({ id, idBeingViewed, setMapValue }) => {
  * @typedef MapInfoProps
  * @prop {import('@mapeo/map-server/dist/lib/stylejson').StyleJSON} backgroundMap
  * @prop {string} id
- * @prop {React.Dispatch<React.SetStateAction<string | false>>} setMapValue
+ * @prop {()=>void} unsetMapValue
+ * @prop {string} url
  */
 
 /** @param {MapInfoProps} props */
-const MapInfo = ({ backgroundMap, id, setMapValue }) => {
+const MapInfo = ({ backgroundMap, id, unsetMapValue, url }) => {
   const { name } = backgroundMap
-  const mutation = useMapServerMutation('delete', `/styles/${id}`)
 
   const classes = useStyles()
 
@@ -85,16 +96,10 @@ const MapInfo = ({ backgroundMap, id, setMapValue }) => {
    *
    * @param {string} mapId
    */
+
+  // To Do, useMapServerMutation.mutate()
   function deleteMap (mapId) {
-    try {
-      // mutation.mutate(mapId)
-      // setMapValue(false)
-    } catch (err) {
-      remote.dialog.showErrorBox(
-        t(m.deleteErrorTitle),
-        t(m.deleteErrorDescription) + ': ' + err
-      )
-    }
+    return
   }
 
   return (
@@ -114,10 +119,7 @@ const MapInfo = ({ backgroundMap, id, setMapValue }) => {
       </Paper>
 
       {/* Map */}
-      <MapBox
-        style={'mapbox://styles/mapbox/streets-v11'}
-        containerStyle={{ height: '40%', width: '100%' }}
-      />
+      <MapBox style={url} containerStyle={{ height: '40%', width: '100%' }} />
 
       {/* Text under map: */}
       <div style={{ padding: 40 }}>
