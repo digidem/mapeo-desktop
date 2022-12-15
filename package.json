@@ -34,7 +34,7 @@
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
-    "postinstall": "npm-run-all -p patch-package extract-presets electron-rebuild",
+    "postinstall": "npm-run-all -p patch-package extract-presets rebuild",
     "patch-package": "patch-package",
     "extract-presets": "node bin/extract-presets.js",
     "license-check": "license-check",

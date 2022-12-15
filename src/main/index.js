@@ -115,7 +115,7 @@ async function startup ({
   // Fortunately map server does not have any expensive functions so it should
   // not slow down the main process nor block the render thread if we run it
   // here from the main process...
-  // @ts-ignore
+  // @ts-expect-error
   const mapServer = createMapServer(undefined, {
     dbPath: path.join(mapsdir, 'maps.db')
   })
