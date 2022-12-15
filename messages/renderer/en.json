@@ -39,14 +39,6 @@
     "description": "Button to create an offline area for a map backgroun",
     "message": "Create Offline Map"
   },
-  "renderer.components.BackgroundMaps.SidePanel.importErrorDescription": {
-    "description": "Description of map import error",
-    "message": "There was an error importing the background maps. Please try again."
-  },
-  "renderer.components.BackgroundMaps.SidePanel.importErrorTitle": {
-    "description": "Title for import errot pop up dialog,",
-    "message": "Background Maps Import Error"
-  },
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
     "message": "Territory"
@@ -683,6 +675,22 @@
   },
   "renderer.components.dialogs.Error.openLog": {
     "message": "Open log..."
+  },
+  "renderer.components.dialogs.ImportMapStyle.addMap": {
+    "description": "Title of screen used to add a new background map",
+    "message": "Add Map Background"
+  },
+  "renderer.components.dialogs.ImportMapStyle.cancel": {
+    "description": "button to cancel the import of a background map",
+    "message": "Cancel"
+  },
+  "renderer.components.dialogs.ImportMapStyle.importErrorDescription": {
+    "description": "Description of map import error",
+    "message": "There was an error importing the background maps. Please try again."
+  },
+  "renderer.components.dialogs.ImportMapStyle.importErrorTitle": {
+    "description": "Title for import errot pop up dialog,",
+    "message": "Background Maps Import Error"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"
