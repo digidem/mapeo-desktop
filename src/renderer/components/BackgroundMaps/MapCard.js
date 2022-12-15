@@ -6,6 +6,7 @@ import { useIntl, defineMessages } from 'react-intl'
 import ReactMapboxGl from 'react-mapbox-gl'
 
 import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
+import { convertKbToMb } from '../Settings/BackgroundMaps'
 
 const m = defineMessages({
   // Abbreviation for megabytes
@@ -18,18 +19,13 @@ const m = defineMessages({
  * @typedef MapCardProps
  * @prop {import('../Settings/BackgroundMaps').MapServerStyleInfo} offlineMap
  * @prop {React.Dispatch<React.SetStateAction<import('../Settings/BackgroundMaps').MapServerStyleInfo['id'] | false>>} setMap
- * @prop {import('../Settings/BackgroundMaps').MapServerStyleInfo['id'] |false } mapBeingViewed
+ * @prop {boolean } isBeingViewed
  */
 
 /** @param {MapCardProps} param */
-export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
+export const MapCard = ({ offlineMap, setMap, isBeingViewed }) => {
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
-
-  const isBeingViewed = React.useMemo(() => offlineMap.id === mapBeingViewed, [
-    offlineMap,
-    mapBeingViewed
-  ])
 
   const Mapbox = React.useMemo(
     () =>
@@ -66,7 +62,7 @@ export const MapCard = ({ offlineMap, setMap, mapBeingViewed }) => {
         <div className={classes.text}>
           <Typography>{offlineMap.name}</Typography>
           <Typography variant='subtitle1'>
-            {offlineMap.bytesStored} {t(m.mb)}
+            {`${convertKbToMb(offlineMap.bytesStored)} ${t(m.mb)}`}
           </Typography>
         </div>
       </div>

@@ -1,11 +1,10 @@
 // @ts-check
 import { Button, makeStyles } from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
-import { remote } from 'electron'
 import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useMapServerMutation } from '../../hooks/useMapServerMutation'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
+import { ImportMapStyleDialog } from '../dialogs/ImportMapStyle'
 import Loader from '../Loader'
 import { MapCard } from './MapCard'
 
@@ -15,12 +14,7 @@ const m = defineMessages({
   // Button to create an offline area for a map backgroun
   createOfflineMap: 'Create Offline Map',
   // button to go back to settings
-  backToSettings: 'Back to Settings',
-  // Title for import errot pop up dialog,
-  importErrorTitle: 'Background Maps Import Error',
-  // Description of map import error
-  importErrorDescription:
-    'There was an error importing the background maps. Please try again.'
+  backToSettings: 'Back to Settings'
 })
 /**
  * @typedef SidePanelProps
@@ -34,69 +28,42 @@ export const SidePanel = ({ openSettings, mapValue, setMapValue }) => {
   const { formatMessage: t } = useIntl()
 
   const classes = useStyles()
+  const [open, setOpen] = React.useState(false)
 
   const { data, isLoading } = useMapServerQuery('/styles', true)
 
-  const mutation = useMapServerMutation('post', `/tilesets/import`)
-
-  async function selectMbTileFile () {
-    const result = await remote.dialog.showOpenDialog({
-      filters: [{ name: 'MbTiles', extensions: ['mbtiles'] }],
-      properties: ['openFile']
-    })
-
-    if (result.canceled) return
-
-    if (!result.filePaths || !result.filePaths.length) return
-
-    try {
-      const filePath = result.filePaths[0]
-      mutation.mutate({ filePath })
-    } catch (err) {
-      onError(err)
-    }
-
-    /**
-     *
-     * @param {string} err
-     */
-    function onError (err) {
-      remote.dialog.showErrorBox(
-        t(m.importErrorTitle),
-        t(m.importErrorDescription) + ': ' + err
-      )
-    }
-  }
-
   return (
-    <div className={classes.sidePanel}>
-      <Button onClick={openSettings} className={classes.backHeader}>
-        <ChevronLeft />
-        {t(m.backToSettings)}
-      </Button>
-      <div className={classes.buttonContainer}>
-        <Button
-          onClick={selectMbTileFile}
-          className={`${classes.button} ${classes.firstButton}`}
-          variant='outlined'
-        >
-          {t(m.addMap)}
+    <React.Fragment>
+      <div className={classes.sidePanel}>
+        <Button onClick={openSettings} className={classes.backHeader}>
+          <ChevronLeft />
+          {t(m.backToSettings)}
         </Button>
-      </div>
+        <div className={classes.buttonContainer}>
+          <Button
+            onClick={() => setOpen(true)}
+            className={`${classes.button} ${classes.firstButton}`}
+            variant='outlined'
+          >
+            {t(m.addMap)}
+          </Button>
+        </div>
 
-      {isLoading ? (
-        <Loader />
-      ) : data ? (
-        data.map(offlineMap => (
-          <MapCard
-            setMap={setMapValue}
-            key={offlineMap.id}
-            offlineMap={offlineMap}
-            mapBeingViewed={mapValue}
-          />
-        ))
-      ) : null}
-    </div>
+        {isLoading ? (
+          <Loader />
+        ) : data ? (
+          data.map(offlineMap => (
+            <MapCard
+              setMap={setMapValue}
+              key={offlineMap.id}
+              offlineMap={offlineMap}
+              isBeingViewed={offlineMap.id === mapValue}
+            />
+          ))
+        ) : null}
+      </div>
+      <ImportMapStyleDialog open={open} close={() => setOpen(false)} />
+    </React.Fragment>
   )
 }
 

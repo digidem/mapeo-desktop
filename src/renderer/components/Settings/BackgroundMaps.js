@@ -73,3 +73,12 @@ export const BackgroundMaps = ({ openSettings }) => {
     </React.Fragment>
   )
 }
+
+/**
+ *
+ * @param {number} kilobyte
+ * @returns {number}
+ */
+export const convertKbToMb = kilobyte => {
+  return Math.round(kilobyte / 1000)
+}

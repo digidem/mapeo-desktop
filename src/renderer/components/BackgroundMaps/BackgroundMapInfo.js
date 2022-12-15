@@ -7,9 +7,7 @@ import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
 
 import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import Loading from '../Loading'
-import { remote } from 'electron'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
-import { useMapServerMutation } from '../../hooks/useMapServerMutation'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -61,7 +59,7 @@ export const BackgroundMapInfo = ({
           <Loading />
         ) : (
           <MapInfo
-            backgroundMap={data}
+            name={data.name}
             id={id}
             unsetMapValue={unsetMapValue}
             url={url}
@@ -74,16 +72,14 @@ export const BackgroundMapInfo = ({
 
 /**
  * @typedef MapInfoProps
- * @prop {import('@mapeo/map-server/dist/lib/stylejson').StyleJSON} backgroundMap
+ * @prop {string|undefined} name
  * @prop {string} id
  * @prop {()=>void} unsetMapValue
  * @prop {string} url
  */
 
 /** @param {MapInfoProps} props */
-const MapInfo = ({ backgroundMap, id, unsetMapValue, url }) => {
-  const { name } = backgroundMap
-
+const MapInfo = ({ name, id, unsetMapValue, url }) => {
   const classes = useStyles()
 
   const { formatMessage: t } = useIntl()
@@ -119,18 +115,7 @@ const MapInfo = ({ backgroundMap, id, unsetMapValue, url }) => {
       </Paper>
 
       {/* Map */}
-      <MapBox style={url} containerStyle={{ height: '40%', width: '100%' }} />
-
-      {/* Text under map: */}
-      <div style={{ padding: 40 }}>
-        {/* Title and 'Create Offline Area' button: */}
-        <div className={classes.buttonContainer}>
-          <Typography>{t(m.offlineAreas)}</Typography>
-          <Button style={{ color: '#0066FF', textTransform: 'none' }}>
-            {t(m.createOfflineArea)}
-          </Button>
-        </div>
-      </div>
+      <MapBox style={url} containerStyle={{ height: '60%', width: '100%' }} />
     </React.Fragment>
   )
 }
