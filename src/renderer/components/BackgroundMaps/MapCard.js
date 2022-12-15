@@ -15,6 +15,15 @@ const m = defineMessages({
   areas: 'offline areas'
 })
 
+export const MapboxPrevOnly = ReactMapboxGl({
+  accessToken: MAPBOX_ACCESS_TOKEN,
+  dragRotate: false,
+  pitchWithRotate: false,
+  attributionControl: false,
+  injectCSS: false,
+  interactive: false
+})
+
 /**
  * @typedef MapCardProps
  * @prop {import('../Settings/BackgroundMaps').MapServerStyleInfo} offlineMap
@@ -27,19 +36,6 @@ export const MapCard = ({ offlineMap, setMap, isBeingViewed }) => {
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
 
-  const Mapbox = React.useMemo(
-    () =>
-      ReactMapboxGl({
-        accessToken: MAPBOX_ACCESS_TOKEN,
-        dragRotate: false,
-        pitchWithRotate: false,
-        attributionControl: false,
-        injectCSS: false,
-        interactive: false
-      }),
-    []
-  )
-
   return (
     <Button
       variant='outlined'
@@ -51,7 +47,7 @@ export const MapCard = ({ offlineMap, setMap, isBeingViewed }) => {
         style={{ backgroundColor: !isBeingViewed ? '#CCCCD6' : '#0066FF' }}
       >
         <div style={{ width: '30%' }}>
-          <Mapbox
+          <MapboxPrevOnly
             containerStyle={{
               height: '100%',
               width: '100%'

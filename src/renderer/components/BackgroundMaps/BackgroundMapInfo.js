@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
 import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import Loading from '../Loading'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
+import { MapboxPrevOnly } from './MapCard'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -84,10 +85,6 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
 
   const { formatMessage: t } = useIntl()
 
-  const MapBox = ReactMapboxGl({
-    accessToken: MAPBOX_ACCESS_TOKEN
-  })
-
   /**
    *
    * @param {string} mapId
@@ -115,7 +112,10 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
       </Paper>
 
       {/* Map */}
-      <MapBox style={url} containerStyle={{ height: '60%', width: '100%' }} />
+      <MapboxPrevOnly
+        style={url}
+        containerStyle={{ height: '60%', width: '100%' }}
+      />
     </React.Fragment>
   )
 }
