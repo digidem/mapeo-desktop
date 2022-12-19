@@ -9,15 +9,19 @@ import { makeStyles } from '@material-ui/core'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 import { AboutMapeo } from './AboutMapeo'
+import buildConfig from '../../../build-config'
+import AssignmentIcon from '@material-ui/icons/Assignment'
+import { ProjectConfig } from './ProjectConfig'
 
 const m = defineMessages({
   backgroundMap: 'Background Map',
-  aboutMapeo: 'About Mapeo'
+  aboutMapeo: 'About Mapeo',
+  projConfig: 'Project Configuration'
 })
 
 const FADE_DURATION = 700
 
-/** @typedef {'BackgroundMap' | 'AboutMapeo'} SettingTabId */
+/** @typedef {'BackgroundMap' | 'AboutMapeo' | 'ProjConfig'} SettingTabId */
 
 /** @type {import('./SettingsMenu').SettingsTabs[]} */
 const tabs = /** @typedef {const} */ [
@@ -30,6 +34,11 @@ const tabs = /** @typedef {const} */ [
     tabId: 'AboutMapeo',
     icon: <InfoIcon />,
     label: m.aboutMapeo
+  },
+  {
+    tabId: 'ProjConfig',
+    icon: <AssignmentIcon />,
+    label: m.projConfig
   }
 ]
 
@@ -101,6 +110,14 @@ export const Settings = ({ reset, setReset, fadeIn }) => {
             </Paper>
           </Fade>
         )}
+
+        {tabValue === 'ProjConfig' && (
+          <Fade in={tabValue === 'ProjConfig'} timeout={FADE_DURATION}>
+            <Paper className={classes.container}>
+              <ProjectConfig />
+            </Paper>
+          </Fade>
+        )}
       </Paper>
     </Fade>
   )
@@ -134,6 +151,12 @@ const useStyles = makeStyles({
     },
     '& .MuiTabs-root': {
       flex: 1
+    },
+    '& .PrivateTabIndicator-colorSecondary-4': {
+      backgroundColor: buildConfig.variant === 'icca' ? '#63A25C' : '#000033'
+    },
+    '& .Mui-selected': {
+      backgroundColor: '#f6f6f6'
     }
   }
 })
