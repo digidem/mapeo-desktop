@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
 import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import Loading from '../Loading'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
+import { DeleteMapStyleDialog } from '../dialogs/DeleteMapStyle'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -42,6 +43,8 @@ export const BackgroundMapInfo = ({
     idBeingViewed
   ])
 
+  const [dialogIsOpen, setDialogIsOpen] = React.useState(false)
+
   const { data } = useMapServerQuery(`/styles/${id}`, shouldLoad)
 
   // Lazy loading each one here: aka will only load when clicked
@@ -58,12 +61,21 @@ export const BackgroundMapInfo = ({
         {!data ? (
           <Loading />
         ) : (
-          <MapInfo
-            name={data.name}
-            id={id}
-            unsetMapValue={unsetMapValue}
-            url={url}
-          />
+          <React.Fragment>
+            <MapInfo
+              name={data.name}
+              openDialog={() => setDialogIsOpen(true)}
+              url={url}
+            />
+
+            <DeleteMapStyleDialog
+              close={() => setDialogIsOpen(false)}
+              name={data.name}
+              open={dialogIsOpen}
+              unsetMapValue={unsetMapValue}
+              id={id}
+            />
+          </React.Fragment>
         )}
       </Paper>
     </Fade>
@@ -73,13 +85,12 @@ export const BackgroundMapInfo = ({
 /**
  * @typedef MapInfoProps
  * @prop {string|undefined} name
- * @prop {string} id
- * @prop {()=>void} unsetMapValue
  * @prop {string} url
+ * @prop {()=>void} openDialog
  */
 
 /** @param {MapInfoProps} props */
-const MapInfo = ({ name, id, unsetMapValue, url }) => {
+const MapInfo = ({ name, url, openDialog }) => {
   const classes = useStyles()
 
   const { formatMessage: t } = useIntl()
@@ -88,16 +99,6 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
     accessToken: MAPBOX_ACCESS_TOKEN
   })
 
-  /**
-   *
-   * @param {string} mapId
-   */
-
-  // To Do, useMapServerMutation.mutate()
-  function deleteMap (mapId) {
-    return
-  }
-
   return (
     <React.Fragment>
       {/* Banner */}
@@ -105,7 +106,7 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
         <Typography variant='h5'>{name}</Typography>
 
         <div>
-          <Button variant='outlined' onClick={() => deleteMap(id)}>
+          <Button variant='outlined' onClick={openDialog}>
             <DeleteIcon />
             <Typography style={{ textTransform: 'none' }} variant='subtitle2'>
               {t(m.deleteStyle)}
