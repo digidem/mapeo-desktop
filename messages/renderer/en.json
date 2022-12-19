@@ -512,6 +512,14 @@
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
   },
+  "renderer.components.Settings.AboutMapeo.aboutMapeo": {
+    "description": "Title for the About Mapeo Page",
+    "message": "About Mapeo"
+  },
+  "renderer.components.Settings.AboutMapeo.variant": {
+    "description": "Used to indicate the variant of mapeo the user is using",
+    "message": "Variant"
+  },
   "renderer.components.Settings.AboutMapeo.version": {
     "description": "Used to indicate the version of mapeo the user is using",
     "message": "Version"
@@ -520,6 +528,19 @@
     "description": "Title for description of offline maps",
     "message": "Managing Map Backgrounds and Offline Areas"
   },
+  "renderer.components.Settings.ProjectConfig.config": {
+    "message": "Config"
+  },
+  "renderer.components.Settings.ProjectConfig.importConfig": {
+    "message": "Import Config"
+  },
+  "renderer.components.Settings.ProjectConfig.projectName": {
+    "message": "Project Name"
+  },
+  "renderer.components.Settings.ProjectConfig.title": {
+    "description": "title of project setting page",
+    "message": "Project Settings"
+  },
   "renderer.components.Settings.index.aboutMapeo": {
     "description": "Setting Tab title to open information about mapeo",
     "message": "About Mapeo"
@@ -527,6 +548,9 @@
   "renderer.components.Settings.index.backgroundMap": {
     "description": "Setting Tab title to open background maps",
     "message": "Background Map"
+  },
+  "renderer.components.Settings.index.projConfig": {
+    "message": "Project Configuration"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
