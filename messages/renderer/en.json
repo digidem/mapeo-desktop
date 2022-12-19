@@ -670,6 +670,30 @@
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
     "message": "Choose a language"
   },
+  "renderer.components.dialogs.DeleteMapStyle.cancel": {
+    "description": "button to cancel the import of a background map",
+    "message": "Cancel"
+  },
+  "renderer.components.dialogs.DeleteMapStyle.deleteConfirmationMessage": {
+    "description": "message confirming that user wants to delete map",
+    "message": "This area will no longer be available offline. Cannot be undone."
+  },
+  "renderer.components.dialogs.DeleteMapStyle.deleteConfirmationTitle": {
+    "description": "title of message asking user if the want to delete map",
+    "message": "Are you sure you want to delete {mapTitle}"
+  },
+  "renderer.components.dialogs.DeleteMapStyle.deleteErrorDescription": {
+    "description": "Description of map import error",
+    "message": "There was an error deleting the background maps. Please try again."
+  },
+  "renderer.components.dialogs.DeleteMapStyle.deleteErrorTitle": {
+    "description": "Title for import errot pop up dialog,",
+    "message": "Background Maps Delete Error"
+  },
+  "renderer.components.dialogs.DeleteMapStyle.deleteMap": {
+    "description": "title for screen to delete background map",
+    "message": "Delete Map"
+  },
   "renderer.components.dialogs.Error.close": {
     "message": "Close"
   },
