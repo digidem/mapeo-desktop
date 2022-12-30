@@ -113,7 +113,7 @@
     "electron-rabbit": "^1.0.3",
     "electron-timber": "^0.5.1",
     "electron-updater": "^4.3.9",
-    "flat": "^5.0.0",
+    "flat": "^5.0.1",
     "fs-cache-middleware": "^1.0.0",
     "fs-extra": "^9.0.1",
     "fs-write-stream-atomic": "^1.0.10",
