@@ -37,7 +37,7 @@ jobs:
       - name: npm ci
         uses: nick-invision/retry@v2
         with:
-          timeout_minutes: 10
+          timeout_minutes: 20
           max_attempts: 5
           retry_on: error
           retry_wait_seconds: 0
