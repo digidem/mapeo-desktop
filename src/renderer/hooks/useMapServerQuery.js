@@ -13,7 +13,3 @@ export function useMapServerQuery (resourcePath, enabled) {
     enabled
   })
 }
-
-const thing = '/styles/style1'
-
-const nice = thing.split('{')
