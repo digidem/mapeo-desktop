@@ -36,6 +36,7 @@ jobs:
           node-version: 14.18
       - name: npm ci
         uses: nick-invision/retry@v2
+        uses: seanmiddleditch/gha-setup-vsdevenv@master
         with:
           timeout_minutes: 20
           max_attempts: 5
