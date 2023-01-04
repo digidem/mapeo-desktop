@@ -34,9 +34,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.18
+      - name: set up vs code environment
+        uses: seanmiddleditch/gha-setup-vsdevenv@master
       - name: npm ci
         uses: nick-invision/retry@v2
-        uses: seanmiddleditch/gha-setup-vsdevenv@master
         with:
           timeout_minutes: 20
           max_attempts: 5
