@@ -37,6 +37,8 @@ jobs:
       - name: set msvs version
         run: |
           npm config set msvs_version 2022
+      - name: set location of vscode tooling
+        uses: seanmiddleditch/gha-setup-vsdevenv@master
       - name: npm ci
         uses: nick-invision/retry@v2
         with:
