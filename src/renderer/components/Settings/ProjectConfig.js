@@ -4,7 +4,7 @@ import { Button, makeStyles, Paper, Typography } from '@material-ui/core'
 import { defineMessages, useIntl } from 'react-intl'
 import { useQuery } from '@tanstack/react-query'
 import api from '../../new-api'
-import { remote } from 'electron'
+import { ipcRenderer, remote } from 'electron'
 
 const m = defineMessages({
   // title of project setting page
@@ -34,6 +34,9 @@ export const ProjectConfig = () => {
     })
     if (result.canceled) return
     if (!result.filePaths || !result.filePaths.length) return
+
+    ipcRenderer.send('update-config', result.filePaths[0])
+    window.location.reload()
     //   userConfig.importSettings(result.filePaths[0], err => {
     //     if (err) return onerror(err)
     //     ipc.send('reload-config', async err => {
