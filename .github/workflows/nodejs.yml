@@ -34,9 +34,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.18
-      - name: Electron Rebuild
+      - name: Global install node-gyp
         run: |
-          npm run rebuild
+          npm i -g node-gyp@9
       - name: set location of vscode tooling
         uses: seanmiddleditch/gha-setup-vsdevenv@master
       - name: npm ci
