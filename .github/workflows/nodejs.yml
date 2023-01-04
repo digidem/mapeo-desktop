@@ -37,8 +37,6 @@ jobs:
       - name: Global install node-gyp
         run: |
           npm i -g node-gyp@9
-      - name: set location of vscode tooling
-        uses: seanmiddleditch/gha-setup-vsdevenv@master
       - name: npm ci
         uses: nick-invision/retry@v2
         with:
