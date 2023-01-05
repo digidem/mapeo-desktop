@@ -38,7 +38,7 @@
     "patch-package": "patch-package",
     "extract-presets": "node bin/extract-presets.js",
     "license-check": "license-check",
-    "rebuild": "electron-rebuild",
+    "rebuild": "electron-rebuild --only better-sqlite3",
     "release": "standard-version",
     "release:report": "node bin/report-bugsnag-build.js",
     "release:beta": "standard-version --prerelease beta",
