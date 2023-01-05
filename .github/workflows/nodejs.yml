@@ -63,6 +63,7 @@ jobs:
           npm run dist -- --${{matrix.config.arch}}
         env:
           ARCH: ${{matrix.config.arch}}
+          DEBUG: electron-builder
           CI: true
           GITHUB_CI_REF: ${{ github.ref }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
