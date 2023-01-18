@@ -45,7 +45,7 @@ jobs:
           command: npm ci --ignore-scripts
         env:
           npm_config_arch: ${{matrix.config.arch}}
-      - name: Remove sodium-native
+      - name: Remove native deps
         run: |
           npm run remove-native-deps
       - name: post install script
