@@ -48,7 +48,7 @@
     "type": "tsc",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "remove-sodium-native": "rimraf node_modules/sodium-native"
+    "remove-sodium-native": "rimraf node_modules/sodium-native, node_modules/nice-napi"
   },
   "license": "GPL-3.0",
   "repository": {
