@@ -47,7 +47,8 @@
     "extract-messages": "extract-messages --locales=en --output messages/renderer --descriptions 'src/**/*.js'",
     "type": "tsc",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "remove-sodium-native": "rimraf node_modules/sodium-native"
   },
   "license": "GPL-3.0",
   "repository": {
