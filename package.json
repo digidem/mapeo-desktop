@@ -3,7 +3,7 @@
   "name": "mapeo-desktop",
   "description": "Mapping and monitoring in remote environments.",
   "productName": "Mapeo",
-  "version": "5.6.0-beta.2",
+  "version": "5.6.0",
   "productDescription": "Offline Map Editor",
   "author": {
     "name": "Digital Democracy",
@@ -34,11 +34,11 @@
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
-    "postinstall": "npm-run-all -p patch-package extract-presets electron-rebuild",
+    "postinstall": "npm-run-all -p patch-package extract-presets rebuild",
     "patch-package": "patch-package",
     "extract-presets": "node bin/extract-presets.js",
     "license-check": "license-check",
-    "rebuild": "electron-rebuild",
+    "rebuild": "electron-rebuild --only better-sqlite3",
     "release": "standard-version",
     "release:report": "node bin/report-bugsnag-build.js",
     "release:beta": "standard-version --prerelease beta",
@@ -47,7 +47,8 @@
     "extract-messages": "extract-messages --locales=en --output messages/renderer --descriptions 'src/**/*.js'",
     "type": "tsc",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "remove-native-deps": "rimraf node_modules/sodium-native node_modules/nice-napi"
   },
   "license": "GPL-3.0",
   "repository": {
