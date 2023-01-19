@@ -15,9 +15,17 @@
     "description": "Button to delete style",
     "message": "Delete Style"
   },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "mb"
+  },
   "renderer.components.BackgroundMaps.BackgroundMapInfo.offlineAreas": {
     "description": "Title for Offline Areas",
     "message": "Offline Areas"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.zoomLevel": {
+    "description": "Zoom Level Title",
+    "message": "Zoom Level: {zoom}"
   },
   "renderer.components.BackgroundMaps.MapCard.areas": {
     "description": "indicates how many offline areas",
