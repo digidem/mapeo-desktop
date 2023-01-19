@@ -34,10 +34,11 @@
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
     "dev": "electron . --debug --disable-http-cache",
-    "postinstall": "npm-run-all -p patch-package extract-presets",
+    "postinstall": "npm-run-all -p patch-package extract-presets rebuild",
     "patch-package": "patch-package",
     "extract-presets": "node bin/extract-presets.js",
     "license-check": "license-check",
+    "rebuild": "electron-rebuild --only better-sqlite3",
     "release": "standard-version",
     "release:report": "node bin/report-bugsnag-build.js",
     "release:beta": "standard-version --prerelease beta",
@@ -46,7 +47,8 @@
     "extract-messages": "extract-messages --locales=en --output messages/renderer --descriptions 'src/**/*.js'",
     "type": "tsc",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "remove-native-deps": "rimraf node_modules/sodium-native node_modules/nice-napi"
   },
   "license": "GPL-3.0",
   "repository": {
@@ -85,6 +87,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.11.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@mapbox/sexagesimal": "^1.2.0",
+    "@mapeo/map-server": "^1.0.0-alpha.11",
     "@mapeo/settings": "^2.1.3",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.5.1",
@@ -93,6 +96,7 @@
     "@material-ui/styles": "^4.5.2",
     "@react-pdf/renderer": "^2.0.15",
     "@segment/isodate": "^1.0.3",
+    "@tanstack/react-query": "^4.18.0",
     "asar": "^1.0.0",
     "base32.js": "^0.1.0",
     "bugsnag-build-reporter": "^1.0.3",
@@ -224,6 +228,7 @@
     "electron-builder": "^22.14.10",
     "electron-devtools-installer": "^3.1.1",
     "electron-notarize": "^1.0.0",
+    "electron-rebuild": "^3.2.9",
     "empty": "^0.10.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
@@ -284,7 +289,7 @@
     "logError": true
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "*.{js,tsx}": [
       "prettier-standard"
     ]
   }

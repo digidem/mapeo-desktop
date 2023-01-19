@@ -5,7 +5,7 @@ import { StylesProvider, ThemeProvider } from '@material-ui/styles'
 import { IntlProvider } from 'react-intl'
 import isDev from 'electron-is-dev'
 import CssBaseline from '@material-ui/core/CssBaseline'
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import logger from '../logger'
 import theme from './theme'
 import Home from './components/Home'
@@ -48,6 +48,8 @@ const App = () => {
   const [locale, setLocale] = React.useState(initialLocale)
   const [backendState, setBackendState] = React.useState('loading')
 
+  const queryClient = new QueryClient()
+
   React.useEffect(() => {
     ipcRenderer
       .invoke('get-backend-state')
@@ -87,7 +89,9 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <IntlProvider locale={locale} messages={msgs[locale]}>
-          <Home onSelectLanguage={handleLanguageChange} />
+          <QueryClientProvider client={queryClient}>
+            <Home onSelectLanguage={handleLanguageChange} />
+          </QueryClientProvider>
         </IntlProvider>
       </ThemeProvider>
     </StylesProvider>
