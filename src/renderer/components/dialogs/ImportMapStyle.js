@@ -3,7 +3,6 @@ import * as React from 'react'
 import {
   Button,
   CardActionArea,
-  Icon,
   makeStyles,
   Typography
 } from '@material-ui/core'
@@ -23,7 +22,7 @@ import IconButton from '@material-ui/core/IconButton'
 const m = defineMessages({
   // Title of screen used to add a new background map
   addMap: 'Add Map Background',
-  //button to cancel the import of a background map
+  // button to cancel the import of a background map
   cancel: 'Cancel',
   // Title for import errot pop up dialog,
   importErrorTitle: 'Background Maps Import Error',
