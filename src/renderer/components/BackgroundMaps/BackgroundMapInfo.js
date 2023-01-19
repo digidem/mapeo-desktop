@@ -2,10 +2,8 @@
 import { Button, Fade, makeStyles, Paper, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import ReactMapboxGl from 'react-mapbox-gl'
 import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
 
-import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import Loading from '../Loading'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 import { MapboxPrevOnly } from './MapCard'
@@ -115,6 +113,7 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
       <MapboxPrevOnly
         style={url}
         containerStyle={{ height: '60%', width: '100%' }}
+        zoom={[0]}
       />
     </React.Fragment>
   )

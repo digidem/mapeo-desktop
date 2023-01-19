@@ -80,5 +80,5 @@ export const BackgroundMaps = ({ openSettings }) => {
  * @returns {number}
  */
 export const convertKbToMb = kilobyte => {
-  return Math.round(kilobyte / 1000)
+  return kilobyte / 2 ** 20
 }

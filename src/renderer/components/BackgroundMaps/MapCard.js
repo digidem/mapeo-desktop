@@ -20,8 +20,7 @@ export const MapboxPrevOnly = ReactMapboxGl({
   dragRotate: false,
   pitchWithRotate: false,
   attributionControl: false,
-  injectCSS: false,
-  interactive: false
+  injectCSS: false
 })
 
 /**
@@ -53,12 +52,13 @@ export const MapCard = ({ offlineMap, setMap, isBeingViewed }) => {
               width: '100%'
             }}
             style={offlineMap.url}
+            zoom={[0]}
           />
         </div>
         <div className={classes.text}>
           <Typography>{offlineMap.name}</Typography>
           <Typography variant='subtitle1'>
-            {`${convertKbToMb(offlineMap.bytesStored)} ${t(m.mb)}`}
+            {`${Math.round(convertKbToMb(offlineMap.bytesStored))} ${t(m.mb)}`}
           </Typography>
         </div>
       </div>
