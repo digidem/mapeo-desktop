@@ -63,6 +63,7 @@ export const BackgroundMaps = ({ openSettings }) => {
             <BackgroundMapInfo
               key={offlineMap.id}
               idBeingViewed={mapValue}
+              size={offlineMap.bytesStored}
               id={offlineMap.id}
               unsetMapValue={unsetMapValue}
               url={offlineMap.url}

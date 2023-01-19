@@ -18,7 +18,11 @@ const m = defineMessages({
   // Title for error message when deleting style
   deleteErrorTitle: 'Error Deleting Style',
   // Description for error message when deleting style,
-  deleteErrorDescription: 'There was an error deleting the style'
+  deleteErrorDescription: 'There was an error deleting the style',
+  // Zoom Level Title
+  zoomLevel: 'Zoom Level: {zoom}',
+  // abbreviation for megabyte
+  mb: 'mb'
 })
 
 /**
@@ -26,6 +30,7 @@ const m = defineMessages({
  * @prop {string} id
  * @prop {string} idBeingViewed
  * @prop {string} url
+ * @prop {number} size
  * @prop {()=>void} unsetMapValue
  */
 
@@ -34,12 +39,15 @@ export const BackgroundMapInfo = ({
   id,
   idBeingViewed,
   unsetMapValue,
-  url
+  url,
+  size
 }) => {
   const shouldLoad = React.useMemo(() => id === idBeingViewed, [
     id,
     idBeingViewed
   ])
+
+  const { formatMessage: t } = useIntl()
 
   const { data } = useMapServerQuery(`/styles/${id}`, shouldLoad)
 
@@ -57,12 +65,26 @@ export const BackgroundMapInfo = ({
         {!data ? (
           <Loading />
         ) : (
-          <MapInfo
-            name={data.name}
-            id={id}
-            unsetMapValue={unsetMapValue}
-            url={url}
-          />
+          <React.Fragment>
+            <MapInfo
+              name={data.name}
+              id={id}
+              unsetMapValue={unsetMapValue}
+              url={url}
+            />
+            {/* Text */}
+            <div style={{ padding: 20 }}>
+              <Typography variant='subtitle2' style={{ fontSize: 18 }}>
+                {data.name}
+              </Typography>
+              {data.zoom && (
+                <Typography variant='body1'>
+                  {t(m.zoomLevel, { zoom: data.zoom })}
+                </Typography>
+              )}
+              <Typography variant='body1'>{`${size} ${t(m.mb)}`}</Typography>
+            </div>
+          </React.Fragment>
         )}
       </Paper>
     </Fade>
@@ -89,9 +111,7 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
    */
 
   // To Do, useMapServerMutation.mutate()
-  function deleteMap (mapId) {
-    return
-  }
+  function deleteMap (mapId) {}
 
   return (
     <React.Fragment>
