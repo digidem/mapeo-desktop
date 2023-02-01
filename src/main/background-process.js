@@ -5,6 +5,7 @@ const { once } = require('events')
 const { TypedEmitter } = require('tiny-typed-emitter')
 const { BrowserWindow, ipcMain, app } = require('electron')
 const pDefer = require('p-defer')
+const isDev = require('electron-is-dev')
 
 const logger = require('../logger')
 
@@ -66,11 +67,12 @@ class BackgroundProcess extends TypedEmitter {
       title: path.relative(process.cwd(), modulePath),
       webPreferences: {
         nodeIntegration: true,
-        // Appended to process.argv
+        // Appended to process.argv: module path, args for module, user data directory path, mode (development or production)
         additionalArguments: [
           this._modulePath,
+          JSON.stringify(args),
           userDataPath,
-          JSON.stringify(args)
+          isDev ? 'development' : 'production'
         ],
         // Don't throttle animations and timers when the page becomes background
         backgroundThrottling: false,

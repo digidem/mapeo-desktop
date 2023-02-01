@@ -8,15 +8,18 @@ const logger = require('../logger')
 /** @typedef {import('../utils/types').BackgroundProcess} BackgroundProcess */
 /** @typedef {import('../utils/types').IpcResponse} IpcResponse */
 
-const [modulePath, userDataPath, argsJSON] = process.argv.slice(-3)
+const [modulePath, argsJSON, userDataPath, mode] = process.argv.slice(-4)
 const label = path.basename(modulePath)
 
 /** @type {'starting' | 'ready' | 'closing' | 'closed'} */
 let status = 'starting'
 
-logger.configure({ userDataPath, label })
+logger.configure({ userDataPath, label, isDev: mode === 'development' })
 ;(async function initialize () {
   try {
+    // TODO: Used by renderer processes to determine if in development mode or not. There's probably a better way to do this
+    window.mode = mode
+
     const args = argsJSON && JSON.parse(argsJSON)
 
     const start = Date.now()

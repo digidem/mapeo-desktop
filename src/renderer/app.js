@@ -4,7 +4,6 @@ import remote from '@electron/remote'
 import { ipcRenderer } from 'electron'
 import { StylesProvider, ThemeProvider } from '@material-ui/styles'
 import { IntlProvider } from 'react-intl'
-import isDev from 'electron-is-dev'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import logger from '../logger'
@@ -15,7 +14,7 @@ if (!logger.configured) {
   logger.configure({
     label: 'renderer',
     userDataPath: remote.app.getPath('userData'),
-    isDev
+    isDev: !window.mode || window.mode === 'development'
   })
   ipcRenderer.on('debugging', (ev, bool) => {
     logger.debugging(bool)
@@ -37,8 +36,8 @@ const msgs = {
 if (!logger.configured) {
   logger.configure({
     label: 'renderer',
-    userDataPath: remote.app.getPath('userData'),
-    isDev
+    userDataPath: remote.app.getPath('userData')
+    // isDev
   })
   ipcRenderer.on('debugging', (ev, bool) => {
     logger.debugging(bool)

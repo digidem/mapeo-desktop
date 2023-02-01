@@ -3,7 +3,6 @@ const path = require('path')
 const DailyRotateFile = require('winston-daily-rotate-file')
 const util = require('util')
 const { format } = require('date-fns')
-const isDev = require('electron-is-dev')
 
 const store = require('./store')
 const appVersion = require('./build-config').version
@@ -20,7 +19,7 @@ class Logger {
     this._debug = store.get('debugging')
   }
 
-  configure ({ userDataPath, label }) {
+  configure ({ userDataPath, label, isDev }) {
     this._startBugsnag(isDev ? 'development' : 'production')
     const prettyPrint = winston.format.printf(
       ({ level, message, label, timestamp }) => {

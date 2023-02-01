@@ -1,8 +1,11 @@
 const app = require('electron').app
 const Settings = require('@mapeo/settings')
-const { RESOURCES_DIR } = require('../../config')
+const isDev = require('electron-is-dev')
+const { getResourcesDir } = require('../../config')
 
 const logger = require('../logger')
+
+const resourcesDir = getResourcesDir(isDev)
 
 function importSettings (settingsFile, cb) {
   var userDataPath = app.getPath('userData')
@@ -31,7 +34,7 @@ function getSettings (type) {
 }
 
 function getFallbackSettings (type) {
-  return new Settings(RESOURCES_DIR).getSettings(type)
+  return new Settings(resourcesDir).getSettings(type)
 }
 
 module.exports = {

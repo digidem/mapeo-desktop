@@ -3,6 +3,7 @@
 const remote = require('@electron/remote/main')
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
+const isDev = require('electron-is-dev')
 
 const windowStateKeeper = require('./window-state')
 const logger = require('../logger')
@@ -43,7 +44,11 @@ function MainWindow (options) {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       preload: path.resolve(__dirname, '../renderer/index-preload.js'),
-      additionalArguments: [JSON.stringify(options)],
+      additionalArguments: [
+        JSON.stringify(options),
+        app.getPath('userData'),
+        isDev ? 'development' : 'production'
+      ],
       contextIsolation: false
     }
   })
