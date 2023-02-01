@@ -5,6 +5,8 @@ const { app, dialog, MessageChannelMain, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
 const contextMenu = require('electron-context-menu')
 const mkdirp = require('mkdirp')
+const Database = require('better-sqlite3')
+const createMapServer = require('@mapeo/map-server')
 
 const onExit = require('./exit-hook')
 const BackgroundProcessManager = require('./background-process')
@@ -114,9 +116,9 @@ async function startup ({
   // Fortunately map server does not have any expensive functions so it should
   // not slow down the main process nor block the render thread if we run it
   // here from the main process...
-  // const mapServer = createMapServer(undefined, {
-  //   dbPath: path.join(mapsdir, 'maps.db')
-  // })
+  const mapServer = createMapServer(undefined, {
+    database: new Database(path.join(mapsdir, 'maps.db'))
+  })
 
   // Subscribe the main window to background process state changes
   const unsubscribeMainWindow = backgroundProcesses.subscribeWindow(winMain)
@@ -174,6 +176,10 @@ async function startup ({
         logger.timedPromise(
           backgroundProcesses.startAll(),
           'Started background processes'
+        ),
+        logger.timedPromise(
+          mapServer.listen(mapServerPort, '127.0.0.1'),
+          'Started Mapeo Map Server'
         ),
         // Load main window and show it when it has loaded
         logger.timedPromise(loadMainWindow(), 'First render in main window')
@@ -273,6 +279,7 @@ async function startup ({
       backgroundProcesses.stopAll(),
       'Stopped background processes'
     )
+    await logger.timedPromise(mapServer.close(), 'Stopped Mapeo Map Server')
     clearTimeout(timeoutId)
 
     winClosing && winClosing.close()
