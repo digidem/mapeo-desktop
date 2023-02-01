@@ -3,10 +3,12 @@
 const path = require('path')
 const { once } = require('events')
 const { TypedEmitter } = require('tiny-typed-emitter')
-const { BrowserWindow, ipcMain } = require('electron')
+const { BrowserWindow, ipcMain, app } = require('electron')
 const pDefer = require('p-defer')
 
 const logger = require('../logger')
+
+const userDataPath = app.getPath('userData')
 
 // Timeout waiting for a worker to close gracefully before it is force-closed
 const CLOSE_TIMEOUT = 5000
@@ -65,7 +67,11 @@ class BackgroundProcess extends TypedEmitter {
       webPreferences: {
         nodeIntegration: true,
         // Appended to process.argv
-        additionalArguments: [this._modulePath, JSON.stringify(args)],
+        additionalArguments: [
+          this._modulePath,
+          userDataPath,
+          JSON.stringify(args)
+        ],
         // Don't throttle animations and timers when the page becomes background
         backgroundThrottling: false,
         // Don't run electron APIs and preload in a separate JavaScript context.

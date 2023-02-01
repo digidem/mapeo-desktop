@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { remote, ipcRenderer } from 'electron'
+import remote from '@electron/remote'
+import { ipcRenderer } from 'electron'
 import { StylesProvider, ThemeProvider } from '@material-ui/styles'
 import { IntlProvider } from 'react-intl'
 import isDev from 'electron-is-dev'

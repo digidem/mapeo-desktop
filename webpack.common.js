@@ -15,6 +15,7 @@ module.exports = {
     'ajv',
     'electron-debug',
     'mime-db',
+    '@electron/remote',
     '../package.json'
   ],
   // plugins: [new LiveReloadPlugin()],

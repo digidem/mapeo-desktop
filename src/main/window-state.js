@@ -1,5 +1,6 @@
 'use strict'
 
+const remote = require('@electron/remote/main')
 const electron = require('electron')
 
 const store = require('../store')
@@ -18,7 +19,7 @@ const defaults = {
  * Adapted from https://github.com/mawie81/electron-window-state (MIT License)
  */
 module.exports = function (options) {
-  const screen = electron.screen || electron.remote.screen
+  const screen = electron.screen || remote.screen
   let state
   let winRef
   let stateChangeTimer

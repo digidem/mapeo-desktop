@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { remote } from 'electron'
+import remote from '@electron/remote'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'

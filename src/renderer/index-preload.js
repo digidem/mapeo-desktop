@@ -1,4 +1,5 @@
-const { ipcRenderer, remote } = require('electron')
+const remote = require('@electron/remote')
+const { ipcRenderer } = require('electron')
 const IPC = require('../client-ipc')
 const logger = require('../logger')
 

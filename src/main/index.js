@@ -1,5 +1,7 @@
 // @ts-check
 
+require('@electron/remote/main').initialize()
+
 const path = require('path')
 const { app, dialog, MessageChannelMain, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')

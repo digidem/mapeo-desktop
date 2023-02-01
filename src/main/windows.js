@@ -1,4 +1,6 @@
 // @ts-check
+
+const remote = require('@electron/remote/main')
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
@@ -60,6 +62,8 @@ function MainWindow (options) {
       }
     }
   )
+
+  remote.enable(mainWindow.webContents)
 
   return mainWindow
 }

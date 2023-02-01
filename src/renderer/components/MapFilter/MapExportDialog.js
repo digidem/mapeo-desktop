@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
 import path from 'path'
-import { remote } from 'electron'
+import remote from '@electron/remote'
 import pump from 'pump'
 
 import ViewWrapper from './ViewWrapper'
