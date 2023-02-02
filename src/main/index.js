@@ -70,6 +70,9 @@ async function startup ({
   // Set up Electron IPC bridge with frontend in electron-renderer process
   electronIpc(ipcSend)
 
+  // Maps management server
+  let mapServer = null
+
   // Window Management
   /** @type {BrowserWindow | null} */
   let winMain = MainWindow({
@@ -171,7 +174,7 @@ async function startup ({
     // Fortunately map server does not have any expensive functions so it should
     // not slow down the main process nor block the render thread if we run it
     // here from the main process...
-    const mapServer = createMapServer(undefined, {
+    mapServer = createMapServer(undefined, {
       database: new Database(path.join(mapsdir, 'maps.db'))
     })
 
@@ -285,7 +288,11 @@ async function startup ({
       backgroundProcesses.stopAll(),
       'Stopped background processes'
     )
-    await logger.timedPromise(mapServer.close(), 'Stopped Mapeo Map Server')
+
+    if (mapServer) {
+      await logger.timedPromise(mapServer.close(), 'Stopped Mapeo Map Server')
+    }
+
     clearTimeout(timeoutId)
 
     winClosing && winClosing.close()
