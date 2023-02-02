@@ -109,19 +109,6 @@ async function startup ({
     { id: 'mapPrinter', args: mapPrinterArgs, devTools: debug }
   )
 
-  // Running this in the main thread rather than in a background process because
-  // map-server uses Node Worker Threads, and the background processes actually
-  // run in a browser window (with Node integration turned on) but they do not
-  // support Node workers (only Web Workers). The reason for running the other
-  // processes (map printer and mapeo core) in a background process was because
-  // processes in the main thread are blocking for the render thread.
-  // Fortunately map server does not have any expensive functions so it should
-  // not slow down the main process nor block the render thread if we run it
-  // here from the main process...
-  const mapServer = createMapServer(undefined, {
-    database: new Database(path.join(mapsdir, 'maps.db'))
-  })
-
   // Subscribe the main window to background process state changes
   const unsubscribeMainWindow = backgroundProcesses.subscribeWindow(winMain)
 
@@ -167,13 +154,29 @@ async function startup ({
     createMenu(ipc)
     backgroundProcesses.addClient('mapeoCore', port2)
 
+    await Promise.all([
+      // Create folders for data, custom presets, and custom styles
+      mkdirp(datadir),
+      mkdirp(mapsdir),
+      mkdirp(path.join(userDataPath, 'presets')),
+      mkdirp(path.join(userDataPath, 'styles'))
+    ])
+
+    // Running this in the main thread rather than in a background process because
+    // map-server uses Node Worker Threads, and the background processes actually
+    // run in a browser window (with Node integration turned on) but they do not
+    // support Node workers (only Web Workers). The reason for running the other
+    // processes (map printer and mapeo core) in a background process was because
+    // processes in the main thread are blocking for the render thread.
+    // Fortunately map server does not have any expensive functions so it should
+    // not slow down the main process nor block the render thread if we run it
+    // here from the main process...
+    const mapServer = createMapServer(undefined, {
+      database: new Database(path.join(mapsdir, 'maps.db'))
+    })
+
     await logger.timedPromise(
       Promise.all([
-        // Create folders for data, custom presets, and custom styles
-        mkdirp(datadir),
-        mkdirp(mapsdir),
-        mkdirp(path.join(userDataPath, 'presets')),
-        mkdirp(path.join(userDataPath, 'styles')),
         // Startup background processes and servers
         logger.timedPromise(
           backgroundProcesses.startAll(),
@@ -202,6 +205,7 @@ async function startup ({
       updater.periodicUpdates()
     }
   } catch (err) {
+    logger.debug('ERRORORROROR', err)
     onError(err)
   }
 
