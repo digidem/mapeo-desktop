@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import remote from '@electron/remote'
+import * as remote from '@electron/remote'
 import { useIntl, defineMessages } from 'react-intl'
 import path from 'path'
 

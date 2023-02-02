@@ -1,6 +1,6 @@
 // @ts-check
 
-const remote = require('@electron/remote/main')
+const { enable: enableRemote } = require('@electron/remote/main')
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
@@ -68,7 +68,7 @@ function MainWindow (options) {
     }
   )
 
-  remote.enable(mainWindow.webContents)
+  enableRemote(mainWindow.webContents)
 
   return mainWindow
 }
