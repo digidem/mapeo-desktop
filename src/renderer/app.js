@@ -33,17 +33,6 @@ const msgs = {
   th: require('../../translations/th.json')
 }
 
-if (!logger.configured) {
-  logger.configure({
-    label: 'renderer',
-    userDataPath: remote.app.getPath('userData')
-    // isDev
-  })
-  ipcRenderer.on('debugging', (ev, bool) => {
-    logger.debugging(bool)
-  })
-}
-
 const App = () => {
   const [locale, setLocale] = React.useState(initialLocale)
   const [backendState, setBackendState] = React.useState('loading')
