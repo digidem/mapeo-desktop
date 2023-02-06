@@ -33,29 +33,15 @@ const tabs = /** @typedef {const} */ [
   }
 ]
 
-/**
- *
- * @typedef SettingsProp
- * @prop {boolean} reset
- * @prop {function(boolean):void} setReset
- * @prop {boolean} fadeIn
- */
-
-/** @param {SettingsProp} props */
-export const Settings = ({ reset, setReset, fadeIn }) => {
+export const Settings = () => {
   const [menuVisible, setMenuVisibility] = React.useState(true)
 
   /** @type {import('./SettingsMenu').SettingsTabs['tabId'] | false} */
-  const initialState = /** {const} */ (false)
+  const initialTabState = /** {const} */ (false)
 
-  const [tabValue, setTabValue] = React.useState(initialState)
+  const [tabValue, setTabValue] = React.useState(initialTabState)
 
   const classes = useStyles()
-
-  if (reset) {
-    setReset(false)
-    if (tabValue === 'BackgroundMap') setTabValue(false)
-  }
 
   React.useEffect(() => {
     if (tabValue === 'BackgroundMap') {
@@ -68,41 +54,39 @@ export const Settings = ({ reset, setReset, fadeIn }) => {
 
   // Controlling most of the fade in animations here
   return (
-    <Fade in={reset || fadeIn} timeout={FADE_DURATION}>
-      <Paper className={classes.container}>
-        {menuVisible && (
-          <Fade in={menuVisible} timeout={FADE_DURATION}>
-            <Paper className={classes.tabs}>
-              <SettingsMenu
-                tabs={tabs}
-                currentTab={tabValue}
-                setCurrentTab={setTabValue}
-              />
-            </Paper>
-          </Fade>
-        )}
+    <Paper className={classes.container}>
+      {menuVisible && (
+        <Fade in={menuVisible} timeout={FADE_DURATION}>
+          <Paper className={classes.tabs}>
+            <SettingsMenu
+              tabs={tabs}
+              currentTab={tabValue}
+              setCurrentTab={setTabValue}
+            />
+          </Paper>
+        </Fade>
+      )}
 
-        {tabValue === 'BackgroundMap' && (
-          <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
-            <Paper className={classes.container}>
-              <BackgroundMaps
-                openSettings={() => {
-                  setTabValue(false)
-                }}
-              />
-            </Paper>
-          </Fade>
-        )}
+      {tabValue === 'BackgroundMap' && (
+        <Fade in={tabValue === 'BackgroundMap'} timeout={FADE_DURATION}>
+          <Paper className={classes.container}>
+            <BackgroundMaps
+              openSettings={() => {
+                setTabValue(false)
+              }}
+            />
+          </Paper>
+        </Fade>
+      )}
 
-        {tabValue === 'AboutMapeo' && (
-          <Fade in={tabValue === 'AboutMapeo'} timeout={FADE_DURATION}>
-            <Paper className={classes.container}>
-              <AboutMapeo />
-            </Paper>
-          </Fade>
-        )}
-      </Paper>
-    </Fade>
+      {tabValue === 'AboutMapeo' && (
+        <Fade in={tabValue === 'AboutMapeo'} timeout={FADE_DURATION}>
+          <Paper className={classes.container}>
+            <AboutMapeo />
+          </Paper>
+        </Fade>
+      )}
+    </Paper>
   )
 }
 

@@ -226,8 +226,6 @@ export default function Home ({ onSelectLanguage }) {
   const [update, setUpdate] = useUpdater()
   const { formatMessage: t } = useIntl()
 
-  const [settingsReset, setSettingsReset] = React.useState(false)
-
   const classes = useStyle()
 
   React.useEffect(() => {
@@ -275,7 +273,6 @@ export default function Home ({ onSelectLanguage }) {
           variant='scrollable'
           value={tabIndex}
           onChange={(e, value) => {
-            if (value === 4) setSettingsReset(true)
             setTabIndex(value)
           }}
         >
@@ -313,13 +310,13 @@ export default function Home ({ onSelectLanguage }) {
           update={update}
           setUpdate={setUpdate}
         />
-        {tabIndex === 4 && (
-          <Settings
-            fadeIn={tabIndex === 4}
-            reset={settingsReset}
-            setReset={setSettingsReset}
-          />
-        )}
+
+        <TabPanel
+          index={4}
+          value={tabIndex}
+          fadeIn={tabIndex === 4}
+          component={Settings}
+        />
       </TabContent>
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}
