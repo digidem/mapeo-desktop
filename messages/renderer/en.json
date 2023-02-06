@@ -17,7 +17,7 @@
   },
   "renderer.components.BackgroundMaps.BackgroundMapInfo.mb": {
     "description": "abbreviation for megabyte",
-    "message": "mb"
+    "message": "MB"
   },
   "renderer.components.BackgroundMaps.BackgroundMapInfo.offlineAreas": {
     "description": "Title for Offline Areas",
