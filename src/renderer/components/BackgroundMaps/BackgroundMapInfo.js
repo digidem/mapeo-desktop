@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
 import Loading from '../Loading'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 import { MapboxPrevOnly } from './MapCard'
+import { convertKbToMb } from '../Settings/BackgroundMaps'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -22,38 +23,25 @@ const m = defineMessages({
   // Zoom Level Title
   zoomLevel: 'Zoom Level: {zoom}',
   // abbreviation for megabyte
-  mb: 'mb'
+  mb: 'MB'
 })
 
 /**
  * @typedef BackgroundMapInfoProps
  * @prop {string} id
- * @prop {string} idBeingViewed
  * @prop {string} url
  * @prop {number} size
  * @prop {()=>void} unsetMapValue
  */
 
 /** @param {BackgroundMapInfoProps} props */
-export const BackgroundMapInfo = ({
-  id,
-  idBeingViewed,
-  unsetMapValue,
-  url,
-  size
-}) => {
-  const shouldLoad = React.useMemo(() => id === idBeingViewed, [
-    id,
-    idBeingViewed
-  ])
-
+export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
   const { formatMessage: t } = useIntl()
 
-  const { data } = useMapServerQuery(`/styles/${id}`, shouldLoad)
+  const { data } = useMapServerQuery(`/styles/${id}`)
 
-  // Lazy loading each one here: aka will only load when clicked
-  return shouldLoad ? (
-    <Fade in={shouldLoad} timeout={600}>
+  return (
+    <Fade in timeout={0}>
       <Paper
         style={{
           flex: 1,
@@ -82,13 +70,15 @@ export const BackgroundMapInfo = ({
                   {t(m.zoomLevel, { zoom: data.zoom })}
                 </Typography>
               )}
-              <Typography variant='body1'>{`${size} ${t(m.mb)}`}</Typography>
+              <Typography variant='body1'>{`${Math.round(
+                convertKbToMb(size)
+              )} ${t(m.mb)}`}</Typography>
             </div>
           </React.Fragment>
         )}
       </Paper>
     </Fade>
-  ) : null
+  )
 }
 
 /**

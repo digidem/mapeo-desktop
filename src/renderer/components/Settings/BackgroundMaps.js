@@ -34,6 +34,11 @@ export const BackgroundMaps = ({ openSettings }) => {
     setMapValue(false)
   }
 
+  const offlineMap = React.useMemo(
+    () => data && data.find(m => m.id === mapValue),
+    [data, mapValue]
+  )
+
   return (
     <React.Fragment>
       <SidePanel
@@ -57,20 +62,15 @@ export const BackgroundMaps = ({ openSettings }) => {
             <br />
           </Typography>
         </div>
-      ) : (
-        <React.Fragment>
-          {data.map(offlineMap => (
-            <BackgroundMapInfo
-              key={offlineMap.id}
-              idBeingViewed={mapValue}
-              size={offlineMap.bytesStored}
-              id={offlineMap.id}
-              unsetMapValue={unsetMapValue}
-              url={offlineMap.url}
-            />
-          ))}
-        </React.Fragment>
-      )}
+      ) : offlineMap ? (
+        <BackgroundMapInfo
+          key={offlineMap.id}
+          size={offlineMap.bytesStored}
+          id={offlineMap.id}
+          unsetMapValue={unsetMapValue}
+          url={offlineMap.url}
+        />
+      ) : null}
     </React.Fragment>
   )
 }
