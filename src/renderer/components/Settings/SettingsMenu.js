@@ -3,6 +3,7 @@ import * as React from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { useIntl } from 'react-intl'
+import { makeStyles } from '@material-ui/core'
 
 /** @typedef {{tabId:import('.').SettingTabId, icon:(string | React.ReactElement<any, string | React.JSXElementConstructor<any>>), label:import('react-intl').MessageDescriptor}} SettingsTabs */
 
@@ -17,6 +18,8 @@ import { useIntl } from 'react-intl'
 export const SettingsMenu = ({ tabs, currentTab, setCurrentTab }) => {
   const { formatMessage: t } = useIntl()
 
+  const classes = useStyles()
+
   return (
     <Tabs
       orientation='vertical'
@@ -25,7 +28,7 @@ export const SettingsMenu = ({ tabs, currentTab, setCurrentTab }) => {
     >
       {tabs.map(tab => (
         <Tab
-          style={{ textTransform: 'none' }}
+          className={classes.tab}
           label={t(tab.label)}
           key={tab.tabId}
           value={tab.tabId}
@@ -35,3 +38,12 @@ export const SettingsMenu = ({ tabs, currentTab, setCurrentTab }) => {
     </Tabs>
   )
 }
+
+const useStyles = makeStyles({
+  tab: {
+    textTransform: 'none',
+    '& .MuiTab-wrapper > *:first-child': {
+      marginBottom: 0
+    }
+  }
+})
