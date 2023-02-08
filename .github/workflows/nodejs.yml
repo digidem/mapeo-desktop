@@ -11,9 +11,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.config.os }}
-
     strategy:
-      fail-fast: false
       matrix:
         config:
           - { os: macos-11, arch: x64 }
@@ -34,12 +32,12 @@ jobs:
       - name: Use Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: 16.17.1
+          node-version: 16.17.X
       - name: npm ci no scripts
         uses: nick-invision/retry@v2
         with:
-          timeout_minutes: 20
-          max_attempts: 1
+          timeout_minutes: 10
+          max_attempts: 5
           retry_on: error
           retry_wait_seconds: 0
           command: npm ci --ignore-scripts
