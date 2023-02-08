@@ -7,17 +7,18 @@ var logger = console
 
 module.exports = function (osm, media, { ipcSend, staticRoot }) {
   var osmRouter = createOsmRouter(osm)
-  const defaultConfigDir = getDefaultConfigDir(
-    !window.mode || window.mode === 'development'
-  )
+
+  const isDev = !window.mode || window.mode === 'development'
+
+  const defaultConfigDir = getDefaultConfigDir(isDev)
+
   logger.debug(defaultConfigDir)
+
   var mapeoRouter = createMapeoRouter(osm, media, {
     staticRoot: staticRoot,
     writeFormat: 'osm-p2p-syncfile',
     deviceType: 'desktop',
-    fallbackPresetsDir: getDefaultConfigDir(
-      !window.mode || window.mode === 'development'
-    )
+    fallbackPresetsDir: getDefaultConfigDir(isDev)
   })
 
   var staticHandler = ecstatic({
