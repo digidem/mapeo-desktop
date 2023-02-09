@@ -45,7 +45,8 @@
     "type": "tsc",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "remove-native-deps": "rimraf node_modules/sodium-native node_modules/nice-napi node_modules/fsevents"
+    "remove-native-deps": "rimraf node_modules/sodium-native node_modules/nice-napi node_modules/fsevents",
+    "remove-ci-artifacts": "node bin/remove-ci-artifacts.js"
   },
   "license": "GPL-3.0",
   "repository": {
