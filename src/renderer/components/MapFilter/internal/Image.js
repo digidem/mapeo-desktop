@@ -1,4 +1,3 @@
-//
 import React from 'react'
 import Img from 'react-image'
 import CircularProgress from '@material-ui/core/CircularProgress'

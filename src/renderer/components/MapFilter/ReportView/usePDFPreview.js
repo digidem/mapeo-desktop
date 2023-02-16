@@ -1,4 +1,3 @@
-//
 import React from 'react'
 import QuickLRU from 'quick-lru'
 

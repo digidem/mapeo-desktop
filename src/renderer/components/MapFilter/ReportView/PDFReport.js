@@ -1,4 +1,3 @@
-//
 import * as React from 'react'
 import { nativeImage } from 'electron'
 import ky from 'ky'
@@ -31,7 +30,6 @@ import { formatId } from '../utils/strings'
 import { get } from '../utils/get_set'
 
 import { SettingsContext, defaultSettings } from '../internal/Context'
-import {} from '../MapView/MapViewContent'
 
 import dateIcon from './iconEvent.png'
 import fallbackCategoryIcon from './iconPlace.png'

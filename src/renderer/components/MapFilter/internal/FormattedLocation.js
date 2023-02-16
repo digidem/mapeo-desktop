@@ -1,4 +1,3 @@
-//
 import { useContext } from 'react'
 import sexagesimal from '@mapbox/sexagesimal'
 import { fromLatLon } from 'utm'

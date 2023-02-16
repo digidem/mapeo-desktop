@@ -1,4 +1,3 @@
-//
 import * as React from 'react'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import Popover from '@material-ui/core/Popover'

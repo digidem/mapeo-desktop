@@ -1,4 +1,3 @@
-//
 import isodate from '@segment/isodate'
 import sexagesimal from '@mapbox/sexagesimal'
 import url from 'url'

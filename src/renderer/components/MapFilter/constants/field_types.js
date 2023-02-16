@@ -1,4 +1,3 @@
-//
 export const TEXT = 'text'
 export const TEXTAREA = 'textarea'
 export const NUMBER = 'number'

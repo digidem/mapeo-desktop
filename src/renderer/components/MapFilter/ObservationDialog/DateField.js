@@ -1,4 +1,3 @@
-//
 import React from 'react'
 import { DatePicker } from '@material-ui/pickers'
 import { getDateString } from '../utils/helpers'

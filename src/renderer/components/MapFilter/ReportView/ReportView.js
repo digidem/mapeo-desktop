@@ -1,7 +1,5 @@
-//
 import React from 'react'
 import ViewWrapper from '../ViewWrapper'
-import {} from '../MapView/MapViewContent'
 import ReportViewContent from './ReportViewContent'
 
 const ReportView = ({

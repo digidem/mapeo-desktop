@@ -1,4 +1,3 @@
-//
 import * as React from 'react'
 import Checkbox from './StyledCheckbox'
 import ListIcon from '@material-ui/icons/List'

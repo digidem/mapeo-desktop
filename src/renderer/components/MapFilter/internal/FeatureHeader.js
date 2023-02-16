@@ -1,4 +1,3 @@
-//
 import * as React from 'react'
 import CardHeader from '@material-ui/core/CardHeader'
 import { makeStyles } from '@material-ui/core/styles'

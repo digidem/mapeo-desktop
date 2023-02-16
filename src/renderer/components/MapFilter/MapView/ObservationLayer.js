@@ -1,4 +1,3 @@
-//
 import React, { useMemo, useCallback, useContext, useRef } from 'react'
 import { Layer, Source, MapContext } from 'react-mapbox-gl'
 import validateColor from 'validate-color'

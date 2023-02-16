@@ -1,4 +1,3 @@
-//
 import React, { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -25,7 +24,6 @@ import PDFViewer from './PDFViewer'
 import SaveButton from './SaveButton'
 import usePDFPreview from './usePDFPreview'
 
-import {} from '../MapView/MapViewContent'
 import { SettingsContext } from '../internal/Context'
 import renderPDFReport from './renderReport'
 import ToolbarButton from '../internal/ToolbarButton'

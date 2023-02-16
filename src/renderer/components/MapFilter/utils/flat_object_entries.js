@@ -1,4 +1,3 @@
-//
 import { isObj } from './helpers'
 
 function isArrayOfPrimitives (value) {

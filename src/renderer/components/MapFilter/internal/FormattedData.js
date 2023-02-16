@@ -1,4 +1,3 @@
-//
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 

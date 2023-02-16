@@ -1,4 +1,3 @@
-//
 import base32 from 'base32.js'
 
 /**

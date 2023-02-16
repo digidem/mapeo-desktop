@@ -1,4 +1,3 @@
-//
 import mime from 'mime/lite'
 
 import { getFields as getFieldsFromTags } from '../lib/data_analysis'

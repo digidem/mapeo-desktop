@@ -1,4 +1,3 @@
-//
 import * as React from 'react'
 import { useIntl } from 'react-intl'
 import { getLocalizedFieldProp, fieldKeyToLabel } from '../utils/strings'

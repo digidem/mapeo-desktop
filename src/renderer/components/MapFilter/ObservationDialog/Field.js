@@ -1,4 +1,3 @@
-//
 import React from 'react'
 import { useIntl } from 'react-intl'
 import { SelectOne, SelectMultiple } from './Select'
@@ -11,7 +10,6 @@ import * as valueTypes from '../constants/value_types'
 import { coerceValue } from '../lib/data_analysis/value_types'
 import { getLocalizedFieldProp } from '../utils/strings'
 import FormattedFieldname from '../internal/FormattedFieldname'
-import {} from '../types'
 
 const Field = ({ field, value, onChange }) => {
   const { locale } = useIntl()

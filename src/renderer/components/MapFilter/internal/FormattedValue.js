@@ -1,4 +1,3 @@
-//
 import * as React from 'react'
 import { FormattedDate, FormattedTime } from 'react-intl'
 

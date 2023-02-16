@@ -1,4 +1,3 @@
-//
 import * as React from 'react'
 import DateIcon from '@material-ui/icons/DateRange'
 import { makeStyles } from '@material-ui/core/styles'

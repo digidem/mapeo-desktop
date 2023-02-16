@@ -1,5 +1,3 @@
-//
-
 import { pdf } from '@react-pdf/renderer'
 import concat from 'simple-concat'
 import PQueue from 'p-queue'

@@ -1,4 +1,3 @@
-//
 import { createMemoizedStats } from './lib/data_analysis/index'
 
 const getStats = createMemoizedStats()

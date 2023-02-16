@@ -1,4 +1,3 @@
-//
 import * as valueTypes from '../../constants/value_types'
 import { guessValueType } from './value_types'
 import { flatObjectEntries } from '../../utils/flat_object_entries'

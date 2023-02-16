@@ -1,6 +1,4 @@
-//
 import api from '../../../new-api'
-import {} from './PDFReport'
 
 const reportWorker = new Worker('./pdfWorker.bundle.js')
 let msgId = 1

@@ -1,5 +1,3 @@
-//
-
 /**
  * These values are used to choose the field type displayed for editing the
  * value, and are used for validation, e.g. a `uuid` field should be unique

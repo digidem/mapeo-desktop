@@ -1,5 +1,3 @@
-//
-
 export function getProp (tags, fieldKey, defaultValue) {
   // TODO: support deeply nested tags.
   const shallowKey = Array.isArray(fieldKey) ? fieldKey[0] : fieldKey

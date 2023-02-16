@@ -1,4 +1,3 @@
-//
 import * as React from 'react'
 import * as coordFormats from '../constants/coord_formats'
 

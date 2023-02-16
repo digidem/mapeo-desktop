@@ -1,4 +1,3 @@
-//
 import React from 'react'
 import { DateTimePicker } from '@material-ui/pickers'
 
