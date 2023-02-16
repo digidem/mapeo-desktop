@@ -1,4 +1,4 @@
-// @flow
+//
 import * as React from 'react'
 import Checkbox from './StyledCheckbox'
 import ListIcon from '@material-ui/icons/List'
@@ -12,7 +12,6 @@ import OnlyButton from './OnlyButton'
 
 import { getField } from '../lib/data_analysis'
 import FormattedValue from '../internal/FormattedValue'
-import type { Key, Filter, SelectOptions, SelectableFieldValue } from '../types'
 
 // import {FIELD_TYPE_BOOLEAN, FIELD_TYPE_NUMBER} from '../../constants'
 
@@ -44,31 +43,20 @@ const FilterItem = ({ onClick, checked, label, id, onOnlyClick }) => {
   )
 }
 
-type Props = {
-  label: React.Node,
-  fieldKey: Key,
-  filter?: Filter | null,
-  options: SelectOptions,
-  onChangeFilter: (filter: Array<any> | null) => void
-}
-
 const DiscreteFilter = ({
   label,
   fieldKey,
   filter,
   options,
   onChangeFilter
-}: Props) => {
-  const values: Array<number | string | boolean> = options.reduce(
-    (acc, cur) => {
-      // Filter null values
-      if (cur == null) return acc
-      if (typeof cur === 'object' && cur.value != null) acc.push(cur.value)
-      else if (typeof cur !== 'object') acc.push(cur)
-      return acc
-    },
-    []
-  )
+}) => {
+  const values = options.reduce((acc, cur) => {
+    // Filter null values
+    if (cur == null) return acc
+    if (typeof cur === 'object' && cur.value != null) acc.push(cur.value)
+    else if (typeof cur !== 'object') acc.push(cur)
+    return acc
+  }, [])
   const shownValues = valuesFromFilter(filter, values)
   const allValues = [...new Set([...shownValues, ...values].sort())]
 
@@ -130,7 +118,7 @@ const DiscreteFilter = ({
   )
 }
 
-function valuesFromFilter (filter, values = []): Set<SelectableFieldValue> {
+function valuesFromFilter (filter, values = []) {
   if (!filter || filter.length < 3) return new Set(values)
   // $FlowFixMe - need to better define type for filter
   if (filter[0] === 'in') return new Set(filter.slice(2))

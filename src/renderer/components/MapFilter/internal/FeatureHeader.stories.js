@@ -1,4 +1,4 @@
-// @flow
+//
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 // import { linkTo } from '@storybook/addon-links'
@@ -8,7 +8,7 @@ import FeatureHeader from './FeatureHeader'
 export default {
   title: 'internal/FeatureHeader',
   decorators: [
-    (storyFn: any) => (
+    storyFn => (
       <div style={{ width: 600, outline: 'solid 1px aqua' }}>{storyFn()}</div>
     )
   ]

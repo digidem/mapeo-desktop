@@ -1,4 +1,4 @@
-// @flow
+//
 import * as React from 'react'
 import CardHeader from '@material-ui/core/CardHeader'
 import { makeStyles } from '@material-ui/core/styles'
@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography'
 
 import FormattedLocation from '../internal/FormattedLocation'
 import msgs from '../messages'
-import type { Coordinates } from '../types'
 
 const useStyles = makeStyles({
   avatar: {
@@ -25,15 +24,6 @@ const useStyles = makeStyles({
   }
 })
 
-type Props = {
-  iconLabel?: string,
-  iconColor?: string,
-  name?: React.Node,
-  coords?: Coordinates,
-  createdAt?: Date,
-  action?: React.Node
-}
-
 const FeatureHeader = ({
   iconLabel,
   iconColor = '#cccccc',
@@ -41,7 +31,7 @@ const FeatureHeader = ({
   coords,
   createdAt,
   action
-}: Props) => {
+}) => {
   const classes = useStyles()
   const subheaderParts = []
   if (createdAt)

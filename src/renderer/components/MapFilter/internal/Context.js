@@ -1,13 +1,8 @@
-// @flow
+//
 import * as React from 'react'
 import * as coordFormats from '../constants/coord_formats'
 
-export type SettingsContextType = {
-  coordFormat: $Values<typeof coordFormats>
-}
-export const defaultSettings: SettingsContextType = {
+export const defaultSettings = {
   coordFormat: coordFormats.UTM
 }
-export const SettingsContext: React.Context<SettingsContextType> = React.createContext(
-  defaultSettings
-)
+export const SettingsContext = React.createContext(defaultSettings)

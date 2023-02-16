@@ -1,4 +1,4 @@
-// @flow
+//
 import * as React from 'react'
 import { nativeImage } from 'electron'
 import ky from 'ky'
@@ -18,7 +18,7 @@ import {
   StyleSheet,
   Font
 } from '@react-pdf/renderer'
-import type { Field, Observation } from 'mapeo-schema'
+
 import UriTemplate from 'uri-templates'
 
 import {
@@ -29,14 +29,9 @@ import FormattedLocation from '../internal/FormattedLocation'
 import { isEmptyValue } from '../utils/helpers'
 import { formatId } from '../utils/strings'
 import { get } from '../utils/get_set'
-import type { ImageMediaItem } from '../ObservationDialog'
-import type { PresetWithAdditionalFields } from '../types'
-import {
-  SettingsContext,
-  defaultSettings,
-  type SettingsContextType
-} from '../internal/Context'
-import { type MapViewContentProps } from '../MapView/MapViewContent'
+
+import { SettingsContext, defaultSettings } from '../internal/Context'
+import {} from '../MapView/MapViewContent'
 
 import dateIcon from './iconEvent.png'
 import fallbackCategoryIcon from './iconPlace.png'
@@ -105,7 +100,7 @@ const fontFamilyLocaleMapping = {
   th: 'Sarabun'
 }
 
-function getFontFamily (locale: string): string {
+function getFontFamily (locale) {
   return fontFamilyLocaleMapping[locale] || DEFAULT_FONT
 }
 
@@ -117,31 +112,6 @@ const m = defineMessages({
   // Page number in footer
   pageNumber: 'Page {pageNumber}'
 })
-
-export type ReportProps = {
-  observationsWithPresets: Array<{|
-    observation: Observation,
-    preset: PresetWithAdditionalFields,
-    iconURL?: string,
-    mediaSources: {
-      [id: string]: { src: string, type: 'image' | 'video' | 'audio' } | void
-    }
-  |}>,
-  mapImageTemplateURL: string,
-  locale?: string,
-  messages?: any,
-  /** Rendering a PDF does not inherit context from the parent tree. Get this
-   * value with React.useContext(SettingsContext) and provide it as a prop */
-  settings?: SettingsContextType,
-  /** Called with an index of ids, position in array is page number */
-  onPageIndex?: (index: Array<string>) => any,
-  /** For previews, the page number the preview section starts on (e.g. first
-   * observation starts on page 1, if that 1st observation takes two pages, then
-   * pdf preview of second observation starts on page 3). Do not use for final
-   * render */
-  startPage?: number,
-  ...$Exact<$Diff<MapViewContentProps, { onMapMove: * }>>
-}
 
 /*  TODO: add frontpage
 const FrontPage = ({ bounds }) => {
@@ -171,10 +141,7 @@ const FrontPage = ({ bounds }) => {
   </Page>
 */
 
-const Text = ({
-  style,
-  ...otherProps
-}: React.ElementConfig<typeof TextOrig>) => {
+const Text = ({ style, ...otherProps }) => {
   const intl = useIntl()
   const fontFamily = getFontFamily(intl.locale)
   return <TextOrig style={{ fontFamily, ...style }} {...otherProps} />
@@ -190,7 +157,7 @@ export const PDFReport = ({
   mapStyle,
   mapboxAccessToken,
   startPage = 1
-}: ReportProps) => {
+}) => {
   // **Assumption: Each observation will be max 3 pages**
   const sparsePageIndex = new Array(observationsWithPresets.length * 3).fill(
     undefined
@@ -243,19 +210,7 @@ export const PDFReport = ({
   )
 }
 
-const FeaturePage = ({
-  observationView: view,
-  onRender,
-  startPage
-}: {
-  observationView: ObservationView,
-  onRender: (props: {
-    id: string,
-    pageNumber: number,
-    totalPages: number
-  }) => void,
-  startPage: number
-}) => {
+const FeaturePage = ({ observationView: view, onRender, startPage }) => {
   const intl = useIntl()
   // TODO: move all of these Views into ObservationView
   return (
@@ -350,20 +305,14 @@ const Indexer = ({ id, onRender }) => (
   </View>
 )
 
-const TitleDetails = ({
-  icon,
-  children
-}: {
-  icon: React.Node,
-  children: React.Node
-}) => (
+const TitleDetails = ({ icon, children }) => (
   <View style={s.headerRow}>
     <View style={s.iconContainer}>{icon}</View>
     <Text style={s.titleDetails}>{children}</Text>
   </View>
 )
 
-const ObservationIcon = ({ view }: { view: ObservationView }) => {
+const ObservationIcon = ({ view }) => {
   const iconUrl = view.getIconURL() || fallbackCategoryIcon
   return (
     <View style={s.iconContainer}>
@@ -380,7 +329,7 @@ const IdIcon = () => (
   </View>
 )
 
-const ObsCreated = ({ view }: { view: ObservationView }) => (
+const ObsCreated = ({ view }) => (
   <FormattedTime
     value={view.createdAt}
     year='numeric'
@@ -389,14 +338,14 @@ const ObsCreated = ({ view }: { view: ObservationView }) => (
   />
 )
 
-const ObsLocation = ({ view }: { view: ObservationView }) =>
+const ObsLocation = ({ view }) =>
   view.coords ? (
     <FormattedLocation {...view.coords} />
   ) : (
     <FormattedMessage {...m.noLocation} />
   )
 
-const ObsDescription = ({ view }: { view: ObservationView }) =>
+const ObsDescription = ({ view }) =>
   view.note ? (
     <View style={[s.col, s.descriptionWrapper]}>
       <Text style={s.fieldLabel}>
@@ -410,7 +359,7 @@ const ObsDescription = ({ view }: { view: ObservationView }) =>
     </View>
   ) : null
 
-function ObsDetails ({ view }: { view: ObservationView }) {
+function ObsDetails ({ view }) {
   const nonEmptyFields = view.fields.filter(field => {
     const value = get(view.tags, field.key)
     return !isEmptyValue(value)
@@ -435,7 +384,7 @@ function ObsDetails ({ view }: { view: ObservationView }) {
   )
 }
 
-const ObsInsetMap = ({ view }: { view: ObservationView }) => {
+const ObsInsetMap = ({ view }) => {
   var imageSrc = view.getMapImageURL()
   if (!imageSrc) return null
   return (
@@ -446,13 +395,13 @@ const ObsInsetMap = ({ view }: { view: ObservationView }) => {
   )
 }
 
-const ObsImage = ({ src }: { src: string }) => (
+const ObsImage = ({ src }) => (
   <View style={s.imageWrapper} wrap={false}>
     <Image cache={false} src={getResizedImage(src, 600)} style={s.image} />
   </View>
 )
 
-async function getResizedImage (src: string, width: number) {
+async function getResizedImage (src, width) {
   const arrayBuffer = await ky.get(src).arrayBuffer()
   const image = nativeImage.createFromBuffer(Buffer.from(arrayBuffer))
   const buf = image.resize({ width, quality: 'better' }).toJPEG(70)
@@ -461,18 +410,18 @@ async function getResizedImage (src: string, width: number) {
 
 class ObservationView {
   static DEFAULT_ZOOM_LEVEL = 11
-  id: string
-  coords: { longitude: number, latitude: number } | void
-  createdAt: Date
-  fields: Field[]
-  tags: Object
-  mediaItems: ImageMediaItem[]
-  note: string
-  preset: PresetWithAdditionalFields
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>
-  iconURL: string | void
-  mapImageTemplate: any
+  id
+  coords
+  createdAt
+  fields
+  tags
+  mediaItems
+  note
+  preset
+  mapboxAccessToken
+  mapStyle
+  iconURL
+  mapImageTemplate
 
   constructor ({
     observation,
@@ -509,7 +458,7 @@ class ObservationView {
     }, [])
   }
 
-  getIconURL (size?: 'medium') {
+  getIconURL (size) {
     return this.iconURL
   }
 

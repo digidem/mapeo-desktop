@@ -1,8 +1,7 @@
-// @flow
+//
 import * as React from 'react'
 import { useIntl } from 'react-intl'
 import { getLocalizedFieldProp, fieldKeyToLabel } from '../utils/strings'
-import type { Field } from '../types'
 
 const styles = {
   groupText: {
@@ -10,12 +9,8 @@ const styles = {
   }
 }
 
-type Props = {
-  field: Field
-}
-
 /** Formats a field name nicely */
-const FormattedFieldname = ({ field }: Props) => {
+const FormattedFieldname = ({ field }) => {
   const { locale } = useIntl()
   const label =
     getLocalizedFieldProp(field, 'label', locale) || fieldKeyToLabel(field.key)

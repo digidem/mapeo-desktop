@@ -1,4 +1,4 @@
-// @flow
+//
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
@@ -8,7 +8,6 @@ import clsx from 'clsx'
 
 import Loading from '../../Loading'
 import CenteredText from '../../CenteredText'
-import type { PDFState } from './usePDFPreview'
 
 const m = defineMessages({
   // Displayed if no observations match current filter, or no observations in Mapeo
@@ -17,18 +16,10 @@ const m = defineMessages({
   reportError: 'An unknown error occurred trying to create the report'
 })
 
-type Props = {
-  pdf?: Blob,
-  pdfState: PDFState,
-  pageNumber?: number
-}
-
-const PdfViewer = React.memo<Props>(({ pdf, pdfState, pageNumber }: Props) => {
+const PdfViewer = React.memo(({ pdf, pdfState, pageNumber }) => {
   const intl = useIntl()
   const cx = useStyles()
-  const [viewerState, setViewerState] = React.useState<
-    'error' | 'loading' | 'ready'
-  >('loading')
+  const [viewerState, setViewerState] = React.useState('loading')
 
   React.useEffect(() => {
     setViewerState('loading')

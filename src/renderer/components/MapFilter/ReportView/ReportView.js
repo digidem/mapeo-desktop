@@ -1,14 +1,8 @@
-// @flow
+//
 import React from 'react'
-import ViewWrapper, { type CommonViewProps } from '../ViewWrapper'
-import { type MapViewContentProps } from '../MapView/MapViewContent'
+import ViewWrapper from '../ViewWrapper'
+import {} from '../MapView/MapViewContent'
 import ReportViewContent from './ReportViewContent'
-
-type Props = {
-  ...$Exact<CommonViewProps>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>
-}
 
 const ReportView = ({
   observations,
@@ -18,7 +12,7 @@ const ReportView = ({
   filter,
   getMediaUrl,
   ...otherProps
-}: Props) => {
+}) => {
   return (
     <ViewWrapper
       observations={observations}

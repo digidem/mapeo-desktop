@@ -1,15 +1,14 @@
-// @flow
+//
 /* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react'
 import FilterPanel from './FilterPanel'
-import type { Preset } from 'mapeo-schema'
-import type { Field } from '../types'
+
 import fixtureObs from '../../../../../fixtures/observations.json'
 
 export default {
   title: 'FilterPanel',
   decorators: [
-    (storyFn: any) => (
+    storyFn => (
       <div style={{ maxWidth: 400, height: '100vh', display: 'flex' }}>
         {storyFn()}
       </div>
@@ -23,7 +22,7 @@ export const minimal = () => {
   return <FilterPanel filter={filter} onChangeFilter={setFilter} />
 }
 
-const presets: Preset[] = [
+const presets = [
   {
     name: 'Mining',
     id: 'mining',
@@ -64,7 +63,7 @@ export const withObservations = () => {
   )
 }
 
-const fields: Field[] = [
+const fields = [
   {
     type: 'select_one',
     id: 'myfield',

@@ -1,18 +1,13 @@
-// @flow
+//
 import React, { useMemo } from 'react'
 
 import ImageGrid from './ImageGrid'
 import { isImageAttachment } from '../utils/helpers'
-import type { CommonViewContentProps } from '../types'
 
 /**
  * Displays a grid of all photos attached to observations.
  */
-const MediaViewContent = ({
-  observations,
-  onClick,
-  getMedia
-}: CommonViewContentProps) => {
+const MediaViewContent = ({ observations, onClick, getMedia }) => {
   const images = useMemo(() => {
     const images = []
     const sortedObservations = observations.sort((a, b) => {

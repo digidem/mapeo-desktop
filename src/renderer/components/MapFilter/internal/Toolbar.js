@@ -1,4 +1,4 @@
-// @flow
+//
 
 import * as React from 'react'
 import AppBar from '@material-ui/core/AppBar'
@@ -28,11 +28,7 @@ const useStyles = makeStyles({
   }
 })
 
-type Props = {
-  children: React.Node
-}
-
-const Toolbar = ({ children }: Props) => {
+const Toolbar = ({ children }) => {
   const classes = useStyles()
   return (
     <AppBar

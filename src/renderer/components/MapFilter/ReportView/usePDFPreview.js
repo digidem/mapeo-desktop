@@ -1,22 +1,10 @@
-// @flow
+//
 import React from 'react'
 import QuickLRU from 'quick-lru'
-import type { Observation } from 'mapeo-schema'
 
 import renderPDFReport from './renderReport'
-import type { ReportViewContentProps } from './ReportViewContent'
+
 import logger from '../../../../logger'
-
-export type PDFState = 'error' | 'loading' | 'empty' | 'ready'
-
-type Props = {
-  ...$Exact<
-    $Diff<ReportViewContentProps, { onClick: *, totalObservations: * }>
-  >,
-  intl: any,
-  settings: any,
-  currentPage: number
-}
 
 // Seeing a race condition which causes the report to never finish rendering, so
 // set a timeout so it does not get stuck in "loading"
@@ -41,13 +29,7 @@ export default function usePDFPreview ({
   getPreset,
   mapStyle,
   mapboxAccessToken
-}: Props): {|
-  blob?: Blob,
-  pageNumber?: number,
-  state: PDFState,
-  isLastPage: boolean,
-  observationId?: string
-|} {
+}) {
   // The cache should re-render if any of these change -- check these if you are
   // not seeing the PDF preview change as expected when you change settings
   const cacheDeps = [observations, getPreset, intl]
@@ -56,7 +38,7 @@ export default function usePDFPreview ({
   // observations change, or getPreset changes (which changes which fields are
   // displayed) then page numbers will change, so the index is no longer correct
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const pageIndex: string[] = React.useMemo(() => [], cacheDeps)
+  const pageIndex = React.useMemo(() => [], cacheDeps)
 
   // pdfCache is a cache of rendered PDF pages for each observation. If the
   // observations change, or getPreset changes (which changes which fields are
@@ -66,7 +48,7 @@ export default function usePDFPreview ({
   // invalidated
   const pdfCache = React.useMemo(
     () =>
-      new QuickLRU<Observation, Promise<{ blob: Blob, index: string[] }>>({
+      new QuickLRU({
         maxSize: 100
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,7 +56,7 @@ export default function usePDFPreview ({
   )
 
   const [blob, setBlob] = React.useState()
-  const [state, setState] = React.useState<PDFState>(
+  const [state, setState] = React.useState(
     observations.length ? 'loading' : 'empty'
   )
 
@@ -85,7 +67,7 @@ export default function usePDFPreview ({
     }
     let cancel = false
 
-    function cachedRender (obs: Observation, startPage: number) {
+    function cachedRender (obs, startPage) {
       const cached = pdfCache.get(obs)
       if (cached) return cached
       const pdfPromise = renderPDFReport(

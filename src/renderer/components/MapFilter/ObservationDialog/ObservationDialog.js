@@ -1,4 +1,4 @@
-// @flow
+//
 import React, { useState } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -35,13 +35,6 @@ import MediaCarousel from './MediaCarousel'
 import { defaultGetPreset } from '../utils/helpers'
 import { get, set } from '../utils/get_set'
 import Field from './Field'
-import type { Observation } from 'mapeo-schema'
-import type {
-  PresetWithAdditionalFields,
-  GetMedia,
-  Attachment,
-  Key
-} from '../types'
 
 const m = defineMessages({
   confirmCloseTitle: 'Close without saving changes?',
@@ -64,26 +57,6 @@ const m = defineMessages({
   deleteObservationMenuItem: 'Delete observation'
 })
 
-export type ImageMediaItem = {
-  src: string,
-  type: 'image'
-}
-
-type Props = {
-  open?: boolean,
-  onRequestClose: () => void,
-  onDelete: (id: string) => void,
-  observation: Observation,
-  // The initial image to show in the media carousel
-  initialImageIndex?: number,
-  onSave: (observation: Observation) => void,
-  getPreset?: Observation => PresetWithAdditionalFields | void,
-  /**
-   * For a given attachment, return `src` and `type`
-   */
-  getMedia: GetMedia
-}
-
 const localeMap = {
   en: enLocale,
   fr: frLocale,
@@ -96,7 +69,7 @@ function getLocaleData (locale) {
   return localeMap[locale] || localeMap[locale.split('-')[0]] || localeMap.en
 }
 
-function defaultGetMedia ({ type, id }: Attachment) {
+function defaultGetMedia ({ type, id }) {
   if (type && type.split('/')[0] !== 'image') return
   return {
     type: 'image',
@@ -204,7 +177,7 @@ const ObservationActions = ({ onDeleteClick }) => {
     setAnchorEl(null)
   }
 
-  const createHandleItemClick = (action: () => any = () => {}) => () => {
+  const createHandleItemClick = (action = () => {}) => () => {
     // Can't setState to a function
     setConfirm(state => didConfirm => {
       setConfirm(null)
@@ -251,9 +224,6 @@ const DialogContent = ({
   initialImageIndex,
   getPreset = defaultGetPreset,
   getMedia = defaultGetMedia
-}: {
-  ...$Exact<Props>,
-  onRequestClose: (shouldConfirm: boolean) => void
 }) => {
   const cx = useStyles()
   const [values, setValues] = useState(
@@ -277,7 +247,7 @@ const DialogContent = ({
     onDelete(observation.id)
   }
 
-  const handleChange = (key: Key, newValue: any) => {
+  const handleChange = (key, newValue) => {
     setDirty(true)
     setValues(set(values, key, newValue))
   }
@@ -293,15 +263,12 @@ const DialogContent = ({
 
   const descriptionKey = values.note ? 'note' : 'notes'
 
-  const mediaItems: ImageMediaItem[] = (observation.attachments || []).reduce(
-    (acc, cur) => {
-      const item = getMedia(cur, { width: 800, height: 600 })
-      // $FlowFixMe - need to fix type refinement here
-      if (item && item.type === 'image') acc.push(item)
-      return acc
-    },
-    []
-  )
+  const mediaItems = (observation.attachments || []).reduce((acc, cur) => {
+    const item = getMedia(cur, { width: 800, height: 600 })
+    // $FlowFixMe - need to fix type refinement here
+    if (item && item.type === 'image') acc.push(item)
+    return acc
+  }, [])
 
   return (
     <MuiPickersUtilsProvider
@@ -413,7 +380,7 @@ const DialogContent = ({
   )
 }
 
-const ObservationDialog = ({ open, onRequestClose, ...otherProps }: Props) => {
+const ObservationDialog = ({ open, onRequestClose, ...otherProps }) => {
   const [confirm, setConfirm] = useState(null)
 
   const handleRequestClose = shouldConfirm => {

@@ -1,4 +1,4 @@
-// @flow
+//
 import React, { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -24,25 +24,11 @@ import getStats from '../stats'
 import PDFViewer from './PDFViewer'
 import SaveButton from './SaveButton'
 import usePDFPreview from './usePDFPreview'
-import type { Observation } from 'mapeo-schema'
-import type {
-  PresetWithAdditionalFields,
-  FieldState,
-  Field,
-  CommonViewContentProps
-} from '../types'
-import { type MapViewContentProps } from '../MapView/MapViewContent'
+
+import {} from '../MapView/MapViewContent'
 import { SettingsContext } from '../internal/Context'
 import renderPDFReport from './renderReport'
 import ToolbarButton from '../internal/ToolbarButton'
-
-export type ReportViewContentProps = {
-  ...$Exact<CommonViewContentProps>,
-  mapStyle: $PropertyType<MapViewContentProps, 'mapStyle'>,
-  mapboxAccessToken: $PropertyType<MapViewContentProps, 'mapboxAccessToken'>,
-  initialPageNumber?: number,
-  totalObservations: number
-}
 
 const m = defineMessages({
   // Button for navigating to the next page in the report
@@ -73,7 +59,7 @@ const ReportViewContent = ({
   totalObservations,
   mapboxAccessToken,
   mapStyle
-}: ReportViewContentProps) => {
+}) => {
   const stats = useMemo(() => getStats(observations || []), [observations])
   const intl = useIntl()
   const settings = React.useContext(SettingsContext)
@@ -105,7 +91,7 @@ const ReportViewContent = ({
   // WARNING: If this changes between renders, then the PDF will need to
   // re-index which will take some time.
   const getPresetWithFilteredFields = useCallback(
-    (observation: Observation): PresetWithAdditionalFields => {
+    observation => {
       const preset = getPreset(observation)
       return {
         ...preset,
@@ -211,7 +197,7 @@ const ReportViewContent = ({
   )
 }
 
-const EditButton = ({ onClick, ...otherProps }: { onClick?: () => any }) => (
+const EditButton = ({ onClick, ...otherProps }) => (
   <ToolbarButton
     onClick={onClick}
     variant='outlined'
@@ -222,7 +208,7 @@ const EditButton = ({ onClick, ...otherProps }: { onClick?: () => any }) => (
   </ToolbarButton>
 )
 
-export const SavingDialog = ({ open }: { open: boolean }) => {
+export const SavingDialog = ({ open }) => {
   const cx = useStyles()
   return (
     <Dialog
@@ -242,17 +228,7 @@ export const SavingDialog = ({ open }: { open: boolean }) => {
   )
 }
 
-type PageNavigatorProps = {
-  currentPage: number,
-  last?: boolean,
-  setCurrentPage: (pageNumber: number) => any
-}
-
-export const PageNavigator = ({
-  currentPage,
-  last,
-  setCurrentPage
-}: PageNavigatorProps) => {
+export const PageNavigator = ({ currentPage, last, setCurrentPage }) => {
   const cx = useStyles()
   const handleNextPage = () => {
     var page = last ? currentPage : currentPage + 1
@@ -292,8 +268,8 @@ export const PageNavigator = ({
   )
 }
 
-function hiddenFieldsFilter (fieldState: FieldState) {
-  return function (field: Field): boolean {
+function hiddenFieldsFilter (fieldState) {
+  return function (field) {
     const state = fieldState.find(fs => {
       const id = JSON.stringify(
         Array.isArray(field.key) ? field.key : [field.key]

@@ -1,4 +1,4 @@
-// @flow
+//
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
@@ -9,9 +9,7 @@ import DateIcon from '@material-ui/icons/DateRange'
 export default {
   title: 'FilterPanel/components/FilterSection',
   decorators: [
-    (storyFn: any) => (
-      <List style={{ width: '100%', maxWidth: 360 }}>{storyFn()}</List>
-    )
+    storyFn => <List style={{ width: '100%', maxWidth: 360 }}>{storyFn()}</List>
   ]
 }
 

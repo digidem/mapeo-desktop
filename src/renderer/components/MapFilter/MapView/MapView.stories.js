@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-// @flow
+//
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, radios } from '@storybook/addon-knobs'

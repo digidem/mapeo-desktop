@@ -1,14 +1,14 @@
-// @flow
+//
 import { useContext } from 'react'
 import sexagesimal from '@mapbox/sexagesimal'
 import { fromLatLon } from 'utm'
 
 import * as coordFormats from '../constants/coord_formats'
 import { SettingsContext } from './Context'
-import type { Coordinates } from '../types'
+
 import { leftPad } from '../utils/helpers'
 
-const FormattedLocation = ({ latitude, longitude }: Coordinates) => {
+const FormattedLocation = ({ latitude, longitude }) => {
   const { coordFormat } = useContext(SettingsContext)
   switch (coordFormat) {
     case coordFormats.DEC_DEG:

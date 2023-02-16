@@ -1,8 +1,8 @@
-// @flow
+//
 import React from 'react'
 
 import MediaViewContent from './MediaViewContent'
-import ViewWrapper, { type CommonViewProps } from '../ViewWrapper'
+import ViewWrapper from '../ViewWrapper'
 
 const MapView = ({
   observations,
@@ -12,7 +12,7 @@ const MapView = ({
   filter,
   getMediaUrl,
   ...otherProps
-}: CommonViewProps) => {
+}) => {
   return (
     <ViewWrapper
       observations={observations}

@@ -1,4 +1,4 @@
-// @flow
+//
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -10,8 +10,6 @@ import CloseIcon from '@material-ui/icons/Close'
 // import clone from 'clone-deep'
 
 import { getFields as defaultGetFieldsFromTags } from '../lib/data_analysis'
-import type { Observation } from 'mapeo-schema'
-import type { Field } from '../types'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,25 +48,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-type Props = {
-  onRequestClose: () => {},
-  observation: Observation,
-  onSave: (observation: Observation) => {},
-  /** Get an array of fields to render for an observation - defaults to
-   * automatically determining fields */
-  getFields?: (observation: Observation) => Array<Field>,
-  /** Get the name of an observation (rendered as the dialog title). defaults to
-   * 'Observation' */
-  getName?: (observation: Observation) => string,
-  /** Called with the observation, should return an array of objects with a url
-   * property where the image can be opened, and a type, currently only 'image'
-   * is supported */
-  getMedia: (
-    observation: Observation
-  ) => Array<{| url: string, type?: 'image' |}>
-}
-
-function defaultGetFields (obs: Observation) {
+function defaultGetFields (obs) {
   return defaultGetFieldsFromTags(obs.tags)
 }
 
@@ -78,7 +58,7 @@ const ObservationView = ({
   getFields = defaultGetFields,
   getName = () => 'Observation',
   getMedia
-}: Props) => {
+}) => {
   const classes = useStyles()
   const [editing, setEditing] = React.useState(false)
   // const [draftTags, setTags] = React.useState(() =>

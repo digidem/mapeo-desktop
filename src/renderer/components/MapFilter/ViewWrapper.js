@@ -1,4 +1,4 @@
-// @flow
+//
 import * as React from 'react'
 import isEqual from 'lodash/isEqual'
 import createFilterOrig from 'mapeo-entity-filter'
@@ -7,48 +7,13 @@ import ObservationDialog from './ObservationDialog'
 import getStats from './stats'
 import { defaultGetPreset } from './utils/helpers'
 
-import type { Observation } from 'mapeo-schema'
-import type {
-  PresetWithFields,
-  PresetWithAdditionalFields,
-  GetMedia,
-  Filter,
-  GetIconUrl,
-  GetMediaUrl
-} from './types'
-
-export type CommonViewProps = {
-  /** Array of observations to render */
-  observations?: Array<Observation>,
-  /** Called when an observation is editing/updated */
-  onUpdateObservation: (observation: Observation) => void,
-  onDeleteObservation: (id: string) => void,
-  /** A function called with an observation that should return a matching preset
-   * with field definitions */
-  presets?: PresetWithFields[],
-  getMediaUrl: GetMediaUrl,
-  getIconUrl?: GetIconUrl,
-  /** Filter to apply to observations */
-  filter?: Filter
-}
-
-type Props = {
-  ...$Exact<CommonViewProps>,
-  children: ({
-    filteredObservations: Array<Observation>,
-    onClickObservation: (observationId: string, imageIndex?: number) => void,
-    getPreset: Observation => PresetWithAdditionalFields,
-    getMedia: GetMedia
-  }) => React.Node
-}
-
 const noop = () => {}
 
 // This is a temporary wrapper to compile a filter that defines $preset into a
 // filter that will work with our dataset, which currently uses categoryId to
 // define which preset applies. We will need to improve how this works in the
 // future once we start matching presets like we do with iD
-const createFilter = (filter: Filter | void) => {
+const createFilter = filter => {
   if (!Array.isArray(filter) || filter[0] !== 'all' || filter.length < 2) {
     return () => true
   }
@@ -78,7 +43,7 @@ const WrappedMapView = ({
   filter,
   children,
   ...otherProps
-}: Props) => {
+}) => {
   const stats = React.useMemo(() => getStats(observations), [observations])
   const [editingObservation, setEditingObservation] = React.useState(null)
   const [
@@ -87,7 +52,7 @@ const WrappedMapView = ({
   ] = React.useState()
 
   const getPresetWithFallback = React.useCallback(
-    (observation: Observation): PresetWithAdditionalFields => {
+    observation => {
       const preset = getPreset(observation, presets)
       const defaultPreset = defaultGetPreset(observation, stats)
       if (!preset) return defaultPreset
@@ -170,10 +135,7 @@ const WrappedMapView = ({
 export default WrappedMapView
 
 // TODO: Update this function to match presets like ID Editor
-function getPreset (
-  observation: Observation,
-  presets: PresetWithFields[]
-): PresetWithFields | void {
+function getPreset (observation, presets) {
   const tags = observation.tags
   if (!tags || !tags.categoryId) return
   const preset = presets.find(preset => preset.id === tags.categoryId)

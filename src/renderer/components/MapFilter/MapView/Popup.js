@@ -1,4 +1,4 @@
-// @flow
+//
 import React, {
   useContext,
   useCallback,
@@ -52,14 +52,7 @@ const useStyles = makeStyles({
   }
 })
 
-type Props = {
-  coordinates: [number, number],
-  imageUrl?: string,
-  title: string,
-  subtitle: string
-}
-
-const Popup = ({ imageUrl, title, subtitle, coordinates }: Props) => {
+const Popup = ({ imageUrl, title, subtitle, coordinates }) => {
   const map = useContext(MapContext)
   const ref = useRef(null)
   const classes = useStyles()

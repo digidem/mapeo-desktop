@@ -1,4 +1,4 @@
-// @flow
+//
 import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
@@ -10,16 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import ShowAllButton from './ShowAllButton'
 
-type Props = {
-  icon: React.Node,
-  title: React.Node,
-  subtitle?: React.Node,
-  isFiltered: boolean,
-  children: React.Node,
-  onShowAllClick: () => void
-}
-
-const useToggle = (initialState?: boolean) => {
+const useToggle = initialState => {
   const [state, setState] = React.useState(!!initialState)
   const toggle = React.useCallback(() => setState(state => !state), [])
   return [state, toggle]
@@ -31,7 +22,7 @@ const FilterSection = ({
   isFiltered,
   children,
   onShowAllClick
-}: Props) => {
+}) => {
   const cx = useStyles()
   const [expanded, toggleExpanded] = useToggle(false)
 

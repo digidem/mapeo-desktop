@@ -1,4 +1,4 @@
-// @flow
+//
 import React from 'react'
 import SaveIcon from '@material-ui/icons/SaveAlt'
 import Button from '@material-ui/core/Button'
@@ -24,19 +24,7 @@ const messages = defineMessages({
     'This report contains {observationCount} observations, and could take a few minutes to create. Are you sure you want to continue?'
 })
 
-type Props = {
-  shouldConfirm?: boolean,
-  onClick: () => any,
-  observationCount: number,
-  disabled?: boolean
-}
-
-const SaveButton = ({
-  shouldConfirm,
-  onClick,
-  observationCount,
-  disabled
-}: Props) => {
+const SaveButton = ({ shouldConfirm, onClick, observationCount, disabled }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false)
 
   function handleConfirmClick () {

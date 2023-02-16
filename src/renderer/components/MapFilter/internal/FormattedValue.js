@@ -1,4 +1,4 @@
-// @flow
+//
 import * as React from 'react'
 import { FormattedDate, FormattedTime } from 'react-intl'
 
@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { coerceValue } from '../lib/data_analysis/value_types'
 import * as fieldTypes from '../constants/field_types'
 import * as valueTypes from '../constants/value_types'
-import type { Primitive, Field } from '../types'
 
 const useStyles = makeStyles({
   link: {
@@ -16,12 +15,7 @@ const useStyles = makeStyles({
   }
 })
 
-type Props = {
-  value: Primitive | Array<Primitive>,
-  field: Field
-}
-
-const defaultTextField: Field = {
+const defaultTextField = {
   id: 'default_text_field',
   key: [],
   type: fieldTypes.TEXT
@@ -31,7 +25,7 @@ const defaultTextField: Field = {
  * Format a value from a form, either by guessing the type or trying to coerce
  * the value to a type specified by `fieldType`.
  */
-const FormattedValue = ({ value, field }: Props) => {
+const FormattedValue = ({ value, field }) => {
   const classes = useStyles()
   if (value === undefined || value === null) return null
   try {
@@ -40,7 +34,7 @@ const FormattedValue = ({ value, field }: Props) => {
         const valueAsArray = coerceValue(value, valueTypes.ARRAY).filter(
           v => v != null
         )
-        const values = valueAsArray.map<React.Node>((v, i) => (
+        const values = valueAsArray.map((v, i) => (
           <FormattedValue key={i} value={v} field={defaultTextField} />
         ))
         return joinReactChildren(values, ', ')
@@ -101,10 +95,7 @@ const FormattedValue = ({ value, field }: Props) => {
 
 export default FormattedValue
 
-function joinReactChildren (
-  children: Array<React.Node>,
-  separator: React.Node
-): Array<React.Node> {
+function joinReactChildren (children, separator) {
   const joinedChildren = []
   for (let i = 0; i < children.length; i++) {
     joinedChildren.push(children[i])

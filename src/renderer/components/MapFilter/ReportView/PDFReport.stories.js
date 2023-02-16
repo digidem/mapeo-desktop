@@ -1,4 +1,4 @@
-// @flow
+//
 import React from 'react'
 import { useIntl } from 'react-intl'
 
@@ -37,7 +37,7 @@ export default {
   title: 'ReportView/components/PDFReport',
   component: PDFReport,
   decorators: [
-    (storyFn: any) => (
+    storyFn => (
       <div
         style={{
           width: '100vw',

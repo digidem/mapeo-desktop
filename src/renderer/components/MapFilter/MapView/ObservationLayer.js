@@ -1,37 +1,12 @@
-// @flow
+//
 import React, { useMemo, useCallback, useContext, useRef } from 'react'
 import { Layer, Source, MapContext } from 'react-mapbox-gl'
 import validateColor from 'validate-color'
-import type { Observation } from 'mapeo-schema'
-import type {
-  Point2D,
-  FeatureTemplate,
-  FeatureCollectionTemplate
-} from 'flow-geojson'
-import type { PresetWithFields } from '../types'
-
-type Props = {
-  observations: Array<Observation>,
-  onMouseMove: any => any,
-  onMouseLeave: any => any,
-  onClick?: (id: string) => any,
-  print?: boolean,
-  presets: PresetWithFields[]
-}
-
-type FeaturePoint2D = FeatureTemplate<Point2D>
-type FeatureCollectionPoint2D = FeatureCollectionTemplate<FeaturePoint2D[]>
-type GeoJsonSource = {
-  type: 'geojson',
-  data: FeatureCollectionPoint2D
-}
 
 const observationSourceId = 'mapeo-observations-internal'
 const DEFAULT_MARKER_COLOR = '#ff0000'
 
-function observationsToGeoJsonSource (
-  observations: Observation[]
-): GeoJsonSource {
+function observationsToGeoJsonSource (observations) {
   return {
     type: 'geojson',
     data: {
@@ -39,7 +14,7 @@ function observationsToGeoJsonSource (
       features: observations.reduce((acc, obs, i) => {
         // Skip if null or undefined
         if (obs.lat == null || obs.lon == null) return acc
-        const point: FeaturePoint2D = {
+        const point = {
           id: i,
           type: 'Feature',
           geometry: {
@@ -68,7 +43,7 @@ const ObservationLayer = ({
   onMouseMove,
   presets,
   print = false
-}: Props) => {
+}) => {
   const hovered = useRef(null)
   const map = useContext(MapContext)
 
