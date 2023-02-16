@@ -2,14 +2,12 @@
   "root": true,
   "extends": [
     "standard",
-    "plugin:flowtype/recommended",
     "plugin:react/recommended",
     "prettier",
-    "prettier/flowtype",
     "prettier/react",
     "prettier/standard"
   ],
-  "plugins": ["flowtype", "react", "prettier", "standard", "react-hooks"],
+  "plugins": ["react", "prettier", "standard", "react-hooks"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
@@ -35,8 +33,7 @@
   },
   "settings": {
     "react": {
-      "version": "detect",
-      "flowVersion": "0.102"
+      "version": "detect"
     }
   },
   "overrides": [

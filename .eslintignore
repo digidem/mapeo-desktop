@@ -9,5 +9,4 @@ bin/test-data
 translations
 storybook-static
 updates
-flow-typed
 /**/*.d.ts

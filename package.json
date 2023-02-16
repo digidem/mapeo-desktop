@@ -25,7 +25,6 @@
     "build:js": "webpack --config webpack.prod.js",
     "build:translations": "node bin/build-translations.js",
     "lint": "eslint .",
-    "flow": "flow",
     "test": "npm run lint && npm run test-integration",
     "test-unit": "jest",
     "test-integration": "tape test",

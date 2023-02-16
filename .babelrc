@@ -17,8 +17,7 @@
         shippedProposals: true,
         modules: false
       }
-    ],
-    '@babel/flow'
+    ]
   ],
   plugins: [
     // Allows directly declaring props and methods on a class instead of
