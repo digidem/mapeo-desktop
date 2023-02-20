@@ -40,12 +40,24 @@ const MapEditor = React.lazy(() =>
 
 const m = defineMessages({
   // MapEditor tab label
-  mapeditor: 'Territory',
+  mapeditor: {
+    id: 'renderer.components.Home.mapeditor',
+    defaultMessage: 'Territory'
+  },
   // MapFilter tab label
-  mapfilter: 'Observations',
+  mapfilter: {
+    id: 'renderer.components.Home.mapfilter',
+    defaultMessage: 'Observations'
+  },
   // Synchronize tab label
-  sync: 'Synchronize',
-  update: 'Update Mapeo'
+  sync: {
+    id: 'renderer.components.Home.sync',
+    defaultMessage: 'Synchronize'
+  },
+  update: {
+    id: 'renderer.components.Home.update',
+    defaultMessage: 'Update Mapeo'
+  }
 })
 
 // const MapEditor = () => <div>MAPEDITOR</div>

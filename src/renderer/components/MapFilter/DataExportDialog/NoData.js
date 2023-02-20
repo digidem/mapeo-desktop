@@ -6,8 +6,14 @@ import { defineMessages, FormattedMessage } from 'react-intl'
 import { Template } from './Template'
 
 const msgs = defineMessages({
-  close: 'Close',
-  noData: "You don't yet have any data to export."
+  close: {
+    id: 'renderer.components.MapFilter.DataExportDialog.NoData.close',
+    defaultMessage: 'Close'
+  },
+  noData: {
+    id: 'renderer.components.MapFilter.DataExportDialog.NoData.noData',
+    defaultMessage: "You don't yet have any data to export."
+  }
 })
 
 export const NoData = ({ onClose }) => (

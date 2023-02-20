@@ -22,9 +22,15 @@ import MediaView from './MediaView'
 import config from '../../../../config'
 
 const m = defineMessages({
-  errorTitle: 'Oh dear! An error has occurred',
-  errorDescription:
-    'The details below will be useful for finding a way to fix this…'
+  errorTitle: {
+    id: 'renderer.components.MapFilter.MapFilter.errorTitle',
+    defaultMessage: 'Oh dear! An error has occurred'
+  },
+  errorDescription: {
+    id: 'renderer.components.MapFilter.MapFilter.errorDescription',
+    defaultMessage:
+      'The details below will be useful for finding a way to fix this…'
+  }
 })
 
 // This is very strange. Something to do with the bundling is stopping this

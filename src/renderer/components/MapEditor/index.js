@@ -11,8 +11,14 @@ import { defineMessages, useIntl } from 'react-intl'
 import ExportButton from './ExportButton'
 
 const m = defineMessages({
-  'feedback-contribute-button': 'Feedback & Contribute',
-  notes: 'Description'
+  'feedback-contribute-button': {
+    id: 'renderer.components.MapEditor.index.feedback-contribute-button',
+    defaultMessage: 'Feedback & Contribute'
+  },
+  notes: {
+    id: 'renderer.components.MapEditor.index.notes',
+    defaultMessage: 'Description'
+  }
 })
 
 // iD Editor style overrides

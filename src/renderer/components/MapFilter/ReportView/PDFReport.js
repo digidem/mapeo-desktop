@@ -104,11 +104,20 @@ function getFontFamily (locale) {
 
 const m = defineMessages({
   // Label for description / notes section of report
-  descriptionLabel: 'Description',
+  descriptionLabel: {
+    id: 'renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel',
+    defaultMessage: 'Description'
+  },
   // Shown in reports if an observation has no location recorded
-  noLocation: 'No Location Recorded',
+  noLocation: {
+    id: 'renderer.components.MapFilter.ReportView.PDFReport.noLocation',
+    defaultMessage: 'No Location Recorded'
+  },
   // Page number in footer
-  pageNumber: 'Page {pageNumber}'
+  pageNumber: {
+    id: 'renderer.components.MapFilter.ReportView.PDFReport.pageNumber',
+    defaultMessage: 'Page {pageNumber}'
+  }
 })
 
 /*  TODO: add frontpage

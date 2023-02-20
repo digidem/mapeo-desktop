@@ -11,15 +11,27 @@ const concurrency = 3
 const CR = '\r\n'
 const msgs = defineMessages({
   // File name for file with information about export errors
-  errorsFilename: 'Export Errors',
+  errorsFilename: {
+    id: 'renderer.create-zip.errorsFilename',
+    defaultMessage: 'Export Errors'
+  },
   // File name for file with information about missing originals in export
-  missingOriginalsFilename: 'Missing Originals',
+  missingOriginalsFilename: {
+    id: 'renderer.create-zip.missingOriginalsFilename',
+    defaultMessage: 'Missing Originals'
+  },
   // Error message stored in text file in export if there were errors during export
-  errorsMsg:
-    'There was an error trying to export these files, so they are missing from this export:',
+  errorsMsg: {
+    id: 'renderer.create-zip.errorsMsg',
+    defaultMessage:
+      'There was an error trying to export these files, so they are missing from this export:'
+  },
   // Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals
-  missingOriginalsMsg:
-    'The original size of these files could not be found, only preview size (1,200 pixel) images are included. This can happen because the phone that took the photos has only synced to other phones, and not directly to Mapeo Desktop. To try fixing this, find the phone that took the photos and sync it with Mapeo Desktop before exporting again.'
+  missingOriginalsMsg: {
+    id: 'renderer.create-zip.missingOriginalsMsg',
+    defaultMessage:
+      'The original size of these files could not be found, only preview size (1,200 pixel) images are included. This can happen because the phone that took the photos has only synced to other phones, and not directly to Mapeo Desktop. To try fixing this, find the phone that took the photos and sync it with Mapeo Desktop before exporting again.'
+  }
 })
 
 /**
@@ -39,7 +51,11 @@ const msgs = defineMessages({
  * @param {Function} options.formatMessage From react-intl formatMessage
  * @returns {ReadableStream} readableStream of zipfile data
  */
-export default function createZip (localFiles, remoteFiles = [], { formatMessage }) {
+export default function createZip (
+  localFiles,
+  remoteFiles = [],
+  { formatMessage }
+) {
   const zipfile = new yazl.ZipFile()
   const errors = []
   const missingOriginals = []

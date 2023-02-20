@@ -11,9 +11,18 @@ import { defineMessages, useIntl } from 'react-intl'
 import clsx from 'clsx'
 
 const m = defineMessages({
-  mapTabLabel: 'Map',
-  mediaTabLabel: 'Media',
-  reportTabLabel: 'Report'
+  mapTabLabel: {
+    id: 'renderer.components.MapFilter.Toolbar.mapTabLabel',
+    defaultMessage: 'Map'
+  },
+  mediaTabLabel: {
+    id: 'renderer.components.MapFilter.Toolbar.mediaTabLabel',
+    defaultMessage: 'Media'
+  },
+  reportTabLabel: {
+    id: 'renderer.components.MapFilter.Toolbar.reportTabLabel',
+    defaultMessage: 'Report'
+  }
 })
 
 const TabItem = ({ selected, ...props }) => {

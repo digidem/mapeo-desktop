@@ -15,13 +15,25 @@ import FormattedFieldname from '../internal/FormattedFieldname'
 
 const m = defineMessages({
   // Button text to change which fields are shown and filterable in the filter pane
-  editFilters: 'Edit Filters…',
+  editFilters: {
+    id: 'renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters',
+    defaultMessage: 'Edit Filters…'
+  },
   // Label for filter by date observation was created
-  created: 'Date of observation',
+  created: {
+    id: 'renderer.components.MapFilter.FilterPanel.FilterPanel.created',
+    defaultMessage: 'Date of observation'
+  },
   // Label for filter by date observation was modified (e.g. edited by a user)
-  modified: 'Modified',
+  modified: {
+    id: 'renderer.components.MapFilter.FilterPanel.FilterPanel.modified',
+    defaultMessage: 'Modified'
+  },
   // Label for filter by category (e.g. the preset)
-  preset: 'Category'
+  preset: {
+    id: 'renderer.components.MapFilter.FilterPanel.FilterPanel.preset',
+    defaultMessage: 'Category'
+  }
 })
 
 const memoizedStats = createMemoizedStats()

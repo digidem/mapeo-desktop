@@ -30,16 +30,38 @@ import ToolbarButton from '../internal/ToolbarButton'
 
 const m = defineMessages({
   // Button for navigating to the next page in the report
-  nextPage: 'Next',
+  nextPage: {
+    id: 'renderer.components.MapFilter.ReportView.ReportViewContent.nextPage',
+    defaultMessage: 'Next'
+  },
   // Button for nagivating to the previous page in the report
-  prevPage: 'Previous',
+  prevPage: {
+    id: 'renderer.components.MapFilter.ReportView.ReportViewContent.prevPage',
+    defaultMessage: 'Previous'
+  },
   // Text showing the current page number when previewing a report
-  currentPage: 'Page {currentPage}',
+  currentPage: {
+    id:
+      'renderer.components.MapFilter.ReportView.ReportViewContent.currentPage',
+    defaultMessage: 'Page {currentPage}'
+  },
   // Shown while the report is generating when saving or printing
-  savingProgress: 'Generating report…',
+  savingProgress: {
+    id:
+      'renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress',
+    defaultMessage: 'Generating report…'
+  },
   // Default filename for a report (prefixed with date as YYYY-MM-YY)
-  defaultReportName: 'Mapeo Observation Report.pdf',
-  xOfY: 'showing {observationCount} of {totalObservations} observations'
+  defaultReportName: {
+    id:
+      'renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName',
+    defaultMessage: 'Mapeo Observation Report.pdf'
+  },
+  xOfY: {
+    id: 'renderer.components.MapFilter.ReportView.ReportViewContent.xOfY',
+    defaultMessage:
+      'showing {observationCount} of {totalObservations} observations'
+  }
 })
 
 const hiddenTags = {

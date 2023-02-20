@@ -41,23 +41,56 @@ const getWifiConnectionMessage = connection => {
 
 const m = defineMessages({
   // Title of sync screen
-  title: 'Available Devices',
-  disconnected: 'Disconnected',
-  disconnectedTooltip:
-    'You first need to connect to a WiFi network before being able to synchronize devices',
-  wifiError: 'Unknown',
-  wifiErrorTooltip:
-    'Your WiFi card or Operating System (OS) has not been recognized',
-  qualityTooltipPoor:
-    'The connection signal is very poor. Try getting closer to the WiFi router',
-  qualityTooltipWeak:
-    'The connection signal is weak. The synchronization might take a longer time to complete',
-  qualityTooltipAdequate: 'The connection signal is excellent',
-  quality: 'Quality: {quality}%',
+  title: {
+    id: 'renderer.components.SyncView.SyncAppBar.title',
+    defaultMessage: 'Available Devices'
+  },
+  disconnected: {
+    id: 'renderer.components.SyncView.SyncAppBar.disconnected',
+    defaultMessage: 'Disconnected'
+  },
+  disconnectedTooltip: {
+    id: 'renderer.components.SyncView.SyncAppBar.disconnectedTooltip',
+    defaultMessage:
+      'You first need to connect to a WiFi network before being able to synchronize devices'
+  },
+  wifiError: {
+    id: 'renderer.components.SyncView.SyncAppBar.wifiError',
+    defaultMessage: 'Unknown'
+  },
+  wifiErrorTooltip: {
+    id: 'renderer.components.SyncView.SyncAppBar.wifiErrorTooltip',
+    defaultMessage:
+      'Your WiFi card or Operating System (OS) has not been recognized'
+  },
+  qualityTooltipPoor: {
+    id: 'renderer.components.SyncView.SyncAppBar.qualityTooltipPoor',
+    defaultMessage:
+      'The connection signal is very poor. Try getting closer to the WiFi router'
+  },
+  qualityTooltipWeak: {
+    id: 'renderer.components.SyncView.SyncAppBar.qualityTooltipWeak',
+    defaultMessage:
+      'The connection signal is weak. The synchronization might take a longer time to complete'
+  },
+  qualityTooltipAdequate: {
+    id: 'renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate',
+    defaultMessage: 'The connection signal is excellent'
+  },
+  quality: {
+    id: 'renderer.components.SyncView.SyncAppBar.quality',
+    defaultMessage: 'Quality: {quality}%'
+  },
   // Button to sync from an existing sync file
-  selectSyncfile: 'Sync from a file…',
+  selectSyncfile: {
+    id: 'renderer.components.SyncView.SyncAppBar.selectSyncfile',
+    defaultMessage: 'Sync from a file…'
+  },
   // Button to create a new sync file
-  newSyncfile: 'Create new syncfile…'
+  newSyncfile: {
+    id: 'renderer.components.SyncView.SyncAppBar.newSyncfile',
+    defaultMessage: 'Create new syncfile…'
+  }
 })
 
 const WifiStatus = () => {

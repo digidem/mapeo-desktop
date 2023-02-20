@@ -20,21 +20,45 @@ import createZip from '../../create-zip'
 
 const msgs = defineMessages({
   // Title for webmaps export dialog
-  title: 'Export a map to share online',
+  title: {
+    id: 'renderer.components.MapFilter.MapExportDialog.title',
+    defaultMessage: 'Export a map to share online'
+  },
   // Save button
-  save: 'Save',
+  save: {
+    id: 'renderer.components.MapFilter.MapExportDialog.save',
+    defaultMessage: 'Save'
+  },
   // cancel button
-  cancel: 'Cancel',
+  cancel: {
+    id: 'renderer.components.MapFilter.MapExportDialog.cancel',
+    defaultMessage: 'Cancel'
+  },
   // Label for field to enter map title
-  titleLabel: 'Map Title',
+  titleLabel: {
+    id: 'renderer.components.MapFilter.MapExportDialog.titleLabel',
+    defaultMessage: 'Map Title'
+  },
   // Label for field to enter map description
-  descriptionLabel: 'Map Description',
+  descriptionLabel: {
+    id: 'renderer.components.MapFilter.MapExportDialog.descriptionLabel',
+    defaultMessage: 'Map Description'
+  },
   // Label for field to enter terms and conditions
-  termsLabel: 'Terms & Limitations',
+  termsLabel: {
+    id: 'renderer.components.MapFilter.MapExportDialog.termsLabel',
+    defaultMessage: 'Terms & Limitations'
+  },
   // Helper text explaining terms and conditions field
-  termsHint: 'Add terms & limitations about how this data can be used',
+  termsHint: {
+    id: 'renderer.components.MapFilter.MapExportDialog.termsHint',
+    defaultMessage: 'Add terms & limitations about how this data can be used'
+  },
   // Label for field to enter custom map style
-  styleLabel: 'Map Style'
+  styleLabel: {
+    id: 'renderer.components.MapFilter.MapExportDialog.styleLabel',
+    defaultMessage: 'Map Style'
+  }
 })
 
 // const defaultMapStyle = 'mapbox://styles/mapbox/outdoors-v11'

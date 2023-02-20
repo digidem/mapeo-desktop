@@ -6,8 +6,16 @@ import { defineMessages, FormattedMessage } from 'react-intl'
 import { Template } from './Template'
 
 const msgs = defineMessages({
-  exportSuccessfulButton: 'OK',
-  exportSuccessful: 'Successfully exported observations.'
+  exportSuccessfulButton: {
+    id:
+      'renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton',
+    defaultMessage: 'OK'
+  },
+  exportSuccessful: {
+    id:
+      'renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful',
+    defaultMessage: 'Successfully exported observations.'
+  }
 })
 
 export const ExportSuccessful = ({ onClose }) => (

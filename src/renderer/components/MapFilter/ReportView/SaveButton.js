@@ -11,16 +11,31 @@ import ToolbarButton from '../internal/ToolbarButton'
 
 const messages = defineMessages({
   // Title of print settings dialog
-  dialogTitle: 'Warning: Large Report',
+  dialogTitle: {
+    id: 'renderer.components.MapFilter.ReportView.SaveButton.dialogTitle',
+    defaultMessage: 'Warning: Large Report'
+  },
   // Button label for Save PDF Button
-  buttonLabel: 'Save PDF',
+  buttonLabel: {
+    id: 'renderer.components.MapFilter.ReportView.SaveButton.buttonLabel',
+    defaultMessage: 'Save PDF'
+  },
   // Button label to cancel saving report
-  cancel: 'Cancel',
+  cancel: {
+    id: 'renderer.components.MapFilter.ReportView.SaveButton.cancel',
+    defaultMessage: 'Cancel'
+  },
   // Button label to confirm saving report
-  confirm: 'Continue',
+  confirm: {
+    id: 'renderer.components.MapFilter.ReportView.SaveButton.confirm',
+    defaultMessage: 'Continue'
+  },
   // Loading message when report is very long.
-  dialogContent:
-    'This report contains {observationCount} observations, and could take a few minutes to create. Are you sure you want to continue?'
+  dialogContent: {
+    id: 'renderer.components.MapFilter.ReportView.SaveButton.dialogContent',
+    defaultMessage:
+      'This report contains {observationCount} observations, and could take a few minutes to create. Are you sure you want to continue?'
+  }
 })
 
 const SaveButton = ({ shouldConfirm, onClick, observationCount, disabled }) => {

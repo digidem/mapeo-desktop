@@ -7,9 +7,18 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
 const m = defineMessages({
-  exportButton: 'Export Observation Data',
-  exportMap: 'Export Webmap…',
-  exportData: 'Export Observations…'
+  exportButton: {
+    id: 'renderer.components.MapFilter.ExportButton.exportButton',
+    defaultMessage: 'Export Observation Data'
+  },
+  exportMap: {
+    id: 'renderer.components.MapFilter.ExportButton.exportMap',
+    defaultMessage: 'Export Webmap…'
+  },
+  exportData: {
+    id: 'renderer.components.MapFilter.ExportButton.exportData',
+    defaultMessage: 'Export Observations…'
+  }
 })
 
 const ExportButton = ({ onExport }) => {
