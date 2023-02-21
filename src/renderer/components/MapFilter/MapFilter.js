@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { ipcRenderer } from 'electron'
+const { ipcRenderer } = window.electron
+
 import debounce from 'lodash/debounce'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import mapboxgl from 'mapbox-gl'
@@ -169,12 +170,10 @@ function usePresets () {
     getPresets()
   }, [])
 
-  return useMemo(() => ({ presets, fields, error, loading }), [
-    presets,
-    fields,
-    error,
-    loading
-  ])
+  return useMemo(
+    () => ({ presets, fields, error, loading }),
+    [presets, fields, error, loading]
+  )
 }
 
 function useObservations () {

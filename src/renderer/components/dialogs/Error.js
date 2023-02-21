@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Button from '@material-ui/core/Button'
 
-import { shell } from 'electron'
+const { shell } = window.electron
 import logger from '../../../logger'
 
 import { defineMessages, useIntl } from 'react-intl'

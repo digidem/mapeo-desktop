@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import TextField from '@material-ui/core/TextField'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
-import path from 'path'
+const path = require('path')
 import * as remote from '@electron/remote'
 import pump from 'pump'
 

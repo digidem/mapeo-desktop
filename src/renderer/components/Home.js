@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
-import { ipcRenderer } from 'electron'
+// import { ipcRenderer } from 'electron'
+const { ipcRenderer } = window.electron
 import styled from 'styled-components'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'

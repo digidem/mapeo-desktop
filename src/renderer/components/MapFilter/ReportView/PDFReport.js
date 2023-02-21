@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { nativeImage } from 'electron'
+const { nativeImage } = window.electron
+
 import ky from 'ky'
 import {
   IntlProvider,

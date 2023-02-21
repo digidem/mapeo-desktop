@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as remote from '@electron/remote'
 import { useIntl, defineMessages } from 'react-intl'
-import path from 'path'
+const path = require('path')
 
 import logger from '../../../logger'
 import api from '../../new-api'

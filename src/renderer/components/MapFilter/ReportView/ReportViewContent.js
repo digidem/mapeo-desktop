@@ -41,20 +41,17 @@ const m = defineMessages({
   },
   // Text showing the current page number when previewing a report
   currentPage: {
-    id:
-      'renderer.components.MapFilter.ReportView.ReportViewContent.currentPage',
+    id: 'renderer.components.MapFilter.ReportView.ReportViewContent.currentPage',
     defaultMessage: 'Page {currentPage}'
   },
   // Shown while the report is generating when saving or printing
   savingProgress: {
-    id:
-      'renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress',
+    id: 'renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress',
     defaultMessage: 'Generating report…'
   },
   // Default filename for a report (prefixed with date as YYYY-MM-YY)
   defaultReportName: {
-    id:
-      'renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName',
+    id: 'renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName',
     defaultMessage: 'Mapeo Observation Report.pdf'
   },
   xOfY: {

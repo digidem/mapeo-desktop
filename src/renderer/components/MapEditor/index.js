@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ipcRenderer, shell } from 'electron'
+const { ipcRenderer, shell } = window.electron
+
 import iD from 'id-mapeo'
 import debounce from 'lodash/debounce'
 import insertCss from 'insert-css'
@@ -317,9 +318,8 @@ const MapEditor = () => {
         translations[Object.keys(translations)[0]] ||
         {}
       if (translationsInLocale.presets) {
-        ;(
-          iD.translations[currentLocale] || iD.translations.en
-        ).presets = translationsInLocale
+        ;(iD.translations[currentLocale] || iD.translations.en).presets =
+          translationsInLocale
       }
     }
     if (presets) {
@@ -352,8 +352,10 @@ const MapEditor = () => {
     }
     if (icons) {
       var parser = new window.DOMParser()
-      var iconsSvg = parser.parseFromString(icons, 'image/svg+xml')
-        .documentElement
+      var iconsSvg = parser.parseFromString(
+        icons,
+        'image/svg+xml'
+      ).documentElement
       var defs = customDefs.current && customDefs.current.node()
       if (defs) defs.replaceChild(iconsSvg, defs.firstChild)
     }

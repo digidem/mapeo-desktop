@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import React, { useState } from 'react'
-import { ipcRenderer } from 'electron'
+const { ipcRenderer } = window.electron
 
 import { defineMessages, useIntl } from 'react-intl'
 

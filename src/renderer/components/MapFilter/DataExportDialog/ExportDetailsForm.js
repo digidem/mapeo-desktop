@@ -10,9 +10,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import isodate from '@segment/isodate'
 import { csvFormat } from 'd3-dsv'
 import flatten from 'flat'
-import fs from 'fs'
+const fs = require('fs')
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
-import path from 'path'
+const path = require('path')
 import pump from 'pump'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import { fromLatLon } from 'utm'
@@ -24,8 +24,7 @@ import { Template } from './Template'
 const msgs = defineMessages({
   // Title for export dialog
   title: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title',
     defaultMessage: 'Export Observations'
   },
   // Save button
@@ -35,66 +34,55 @@ const msgs = defineMessages({
   },
   // cancel button
   cancel: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel',
     defaultMessage: 'Cancel'
   },
   // Label for data format selector
   format: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format',
     defaultMessage: 'Data format'
   },
   // Label for select to export all data or only filtered
   filteredOrAll: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll',
     defaultMessage: 'Only filtered data or all data?'
   },
   exportAll: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll',
     defaultMessage: 'All {count} observations'
   },
   exportFiltered: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered',
     defaultMessage: '{count} filtered observations'
   },
   // Label for select to include photos in export
   includePhotos: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos',
     defaultMessage: 'Also export photos?'
   },
   // Hint shown when user has selected photos to be included in the export
   includePhotosHint: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint',
     defaultMessage: 'Export will be a zip file including data and photos'
   },
   // Label for select option to include no photos in export
   includePhotosNone: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone',
     defaultMessage: 'No Photos'
   },
   // Label for select option to include full size photos in export
   includePhotosOriginal: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal',
     defaultMessage: 'Full size photos'
   },
   // Label for select option to include preview size photos in export
   includePhotosPreview: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview',
     defaultMessage: 'Preview size photos'
   },
   // Default filename for exported data
   defaultExportFilename: {
-    id:
-      'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename',
+    id: 'renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename',
     defaultMessage: 'mapeo-observation-data'
   }
 })

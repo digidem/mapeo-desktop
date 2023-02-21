@@ -1,5 +1,5 @@
 import React from 'react'
-import { ipcRenderer } from 'electron'
+const { ipcRenderer } = window.electron
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -65,19 +65,23 @@ export default class ImportProgressDialog extends React.Component {
   render () {
     const { index, total, title, open } = this.state
     var complete = total === 100
-    return <Dialog
-      disableBackdropClick
-      disableEscapeKeyDown
-      open={open}
-    >
-      <DialogTitle> {title} </DialogTitle>
-      <DialogContent>
-        {!complete && <LinearProgress variant='determinate' value={Math.round(index / total) * 100} />}
-        {complete &&
-          <DialogActions>
-            <Button onClick={this.handleOK}>OK</Button>
-          </DialogActions>}
-      </DialogContent>
-    </Dialog>
+    return (
+      <Dialog disableBackdropClick disableEscapeKeyDown open={open}>
+        <DialogTitle> {title} </DialogTitle>
+        <DialogContent>
+          {!complete && (
+            <LinearProgress
+              variant='determinate'
+              value={Math.round(index / total) * 100}
+            />
+          )}
+          {complete && (
+            <DialogActions>
+              <Button onClick={this.handleOK}>OK</Button>
+            </DialogActions>
+          )}
+        </DialogContent>
+      </Dialog>
+    )
   }
 }
