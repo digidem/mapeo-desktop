@@ -82,9 +82,6 @@ const files = [
   // Include everything in src/ apart from src/renderer
   'src/**/*',
   '!src/renderer/**/*',
-  // but also include src/renderer/index-preload.js since this is not included
-  // in the renderer bundle
-  'src/renderer/index-preload.js',
   // Ignore a bunch of noise that is in node_modules that is not needed in the
   // packaged app (identified these by scanning app.asar for the largest files)
   '!**/node_modules/osm-p2p-db/benchmark${/*}',

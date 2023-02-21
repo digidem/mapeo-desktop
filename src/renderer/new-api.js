@@ -4,7 +4,7 @@ import logger from '../logger'
 import UriTemplate from 'uri-templates'
 
 export default Api({
-  // globals are set in src/renderer/index-preload.js
+  // globals are set in src/preload/main.js
   ipc: window.middlewareClient,
   baseUrl: `http://127.0.0.1:${window.mapeoServerPort}/`,
   mapUrl: `http://127.0.0.1:${window.mapPrinterPort}/`
