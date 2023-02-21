@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2018",
+    // "target": "es2018",
+    "target": "ESNext",
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -10,8 +11,18 @@
     "allowJs": true,
     "checkJs": false,
     "noEmit": true,
-    "typeRoots": ["types", "node_modules/@types"]
+    "typeRoots": [
+      "types",
+      "node_modules/@types"
+    ]
   },
-  "include": ["src/main/**/*", "src/workers/**/*", "index.js", "types/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/main/**/*",
+    "src/workers/**/*",
+    "index.js",
+    "types/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
