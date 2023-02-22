@@ -42,3 +42,11 @@ window.electron = {
   shell,
   nativeImage
 }
+
+if (mode === 'development') {
+  // https://esbuild.github.io/api/#live-reload
+  // TODO: Should remove client in Mapeo Core before reloading
+  new EventSource('/esbuild').addEventListener('change', () =>
+    location.reload()
+  )
+}
