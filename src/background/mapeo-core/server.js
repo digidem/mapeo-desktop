@@ -5,10 +5,15 @@ var createOsmRouter = require('osm-p2p-server')
 var { getDefaultConfigDir } = require('../../../config')
 var logger = console
 
-module.exports = function (osm, media, { ipcSend, staticRoot }) {
-  var osmRouter = createOsmRouter(osm)
+// Enable CORS fetching in development since we use a development server for the requester
+const ALLOW_CORS_RESPONSE_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers':
+    'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, Cache-Control, Pragma'
+}
 
-  const isDev = !window.mode || window.mode === 'development'
+module.exports = function (osm, media, { ipcSend, staticRoot, isDev }) {
+  var osmRouter = createOsmRouter(osm)
 
   const defaultConfigDir = getDefaultConfigDir(isDev)
 
@@ -23,12 +28,23 @@ module.exports = function (osm, media, { ipcSend, staticRoot }) {
 
   var staticHandler = ecstatic({
     root: path.join(__dirname, '..', '..', 'static'),
-    baseDir: 'static'
+    baseDir: 'static',
+    ...(isDev
+      ? { handleOptionsMethod: true, headers: ALLOW_CORS_RESPONSE_HEADERS }
+      : {})
   })
 
   return {
     core: mapeoRouter.api.core,
     router: (req, res) => {
+      if (isDev) {
+        for (const [header, value] of Object.entries(
+          ALLOW_CORS_RESPONSE_HEADERS
+        )) {
+          res.setHeader(header, value)
+        }
+      }
+
       var m = osmRouter.handle(req, res) || mapeoRouter.handle(req, res)
 
       if (!m) return done(req, res)
