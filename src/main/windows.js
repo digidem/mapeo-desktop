@@ -36,10 +36,10 @@ function MainWindow (options) {
     width: process.env.NODE_ENV === 'test' ? 1000 : mainWindowState.width,
     height: process.env.NODE_ENV === 'test' ? 800 : mainWindowState.height,
     title: APP_NAME,
-    show: true,
+    show: false,
     alwaysOnTop: false,
     titleBarStyle: 'hidden',
-    icon: path.resolve(__dirname, '../../static/mapeo_256x256.png'),
+    icon: path.resolve(__dirname, '../../static/images/mapeo_256x256.png'),
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,

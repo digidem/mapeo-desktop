@@ -42,7 +42,7 @@ export default class Welcome extends React.Component {
         </div>
         {screen === 'screen-1' ? (
           <div id='screen-1'>
-            <img src='static/Dd-square-solid-300.png' />
+            <img src='static/images/Dd-square-solid-300.png' />
             <h1>{i18n('welcome-screen-1-title')}</h1>
             <p>{i18n('welcome-screen-1-subtitle')}</p>
             <button

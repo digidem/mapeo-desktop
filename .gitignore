@@ -7,7 +7,6 @@ static/*.bundle.css*
 static/*.worker.js*
 static/*.ttf
 static/*.chunk.js*
-static/*.png
 
 test/lib/test-data
 bin/test-data
