@@ -4,8 +4,10 @@
 import path from 'path'
 import fs from 'fs'
 import * as esbuild from 'esbuild'
+import { promisify, parseArgs } from 'node:util'
+import rimraf from 'rimraf'
 
-const VALID_COMMANDS = ['build', 'watch']
+const VALID_COMMANDS = ['build', 'watch', 'clean']
 const VALID_MODES = ['dev', 'prod']
 const OUTPUT_DIR = 'static'
 
@@ -54,8 +56,9 @@ await runCommand(extractArgs())
 
 /* ------------------------------------------------------- */
 
+// TODO: Use parseArgs
 /**
- * @returns {{command: 'build'|'watch', mode: 'dev'|'mode'}}
+ * @returns {{command: 'build'|'watch'|'clean', mode: 'dev'|'mode'}}
  */
 function extractArgs () {
   const [command, modeArg] = process.argv.slice(2)
@@ -97,14 +100,23 @@ function extractArgs () {
 
 /**
  * @param {Object} opts
- * @param {'build' | 'watch'} opts.command
+ * @param {'build' | 'watch'|'clean'} opts.command
  * @param {'dev' | 'prod'} opts.mode
  */
 async function runCommand (opts) {
   const buildOptions = createBuildOptions(opts.mode)
 
   switch (opts.command) {
+    case 'clean': {
+      await cleanBuildAssets()
+
+      console.log(`Successfully cleaned ${buildOptions.outdir}`)
+
+      break
+    }
     case 'build': {
+      await cleanBuildAssets()
+
       await esbuild.build(buildOptions)
 
       console.log('Successfully built!')
@@ -113,6 +125,8 @@ async function runCommand (opts) {
     }
     case 'watch': {
       const ctx = await esbuild.context(buildOptions)
+
+      await cleanBuildAssets()
 
       await ctx.watch()
 
@@ -140,7 +154,7 @@ function createBuildOptions (mode) {
       { in: 'src/renderer/components/MapEditor/index.js', out: 'map-editor' },
       {
         in: 'src/renderer/components/MapFilter/ReportView/renderReport.worker.js',
-        out: 'pdfWorker'
+        out: 'reportWorker'
       }
     ],
     entryNames: '[name].bundle',
@@ -177,4 +191,8 @@ function createBuildOptions (mode) {
       'timers'
     ]
   }
+}
+
+async function cleanBuildAssets () {
+  return promisify(rimraf)(`./${OUTPUT_DIR}/*.{bundle,chunk}.{js,css}`)
 }
