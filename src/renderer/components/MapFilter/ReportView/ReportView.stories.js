@@ -1,4 +1,4 @@
-// @flow
+//
 import React from 'react'
 
 import { action } from '@storybook/addon-actions'
@@ -6,7 +6,6 @@ import { action } from '@storybook/addon-actions'
 
 import ReportView from './ReportView'
 import { SavingDialog, PageNavigator } from './ReportViewContent'
-import type { PresetWithFields } from '../types'
 
 const exampleObservations = require('../../../../../fixtures/observations.json')
 
@@ -25,9 +24,7 @@ export default {
   title: 'ReportView',
   component: ReportView,
   decorators: [
-    (storyFn: any) => (
-      <div style={{ width: '100%', height: '100%' }}>{storyFn()}</div>
-    )
+    storyFn => <div style={{ width: '100%', height: '100%' }}>{storyFn()}</div>
   ]
 }
 
@@ -105,7 +102,7 @@ export const pageNavigator = () => (
   <PageNavigator currentPage={7} setCurrentPage={action('changePage')} />
 )
 
-const presets: PresetWithFields[] = [
+const presets = [
   {
     name: 'Mining',
     id: 'mining',

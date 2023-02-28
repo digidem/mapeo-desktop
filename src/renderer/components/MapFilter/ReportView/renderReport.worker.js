@@ -1,11 +1,9 @@
-// @flow
-
 import { pdf } from '@react-pdf/renderer'
 import concat from 'simple-concat'
 import PQueue from 'p-queue'
 import React from 'react'
 
-import { PDFReport, type ReportProps } from './PDFReport'
+import { PDFReport } from './PDFReport'
 
 const queue = new PQueue({ concurrency: 1 })
 
@@ -16,10 +14,8 @@ function renderToStream (doc) {
   })
 }
 
-async function renderPDF (
-  props: $Diff<ReportProps, { onPageIndex: * }>
-): Promise<{ buffer: Buffer, index: Array<string> }> {
-  let pageIndex: Array<string> = []
+async function renderPDF (props) {
+  let pageIndex = []
   const doc = (
     <PDFReport {...props} onPageIndex={index => (pageIndex = index)} />
   )

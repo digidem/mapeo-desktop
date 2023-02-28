@@ -1,4 +1,4 @@
-// @flow
+//
 /* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react'
 import DateFnsUtils from '@date-io/date-fns' // choose your lib
@@ -9,7 +9,7 @@ import List from '@material-ui/core/List'
 export default {
   title: 'FilterPanel/components/DiscreteFilter',
   decorators: [
-    (storyFn: any) => (
+    storyFn => (
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <List style={{ width: '100%', maxWidth: 360 }}>{storyFn()}</List>
       </MuiPickersUtilsProvider>

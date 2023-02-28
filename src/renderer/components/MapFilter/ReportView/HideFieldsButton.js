@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import Popover from '@material-ui/core/Popover'
@@ -12,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { defineMessages, FormattedMessage } from 'react-intl'
 
 import ToolbarButton from '../internal/ToolbarButton'
-import type { FieldState } from '../types'
+
 const msgs = defineMessages({
   // Button label for hide fields menu
   hideFieldsLabel: `{count, plural,
@@ -46,12 +45,7 @@ const useStyles = makeStyles(theme => {
   }
 })
 
-type Props = {|
-  fieldState: FieldState,
-  onFieldStateUpdate: FieldState => any
-|}
-
-const HideFieldsButton = ({ fieldState, onFieldStateUpdate }: Props) => {
+const HideFieldsButton = ({ fieldState, onFieldStateUpdate }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -63,7 +57,7 @@ const HideFieldsButton = ({ fieldState, onFieldStateUpdate }: Props) => {
     setAnchorEl(null)
   }
 
-  function toggleFieldVisibility (id: string) {
+  function toggleFieldVisibility (id) {
     const newState = fieldState
       .slice()
       .map(f => (f.id === id ? { ...f, hidden: !f.hidden } : f))

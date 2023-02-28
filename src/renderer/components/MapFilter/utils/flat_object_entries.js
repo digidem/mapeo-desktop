@@ -1,11 +1,8 @@
-// @flow
 import { isObj } from './helpers'
 
-function isArrayOfPrimitives (value: any): boolean {
+function isArrayOfPrimitives (value) {
   return Array.isArray(value) && value.length && !value.some(isObj)
 }
-
-type Primitive = string | boolean | null | void | number
 
 /**
  * Similar to Object.entries, but flattens an object and keys are arrays. Arrays
@@ -25,16 +22,10 @@ type Primitive = string | boolean | null | void | number
  * //   [['other', 0, 'foo'], 'bar']
  * // ]
  */
-export function flatObjectEntries (object: {}): Array<
-  [Array<string | number>, Primitive | Primitive[]]
-> {
+export function flatObjectEntries (object) {
   var entries = []
 
-  ;(function step (
-    object: any,
-    prev: Array<string | number> = [],
-    currentDepth: number = 1
-  ) {
+  ;(function step (object, prev = [], currentDepth = 1) {
     const keys = Array.isArray(object)
       ? object.map((_, i) => i)
       : Object.keys(object)

@@ -1,11 +1,10 @@
-// @flow
 import isodate from '@segment/isodate'
 import sexagesimal from '@mapbox/sexagesimal'
 import url from 'url'
 import mime from 'mime/lite'
 
 import * as valueTypes from '../../constants/value_types'
-import type { Primitive } from '../../types'
+
 import { parseDateString } from '../../utils/helpers'
 
 // Match dates of the form 1999-12-31
@@ -23,9 +22,7 @@ const TYPES = {
  * - dates
  * - urls (guessing contentType from extension)
  */
-export function guessValueType (
-  value: Primitive | Array<Primitive>
-): $Values<typeof valueTypes> {
+export function guessValueType (value) {
   if (Array.isArray(value)) return valueTypes.ARRAY
   if (value === null) return valueTypes.NULL
   if (typeof value !== 'string') return TYPES[typeof value]
@@ -49,57 +46,11 @@ export function guessValueType (
   return valueTypes.STRING
 }
 
-type NonNullishPrimitive = number | boolean | string
-type Value = NonNullishPrimitive | Array<Primitive>
 // This seems rather complicated, but all these declares tell Flow that the
 // returned type of the function depends on the `type` argument passed to the
 // coerceValue function
 /* eslint-disable no-redeclare */
-declare function coerceValue(
-  value: null,
-  type: $Values<typeof valueTypes>
-): null
-declare function coerceValue(
-  value: void,
-  type: $Values<typeof valueTypes>
-): void
-declare function coerceValue(value: Value, type: typeof valueTypes.NULL): null
-declare function coerceValue(
-  value: Value,
-  type: typeof valueTypes.UNDEFINED
-): void
-declare function coerceValue(
-  value: Value,
-  type: typeof valueTypes.LOCATION
-): [number, number]
-declare function coerceValue(
-  value: Value,
-  type: typeof valueTypes.ARRAY
-): Array<Primitive>
-declare function coerceValue(
-  value: Value,
-  type: typeof valueTypes.BOOLEAN
-): boolean
-declare function coerceValue(
-  value: Value,
-  type: typeof valueTypes.NUMBER
-): number
-declare function coerceValue(
-  value: Value,
-  type: typeof valueTypes.STRING
-): string
-declare function coerceValue(
-  value: Value,
-  type: typeof valueTypes.DATE | typeof valueTypes.DATETIME
-): Date
-declare function coerceValue(
-  value: Value,
-  type:
-    | typeof valueTypes.IMAGE_URL
-    | typeof valueTypes.URL
-    | typeof valueTypes.VIDEO_URL
-    | typeof valueTypes.AUDIO_URL
-): string
+
 /* eslint-enable no-redeclare */
 
 /**
@@ -176,7 +127,7 @@ export function coerceValue (value, type) {
 const TRUE_STRINGS = ['yes', 'true', '1']
 const FALSE_STRINGS = ['no', 'false', '0']
 
-function parseBoolean (value: string) {
+function parseBoolean (value) {
   const v = value.toLowerCase().trim()
   if (TRUE_STRINGS.indexOf(v) > -1) return true
   if (FALSE_STRINGS.indexOf(v) > -1) return false
@@ -189,7 +140,7 @@ function parseBoolean (value: string) {
  * - a sexagesimal pair e.g. `66N 32W`
  * - an array [lon, lat] of either numbers or strings which can be coerced to numbers
  */
-function parseLocation (value: any): [number, number] | null {
+function parseLocation (value) {
   if (typeof value === 'string') {
     var parsed = sexagesimal.pair(value)
     if (parsed) return [parsed[1], parsed[0]]
@@ -212,20 +163,20 @@ function parseLocation (value: any): [number, number] | null {
 
 // Stricter parsing function, from
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
-function isFloat (value: string | number) {
+function isFloat (value) {
   if (typeof value === 'number') return true
   return /^(-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(value)
 }
 
-function isShortDate (value: string) {
+function isShortDate (value) {
   return shortDateRegExp.test(value)
 }
 
 // Check whether a location is within bounds
-function withinBounds (lon: number, lat: number) {
+function withinBounds (lon, lat) {
   return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
 }
 
-function isUrl (url: string): boolean {
+function isUrl (url) {
   return url.startsWith('https://') || url.startsWith('http://')
 }

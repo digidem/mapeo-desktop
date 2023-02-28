@@ -1,4 +1,3 @@
-// @flow
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
@@ -108,15 +107,7 @@ const NextPrevButtons = ({ index, total, onChangeIndex }) => {
   )
 }
 
-const Dots = ({
-  index,
-  total,
-  onChangeIndex
-}: {
-  index: number,
-  total: number,
-  onChangeIndex: (index: number) => any
-}) => {
+const Dots = ({ index, total, onChangeIndex }) => {
   const cx = useStyles()
   if (total <= 1) return null
   return (
@@ -137,17 +128,7 @@ const Dots = ({
   )
 }
 
-const MediaItem = ({
-  src,
-  type,
-  width,
-  height
-}: {
-  src: string,
-  type: 'image',
-  width: number,
-  height: number
-}) => (
+const MediaItem = ({ src, type, width, height }) => (
   <div style={{ width, height, position: 'relative' }}>
     <img
       style={{ width, height, objectFit: 'contain', display: 'block' }}
@@ -156,19 +137,7 @@ const MediaItem = ({
   </div>
 )
 
-const MediaCarousel = ({
-  items,
-  style,
-  initialIndex,
-  className
-}: {
-  /** Array of media items to show, only type=`image` is currently supported */
-  items: Array<{ type: 'image', src: string }>,
-  style?: {},
-  /** Initial index of image to show */
-  initialIndex?: number,
-  className?: string
-}) => {
+const MediaCarousel = ({ items, style, initialIndex, className }) => {
   const [index, setIndex] = useState(
     // Initially display the *last* image unless initialIndex is set
     initialIndex === undefined ? items.length - 1 : initialIndex

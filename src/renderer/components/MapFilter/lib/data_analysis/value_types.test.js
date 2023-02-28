@@ -1,4 +1,3 @@
-// @flow
 import * as valueTypes from '../../constants/value_types'
 import { guessValueType, coerceValue } from './value_types'
 

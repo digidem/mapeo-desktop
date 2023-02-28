@@ -1,4 +1,3 @@
-// @flow
 import React, {
   useState,
   useMemo,
@@ -10,42 +9,11 @@ import React, {
 import { useIntl } from 'react-intl'
 import ReactMapboxGl from 'react-mapbox-gl'
 import mapboxgl from 'mapbox-gl'
-import type { Observation } from 'mapeo-schema'
 
 import { getLastImage } from '../utils/helpers'
 import { makeStyles } from '@material-ui/core/styles'
 import ObservationLayer from './ObservationLayer'
 import Popup from './Popup'
-import type { CameraOptions, CommonViewContentProps } from '../types'
-
-export type MapViewContentProps = {
-  /** Called with
-   * [CameraOptions](https://docs.mapbox.com/mapbox-gl-js/api/#cameraoptions)
-   * with properties `center`, `zoom`, `bearing`, `pitch` */
-  onMapMove?: CameraOptions => any,
-  /** Initial position of the map - an object with properties `center`, `zoom`,
-   * `bearing`, `pitch`. If this is not set then the map will by default zoom to
-   * the bounds of the observations. If you are going to unmount and re-mount
-   * this component (e.g. within tabs) then you will want to use onMove to store
-   * the position in state, and pass it as initialPosition for when the map
-   * re-mounts. */
-  initialMapPosition?: $Shape<CameraOptions>,
-  /** Mapbox access token */
-  mapboxAccessToken: string,
-  /** Mapbox style url */
-  mapStyle?: string
-}
-
-type Props = {
-  ...$Exact<MapViewContentProps>,
-  ...$Exact<CommonViewContentProps>,
-  print?: boolean
-}
-
-export type MapInstance = {
-  fitBounds: () => any,
-  flyTo: () => any
-}
 
 const useStyles = makeStyles({
   container: {
@@ -80,21 +48,21 @@ const MapViewContent = (
     mapStyle = 'mapbox://styles/mapbox/outdoors-v10',
     print = false,
     presets
-  }: Props,
+  },
   ref
 ) => {
   const map = useRef()
   const classes = useStyles()
   const intl = useIntl()
-  const [hovered, setHovered] = useState<?Observation>(null)
+  const [hovered, setHovered] = useState(null)
   const [styleLoaded, setStyleLoaded] = useState(false)
 
   useImperativeHandle(ref, () => ({
-    fitBounds: (...args: any) => {
+    fitBounds: (...args) => {
       if (!map.current) return
       map.current.fitBounds.apply(map.current, args)
     },
-    flyTo: (...args: any) => {
+    flyTo: (...args) => {
       if (!map.current) return
       map.current.flyTo.apply(map.current, args)
     }
@@ -212,7 +180,7 @@ const MapViewContent = (
     [onMapMove]
   )
 
-  function getLastImageUrl (observation: Observation): string | void {
+  function getLastImageUrl (observation) {
     const lastImageAttachment = getLastImage(observation)
     if (!lastImageAttachment) return
     const media = getMedia(lastImageAttachment, {
@@ -222,7 +190,7 @@ const MapViewContent = (
     if (media) return media.src
   }
 
-  function getName (observation: Observation): string {
+  function getName (observation) {
     const preset = getPreset(observation)
     return (preset && preset.name) || 'Observation'
   }
@@ -264,11 +232,9 @@ const MapViewContent = (
   )
 }
 
-export default React.forwardRef<Props, MapInstance>(MapViewContent)
+export default React.forwardRef(MapViewContent)
 
-function getBounds (
-  observations: Observation[]
-): [[number, number], [number, number]] {
+function getBounds (observations) {
   const extent = [
     [-180, -85],
     [180, 85]

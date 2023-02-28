@@ -1,4 +1,4 @@
-// @flow
+//
 import * as React from 'react'
 import { action } from '@storybook/addon-actions'
 
@@ -49,13 +49,7 @@ const countries = [
   }))
   .concat(['Other', false, 3, null])
 
-const StateContainer = ({
-  initialValue,
-  children
-}: {
-  initialValue?: any,
-  children: (any, (any) => any) => React.Node
-}) => {
+const StateContainer = ({ initialValue, children }) => {
   const [state, setState] = React.useState(initialValue)
   action('onChange')(state)
   return children(state, setState)

@@ -1,11 +1,9 @@
-// @flow
 import React, { useMemo } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeGrid as Grid } from 'react-window'
 import getScrollBarWidth from 'get-scrollbar-width'
 
 import { makeStyles } from '@material-ui/core/styles'
-import type { Observation } from 'mapeo-schema'
 
 const useStyles = makeStyles({
   image: {
@@ -20,24 +18,10 @@ const useStyles = makeStyles({
   }
 })
 
-type Props = {
-  /** Array of image attachments to render. Each attachment should have an id
-   * and and observationId, which points to the parent observation */
-  images: Array<{
-    index: number,
-    src: string,
-    observationId: $ElementType<Observation, 'id'>
-  }>,
-  /** Called with id of observation clicked and index of the attachment clicked */
-  onImageClick: (observationId: string, index?: number) => void,
-  /** Optional default size for grid items */
-  defaultSize?: number
-}
-
 /**
  * Renders a grid of images
  */
-const ImageGrid = ({ images, onImageClick, defaultSize = 200 }: Props) => {
+const ImageGrid = ({ images, onImageClick, defaultSize = 200 }) => {
   const scrollbarWidth = useMemo(() => getScrollBarWidth(), [])
   const classes = useStyles()
 
@@ -62,15 +46,7 @@ const ImageGrid = ({ images, onImageClick, defaultSize = 200 }: Props) => {
               rowHeight={cellSize}
               width={width}
             >
-              {({
-                columnIndex,
-                rowIndex,
-                style
-              }: {
-                columnIndex: number,
-                rowIndex: number,
-                style: {}
-              }) => {
+              {({ columnIndex, rowIndex, style }) => {
                 const image = images[rowIndex * columnsCount + columnIndex]
                 if (!image) return null
                 return (

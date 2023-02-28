@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import { useIntl } from 'react-intl'
 import { SelectOne, SelectMultiple } from './Select'
@@ -11,22 +10,11 @@ import * as valueTypes from '../constants/value_types'
 import { coerceValue } from '../lib/data_analysis/value_types'
 import { getLocalizedFieldProp } from '../utils/strings'
 import FormattedFieldname from '../internal/FormattedFieldname'
-import { type Field as FieldType, type Key, type Primitive } from '../types'
 
-type Props = {
-  field: FieldType,
-  value: Primitive | Array<Primitive>,
-  onChange: (Key, mixed) => void
-}
-
-const Field = ({ field, value, onChange }: Props) => {
+const Field = ({ field, value, onChange }) => {
   const { locale } = useIntl()
   const label = <FormattedFieldname field={field} />
-  const placeholder: string = getLocalizedFieldProp(
-    field,
-    'placeholder',
-    locale
-  )
+  const placeholder = getLocalizedFieldProp(field, 'placeholder', locale)
   const handleChange = newValue => {
     onChange(field.key, newValue)
   }
@@ -142,59 +130,9 @@ const Field = ({ field, value, onChange }: Props) => {
 
 export default Field
 
-type NonNullPrimitive = number | boolean | string | void
-type Value = NonNullPrimitive | Array<Primitive>
 // Kind of frustrating types here. This function has almost the same type as
 // coerceValue, but if passed a null value will return undefined
 /* eslint-disable no-redeclare */
-declare function coerceOrUndefined(
-  value: null,
-  type: $Values<typeof valueTypes>
-): void
-declare function coerceOrUndefined(
-  value: void,
-  type: $Values<typeof valueTypes>
-): void
-declare function coerceOrUndefined(
-  value: Value,
-  type: typeof valueTypes.NULL
-): null
-declare function coerceOrUndefined(
-  value: Value,
-  type: typeof valueTypes.UNDEFINED
-): void
-declare function coerceOrUndefined(
-  value: Value,
-  type: typeof valueTypes.LOCATION
-): [number, number]
-declare function coerceOrUndefined(
-  value: Value,
-  type: typeof valueTypes.ARRAY
-): Array<Primitive>
-declare function coerceOrUndefined(
-  value: Value,
-  type: typeof valueTypes.BOOLEAN
-): boolean
-declare function coerceOrUndefined(
-  value: Value,
-  type: typeof valueTypes.NUMBER
-): number
-declare function coerceOrUndefined(
-  value: Value,
-  type: typeof valueTypes.STRING
-): string
-declare function coerceOrUndefined(
-  value: Value,
-  type: typeof valueTypes.DATE | typeof valueTypes.DATETIME
-): Date
-declare function coerceOrUndefined(
-  value: Value,
-  type:
-    | typeof valueTypes.IMAGE_URL
-    | typeof valueTypes.URL
-    | typeof valueTypes.VIDEO_URL
-    | typeof valueTypes.AUDIO_URL
-): string
 
 function coerceOrUndefined (value, type) {
   // Convert null value to undefined
@@ -209,9 +147,7 @@ function coerceOrUndefined (value, type) {
 
 // Another hack for Flow not supporting Array.filter() correctly
 // https://github.com/facebook/flow/issues/1414
-function filterUndefined (
-  arr: Array<Primitive>
-): Array<number | string | boolean | null> {
+function filterUndefined (arr) {
   return arr.reduce((acc, cur) => {
     if (cur !== undefined) acc.push(cur)
     return acc

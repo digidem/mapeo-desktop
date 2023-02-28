@@ -1,4 +1,3 @@
-// @flow
 import React, { useMemo, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -13,23 +12,6 @@ import DiscreteFilter from './DiscreteFilter'
 import DateFilter from './DateFilter'
 import getStats from '../stats'
 import FormattedFieldname from '../internal/FormattedFieldname'
-
-import type {
-  Statistics,
-  Filter,
-  Field,
-  SelectOptions,
-  FieldStatistic
-} from '../types'
-import type { Observation, Preset } from 'mapeo-schema'
-
-type Props = {
-  filter: Filter | null,
-  onChangeFilter: (filter: Filter | null) => void,
-  observations?: Observation[],
-  fields?: Field[],
-  presets?: Preset[]
-}
 
 const m = defineMessages({
   // Button text to change which fields are shown and filterable in the filter pane
@@ -46,7 +28,7 @@ const memoizedStats = createMemoizedStats()
 // Stats just for the created and modified fields. The other stat instance we
 // use is for memoized stats of observation tags which does not include these
 // top-level props
-const getTimestampStats = (observations: Observation[]): Statistics => {
+const getTimestampStats = observations => {
   return memoizedStats(
     observations.map(o => ({
       $created: o.created_at,
@@ -61,10 +43,10 @@ const FilterPanel = ({
   observations = [],
   fields = [],
   presets = []
-}: Props) => {
+}) => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
-  let filterByField: { [fieldId: string]: Filter | null } = {}
+  let filterByField = {}
   let filterError
 
   try {
@@ -101,7 +83,7 @@ const FilterPanel = ({
     const $createdId = JSON.stringify(['$created'])
     const $presetId = JSON.stringify(['$preset'])
 
-    const filterFields: { [fieldId: string]: Field } = {
+    const filterFields = {
       [$createdId]: {
         id: $createdId,
         key: ['$created'],
@@ -214,9 +196,7 @@ const comparisonOps = ['<=', '>=']
 const membershipOps = ['in', '!in']
 
 // Parse a filter and return filter expressions by field id
-function parseFilter (
-  filter: Filter | null
-): { [fieldId: string]: Filter | null } {
+function parseFilter (filter) {
   const filterByField = {}
   if (filter == null) return filterByField
   if (!isValidFilter(filter)) throw new Error('Unsupported filter expression')
@@ -233,9 +213,7 @@ function parseFilter (
   return filterByField
 }
 
-function compileFilter (filterByField: {
-  [fieldId: string]: Filter
-}): Filter | null {
+function compileFilter (filterByField) {
   const filter = ['all']
   Object.keys(filterByField).forEach(fieldId =>
     filter.push(filterByField[fieldId])
@@ -246,7 +224,7 @@ function compileFilter (filterByField: {
 }
 
 // Currently we only support a very specific filter structure
-function isValidFilter (filter): boolean {
+function isValidFilter (filter) {
   if (!Array.isArray(filter)) return false
   if (filter[0] !== 'all') return false
   return filter.slice(1).every(subFilter => {
@@ -274,10 +252,7 @@ function isValidFilter (filter): boolean {
 // definition. Mapeo Desktop (currently) allows you to add new option to a
 // select_one field which aren't defined in the preset, and this allows you to
 // filter by these new values
-function combineOptionsWithStats (
-  fieldOptions: SelectOptions,
-  fieldStats: FieldStatistic
-): SelectOptions {
+function combineOptionsWithStats (fieldOptions, fieldStats) {
   if (!fieldStats) return fieldOptions
   const optionsWithStats = [...fieldOptions]
   Object.keys(fieldStats).forEach(valueType => {

@@ -1,13 +1,7 @@
-// @flow
 import React from 'react'
 import MuiTextField from '@material-ui/core/TextField'
 
-type Props = {
-  value: string | void,
-  onChange?: (string | void) => any
-}
-
-const TextField = ({ onChange, value, ...otherProps }: Props) => {
+const TextField = ({ onChange, value, ...otherProps }) => {
   const handleChange = event => onChange && onChange(event.target.value)
   return (
     <MuiTextField

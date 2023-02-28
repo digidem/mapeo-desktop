@@ -1,4 +1,3 @@
-// @flow
 import cloneDeep from 'clone-deep'
 
 import { flatObjectEntries } from '../../utils/flat_object_entries'
@@ -6,16 +5,7 @@ import { guessValueType } from './value_types'
 import * as valueTypes from '../../constants/value_types'
 import { leftPad } from '../../utils/helpers'
 
-import type {
-  JSONObject,
-  Statistics,
-  FieldStatistic,
-  StringStatistic,
-  NumberStatistic,
-  DateStatistic
-} from '../../types'
-
-function defaultStats (): FieldStatistic {
+function defaultStats () {
   return {
     [valueTypes.STRING]: {
       count: 0,
@@ -51,10 +41,10 @@ function defaultStats (): FieldStatistic {
 }
 
 export default function createMemoizedStats () {
-  let stats: Statistics = {}
+  let stats = {}
   let dataMemo = []
 
-  return function getStats (data: Array<JSONObject>): Statistics {
+  return function getStats (data) {
     if (data === dataMemo) return stats
     const { added, removed } = diffArrays(dataMemo, data)
     if (!added.length && !removed.length) return cloneDeep(stats)
@@ -72,7 +62,7 @@ export default function createMemoizedStats () {
   }
 }
 
-function addItemStats (item: JSONObject = {}, stats: Statistics) {
+function addItemStats (item = {}, stats) {
   flatObjectEntries(item).forEach(function ([path, value]) {
     const key = JSON.stringify(path)
     if (!stats[key]) stats[key] = defaultStats()
@@ -80,7 +70,7 @@ function addItemStats (item: JSONObject = {}, stats: Statistics) {
   })
 }
 
-function addFieldStats (value: any, fieldStats: FieldStatistic) {
+function addFieldStats (value, fieldStats) {
   const type = guessValueType(value)
   if (typeof fieldStats[type] === 'number') {
     fieldStats[type] += 1
@@ -125,10 +115,7 @@ function addFieldStats (value: any, fieldStats: FieldStatistic) {
   }
 }
 
-function addArrayStats (
-  value: [],
-  stats: $NonMaybeType<$ElementType<FieldStatistic, 'array'>>
-) {
+function addArrayStats (value, stats) {
   if (value.length > stats.lengthMax) stats.lengthMax = value.length
   if (value.length < stats.lengthMin) stats.lengthMin = value.length
   stats.count += 1
@@ -137,7 +124,7 @@ function addArrayStats (
   })
 }
 
-function addNumberStats (value: number, stats: NumberStatistic) {
+function addNumberStats (value, stats) {
   stats.count += 1
   const { min, max, variance, mean } = statReduce(stats, value, stats.count - 1)
   stats.min = min
@@ -149,7 +136,7 @@ function addNumberStats (value: number, stats: NumberStatistic) {
   else stats.values.set(value, 1)
 }
 
-function addDateTimeStats (value: string, stats: DateStatistic) {
+function addDateTimeStats (value, stats) {
   const dateAsNumber = +Date.parse(value)
   stats.count += 1
   const { mean } = statReduce(
@@ -170,7 +157,7 @@ function addDateTimeStats (value: string, stats: DateStatistic) {
 }
 
 /** This requires slightly special treatment because date does not include time */
-function addDateStats (value: string, stats: DateStatistic) {
+function addDateStats (value, stats) {
   const dateAsNumber = dateToNumber(value)
   stats.count += 1
   const { mean } = statReduce(
@@ -190,7 +177,7 @@ function addDateStats (value: string, stats: DateStatistic) {
   else stats.values.set(value, 1)
 }
 
-function addStringStats (value: string, stats: StringStatistic) {
+function addStringStats (value, stats) {
   stats.count += 1
   const lengthStats = statReduce(
     {
@@ -230,20 +217,10 @@ function addStringStats (value: string, stats: StringStatistic) {
  * first (added) and items in the first but not in the second (removed).
  * Compares using strict equality.
  */
-export function diffArrays (
-  oldArray: Array<Object>,
-  newArray: Array<Object>
-): { added: Array<Object>, removed: Array<Object> } {
+export function diffArrays (oldArray, newArray) {
   const added = newArray.filter(v => oldArray.indexOf(v) === -1)
   const removed = oldArray.filter(v => newArray.indexOf(v) === -1)
   return { added, removed }
-}
-
-type MathStat = {
-  mean?: number,
-  variance?: number,
-  min?: number,
-  max?: number
 }
 
 /**
@@ -255,10 +232,10 @@ type MathStat = {
  * @return {Object} New analysis including `x`
  */
 export function statReduce (
-  { mean = NaN, variance = NaN, min = +Infinity, max = -Infinity }: MathStat,
-  x: number,
-  i: number
-): $ObjMap<MathStat, <V>(V) => $NonMaybeType<V>> {
+  { mean = NaN, variance = NaN, min = +Infinity, max = -Infinity },
+  x,
+  i
+) {
   mean = isNaN(mean) ? 0 : mean
   x = x instanceof Date ? +x : x
   const newMean = mean + (x - mean) / (i + 1)
@@ -271,13 +248,13 @@ export function statReduce (
 }
 
 /** Convert date in the format YYYY-MM-DD to a number */
-function dateToNumber (value: string): number {
+function dateToNumber (value) {
   const [year, month, day] = value.split('-').map(Number)
   // Add 12 hours -> middle of day
   return new Date(year, month - 1, day).getTime() + 12 * 60 * 60 * 1000
 }
 
-function numberToDate (value: number): string {
+function numberToDate (value) {
   const date = new Date(value)
   const YYYY = date.getFullYear()
   const MM = leftPad(date.getMonth() + 1 + '', 2, '0')
