@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 // @ts-check
-import path from 'path'
-import fs from 'fs'
-import * as esbuild from 'esbuild'
+import fs from 'node:fs'
+import path from 'node:path'
 import { promisify, parseArgs } from 'node:util'
 import rimraf from 'rimraf'
+import * as esbuild from 'esbuild'
 
 const VALID_COMMANDS = ['build', 'watch', 'clean']
 const VALID_MODES = ['dev', 'prod']
@@ -56,16 +56,28 @@ await runCommand(extractArgs())
 
 /* ------------------------------------------------------- */
 
-// TODO: Use parseArgs
 /**
  * @returns {{command: 'build'|'watch'|'clean', mode: 'dev'|'mode'}}
  */
 function extractArgs () {
-  const [command, modeArg] = process.argv.slice(2)
+  const { values, positionals } = parseArgs({
+    options: {
+      mode: {
+        type: 'string',
+        short: 'm'
+      }
+    },
+    allowPositionals: true
+  })
+
+  const command = positionals[0]
+  const mode = values.mode || 'dev'
 
   if (!VALID_COMMANDS.includes(command)) {
     const message =
-      (c ? `Invalid command '${command}' specified.` : `No command specified`) +
+      (command
+        ? `Invalid command '${command}' specified.`
+        : `No command specified`) +
       `\nPlease use one of the following: ${VALID_COMMANDS.join(', ')}`
 
     console.error(message)
@@ -73,18 +85,9 @@ function extractArgs () {
     process.exit(1)
   }
 
-  /**
-   * @type {'prod' | 'dev'}
-   */
-  let mode = 'dev'
-
-  if (!modeArg) {
-    console.log('No mode argument provided. Using dev')
-  } else if (VALID_MODES.includes(modeArg)) {
-    mode = modeArg
-  } else {
+  if (!VALID_MODES.includes(mode)) {
     const message =
-      `Invalid mode '${modeArg}' specified.` +
+      `Invalid mode '${mode}' specified.` +
       `\nPlease use of of the following: ${VALID_MODES.join(', ')}`
 
     console.error(message)
@@ -100,7 +103,7 @@ function extractArgs () {
 
 /**
  * @param {Object} opts
- * @param {'build' | 'watch'|'clean'} opts.command
+ * @param {'build'|'watch'|'clean'} opts.command
  * @param {'dev' | 'prod'} opts.mode
  */
 async function runCommand (opts) {
