@@ -1,13 +1,7 @@
-// @flow
 import React from 'react'
 import { DateTimePicker } from '@material-ui/pickers'
 
-type Props = {
-  value: Date | void,
-  onChange: (string | void) => any
-}
-
-const DateTimeField = ({ value, onChange, ...otherProps }: Props) => {
+const DateTimeField = ({ value, onChange, ...otherProps }) => {
   return (
     <DateTimePicker
       fullWidth

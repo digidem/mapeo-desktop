@@ -1,25 +1,8 @@
-// @flow
 import api from '../../../new-api'
-import { type ReportProps } from './PDFReport'
-import type { ReportViewContentProps } from './ReportViewContent'
-
-type ReportData = {
-  blob: Blob,
-  index: Array<string>
-}
-
-type Props = {|
-  ...$Exact<
-    $Diff<ReportViewContentProps, { onClick: *, totalObservations: * }>
-  >,
-  intl: any,
-  settings: any,
-  startPage?: number
-|}
 
 const reportWorker = new Worker('./pdfWorker.bundle.js')
 let msgId = 1
-const pending = new Map<number, (ReportData) => void>()
+const pending = new Map()
 
 // $FlowFixMe
 reportWorker.addEventListener('message', msg => {
@@ -32,12 +15,12 @@ reportWorker.addEventListener('message', msg => {
 })
 
 export default function renderReport (
-  { observations, getPreset, getMedia, intl, ...otherProps }: Props,
-  timeout?: number
-): Promise<ReportData> {
+  { observations, getPreset, getMedia, intl, ...otherProps },
+  timeout
+) {
   const id = msgId++
   return new Promise((resolve, reject) => {
-    const props: ReportProps = {
+    const props = {
       observationsWithPresets: observations.map(obs => {
         const preset = getPreset(obs)
         return {

@@ -1,16 +1,7 @@
-// @flow
 import React from 'react'
 
-import MapViewContent, {
-  type MapViewContentProps,
-  type MapInstance
-} from './MapViewContent'
-import ViewWrapper, { type CommonViewProps } from '../ViewWrapper'
-
-type Props = {
-  ...$Exact<CommonViewProps>,
-  ...$Exact<MapViewContentProps>
-}
+import MapViewContent from './MapViewContent'
+import ViewWrapper from '../ViewWrapper'
 
 const MapView = (
   {
@@ -21,7 +12,7 @@ const MapView = (
     filter,
     getMediaUrl,
     ...otherProps
-  }: Props,
+  },
   ref
 ) => {
   return (
@@ -48,4 +39,4 @@ const MapView = (
   )
 }
 
-export default React.forwardRef<Props, MapInstance>(MapView)
+export default React.forwardRef(MapView)

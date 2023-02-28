@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import Img from 'react-image'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -33,13 +32,7 @@ const BrokenImage = ({ classes, style }) => (
   </div>
 )
 
-type Props = {
-  style?: { [prop: string]: string | number },
-  src: string,
-  className?: string
-}
-
-const Image = ({ style, src, className }: Props) => {
+const Image = ({ style, src, className }) => {
   const classes = useStyles()
   return (
     <Img

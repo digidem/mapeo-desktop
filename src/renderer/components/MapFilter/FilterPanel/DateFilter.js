@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react'
 import DateIcon from '@material-ui/icons/DateRange'
 import { makeStyles } from '@material-ui/core/styles'
@@ -9,7 +8,6 @@ import { parseDateString } from '../utils/helpers'
 
 import FilterSection from './FilterSection'
 import DateField from '../ObservationDialog/DateField'
-import type { Key, Filter } from '../types'
 
 const m = defineMessages({
   // Title of min date field in filter
@@ -17,16 +15,6 @@ const m = defineMessages({
   // Title of max date field in filter
   max: 'To'
 })
-
-type Props = {
-  label: React.Node,
-  fieldKey: Key,
-  filter?: Filter | null,
-  min: string,
-  max: string,
-  type?: 'date' | 'datetime',
-  onChangeFilter: (filter: Array<any> | null) => void
-}
 
 const DateFilter = ({
   label,
@@ -36,7 +24,7 @@ const DateFilter = ({
   max,
   type = 'datetime',
   onChangeFilter
-}: Props) => {
+}) => {
   const cx = useStyles()
   const { formatMessage: t } = useIntl()
   const [filterMin, filterMax] = parseDateFilter(filter)
@@ -45,7 +33,7 @@ const DateFilter = ({
     (filterMin != null && filterMin > min) ||
     (filterMax != null && filterMax < max)
 
-  const handleChange = (minOrMax: 'min' | 'max') => value => {
+  const handleChange = minOrMax => value => {
     const filterValue = createFilterValue(value, minOrMax)
     const newFilter =
       minOrMax === 'min'
@@ -111,7 +99,7 @@ function compileFilter (key, min, max) {
   return filter
 }
 
-function parseDateFilter (filter?: Array<any> | null) {
+function parseDateFilter (filter) {
   if (!filter || filter.length < 2 || filter[0] !== 'all') return []
   const minFilter = filter.find(d => Array.isArray(d) && d[0] === '>=')
   const maxFilter = filter.find(d => Array.isArray(d) && d[0] === '<=')
@@ -128,7 +116,7 @@ const useStyles = makeStyles(theme => ({
 
 const shortDateRegExp = /^(\d{4})-(\d{2})-(\d{2})$/
 
-function createFilterValue (value: any, minOrMax) {
+function createFilterValue (value, minOrMax) {
   if (!value) return value
   const match = value.match(shortDateRegExp)
   if (!match) return value

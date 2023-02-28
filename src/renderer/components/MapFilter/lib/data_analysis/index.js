@@ -1,24 +1,7 @@
-// @flow
 import * as valueTypes from '../../constants/value_types'
 import { guessValueType } from './value_types'
 import { flatObjectEntries } from '../../utils/flat_object_entries'
 import { get } from '../../utils/get_set'
-
-import type {
-  JSONObject,
-  FieldStatistic,
-  Statistics,
-  MediaArray,
-  Field,
-  TextField,
-  LinkField,
-  NumberField,
-  DateField,
-  DateTimeField,
-  SelectOptions,
-  SelectOneField,
-  SelectMultipleField
-} from '../../types'
 
 export { default as createMemoizedStats } from './statistics'
 
@@ -38,10 +21,7 @@ function compareKeys (a, b) {
  * passed. The returned field definitions can be used to render fields for
  * editing the properties of the object.
  */
-export function getFields (
-  cur?: JSONObject = {},
-  stats?: Statistics
-): Array<Field> {
+export function getFields (cur = {}, stats) {
   const entries = stats ? flatStatsEntries(stats) : flatObjectEntries(cur)
   return entries.sort(compareKeys).reduce((acc, [keyArray]) => {
     const key = JSON.stringify(keyArray)
@@ -53,7 +33,7 @@ export function getFields (
   }, [])
 }
 
-export function getMedia (cur: JSONObject = {}): MediaArray {
+export function getMedia (cur = {}) {
   return flatObjectEntries(cur).reduce((acc, [keyArray, value]) => {
     const type = guessValueType(value)
     if (mediaTypes.includes(type)) {
@@ -64,11 +44,7 @@ export function getMedia (cur: JSONObject = {}): MediaArray {
   }, [])
 }
 
-export function getField (
-  keyArray: Array<string | number>,
-  value: any,
-  fieldStats?: FieldStatistic
-): Field {
+export function getField (keyArray, value, fieldStats) {
   const valueType = guessValueType(value)
   // Initial implementation does not try to guess from statistics
   switch (valueType) {
@@ -112,7 +88,7 @@ export function getField (
 // Don't include long strings in the options that can be selected
 const MAX_OPTION_LENGTH = 30
 
-function getOptions (fieldStats?: FieldStatistic): SelectOptions {
+function getOptions (fieldStats) {
   const options = []
   if (!fieldStats) return options
 
@@ -125,17 +101,9 @@ function getOptions (fieldStats?: FieldStatistic): SelectOptions {
 }
 
 function createTextField (
-  keyArray: Array<string | number>,
-  {
-    readonly = false,
-    appearance = 'single',
-    snakeCase = false
-  }: {
-    readonly?: boolean,
-    appearance?: 'single' | 'multiline',
-    snakeCase?: boolean
-  } = {}
-): TextField {
+  keyArray,
+  { readonly = false, appearance = 'single', snakeCase = false } = {}
+) {
   return {
     id: JSON.stringify([...arguments]),
     key: keyArray,
@@ -145,7 +113,7 @@ function createTextField (
   }
 }
 
-function createLinkField (keyArray: Array<string | number>): LinkField {
+function createLinkField (keyArray) {
   return {
     id: JSON.stringify([...arguments]),
     key: keyArray,
@@ -154,10 +122,7 @@ function createLinkField (keyArray: Array<string | number>): LinkField {
   }
 }
 
-function createNumberField (
-  keyArray: Array<string | number>,
-  { readonly = false }: { readonly?: boolean } = {}
-): NumberField {
+function createNumberField (keyArray, { readonly = false } = {}) {
   return {
     id: JSON.stringify([...arguments]),
     key: keyArray,
@@ -167,13 +132,10 @@ function createNumberField (
 }
 
 function createSelectOneField (
-  keyArray: Array<string | number>,
-  options: SelectOptions,
-  {
-    readonly = false,
-    snakeCase = false
-  }: { readonly?: boolean, snakeCase?: boolean } = {}
-): SelectOneField {
+  keyArray,
+  options,
+  { readonly = false, snakeCase = false } = {}
+) {
   return {
     id: JSON.stringify([...arguments]),
     key: keyArray,
@@ -184,13 +146,10 @@ function createSelectOneField (
 }
 
 function createSelectMultipleField (
-  keyArray: Array<string | number>,
-  options: SelectOptions,
-  {
-    readonly = false,
-    snakeCase = false
-  }: { readonly?: boolean, snakeCase?: boolean } = {}
-): SelectMultipleField {
+  keyArray,
+  options,
+  { readonly = false, snakeCase = false } = {}
+) {
   return {
     id: JSON.stringify([...arguments]),
     key: keyArray,
@@ -200,19 +159,7 @@ function createSelectMultipleField (
   }
 }
 
-function createDateField (
-  keyArray: Array<string | number>,
-  {
-    readonly = false,
-    min,
-    max
-  }: {
-    readonly?: boolean,
-    snakeCase?: boolean,
-    min?: string,
-    max?: string
-  } = {}
-): DateField {
+function createDateField (keyArray, { readonly = false, min, max } = {}) {
   return {
     id: JSON.stringify([...arguments]),
     key: keyArray,
@@ -223,19 +170,7 @@ function createDateField (
   }
 }
 
-function createDateTimeField (
-  keyArray: Array<string | number>,
-  {
-    readonly = false,
-    min,
-    max
-  }: {
-    readonly?: boolean,
-    snakeCase?: boolean,
-    min?: string,
-    max?: string
-  } = {}
-): DateTimeField {
+function createDateTimeField (keyArray, { readonly = false, min, max } = {}) {
   return {
     id: JSON.stringify([...arguments]),
     key: keyArray,
@@ -246,9 +181,7 @@ function createDateTimeField (
   }
 }
 
-function flatStatsEntries (
-  stats: Statistics
-): Array<[Array<string | number>, FieldStatistic]> {
+function flatStatsEntries (stats) {
   // $FlowFixMe
   return Object.entries(stats).map(([key, value]) => [JSON.parse(key), value])
 }
