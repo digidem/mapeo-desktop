@@ -7,8 +7,6 @@ import { PDFReport } from './PDFReport'
 
 const queue = new PQueue({ concurrency: 1 })
 
-console.log('I AM THE WORKER')
-
 function renderToStream (doc) {
   return queue.add(() => {
     const instance = pdf(doc)

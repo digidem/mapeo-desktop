@@ -1,27 +1,17 @@
 import api from '../../../new-api'
 
-const reportWorker = new Worker('./reportWorker.bundle.js', { type: 'module' })
-
+const reportWorker = new Worker('./pdfWorker.bundle.js', { type: 'module' })
 let msgId = 1
 const pending = new Map()
 
 // $FlowFixMe
 reportWorker.addEventListener('message', msg => {
-  console.log('MESSAGE', msg)
   const { id, buffer, index } = msg.data
   if (!id || !pending.has(id)) return
   const resolve = pending.get(id)
   pending.delete(id)
   resolve &&
     resolve({ blob: new Blob([buffer], { type: 'application/pdf' }), index })
-})
-
-reportWorker.addEventListener('error', err => {
-  console.log('ERROR RETURNED FROM WORKER', err)
-})
-
-reportWorker.addEventListener('messageerror', err => {
-  console.log('MESSAGEERROR RETURNED FROM WORKER', err)
 })
 
 export default function renderReport (
