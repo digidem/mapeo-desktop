@@ -10,9 +10,6 @@
     "email": "info@ddem.us"
   },
   "main": "index.js",
-  "engine": {
-    "node": "12.14.1"
-  },
   "scripts": {
     "clean": "rimraf \"dist/\"",
     "check": "npm-run-all -p check:prod check:prod-unused check:dev",
@@ -32,7 +29,7 @@
     "watch": "webpack --watch --config webpack.dev.js",
     "start": "electron . --disable-http-cache",
     "server": "node index.js --headless",
-    "dev": "electron . --debug --disable-http-cache",
+    "dev": "electron . --inspect --disable-http-cache",
     "postinstall": "npm-run-all -p patch-package extract-presets rebuild",
     "patch-package": "patch-package",
     "extract-presets": "node bin/extract-presets.js",
@@ -47,7 +44,8 @@
     "type": "tsc",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "remove-native-deps": "rimraf node_modules/sodium-native node_modules/nice-napi"
+    "remove-native-deps": "rimraf node_modules/sodium-native node_modules/nice-napi node_modules/fsevents",
+    "remove-ci-artifacts": "node bin/remove-ci-artifacts.js"
   },
   "license": "GPL-3.0",
   "repository": {
@@ -82,11 +80,12 @@
     "@bugsnag/browser": "^7.1.1",
     "@bugsnag/js": "^7.1.1",
     "@date-io/date-fns": "^1.3.13",
+    "@electron/remote": "^2.0.9",
     "@fortawesome/fontawesome-svg-core": "^1.2.24",
     "@fortawesome/free-solid-svg-icons": "^5.11.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@mapbox/sexagesimal": "^1.2.0",
-    "@mapeo/map-server": "^1.0.0-alpha.11",
+    "@mapeo/map-server": "^1.0.0-alpha.13",
     "@mapeo/settings": "^2.1.3",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.5.1",
@@ -98,6 +97,7 @@
     "@tanstack/react-query": "^4.18.0",
     "asar": "^1.0.0",
     "base32.js": "^0.1.0",
+    "better-sqlite3": "^8.0.1",
     "bugsnag-build-reporter": "^1.0.3",
     "bugsnag-sourcemaps": "^1.3.0",
     "capture-exit": "^2.0.0",
@@ -112,7 +112,7 @@
     "ecstatic": "^4.1.4",
     "electron-context-menu": "^0.15.0",
     "electron-debug": "^1.5.0",
-    "electron-is-dev": "^1.1.0",
+    "electron-is-dev": "^2.0.0",
     "electron-rabbit": "^1.0.3",
     "electron-timber": "^0.5.1",
     "electron-updater": "^4.3.9",
@@ -158,7 +158,7 @@
     "react-dom": "^16.3.2",
     "react-error-boundary": "^1.2.5",
     "react-image": "^2.4.0",
-    "react-intl": "^3.2.4",
+    "react-intl": "^6.2.8",
     "react-intl-formatted-duration": "^4.0.0",
     "react-mapbox-gl": "^4.8.6",
     "react-pdf": "^5.0.0-beta.4",
@@ -221,7 +221,7 @@
     "css-loader": "^3.2.0",
     "debug": "^4.1.1",
     "dependency-check": "^3.4.1",
-    "electron": "^9.4.4",
+    "electron": "^22.3.2",
     "electron-builder": "^22.14.10",
     "electron-devtools-installer": "^3.1.1",
     "electron-notarize": "^1.0.0",

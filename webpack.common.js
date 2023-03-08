@@ -17,8 +17,6 @@ module.exports = {
     'mime-db',
     '../package.json'
   ],
-  // plugins: [new LiveReloadPlugin()],
-  // plugins: [new BundleAnalyzerPlugin()],
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',

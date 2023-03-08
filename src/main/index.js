@@ -1,10 +1,13 @@
 // @ts-check
 
+require('@electron/remote/main').initialize()
+
 const path = require('path')
 const { app, dialog, MessageChannelMain, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
 const contextMenu = require('electron-context-menu')
 const mkdirp = require('mkdirp')
+const Database = require('better-sqlite3')
 const createMapServer = require('@mapeo/map-server')
 
 const onExit = require('./exit-hook')
@@ -67,6 +70,9 @@ async function startup ({
   // Set up Electron IPC bridge with frontend in electron-renderer process
   electronIpc(ipcSend)
 
+  // Maps management server
+  let mapServer = null
+
   // Window Management
   /** @type {BrowserWindow | null} */
   let winMain = MainWindow({
@@ -105,20 +111,6 @@ async function startup ({
     path.join(__dirname, '../background/map-printer'),
     { id: 'mapPrinter', args: mapPrinterArgs, devTools: debug }
   )
-
-  // Running this in the main thread rather than in a background process because
-  // map-server uses Node Worker Threads, and the background processes actually
-  // run in a browser window (with Node integration turned on) but they do not
-  // support Node workers (only Web Workers). The reason for running the other
-  // processes (map printer and mapeo core) in a background process was because
-  // processes in the main thread are blocking for the render thread.
-  // Fortunately map server does not have any expensive functions so it should
-  // not slow down the main process nor block the render thread if we run it
-  // here from the main process...
-  // @ts-expect-error
-  const mapServer = createMapServer(undefined, {
-    dbPath: path.join(mapsdir, 'maps.db')
-  })
 
   // Subscribe the main window to background process state changes
   const unsubscribeMainWindow = backgroundProcesses.subscribeWindow(winMain)
@@ -165,13 +157,29 @@ async function startup ({
     createMenu(ipc)
     backgroundProcesses.addClient('mapeoCore', port2)
 
+    await Promise.all([
+      // Create folders for data, custom presets, and custom styles
+      mkdirp(datadir),
+      mkdirp(mapsdir),
+      mkdirp(path.join(userDataPath, 'presets')),
+      mkdirp(path.join(userDataPath, 'styles'))
+    ])
+
+    // Running this in the main thread rather than in a background process because
+    // map-server uses Node Worker Threads, and the background processes actually
+    // run in a browser window (with Node integration turned on) but they do not
+    // support Node workers (only Web Workers). The reason for running the other
+    // processes (map printer and mapeo core) in a background process was because
+    // processes in the main thread are blocking for the render thread.
+    // Fortunately map server does not have any expensive functions so it should
+    // not slow down the main process nor block the render thread if we run it
+    // here from the main process...
+    mapServer = createMapServer(undefined, {
+      database: new Database(path.join(mapsdir, 'maps.db'))
+    })
+
     await logger.timedPromise(
       Promise.all([
-        // Create folders for data, custom presets, and custom styles
-        mkdirp(datadir),
-        mkdirp(mapsdir),
-        mkdirp(path.join(userDataPath, 'presets')),
-        mkdirp(path.join(userDataPath, 'styles')),
         // Startup background processes and servers
         logger.timedPromise(
           backgroundProcesses.startAll(),
@@ -200,6 +208,7 @@ async function startup ({
       updater.periodicUpdates()
     }
   } catch (err) {
+    logger.debug('ERRORORROROR', err)
     onError(err)
   }
 
@@ -279,7 +288,11 @@ async function startup ({
       backgroundProcesses.stopAll(),
       'Stopped background processes'
     )
-    await logger.timedPromise(mapServer.close(), 'Stopped Mapeo Map Server')
+
+    if (mapServer) {
+      await logger.timedPromise(mapServer.close(), 'Stopped Mapeo Map Server')
+    }
+
     clearTimeout(timeoutId)
 
     winClosing && winClosing.close()

@@ -2,16 +2,23 @@ var path = require('path')
 var createMapeoRouter = require('mapeo-server')
 var ecstatic = require('ecstatic')
 var createOsmRouter = require('osm-p2p-server')
-var { DEFAULT_CONFIG_DIR } = require('../../../config')
+var { getDefaultConfigDir } = require('../../../config')
 var logger = console
 
 module.exports = function (osm, media, { ipcSend, staticRoot }) {
   var osmRouter = createOsmRouter(osm)
+
+  const isDev = !window.mode || window.mode === 'development'
+
+  const defaultConfigDir = getDefaultConfigDir(isDev)
+
+  logger.debug(defaultConfigDir)
+
   var mapeoRouter = createMapeoRouter(osm, media, {
     staticRoot: staticRoot,
     writeFormat: 'osm-p2p-syncfile',
     deviceType: 'desktop',
-    fallbackPresetsDir: DEFAULT_CONFIG_DIR
+    fallbackPresetsDir: getDefaultConfigDir(isDev)
   })
 
   var staticHandler = ecstatic({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { remote } from 'electron'
+import * as remote from '@electron/remote'
 import { useIntl, defineMessages } from 'react-intl'
 import path from 'path'
 
@@ -45,29 +45,31 @@ const SyncView = ({ focusState }) => {
   logger.debug('render peers', peers)
 
   const handleClickSelectSyncfile = () => {
-    remote.dialog.showOpenDialog(
-      {
+    remote.dialog
+      .showOpenDialog({
         title: t(m.openSyncFileDialog),
         properties: ['openFile'],
         filters: fileDialogFilters
-      }
-    ).then(({ filePaths }) => {
-      if (typeof filePaths === 'undefined' || filePaths.length !== 1) return
-      syncPeer(filePaths[0], { file: true })
-    }).catch(err => logger.error(err))
+      })
+      .then(({ filePaths }) => {
+        if (typeof filePaths === 'undefined' || filePaths.length !== 1) return
+        syncPeer(filePaths[0], { file: true })
+      })
+      .catch(err => logger.error(err))
   }
 
   const handleClickNewSyncfile = () => {
-    remote.dialog.showSaveDialog(
-      {
+    remote.dialog
+      .showSaveDialog({
         title: t(m.openSyncFileDialog),
         defaultPath: 'database.mapeodata',
         filters: fileDialogFilters
-      }
-    ).then(({ canceled, filePath }) => {
-      if (canceled || !filePath) return
-      syncPeer(filePath, { file: true, createFile: true })
-    }).catch(err => logger.error(err))
+      })
+      .then(({ canceled, filePath }) => {
+        if (canceled || !filePath) return
+        syncPeer(filePath, { file: true, createFile: true })
+      })
+      .catch(err => logger.error(err))
   }
 
   return (
@@ -105,68 +107,62 @@ function usePeers (listen) {
 
   // Keep a ref of the last time this view was closed (used to maintain peer
   // "completed" state in the UI)
-  useEffect(
-    () => {
-      if (!listen) lastClosed.current = Date.now()
-    },
-    [listen]
-  )
+  useEffect(() => {
+    if (!listen) lastClosed.current = Date.now()
+  }, [listen])
 
-  useEffect(
-    () => {
-      // Only start listening if `listen` is true
-      if (!listen) return
+  useEffect(() => {
+    // Only start listening if `listen` is true
+    if (!listen) return
 
-      const updatePeers = (updatedServerPeers = []) => {
-        logger.debug('Received peer update', updatedServerPeers)
-        setServerPeers(updatedServerPeers)
-        // NB: use callback version of setState because the new error state
-        // depends on the previous error state
-        setSyncErrors(syncErrors => {
-          const newErrors = new Map(syncErrors)
-          updatedServerPeers.forEach(peer => {
-            if (peer.state && peer.state.topic === 'replication-error') {
-              if (IGNORED_ERROR_CODES.indexOf(peer.state.code) === -1) {
-                newErrors.set(peer.id, peer.state)
-              }
-            } else {
-              // no error anymore, let's delete it
-              newErrors.delete(peer.id)
+    const updatePeers = (updatedServerPeers = []) => {
+      logger.debug('Received peer update', updatedServerPeers)
+      setServerPeers(updatedServerPeers)
+      // NB: use callback version of setState because the new error state
+      // depends on the previous error state
+      setSyncErrors(syncErrors => {
+        const newErrors = new Map(syncErrors)
+        updatedServerPeers.forEach(peer => {
+          if (peer.state && peer.state.topic === 'replication-error') {
+            if (IGNORED_ERROR_CODES.indexOf(peer.state.code) === -1) {
+              newErrors.set(peer.id, peer.state)
             }
-          })
-          return newErrors
+          } else {
+            // no error anymore, let's delete it
+            newErrors.delete(peer.id)
+          }
         })
-        // Argh, this is hacky. This is making up for us not being able to rely
-        // on server state for rendering the UI
-        setSyncRequests(syncRequests => {
-          const newSyncRequests = new Map(syncRequests)
-          updatedServerPeers.forEach(peer => {
-            if (!peer.state) return
-            if (
-              (peer.state.topic === 'replication-error' ||
+        return newErrors
+      })
+      // Argh, this is hacky. This is making up for us not being able to rely
+      // on server state for rendering the UI
+      setSyncRequests(syncRequests => {
+        const newSyncRequests = new Map(syncRequests)
+        updatedServerPeers.forEach(peer => {
+          if (!peer.state) return
+          if (
+            (peer.state.topic === 'replication-error' ||
               peer.state.topic === 'replication-complete') &&
-              !peer.connected
-            ) {
-              newSyncRequests.delete(peer.id)
-            }
-          })
-          return newSyncRequests
+            !peer.connected
+          ) {
+            newSyncRequests.delete(peer.id)
+          }
         })
-      }
+        return newSyncRequests
+      })
+    }
 
-      // Whenever the sync view becomes focused, announce for sync and start
-      // listening for updates to peer status
-      api.syncJoin()
-      const peerListener = api.addPeerListener(updatePeers)
+    // Whenever the sync view becomes focused, announce for sync and start
+    // listening for updates to peer status
+    api.syncJoin()
+    const peerListener = api.addPeerListener(updatePeers)
 
-      // When the listen changes or component unmounts, cleanup listeners
-      return () => {
-        api.syncLeave()
-        if (peerListener) peerListener.remove()
-      }
-    },
-    [listen]
-  )
+    // When the listen changes or component unmounts, cleanup listeners
+    return () => {
+      api.syncLeave()
+      if (peerListener) peerListener.remove()
+    }
+  }, [listen])
 
   const peers = useMemo(
     () =>
@@ -183,7 +179,8 @@ function usePeers (listen) {
   const syncPeer = useCallback(
     (peerId, opts) => {
       logger.info('Request sync start', peerId, serverPeers)
-      if (opts && opts.file) return api.syncStart({ filename: peerId }, opts && opts.createFile)
+      if (opts && opts.file)
+        return api.syncStart({ filename: peerId }, opts && opts.createFile)
       const peer = serverPeers.find(peer => peer.id === peerId)
       // Peer could have vanished in the moment the button was pressed
       if (peer) {
@@ -237,9 +234,7 @@ function getPeersStatus ({
     ) {
       status = peerStatus.COMPLETE
       complete = state.message
-    } else if (
-      syncErrors.has(serverPeer.id)
-    ) {
+    } else if (syncErrors.has(serverPeer.id)) {
       status = peerStatus.ERROR
       const error = syncErrors.get(serverPeer.id)
       if (error && error.code === 'ERR_VERSION_MISMATCH') {

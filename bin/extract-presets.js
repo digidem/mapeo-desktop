@@ -1,7 +1,7 @@
 const path = require('path')
 const mkdirp = require('mkdirp')
 const fs = require('fs-extra')
-const { DEFAULT_CONFIG_DIR } = require('../config')
+const { getDefaultConfigDir } = require('../config')
 
 // This is a really hacky fix to an annoying problem. Currently mapeo-server has
 // a fallbackPresetsDir option, but it expects the presets to be in a `default`
@@ -11,7 +11,7 @@ const { DEFAULT_CONFIG_DIR } = require('../config')
 // API for mapeo-server
 
 // Sorry about confusing naming, working around hard-coded paths in @mapeo/settings
-const defaultConfigFolder = path.join(DEFAULT_CONFIG_DIR, 'default')
+const defaultConfigFolder = path.join(getDefaultConfigDir(true), 'default')
 mkdirp(defaultConfigFolder)
 fs.copySync(
   path.dirname(require.resolve('mapeo-default-settings')),

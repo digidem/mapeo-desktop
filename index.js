@@ -45,7 +45,8 @@ debug({ showDevTools: false })
 if (!logger.configured) {
   logger.configure({
     label: 'main',
-    userDataPath
+    userDataPath,
+    isDev
   })
 }
 

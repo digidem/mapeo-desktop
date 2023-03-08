@@ -1,5 +1,5 @@
 import React from 'react'
-import { remote } from 'electron'
+import * as remote from '@electron/remote'
 import styled from 'styled-components'
 
 const TitleBarArea = styled.div`

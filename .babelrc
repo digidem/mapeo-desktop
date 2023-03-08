@@ -9,7 +9,7 @@
       '@babel/preset-env',
       {
         targets: {
-          electron: '9.0.0'
+          electron: '22.3.2'
         },
         // Only use polyfills necessary for target env
         useBuiltIns: 'usage',

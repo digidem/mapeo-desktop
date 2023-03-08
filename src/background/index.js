@@ -1,6 +1,6 @@
 // @ts-check
 
-const { ipcRenderer, remote } = require('electron')
+const { ipcRenderer } = require('electron')
 const path = require('path')
 
 const logger = require('../logger')
@@ -8,15 +8,16 @@ const logger = require('../logger')
 /** @typedef {import('../utils/types').BackgroundProcess} BackgroundProcess */
 /** @typedef {import('../utils/types').IpcResponse} IpcResponse */
 
-const [modulePath, argsJSON] = process.argv.slice(-2)
-const userDataPath = remote.app.getPath('userData')
+const [modulePath, argsJSON, userDataPath, mode] = process.argv.slice(-4)
 const label = path.basename(modulePath)
+
+// TODO: Used by renderer processes to determine if in development mode or not. There's probably a better way to do this
+window.mode = mode
 
 /** @type {'starting' | 'ready' | 'closing' | 'closed'} */
 let status = 'starting'
 
-logger.configure({ userDataPath, label })
-//
+logger.configure({ userDataPath, label, isDev: mode === 'development' })
 ;(async function initialize () {
   try {
     const args = argsJSON && JSON.parse(argsJSON)
