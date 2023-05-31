@@ -9,7 +9,7 @@ These commit messages are important because they help others understand the chan
 
 Each Pull Request should only include a single fix or feature.
 
-### Debbugging
+### Debugging
 
 Data is stored in `USERDATA/Mapeo` on your machine, which will be different
 depending on your operating system.
