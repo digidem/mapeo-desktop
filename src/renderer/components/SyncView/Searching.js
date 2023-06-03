@@ -7,10 +7,16 @@ import Loader from '../Loader'
 
 const m = defineMessages({
   // Title on sync screen when searching for devices
-  searchingTitle: 'Searching…',
+  searchingTitle: {
+    id: 'renderer.components.SyncView.Searching.searchingTitle',
+    defaultMessage: 'Searching…'
+  },
   // Hint on sync screen when searching on wifi for devices
-  searchingHint:
-    'Make sure devices are turned on and connected to the same wifi network'
+  searchingHint: {
+    id: 'renderer.components.SyncView.Searching.searchingHint',
+    defaultMessage:
+      'Make sure devices are turned on and connected to the same wifi network'
+  }
 })
 
 const Searching = () => {
@@ -21,7 +27,7 @@ const Searching = () => {
       <div className={cx.searching}>
         <Loader />
         <div className={cx.searchingText}>
-          <Typography gutterBottom variant="h2" className={cx.searchingTitle}>
+          <Typography gutterBottom variant='h2' className={cx.searchingTitle}>
             {t(m.searchingTitle)}
           </Typography>
 

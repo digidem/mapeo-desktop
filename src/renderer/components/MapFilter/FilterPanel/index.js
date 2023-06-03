@@ -8,7 +8,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 const m = defineMessages({
-  filterHeader: 'Filter by…'
+  filterHeader: {
+    id: 'renderer.components.MapFilter.FilterPanel.index.filterHeader',
+    defaultMessage: 'Filter by…'
+  }
 })
 
 const LeftPanel = props => {

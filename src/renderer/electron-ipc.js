@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+const { ipcRenderer } = window.electron
 
 export default Api(ipcRenderer)
 

@@ -7,7 +7,10 @@ import { defineMessages, FormattedMessage } from 'react-intl'
 
 const msgs = defineMessages({
   // Title for observations export dialog
-  title: 'Export Observations'
+  title: {
+    id: 'renderer.components.MapFilter.DataExportDialog.Template.title',
+    defaultMessage: 'Export Observations'
+  }
 })
 
 export const Template = ({ actions, content }) => {

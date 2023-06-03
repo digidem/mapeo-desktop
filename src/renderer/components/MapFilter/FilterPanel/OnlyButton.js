@@ -5,7 +5,10 @@ import { defineMessages, FormattedMessage } from 'react-intl'
 
 const messages = defineMessages({
   // Button text to only show a particular field value in a filter
-  only: 'Only'
+  only: {
+    id: 'renderer.components.MapFilter.FilterPanel.OnlyButton.only',
+    defaultMessage: 'Only'
+  }
 })
 
 const OnlyButton = props => (

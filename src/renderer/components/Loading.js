@@ -6,14 +6,15 @@ import CenteredText from './CenteredText'
 
 const m = defineMessages({
   // Displayed whilst observations and presets load
-  loading: 'Loading…'
+  loading: {
+    id: 'renderer.components.Loading.loading',
+    defaultMessage: 'Loading…'
+  }
 })
 
 const Searching = () => {
   const { formatMessage: t } = useIntl()
-  return (
-    <CenteredText text={t(m.loading)} icon={<Loader />} />
-  )
+  return <CenteredText text={t(m.loading)} icon={<Loader />} />
 }
 
 export default Searching

@@ -6,14 +6,20 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Button from '@material-ui/core/Button'
 
-import { shell } from 'electron'
+const { shell } = window.electron
 import logger from '../../../logger'
 
 import { defineMessages, useIntl } from 'react-intl'
 
 const m = defineMessages({
-  openLog: 'Open log...',
-  close: 'Close'
+  openLog: {
+    id: 'renderer.components.dialogs.Error.openLog',
+    defaultMessage: 'Open log...'
+  },
+  close: {
+    id: 'renderer.components.dialogs.Error.close',
+    defaultMessage: 'Close'
+  }
 })
 
 export default ({ onClose, open, message }) => {
@@ -27,10 +33,18 @@ export default ({ onClose, open, message }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Error</DialogTitle>
       <DialogContent>
-        <TextareaAutosize rowsMin='5' rowsMax='30' cols='40' value={message} disabled />
+        <TextareaAutosize
+          rowsMin='5'
+          rowsMax='30'
+          cols='40'
+          value={message}
+          disabled
+        />
         <DialogActions>
           <Button onClick={handleDownload}>{t(m.openLog)}</Button>
-          <Button variant='contained' color='primary' onClick={onClose}>{t(m.close)}</Button>
+          <Button variant='contained' color='primary' onClick={onClose}>
+            {t(m.close)}
+          </Button>
         </DialogActions>
       </DialogContent>
     </Dialog>

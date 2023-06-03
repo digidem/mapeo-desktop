@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { ipcRenderer } from 'electron'
+const { ipcRenderer } = window.electron
+
 import debounce from 'lodash/debounce'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import mapboxgl from 'mapbox-gl'
@@ -22,9 +23,15 @@ import MediaView from './MediaView'
 import config from '../../../../config'
 
 const m = defineMessages({
-  errorTitle: 'Oh dear! An error has occurred',
-  errorDescription:
-    'The details below will be useful for finding a way to fix this…'
+  errorTitle: {
+    id: 'renderer.components.MapFilter.MapFilter.errorTitle',
+    defaultMessage: 'Oh dear! An error has occurred'
+  },
+  errorDescription: {
+    id: 'renderer.components.MapFilter.MapFilter.errorDescription',
+    defaultMessage:
+      'The details below will be useful for finding a way to fix this…'
+  }
 })
 
 // This is very strange. Something to do with the bundling is stopping this
@@ -163,12 +170,10 @@ function usePresets () {
     getPresets()
   }, [])
 
-  return useMemo(() => ({ presets, fields, error, loading }), [
-    presets,
-    fields,
-    error,
-    loading
-  ])
+  return useMemo(
+    () => ({ presets, fields, error, loading }),
+    [presets, fields, error, loading]
+  )
 }
 
 function useObservations () {

@@ -21,9 +21,18 @@ const languages = {
 }
 
 const m = defineMessages({
-  'dialog-enter-language': 'Choose a language',
-  'button-submit': 'Submit',
-  'button-cancel': 'Cancel'
+  'dialog-enter-language': {
+    id: 'renderer.components.dialogs.ChangeLanguage.dialog-enter-language',
+    defaultMessage: 'Choose a language'
+  },
+  'button-submit': {
+    id: 'renderer.components.dialogs.ChangeLanguage.button-submit',
+    defaultMessage: 'Submit'
+  },
+  'button-cancel': {
+    id: 'renderer.components.dialogs.ChangeLanguage.button-cancel',
+    defaultMessage: 'Cancel'
+  }
 })
 
 const ChangeLanguage = ({ onCancel, onSelectLanguage, open }) => {

@@ -16,7 +16,7 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import FormLabel from '@material-ui/core/FormLabel'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import fsWriteStreamAtomic from 'fs-write-stream-atomic'
-import path from 'path'
+const path = require('path')
 import * as remote from '@electron/remote'
 import pump from 'pump'
 import insertCss from 'insert-css'
@@ -26,76 +26,181 @@ import api from '../../new-api'
 
 const msgs = defineMessages({
   // Title for ICCA package export dialog
-  title: 'Export an ICCA export package',
+  title: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.title',
+    defaultMessage: 'Export an ICCA export package'
+  },
   // Save button
-  save: 'Save',
+  save: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.save',
+    defaultMessage: 'Save'
+  },
   // cancel button
-  cancel: 'Cancel',
+  cancel: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.cancel',
+    defaultMessage: 'Cancel'
+  },
   // OK button
-  ok: 'OK',
+  ok: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.ok',
+    defaultMessage: 'OK'
+  },
   // Form instructions
-  formInstructions: 'Please answer these questions before exporting.',
+  formInstructions: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.formInstructions',
+    defaultMessage: 'Please answer these questions before exporting.'
+  },
   // No data to export
-  noDataSummary: 'There are no ICCA boundaries to export.',
-  noDataInstructions: `
+  noDataSummary: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.noDataSummary',
+    defaultMessage: 'There are no ICCA boundaries to export.'
+  },
+  noDataInstructions: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.noDataInstructions',
+    defaultMessage: `
     To draw an ICCA boundary, create an area and tag it with the type
     "ICCA Boundary." Remember to save your changes to the map before
-    exporting.`,
-  aboutYouSection: 'About you:',
+    exporting.`
+  },
+  aboutYouSection: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.aboutYouSection',
+    defaultMessage: 'About you:'
+  },
   // Question prompts
-  question1Prompt: `
+  question1Prompt: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question1Prompt',
+    defaultMessage: `
     Have your community or indigenous people collectively consented to the map 
-    and other information being shared with UNEP-WCMC?`,
-  question2Prompt: `
+    and other information being shared with UNEP-WCMC?`
+  },
+  question2Prompt: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question2Prompt',
+    defaultMessage: `
     Do you want the map and other information to be available for anyone 
-    to view and download?`,
-  question3Prompt: `
+    to view and download?`
+  },
+  question3Prompt: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question3Prompt',
+    defaultMessage: `
     Name of the community, indigenous people, or individual providing the
-    information (Original language, English)`,
-  question4Prompt: `
+    information (Original language, English)`
+  },
+  question4Prompt: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question4Prompt',
+    defaultMessage: `
     If you are an individual, what is your relationship to the indigenous
-    people or community?`,
-  question5Prompt: `
+    people or community?`
+  },
+  question5Prompt: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question5Prompt',
+    defaultMessage: `
     Has the ICCA information been reviewed either by a peer-review process 
     (i.e., by other communities) or by a government body? (For more information on this topic, 
-    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual)`,
-  question6Prompt: `
+    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual)`
+  },
+  question6Prompt: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question6Prompt',
+    defaultMessage: `
     Would you like to submit the ICCA as a protected area or an other effective 
     area-based conservation measure (OECM)?  (For more information on this topic, 
-    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual)`,
-  question7Prompt: `
+    please see the ICCA data manual: https://www.wcmc.io/iccadatamanual)`
+  },
+  question7Prompt: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question7Prompt',
+    defaultMessage: `
     Email address where we can contact you. We will contact you 
     to confirm we have received your information and to discuss 
     the information further where needed. We will also contact you periodically 
-    to make sure the information is up to date.`,
+    to make sure the information is up to date.`
+  },
   // Yes/no answers
-  answerYes: 'Yes',
-  answerNo: 'No',
+  answerYes: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.answerYes',
+    defaultMessage: 'Yes'
+  },
+  answerNo: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.answerNo',
+    defaultMessage: 'No'
+  },
   // Choices for question 4
-  question4Answer1: 'Member of the community/indigenous people',
-  question4Answer2:
-    'Representative or associate of the community/indigenous people',
-  question4Answer3: 'Representative of a non-governmental organisation',
-  question4Answer4: 'Other',
+  question4Answer1: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question4Answer1',
+    defaultMessage: 'Member of the community/indigenous people'
+  },
+  question4Answer2: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question4Answer2',
+    defaultMessage:
+      'Representative or associate of the community/indigenous people'
+  },
+  question4Answer3: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question4Answer3',
+    defaultMessage: 'Representative of a non-governmental organisation'
+  },
+  question4Answer4: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question4Answer4',
+    defaultMessage: 'Other'
+  },
   // Choices for question 5
-  question5Answer1: 'Yes - peer review',
-  question5Answer2: 'Yes - government review',
-  question5Answer3: 'No',
-  question5Answer4: 'Don’t know',
+  question5Answer1: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question5Answer1',
+    defaultMessage: 'Yes - peer review'
+  },
+  question5Answer2: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question5Answer2',
+    defaultMessage: 'Yes - government review'
+  },
+  question5Answer3: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question5Answer3',
+    defaultMessage: 'No'
+  },
+  question5Answer4: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question5Answer4',
+    defaultMessage: 'Don’t know'
+  },
   // Choices for question 6
-  question6Answer1: 'Yes - as a protected area',
-  question6Answer2: 'Yes - as an OECM',
-  question6Answer3: 'No - only as an ICCA',
-  question6Answer4: 'Don’t know',
+  question6Answer1: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question6Answer1',
+    defaultMessage: 'Yes - as a protected area'
+  },
+  question6Answer2: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question6Answer2',
+    defaultMessage: 'Yes - as an OECM'
+  },
+  question6Answer3: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question6Answer3',
+    defaultMessage: 'No - only as an ICCA'
+  },
+  question6Answer4: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question6Answer4',
+    defaultMessage: 'Don’t know'
+  },
   // Placeholder for question 7
-  question7Placeholder: 'Your contact information',
+  question7Placeholder: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.question7Placeholder',
+    defaultMessage: 'Your contact information'
+  },
   // Helper texts
-  requiredAnswer: 'This answer is required.',
-  atLeastOneAnswer: 'Please fill in at least one field.',
-  errorMissingRequired: 'Please fill out all required fields.',
+  requiredAnswer: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.requiredAnswer',
+    defaultMessage: 'This answer is required.'
+  },
+  atLeastOneAnswer: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer',
+    defaultMessage: 'Please fill in at least one field.'
+  },
+  errorMissingRequired: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired',
+    defaultMessage: 'Please fill out all required fields.'
+  },
   // Labels for community name
-  communityOriginalName: 'Original language',
-  communityEnglishName: 'English'
+  communityOriginalName: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.communityOriginalName',
+    defaultMessage: 'Original language'
+  },
+  communityEnglishName: {
+    id: 'renderer.components.MapEditor.ICCAExportDialog.communityEnglishName',
+    defaultMessage: 'English'
+  }
 })
 
 // Insert a tiny lil' shake animation when an error occurs

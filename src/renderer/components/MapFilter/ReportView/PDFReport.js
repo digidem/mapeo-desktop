@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { nativeImage } from 'electron'
+const { nativeImage } = window.electron
+
 import ky from 'ky'
 import {
   IntlProvider,
@@ -31,62 +32,78 @@ import { get } from '../utils/get_set'
 
 import { SettingsContext, defaultSettings } from '../internal/Context'
 
-import dateIcon from './iconEvent.png'
-import fallbackCategoryIcon from './iconPlace.png'
-import mapIcon from './iconObservationMarker.png'
-import locationIcon from './iconLocation.png'
+/**
+ * @param {'image' | 'font'} type
+ * @param {string} name
+ * @returns {string}
+ */
+function getAbsoluteAssetPath (type, name) {
+  const assetDir = type === 'image' ? 'images' : 'font'
+  const extension = type === 'image' ? 'png' : 'ttf'
+  return `/static/${assetDir}/${name}.${extension}`
+}
 
-import sarabunLight from '../../../../../static/fonts/Sarabun-Light.ttf'
-import sarabunLightItalic from '../../../../../static/fonts/Sarabun-LightItalic.ttf'
-import sarabunRegular from '../../../../../static/fonts/Sarabun-Regular.ttf'
-import sarabunItalic from '../../../../../static/fonts/Sarabun-Italic.ttf'
-import sarabunMedium from '../../../../../static/fonts/Sarabun-Medium.ttf'
-import sarabunMediumItalic from '../../../../../static/fonts/Sarabun-MediumItalic.ttf'
-import sarabunBold from '../../../../../static/fonts/Sarabun-Bold.ttf'
-import sarabunBoldItalic from '../../../../../static/fonts/Sarabun-BoldItalic.ttf'
+/**
+ * @param {string} name
+ * @returns {string}
+ */
+function fontSrc (name) {
+  return getAbsoluteAssetPath('font', name)
+}
 
-import rubikBold from '../../../../../static/fonts/Rubik-Bold.ttf'
-import rubikBoldItalic from '../../../../../static/fonts/Rubik-BoldItalic.ttf'
-import rubikMedium from '../../../../../static/fonts/Rubik-Medium.ttf'
-import rubikMediumItalic from '../../../../../static/fonts/Rubik-MediumItalic.ttf'
-import rubikRegular from '../../../../../static/fonts/Rubik-Regular.ttf'
-import rubikItalic from '../../../../../static/fonts/Rubik-Italic.ttf'
-import rubikLight from '../../../../../static/fonts/Rubik-Light.ttf'
-import rubikLightItalic from '../../../../../static/fonts/Rubik-LightItalic.ttf'
-
-import robotoMonoRegular from '../../../../../static/fonts/RobotoMono-Regular.ttf'
+/**
+ * @param {string} name
+ * @returns {string}
+ */
+function imageSrc (name) {
+  return getAbsoluteAssetPath('image', name)
+}
 
 Font.register({
   family: 'Sarabun',
   fonts: [
-    { src: sarabunLight, fontStyle: 'normal', fontWeight: 300 },
-    { src: sarabunLightItalic, fontStyle: 'italic', fontWeight: 300 },
-    { src: sarabunRegular, fontStyle: 'normal', fontWeight: 400 },
-    { src: sarabunItalic, fontStyle: 'italic', fontWeight: 400 },
-    { src: sarabunMedium, fontStyle: 'normal', fontWeight: 500 },
-    { src: sarabunMediumItalic, fontStyle: 'italic', fontWeight: 500 },
-    { src: sarabunBold, fontStyle: 'normal', fontWeight: 700 },
-    { src: sarabunBoldItalic, fontStyle: 'italic', fontWeight: 700 }
+    { src: fontSrc('Sarabun-Light'), fontStyle: 'normal', fontWeight: 300 },
+    {
+      src: fontSrc('Sarabun-LightItalic'),
+      fontStyle: 'italic',
+      fontWeight: 300
+    },
+    { src: fontSrc('Sarabun-Regular'), fontStyle: 'normal', fontWeight: 400 },
+    { src: fontSrc('Sarabun-Italic'), fontStyle: 'italic', fontWeight: 400 },
+    { src: fontSrc('Sarabun-Medium'), fontStyle: 'normal', fontWeight: 500 },
+    {
+      src: fontSrc('Sarabun-MediumItalic'),
+      fontStyle: 'italic',
+      fontWeight: 500
+    },
+    { src: fontSrc('Sarabun-Bold'), fontStyle: 'normal', fontWeight: 700 },
+    { src: fontSrc('Sarabun-BoldItalic'), fontStyle: 'italic', fontWeight: 700 }
   ]
 })
 
 Font.register({
   family: 'Rubik',
   fonts: [
-    { src: rubikLight, fontStyle: 'normal', fontWeight: 300 },
-    { src: rubikLightItalic, fontStyle: 'italic', fontWeight: 300 },
-    { src: rubikRegular, fontStyle: 'normal', fontWeight: 400 },
-    { src: rubikItalic, fontStyle: 'italic', fontWeight: 400 },
-    { src: rubikMedium, fontStyle: 'normal', fontWeight: 500 },
-    { src: rubikMediumItalic, fontStyle: 'italic', fontWeight: 500 },
-    { src: rubikBold, fontStyle: 'normal', fontWeight: 700 },
-    { src: rubikBoldItalic, fontStyle: 'italic', fontWeight: 700 }
+    { src: fontSrc('Rubik-Light'), fontStyle: 'normal', fontWeight: 300 },
+    { src: fontSrc('Rubik-LightItalic'), fontStyle: 'italic', fontWeight: 300 },
+    { src: fontSrc('Rubik-Regular'), fontStyle: 'normal', fontWeight: 400 },
+    { src: fontSrc('Rubik-Italic'), fontStyle: 'italic', fontWeight: 400 },
+    { src: fontSrc('Rubik-Medium'), fontStyle: 'normal', fontWeight: 500 },
+    {
+      src: fontSrc('Rubik-MediumItalic'),
+      fontStyle: 'italic',
+      fontWeight: 500
+    },
+    { src: fontSrc('Rubik-Bold'), fontStyle: 'normal', fontWeight: 700 },
+    { src: fontSrc('Rubik-BoldItalic'), fontStyle: 'italic', fontWeight: 700 }
   ]
 })
 
 Font.register({
   family: 'Roboto Mono',
-  fonts: [{ src: robotoMonoRegular, fontStyle: 'normal', fontWeight: 400 }]
+  fonts: [
+    { src: fontSrc('RobotoMono-Regular'), fontStyle: 'normal', fontWeight: 400 }
+  ]
 })
 
 const DEFAULT_FONT = 'Rubik'
@@ -104,11 +121,20 @@ function getFontFamily (locale) {
 
 const m = defineMessages({
   // Label for description / notes section of report
-  descriptionLabel: 'Description',
+  descriptionLabel: {
+    id: 'renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel',
+    defaultMessage: 'Description'
+  },
   // Shown in reports if an observation has no location recorded
-  noLocation: 'No Location Recorded',
+  noLocation: {
+    id: 'renderer.components.MapFilter.ReportView.PDFReport.noLocation',
+    defaultMessage: 'No Location Recorded'
+  },
   // Page number in footer
-  pageNumber: 'Page {pageNumber}'
+  pageNumber: {
+    id: 'renderer.components.MapFilter.ReportView.PDFReport.pageNumber',
+    defaultMessage: 'Page {pageNumber}'
+  }
 })
 
 /*  TODO: add frontpage
@@ -224,10 +250,14 @@ const FeaturePage = ({ observationView: view, onRender, startPage }) => {
                   {view.preset.name || 'Observation'}
                 </Text>
               </View>
-              <TitleDetails icon={<Image src={locationIcon} style={s.icon} />}>
+              <TitleDetails
+                icon={<Image src={imageSrc('iconLocation')} style={s.icon} />}
+              >
                 <ObsLocation view={view} />
               </TitleDetails>
-              <TitleDetails icon={<Image src={dateIcon} style={s.icon} />}>
+              <TitleDetails
+                icon={<Image src={imageSrc('iconEvent')} style={s.icon} />}
+              >
                 <ObsCreated view={view} />
               </TitleDetails>
               <TitleDetails icon={<IdIcon />}>
@@ -311,7 +341,7 @@ const TitleDetails = ({ icon, children }) => (
 )
 
 const ObservationIcon = ({ view }) => {
-  const iconUrl = view.getIconURL() || fallbackCategoryIcon
+  const iconUrl = view.getIconURL() || imageSrc('iconPlace')
   return (
     <View style={s.iconContainer}>
       <View style={s.circle}>
@@ -388,7 +418,7 @@ const ObsInsetMap = ({ view }) => {
   return (
     <View style={s.mapWrapper} wrap={false}>
       <Image src={imageSrc} key={'minimap-' + view.id} style={s.map} cache />
-      <Image src={mapIcon} style={s.marker} />
+      <Image src={imageSrc('iconObservationMarker')} style={s.marker} />
     </View>
   )
 }

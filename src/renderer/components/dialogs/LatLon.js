@@ -6,13 +6,19 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import React, { useState } from 'react'
-import { ipcRenderer } from 'electron'
+const { ipcRenderer } = window.electron
 
 import { defineMessages, useIntl } from 'react-intl'
 
 const m = defineMessages({
-  'dialog-enter-latlon-coordinates': 'Enter Coordinates',
-  'button-submit': 'Submit'
+  'dialog-enter-latlon-coordinates': {
+    id: 'renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates',
+    defaultMessage: 'Enter Coordinates'
+  },
+  'button-submit': {
+    id: 'renderer.components.dialogs.LatLon.button-submit',
+    defaultMessage: 'Submit'
+  }
 })
 
 const LatLonDialog = ({ onClose, open }) => {

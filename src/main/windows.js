@@ -39,11 +39,11 @@ function MainWindow (options) {
     show: false,
     alwaysOnTop: false,
     titleBarStyle: 'hidden',
-    icon: path.resolve(__dirname, '../../static/mapeo_256x256.png'),
+    icon: path.resolve(__dirname, '../../static/images/mapeo_256x256.png'),
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      preload: path.resolve(__dirname, '../renderer/index-preload.js'),
+      preload: path.resolve(__dirname, '../preload/main.js'),
       additionalArguments: [
         JSON.stringify(options),
         app.getPath('userData'),
@@ -98,7 +98,7 @@ function ClosingWindow () {
     show: false,
     alwaysOnTop: true,
     webPreferences: {
-      preload: path.join(__dirname, '../../static/closingPreload.js')
+      preload: path.join(__dirname, '../preload/closing.js')
     }
   })
 }

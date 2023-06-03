@@ -1,6 +1,6 @@
 import api from '../../../new-api'
 
-const reportWorker = new Worker('./pdfWorker.bundle.js')
+const reportWorker = new Worker('./pdfWorker.bundle.js', { type: 'module' })
 let msgId = 1
 const pending = new Map()
 

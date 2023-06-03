@@ -14,15 +14,25 @@ import ToolbarButton from '../internal/ToolbarButton'
 
 const msgs = defineMessages({
   // Button label for hide fields menu
-  hideFieldsLabel: `{count, plural,
+  hideFieldsLabel: {
+    id:
+      'renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel',
+    defaultMessage: `{count, plural,
       =0 {Hide Fields}
       =1 {1 Hidden Field}
       other {# Hidden Fields}
-  }`,
+  }`
+  },
   // Show all fields in report view
-  showAll: 'Show All',
+  showAll: {
+    id: 'renderer.components.MapFilter.ReportView.HideFieldsButton.showAll',
+    defaultMessage: 'Show All'
+  },
   // Hide all fields in report view
-  hideAll: 'Hide All'
+  hideAll: {
+    id: 'renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll',
+    defaultMessage: 'Hide All'
+  }
 })
 
 const useStyles = makeStyles(theme => {

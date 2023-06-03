@@ -7,11 +7,11 @@ environments. It uses [mapeo-core](https://github.com/digidem/mapeo-core) for
 offline peer-to-peer synchronization of an OpenStreetMap database, without any
 server. The map editor is based on [iDEditor](https://github.com/openstreetmap/iD/),
 a simple and easy to use editor for OpenStreetMap. The app is built with
-[Electron](http://electron.atom.io).
+[Electron](http://electronjs.org).
 
 This project is considered stable and used by over 150 communities.
 
-![screenshot](static/screenshot.png)
+![screenshot](docs/screenshot.png)
 
 For a mobile application that is compatible with Mapeo Desktop, see [Mapeo Mobile](https://github.com/digidem/mapeo-mobile).
 
@@ -19,7 +19,7 @@ For a mobile application that is compatible with Mapeo Desktop, see [Mapeo Mobil
 
 Read the [online user guide](https://digital-democracy.gitbook.io/mapeo/) for
 information on how to install aerial imagery and tiles, custom configurations,
-and more. 
+and more.
 
 ![architecture](docs/desktop-architecture.png)
 
@@ -56,7 +56,6 @@ tail -f USERDATA/Mapeo/logs/$DATE.debug.log
 ## Contributing
 
 See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for more details.
-
 
 ## Community
 

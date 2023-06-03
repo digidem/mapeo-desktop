@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as remote from '@electron/remote'
 import { useIntl, defineMessages } from 'react-intl'
-import path from 'path'
+const path = require('path')
 
 import logger from '../../../logger'
 import api from '../../new-api'
@@ -20,12 +20,24 @@ export const peerStatus = {
 }
 
 const m = defineMessages({
-  openSyncFileDialog: 'Select a database to syncronize',
-  createSyncFileDialog: 'Create a new database to syncronize',
+  openSyncFileDialog: {
+    id: 'renderer.components.SyncView.index.openSyncFileDialog',
+    defaultMessage: 'Select a database to syncronize'
+  },
+  createSyncFileDialog: {
+    id: 'renderer.components.SyncView.index.createSyncFileDialog',
+    defaultMessage: 'Create a new database to syncronize'
+  },
   // Error message when trying to sync with an incompatible older version of Mapeo
-  errorMsgVersionThemBad: '{deviceName} needs to upgrade Mapeo',
+  errorMsgVersionThemBad: {
+    id: 'renderer.components.SyncView.index.errorMsgVersionThemBad',
+    defaultMessage: '{deviceName} needs to upgrade Mapeo'
+  },
   // Error messagewhen trying to sync with an incompatible newer version of Mapeo
-  errorMsgVersionUsBad: 'You need to upgrade Mapeo to sync with {deviceName}'
+  errorMsgVersionUsBad: {
+    id: 'renderer.components.SyncView.index.errorMsgVersionUsBad',
+    defaultMessage: 'You need to upgrade Mapeo to sync with {deviceName}'
+  }
 })
 
 const IGNORED_ERROR_CODES = ['ECONNABORTED', 'ERR_MISSING_DATA']

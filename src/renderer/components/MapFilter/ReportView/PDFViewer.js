@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
+// import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
+import { Document, Page } from 'react-pdf/dist/esm/entry'
 import Paper from '@material-ui/core/Paper'
 import { defineMessages, useIntl } from 'react-intl'
 import clsx from 'clsx'
@@ -10,9 +11,15 @@ import CenteredText from '../../CenteredText'
 
 const m = defineMessages({
   // Displayed if no observations match current filter, or no observations in Mapeo
-  noObservations: 'No observations available.',
+  noObservations: {
+    id: 'renderer.components.MapFilter.ReportView.PDFViewer.noObservations',
+    defaultMessage: 'No observations available.'
+  },
   // Displayed if an error occurs when rendering the report
-  reportError: 'An unknown error occurred trying to create the report'
+  reportError: {
+    id: 'renderer.components.MapFilter.ReportView.PDFViewer.reportError',
+    defaultMessage: 'An unknown error occurred trying to create the report'
+  }
 })
 
 const PdfViewer = React.memo(({ pdf, pdfState, pageNumber }) => {

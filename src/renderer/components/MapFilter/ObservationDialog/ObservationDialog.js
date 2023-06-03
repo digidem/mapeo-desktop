@@ -36,24 +36,72 @@ import { get, set } from '../utils/get_set'
 import Field from './Field'
 
 const m = defineMessages({
-  confirmCloseTitle: 'Close without saving changes?',
-  confirmCloseDescription:
-    'You have made some changes, closing without saving will loose the changes you make',
-  confirmCloseButtonConfirm: 'Discard changes',
-  confirmCloseButtonCancel: 'Cancel',
-  confirmDeleteTitle: 'Delete observation?',
-  confirmDeleteButtonConfirm: 'Yes, delete',
-  confirmDeleteButtonCancel: 'Cancel',
+  confirmCloseTitle: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle',
+    defaultMessage: 'Close without saving changes?'
+  },
+  confirmCloseDescription: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription',
+    defaultMessage:
+      'You have made some changes, closing without saving will loose the changes you make'
+  },
+  confirmCloseButtonConfirm: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm',
+    defaultMessage: 'Discard changes'
+  },
+  confirmCloseButtonCancel: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel',
+    defaultMessage: 'Cancel'
+  },
+  confirmDeleteTitle: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle',
+    defaultMessage: 'Delete observation?'
+  },
+  confirmDeleteButtonConfirm: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm',
+    defaultMessage: 'Yes, delete'
+  },
+  confirmDeleteButtonCancel: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel',
+    defaultMessage: 'Cancel'
+  },
   // Header for section that includes the additional details for an observation
-  detailsHeader: 'Details',
+  detailsHeader: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader',
+    defaultMessage: 'Details'
+  },
   // Header for section with additional fields that are not defined in the preset
-  additionalHeader: 'Additional data',
+  additionalHeader: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader',
+    defaultMessage: 'Additional data'
+  },
   // Cancel button once observation has been edited
-  cancelEditButton: 'Cancel',
+  cancelEditButton: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton',
+    defaultMessage: 'Cancel'
+  },
   // Save edit button
-  saveEditButton: 'Save',
+  saveEditButton: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton',
+    defaultMessage: 'Save'
+  },
   // Menu item to delete an observation
-  deleteObservationMenuItem: 'Delete observation'
+  deleteObservationMenuItem: {
+    id:
+      'renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem',
+    defaultMessage: 'Delete observation'
+  }
 })
 
 const localeMap = {

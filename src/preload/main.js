@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer, shell, nativeImage } = require('electron')
 const IPC = require('../client-ipc')
 const logger = require('../logger')
 
@@ -34,3 +34,19 @@ window.mapeoServerPort = mapeoServerPort
 window.tileServerPort = tileServerPort
 window.mapPrinterPort = mapPrinterPort
 window.mapServerPort = mapServerPort
+
+// Methods used by the renderer app
+// https://github.com/electron/electron/issues/9920#issuecomment-468323625
+window.electron = {
+  ipcRenderer,
+  shell,
+  nativeImage
+}
+
+if (mode === 'development') {
+  // https://esbuild.github.io/api/#live-reload
+  // TODO: Should remove client in Mapeo Core before reloading
+  new EventSource('/esbuild').addEventListener('change', () =>
+    location.reload()
+  )
+}

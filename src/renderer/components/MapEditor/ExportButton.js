@@ -20,27 +20,60 @@ import api from '../../new-api'
 
 const m = defineMessages({
   // Button tooltip on iD Editor toolbar
-  exportButton: 'Export map data',
+  exportButton: {
+    id: 'renderer.components.MapEditor.ExportButton.exportButton',
+    defaultMessage: 'Export map data'
+  },
   // Menu item for exporting GeoJSON
-  exportGeoJson: 'Export Territory Data as GeoJSON…',
+  exportGeoJson: {
+    id: 'renderer.components.MapEditor.ExportButton.exportGeoJson',
+    defaultMessage: 'Export Territory Data as GeoJSON…'
+  },
   // Menu item for exporting ICCA Export Packages
-  exportICCAPackage: 'Export ICCA Export Package…',
+  exportICCAPackage: {
+    id: 'renderer.components.MapEditor.ExportButton.exportICCAPackage',
+    defaultMessage: 'Export ICCA Export Package…'
+  },
   // Menu item for exporting Shapefile
-  exportShapefile: 'Export Territory Data as Shapefile…',
+  exportShapefile: {
+    id: 'renderer.components.MapEditor.ExportButton.exportShapefile',
+    defaultMessage: 'Export Territory Data as Shapefile…'
+  },
   // OK button after successful export
-  okButton: 'OK',
+  okButton: {
+    id: 'renderer.components.MapEditor.ExportButton.okButton',
+    defaultMessage: 'OK'
+  },
   // Close button after export error
-  closeButton: 'Close',
+  closeButton: {
+    id: 'renderer.components.MapEditor.ExportButton.closeButton',
+    defaultMessage: 'Close'
+  },
   // Export dialog title - shown during export progress and after success/failure
-  dialogTitle: 'Exporting data',
+  dialogTitle: {
+    id: 'renderer.components.MapEditor.ExportButton.dialogTitle',
+    defaultMessage: 'Exporting data'
+  },
   // Export success message,
-  dialogSuccess: 'Export complete',
+  dialogSuccess: {
+    id: 'renderer.components.MapEditor.ExportButton.dialogSuccess',
+    defaultMessage: 'Export complete'
+  },
   // Expor error message - if there was an error during export
-  dialogError: 'Export failed due to an internal error',
+  dialogError: {
+    id: 'renderer.components.MapEditor.ExportButton.dialogError',
+    defaultMessage: 'Export failed due to an internal error'
+  },
   // Save dialog title
-  saveTitle: 'Export Territory Data',
+  saveTitle: {
+    id: 'renderer.components.MapEditor.ExportButton.saveTitle',
+    defaultMessage: 'Export Territory Data'
+  },
   // Default filename for map export
-  defaultFilename: 'mapeo-map-data'
+  defaultFilename: {
+    id: 'renderer.components.MapEditor.ExportButton.defaultFilename',
+    defaultMessage: 'mapeo-map-data'
+  }
 })
 
 const DialogTitle = () => (

@@ -12,13 +12,25 @@ import { defineMessages, useIntl } from 'react-intl'
 
 const m = defineMessages({
   // Message shown when there is an error while syncing
-  errorMsg: 'Syncronization Error',
+  errorMsg: {
+    id: 'renderer.components.SyncView.SyncTarget.errorMsg',
+    defaultMessage: 'Syncronization Error'
+  },
   // Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'
-  lastSync: 'Last synchronized:',
+  lastSync: {
+    id: 'renderer.components.SyncView.SyncTarget.lastSync',
+    defaultMessage: 'Last synchronized:'
+  },
   // Prompt of how many database objects have synced
-  database: 'Database: {sofar} / {total}',
+  database: {
+    id: 'renderer.components.SyncView.SyncTarget.database',
+    defaultMessage: 'Database: {sofar} / {total}'
+  },
   // Prompt for how many media items have synced
-  media: 'Photos: {sofar} / {total}'
+  media: {
+    id: 'renderer.components.SyncView.SyncTarget.media',
+    defaultMessage: 'Photos: {sofar} / {total}'
+  }
 })
 
 const SyncTarget = ({

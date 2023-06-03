@@ -13,20 +13,67 @@ export { default as STATES } from './states'
 
 const m = defineMessages({
   // Title on sync screen when searching for devices
-  updateAvailable: 'Update',
-  updateNotAvailable: 'Mapeo is up to date! You are on the latest version.',
-  downloadButtonText: 'Download',
-  calculatingProgress: 'Estimating...',
-  downloadProgress: 'Downloading',
-  restartMapeoText: 'An update to Mapeo has been downloaded. Restart Mapeo to update.',
-  restartMapeoButton: 'Restart',
-  errorTitle: 'Error',
-  errorMessage: 'There was an error and Mapeo could not update. Try again later.',
-  patchUpdate: 'This update includes changes that fix critical errors. Please update as soon as possible.',
-  minorUpdate: 'This update includes improvements that may change your experience.',
-  majorUpdate: 'This update will make your application incompatible with earlier verions.',
-  unknownDownloadSpeed: 'Unknown',
-  estimatedDownloadTime: 'Estimated download time is'
+  updateAvailable: {
+    id: 'renderer.components.UpdaterView.index.updateAvailable',
+    defaultMessage: 'Update'
+  },
+  updateNotAvailable: {
+    id: 'renderer.components.UpdaterView.index.updateNotAvailable',
+    defaultMessage: 'Mapeo is up to date! You are on the latest version.'
+  },
+  downloadButtonText: {
+    id: 'renderer.components.UpdaterView.index.downloadButtonText',
+    defaultMessage: 'Download'
+  },
+  calculatingProgress: {
+    id: 'renderer.components.UpdaterView.index.calculatingProgress',
+    defaultMessage: 'Estimating...'
+  },
+  downloadProgress: {
+    id: 'renderer.components.UpdaterView.index.downloadProgress',
+    defaultMessage: 'Downloading'
+  },
+  restartMapeoText: {
+    id: 'renderer.components.UpdaterView.index.restartMapeoText',
+    defaultMessage:
+      'An update to Mapeo has been downloaded. Restart Mapeo to update.'
+  },
+  restartMapeoButton: {
+    id: 'renderer.components.UpdaterView.index.restartMapeoButton',
+    defaultMessage: 'Restart'
+  },
+  errorTitle: {
+    id: 'renderer.components.UpdaterView.index.errorTitle',
+    defaultMessage: 'Error'
+  },
+  errorMessage: {
+    id: 'renderer.components.UpdaterView.index.errorMessage',
+    defaultMessage:
+      'There was an error and Mapeo could not update. Try again later.'
+  },
+  patchUpdate: {
+    id: 'renderer.components.UpdaterView.index.patchUpdate',
+    defaultMessage:
+      'This update includes changes that fix critical errors. Please update as soon as possible.'
+  },
+  minorUpdate: {
+    id: 'renderer.components.UpdaterView.index.minorUpdate',
+    defaultMessage:
+      'This update includes improvements that may change your experience.'
+  },
+  majorUpdate: {
+    id: 'renderer.components.UpdaterView.index.majorUpdate',
+    defaultMessage:
+      'This update will make your application incompatible with earlier verions.'
+  },
+  unknownDownloadSpeed: {
+    id: 'renderer.components.UpdaterView.index.unknownDownloadSpeed',
+    defaultMessage: 'Unknown'
+  },
+  estimatedDownloadTime: {
+    id: 'renderer.components.UpdaterView.index.estimatedDownloadTime',
+    defaultMessage: 'Estimated download time is'
+  }
 })
 
 const errors = {
@@ -49,11 +96,10 @@ export const UpdateTab = ({ update }) => {
         return <Typography>{t(m.restartMapeoButton)}</Typography>
       case STATES.ERROR:
         return (
-          <Typography style={{ color: 'red' }}>
-            {t(m.errorTitle)}
-          </Typography>
+          <Typography style={{ color: 'red' }}>{t(m.errorTitle)}</Typography>
         )
-      default: // STATES.IDLE, STATES.UPDATE_NOT_AVAILABLE:
+      default:
+        // STATES.IDLE, STATES.UPDATE_NOT_AVAILABLE:
         return null
     }
   }
@@ -68,11 +114,19 @@ export const UpdaterView = ({ update, setUpdate }) => {
   var internal = function () {
     switch (update.state) {
       case STATES.AVAILABLE:
-        return <UpdateAvailableView cx={cx} update={update} setUpdate={setUpdate} />
+        return (
+          <UpdateAvailableView cx={cx} update={update} setUpdate={setUpdate} />
+        )
       case STATES.DOWNLOADING:
         return <Typography>{t(m.calculatingProgress)}</Typography>
       case STATES.PROGRESS:
-        return <DownloadProgressView cx={cx} percent={update.progress.percent} update={update} />
+        return (
+          <DownloadProgressView
+            cx={cx}
+            percent={update.progress.percent}
+            update={update}
+          />
+        )
       case STATES.READY_FOR_RESTART:
         return <RestartView cx={cx} />
       case STATES.UPDATE_NOT_AVAILABLE:
@@ -90,7 +144,8 @@ export const UpdaterView = ({ update, setUpdate }) => {
             {errors[update.updateInfo.code]}
           </Typography>
         )
-      default: // STATES.IDLE
+      default:
+        // STATES.IDLE
         return null
     }
   }
@@ -98,9 +153,7 @@ export const UpdaterView = ({ update, setUpdate }) => {
   return (
     <div className={cx.root}>
       <div className={cx.searchingWrapper}>
-        <div className={cx.searching}>
-          {internal()}
-        </div>
+        <div className={cx.searching}>{internal()}</div>
       </div>
     </div>
   )
@@ -134,7 +187,9 @@ const DownloadProgressView = ({ cx, update, percent }) => {
   let estimatedTimeLeft
 
   if (progress) {
-    estimatedTimeLeft = progress.total ? (progress.total - progress.transferred) / progress.bytesPerSecond : 0
+    estimatedTimeLeft = progress.total
+      ? (progress.total - progress.transferred) / progress.bytesPerSecond
+      : 0
   }
 
   return (
@@ -154,9 +209,11 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
 
   const handleDownlaoadClick = setUpdate.downloadUpdate
 
-  const estimatedDownloadTime = downloadSpeed
-    ? <FormattedDuration seconds={size / downloadSpeed.bps} />
-    : t(m.unknownDownloadSpeed)
+  const estimatedDownloadTime = downloadSpeed ? (
+    <FormattedDuration seconds={size / downloadSpeed.bps} />
+  ) : (
+    t(m.unknownDownloadSpeed)
+  )
 
   return (
     <div className={cx.searchingText}>
@@ -165,17 +222,14 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
       </Typography>
       <Paper className={cx.wrapper}>
         <div className={cx.content}>
-
           <Typography>
-            {
-              major
-                ? t(m.majorUpdate)
-                : minor
-                  ? t(m.minorUpdate)
-                  : patch
-                    ? t(m.patchUpdate)
-                    : ''
-            }
+            {major
+              ? t(m.majorUpdate)
+              : minor
+              ? t(m.minorUpdate)
+              : patch
+              ? t(m.patchUpdate)
+              : ''}
           </Typography>
 
           <Typography className={cx.estimatedDownloadTime}>
@@ -191,7 +245,6 @@ const UpdateAvailableView = ({ cx, update, setUpdate }) => {
           >
             {t(m.downloadButtonText)}
           </Button>
-
         </div>
       </Paper>
     </div>

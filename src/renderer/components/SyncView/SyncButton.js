@@ -10,17 +10,35 @@ import { useIntl, defineMessages } from 'react-intl'
 
 const m = defineMessages({
   // Button to sync a device
-  sync: 'Synchronize',
+  sync: {
+    id: 'renderer.components.SyncView.SyncButton.sync',
+    defaultMessage: 'Synchronize'
+  },
   // Displayed when sync is starting
-  starting: 'Starting…',
+  starting: {
+    id: 'renderer.components.SyncView.SyncButton.starting',
+    defaultMessage: 'Starting…'
+  },
   // Button when sync is complete
-  complete: 'Complete',
+  complete: {
+    id: 'renderer.components.SyncView.SyncButton.complete',
+    defaultMessage: 'Complete'
+  },
   // Button to retry sync after error
-  retry: 'Retry',
+  retry: {
+    id: 'renderer.components.SyncView.SyncButton.retry',
+    defaultMessage: 'Retry'
+  },
   // Disconnected
-  disconnected: 'Disconnected',
+  disconnected: {
+    id: 'renderer.components.SyncView.SyncButton.disconnected',
+    defaultMessage: 'Disconnected'
+  },
   // Almost done! But progress is inaccurate.
-  finishing: 'Finishing…'
+  finishing: {
+    id: 'renderer.components.SyncView.SyncButton.finishing',
+    defaultMessage: 'Finishing…'
+  }
 })
 
 const SyncIcon = props => <FontAwesomeIcon icon={faBolt} {...props} />
@@ -41,14 +59,11 @@ const ProgressIcon = ({ progress }) => {
   const cx = useStyles()
   // After 3 seconds of being frozen at 100%, show an indeterminate spinner -->
   // give the user something to hope for (it should complete eventually)
-  useEffect(
-    () => {
-      if (Math.round(progress * 100) < 100) return
-      const timeoutId = setTimeout(() => setAwaitingCompletion(true), 3000)
-      return () => clearTimeout(timeoutId)
-    },
-    [progress]
-  )
+  useEffect(() => {
+    if (Math.round(progress * 100) < 100) return
+    const timeoutId = setTimeout(() => setAwaitingCompletion(true), 3000)
+    return () => clearTimeout(timeoutId)
+  }, [progress])
 
   return (
     <ProgressBackground>
@@ -85,8 +100,11 @@ const SyncButton = ({ progress, connected, onClick, variant = 'ready' }) => {
     case 'error':
       return (
         <StyledButton disabled={!connected} onClick={onClick}>
-          {!connected ? t(m.disconnected)
-            : variant === 'ready' ? t(m.sync) : t(m.retry)}
+          {!connected
+            ? t(m.disconnected)
+            : variant === 'ready'
+            ? t(m.sync)
+            : t(m.retry)}
           <SyncIcon className={classes.icon} />
         </StyledButton>
       )
@@ -96,8 +114,8 @@ const SyncButton = ({ progress, connected, onClick, variant = 'ready' }) => {
           {!progress
             ? t(m.starting)
             : progress === 1
-              ? t(m.finishing)
-              : (progress * 100).toFixed(0) + '%'}
+            ? t(m.finishing)
+            : (progress * 100).toFixed(0) + '%'}
           <ProgressIcon progress={progress} className={classes.icon} />
         </StyledButton>
       )

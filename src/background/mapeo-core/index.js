@@ -50,7 +50,8 @@ class MapeoManager {
 
     var { router, core } = createRouter(mapeo.osm, mapeo.media, {
       staticRoot: this.opts.userDataPath,
-      ipcSend: broadcastMessage
+      ipcSend: broadcastMessage,
+      isDev: window.mode === 'development'
     })
 
     // Sets up listening for sync

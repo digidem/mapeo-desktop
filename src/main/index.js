@@ -216,7 +216,9 @@ async function startup ({
   async function loadMainWindow () {
     winMain &&
       (await logger.timedPromise(
-        winMain.loadFile(MainWindow.filePath),
+        isDev
+          ? winMain.loadURL('http://localhost:8000/static/main.html')
+          : winMain.loadFile(MainWindow.filePath),
         'Main window load'
       ))
     await once(ipcMain, 'frontend-rendered')

@@ -11,9 +11,15 @@ import DateField from '../ObservationDialog/DateField'
 
 const m = defineMessages({
   // Title of min date field in filter
-  min: 'From',
+  min: {
+    id: 'renderer.components.MapFilter.FilterPanel.DateFilter.min',
+    defaultMessage: 'From'
+  },
   // Title of max date field in filter
-  max: 'To'
+  max: {
+    id: 'renderer.components.MapFilter.FilterPanel.DateFilter.max',
+    defaultMessage: 'To'
+  }
 })
 
 const DateFilter = ({

@@ -4,7 +4,10 @@ import { defineMessages, FormattedMessage } from 'react-intl'
 
 const messages = defineMessages({
   // Button text to turn off filters for a field
-  showAll: 'All'
+  showAll: {
+    id: 'renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll',
+    defaultMessage: 'All'
+  }
 })
 
 const ShowAllButton = props => (
