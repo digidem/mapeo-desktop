@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useCallback } from 'react'
 import { ipcRenderer } from 'electron'
 import styled from 'styled-components'
 import Tabs from '@material-ui/core/Tabs'
@@ -9,6 +9,7 @@ import MapIcon from '@material-ui/icons/Map'
 import ObservationIcon from '@material-ui/icons/PhotoLibrary'
 import SyncIcon from '@material-ui/icons/OfflineBolt'
 import WarningIcon from '@material-ui/icons/Warning'
+import SettingsIcon from '@material-ui/icons/Settings'
 
 import LatLonDialog from './dialogs/LatLon'
 import ErrorDialog from './dialogs/Error'
@@ -21,6 +22,12 @@ import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import useUpdater from './UpdaterView/useUpdater'
 import Loading from './Loading'
 import buildConfig from '../../build-config'
+import { Settings } from './Settings'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
+import api from '../new-api'
+import { SuccessfulInvite } from './dialogs/SuccessfulInvite'
+// eslint-disable-next-line no-unused-vars
+import useProjectInviteListener from '../hooks/useProjectInviteListener'
 
 const MapFilter = React.lazy(() =>
   import(
@@ -45,10 +52,10 @@ const m = defineMessages({
   mapfilter: 'Observations',
   // Synchronize tab label
   sync: 'Synchronize',
-  update: 'Update Mapeo'
+  update: 'Update Mapeo',
+  // title indicating that user is in practice mode
+  practiceMode: 'Practice Mode'
 })
-
-// const MapEditor = () => <div>MAPEDITOR</div>
 
 const transitionDuration = 100
 
@@ -58,6 +65,8 @@ const Root = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   @media only print {
     display: block;
     height: auto;
@@ -135,6 +144,9 @@ const StyledTab = styled(Tab)`
     margin-bottom: 4px;
     margin-right: 11px;
   }
+  & .MuiTab-root > *:last-child {
+    align-self: flex-end;
+  }
 `
 
 const TabContent = styled.div`
@@ -154,12 +166,7 @@ const StyledPanel = styled.div`
   }
 `
 
-const Version = styled.div`
-  align-self: flex-start;
-  margin: auto 10px 10px 10px;
-  font-size: 0.8rem;
-  color: ${buildConfig.variant === 'icca' ? '#eeeeee' : '#aaaaaa'};
-`
+// {buildConfig.variant === 'icca' ? '#eeeeee' : '#aaaaaa'};
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -227,6 +234,33 @@ export default function Home ({ onSelectLanguage }) {
   const [update, setUpdate] = useUpdater()
   const { formatMessage: t } = useIntl()
 
+  const [settingsReset, setSettingsReset] = React.useState(false)
+  const [practiceModeOn, setPracticeModeOn] = React.useState(false)
+  const [invite, setInvite] = React.useState(null)
+
+  const handleInvite = useCallback(() => {
+    // To do, handle invite here
+
+    setInvite(null)
+  }, [setInvite])
+
+  const classes = useStyle()
+
+  // useProjectInviteListener(invite=>{
+  //   setInvite(invite)
+
+  // })
+
+  React.useEffect(() => {
+    api.getMetadata().then(metadata => {
+      if (metadata.name === 'mapeo-default-settings') {
+        setPracticeModeOn(true)
+        return
+      }
+      setPracticeModeOn(false)
+    })
+  }, [setPracticeModeOn])
+
   React.useEffect(() => {
     const openLatLonDialog = () => setDialog('LatLon')
     const openErrorDialog = (ev, error) => {
@@ -256,50 +290,85 @@ export default function Home ({ onSelectLanguage }) {
 
   return (
     <Root>
-      <Sidebar>
-        <TitleBarShim />
-        <Logo>
-          <MapeoIcon fontSize='large' />
-          <div>
-            <h1>Mapeo</h1>
-            {buildConfig.variant === 'icca' ? <h2>for ICCAs</h2> : null}
-          </div>
-        </Logo>
-        <StyledTabs
-          orientation='vertical'
-          variant='scrollable'
-          value={tabIndex}
-          onChange={(e, value) => setTabIndex(value)}
-        >
-          <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
-          <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
-          <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
-          {hasUpdate && (
+      <div style={{ display: 'flex', flex: 1 }}>
+        <Sidebar>
+          <TitleBarShim />
+          <Logo>
+            <MapeoIcon fontSize='large' />
+            <div>
+              <h1>Mapeo</h1>
+              {buildConfig.variant === 'icca' ? <h2>for ICCAs</h2> : null}
+            </div>
+          </Logo>
+          <StyledTabs
+            style={{ height: '100%' }}
+            className={classes.root}
+            orientation='vertical'
+            variant='scrollable'
+            value={tabIndex}
+            onChange={(e, value) => {
+              if (value === 'Settings') setSettingsReset(true)
+              setTabIndex(value)
+            }}
+          >
+            <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
+            <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
+            <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
+            {hasUpdate && (
+              <StyledTab
+                icon={<WarningIcon />}
+                label={<UpdateTab update={update} />}
+              />
+            )}
+
             <StyledTab
-              icon={<WarningIcon />}
-              label={<UpdateTab update={update} />}
+              style={{ marginTop: 'auto' }}
+              value={'Settings'}
+              icon={<SettingsIcon />}
+              label={'Settings'}
+            />
+          </StyledTabs>
+        </Sidebar>
+        <TabContent style={{ flex: 1 }}>
+          <TabPanel value={tabIndex} index={0} component={MapEditor} />
+          <TabPanel value={tabIndex} index={1} component={MapFilter} />
+          <TabPanel
+            value={tabIndex}
+            index={2}
+            component={SyncView}
+            unmountOnExit
+          />
+          <TabPanel
+            value={tabIndex}
+            index={3}
+            component={UpdaterView}
+            update={update}
+            setUpdate={setUpdate}
+          />
+          {tabIndex === 'Settings' && (
+            <Settings
+              fadeIn={tabIndex === 'Settings'}
+              reset={settingsReset}
+              setReset={setSettingsReset}
+              practiceModeOn={practiceModeOn}
+              invite={invite}
+              setInvite={setInvite}
             />
           )}
-        </StyledTabs>
-        <Version>Mapeo v{buildConfig.version}</Version>
-      </Sidebar>
-      <TabContent>
-        <TabPanel value={tabIndex} index={0} component={MapEditor} />
-        <TabPanel value={tabIndex} index={1} component={MapFilter} />
-        <TabPanel
-          value={tabIndex}
-          index={2}
-          component={SyncView}
-          unmountOnExit
-        />
-        <TabPanel
-          value={tabIndex}
-          index={3}
-          component={UpdaterView}
-          update={update}
-          setUpdate={setUpdate}
-        />
-      </TabContent>
+        </TabContent>
+      </div>
+      <Paper
+        className={classes.practiceMode}
+        elevation={24}
+        square={true}
+        style={practiceModeOn ? undefined : { display: 'none' }}
+      >
+        <Typography style={{ color: '#FFFFFF' }}>
+          {t(m.practiceMode)}{' '}
+        </Typography>
+      </Paper>
+
+      {/* ***** Dialogs ****** */}
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}
         onCancel={() => {
@@ -319,6 +388,28 @@ export default function Home ({ onSelectLanguage }) {
         message={error}
         onClose={() => setError(null)}
       />
+      <SuccessfulInvite
+        open={invite !== null}
+        closeAndResetInvite={handleInvite}
+        projectName={invite}
+      />
     </Root>
   )
 }
+
+const useStyle = makeStyles({
+  root: {
+    '& .MuiTabs-flexContainerVertical': {
+      height: '100%'
+    }
+  },
+  practiceMode: {
+    width: '100%',
+    height: 30,
+    backgroundColor: '#E86826',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 100
+  }
+})

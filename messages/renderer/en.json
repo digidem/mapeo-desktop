@@ -1,4 +1,12 @@
 {
+  "renderer.components.CopyToClipboard.copied": {
+    "description": "message indicated that text has been copied to clipboard",
+    "message": "Copied to clipboard"
+  },
+  "renderer.components.CopyToClipboard.copyText": {
+    "description": "message to user indicating that clicking the button will copy text",
+    "message": "Copy text"
+  },
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
     "message": "Territory"
@@ -6,6 +14,10 @@
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
     "message": "Observations"
+  },
+  "renderer.components.Home.practiceMode": {
+    "description": "title indicating that user is in practice mode",
+    "message": "Practice Mode"
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
@@ -464,6 +476,37 @@
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
   },
+  "renderer.components.PracticeModeBar.practiceMode": {
+    "description": "indicates that user in practice mode",
+    "message": "Practice Mode"
+  },
+  "renderer.components.Settings.ProjectConfig.config": {
+    "description": "Label to indicate the config",
+    "message": "Config"
+  },
+  "renderer.components.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import a new config",
+    "message": "Import Config"
+  },
+  "renderer.components.Settings.ProjectConfig.joinProject": {
+    "description": "Button to join a new project",
+    "message": "Join A Project"
+  },
+  "renderer.components.Settings.ProjectConfig.projConfigTitle": {
+    "description": "Title from the Project Configuration Page",
+    "message": "Project Configuration"
+  },
+  "renderer.components.Settings.ProjectConfig.projectName": {
+    "description": "Label to indicate the project name",
+    "message": "Project Name"
+  },
+  "renderer.components.Settings.index.projConfiSubHeader": {
+    "message": "Categories, icons, and questions"
+  },
+  "renderer.components.Settings.index.projConfig": {
+    "description": "Setting menu option: Project Configuration",
+    "message": "Project Configuration"
+  },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
     "message": "Make sure devices are turned on and connected to the same wifi network"
@@ -625,6 +668,63 @@
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
     "message": "Enter Coordinates"
+  },
+  "renderer.components.dialogs.ProjectInvite.bringObservations": {
+    "description": "Asks user to confirm if the would like to bring their observations from practice mode",
+    "message": "Bring observations from Practice Mode to the project"
+  },
+  "renderer.components.dialogs.ProjectInvite.cancel": {
+    "description": "button text to cancel action",
+    "message": "Cancel"
+  },
+  "renderer.components.dialogs.ProjectInvite.close": {
+    "description": "button text to close dialog,",
+    "message": "Close"
+  },
+  "renderer.components.dialogs.ProjectInvite.copyUrl": {
+    "description": "instructions for user to send a join request",
+    "message": "Copy the url and send it to the Project Coordinator"
+  },
+  "renderer.components.dialogs.ProjectInvite.deleteObservations": {
+    "description": "Confirmation that user would like to discard observations when joining a new project",
+    "message": "No, delete my observations"
+  },
+  "renderer.components.dialogs.ProjectInvite.keepObservations": {
+    "description": "Confirmation that user would like to keep observations when joining a new project",
+    "message": "Yes, keep my observations"
+  },
+  "renderer.components.dialogs.ProjectInvite.sendJoinRequest": {
+    "description": "alternative instructions for user send a join request instead of using the QR code",
+    "message": "Or Send Join Request"
+  },
+  "renderer.components.dialogs.ProjectInvite.showQr": {
+    "description": "instructions for user to show qr code to the project admin",
+    "message": "Show this QR code to a Project Coordinator"
+  },
+  "renderer.components.dialogs.ProjectInvite.titleJoinProject": {
+    "description": "Title of join project modal",
+    "message": "Join Project"
+  },
+  "renderer.components.dialogs.ProjectInvite.titleLeavePractice": {
+    "description": "Title of modal asking user to confirm that they are leaving practice mode",
+    "message": "Leave Practice Mode"
+  },
+  "renderer.components.dialogs.ProjectInvite.titleProjectJoined": {
+    "description": "Title of modal confirming that the user was successfully invited to project",
+    "message": "You've Been Invited"
+  },
+  "renderer.components.dialogs.SuccessfulInvite.declineInvite": {
+    "message": "Decline Invite"
+  },
+  "renderer.components.dialogs.SuccessfulInvite.joinAndSync": {
+    "message": "Join and Sync"
+  },
+  "renderer.components.dialogs.SuccessfulInvite.joinProject": {
+    "message": "Join Project"
+  },
+  "renderer.components.dialogs.SuccessfulInvite.youvebeenInvited": {
+    "description": "Title for successful invite dialog",
+    "message": "You've Been Invited"
   },
   "renderer.create-zip.errorsFilename": {
     "description": "File name for file with information about export errors",

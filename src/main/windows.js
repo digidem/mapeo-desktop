@@ -81,7 +81,6 @@ function LoadingWindow () {
     height: 410,
     center: true,
     show: false,
-    transparent: true,
     resizable: false,
     frame: false
   })
@@ -97,6 +96,7 @@ function ClosingWindow () {
     frame: false,
     show: false,
     alwaysOnTop: true,
+    transparent: true,
     webPreferences: {
       preload: path.join(__dirname, '../../static/closingPreload.js')
     }

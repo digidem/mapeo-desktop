@@ -162,6 +162,7 @@
     "react-intl-formatted-duration": "^4.0.0",
     "react-mapbox-gl": "^4.8.6",
     "react-pdf": "^5.0.0-beta.4",
+    "react-qr-code": "^2.0.7",
     "react-swipeable-views": "^0.13.9",
     "react-transition-group": "^4.3.0",
     "react-virtualized-auto-sizer": "^1.0.2",
