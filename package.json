@@ -171,7 +171,7 @@
     "run-series": "^1.1.4",
     "safe-fs-blob-store": "^1.0.0",
     "sanitize-filename": "^1.6.3",
-    "semver": "^7.3.2",
+    "semver": "^7.5.2",
     "signal-exit": "^3.0.3",
     "simple-concat": "^1.0.1",
     "styled-components": "^3.4.4",
