@@ -18,7 +18,6 @@ import TitleBarShim from './TitleBarShim'
 import { defineMessages, useIntl } from 'react-intl'
 import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
-import { SettingsView } from './SettingsView'
 import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import useUpdater from './UpdaterView/useUpdater'
 import Loading from './Loading'
@@ -302,7 +301,6 @@ export default function Home ({ onSelectLanguage }) {
           component={SyncView}
           unmountOnExit
         />
-        <TabPanel value={tabIndex} index={3} component={SettingsView} />
       </TabContent>
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}

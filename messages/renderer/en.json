@@ -468,9 +468,6 @@
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
   },
-  "renderer.components.SettingsView.index.aboutMapeo": {
-    "message": "About Mapeo"
-  },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
     "message": "Make sure devices are turned on and connected to the same wifi network"
