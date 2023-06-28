@@ -8,6 +8,7 @@ import LocationOn from '@material-ui/icons/LocationOn'
 import MapIcon from '@material-ui/icons/Map'
 import ObservationIcon from '@material-ui/icons/PhotoLibrary'
 import SyncIcon from '@material-ui/icons/OfflineBolt'
+import SettingsIcon from '@material-ui/icons/Settings'
 import WarningIcon from '@material-ui/icons/Warning'
 
 import LatLonDialog from './dialogs/LatLon'
@@ -45,6 +46,8 @@ const m = defineMessages({
   mapfilter: 'Observations',
   // Synchronize tab label
   sync: 'Synchronize',
+  // Settings tab label
+  settings: 'Settings',
   update: 'Update Mapeo'
 })
 
@@ -108,10 +111,16 @@ const MapeoIcon = styled(LocationOn)`
 `
 
 const StyledTabs = styled(Tabs)`
+  height: 100%;
+
   border-right: 1px solid rgba(0, 0, 0, 0.12);
   -webkit-app-region: no-drag;
   .PrivateTabIndicator-root-1 {
     background-color: #ff9933;
+  }
+
+  .MuiTabs-flexContainerVertical {
+    height: 100%;
   }
 `
 
@@ -152,13 +161,6 @@ const StyledPanel = styled.div`
     width: auto;
     height: auto;
   }
-`
-
-const Version = styled.div`
-  align-self: flex-start;
-  margin: auto 10px 10px 10px;
-  font-size: 0.8rem;
-  color: ${buildConfig.variant === 'icca' ? '#eeeeee' : '#aaaaaa'};
 `
 
 const LoadingContainer = styled.div`
@@ -269,11 +271,19 @@ export default function Home ({ onSelectLanguage }) {
           orientation='vertical'
           variant='scrollable'
           value={tabIndex}
-          onChange={(e, value) => setTabIndex(value)}
+          onChange={(e, value) => {
+            console.log({ value })
+            setTabIndex(value)
+          }}
         >
           <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
           <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
           <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
+          <StyledTab
+            style={{ marginTop: 'auto' }}
+            icon={<SettingsIcon />}
+            label={t(m.settings)}
+          />
           {hasUpdate && (
             <StyledTab
               icon={<WarningIcon />}
@@ -281,7 +291,6 @@ export default function Home ({ onSelectLanguage }) {
             />
           )}
         </StyledTabs>
-        <Version>Mapeo v{buildConfig.version}</Version>
       </Sidebar>
       <TabContent>
         <TabPanel value={tabIndex} index={0} component={MapEditor} />
@@ -291,13 +300,6 @@ export default function Home ({ onSelectLanguage }) {
           index={2}
           component={SyncView}
           unmountOnExit
-        />
-        <TabPanel
-          value={tabIndex}
-          index={3}
-          component={UpdaterView}
-          update={update}
-          setUpdate={setUpdate}
         />
       </TabContent>
       <ChangeLanguage
