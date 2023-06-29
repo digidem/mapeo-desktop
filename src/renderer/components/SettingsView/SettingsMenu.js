@@ -115,6 +115,10 @@ const StyledTabs = styled(Tabs)`
   & .MuiTabs-indicator {
     display: none;
   }
+
+  & .MuiTab-root {
+    max-width: 100%;
+  }
 `
 
 const Row = styled.div`
