@@ -109,6 +109,14 @@ const StyledTabs = styled(Tabs)`
   }
 `
 
+const StyledTabs = styled(Tabs)`
+  height: 100vh;
+  padding-top: 1em;
+  & .MuiTabs-indicator {
+    display: none;
+  }
+`
+
 const Row = styled.div`
   display: flex;
   flex-direction: row;
