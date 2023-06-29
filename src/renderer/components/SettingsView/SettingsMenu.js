@@ -7,12 +7,10 @@ import styled from 'styled-components'
 import { Paper, Typography, useTheme } from '@material-ui/core'
 
 export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
-  const { formatMessage: t } = useIntl()
-
   return (
     <Paper
       style={{
-        width: 'max-content',
+        width: 300,
         height: '100vh',
         borderRadius: 0
       }}
@@ -24,6 +22,7 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
       >
         {tabs.map((tab, index) => (
           <Tab
+            disableRipple
             orientation='vertical'
             key={tab.tabId}
             value={tab.tabId}
@@ -37,54 +36,59 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
   )
 }
 
-const RenderTab = ({
-  tab: { icon: Icon, label, subtitle },
-  active,
-  ...rest
-}) => {
-  const { formatMessage: t } = useIntl()
-  const theme = useTheme()
+const RenderTab = React.forwardRef(
+  (
+    { tab: { icon: Icon, label, subtitle }, active, children, ...rest },
+    ref
+  ) => {
+    const { formatMessage: t } = useIntl()
+    const theme = useTheme()
 
-  return (
-    <WrapperRow {...rest}>
-      <IconContainer>
-        {Icon ? <Icon style={{ color: theme.palette.grey['600'] }} /> : null}
-      </IconContainer>
-      <TitleContainer>
-        <Typography
-          variant='body1'
-          component='label'
-          style={{
-            textTransform: 'none',
-            textAlign: 'left',
-            cursor: 'pointer'
-          }}
-        >
-          {t(label)}
-        </Typography>
-        <Typography
-          variant='caption'
-          component='label'
-          style={{
-            textTransform: 'none',
-            textAlign: 'left',
-            cursor: 'pointer',
-            color: theme.palette.grey['700']
-          }}
-        >
-          {subtitle}
-        </Typography>
-      </TitleContainer>
-      <ChevronRightIcon style={{ opacity: active ? 1 : 0 }} />
-    </WrapperRow>
-  )
-}
+    return (
+      <WrapperRow ref={ref} {...rest}>
+        <IconContainer>
+          {Icon ? <Icon style={{ color: theme.palette.grey['600'] }} /> : null}
+        </IconContainer>
+        <TitleContainer>
+          <Typography
+            variant='body1'
+            component='label'
+            style={{
+              textTransform: 'none',
+              textAlign: 'left',
+              cursor: 'pointer'
+            }}
+          >
+            {typeof label === 'string' ? label : t(label)}
+          </Typography>
+          <Typography
+            variant='caption'
+            component='label'
+            style={{
+              textTransform: 'none',
+              textAlign: 'left',
+              cursor: 'pointer',
+              color: theme.palette.grey['700']
+            }}
+          >
+            {typeof subtitle === 'string' ? subtitle : t(subtitle)}
+          </Typography>
+        </TitleContainer>
+        <ChevronRightIcon style={{ opacity: active ? 1 : 0 }} />
+      </WrapperRow>
+    )
+  }
+)
 
 const StyledTabs = styled(Tabs)`
   height: 100vh;
   padding-top: 1em;
   & .MuiTabs-indicator {
     display: none;
+  }
+
+  & .MuiTab-root {
+    max-width: 100%;
   }
 `
 
@@ -101,6 +105,7 @@ const Column = styled.div`
 const WrapperRow = styled(Row)`
   padding: 20px;
   align-items: center;
+  justify-content: space-between;
 `
 
 const IconContainer = styled.div`
