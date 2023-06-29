@@ -10,6 +10,8 @@
     "allowJs": true,
     "checkJs": false,
     "noEmit": true,
+    "strict": true,
+    "alwaysStrict": true,
     "typeRoots": ["types", "node_modules/@types"]
   },
   "include": ["src/main/**/*", "src/workers/**/*", "index.js", "types/**/*"],
