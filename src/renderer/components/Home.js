@@ -18,6 +18,7 @@ import TitleBarShim from './TitleBarShim'
 import { defineMessages, useIntl } from 'react-intl'
 import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
+import { SettingsView } from './SettingsView'
 import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import { SettingsView } from './SettingsView'
 
@@ -180,7 +181,7 @@ const focusStates = {
   exited: 'blurred'
 }
 
-function TabPanel (props) {
+function TabPanel(props) {
   const {
     value,
     index,
@@ -224,7 +225,7 @@ function TabPanel (props) {
 
 const useTabIndex = createPersistedState('currentView')
 
-export default function Home ({ onSelectLanguage }) {
+export default function Home({ onSelectLanguage }) {
   const [dialog, setDialog] = React.useState(null)
   const [error, setError] = React.useState(null)
   const [tabIndex, setTabIndex] = useTabIndex(0)
