@@ -7,6 +7,10 @@
     "description": "MapFilter tab label",
     "message": "Observations"
   },
+  "renderer.components.Home.settings": {
+    "description": "Settings tab label",
+    "message": "Settings"
+  },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
     "message": "Synchronize"
