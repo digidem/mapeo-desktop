@@ -273,10 +273,7 @@ export default function Home ({ onSelectLanguage }) {
           orientation='vertical'
           variant='scrollable'
           value={tabIndex}
-          onChange={(e, value) => {
-            console.log({ value })
-            setTabIndex(value)
-          }}
+          onChange={(e, value) => setTabIndex(value)}
         >
           <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
           <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />

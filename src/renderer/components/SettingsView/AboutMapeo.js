@@ -9,7 +9,6 @@ const m = defineMessages({
   mapeoVariant: 'Mapeo Variant'
 })
 export const AboutMapeoMenu = () => {
-  console.log('test')
   const { formatMessage: t } = useIntl()
   return (
     <Container>

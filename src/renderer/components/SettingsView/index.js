@@ -17,12 +17,6 @@ const tabs = /** @typedef {const} */ [
     icon: InfoIcon,
     label: m.aboutMapeo,
     subtitle: m.aboutMapeoSubtitle
-  },
-  {
-    tabId: 'TestItem',
-    icon: InfoIcon,
-    label: 'Test item',
-    subtitle: 'Item added to display multiple options'
   }
 ]
 

@@ -20,7 +20,7 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
         value={currentTab}
         onChange={(e, newValue) => onTabChange(newValue)}
       >
-        {tabs.map((tab, index) => (
+        {tabs.map(tab => (
           <Tab
             disableRipple
             orientation='vertical'
