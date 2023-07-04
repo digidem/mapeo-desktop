@@ -468,8 +468,17 @@
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
   },
+  "renderer.components.SettingsView.AboutMapeo.mapeoVariant": {
+    "message": "Mapeo Variant"
+  },
+  "renderer.components.SettingsView.AboutMapeo.mapeoVersion": {
+    "message": "Mapeo Version"
+  },
   "renderer.components.SettingsView.index.aboutMapeo": {
     "message": "About Mapeo"
+  },
+  "renderer.components.SettingsView.index.aboutMapeoSubtitle": {
+    "message": "Version and build number"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
