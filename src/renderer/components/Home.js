@@ -18,7 +18,6 @@ import TitleBarShim from './TitleBarShim'
 import { defineMessages, useIntl } from 'react-intl'
 import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
-import { SettingsView } from './SettingsView'
 import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import { SettingsView } from './SettingsView'
 

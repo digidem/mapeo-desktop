@@ -37,19 +37,21 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
         value={currentTab}
         onChange={(e, newValue) => onTabChange(newValue)}
       >
-        {tabs.map(tab => (
-          <Tab
-            disableRipple
-            orientation='vertical'
-            key={tab.tabId}
-            value={tab.tabId}
-            component={RenderTab}
-            tab={tab}
-            active={tab.tabId === currentTab}
-          />
-        ))}
-      </StyledTabs>
-    </Paper>
+        {
+          tabs.map(tab => (
+            <Tab
+              disableRipple
+              orientation='vertical'
+              key={tab.tabId}
+              value={tab.tabId}
+              component={RenderTab}
+              tab={tab}
+              active={tab.tabId === currentTab}
+            />
+          ))
+        }
+      </StyledTabs >
+    </Paper >
   )
 }
 
