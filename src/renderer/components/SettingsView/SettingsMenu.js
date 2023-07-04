@@ -2,48 +2,53 @@ import * as React from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { useIntl } from 'react-intl'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import styled from 'styled-components'
-import { Paper, Typography } from '@material-ui/core'
+import { Paper, Typography, useTheme } from '@material-ui/core'
 
 export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
-  const { formatMessage: t } = useIntl()
-
   return (
-    <Tabs
-      orientation='vertical'
-      value={currentTab}
-      onChange={(e, newValue) => onTabChange(newValue)}
+    <Paper
       style={{
-        maxWidth: '300px'
+        width: 300,
+        height: '100vh',
+        borderRadius: 0
       }}
     >
-      {tabs.map((tab, index) => (
-        <Tab
-          orientation='vertical'
-          key={tab.tabId}
-          value={tab.tabId}
-          component={RenderTab}
-          tab={tab}
-          active={tab.tabId === currentTab}
-        />
-      ))}
-    </Tabs>
+      <StyledTabs
+        orientation='vertical'
+        value={currentTab}
+        onChange={(e, newValue) => onTabChange(newValue)}
+      >
+        {tabs.map((tab, index) => (
+          <Tab
+            disableRipple
+            orientation='vertical'
+            key={tab.tabId}
+            value={tab.tabId}
+            component={RenderTab}
+            tab={tab}
+            active={tab.tabId === currentTab}
+          />
+        ))}
+      </StyledTabs>
+    </Paper>
   )
 }
 
-const RenderTab = ({
-  tab: { icon: Icon, label, subtitle },
-  active,
-  ...rest
-}) => {
-  const { formatMessage: t } = useIntl()
+const RenderTab = React.forwardRef(
+  (
+    { tab: { icon: Icon, label, subtitle }, active, children, ...rest },
+    ref
+  ) => {
+    const { formatMessage: t } = useIntl()
+    const theme = useTheme()
 
-  console.log({ active, rest })
-
-  return (
-    <Paper {...rest}>
-      <WrapperRow>
-        <IconContainer>{Icon ? <Icon /> : null}</IconContainer>
+    return (
+      <WrapperRow ref={ref} {...rest}>
+        <IconContainer>
+          {Icon ? <Icon style={{ color: theme.palette.grey['600'] }} /> : null}
+        </IconContainer>
         <TitleContainer>
           <Typography
             variant='body1'
@@ -54,7 +59,7 @@ const RenderTab = ({
               cursor: 'pointer'
             }}
           >
-            {t(label)}
+            {typeof label === 'string' ? label : t(label)}
           </Typography>
           <Typography
             variant='caption'
@@ -62,16 +67,30 @@ const RenderTab = ({
             style={{
               textTransform: 'none',
               textAlign: 'left',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              color: theme.palette.grey['700']
             }}
           >
-            {subtitle}
+            {typeof subtitle === 'string' ? subtitle : t(subtitle)}
           </Typography>
         </TitleContainer>
+        <ChevronRightIcon style={{ opacity: active ? 1 : 0 }} />
       </WrapperRow>
-    </Paper>
-  )
-}
+    )
+  }
+)
+
+const StyledTabs = styled(Tabs)`
+  height: 100vh;
+  padding-top: 1em;
+  & .MuiTabs-indicator {
+    display: none;
+  }
+
+  & .MuiTab-root {
+    max-width: 100%;
+  }
+`
 
 const Row = styled.div`
   display: flex;
@@ -84,13 +103,14 @@ const Column = styled.div`
 `
 
 const WrapperRow = styled(Row)`
-  padding: 10px;
+  padding: 20px;
   align-items: center;
+  justify-content: space-between;
 `
 
 const IconContainer = styled.div`
   flex: 1;
-  padding: 10px;
+  padding: 10px 30px 10px 10px;
   display: flex;
   align-items: center;
 `

@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import Paper from '@material-ui/core/Paper'
-import InfoIcon from '@material-ui/icons/Info'
+import InfoIcon from '@material-ui/icons/InfoOutlined'
 import { SettingsMenu } from './SettingsMenu'
 import { defineMessages } from 'react-intl'
 import { AboutMapeoMenu } from './AboutMapeo'
+import styled from 'styled-components'
 
 const m = defineMessages({
-  aboutMapeo: 'About Mapeo'
+  aboutMapeo: 'About Mapeo',
+  aboutMapeoSubtitle: 'Version and build number'
 })
 
 const tabs = /** @typedef {const} */ [
@@ -14,28 +16,33 @@ const tabs = /** @typedef {const} */ [
     tabId: 'AboutMapeo',
     icon: InfoIcon,
     label: m.aboutMapeo,
-    subtitle: 'Version and build number'
+    subtitle: m.aboutMapeoSubtitle
+  },
+  {
+    tabId: 'TestItem',
+    icon: InfoIcon,
+    label: 'Test item',
+    subtitle: 'Item added to display multiple options'
   }
 ]
 
 export const SettingsView = () => {
-  const [menuItem, setMenuItem] = useState(null)
-
-  console.log({ menuItem })
+  const [menuItem, setMenuItem] = useState(tabs[0].tabId)
 
   return (
-    <div>
+    <Container>
       <SettingsMenu
         tabs={tabs}
         currentTab={menuItem}
         onTabChange={setMenuItem}
       />
 
-      {menuItem === 'AboutMapeo' && (
-        <Paper>
-          <AboutMapeoMenu />
-        </Paper>
-      )}
-    </div>
+      {menuItem === 'AboutMapeo' && <AboutMapeoMenu />}
+    </Container>
   )
 }
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+`
