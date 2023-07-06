@@ -301,6 +301,13 @@ export default function Home ({ onSelectLanguage }) {
           unmountOnExit
         />
         <TabPanel value={tabIndex} index={3} component={SettingsView} />
+        <TabPanel
+          value={tabIndex}
+          index={4}
+          component={UpdaterView}
+          update={update}
+          setUpdate={setUpdate}
+        />
       </TabContent>
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}
