@@ -12,7 +12,9 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
       style={{
         width: 300,
         height: '100vh',
-        borderRadius: 0
+        borderRadius: 0,
+        zIndex: 1,
+        position: 'relative'
       }}
     >
       <StyledTabs

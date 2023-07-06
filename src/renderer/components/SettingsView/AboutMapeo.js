@@ -1,7 +1,7 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import styled from 'styled-components'
-import { Typography, useTheme } from '@material-ui/core'
+import { Box, Typography, useTheme } from '@material-ui/core'
 import { defineMessages, useIntl } from 'react-intl'
 import buildConfig from '../../../build-config'
 const m = defineMessages({
@@ -40,9 +40,10 @@ const KeyValuePair = ({ label, value }) => {
     </Column>
   )
 }
-const Container = styled(Paper)`
-  width: 300px;
-  padding: 1.2em 1em 1em 1em;
+const Container = styled(Box)`
+  width: 100%;
+  background-color: #fff;
+  padding: 1.2em 1em 1em 2em;
   display: flex;
   flex-direction: column;
   gap: 1em;
