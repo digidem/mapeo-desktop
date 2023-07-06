@@ -6,6 +6,22 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import styled from 'styled-components'
 import { Paper, Typography, useTheme } from '@material-ui/core'
 
+/**
+ * @typedef {object} tab
+ * @property {string} tab.tabId
+ * @property {string | import('react-intl').MessageDescriptor} tab.label
+ * @property {string | import('react-intl').MessageDescriptor} tab.subtitle
+ * @property {import('@material-ui/core/OverridableComponent').OverridableComponent<import('@material-ui/core').SvgIconTypeMap<{}, "svg">>} tab.icon
+ * @typedef {tab[]} tabs
+ * @typedef currentTab
+ * @property {number} currentTab
+ *
+ * @typedef onTabChange
+ * @property {{(e: React.Dispatch<number>) => number} onTabChange
+ *
+ * @property {tabs & currentTab & onTabChange} Props
+ */
+/** @param {Props} props */
 export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
   return (
     <Paper

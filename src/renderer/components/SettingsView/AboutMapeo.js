@@ -1,13 +1,14 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper'
 import styled from 'styled-components'
 import { Box, Typography, useTheme } from '@material-ui/core'
 import { defineMessages, useIntl } from 'react-intl'
 import buildConfig from '../../../build-config'
+
 const m = defineMessages({
   mapeoVersion: 'Mapeo Version',
   mapeoVariant: 'Mapeo Variant'
 })
+
 export const AboutMapeoMenu = () => {
   const { formatMessage: t } = useIntl()
   return (
@@ -23,6 +24,17 @@ export const AboutMapeoMenu = () => {
     </Container>
   )
 }
+
+/**
+ * @typedef label
+ * @property {string} label
+ *
+ * @typedef value
+ * @property {string} value
+ *
+ * @typedef {label & value} Props
+ */
+/** @param {Props} props */
 const KeyValuePair = ({ label, value }) => {
   const theme = useTheme()
   return (

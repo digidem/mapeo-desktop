@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Paper from '@material-ui/core/Paper'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
 import { SettingsMenu } from './SettingsMenu'
 import { defineMessages } from 'react-intl'
@@ -21,7 +20,8 @@ const tabs = /** @typedef {const} */ [
 ]
 
 export const SettingsView = () => {
-  const [menuItem, setMenuItem] = useState(tabs[0].tabId)
+  const initialMenuState = /** {null | number} */ null
+  const [menuItem, setMenuItem] = useState(initialMenuState)
 
   return (
     <Container>
