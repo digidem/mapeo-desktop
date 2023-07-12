@@ -1,10 +1,9 @@
 import * as React from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import { useIntl } from 'react-intl'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import styled from 'styled-components'
-import { Paper, Typography, useTheme } from '@material-ui/core'
+import { Paper } from '@material-ui/core'
+import { SettingsItem } from './SettingsItem'
 
 /** @typedef {'AboutMapeo'} tabId */
 
@@ -25,7 +24,7 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
   return (
     <Paper
       style={{
-        width: 300,
+        minWidth: 300,
         height: '100vh',
         borderRadius: 0,
         zIndex: 1,
@@ -55,49 +54,9 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
   )
 }
 
-const RenderTab = React.forwardRef(
-  (
-    { tab: { icon: Icon, label, subtitle }, active, children, ...rest },
-    ref
-  ) => {
-    const { formatMessage: t } = useIntl()
-    const theme = useTheme()
-
-    return (
-      <WrapperRow ref={ref} {...rest}>
-        <IconContainer>
-          {Icon ? <Icon style={{ color: theme.palette.grey['600'] }} /> : null}
-        </IconContainer>
-        <TitleContainer>
-          <Typography
-            variant='body1'
-            component='label'
-            style={{
-              textTransform: 'none',
-              textAlign: 'left',
-              cursor: 'pointer'
-            }}
-          >
-            {typeof label === 'string' ? label : t(label)}
-          </Typography>
-          <Typography
-            variant='caption'
-            component='label'
-            style={{
-              textTransform: 'none',
-              textAlign: 'left',
-              cursor: 'pointer',
-              color: theme.palette.grey['700']
-            }}
-          >
-            {typeof subtitle === 'string' ? subtitle : t(subtitle)}
-          </Typography>
-        </TitleContainer>
-        <ChevronRightIcon style={{ opacity: active ? 1 : 0 }} />
-      </WrapperRow>
-    )
-  }
-)
+export const RenderTab = React.forwardRef(({ tab: { icon, label, subtitle }, ...rest }, ref) => (
+  <SettingsItem icon={icon} label={label} subtitle={subtitle} type='menuItem' {...rest} />
+))
 
 const StyledTabs = styled(Tabs)`
   height: 100vh;
