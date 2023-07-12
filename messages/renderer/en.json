@@ -1,4 +1,52 @@
 {
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.createOfflineArea": {
+    "description": "Button to create an offline area",
+    "message": "Create Offline Area"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteErrorDescription": {
+    "description": "Description for error message when deleting style,",
+    "message": "There was an error deleting the style"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteErrorTitle": {
+    "description": "Title for error message when deleting style",
+    "message": "Error Deleting Style"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteStyle": {
+    "description": "Button to delete style",
+    "message": "Delete Style"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "mb"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.offlineAreas": {
+    "description": "Title for Offline Areas",
+    "message": "Offline Areas"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.zoomLevel": {
+    "description": "Zoom Level Title",
+    "message": "Zoom Level: {zoom}"
+  },
+  "renderer.components.BackgroundMaps.MapCard.areas": {
+    "description": "indicates how many offline areas",
+    "message": "offline areas"
+  },
+  "renderer.components.BackgroundMaps.MapCard.mb": {
+    "description": "Abbreviation for megabytes",
+    "message": "MB"
+  },
+  "renderer.components.BackgroundMaps.SidePanel.addMap": {
+    "description": "Button to add map background",
+    "message": "Add Map Background"
+  },
+  "renderer.components.BackgroundMaps.SidePanel.backToSettings": {
+    "description": "button to go back to settings",
+    "message": "Back to Settings"
+  },
+  "renderer.components.BackgroundMaps.SidePanel.createOfflineMap": {
+    "description": "Button to create an offline area for a map backgroun",
+    "message": "Create Offline Map"
+  },
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
     "message": "Territory"
@@ -464,6 +512,46 @@
     "description": "Name to show for an observation when it does not match any preset",
     "message": "Observation"
   },
+  "renderer.components.Settings.AboutMapeo.aboutMapeo": {
+    "description": "Title for the About Mapeo Page",
+    "message": "About Mapeo"
+  },
+  "renderer.components.Settings.AboutMapeo.variant": {
+    "description": "Used to indicate the variant of mapeo the user is using",
+    "message": "Variant"
+  },
+  "renderer.components.Settings.AboutMapeo.version": {
+    "description": "Used to indicate the version of mapeo the user is using",
+    "message": "Version"
+  },
+  "renderer.components.Settings.BackgroundMaps.mapBackgroundTitle": {
+    "description": "Title for description of offline maps",
+    "message": "Managing Map Backgrounds and Offline Areas"
+  },
+  "renderer.components.Settings.ProjectConfig.config": {
+    "message": "Config"
+  },
+  "renderer.components.Settings.ProjectConfig.importConfig": {
+    "message": "Import Config"
+  },
+  "renderer.components.Settings.ProjectConfig.projectName": {
+    "message": "Project Name"
+  },
+  "renderer.components.Settings.ProjectConfig.title": {
+    "description": "title of project setting page",
+    "message": "Project Settings"
+  },
+  "renderer.components.Settings.index.aboutMapeo": {
+    "description": "Setting Tab title to open information about mapeo",
+    "message": "About Mapeo"
+  },
+  "renderer.components.Settings.index.backgroundMap": {
+    "description": "Setting Tab title to open background maps",
+    "message": "Background Map"
+  },
+  "renderer.components.Settings.index.projConfig": {
+    "message": "Project Configuration"
+  },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
     "message": "Make sure devices are turned on and connected to the same wifi network"
@@ -619,6 +707,22 @@
   },
   "renderer.components.dialogs.Error.openLog": {
     "message": "Open log..."
+  },
+  "renderer.components.dialogs.ImportMapStyle.addMap": {
+    "description": "Title of screen used to add a new background map",
+    "message": "Add Map Background"
+  },
+  "renderer.components.dialogs.ImportMapStyle.cancel": {
+    "description": "button to cancel the import of a background map",
+    "message": "Cancel"
+  },
+  "renderer.components.dialogs.ImportMapStyle.importErrorDescription": {
+    "description": "Description of map import error",
+    "message": "There was an error importing the background maps. Please try again."
+  },
+  "renderer.components.dialogs.ImportMapStyle.importErrorTitle": {
+    "description": "Title for import errot pop up dialog,",
+    "message": "Background Maps Import Error"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"

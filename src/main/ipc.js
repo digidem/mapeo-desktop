@@ -155,4 +155,8 @@ module.exports = function (ipcSend) {
   ipcMain.on('refresh-window', function () {
     ipcSend('refresh-window')
   })
+
+  ipcMain.on('update-config', (_, filepath) => {
+    userConfig.importSettings(filepath, () => {})
+  })
 }
