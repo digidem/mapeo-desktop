@@ -89,31 +89,3 @@ const StyledTabs = styled(Tabs)`
     max-width: 100%;
   }
 `
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const WrapperRow = styled(Row)`
-  padding: 20px;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const IconContainer = styled.div`
-  flex: 1;
-  padding: 10px 30px 10px 10px;
-  display: flex;
-  align-items: center;
-`
-
-const TitleContainer = styled(Column)`
-  justify-content: flex-start;
-  flex: 8;
-`

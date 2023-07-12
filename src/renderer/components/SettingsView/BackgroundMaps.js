@@ -30,7 +30,7 @@ export const BackgroundMaps = ({ returnToSettings }) => {
 
   const { data } = useMapServerQuery('/styles')
 
-  function unsetMapValue () {
+  function unsetMapValue() {
     setMapValue(false)
   }
 

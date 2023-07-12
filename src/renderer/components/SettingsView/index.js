@@ -22,7 +22,7 @@ const useExperimentsFlagsState = createPersistedState('experimentsFlags')
 
 export const SettingsView = () => {
   const [backgroundMaps, setBackgroundMaps] = useExperimentsFlagsState(false)
-  const tabs = /** @type {import('./SettingsMenu').tabs} */ [
+  const tabs = /** @type {import('./SettingsMenu').tabs} */[
     {
       tabId: 'AboutMapeo',
       icon: InfoIcon,
@@ -37,12 +37,12 @@ export const SettingsView = () => {
     },
     ...(backgroundMaps
       ? [
-          {
-            tabId: 'BackgroundMaps',
-            icon: MapIcon,
-            label: m.backgroundMaps,
-          },
-        ]
+        {
+          tabId: 'BackgroundMaps',
+          icon: MapIcon,
+          label: m.backgroundMaps,
+        },
+      ]
       : []),
   ]
   const initialMenuState = /** {null | number} */ null
