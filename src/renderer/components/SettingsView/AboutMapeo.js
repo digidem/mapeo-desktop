@@ -6,35 +6,26 @@ import buildConfig from '../../../build-config'
 
 const m = defineMessages({
   mapeoVersion: 'Mapeo Version',
-  mapeoVariant: 'Mapeo Variant'
+  mapeoVariant: 'Mapeo Variant',
 })
 
 export const AboutMapeoMenu = () => {
   const { formatMessage: t } = useIntl()
   return (
     <Container>
-      <KeyValuePair
-        label={t(m.mapeoVersion)}
-        value={buildConfig.version}
-      ></KeyValuePair>
-      <KeyValuePair
-        label={t(m.mapeoVariant)}
-        value={buildConfig.variant}
-      ></KeyValuePair>
+      <KeyValuePair label={t(m.mapeoVersion)} value={buildConfig.version}></KeyValuePair>
+      <KeyValuePair label={t(m.mapeoVariant)} value={buildConfig.variant}></KeyValuePair>
     </Container>
   )
 }
 
 /**
- * @typedef label
- * @property {string} label
- *
- * @typedef value
- * @property {string} value
- *
- * @typedef {label & value} Props
+ * @typedef KeyValuePairProps
+ * @prop {string} label
+ * @prop {string} value
  */
-/** @param {Props} props */
+
+/** @param {KeyValuePairProps} props */
 const KeyValuePair = ({ label, value }) => {
   const theme = useTheme()
   return (
@@ -42,11 +33,7 @@ const KeyValuePair = ({ label, value }) => {
       <Typography variant='body1' component='label' style={{ fontWeight: 500 }}>
         {label}
       </Typography>
-      <Typography
-        variant='caption'
-        component='label'
-        style={{ color: theme.palette.grey['700'] }}
-      >
+      <Typography variant='caption' component='label' style={{ color: theme.palette.grey['700'] }}>
         {value}
       </Typography>
     </Column>
