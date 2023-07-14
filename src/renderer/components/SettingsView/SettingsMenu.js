@@ -6,9 +6,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import styled from 'styled-components'
 import { Paper, Typography, useTheme } from '@material-ui/core'
 
+/** @typedef {'AboutMapeo'} tabId */
+
 /**
  * @typedef {object} tab
- * @prop {string} tab.tabId
+ * @prop {tabId} tab.tabId
  * @prop {string | import('react-intl').MessageDescriptor} tab.label
  * @prop {string | import('react-intl').MessageDescriptor} tab.subtitle
  * @prop {import('@material-ui/core/OverridableComponent').OverridableComponent<import('@material-ui/core').SvgIconTypeMap<{}, "svg">>} tab.icon
@@ -27,10 +29,14 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
         height: '100vh',
         borderRadius: 0,
         zIndex: 1,
-        position: 'relative',
+        position: 'relative'
       }}
     >
-      <StyledTabs orientation='vertical' value={currentTab} onChange={(e, newValue) => onTabChange(newValue)}>
+      <StyledTabs
+        orientation='vertical'
+        value={currentTab}
+        onChange={(e, newValue) => onTabChange(newValue)}
+      >
         {tabs.map(tab => (
           <Tab
             disableRipple
@@ -48,13 +54,18 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
 }
 
 const RenderTab = React.forwardRef(
-  ({ tab: { icon: Icon, label, subtitle }, active, children, ...rest }, ref) => {
+  (
+    { tab: { icon: Icon, label, subtitle }, active, children, ...rest },
+    ref
+  ) => {
     const { formatMessage: t } = useIntl()
     const theme = useTheme()
 
     return (
       <WrapperRow ref={ref} {...rest}>
-        <IconContainer>{Icon ? <Icon style={{ color: theme.palette.grey['600'] }} /> : null}</IconContainer>
+        <IconContainer>
+          {Icon ? <Icon style={{ color: theme.palette.grey['600'] }} /> : null}
+        </IconContainer>
         <TitleContainer>
           <Typography
             variant='body1'
@@ -62,7 +73,7 @@ const RenderTab = React.forwardRef(
             style={{
               textTransform: 'none',
               textAlign: 'left',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
             {typeof label === 'string' ? label : t(label)}
@@ -74,7 +85,7 @@ const RenderTab = React.forwardRef(
               textTransform: 'none',
               textAlign: 'left',
               cursor: 'pointer',
-              color: theme.palette.grey['700'],
+              color: theme.palette.grey['700']
             }}
           >
             {typeof subtitle === 'string' ? subtitle : t(subtitle)}
@@ -83,7 +94,7 @@ const RenderTab = React.forwardRef(
         <ChevronRightIcon style={{ opacity: active ? 1 : 0 }} />
       </WrapperRow>
     )
-  },
+  }
 )
 
 const StyledTabs = styled(Tabs)`

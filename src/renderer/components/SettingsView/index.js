@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 const m = defineMessages({
   aboutMapeo: 'About Mapeo',
-  aboutMapeoSubtitle: 'Version and build number',
+  aboutMapeoSubtitle: 'Version and build number'
 })
 
 const tabs = /** @typedef {const} */ [
@@ -15,17 +15,22 @@ const tabs = /** @typedef {const} */ [
     tabId: 'AboutMapeo',
     icon: InfoIcon,
     label: m.aboutMapeo,
-    subtitle: m.aboutMapeoSubtitle,
-  },
+    subtitle: m.aboutMapeoSubtitle
+  }
 ]
 
 export const SettingsView = () => {
-  const initialMenuState = /** {null | number} */ null
-  const [menuItem, setMenuItem] = useState(/** {null | number} */ initialMenuState)
+  /** @type {import('./SettingsMenu').tabId | null} */
+  const initialMenuState = /** {const} */ null
+  const [menuItem, setMenuItem] = useState(initialMenuState)
 
   return (
     <Container>
-      <SettingsMenu tabs={tabs} currentTab={menuItem} onTabChange={setMenuItem} />
+      <SettingsMenu
+        tabs={tabs}
+        currentTab={menuItem}
+        onTabChange={setMenuItem}
+      />
 
       {menuItem === 'AboutMapeo' && <AboutMapeoMenu />}
     </Container>
