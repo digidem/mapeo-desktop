@@ -67,6 +67,10 @@ const Stack = styled(Paper)`
   display: flex;
   flex-direction: column;
   gap: ${props => props.gap || '10px'};
+
+  &.MuiPaper-rounded {
+    border-radius: 0;
+  }
 `
 const Subtitle = ({ label }) => {
   const { formatMessage: t } = useIntl()
