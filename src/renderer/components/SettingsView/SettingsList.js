@@ -30,8 +30,8 @@ export const SettingsList = ({ options }) => {
     <Stack>
       {options
         ? options.map(({ id, onClick, ...rest }) => {
-            return <SettingsItem onClick={onClick} key={id} {...rest} />
-          })
+          return <SettingsItem onClick={onClick} key={id} {...rest} />
+        })
         : null}
     </Stack>
   )
