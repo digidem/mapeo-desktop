@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 const m = defineMessages({
   aboutMapeo: 'About Mapeo',
-  aboutMapeoSubtitle: 'Version and build number'
+  aboutMapeoSubtitle: 'Version and build number',
 })
 
 const tabs = [
@@ -16,8 +16,8 @@ const tabs = [
     tabId: 'AboutMapeo',
     icon: InfoIcon,
     label: m.aboutMapeo,
-    subtitle: m.aboutMapeoSubtitle
-  }
+    subtitle: m.aboutMapeoSubtitle,
+  },
 ]
 
 export const SettingsView = () => {
