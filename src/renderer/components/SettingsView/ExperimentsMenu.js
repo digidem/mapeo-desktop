@@ -7,6 +7,13 @@ const m = defineMessages({
   backgroundMaps: 'Background Maps',
 })
 
+/**
+ * @typedef ExperiementsMenuProps
+ * @prop {boolean} backgroundMaps
+ * @prop {(e: React.Dispatch<boolean>) => number} setBackgroundMaps
+ */
+
+/** @param {ExperiementsMenuProps} props */
 export const ExperiementsMenu = ({ backgroundMaps, setBackgroundMaps }) => {
   const toggleBackgroundMaps = () => {
     setBackgroundMaps(prevState => {
