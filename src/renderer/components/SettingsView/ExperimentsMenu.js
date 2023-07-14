@@ -1,30 +1,29 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { defineMessages } from 'react-intl'
 import { Map as MapIcon } from '@material-ui/icons'
-import { SettingsMenu } from './SettingsMenu'
-import createPersistedState from '../../hooks/createPersistedState'
+import { SettingsList } from './SettingsList'
 
 const m = defineMessages({
   backgroundMaps: 'Background Maps',
-  on: 'On',
-  off: 'Off',
 })
 
-export const useBackgroundMapsActive = createPersistedState('backgroundMapsActive')
+export const ExperiementsMenu = ({ backgroundMaps, setBackgroundMaps }) => {
+  const toggleBackgroundMaps = () => {
+    setBackgroundMaps(prevState => {
+      return !prevState
+    })
+  }
 
-export const ExperiementsMenu = () => {
-  const [backgroundMapsActive, setBackgroundMapsActive] = useBackgroundMapsActive(false)
-  const [menuItem, setMenuItem] = useState(null)
-
-  const tabs = [
+  const options = [
     {
-      tabId: 'BackgroundMaps',
+      id: 'BackgroundMaps',
       icon: MapIcon,
       label: m.backgroundMaps,
-      subtitle: backgroundMapsActive ? m.on : m.off,
-      onClick: () => setBackgroundMapsActive(prev => !prev),
+      checked: backgroundMaps,
+      onClick: toggleBackgroundMaps,
+      type: 'toggle',
     },
   ]
 
-  return <SettingsMenu tabs={tabs} currentTab={menuItem} onTabChange={setMenuItem} />
+  return <SettingsList options={options} />
 }

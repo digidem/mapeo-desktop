@@ -3,7 +3,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
 import { Paper } from '@material-ui/core'
-import { SettingsItem } from './SettingsItem'
+import { SettingsItem } from './SettingsList'
 
 /** @typedef {'AboutMapeo'} tabId */
 
@@ -54,8 +54,8 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
   )
 }
 
-export const RenderTab = React.forwardRef(({ tab: { icon, label, subtitle }, ...rest }, ref) => (
-  <SettingsItem icon={icon} label={label} subtitle={subtitle} type='menuItem' {...rest} />
+export const RenderTab = React.forwardRef(({ tab: { icon, label, subtitle, type }, ...rest }, ref) => (
+  <SettingsItem icon={icon} label={label} subtitle={subtitle} type={type || 'menuItem'} {...rest} />
 ))
 
 const StyledTabs = styled(Tabs)`

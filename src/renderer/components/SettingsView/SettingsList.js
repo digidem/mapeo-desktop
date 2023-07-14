@@ -1,18 +1,30 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import styled from 'styled-components'
 
-import { Typography, useTheme } from '@material-ui/core'
+import { Switch, Typography, Paper, useTheme } from '@material-ui/core'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import { defineMessages, useIntl } from 'react-intl'
-import styled from 'styled-components'
 
 const m = defineMessages({
   on: 'On',
   off: 'Off',
 })
 
+export const SettingsList = ({ options }) => {
+  return (
+    <Stack>
+      {options
+        ? options.map(({ id, onClick, ...rest }) => {
+            return <SettingsItem onClick={onClick} key={id} {...rest} />
+          })
+        : null}
+    </Stack>
+  )
+}
+
 export const SettingsItem = React.forwardRef(
-  ({ type, label, subtitle, icon: Icon, active, onClick, ...rest }, ref) => {
+  ({ type, label, subtitle, icon: Icon, active, checked, onClick, ...rest }, ref) => {
     const theme = useTheme()
     const { formatMessage: t } = useIntl()
 
@@ -45,13 +57,21 @@ export const SettingsItem = React.forwardRef(
           </Typography>
         </TitleContainer>
         {type === 'menuItem' && <ChevronRightIcon style={{ opacity: active ? 1 : 0 }} />}
+        {type === 'toggle' && <Switch checked={checked} size='small' color='primary' />}
       </WrapperRow>
     )
   },
 )
 
+const Stack = styled(Paper)`
+  display: flex;
+  flex-direction: column;
+  gap: ${props => props.gap || '10px'};
+`
 const Subtitle = ({ label }) => {
   const { formatMessage: t } = useIntl()
+  if (!label) return null
+
   return typeof label === 'string' ? label : t(label)
 }
 
@@ -76,6 +96,10 @@ const WrapperRow = styled(Row)`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+
+  .MuiSwitch-root {
+    margin-left: 30px;
+  }
 `
 
 const IconContainer = styled.div`
@@ -88,4 +112,8 @@ const IconContainer = styled.div`
 const TitleContainer = styled(Column)`
   justify-content: flex-start;
   flex: 8;
+
+  * {
+    user-select: none;
+  }
 `
