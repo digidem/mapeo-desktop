@@ -185,7 +185,8 @@
     "validate-color": "^2.2.1",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2",
-    "yazl": "^2.5.1"
+    "yazl": "^2.5.1",
+    "zustand": "^4.3.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
