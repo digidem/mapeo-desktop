@@ -4,32 +4,58 @@ import store from '../store'
 
 const STORE_VERSION = '1.0.0'
 
+/**
+ * @type {import('zustand/middleware').StateStorage}
+ */
 const storage = {
+  /**
+   * @param {string}  key - A string key to reference the stored item by.
+   * @returns {Promise<string | null>}
+   */
   getItem: async key => {
     return (await store.get(key)) || null
   },
+  /**
+   * @param {string}  key - A string key to reference the stored item by.
+   * @param {string} state - The state to be persisted - stringified JSON.
+   * @returns {Promise<void>}
+   */
   setItem: async (key, state) => {
+    console.log({ key, state })
     await store.set(key, state)
   },
+  /**
+   * @param {string}  key - A string key to reference the stored item to be removed.
+   */
   removeItem: async key => {
     await store.delete(key)
   },
 }
 
-const createPersistedStore = (storeShape, storeName) =>
+/**
+ * @param {unknown} slice - A string key to reference the stored item by.
+ * @param {string} storeName - Unique name of the store.
+ * @returns {import('zustand').StateCreator}
+ */
+const createPersistedStore = (slice, storeName) =>
   create(
-    persist(storeShape, {
+    persist(slice, {
       name: storeName,
       storage: createJSONStorage(() => storage),
     }),
   )
 
+/**
+ * @param {import('zustand').StoreApi<T>['setState']} set
+ * @param {import('zustand').StoreApi<T>['getState']} get
+ */
 const experimentsFlagsStoreSlice = (set, get) => ({
   storeVersion: STORE_VERSION,
   backgroundMaps: false,
   setBackgroundMapsFlag: backgroundMaps => set({ backgroundMaps }),
 })
 
+/** */
 const backgroundMapStoreSlice = (set, get) => ({
   storeVersion: STORE_VERSION,
   mapStyle: '',
