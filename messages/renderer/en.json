@@ -529,12 +529,6 @@
   "renderer.components.SettingsView.ExperimentsMenu.backgroundMaps": {
     "message": "Background Maps"
   },
-  "renderer.components.SettingsView.SettingsItem.off": {
-    "message": "Off"
-  },
-  "renderer.components.SettingsView.SettingsItem.on": {
-    "message": "On"
-  },
   "renderer.components.SettingsView.SettingsList.off": {
     "message": "Off"
   },
