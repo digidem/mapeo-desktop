@@ -21,6 +21,7 @@ export const ExperiementsMenu = ({ backgroundMaps, setBackgroundMaps }) => {
     })
   }
 
+  /** @type {import('./SettingsList').option[]} */
   const options = [
     {
       id: 'BackgroundMaps',

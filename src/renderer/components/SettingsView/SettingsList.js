@@ -11,6 +11,20 @@ const m = defineMessages({
   off: 'Off',
 })
 
+/**
+ * @typedef {object} option
+ * @prop {string} option.id
+ * @prop {boolean} option.checked
+ * @prop {() => void} option.onClick
+ * @prop {string | import('react-intl').MessageDescriptor} option.label
+ * @prop {string | import('react-intl').MessageDescriptor} option.subtitle
+ * @prop {'menuItem' | 'toggle'} option.type
+ * @prop {import('@material-ui/core/OverridableComponent').OverridableComponent<import('@material-ui/core').SvgIconTypeMap<{}, "svg">>} tab.icon
+ * @typedef SettingsListProps
+ * @prop {option[]} options
+ */
+
+/** @param {SettingsListProps} props */
 export const SettingsList = ({ options }) => {
   return (
     <Stack>
@@ -23,7 +37,20 @@ export const SettingsList = ({ options }) => {
   )
 }
 
+/**
+ * @typedef SettingsItemProps
+ * @prop {'menuItem' | 'toggle'} type
+ * @prop {string | import('react-intl').MessageDescriptor} label
+ * @prop {string | import('react-intl').MessageDescriptor} subtitle
+ * @prop {import('@material-ui/core/OverridableComponent').OverridableComponent<import('@material-ui/core').SvgIconTypeMap<{}, "svg">>} icon
+ * @prop {boolean} checked
+ * @prop {boolean} active
+ * @prop {string} option.id
+ * @prop {() => void} onClick
+ */
+
 export const SettingsItem = React.forwardRef(
+  /** @param {SettingsItemProps} props */
   ({ type, label, subtitle, icon: Icon, active, checked, onClick, ...rest }, ref) => {
     const theme = useTheme()
     const { formatMessage: t } = useIntl()

@@ -8,6 +8,7 @@ import { AboutMapeoMenu } from './AboutMapeo'
 import styled from 'styled-components'
 import { ExperiementsMenu } from './ExperimentsMenu'
 import createPersistedState from '../../hooks/createPersistedState'
+import { BackgroundMaps } from './BackgroundMaps'
 
 const m = defineMessages({
   aboutMapeo: 'About Mapeo',
@@ -21,9 +22,8 @@ const useExperimentsFlagsState = createPersistedState('experimentsFlags')
 
 export const SettingsView = () => {
   const [backgroundMaps, setBackgroundMaps] = useExperimentsFlagsState(false)
-  const tabs = /** @typedef {const} */[
+  const tabs = /** @type {import('./SettingsMenu').tabs} */ [
     {
-      /** @type {import('./SettingsMenu').tabId} */
       tabId: 'AboutMapeo',
       icon: InfoIcon,
       label: m.aboutMapeo,
@@ -37,12 +37,12 @@ export const SettingsView = () => {
     },
     ...(backgroundMaps
       ? [
-        {
-          tabId: 'BackgroundMaps',
-          icon: MapIcon,
-          label: m.backgroundMaps,
-        },
-      ]
+          {
+            tabId: 'BackgroundMaps',
+            icon: MapIcon,
+            label: m.backgroundMaps,
+          },
+        ]
       : []),
   ]
   const initialMenuState = /** {null | number} */ null
@@ -50,12 +50,17 @@ export const SettingsView = () => {
 
   return (
     <Container>
-      <SettingsMenu tabs={tabs} currentTab={menuItem} onTabChange={setMenuItem} />
-      {menuItem === 'AboutMapeo' && <AboutMapeoMenu />}
-      {menuItem === 'Experiments' && (
-        <ExperiementsMenu backgroundMaps={backgroundMaps} setBackgroundMaps={setBackgroundMaps} />
+      {menuItem === 'BackgroundMaps' ? (
+        <BackgroundMaps returnToSettings={() => setMenuItem(initialMenuState)} />
+      ) : (
+        <>
+          <SettingsMenu tabs={tabs} currentTab={menuItem} onTabChange={setMenuItem} />
+          {menuItem === 'AboutMapeo' && <AboutMapeoMenu />}
+          {menuItem === 'Experiments' && (
+            <ExperiementsMenu backgroundMaps={backgroundMaps} setBackgroundMaps={setBackgroundMaps} />
+          )}
+        </>
       )}
-      {menuItem === 'BackgroundMaps' && <Boc />}
     </Container>
   )
 }
@@ -63,11 +68,5 @@ export const SettingsView = () => {
 const Container = styled.div`
   width: 100%;
   display: flex;
-`
-
-const Boc = styled.div`
-
-background-color: red
-height: 200px;
-width:100px;
+  height: 100%;
 `

@@ -5,13 +5,14 @@ import styled from 'styled-components'
 import { Paper } from '@material-ui/core'
 import { SettingsItem } from './SettingsList'
 
-/** @typedef {'AboutMapeo'} tabId */
+/** @typedef {'AboutMapeo'| 'Experiments' | 'BackgroundMaps'} tabId */
 
 /**
  * @typedef {object} tab
  * @prop {tabId} tab.tabId
  * @prop {string | import('react-intl').MessageDescriptor} tab.label
  * @prop {string | import('react-intl').MessageDescriptor} tab.subtitle
+ * @prop {'menuItem' | 'toggle'} tab.type
  * @prop {import('@material-ui/core/OverridableComponent').OverridableComponent<import('@material-ui/core').SvgIconTypeMap<{}, "svg">>} tab.icon
  * @typedef SettingsMenuProps
  * @prop {tab[]} tabs
@@ -54,6 +55,13 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
   )
 }
 
+/**
+ * @typedef RenderTabProps
+ * @prop {tab} tab
+ * @prop {number} currentTab
+ * @prop {(e: React.Dispatch<number>) => number} onTabChange
+ */
+/** @param {RenderTabProps} props */
 export const RenderTab = React.forwardRef(({ tab: { icon, label, subtitle, type }, ...rest }, ref) => (
   <SettingsItem icon={icon} label={label} subtitle={subtitle} type={type || 'menuItem'} {...rest} />
 ))

@@ -16,11 +16,11 @@ const m = defineMessages({
 
 /**
  * @typedef BackgroundMapsProps
- * @prop {()=>void} openSettings
+ * @prop {()=>void} returnToSettings
  */
 
 /** @param {BackgroundMapsProps} param */
-export const BackgroundMaps = ({ openSettings }) => {
+export const BackgroundMaps = ({ returnToSettings }) => {
   const { formatMessage: t } = useIntl()
 
   /** @type {MapServerStyleInfo['id']|false} */
@@ -38,7 +38,7 @@ export const BackgroundMaps = ({ openSettings }) => {
 
   return (
     <React.Fragment>
-      <SidePanel mapValue={mapValue} openSettings={openSettings} setMapValue={setMapValue} />
+      <SidePanel mapValue={mapValue} openSettings={returnToSettings} setMapValue={setMapValue} />
 
       {!mapValue || !data ? (
         <div style={{ padding: 40 }}>
