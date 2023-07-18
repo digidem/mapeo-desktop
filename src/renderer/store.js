@@ -46,8 +46,15 @@ const createPersistedStore = (slice, storeName) =>
   )
 
 /**
- * @param {import('zustand').StoreApi<T>['setState']} set
+ * @typedef {import('zustand').StoreApi<T>['setState']} Setter
+ * @typedef {boolean} BackgroundMapsFlag
+ * @param {Setter} set
  * @param {import('zustand').StoreApi<T>['getState']} get
+ * @returns {{
+ *  storeVersion: string,
+ *  backgroundMaps: BackgroundMapsFlag,
+ *  setBackgroundMapsFlag: (backgroundMaps: BackgroundMapsFlag) => Setter
+ * }}
  */
 const experimentsFlagsStoreSlice = (set, get) => ({
   storeVersion: STORE_VERSION,
@@ -55,7 +62,16 @@ const experimentsFlagsStoreSlice = (set, get) => ({
   setBackgroundMapsFlag: backgroundMaps => set({ backgroundMaps }),
 })
 
-/** */
+/**
+ * @typedef {string} MapStyle
+ * @param {Setter} set
+ * @param {import('zustand').StoreApi<T>['getState']} get
+ * @returns {{
+ *  storeVersion: string,
+ *  mapStyle: MapStyle,
+ *  setMapStyle: (mapStyle: MapStyle) => Setter
+ * }}
+ */
 const backgroundMapStoreSlice = (set, get) => ({
   storeVersion: STORE_VERSION,
   mapStyle: '',
