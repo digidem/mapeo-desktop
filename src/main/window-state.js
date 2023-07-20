@@ -3,7 +3,7 @@
 const remote = require('@electron/remote/main')
 const electron = require('electron')
 
-const store = require('../store')
+const store = require('../persist-store')
 
 const defaults = {
   maximize: false,
@@ -11,7 +11,7 @@ const defaults = {
   defaultWidth: 800,
   defaultHeight: 600,
   isMaximized: true,
-  show: false
+  show: false,
 }
 
 /**
@@ -51,7 +51,7 @@ module.exports = function (options) {
       height: config.defaultHeight || 600,
       x: 0,
       y: 0,
-      displayBounds
+      displayBounds,
     }
   }
 
@@ -77,8 +77,7 @@ module.exports = function (options) {
   }
 
   function validateState () {
-    const isValid =
-      state && (hasBounds() || state.isMaximized || state.isFullScreen)
+    const isValid = state && (hasBounds() || state.isMaximized || state.isFullScreen)
     if (!isValid) {
       state = defaults
       return
@@ -200,6 +199,6 @@ module.exports = function (options) {
     saveState,
     unmanage,
     manage,
-    resetStateToDefault
+    resetStateToDefault,
   }
 }

@@ -5,7 +5,7 @@ const compareVersions = require('compare-versions')
 const currentVersion = require('../build-config').version
 
 const networkSpeed = require('./network-speed')
-const store = require('../store')
+const store = require('../persist-store')
 const logger = require('../logger')
 
 // MapeoUpdater emits the 'error' event when there is an internal error with
@@ -19,10 +19,8 @@ const RELEASE_SERVER = 'https://releases.mapeo.app'
 // as a generic http server.
 const PUBLISH_CONFIG = {
   provider: 'generic',
-  url:
-    RELEASE_SERVER +
-    (process.env.ARCH === 'ia32' ? '/desktop/ia32' : '/desktop'),
-  useMultipleRangeRequest: false
+  url: RELEASE_SERVER + (process.env.ARCH === 'ia32' ? '/desktop/ia32' : '/desktop'),
+  useMultipleRangeRequest: false,
 }
 
 class MapeoUpdater extends events.EventEmitter {
@@ -87,44 +85,39 @@ class MapeoUpdater extends events.EventEmitter {
   }
 
   updateAvailable (onupdate) {
-    autoUpdater.on(
-      'update-available',
-      async ({ version, files, path, sha512, releaseDate }) => {
-        // this is a hack for a bug when you switch between channels,
-        // it'll continue to say there is an update available when there is not
-        // anymore
-        if (compareVersions(version, currentVersion) <= 0) {
-          return logger.info(
-            'Version',
-            version,
-            'was less than curent version',
-            currentVersion,
-            'ignoring update'
-          )
-        }
-        // TODO: Expose this in the UI somehow.
-        if (!this.isActive()) {
-          this.emit('update-inactive')
-          return logger.info(
-            '[UPDATER] Must use an AppImage, dmg, or exe for automatic updates.'
-          )
-        }
-
-        var downloadSpeed = await this._getDownloadSpeed()
-
-        var args = {
+    autoUpdater.on('update-available', async ({ version, files, path, sha512, releaseDate }) => {
+      // this is a hack for a bug when you switch between channels,
+      // it'll continue to say there is an update available when there is not
+      // anymore
+      if (compareVersions(version, currentVersion) <= 0) {
+        return logger.info(
+          'Version',
           version,
-          files,
-          path,
-          sha512,
-          releaseDate,
-          downloadSpeed,
-          releaseSummary: null // TODO: this._getReleaseSummary(version)
-        }
-
-        onupdate(args)
+          'was less than curent version',
+          currentVersion,
+          'ignoring update',
+        )
       }
-    )
+      // TODO: Expose this in the UI somehow.
+      if (!this.isActive()) {
+        this.emit('update-inactive')
+        return logger.info('[UPDATER] Must use an AppImage, dmg, or exe for automatic updates.')
+      }
+
+      var downloadSpeed = await this._getDownloadSpeed()
+
+      var args = {
+        version,
+        files,
+        path,
+        sha512,
+        releaseDate,
+        downloadSpeed,
+        releaseSummary: null, // TODO: this._getReleaseSummary(version)
+      }
+
+      onupdate(args)
+    })
   }
 
   updateNotAvailable (cb) {
@@ -135,7 +128,7 @@ class MapeoUpdater extends events.EventEmitter {
     autoUpdater.on('download-progress', progress => {
       logger.info('[UPDATER] Progress', progress)
       onprogress({
-        progress: progress
+        progress: progress,
       })
     })
   }
@@ -157,9 +150,7 @@ class MapeoUpdater extends events.EventEmitter {
     logger.info('[UPDATER] Download initiated.')
     var promise = autoUpdater.downloadUpdate()
 
-    promise
-      .then(() => logger.error('[UPDATER] Download successful.'))
-      .catch(this._onerror)
+    promise.then(() => logger.error('[UPDATER] Download successful.')).catch(this._onerror)
     return promise
   }
 

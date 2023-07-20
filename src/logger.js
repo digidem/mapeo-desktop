@@ -4,7 +4,7 @@ const DailyRotateFile = require('winston-daily-rotate-file')
 const util = require('util')
 const { format } = require('date-fns')
 
-const store = require('./store')
+const store = require('./persist-store')
 const appVersion = require('./build-config').version
 
 let Bugsnag
@@ -21,16 +21,14 @@ class Logger {
 
   configure ({ userDataPath, label, isDev }) {
     this._startBugsnag(isDev ? 'development' : 'production')
-    const prettyPrint = winston.format.printf(
-      ({ level, message, label, timestamp }) => {
-        return `${timestamp} [${label}] ${level}: ${message}`
-      }
-    )
+    const prettyPrint = winston.format.printf(({ level, message, label, timestamp }) => {
+      return `${timestamp} [${label}] ${level}: ${message}`
+    })
 
     this.winston.format = winston.format.combine(
       winston.format.label({ label }),
       winston.format.timestamp(),
-      prettyPrint
+      prettyPrint,
     )
     this.dirname = path.join(userDataPath, 'logs')
 
@@ -46,7 +44,7 @@ class Logger {
       datePattern: 'YYYY-MM-DD',
       zippedArchive: true,
       maxFiles: '365d',
-      level: 'info'
+      level: 'info',
     })
     mainLog.name = 'main'
     this.winston.add(mainLog)
@@ -57,15 +55,15 @@ class Logger {
       datePattern: 'YYYY-MM',
       zippedArchive: true,
       maxFiles: '365d',
-      level: 'error'
+      level: 'error',
     })
     this.winston.add(errorTransport)
 
     if (isDev) {
       this.winston.add(
         new winston.transports.Console({
-          level: 'debug'
-        })
+          level: 'debug',
+        }),
       )
     }
     this.configured = true
@@ -104,7 +102,7 @@ class Logger {
     else {
       this.winston.log({
         level,
-        message: util.format(...args)
+        message: util.format(...args),
       })
       if (level === 'error') {
         Bugsnag.notify(args[1], event => {
@@ -154,7 +152,7 @@ class Logger {
       releaseStage,
       apiKey: BUGSNAG_API_KEY,
       appVersion,
-      enabledReleaseStages: ['production']
+      enabledReleaseStages: ['production'],
     }
 
     setTimeout(function () {}).__proto__.unref = function () {}
