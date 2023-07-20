@@ -15,19 +15,19 @@ import ErrorDialog from './dialogs/Error'
 import ChangeLanguage from './dialogs/ChangeLanguage'
 import TitleBarShim from './TitleBarShim'
 import { defineMessages, useIntl } from 'react-intl'
-import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
 import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import useUpdater from './UpdaterView/useUpdater'
 import Loading from './Loading'
 import buildConfig from '../../build-config'
+import { usePersistedUiStore } from '../store'
 
 const MapFilter = React.lazy(() =>
   import(
     /* webpackPrefetch: true */
     /* webpackChunkName: 'map-filter' */
     './MapFilter'
-  )
+  ),
 )
 
 const MapEditor = React.lazy(() =>
@@ -35,7 +35,7 @@ const MapEditor = React.lazy(() =>
     /* webpackPrefetch: true */
     /* webpackChunkName: 'map-editor' */
     './MapEditor'
-  )
+  ),
 )
 
 const m = defineMessages({
@@ -45,7 +45,7 @@ const m = defineMessages({
   mapfilter: 'Observations',
   // Synchronize tab label
   sync: 'Synchronize',
-  update: 'Update Mapeo'
+  update: 'Update Mapeo',
 })
 
 // const MapEditor = () => <div>MAPEDITOR</div>
@@ -173,17 +173,11 @@ const focusStates = {
   entering: 'focusing',
   entered: 'focused',
   exiting: 'blurring',
-  exited: 'blurred'
+  exited: 'blurred',
 }
 
 function TabPanel (props) {
-  const {
-    value,
-    index,
-    unmountOnExit = false,
-    component: Component,
-    ...extras
-  } = props
+  const { value, index, unmountOnExit = false, component: Component, ...extras } = props
   // Don't render the tab content until the user has switched to the tab
   const lazy = React.useRef(value !== index)
   if (value === index) lazy.current = false
@@ -192,7 +186,7 @@ function TabPanel (props) {
     entering: { opacity: 1, zIndex: 1, display: 'block' },
     entered: { opacity: 1, zIndex: 1, display: 'block' },
     exiting: { opacity: 0 },
-    exited: { opacity: 0, display: 'block' }
+    exited: { opacity: 0, display: 'block' },
   }
 
   return Component && !lazy.current ? (
@@ -203,11 +197,7 @@ function TabPanel (props) {
         </LoadingContainer>
       }
     >
-      <Transition
-        in={value === index}
-        timeout={transitionDuration}
-        unmountOnExit={unmountOnExit}
-      >
+      <Transition in={value === index} timeout={transitionDuration} unmountOnExit={unmountOnExit}>
         {transitionState => (
           <StyledPanel style={transitionStyles[transitionState]}>
             <Component focusState={focusStates[transitionState]} {...extras} />
@@ -218,12 +208,10 @@ function TabPanel (props) {
   ) : null
 }
 
-const useTabIndex = createPersistedState('currentView')
-
 export default function Home ({ onSelectLanguage }) {
   const [dialog, setDialog] = React.useState(null)
   const [error, setError] = React.useState(null)
-  const [tabIndex, setTabIndex] = useTabIndex(0)
+  const [tabIndex, setTabIndex] = usePersistedUiStore(store => [store.tabIndex, store.setTabIndex])
   const [update, setUpdate] = useUpdater()
   const { formatMessage: t } = useIntl()
 
@@ -242,17 +230,12 @@ export default function Home ({ onSelectLanguage }) {
     return () => {
       ipcRenderer.removeListener('error', openErrorDialog)
       ipcRenderer.removeListener('open-latlon-dialog', openLatLonDialog)
-      ipcRenderer.removeListener(
-        'change-language-request',
-        openChangeLangDialog
-      )
+      ipcRenderer.removeListener('change-language-request', openChangeLangDialog)
       ipcRenderer.removeListener('force-refresh-window', openLatLonDialog)
     }
   }, [])
 
-  const hasUpdate =
-    update.state !== updateStates.IDLE &&
-    update.state !== updateStates.UPDATE_NOT_AVAILABLE
+  const hasUpdate = update.state !== updateStates.IDLE && update.state !== updateStates.UPDATE_NOT_AVAILABLE
 
   return (
     <Root>
@@ -274,31 +257,15 @@ export default function Home ({ onSelectLanguage }) {
           <StyledTab icon={<MapIcon />} label={t(m.mapeditor)} />
           <StyledTab icon={<ObservationIcon />} label={t(m.mapfilter)} />
           <StyledTab icon={<SyncIcon />} label={t(m.sync)} />
-          {hasUpdate && (
-            <StyledTab
-              icon={<WarningIcon />}
-              label={<UpdateTab update={update} />}
-            />
-          )}
+          {hasUpdate && <StyledTab icon={<WarningIcon />} label={<UpdateTab update={update} />} />}
         </StyledTabs>
         <Version>Mapeo v{buildConfig.version}</Version>
       </Sidebar>
       <TabContent>
         <TabPanel value={tabIndex} index={0} component={MapEditor} />
         <TabPanel value={tabIndex} index={1} component={MapFilter} />
-        <TabPanel
-          value={tabIndex}
-          index={2}
-          component={SyncView}
-          unmountOnExit
-        />
-        <TabPanel
-          value={tabIndex}
-          index={3}
-          component={UpdaterView}
-          update={update}
-          setUpdate={setUpdate}
-        />
+        <TabPanel value={tabIndex} index={2} component={SyncView} unmountOnExit />
+        <TabPanel value={tabIndex} index={3} component={UpdaterView} update={update} setUpdate={setUpdate} />
       </TabContent>
       <ChangeLanguage
         open={dialog === 'ChangeLanguage'}
@@ -310,15 +277,8 @@ export default function Home ({ onSelectLanguage }) {
           setDialog(null)
         }}
       />
-      <LatLonDialog
-        open={dialog === 'LatLon'}
-        onClose={() => setDialog(null)}
-      />
-      <ErrorDialog
-        open={error !== null}
-        message={error}
-        onClose={() => setError(null)}
-      />
+      <LatLonDialog open={dialog === 'LatLon'} onClose={() => setDialog(null)} />
+      <ErrorDialog open={error !== null} message={error} onClose={() => setError(null)} />
     </Root>
   )
 }
