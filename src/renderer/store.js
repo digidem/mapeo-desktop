@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import store from '../store'
-
-const STORE_VERSION = '1.0.0'
+import store from '../persist-store'
 
 /**
  * @type {import('zustand/middleware').StateStorage}
@@ -16,12 +14,11 @@ const storage = {
     return (await store.get(key)) || null
   },
   /**
-   * @param {string}  key - A string key to reference the stored item by.
+   * @param {string} key - A string key to reference the stored item by.
    * @param {string} state - The state to be persisted - stringified JSON.
    * @returns {Promise<void>}
    */
   setItem: async (key, state) => {
-    console.log({ key, state })
     await store.set(key, state)
   },
   /**
@@ -33,7 +30,7 @@ const storage = {
 }
 
 /**
- * @param {unknown} slice - A string key to reference the stored item by.
+ * @param {(set: Setter, get: Getter) => unknown} slice - A string key to reference the stored item by.
  * @param {string} storeName - Unique name of the store.
  * @returns {import('zustand').StateCreator}
  */
@@ -47,17 +44,16 @@ const createPersistedStore = (slice, storeName) =>
 
 /**
  * @typedef {import('zustand').StoreApi<T>['setState']} Setter
+ * @typedef {import('zustand').StoreApi<T>['getState']} Getter
  * @typedef {boolean} BackgroundMapsFlag
  * @param {Setter} set
- * @param {import('zustand').StoreApi<T>['getState']} get
+ * @param {Getter} get
  * @returns {{
- *  storeVersion: string,
  *  backgroundMaps: BackgroundMapsFlag,
  *  setBackgroundMapsFlag: (backgroundMaps: BackgroundMapsFlag) => Setter
  * }}
  */
 const experimentsFlagsStoreSlice = (set, get) => ({
-  storeVersion: STORE_VERSION,
   backgroundMaps: false,
   setBackgroundMapsFlag: backgroundMaps => set({ backgroundMaps }),
 })
@@ -65,18 +61,30 @@ const experimentsFlagsStoreSlice = (set, get) => ({
 /**
  * @typedef {string} MapStyle
  * @param {Setter} set
- * @param {import('zustand').StoreApi<T>['getState']} get
+ * @param {Getter} get
  * @returns {{
- *  storeVersion: string,
  *  mapStyle: MapStyle,
  *  setMapStyle: (mapStyle: MapStyle) => Setter
  * }}
  */
 const backgroundMapStoreSlice = (set, get) => ({
-  storeVersion: STORE_VERSION,
   mapStyle: '',
   setMapStyle: mapStyle => set({ mapStyle }),
 })
 
+/**
+ * @param {Setter} set
+ * @param {Getter} get
+ * @returns {{
+ *  tabIndex: number,
+ *  setTabIndex: (tabIndex: number) => Setter
+ * }}
+ */
+const persistedUiStoreSlice = (set, get) => ({
+  tabIndex: 0,
+  setTabIndex: tabIndex => set({ tabIndex }),
+})
+
 export const useExperimentsFlagsStore = createPersistedStore(experimentsFlagsStoreSlice, 'experiments-flags')
 export const useBackgroundMapStore = createPersistedStore(backgroundMapStoreSlice, 'background-maps')
+export const usePersistedUiStore = createPersistedStore(persistedUiStoreSlice, 'ui')
