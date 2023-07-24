@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import store from '../persist-store'
+import store from '../../persist-store'
 
 /**
  * @type {import('zustand/middleware').StateStorage}
@@ -26,7 +26,7 @@ const storage = {
    */
   removeItem: async key => {
     await store.delete(key)
-  },
+  }
 }
 
 /**
@@ -38,8 +38,8 @@ const createPersistedStore = (slice, storeName) =>
   create(
     persist(slice, {
       name: storeName,
-      storage: createJSONStorage(() => storage),
-    }),
+      storage: createJSONStorage(() => storage)
+    })
   )
 
 /**
@@ -55,7 +55,7 @@ const createPersistedStore = (slice, storeName) =>
  */
 const experimentsFlagsStoreSlice = (set, get) => ({
   backgroundMaps: false,
-  setBackgroundMapsFlag: backgroundMaps => set({ backgroundMaps }),
+  setBackgroundMapsFlag: backgroundMaps => set({ backgroundMaps })
 })
 
 /**
@@ -69,7 +69,7 @@ const experimentsFlagsStoreSlice = (set, get) => ({
  */
 const backgroundMapStoreSlice = (set, get) => ({
   mapStyle: '',
-  setMapStyle: mapStyle => set({ mapStyle }),
+  setMapStyle: mapStyle => set({ mapStyle })
 })
 
 /**
@@ -82,9 +82,18 @@ const backgroundMapStoreSlice = (set, get) => ({
  */
 const persistedUiStoreSlice = (set, get) => ({
   tabIndex: 0,
-  setTabIndex: tabIndex => set({ tabIndex }),
+  setTabIndex: tabIndex => set({ tabIndex })
 })
 
-export const useExperimentsFlagsStore = createPersistedStore(experimentsFlagsStoreSlice, 'experiments-flags')
-export const useBackgroundMapStore = createPersistedStore(backgroundMapStoreSlice, 'background-maps')
-export const usePersistedUiStore = createPersistedStore(persistedUiStoreSlice, 'ui')
+export const useExperimentsFlagsStore = createPersistedStore(
+  experimentsFlagsStoreSlice,
+  'experiments-flags'
+)
+export const useBackgroundMapStore = createPersistedStore(
+  backgroundMapStoreSlice,
+  'background-maps'
+)
+export const usePersistedUiStore = createPersistedStore(
+  persistedUiStoreSlice,
+  'ui'
+)
