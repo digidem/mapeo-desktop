@@ -10,7 +10,7 @@ const translations = {
   pt: require('../../messages/main/pt.json'),
   th: require('../../messages/main/th.json'),
   vi: require('../../messages/main/vi.json'),
-  km: require('../../messages/main/km.json'),
+  km: require('../../messages/main/km.json')
 }
 
 // We only support generalized locales for now (i.e., no difference between
@@ -36,14 +36,17 @@ class I18n extends EventEmitter {
   formatMessage (id) {
     const locale = this.locale
     const messages =
-      translations[locale] || translations[this.genericLocale] || translations[this.defaultLocale]
+      translations[locale] ||
+      translations[this.genericLocale] ||
+      translations[this.defaultLocale]
     if (!messages) {
       logger.debug('No translations for locale "' + locale + '"')
       return '[No translation]'
     }
     const message =
       (translations[locale] && translations[locale][id]) ||
-      (translations[this.genericLocale] && translations[this.genericLocale][id]) ||
+      (translations[this.genericLocale] &&
+        translations[this.genericLocale][id]) ||
       (translations[this.defaultLocale] && translations[this.defaultLocale][id])
     if (!message) {
       logger.debug(`No translations for '${id}' in locale '${locale}'`)
@@ -55,7 +58,10 @@ class I18n extends EventEmitter {
   setLocale (newLocale) {
     if (!newLocale || newLocale.length !== 2)
       return logger.error(
-        new Error('Tried to set locale and failed, must be a 2 character string', newLocale),
+        new Error(
+          'Tried to set locale and failed, must be a 2 character string',
+          newLocale
+        )
       )
     logger.info('Changing locale to', newLocale)
     this.locale = newLocale

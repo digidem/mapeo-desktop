@@ -20,7 +20,6 @@ class Logger {
   }
 
   configure ({ userDataPath, label, isDev }) {
-    console.log('test')
     this._startBugsnag(isDev ? 'development' : 'production')
     const prettyPrint = winston.format.printf(
       ({ level, message, label, timestamp }) => {

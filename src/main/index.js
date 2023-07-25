@@ -52,7 +52,7 @@ async function startup ({
   mapsdir,
   debug = false,
   headless = false,
-  datadir,
+  datadir
 }) {
   // Before we do anything, let's make sure we're ready to gracefully shut down
   onExit(beforeQuit)
@@ -65,7 +65,7 @@ async function startup ({
     showLookUpSelection: false,
     showCopyImage: true,
     showSaveImageAs: true,
-    showInspectElement: isDev,
+    showInspectElement: isDev
   })
 
   // Set up Electron IPC bridge with frontend in electron-renderer process
@@ -80,7 +80,7 @@ async function startup ({
     mapeoServerPort,
     tileServerPort,
     mapPrinterPort,
-    mapServerPort,
+    mapServerPort
   })
   if (debug) winMain.webContents.openDevTools()
   /** @type {BrowserWindow | null} */
@@ -95,25 +95,31 @@ async function startup ({
     datadir,
     mapeoServerPort,
     tileServerPort,
-    userDataPath,
+    userDataPath
   }
   /** @type {import('../utils/types').MapPrinterOptions} */
   const mapPrinterArgs = {
-    mapPrinterPort,
+    mapPrinterPort
   }
 
   // Background processes
   const backgroundProcesses = new BackgroundProcessManager()
-  backgroundProcesses.createProcess(path.join(__dirname, '../background/mapeo-core'), {
-    id: 'mapeoCore',
-    args: mapeoCoreArgs,
-    devTools: debug,
-  })
-  backgroundProcesses.createProcess(path.join(__dirname, '../background/map-printer'), {
-    id: 'mapPrinter',
-    args: mapPrinterArgs,
-    devTools: debug,
-  })
+  backgroundProcesses.createProcess(
+    path.join(__dirname, '../background/mapeo-core'),
+    {
+      id: 'mapeoCore',
+      args: mapeoCoreArgs,
+      devTools: debug
+    }
+  )
+  backgroundProcesses.createProcess(
+    path.join(__dirname, '../background/map-printer'),
+    {
+      id: 'mapPrinter',
+      args: mapPrinterArgs,
+      devTools: debug
+    }
+  )
 
   // Subscribe the main window to background process state changes
   const unsubscribeMainWindow = backgroundProcesses.subscribeWindow(winMain)
@@ -121,7 +127,12 @@ async function startup ({
   app.on('second-instance', () => {
     // Someone tried to run a second instance, we should focus our window.
     logger.debug('Second instance of app detected, bringing focus to here')
-    const win = status === 'loading' ? winLoading : status === 'ready' ? winMain : winClosing
+    const win =
+      status === 'loading'
+        ? winLoading
+        : status === 'ready'
+        ? winMain
+        : winClosing
     if (win) {
       if (win.isMinimized()) win.restore()
       win.focus()
@@ -142,7 +153,10 @@ async function startup ({
   try {
     // Show loading window straight away
     // TODO: Start other tasks in parallel to this await, but is it worth it?
-    await logger.timedPromise(winLoading.loadFile(LoadingWindow.filePath), 'Loaded loading window')
+    await logger.timedPromise(
+      winLoading.loadFile(LoadingWindow.filePath),
+      'Loaded loading window'
+    )
     winLoading.show()
 
     // Set up a message channel & IPC for communicating between the main process
@@ -160,7 +174,7 @@ async function startup ({
       mkdirp(datadir),
       mkdirp(mapsdir),
       mkdirp(path.join(userDataPath, 'presets')),
-      mkdirp(path.join(userDataPath, 'styles')),
+      mkdirp(path.join(userDataPath, 'styles'))
     ])
 
     // Running this in the main thread rather than in a background process because
@@ -173,18 +187,24 @@ async function startup ({
     // not slow down the main process nor block the render thread if we run it
     // here from the main process...
     mapServer = createMapServer(undefined, {
-      database: new Database(path.join(mapsdir, 'maps.db')),
+      database: new Database(path.join(mapsdir, 'maps.db'))
     })
 
     await logger.timedPromise(
       Promise.all([
         // Startup background processes and servers
-        logger.timedPromise(backgroundProcesses.startAll(), 'Started background processes'),
-        logger.timedPromise(mapServer.listen(mapServerPort, '127.0.0.1'), 'Started Mapeo Map Server'),
+        logger.timedPromise(
+          backgroundProcesses.startAll(),
+          'Started background processes'
+        ),
+        logger.timedPromise(
+          mapServer.listen(mapServerPort, '127.0.0.1'),
+          'Started Mapeo Map Server'
+        ),
         // Load main window and show it when it has loaded
-        logger.timedPromise(loadMainWindow(), 'First render in main window'),
+        logger.timedPromise(loadMainWindow(), 'First render in main window')
       ]),
-      'Frontend & backend ready',
+      'Frontend & backend ready'
     )
 
     if (debug) winMain.webContents.openDevTools()
@@ -206,7 +226,11 @@ async function startup ({
 
   // Load main window but wait for first render before showing
   async function loadMainWindow () {
-    winMain && (await logger.timedPromise(winMain.loadFile(MainWindow.filePath), 'Main window load'))
+    winMain &&
+      (await logger.timedPromise(
+        winMain.loadFile(MainWindow.filePath),
+        'Main window load'
+      ))
     await once(ipcMain, 'frontend-rendered')
     winMain && winMain.show()
   }
@@ -224,14 +248,21 @@ async function startup ({
       if (winMain && winMain.webContents) {
         winMain.webContents.send.apply(winMain.webContents, args)
 
-        if (winClosing && winClosing.webContents && args[0].startsWith('CLOSING:')) {
+        if (
+          winClosing &&
+          winClosing.webContents &&
+          args[0].startsWith('CLOSING:')
+        ) {
           winClosing.webContents.send.apply(winClosing.webContents, args)
         }
 
         return true
       } else return false
     } catch (e) {
-      logger.error('exception win.webContents.send ' + JSON.stringify(args), e.stack)
+      logger.error(
+        'exception win.webContents.send ' + JSON.stringify(args),
+        e.stack
+      )
       return false
     }
   }
@@ -265,7 +296,10 @@ async function startup ({
     }, 300)
 
     // Close background processes
-    await logger.timedPromise(backgroundProcesses.stopAll(), 'Stopped background processes')
+    await logger.timedPromise(
+      backgroundProcesses.stopAll(),
+      'Stopped background processes'
+    )
 
     if (mapServer) {
       await logger.timedPromise(mapServer.close(), 'Stopped Mapeo Map Server')
