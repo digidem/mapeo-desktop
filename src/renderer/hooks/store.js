@@ -12,7 +12,7 @@ const storage = {
    * @returns {Promise<string | null>}
    */
   getItem: key => {
-    return (store.get(key)) || null
+    return /** @type {string | null} */ (store.get(key)) || null
   },
   /**
    * @param {string} key - A string key to reference the stored item by.
