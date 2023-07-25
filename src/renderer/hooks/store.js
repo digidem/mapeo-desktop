@@ -1,3 +1,4 @@
+// @ts-check
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import store from '../../persist-store'
@@ -10,29 +11,31 @@ const storage = {
    * @param {string}  key - A string key to reference the stored item by.
    * @returns {Promise<string | null>}
    */
-  getItem: async key => {
-    return (await store.get(key)) || null
+  getItem: key => {
+    return (store.get(key)) || null
   },
   /**
    * @param {string} key - A string key to reference the stored item by.
    * @param {string} state - The state to be persisted - stringified JSON.
    * @returns {Promise<void>}
    */
-  setItem: async (key, state) => {
-    await store.set(key, state)
+  setItem: (key, state) => {
+    store.set(key, state)
   },
   /**
    * @param {string}  key - A string key to reference the stored item to be removed.
    */
-  removeItem: async key => {
-    await store.delete(key)
+  removeItem: key => {
+    store.delete(key)
   }
 }
 
 /**
- * @param {(set: Setter, get: Getter) => unknown} slice - A string key to reference the stored item by.
- * @param {string} storeName - Unique name of the store.
- * @returns {import('zustand').StateCreator}
+ * @template T
+ * @param {import('zustand').StateCreator<T>} slice
+ * @param {string} storeName
+ * @returns {import('zustand').UseBoundStore<import('zustand').StoreApi<T>>}
+ *
  */
 const createPersistedStore = (slice, storeName) =>
   create(
@@ -43,15 +46,14 @@ const createPersistedStore = (slice, storeName) =>
   )
 
 /**
- * @typedef {import('zustand').StoreApi<T>['setState']} Setter
- * @typedef {import('zustand').StoreApi<T>['getState']} Getter
- * @typedef {boolean} BackgroundMapsFlag
- * @param {Setter} set
- * @param {Getter} get
- * @returns {{
- *  backgroundMaps: BackgroundMapsFlag,
- *  setBackgroundMapsFlag: (backgroundMaps: BackgroundMapsFlag) => Setter
- * }}
+ * @typedef {{
+ *  backgroundMaps: boolean,
+ *  setBackgroundMapsFlag: (backgroundMaps:boolean) => void,
+ * }} ExperimentsFlagsStoreSlice
+ */
+
+/**
+ * @type {import('zustand').StateCreator<ExperimentsFlagsStoreSlice>}
  */
 const experimentsFlagsStoreSlice = (set, get) => ({
   backgroundMaps: false,
@@ -59,13 +61,13 @@ const experimentsFlagsStoreSlice = (set, get) => ({
 })
 
 /**
- * @typedef {string} MapStyle
- * @param {Setter} set
- * @param {Getter} get
- * @returns {{
+ * @typedef {{
  *  mapStyle: MapStyle,
- *  setMapStyle: (mapStyle: MapStyle) => Setter
- * }}
+ *  setMapStyle: (mapStyle: MapStyle) => void
+ * }} BackgroundMapStoreSlice
+ */
+/**
+ * @type {import('zustand').StateCreator<BackgroundMapStoreSlice>}
  */
 const backgroundMapStoreSlice = (set, get) => ({
   mapStyle: '',
@@ -73,12 +75,13 @@ const backgroundMapStoreSlice = (set, get) => ({
 })
 
 /**
- * @param {Setter} set
- * @param {Getter} get
- * @returns {{
+ * @typedef {{
  *  tabIndex: number,
- *  setTabIndex: (tabIndex: number) => Setter
- * }}
+ *  setTabIndex: (tabIndex: number) => void
+ * }} PersistedUiStoreSlice
+ */
+/**
+ * @type {import('zustand').StateCreator<PersistedUiStoreSlice>}
  */
 const persistedUiStoreSlice = (set, get) => ({
   tabIndex: 0,
