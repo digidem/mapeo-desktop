@@ -9,7 +9,7 @@ import store from '../../persist-store'
 const storage = {
   /**
    * @param {string}  key - A string key to reference the stored item by.
-   * @returns {Promise<string | null>}
+   * @returns {string | null}
    */
   getItem: key => {
     return /** @type {string | null} */ (store.get(key)) || null
@@ -17,10 +17,10 @@ const storage = {
   /**
    * @param {string} key - A string key to reference the stored item by.
    * @param {string} state - The state to be persisted - stringified JSON.
-   * @returns {Promise<void>}
+   * @returns {void}
    */
   setItem: (key, state) => {
-    store.set(key, state)
+    store.set(key, JSON.parse(state))
   },
   /**
    * @param {string}  key - A string key to reference the stored item to be removed.
@@ -35,7 +35,6 @@ const storage = {
  * @param {import('zustand').StateCreator<T>} slice
  * @param {string} storeName
  * @returns {import('zustand').UseBoundStore<import('zustand').StoreApi<T>>}
- *
  */
 const createPersistedStore = (slice, storeName) =>
   create(
@@ -62,8 +61,8 @@ const experimentsFlagsStoreSlice = (set, get) => ({
 
 /**
  * @typedef {{
- *  mapStyle: MapStyle,
- *  setMapStyle: (mapStyle: MapStyle) => void
+ *  mapStyle: string,
+ *  setMapStyle: (mapStyle: string) => void
  * }} BackgroundMapStoreSlice
  */
 /**
