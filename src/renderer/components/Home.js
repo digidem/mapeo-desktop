@@ -20,7 +20,7 @@ import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import useUpdater from './UpdaterView/useUpdater'
 import Loading from './Loading'
 import buildConfig from '../../build-config'
-import { usePersistedUiStore } from '../store'
+import { usePersistedUiStore } from '../hooks/store'
 
 const MapFilter = React.lazy(() =>
   import(
