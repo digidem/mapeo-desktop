@@ -11,10 +11,8 @@ import { MapCard } from './MapCard'
 const m = defineMessages({
   // Button to add map background
   addMap: 'Add Map Background',
-  // Button to create an offline area for a map backgroun
-  createOfflineMap: 'Create Offline Map',
   // button to go back to settings
-  backToSettings: 'Back to Settings',
+  backToSettings: 'Back to Settings'
 })
 /**
  * @typedef SidePanelProps
@@ -75,19 +73,19 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    minWidth: '35%',
+    minWidth: '35%'
   },
   buttonContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: 20,
+    padding: 20
   },
   button: {
     textTransform: 'none',
-    fontSize: 12,
+    fontSize: 12
   },
   firstButton: {
-    marginRight: 10,
+    marginRight: 10
   },
   backHeader: {
     justifyContent: 'flex-start',
@@ -99,7 +97,7 @@ const useStyles = makeStyles({
     display: 'flex',
     textTransform: 'none',
     '& :first-child': {
-      marginRight: 20,
-    },
-  },
+      marginRight: 20
+    }
+  }
 })
