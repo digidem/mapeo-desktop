@@ -718,6 +718,10 @@
     "description": "Title for import errot pop up dialog,",
     "message": "Background Maps Import Error"
   },
+  "renderer.components.dialogs.ImportMapStyle.importFile": {
+    "description": "Label of 'Import File' button",
+    "message": "Import File"
+  },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"
   },

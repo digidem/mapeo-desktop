@@ -28,7 +28,9 @@ const m = defineMessages({
   importErrorTitle: 'Background Maps Import Error',
   // Description of map import error
   importErrorDescription:
-    'There was an error importing the background maps. Please try again.'
+    'There was an error importing the background maps. Please try again.',
+  // Label of 'Import File' button
+  importFile: 'Import File'
 })
 
 /**
@@ -52,7 +54,7 @@ export const ImportMapStyleDialog = ({ open, close }) => {
 
     try {
       const filePath = result.filePaths[0]
-      console.log({ filePath })
+
       await mutation.mutateAsync({ filePath })
       close()
     } catch (err) {
@@ -93,7 +95,7 @@ export const ImportMapStyleDialog = ({ open, close }) => {
                 variant='h2'
                 style={{ fontSize: 18, fontWeight: 500 }}
               >
-                Import File
+                {t(m.importFile)}
               </Typography>
               <Typography variant='h3' style={{ fontSize: 18 }}>
                 {'(.mbtiles)'}
