@@ -8,6 +8,7 @@ import Loading from '../Loading'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 import { MapboxPrevOnly } from './MapCard'
 import { convertKbToMb } from '../SettingsView/BackgroundMaps'
+import { useMapServerMutation } from '../../hooks/useMapServerMutation'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -23,7 +24,7 @@ const m = defineMessages({
   // Zoom Level Title
   zoomLevel: 'Zoom Level: {zoom}',
   // abbreviation for megabyte
-  mb: 'MB',
+  mb: 'MB'
 })
 
 /**
@@ -47,23 +48,34 @@ export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
           flex: 1,
           width: '100%',
           height: '100%',
-          padding: !data ? 40 : 0,
+          padding: !data ? 40 : 0
         }}
       >
         {!data ? (
           <Loading />
         ) : (
-          <React.Fragment>
-            <MapInfo name={data.name} id={id} unsetMapValue={unsetMapValue} url={url} />
+          <>
+            <MapInfo
+              name={data.name}
+              id={id}
+              unsetMapValue={unsetMapValue}
+              url={url}
+            />
             {/* Text */}
             <div style={{ padding: 20 }}>
               <Typography variant='subtitle2' style={{ fontSize: 18 }}>
                 {data.name}
               </Typography>
-              {data.zoom && <Typography variant='body1'>{t(m.zoomLevel, { zoom: data.zoom })}</Typography>}
-              <Typography variant='body1'>{`${Math.round(convertKbToMb(size))} ${t(m.mb)}`}</Typography>
+              {data.zoom && (
+                <Typography variant='body1'>
+                  {t(m.zoomLevel, { zoom: data.zoom })}
+                </Typography>
+              )}
+              <Typography variant='body1'>{`${Math.round(
+                convertKbToMb(size)
+              )} ${t(m.mb)}`}</Typography>
             </div>
-          </React.Fragment>
+          </>
         )}
       </Paper>
     </Fade>
@@ -84,22 +96,20 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
 
   const { formatMessage: t } = useIntl()
 
-  /**
-   *
-   * @param {string} mapId
-   */
+  const mutation = useMapServerMutation('delete', `/styles/${id}`)
 
-  // To Do, useMapServerMutation.mutate()
-  function deleteMap (mapId) {}
+  async function deleteMap () {
+    await mutation.mutateAsync(null) // tc complains if no arg is passed...
+  }
 
   return (
-    <React.Fragment>
+    <>
       {/* Banner */}
       <Paper className={classes.banner}>
         <Typography variant='h5'>{name}</Typography>
 
         <div>
-          <Button variant='outlined' onClick={() => deleteMap(id)}>
+          <Button variant='outlined' onClick={() => deleteMap()}>
             <DeleteIcon />
             <Typography style={{ textTransform: 'none' }} variant='subtitle2'>
               {t(m.deleteStyle)}
@@ -109,8 +119,12 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
       </Paper>
 
       {/* Map */}
-      <MapboxPrevOnly style={url} containerStyle={{ height: '60%', width: '100%' }} zoom={[0]} />
-    </React.Fragment>
+      <MapboxPrevOnly
+        style={url}
+        containerStyle={{ height: '60%', width: '100%' }}
+        zoom={[0]}
+      />
+    </>
   )
 }
 
@@ -118,21 +132,21 @@ const useStyles = makeStyles({
   buttonContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   banner: {
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
-    padding: '10px 20px',
+    padding: '10px 20px'
   },
   textBanner: {
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-evenly'
   },
   offlineCardContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
-  },
+    justifyContent: 'space-evenly'
+  }
 })
