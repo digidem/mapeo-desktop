@@ -28,10 +28,10 @@ export const SidePanel = ({ openSettings, mapValue, setMapValue }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
-  const { data, isLoading } = useMapServerQuery('/styles', true)
+  const { data, isLoading, refetch } = useMapServerQuery('/styles', false)
 
   return (
-    <React.Fragment>
+    <>
       <div className={classes.sidePanel}>
         <Button onClick={openSettings} className={classes.backHeader}>
           <ChevronLeft />
@@ -60,8 +60,12 @@ export const SidePanel = ({ openSettings, mapValue, setMapValue }) => {
           ))
         ) : null}
       </div>
-      <ImportMapStyleDialog open={open} close={() => setOpen(false)} />
-    </React.Fragment>
+      <ImportMapStyleDialog
+        open={open}
+        close={() => setOpen(false)}
+        refetch={refetch}
+      />
+    </>
   )
 }
 

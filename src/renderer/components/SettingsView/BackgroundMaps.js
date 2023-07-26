@@ -9,7 +9,7 @@ import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 
 const m = defineMessages({
   // Title for description of offline maps
-  mapBackgroundTitle: 'Managing Map Backgrounds and Offline Areas',
+  mapBackgroundTitle: 'Managing Map Backgrounds and Offline Areas'
 })
 
 /** @typedef {import('../../hooks/useMapServerQuery').MapServerStyleInfo} MapServerStyleInfo */
@@ -34,22 +34,31 @@ export const BackgroundMaps = ({ returnToSettings }) => {
     setMapValue(false)
   }
 
-  const offlineMap = React.useMemo(() => data && data.find(m => m.id === mapValue), [data, mapValue])
+  const offlineMap = React.useMemo(
+    () => data && data.find(m => m.id === mapValue),
+    [data, mapValue]
+  )
 
   return (
-    <React.Fragment>
-      <SidePanel mapValue={mapValue} openSettings={returnToSettings} setMapValue={setMapValue} />
+    <>
+      <SidePanel
+        mapValue={mapValue}
+        openSettings={returnToSettings}
+        setMapValue={setMapValue}
+      />
 
       {!mapValue || !data ? (
         <div style={{ padding: 40 }}>
           <Typography variant='h4'> {t(m.mapBackgroundTitle)}</Typography>
 
           <Typography variant='body1'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-            in culpa qui officia deserunt mollit anim id est laborum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
             <br />
           </Typography>
         </div>
@@ -62,7 +71,7 @@ export const BackgroundMaps = ({ returnToSettings }) => {
           url={offlineMap.url}
         />
       ) : null}
-    </React.Fragment>
+    </>
   )
 }
 

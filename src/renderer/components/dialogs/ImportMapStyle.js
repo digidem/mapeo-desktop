@@ -37,10 +37,11 @@ const m = defineMessages({
  * @typedef ImportMapStyleDialogProps
  * @prop {boolean} open
  * @prop {()=>void} close
+ * @prop {()=>void} refetch
  */
 
 /** @param {ImportMapStyleDialogProps} importMapStyleDialogProps */
-export const ImportMapStyleDialog = ({ open, close }) => {
+export const ImportMapStyleDialog = ({ open, close, refetch }) => {
   const { formatMessage: t } = useIntl()
   const mutation = useMapServerMutation('post', '/tilesets/import')
 
@@ -57,6 +58,7 @@ export const ImportMapStyleDialog = ({ open, close }) => {
 
       await mutation.mutateAsync({ filePath })
       close()
+      refetch()
     } catch (err) {
       close()
       onError(err)
