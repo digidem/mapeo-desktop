@@ -712,7 +712,7 @@
   },
   "renderer.components.dialogs.ImportMapStyle.importErrorDescription": {
     "description": "Description of map import error",
-    "message": "There was an error importing the background maps. Please try again."
+    "message": "There was an error importing the background maps. Please try again. Error message:"
   },
   "renderer.components.dialogs.ImportMapStyle.importErrorTitle": {
     "description": "Title for import errot pop up dialog,",
