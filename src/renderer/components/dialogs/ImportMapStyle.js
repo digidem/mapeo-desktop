@@ -28,7 +28,7 @@ const m = defineMessages({
   importErrorTitle: 'Background Maps Import Error',
   // Description of map import error
   importErrorDescription:
-    'There was an error importing the background maps. Please try again.',
+    'There was an error importing the background maps. Please try again. Error message:',
   // Label of 'Import File' button
   importFile: 'Import File'
 })
@@ -64,9 +64,13 @@ export const ImportMapStyleDialog = ({ open, close, refetch }) => {
       onError(err)
     }
 
-    function onError (err) {
+    async function onError (err) {
       console.log({ err })
-      // remote.dialog.showErrorBox(t(m.importErrorTitle), t(m.importErrorDescription) + ': ' + err)
+      ipcRenderer.send(
+        'show-error-dialog',
+        t(m.importErrorTitle),
+        `${t(m.importErrorDescription)} ${err}`
+      )
     }
   }
 

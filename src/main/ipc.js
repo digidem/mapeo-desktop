@@ -104,6 +104,10 @@ module.exports = function (ipcSend) {
     return result
   })
 
+  ipcMain.on('show-error-dialog', function (event, title, content) {
+    dialog.showErrorBox(title, content)
+  })
+
   ipcMain.on('save-file', function () {
     var metadata = userConfig.getSettings('metadata')
     var ext = metadata ? metadata.dataset_id : 'mapeodata'
