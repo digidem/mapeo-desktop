@@ -29,7 +29,7 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
         height: '100vh',
         borderRadius: 0,
         zIndex: 1,
-        position: 'relative',
+        position: 'relative'
       }}
     >
       <StyledTabs
@@ -37,21 +37,19 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
         value={currentTab}
         onChange={(e, newValue) => onTabChange(newValue)}
       >
-        {
-          tabs.map(tab => (
-            <Tab
-              disableRipple
-              orientation='vertical'
-              key={tab.tabId}
-              value={tab.tabId}
-              component={RenderTab}
-              tab={tab}
-              active={tab.tabId === currentTab}
-            />
-          ))
-        }
-      </StyledTabs >
-    </Paper >
+        {tabs.map(tab => (
+          <Tab
+            disableRipple
+            orientation='vertical'
+            key={tab.tabId}
+            value={tab.tabId}
+            component={RenderTab}
+            tab={tab}
+            active={tab.tabId === currentTab}
+          />
+        ))}
+      </StyledTabs>
+    </Paper>
   )
 }
 
@@ -62,21 +60,17 @@ export const SettingsMenu = ({ tabs, currentTab, onTabChange }) => {
  * @prop {(e: React.Dispatch<number>) => number} onTabChange
  */
 /** @param {RenderTabProps} props */
-export const RenderTab = React.forwardRef(({ tab: { icon, label, subtitle, type }, ...rest }, ref) => (
-  <SettingsItem icon={icon} label={label} subtitle={subtitle} type={type || 'menuItem'} {...rest} />
-))
-
-const StyledTabs = styled(Tabs)`
-  height: 100vh;
-  padding-top: 1em;
-  & .MuiTabs-indicator {
-    display: none;
-  }
-
-  & .MuiTab-root {
-    max-width: 100%;
-  }
-`
+export const RenderTab = React.forwardRef(
+  ({ tab: { icon, label, subtitle, type }, ...rest }, ref) => (
+    <SettingsItem
+      icon={icon}
+      label={label}
+      subtitle={subtitle}
+      type={type || 'menuItem'}
+      {...rest}
+    />
+  )
+)
 
 const StyledTabs = styled(Tabs)`
   height: 100vh;
