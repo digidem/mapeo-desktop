@@ -8,13 +8,16 @@ export const useMapStylesQuery = () => {
   const backgroundMapsEnabled = useExperimentsFlagsStore(
     store => store.backgroundMaps
   )
+
   const legacyStyleQueryResult = useLegacyMapStyleQuery(!backgroundMapsEnabled)
   const mapStylesQueryResult = useMapServerQuery(
     '/styles',
     backgroundMapsEnabled
   )
 
-  return backgroundMapsEnabled ? mapStylesQueryResult : legacyStyleQueryResult
+  return backgroundMapsEnabled
+    ? mapStylesQueryResult?.data
+    : legacyStyleQueryResult
 }
 
 export const useLegacyMapStyleQuery = enabled => {
