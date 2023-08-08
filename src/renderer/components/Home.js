@@ -16,7 +16,6 @@ import ErrorDialog from './dialogs/Error'
 import ChangeLanguage from './dialogs/ChangeLanguage'
 import TitleBarShim from './TitleBarShim'
 import { defineMessages, useIntl } from 'react-intl'
-import createPersistedState from '../hooks/createPersistedState'
 import SyncView from './SyncView'
 import { STATES as updateStates, UpdaterView, UpdateTab } from './UpdaterView'
 import { SettingsView } from './SettingsView'
@@ -24,6 +23,7 @@ import { SettingsView } from './SettingsView'
 import useUpdater from './UpdaterView/useUpdater'
 import Loading from './Loading'
 import buildConfig from '../../build-config'
+import { usePersistedUiStore } from '../hooks/store'
 
 const MapFilter = React.lazy(() =>
   import(
@@ -180,7 +180,7 @@ const focusStates = {
   exited: 'blurred'
 }
 
-function TabPanel(props) {
+function TabPanel (props) {
   const {
     value,
     index,
@@ -222,12 +222,13 @@ function TabPanel(props) {
   ) : null
 }
 
-const useTabIndex = createPersistedState('currentView')
-
-export default function Home({ onSelectLanguage }) {
+export default function Home ({ onSelectLanguage }) {
   const [dialog, setDialog] = React.useState(null)
   const [error, setError] = React.useState(null)
-  const [tabIndex, setTabIndex] = useTabIndex(0)
+  const [tabIndex, setTabIndex] = usePersistedUiStore(store => [
+    store.tabIndex,
+    store.setTabIndex
+  ])
   const [update, setUpdate] = useUpdater()
   const { formatMessage: t } = useIntl()
 

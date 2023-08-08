@@ -3,7 +3,7 @@
 const remote = require('@electron/remote/main')
 const electron = require('electron')
 
-const store = require('../store')
+const store = require('../persist-store')
 
 const defaults = {
   maximize: false,

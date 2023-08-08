@@ -9,6 +9,7 @@ const contextMenu = require('electron-context-menu')
 const mkdirp = require('mkdirp')
 const Database = require('better-sqlite3')
 const createMapServer = require('@mapeo/map-server')
+const Store = require('electron-store')
 
 const onExit = require('./exit-hook')
 const BackgroundProcessManager = require('./background-process')
@@ -105,11 +106,19 @@ async function startup ({
   const backgroundProcesses = new BackgroundProcessManager()
   backgroundProcesses.createProcess(
     path.join(__dirname, '../background/mapeo-core'),
-    { id: 'mapeoCore', args: mapeoCoreArgs, devTools: debug }
+    {
+      id: 'mapeoCore',
+      args: mapeoCoreArgs,
+      devTools: debug
+    }
   )
   backgroundProcesses.createProcess(
     path.join(__dirname, '../background/map-printer'),
-    { id: 'mapPrinter', args: mapPrinterArgs, devTools: debug }
+    {
+      id: 'mapPrinter',
+      args: mapPrinterArgs,
+      devTools: debug
+    }
   )
 
   // Subscribe the main window to background process state changes
@@ -136,6 +145,9 @@ async function startup ({
     const port = event.ports[0]
     backgroundProcesses.addClient('mapeoCore', port)
     // TODO: Remove client when window reloads? Is this a significant leak?
+
+    // Initialise the store so it can be called in the render process
+    Store.initRenderer()
   })
 
   try {
