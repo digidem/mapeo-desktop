@@ -4,7 +4,7 @@ const DailyRotateFile = require('winston-daily-rotate-file')
 const util = require('util')
 const { format } = require('date-fns')
 
-const store = require('./store')
+const store = require('./persist-store')
 const appVersion = require('./build-config').version
 
 let Bugsnag

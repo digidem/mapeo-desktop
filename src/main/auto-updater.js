@@ -5,7 +5,7 @@ const compareVersions = require('compare-versions')
 const currentVersion = require('../build-config').version
 
 const networkSpeed = require('./network-speed')
-const store = require('../store')
+const store = require('../persist-store')
 const logger = require('../logger')
 
 // MapeoUpdater emits the 'error' event when there is an internal error with
