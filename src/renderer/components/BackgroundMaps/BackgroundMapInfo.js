@@ -3,12 +3,14 @@ import { Button, Fade, makeStyles, Paper, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
+import CheckIcon from '@material-ui/icons/Check'
 
 import Loading from '../Loading'
 import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 import { MapboxPrevOnly } from './MapCard'
 import { convertKbToMb } from '../SettingsView/BackgroundMaps'
 import { useMapServerMutation } from '../../hooks/useMapServerMutation'
+import { useBackgroundMapStore } from '../../hooks/store'
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -24,7 +26,11 @@ const m = defineMessages({
   // Zoom Level Title
   zoomLevel: 'Zoom Level: {zoom}',
   // abbreviation for megabyte
-  mb: 'MB'
+  mb: 'MB',
+  // Button text for 'Use Map' button
+  useMap: 'Use Map',
+  // Button text for 'Use Map' button when map is selected
+  currentMap: 'Current Map'
 })
 
 /**
@@ -39,7 +45,15 @@ const m = defineMessages({
 export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
   const { formatMessage: t } = useIntl()
 
+  const [mapStyle, setMapStyle] = useBackgroundMapStore(store => [
+    store.mapStyle,
+    store.setMapStyle
+  ])
+
   const { data } = useMapServerQuery(`/styles/${id}`)
+  const classes = useStyles()
+
+  const isCurrentMap = mapStyle === id
 
   return (
     <Fade in timeout={0}>
@@ -62,7 +76,7 @@ export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
               url={url}
             />
             {/* Text */}
-            <div style={{ padding: 20 }}>
+            <div className={classes.paddedContainer}>
               <Typography variant='subtitle2' style={{ fontSize: 18 }}>
                 {data.name}
               </Typography>
@@ -74,6 +88,21 @@ export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
               <Typography variant='body1'>{`${Math.round(
                 convertKbToMb(size)
               )} ${t(m.mb)}`}</Typography>
+              <Button
+                variant='outlined'
+                onClick={() => setMapStyle(id)}
+                className={`${classes.paddedButton} ${isCurrentMap &&
+                  classes.iconButton}`}
+                disabled={id === mapStyle}
+              >
+                <Typography
+                  style={{ textTransform: 'none' }}
+                  variant='subtitle2'
+                >
+                  {isCurrentMap ? t(m.currentMap) : t(m.useMap)}
+                </Typography>
+                {isCurrentMap ? <CheckIcon className={classes.icon} /> : null}
+              </Button>
             </div>
           </>
         )}
@@ -110,7 +139,7 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
 
         <div>
           <Button variant='outlined' onClick={() => deleteMap()}>
-            <DeleteIcon />
+            <DeleteIcon className={classes.icon} />
             <Typography style={{ textTransform: 'none' }} variant='subtitle2'>
               {t(m.deleteStyle)}
             </Typography>
@@ -138,7 +167,8 @@ const useStyles = makeStyles({
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
-    padding: '10px 20px'
+    padding: '10px 20px',
+    borderRadius: 0
   },
   textBanner: {
     display: 'flex',
@@ -148,5 +178,17 @@ const useStyles = makeStyles({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-evenly'
+  },
+  paddedContainer: {
+    padding: 20
+  },
+  paddedButton: {
+    marginTop: 20
+  },
+  iconButton: {
+    padding: '5px 10px 5px 15px'
+  },
+  icon: {
+    height: 20
   }
 })
