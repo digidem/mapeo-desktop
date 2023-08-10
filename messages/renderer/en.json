@@ -3,6 +3,10 @@
     "description": "Button to create an offline area",
     "message": "Create Offline Area"
   },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.currentMap": {
+    "description": "Button text for 'Use Map' button when map is selected",
+    "message": "Current Map"
+  },
   "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteErrorDescription": {
     "description": "Description for error message when deleting style,",
     "message": "There was an error deleting the style"
@@ -23,6 +27,10 @@
     "description": "Title for Offline Areas",
     "message": "Offline Areas"
   },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.useMap": {
+    "description": "Button text for 'Use Map' button",
+    "message": "Use Map"
+  },
   "renderer.components.BackgroundMaps.BackgroundMapInfo.zoomLevel": {
     "description": "Zoom Level Title",
     "message": "Zoom Level: {zoom}"
@@ -30,6 +38,10 @@
   "renderer.components.BackgroundMaps.MapCard.areas": {
     "description": "indicates how many offline areas",
     "message": "offline areas"
+  },
+  "renderer.components.BackgroundMaps.MapCard.currentMap": {
+    "description": "Label to indicate when map is selected",
+    "message": "Current Map"
   },
   "renderer.components.BackgroundMaps.MapCard.mb": {
     "description": "Abbreviation for megabytes",
@@ -382,6 +394,18 @@
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Oh dear! An error has occurred"
+  },
+  "renderer.components.MapFilter.MapView.BackgroundMapSelector.close": {
+    "description": "Label for dismiss button",
+    "message": "Close"
+  },
+  "renderer.components.MapFilter.MapView.BackgroundMapSelector.manageMapsLink": {
+    "description": "Label for link to manage maps",
+    "message": "Manage Maps"
+  },
+  "renderer.components.MapFilter.MapView.BackgroundMapSelector.title": {
+    "description": "Title for background maps overlay",
+    "message": "Background Maps"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
