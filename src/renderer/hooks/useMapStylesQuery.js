@@ -15,9 +15,7 @@ export const useMapStylesQuery = () => {
     backgroundMapsEnabled
   )
 
-  return backgroundMapsEnabled
-    ? mapStylesQueryResult?.data
-    : legacyStyleQueryResult
+  return backgroundMapsEnabled ? mapStylesQueryResult : legacyStyleQueryResult
 }
 
 export const useLegacyMapStyleQuery = enabled => {
