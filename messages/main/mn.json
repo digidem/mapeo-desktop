@@ -1,1 +1,21 @@
-{}
+{
+  "button-submit": "Баталгаажуулах",
+  "button-cancel": "Цуцлах",
+  "dialog-enter-latlon-coordinates": "Солбицол оруулах",
+  "replication-data-complete": "Индексүүдийг шинэчилж байна... түр саатаж магадгүй.",
+  "replication-complete": "Зэрэгцүүлэлт амжилттай дууслаа",
+  "replication-started": "Зэрэгцүүлэлт эхэллээ, хариу иртэл түр хүлээнэ үү..",
+  "replication-progress": "Зэрэгуүүлэлт: Ажиллаж байна..",
+  "menu-file": "Файл",
+  "menu-change-language": "Хэл солих",
+  "menu-change-language-title": "Хэл оруулах",
+  "menu-import-tiles-file": "Файл",
+  "menu-import-tiles-directory": "tile-уудын удирдлага",
+  "menu-import-tiles": "офлайн зургийн tile-уудыг оруулах",
+  "menu-close": "Хаах",
+  "menu-edit": "Засах",
+  "menu-undo": "Буцах",
+  "menu-cut": "Зөөх",
+  "menu-copy": "Хуулах",
+  "menu-paste": "Past"
+}
