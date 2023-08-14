@@ -11,9 +11,21 @@
     "description": "Synchronize tab label",
     "message": "Зэрэгцүүлэх"
   },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Ачааллаж байна"
+  },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Хаах"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "Өөр зураг экспорт хийх үү?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "Экспорт нь өгөгдөл, зураг агуулсан зип файл байх болно"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
@@ -22,5 +34,80 @@
   "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
     "description": "Title of min date field in filter",
     "message": "-аас/ээс:"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Сануулсан огноо"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Шүүлтүүрийг засах..."
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Тохируулсан"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Зөвхөн нэг"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Бүгд"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Нэмэлт өгөгдөл"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Өөрчлөлтийг хаях"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Тийм, устгах"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Сануулгыг устгах уу?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Сануулгыг устгах"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Дэлгэрэнгүй"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Бүгдийг нуух"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Бүгдийг харуулах"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Сануулга"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Тооцооллож байна"
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Татах"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Татаж байна"
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Алдаа"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Татаж авахад тооцоолсон хугацаа"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Дахин эхлүүлэх"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Шинэчлэх"
   }
 }
