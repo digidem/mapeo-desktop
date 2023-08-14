@@ -23,8 +23,6 @@ export const useMapStylesQuery = () => {
     store => store.backgroundMaps
   )
 
-  console.log({ backgroundMapsEnabled })
-
   const legacyStyleQueryResult = useLegacyMapStyleQuery(!backgroundMapsEnabled)
   const mapStylesQueryResult = useMapServerQuery(
     '/styles',
