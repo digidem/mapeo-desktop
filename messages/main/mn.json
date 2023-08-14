@@ -59,10 +59,17 @@
   "menu-status": "Өгөгдлийн сангийн төлөв",
   "menu-status-incomplete": "Өгөгдлийн санд зарим оруулга дутуу байна",
   "menu-status-complete": "Өгөгдлийн сан хэвийн байна",
+  "menu-status-error-known": "Алдаа гарсан байна",
+  "save-db-dialog": "Зэрэгцүүлэлт хийх шинэ мэдээллийн санг үүсгэх",
+  "open-db-dialog": "Зэрэгцүүлэлт хийхийн тулд мэдээллийн сан сонгох",
+  "feedback-contribute-button": "Санал хүсэлт & хувь нэмэр",
+  "overlay-sync-usb-button": "USB гээр зэрэгцүүлэлт хийх",
+  "overlay-sync-wifi-button": "Wifi-аар зэрэгцүүлэлт хийх",
   "cancel": "Цуцлах",
   "wait": "Түр хүлээнэ үү",
   "done": "Дууслаа",
   "sync-database-add-changes": "Хэл нэмэх",
   "sync-searching-targets": "Төхөөрөмжийг хайж байна",
-  "sync-available-devices": "Боломжтой төхөөрөмжүүд"
+  "sync-available-devices": "Боломжтой төхөөрөмжүүд",
+  "welcome-screen-1-title": "Mapeo-д тавтай морилно уу"
 }
