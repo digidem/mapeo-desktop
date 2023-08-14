@@ -11,21 +11,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Close } from '@material-ui/icons'
 import { MapPreviewCard } from './MapPreviewCard'
 import { useBackgroundMapStore } from '../../../hooks/store'
-
-const STYLES = [
-  {
-    id: '7p2524cknfdg2pqntxv2qs592nd6x6xt',
-    name: 'trails-with-a-name',
-    bytesStored: 969515,
-    url: 'http://127.0.0.1:5300/styles/7p2524cknfdg2pqntxv2qs592nd6x6xt'
-  },
-  {
-    id: 'xhe52hsmq65w15emmr2zehw3d6jjtha0',
-    name: 'other-map-with-another-name',
-    bytesStored: 969515,
-    url: 'mapbox://styles/mapbox/streets-v12'
-  }
-]
+import { useMapServerQuery } from '../../../hooks/useMapServerQuery'
 
 const m = defineMessages({
   // Title for background maps overlay
@@ -44,6 +30,9 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
     store.setMapStyle
   ])
 
+  // will use new hook once merged
+  const { data: mapStyles, isLoading } = useMapServerQuery('/styles', false)
+
   return (
     <Slide direction='up' in={active} mountOnEnter unmountOnExit>
       <Paper elevation={2} className={classes.container}>
@@ -59,8 +48,9 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
         </Box>
         {/* MAP STYLES ROW */}
         <Box className={classes.styleRow}>
-          {STYLES.filter(({ isImporting }) => !isImporting).map(
-            ({ id, url, name }) => {
+          {mapStyles
+            .filter(({ isImporting }) => !isImporting)
+            .map(({ id, url, name }) => {
               const isSelected = mapStyle === id
               return (
                 <>
@@ -78,8 +68,7 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
                   </div>
                 </>
               )
-            }
-          )}
+            })}
         </Box>
       </Paper>
     </Slide>
