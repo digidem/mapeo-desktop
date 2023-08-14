@@ -11,7 +11,7 @@ export function useMapServerQuery (resourcePath, enabled) {
     queryKey: [resourcePath, resourcePath.split('/')[2] || undefined],
     queryFn: async () => {
       const result = await ky.get(MAP_SERVER_URL + resourcePath).json()
-      return result?.url
+      return result.map(({ url }) => url)
     },
 
     enabled
