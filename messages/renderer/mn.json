@@ -31,6 +31,29 @@
     "description": "Label for select option to include no photos in export",
     "message": "Зураг байхгүй"
   },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "Бүтэн хэмжээтэй зурагнууд"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "Зургуудын хэмжээг урьдчилан үзэх"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
+    "description": "Title for export dialog",
+    "message": "Сануулгуудыг экспорт хийх"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
+    "message": "Танд экспорт хийх өгөгдөл хараахан байхгүй байна."
+  },
+  "renderer.components.MapFilter.DataExportDialog.Template.title": {
+    "description": "Title for observations export dialog",
+    "message": "Сануулгуудыг экспорт хийх"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "-руу/рүү"
+  },
   "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
     "description": "Title of min date field in filter",
     "message": "-аас/ээс:"
@@ -67,6 +90,9 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
     "message": "Та зарим өөрчлөлт хийсэн байна, хадгалахгүйгээр хаавал таны хийсэн өөрчлөлт арилах болно"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Өөрчлөлтүүдийг хадгалахгүйгээр хаах уу?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
     "message": "Тийм, устгах"
@@ -109,11 +135,23 @@
   "renderer.components.UpdaterView.index.estimatedDownloadTime": {
     "message": "Татаж авахад тооцоолсон хугацаа"
   },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Энэхүү шинэчлэлт нь таны програмыг өмнөх хувилбаруудтай нийцүүлэх болно."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Энэхүү шинэчлэлт нь таны хэрэглээг өөрчилж болзошгүй сайжруулалтыг багтаасан болно."
+  },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
     "message": "Дахин эхлүүлэх"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Mapeo-ийн шинэчлэлтийг татаж авлаа. Шинэчлэхийн тулд Mapeo-г дахин эхлүүлнэ үү."
   },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
     "message": "Шинэчлэх"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo шинэчлэгдсэн! Та хамгийн сүүлийн хувилбар дээр байна."
   }
 }
