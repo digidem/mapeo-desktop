@@ -1,1 +1,26 @@
-{}
+{
+  "renderer.components.Home.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "Газар нутаг"
+  },
+  "renderer.components.Home.settings": {
+    "description": "Settings tab label",
+    "message": "Тохиргоо"
+  },
+  "renderer.components.Home.sync": {
+    "description": "Synchronize tab label",
+    "message": "Зэрэгцүүлэх"
+  },
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": "Хаах"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "Зураг байхгүй"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "-аас/ээс:"
+  }
+}
