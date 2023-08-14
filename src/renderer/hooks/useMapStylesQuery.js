@@ -3,11 +3,27 @@ import { useExperimentsFlagsStore } from './store'
 import { useMapServerQuery } from './useMapServerQuery'
 import { useQuery } from '@tanstack/react-query'
 import api from '../new-api'
+import { defineMessages, useIntl } from 'react-intl'
+
+// Randomly generated, but should not change, since this is stored in settings
+// if the user selects one of these "legacy" map styles
+const DEFAULT_MAP_ID = '487x2pc8ws801avhs5hw58qnxc'
+const CUSTOM_MAP_ID = 'vg4ft8yvzwfedzgz1dz7ntneb8'
+const ONLINE_STYLE_URL = 'mapbox://styles/mapbox/outdoors-v10'
+
+const m = defineMessages({
+  // The name of the default background map
+  defaultBackgroundMapName: 'Default',
+  // The name of the legacy offline background map
+  offlineBackgroundMapName: 'Offline Map'
+})
 
 export const useMapStylesQuery = () => {
   const backgroundMapsEnabled = useExperimentsFlagsStore(
     store => store.backgroundMaps
   )
+
+  console.log({ backgroundMapsEnabled })
 
   const legacyStyleQueryResult = useLegacyMapStyleQuery(!backgroundMapsEnabled)
   const mapStylesQueryResult = useMapServerQuery(
@@ -19,20 +35,33 @@ export const useMapStylesQuery = () => {
 }
 
 export const useLegacyMapStyleQuery = enabled => {
-  const ONLINE_STYLE_URL = 'mapbox://styles/mapbox/outdoors-v10'
-  const offlineStyleURL = api.getMapStyleUrl('default')
+  const { formatMessage: t } = useIntl()
 
   const queryResult = useQuery({
     queryKey: ['getLegacyMapStyle'],
-    queryFn: async () => {
+    queryFn: () => {
       try {
         // This checks whether an offline style is available
-        await api.getMapStyle('default')
-        // and if it is, it will use that map style (retrieved above).
-        return [offlineStyleURL]
+        api.getMapStyle('default')
+        return [
+          {
+            id: CUSTOM_MAP_ID,
+            url: api.getMapStyleUrl('default'),
+            bytesStored: 0,
+            name: t(m.offlineBackgroundMapName),
+            isImporting: false
+          }
+        ]
       } catch {
-        // If no offline style is available we use the default online style
-        return [ONLINE_STYLE_URL]
+        return [
+          {
+            id: DEFAULT_MAP_ID,
+            url: ONLINE_STYLE_URL,
+            bytesStored: 0,
+            name: t(m.defaultBackgroundMapName),
+            isImporting: false
+          }
+        ]
       }
     },
     enabled

@@ -9,9 +9,8 @@ const MAP_SERVER_URL = 'http://127.0.0.1:' + window.mapServerPort
 export function useMapServerQuery (resourcePath, enabled) {
   return useQuery({
     queryKey: [resourcePath, resourcePath.split('/')[2] || undefined],
-    queryFn: async () => {
-      const result = await ky.get(MAP_SERVER_URL + resourcePath).json()
-      return result.map(({ url }) => url)
+    queryFn: () => {
+      return ky.get(MAP_SERVER_URL + resourcePath).json()
     },
 
     enabled
