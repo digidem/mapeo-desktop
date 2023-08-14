@@ -55,12 +55,18 @@
     "description": "Button text to turn off filters for a field",
     "message": "Бүгд"
   },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "Шүүлтүүр..."
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
     "message": "Нэмэлт өгөгдөл"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
     "message": "Өөрчлөлтийг хаях"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "Та зарим өөрчлөлт хийсэн байна, хадгалахгүйгээр хаавал таны хийсэн өөрчлөлт арилах болно"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
     "message": "Тийм, устгах"
