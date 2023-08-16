@@ -1,7 +1,11 @@
 {
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
-    "message": "Газар нутаг"
+    "message": "Нутаг дэвсгэр"
+  },
+  "renderer.components.Home.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "Сануулгууд"
   },
   "renderer.components.Home.settings": {
     "description": "Settings tab label",
@@ -18,6 +22,165 @@
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
     "message": "Хаах"
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "mapeo-газрын зураг-өгөгдөл"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "Дотоод алдааны улмаас экспорт амжилтгүй боллоо"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "Эксдорт амжилттай хийлээ"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "Өгөгдөл экспорт хийж байна"
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": "Эксдорт хийх газрын зургийн өгөгдөл"
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Нутаг дэвсгэрийн өгөгдлийг GeoJSON болгон экспорт хийх..."
+  },
+  "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
+    "description": "Menu item for exporting ICCA Export Packages",
+    "message": "ICCA экспортын багцыг экспорт хийх…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Нутаг дэвсгэрийн өгөгдлийг Shapefile болгон экспорт хийх..."
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": "Батлгаажуулах"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "Нутаг дэвсгэрийн өгөгдөлийг экспорт хийх"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "Чиний тухай:"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "Үгүй"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "Тийм"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
+    "message": "Дор хаяж нэг талбарыг бөглөнө үү."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Цуцлах"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
+    "message": "Англи хэл"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
+    "description": "Labels for community name",
+    "message": "Жинхэнэ хэл"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
+    "message": "Шаардлагатай бүх талбарыг бөглөнө үү."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
+    "description": "Form instructions",
+    "message": "Экспорт хийхийн өмнө эдгээр асуултад хариулна уу."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
+    "message": "ICCA хилийг зурахын тулд талбар үүсгэж, \"ICCA Boundary\" гэсэн төрлөөр тэмдэглэнэ үү. Экспорт хийхийн өмнө газрын зураг дээрх өөрчлөлтөө хадгалахаа мартуузай."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
+    "description": "No data to export",
+    "message": "Экспорт хийх ICCA-ийн хил хязгаар байхгүй."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "Баталгаажуулах"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "UNEP-WCMC-тэй газрын зураг болон бусад мэдээллийг хуваалцахыг танай нийгэмлэг эсвэл уугуул иргэд хамтдаа зөвшөөрсөн үү?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "Та газрын зураг болон бусад мэдээллийг хэн ч үзэх, татаж авах боломжтой байлгахыг хүсч байна уу?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "Мэдээлэл өгч буй нийгэмлэг, уугуул иргэд эсвэл хувь хүний нэр (эх хэл, англи хэл)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
+    "description": "Choices for question 4",
+    "message": "Нийгэмлэгийн гишүүн/уугуул иргэд"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
+    "message": "Нийгэмлэг/уугуул иргэдийн төлөөлөгч эсвэл хамтрагч"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
+    "message": "Төрийн бус байгууллагын төлөөлөгч"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
+    "message": "Бусад"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
+    "message": "Хэрэв та хувь хүн юм бол уугуул иргэд эсвэл олон нийттэй ямар холбоотой вэ?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
+    "description": "Choices for question 5",
+    "message": "Тийм - үе тэнгийнхний үнэлгээ"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer2": {
+    "message": "Тийм - засгийн газрын үнэлгээ"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer3": {
+    "message": "Үгүй"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer4": {
+    "message": "Мэдэхгүй"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
+    "message": "ICCA-ийн мэдээллийг үе тэнгийн хяналтын үйл явц (өөрөөр хэлбэл, бусад нийгэмлэгүүд) эсвэл төрийн байгууллага хянаж үзсэн үү? (Энэ сэдвийн талаар дэлгэрэнгүй мэдээллийг ICCA мэдээллийн гарын авлагаас үзнэ үү: https://www.wcmc.io/iccadatamanual)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer1": {
+    "description": "Choices for question 6",
+    "message": "Тийм - тусгай хамгаалалттай газар нутаг"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer2": {
+    "message": "Тийм - OECM-ийн хувьд"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer3": {
+    "message": "Үгүй - зөвхөн ICCA-ийн хувьд"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer4": {
+    "message": "Мэдэхгүй"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Prompt": {
+    "message": "Та ICCA-г тусгай хамгаалалттай газар нутаг эсвэл бусад үр дүнтэй байгаль хамгаалах арга хэмжээ (OECM) болгон оруулахыг хүсч байна уу? (Энэ сэдвийн талаар дэлгэрэнгүй мэдээллийг ICCA мэдээллийн гарын авлагаас үзнэ үү: https://www.wcmc.io/iccadatamanual)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Placeholder": {
+    "description": "Placeholder for question 7",
+    "message": "Таны холбоо барих мэдээлэл"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Prompt": {
+    "message": "Бид тантай холбогдох боломжтой имэйл хаяг. Бид таны мэдээллийг хүлээн авснаа баталгаажуулахын тулд тантай холбоо барьж, шаардлагатай бол мэдээллийг хэлэлцэх болно. Мөн бид тантай үе үе холбогдож мэдээлэл шинэчлэгдсэн эсэхийг шалгах болно."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
+    "description": "Helper texts",
+    "message": "Энэ хариулт шаардлагатай."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "Хадгалах"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
+    "description": "cancel button",
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
     "description": "Label for select to include photos in export",
@@ -38,6 +201,10 @@
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
     "message": "Зургуудын хэмжээг урьдчилан үзэх"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
+    "description": "Save button",
+    "message": "Хадгалах"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
     "description": "Title for export dialog",
@@ -81,9 +248,24 @@
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
     "message": "Шүүлтүүр..."
   },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Цуцлах"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "Хадгалах"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
     "message": "Нэмэлт өгөгдөл"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "Цуцлах"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
     "message": "Өөрчлөлтийг хаях"
@@ -93,6 +275,9 @@
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
     "message": "Өөрчлөлтүүдийг хадгалахгүйгээр хаах уу?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
     "message": "Тийм, устгах"
@@ -108,6 +293,10 @@
     "description": "Header for section that includes the additional details for an observation",
     "message": "Дэлгэрэнгүй"
   },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "Хадгалах"
+  },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
     "message": "Бүгдийг нуух"
@@ -115,6 +304,35 @@
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
     "message": "Бүгдийг харуулах"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Дараагийнх"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Өмнөх"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "PDF өргөтгөлөөр хадгалах"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Цуцлах"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Үргэлжлүүлэх"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Газрын зураг"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Хэвлэл мэдээлэл"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Тайлан"
   },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
