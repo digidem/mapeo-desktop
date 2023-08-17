@@ -305,6 +305,10 @@
     "description": "cancel button",
     "message": "Цуцлах"
   },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "Газрын зургийн тайлбар"
+  },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
     "message": "Хадгалах"
@@ -404,6 +408,18 @@
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
     "message": "Ямар нэг сануулга байхгүй байна"
   },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Тайлан үүсгэх үед үл мэдэгдэх алдаа гарлаа"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Хуудас {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Mapeo сануулгын тайлан.pdf"
+  },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
     "message": "Дараагийнх"
@@ -463,6 +479,47 @@
   },
   "renderer.components.SettingsView.index.aboutMapeoSubtitle": {
     "message": "Хувилбар ба барилгын дугаар"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "Төхөөрөмжүүд асаалттай, ижил wifi сүлжээнд холбогдсон эсэхийг шалгах хэрэгтэй"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Хайлт хийж байна..."
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Сүлжээний холболт салгасан"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "Төхөөрөмжүүдийг зэрэгуүүлэхийн өмнө та эхлээд WiFi сүлжээнд холбогдох хэрэгтэй"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Шинэ синк файл үүсгэх..."
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "Чанар: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "Холболтын дохио маш сайн"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "Холболтын дохио маш муу байна. WiFi чиглүүлэгч рүү ойртож үзээрэй"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "Холболтын дохио сул байна. Зэрэгцүүлэлтийг дуусгахад илүү их цаг зарцуулж магадгүй"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "Файлаас синк хийх..."
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "Боломжтой төхөөрөмжүүд"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "Үл мэдэгдэх"
   },
   "renderer.components.UpdaterView.index.calculatingProgress": {
     "message": "Тооцооллож байна"
