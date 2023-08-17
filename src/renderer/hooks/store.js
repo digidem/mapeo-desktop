@@ -9,10 +9,11 @@ import store from '../../persist-store'
 const storage = {
   /**
    * @param {string}  key - A string key to reference the stored item by.
-   * @returns {string | null}
+   * @returns {Promise<string | null>}
    */
-  getItem: key => {
-    return /** @type {string | null} */ (store.get(key)) || null
+  getItem: async key => {
+    const item = await store.get(key)
+    return typeof item === 'string' ? item : null
   },
   /**
    * @param {string} key - A string key to reference the stored item by.
@@ -20,7 +21,7 @@ const storage = {
    * @returns {void}
    */
   setItem: (key, state) => {
-    store.set(key, JSON.parse(state))
+    store.set(key, state)
   },
   /**
    * @param {string}  key - A string key to reference the stored item to be removed.
