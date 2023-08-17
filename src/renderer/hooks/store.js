@@ -9,10 +9,10 @@ import store from '../../persist-store'
 const storage = {
   /**
    * @param {string}  key - A string key to reference the stored item by.
-   * @returns {Promise<string | null>}
+   * @returns {string | null}
    */
-  getItem: async key => {
-    const item = await store.get(key)
+  getItem: key => {
+    const item = store.get(key)
     return item ? JSON.stringify(item) : null
   },
   /**
