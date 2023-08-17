@@ -13,7 +13,7 @@ const storage = {
    */
   getItem: async key => {
     const item = await store.get(key)
-    return typeof item === 'string' ? item : null
+    return item ? JSON.stringify(item) : null
   },
   /**
    * @param {string} key - A string key to reference the stored item by.
@@ -21,7 +21,11 @@ const storage = {
    * @returns {void}
    */
   setItem: (key, state) => {
-    store.set(key, state)
+    if (typeof state === 'string') {
+      store.set(key, JSON.parse(state))
+    } else {
+      store.set(key, state)
+    }
   },
   /**
    * @param {string}  key - A string key to reference the stored item to be removed.
