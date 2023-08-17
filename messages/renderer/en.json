@@ -774,6 +774,14 @@
     "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
     "message": "The original size of these files could not be found, only preview size (1,200 pixel) images are included. This can happen because the phone that took the photos has only synced to other phones, and not directly to Mapeo Desktop. To try fixing this, find the phone that took the photos and sync it with Mapeo Desktop before exporting again."
   },
+  "renderer.hooks.useMapStylesQuery.defaultBackgroundMapName": {
+    "description": "The name of the default background map",
+    "message": "Default"
+  },
+  "renderer.hooks.useMapStylesQuery.offlineBackgroundMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Offline Map"
+  },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
     "message": "No answer"
