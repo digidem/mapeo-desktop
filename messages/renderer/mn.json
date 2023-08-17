@@ -15,6 +15,9 @@
     "description": "Synchronize tab label",
     "message": "Зэрэгцүүлэх"
   },
+  "renderer.components.Home.update": {
+    "message": "Mapeo-г шинэчлэх"
+  },
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
     "message": "Ачааллаж байна"
@@ -185,9 +188,30 @@
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Санал хүсэлт & хувь нэмэр"
   },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Тодорхойлолт"
+  },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
     "message": "Цуцлах"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "mapeo-сануулга-өгөгдөл"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
+    "message": "Бүх {count} сануулгууд"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
+    "message": "{count} шүүсэн сануулгууд"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "Зөвхөн шүүсэн өгөгдөл эсвэл бүх өгөгдөл үү?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
+    "description": "Label for data format selector",
+    "message": "Өгөгдлийн формат"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
     "description": "Label for select to include photos in export",
@@ -261,6 +285,10 @@
   "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
     "description": "Label for filter by date observation was modified (e.g. edited by a user)",
     "message": "Тохируулсан"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Ангилал"
   },
   "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
     "description": "Button text to only show a particular field value in a filter",
@@ -360,6 +388,10 @@
     "description": "Show all fields in report view",
     "message": "Бүгдийг харуулах"
   },
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "Тодорхойлолт"
+  },
   "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
     "description": "Shown in reports if an observation has no location recorded",
     "message": "Ямар нэг байршил бүртгэгдээгүй байна"
@@ -441,6 +473,9 @@
   "renderer.components.UpdaterView.index.downloadProgress": {
     "message": "Татаж байна"
   },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Алдаа гарсан бөгөөд Mapeo-г шинэчилж чадсангүй. Дараа дахин оролдоно уу."
+  },
   "renderer.components.UpdaterView.index.errorTitle": {
     "message": "Алдаа"
   },
@@ -452,6 +487,9 @@
   },
   "renderer.components.UpdaterView.index.minorUpdate": {
     "message": "Энэхүү шинэчлэлт нь таны хэрэглээг өөрчилж болзошгүй сайжруулалтыг багтаасан болно."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Энэхүү шинэчлэлт нь чухал алдааг засдаг өөрчлөлтүүдийг агуулдаг. Аль болох хурдан шинэчилнэ үү."
   },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
     "message": "Дахин эхлүүлэх"
