@@ -521,6 +521,60 @@
   "renderer.components.SyncView.SyncAppBar.wifiError": {
     "message": "Үл мэдэгдэх"
   },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "Таны WiFi карт эсвэл үйлдлийн систем (OS) танигдаагүй байна"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "Дууссан"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Сүлжээний холболт салгасан"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Дуусгаж байна..."
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "Дахин оролдож үзэх"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "Эхэлж байна..."
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "Зэрэгцүүлэх"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "Өгөгдлийн сан: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "Зэрэгцүүлэлтийн алдаа"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "Сүүлд зэрэгцүүлэлт хийсэн:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "Зургууд: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Зэрэгцүүлэлт хийхийн тулд шинэ өгөгдлийн сан үүсгэх"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} Mapeo-г шинэчлэх шаардлагатай"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "Та {deviceName}-тэй синк хийхийн тулд Mapeo-г шинэчлэх шаардлагатай."
+  },
   "renderer.components.UpdaterView.index.calculatingProgress": {
     "message": "Тооцооллож байна"
   },
@@ -554,11 +608,63 @@
   "renderer.components.UpdaterView.index.restartMapeoText": {
     "message": "Mapeo-ийн шинэчлэлтийг татаж авлаа. Шинэчлэхийн тулд Mapeo-г дахин эхлүүлнэ үү."
   },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Үл мэдэгдэх"
+  },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
     "message": "Шинэчлэх"
   },
   "renderer.components.UpdaterView.index.updateNotAvailable": {
     "message": "Mapeo шинэчлэгдсэн! Та хамгийн сүүлийн хувилбар дээр байна."
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Цуцлах"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "Батлах"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Хэл сонгох"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Хаах"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Бүртгэлийг нээх..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "Батлах"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "Солбицолуудыг оруулах"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Экспорт хийхэд гарсан алдаа"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Эдгээр файлуудыг экспорт хийхэд алдаа гарсан тул энэ экспортод байхгүй байна:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Оригинал эх нь дутуу байна"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "Эдгээр файлын анхны хэмжээг олж чадсангүй, зөвхөн урьдчилан үзэх хэмжээтэй (1200 пиксел) зургуудыг оруулсан болно. Энэ нь зураг авсан утас нь Mapeo Desktop-той шууд биш, зөвхөн бусад утастай синк хийгдсэн тул ийм зүйл тохиолдож болно. Үүнийг засахын тулд зураг авсан утсаа олоод дахин экспортлохын өмнө Mapeo Desktop-тэй синк хийнэ үү."
+  },
+  "renderer.hooks.useMapStylesQuery.defaultBackgroundMapName": {
+    "description": "The name of the default background map",
+    "message": "Өгөгдмөл"
+  },
+  "renderer.hooks.useMapStylesQuery.offlineBackgroundMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Офлайн газрын зураг"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Хариулт алга"
   }
 }
