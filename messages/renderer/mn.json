@@ -575,6 +575,9 @@
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
     "message": "Та {deviceName}-тэй синк хийхийн тулд Mapeo-г шинэчлэх шаардлагатай."
   },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Зэрэгцүүлэх өгөгдлийн санг сонгоно уу"
+  },
   "renderer.components.UpdaterView.index.calculatingProgress": {
     "message": "Тооцооллож байна"
   },
