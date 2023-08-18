@@ -5,6 +5,8 @@ import ViewWrapper from '../ViewWrapper'
 import { Avatar, makeStyles } from '@material-ui/core'
 import { LayersOutlined } from '@material-ui/icons'
 import { BackgroundMapSelector } from './BackgroundMapSelector'
+import { useSelectedMapStyle } from '../../../hooks/useMapStylesQuery'
+import { useExperimentsFlagsStore } from '../../../hooks/store'
 
 const MapView = (
   {
@@ -21,13 +23,20 @@ const MapView = (
   const [backgroundMapSelectorOpen, setBackgroundMapSelectorOpen] = useState(
     false
   )
+  const backgroundMapsFlag = useExperimentsFlagsStore(
+    store => store.backgroundMaps
+  )
+  const selectedMapStyle = useSelectedMapStyle()
+
   return (
     <>
-      <MapLayerButton
-        onClick={() =>
-          setBackgroundMapSelectorOpen(selectorWasOpen => !selectorWasOpen)
-        }
-      />
+      {backgroundMapsFlag ? (
+        <MapLayerButton
+          onClick={() =>
+            setBackgroundMapSelectorOpen(selectorWasOpen => !selectorWasOpen)
+          }
+        />
+      ) : null}
       <ViewWrapper
         observations={observations}
         onUpdateObservation={onUpdateObservation}
@@ -50,11 +59,12 @@ const MapView = (
             getMedia={getMedia}
             presets={presets}
             {...otherProps}
+            mapStyle={selectedMapStyle && selectedMapStyle?.url}
           />
         )}
       </ViewWrapper>
       <BackgroundMapSelector
-        active={backgroundMapSelectorOpen}
+        active={backgroundMapsFlag && backgroundMapSelectorOpen}
         dismiss={() => setBackgroundMapSelectorOpen(false)}
       />
     </>

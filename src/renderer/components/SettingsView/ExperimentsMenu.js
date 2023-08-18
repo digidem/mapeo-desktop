@@ -13,8 +13,6 @@ export const ExperiementsMenu = () => {
     store => [store.backgroundMaps, store.setBackgroundMapsFlag]
   )
 
-  console.log({ backgroundMaps, setBackgroundMaps })
-
   const toggleBackgroundMaps = () => {
     setBackgroundMaps(!backgroundMaps)
   }

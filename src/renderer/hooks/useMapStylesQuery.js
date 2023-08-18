@@ -1,5 +1,5 @@
 // @ts-check
-import { useExperimentsFlagsStore } from './store'
+import { useBackgroundMapStore, useExperimentsFlagsStore } from './store'
 import { useMapServerQuery } from './useMapServerQuery'
 import { useQuery } from '@tanstack/react-query'
 import api from '../new-api'
@@ -34,6 +34,7 @@ export const useMapStylesQuery = () => {
 
 export const useLegacyMapStyleQuery = enabled => {
   const { formatMessage: t } = useIntl()
+  const defaultMapStyle = useDefaultMapStyle()
 
   const queryResult = useQuery({
     queryKey: ['getLegacyMapStyle'],
@@ -51,19 +52,40 @@ export const useLegacyMapStyleQuery = enabled => {
           }
         ]
       } catch {
-        return [
-          {
-            id: DEFAULT_MAP_ID,
-            url: ONLINE_STYLE_URL,
-            bytesStored: 0,
-            name: t(m.defaultBackgroundMapName),
-            isImporting: false
-          }
-        ]
+        return [defaultMapStyle]
       }
     },
     enabled
   })
 
   return queryResult
+}
+
+export const useDefaultMapStyle = () => {
+  const { formatMessage: t } = useIntl()
+
+  return {
+    id: DEFAULT_MAP_ID,
+    url: ONLINE_STYLE_URL,
+    bytesStored: 0,
+    name: t(m.defaultBackgroundMapName),
+    isImporting: false
+  }
+}
+
+export const useSelectedMapStyle = () => {
+  const backgroundMapsFlag = useExperimentsFlagsStore(
+    store => store.backgroundMaps
+  )
+  const backgroundMapStyleId = useBackgroundMapStore(store => store.mapStyle)
+  const defaultMapStyle = useDefaultMapStyle()
+
+  const { data: mapStyles, isLoading } = useMapStylesQuery()
+
+  if (isLoading || !mapStyles) return defaultMapStyle
+
+  return backgroundMapsFlag
+    ? mapStyles?.find(style => style.id === backgroundMapStyleId) ||
+        defaultMapStyle
+    : mapStyles && mapStyles[0]
 }
