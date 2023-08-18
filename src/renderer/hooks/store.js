@@ -12,7 +12,11 @@ const storage = {
    * @returns {string | null}
    */
   getItem: key => {
-    return /** @type {string | null} */ (store.get(key)) || null
+    /**
+     * @type {string | null}
+     */
+
+    return store.get(key, null)
   },
   /**
    * @param {string} key - A string key to reference the stored item by.
@@ -20,7 +24,7 @@ const storage = {
    * @returns {void}
    */
   setItem: (key, state) => {
-    store.set(key, JSON.parse(state))
+    store.set(key, state)
   },
   /**
    * @param {string}  key - A string key to reference the stored item to be removed.
