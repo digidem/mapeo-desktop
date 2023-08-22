@@ -87,8 +87,8 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
               .map(({ id, url, name }) => {
                 const isSelected = mapStyle === id
                 return (
-                  <>
-                    <div className={classes.mapCardWrapper} key={id}>
+                  <React.Fragment key={id}>
+                    <div className={classes.mapCardWrapper}>
                       <MapPreviewCard
                         onClick={() => {
                           if (isSelected) return
@@ -100,7 +100,7 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
                         title={name}
                       />
                     </div>
-                  </>
+                  </React.Fragment>
                 )
               })}
           </Box>
