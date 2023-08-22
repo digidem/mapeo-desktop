@@ -7,28 +7,15 @@ import store from '../../persist-store'
  * @type {import('zustand/middleware').StateStorage}
  */
 const storage = {
-  /**
-   * @param {string}  key - A string key to reference the stored item by.
-   * @returns {string | null}
-   */
   getItem: key => {
     /**
      * @type {string | null}
      */
-
     return store.get(key, null)
   },
-  /**
-   * @param {string} key - A string key to reference the stored item by.
-   * @param {string} state - The state to be persisted - stringified JSON.
-   * @returns {void}
-   */
   setItem: (key, state) => {
     store.set(key, state)
   },
-  /**
-   * @param {string}  key - A string key to reference the stored item to be removed.
-   */
   removeItem: key => {
     store.delete(key)
   }
