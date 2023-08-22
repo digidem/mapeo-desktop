@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Typography, useTheme } from '@material-ui/core'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
@@ -8,7 +8,7 @@ import styled from 'styled-components'
 
 const m = defineMessages({
   on: 'On',
-  off: 'Off',
+  off: 'Off'
 })
 
 export const SettingsItem = React.forwardRef(
@@ -18,7 +18,9 @@ export const SettingsItem = React.forwardRef(
 
     return (
       <WrapperRow ref={ref} onClick={onClick} {...rest}>
-        <IconContainer>{Icon ? <Icon style={{ color: theme.palette.grey['600'] }} /> : null}</IconContainer>
+        <IconContainer>
+          {Icon ? <Icon style={{ color: theme.palette.grey['600'] }} /> : null}
+        </IconContainer>
         <TitleContainer>
           <Typography
             variant='body1'
@@ -26,7 +28,7 @@ export const SettingsItem = React.forwardRef(
             style={{
               textTransform: 'none',
               textAlign: 'left',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
             {typeof label === 'string' ? label : t(label)}
@@ -38,16 +40,22 @@ export const SettingsItem = React.forwardRef(
               textTransform: 'none',
               textAlign: 'left',
               cursor: 'pointer',
-              color: theme.palette.grey['700'],
+              color: theme.palette.grey['700']
             }}
           >
-            {type === 'toggle' ? <ToggleSubtitle on={active} /> : <Subtitle label={subtitle} />}
+            {type === 'toggle' ? (
+              <ToggleSubtitle on={active} />
+            ) : (
+              <Subtitle label={subtitle} />
+            )}
           </Typography>
         </TitleContainer>
-        {type === 'menuItem' && <ChevronRightIcon style={{ opacity: active ? 1 : 0 }} />}
+        {type === 'menuItem' && (
+          <ChevronRightIcon style={{ opacity: active ? 1 : 0 }} />
+        )}
       </WrapperRow>
     )
-  },
+  }
 )
 
 const Subtitle = ({ label }) => {

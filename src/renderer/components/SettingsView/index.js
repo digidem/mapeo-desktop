@@ -72,10 +72,3 @@ const Container = styled.div`
   display: flex;
   height: 100%;
 `
-
-const Boc = styled.div`
-
-background-color: red
-height: 200px;
-width:100px;
-`

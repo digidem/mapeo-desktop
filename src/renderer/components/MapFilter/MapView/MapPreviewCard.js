@@ -1,4 +1,4 @@
-import { Box, Typography, makeStyles, useTheme } from '@material-ui/core'
+import { Typography, makeStyles, useTheme } from '@material-ui/core'
 import React from 'react'
 import ReactMapboxGl from 'react-mapbox-gl'
 
