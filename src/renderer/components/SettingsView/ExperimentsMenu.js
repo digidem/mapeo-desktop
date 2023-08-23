@@ -2,23 +2,19 @@ import React from 'react'
 import { defineMessages } from 'react-intl'
 import { Map as MapIcon } from '@material-ui/icons'
 import { SettingsList } from './SettingsList'
+import { useExperimentsFlagsStore } from '../../hooks/store'
 
 const m = defineMessages({
-  backgroundMaps: 'Background Maps',
+  backgroundMaps: 'Background Maps'
 })
 
-/**
- * @typedef ExperiementsMenuProps
- * @prop {boolean} backgroundMaps
- * @prop {(e: React.Dispatch<boolean>) => number} setBackgroundMaps
- */
+export const ExperiementsMenu = () => {
+  const [backgroundMaps, setBackgroundMaps] = useExperimentsFlagsStore(
+    store => [store.backgroundMaps, store.setBackgroundMapsFlag]
+  )
 
-/** @param {ExperiementsMenuProps} props */
-export const ExperiementsMenu = ({ backgroundMaps, setBackgroundMaps }) => {
   const toggleBackgroundMaps = () => {
-    setBackgroundMaps(prevState => {
-      return !prevState
-    })
+    setBackgroundMaps(!backgroundMaps)
   }
 
   /** @type {import('./SettingsList').option[]} */
@@ -29,8 +25,8 @@ export const ExperiementsMenu = ({ backgroundMaps, setBackgroundMaps }) => {
       label: m.backgroundMaps,
       checked: backgroundMaps,
       onClick: toggleBackgroundMaps,
-      type: 'toggle',
-    },
+      type: 'toggle'
+    }
   ]
 
   return <SettingsList options={options} />

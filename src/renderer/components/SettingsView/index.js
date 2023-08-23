@@ -7,8 +7,8 @@ import { defineMessages } from 'react-intl'
 import { AboutMapeoMenu } from './AboutMapeo'
 import styled from 'styled-components'
 import { ExperiementsMenu } from './ExperimentsMenu'
-import createPersistedState from '../../hooks/createPersistedState'
 import { BackgroundMaps } from './BackgroundMaps'
+import { useExperimentsFlagsStore } from '../../hooks/store'
 
 const m = defineMessages({
   aboutMapeo: 'About Mapeo',
@@ -18,10 +18,10 @@ const m = defineMessages({
   backgroundMaps: 'Background maps'
 })
 
-const useExperimentsFlagsState = createPersistedState('experimentsFlags')
-
 export const SettingsView = () => {
-  const [backgroundMaps, setBackgroundMaps] = useExperimentsFlagsState(false)
+  const [backgroundMaps, setBackgroundMaps] = useExperimentsFlagsStore(
+    store => [store.backgroundMaps, store.backgroundMaps]
+  )
   const tabs = /** @type {import('./SettingsMenu').tabs} */ [
     {
       tabId: 'AboutMapeo',
