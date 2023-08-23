@@ -15,35 +15,35 @@ const m = defineMessages({
   aboutMapeoSubtitle: 'Version and build number',
   experiments: 'Experiments',
   experimentsSubtitle: 'Turn on experimental new features',
-  backgroundMaps: 'Background maps',
+  backgroundMaps: 'Background maps'
 })
 
 const useExperimentsFlagsState = createPersistedState('experimentsFlags')
 
 export const SettingsView = () => {
   const [backgroundMaps, setBackgroundMaps] = useExperimentsFlagsState(false)
-  const tabs = /** @type {import('./SettingsMenu').tabs} */[
+  const tabs = /** @type {import('./SettingsMenu').tabs} */ [
     {
       tabId: 'AboutMapeo',
       icon: InfoIcon,
       label: m.aboutMapeo,
-      subtitle: m.aboutMapeoSubtitle,
+      subtitle: m.aboutMapeoSubtitle
     },
     {
       tabId: 'Experiments',
       icon: FlagIcon,
       label: m.experiments,
-      subtitle: m.experimentsSubtitle,
+      subtitle: m.experimentsSubtitle
     },
     ...(backgroundMaps
       ? [
-        {
-          tabId: 'BackgroundMaps',
-          icon: MapIcon,
-          label: m.backgroundMaps,
-        },
-      ]
-      : []),
+          {
+            tabId: 'BackgroundMaps',
+            icon: MapIcon,
+            label: m.backgroundMaps
+          }
+        ]
+      : [])
   ]
   const initialMenuState = /** {null | number} */ null
   const [menuItem, setMenuItem] = useState(initialMenuState)
@@ -51,13 +51,22 @@ export const SettingsView = () => {
   return (
     <Container>
       {menuItem === 'BackgroundMaps' ? (
-        <BackgroundMaps returnToSettings={() => setMenuItem(initialMenuState)} />
+        <BackgroundMaps
+          returnToSettings={() => setMenuItem(initialMenuState)}
+        />
       ) : (
         <>
-          <SettingsMenu tabs={tabs} currentTab={menuItem} onTabChange={setMenuItem} />
+          <SettingsMenu
+            tabs={tabs}
+            currentTab={menuItem}
+            onTabChange={setMenuItem}
+          />
           {menuItem === 'AboutMapeo' && <AboutMapeoMenu />}
           {menuItem === 'Experiments' && (
-            <ExperiementsMenu backgroundMaps={backgroundMaps} setBackgroundMaps={setBackgroundMaps} />
+            <ExperiementsMenu
+              backgroundMaps={backgroundMaps}
+              setBackgroundMaps={setBackgroundMaps}
+            />
           )}
         </>
       )}
@@ -69,11 +78,4 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   height: 100%;
-`
-
-const Boc = styled.div`
-
-background-color: red
-height: 200px;
-width:100px;
 `
