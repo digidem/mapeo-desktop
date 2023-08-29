@@ -14,7 +14,6 @@ import { Close } from '@material-ui/icons'
 import { MapPreviewCard } from './MapPreviewCard'
 import {
   useBackgroundMapStore,
-  useExperimentsFlagsStore,
   usePersistedUiStore
 } from '../../../hooks/store'
 import { useMapStylesQuery } from '../../../hooks/useMapStylesQuery'

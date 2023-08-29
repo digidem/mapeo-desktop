@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography'
 
 import { BackgroundMapInfo } from '../BackgroundMaps/BackgroundMapInfo'
 import { SidePanel } from '../BackgroundMaps/SidePanel'
-import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 import { useMapStylesQuery } from '../../hooks/useMapStylesQuery'
 
 const m = defineMessages({
