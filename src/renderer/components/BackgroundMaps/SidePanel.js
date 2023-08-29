@@ -17,8 +17,8 @@ const m = defineMessages({
 /**
  * @typedef SidePanelProps
  * @prop {()=>void} openSettings
- * @prop {string|false} mapValue
- * @prop {React.Dispatch<React.SetStateAction<string | false>>} setMapValue
+ * @prop {string|null} mapValue
+ * @prop {React.Dispatch<React.SetStateAction<string | null>>} setMapValue
  */
 
 /** @param {SidePanelProps} param */
@@ -37,28 +37,32 @@ export const SidePanel = ({ openSettings, mapValue, setMapValue }) => {
           <ChevronLeft />
           {t(m.backToSettings)}
         </Button>
-        <div className={classes.buttonContainer}>
-          <Button
-            onClick={() => setOpen(true)}
-            className={`${classes.button} ${classes.firstButton}`}
-            variant='outlined'
-          >
-            {t(m.addMap)}
-          </Button>
-        </div>
+        <div className={classes.stylesColumn}>
+          <div className={classes.buttonContainer}>
+            <Button
+              onClick={() => setOpen(true)}
+              className={`${classes.button} ${classes.firstButton}`}
+              variant='outlined'
+            >
+              {t(m.addMap)}
+            </Button>
+          </div>
 
-        {isLoading ? (
-          <Loader />
-        ) : data ? (
-          data.map(offlineMap => (
-            <MapCard
-              setMap={setMapValue}
-              key={offlineMap.id}
-              offlineMap={offlineMap}
-              isBeingViewed={offlineMap.id === mapValue}
-            />
-          ))
-        ) : null}
+          {isLoading ? (
+            <Loader />
+          ) : data ? (
+            data.map(offlineMap => (
+              <>
+                <MapCard
+                  setMap={setMapValue}
+                  key={offlineMap.id}
+                  offlineMap={offlineMap}
+                  isBeingViewed={offlineMap.id === mapValue}
+                />
+              </>
+            ))
+          ) : null}
+        </div>
       </div>
       <ImportMapStyleDialog
         open={open}
@@ -76,8 +80,14 @@ const useStyles = makeStyles({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     minWidth: '35%'
+  },
+  stylesColumn: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    overflowY: 'scroll'
   },
   buttonContainer: {
     display: 'flex',

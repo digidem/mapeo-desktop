@@ -23,15 +23,15 @@ const m = defineMessages({
 export const BackgroundMaps = ({ returnToSettings }) => {
   const { formatMessage: t } = useIntl()
 
-  /** @type {MapServerStyleInfo['id']|false} */
-  const initialMapId = /** {const} */ false
+  /** @type {MapServerStyleInfo['id']|null} */
+  const initialMapId = /** {const} */ null
 
   const [mapValue, setMapValue] = React.useState(initialMapId)
 
   const { data } = useMapServerQuery('/styles')
 
-  function unsetMapValue() {
-    setMapValue(false)
+  function unsetMapValue () {
+    setMapValue(null)
   }
 
   const offlineMap = React.useMemo(

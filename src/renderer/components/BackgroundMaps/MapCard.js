@@ -30,7 +30,7 @@ export const MapboxPrevOnly = ReactMapboxGl({
 /**
  * @typedef MapCardProps
  * @prop {import('../SettingsView/BackgroundMaps').MapServerStyleInfo} offlineMap
- * @prop {React.Dispatch<React.SetStateAction<import('../SettingsView/BackgroundMaps').MapServerStyleInfo['id'] | false>>} setMap
+ * @prop {React.Dispatch<React.SetStateAction<import('../SettingsView/BackgroundMaps').MapServerStyleInfo['id'] | null>>} setMap
  * @prop {boolean } isBeingViewed
  */
 
@@ -92,7 +92,7 @@ export const MapCard = ({ offlineMap, setMap, isBeingViewed }) => {
 
 const useStyles = makeStyles({
   root: {
-    height: 90,
+    minHeight: '90px',
     width: '90%',
     marginBottom: 20,
     textTransform: 'none',
