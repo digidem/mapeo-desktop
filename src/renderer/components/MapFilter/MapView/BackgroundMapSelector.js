@@ -2,14 +2,15 @@ import * as React from 'react'
 import {
   Box,
   Button,
+  Dialog,
   Link,
-  Paper,
   Slide,
   Typography,
   makeStyles
 } from '@material-ui/core'
 import { defineMessages, useIntl } from 'react-intl'
 import { Close } from '@material-ui/icons'
+
 import { MapPreviewCard } from './MapPreviewCard'
 import {
   useBackgroundMapStore,
@@ -21,6 +22,8 @@ import {
   useMapStylesQuery
 } from '../../../hooks/useMapStylesQuery'
 import Loader from '../../Loader'
+
+const MAPEO_BLUE = '#2469f6'
 
 const m = defineMessages({
   // Title for background maps overlay
@@ -42,6 +45,7 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
   const setTabIndex = usePersistedUiStore(store => store.setTabIndex)
 
   const navigateToBackgroundMaps = () => {
+    dismiss()
     setTabIndex(3) // TODO: Set from an ID rather than hardcoded index
   }
 
@@ -56,57 +60,57 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
     backgroundMapsEnabled && data ? [defaultMapStyle, ...data] : data
 
   return (
-    <Slide direction='up' in={active} mountOnEnter unmountOnExit>
-      <Paper elevation={2} className={classes.container}>
-        {/* HEADER */}
-        <Box className={classes.header}>
-          <Box className={classes.row}>
-            <Typography variant='h1' className={classes.title}>
-              {t(m.title)}
-            </Typography>
-            <Link
-              className={classes.link}
-              a='#'
-              onClick={navigateToBackgroundMaps}
-            >
-              {t(m.manageMapsLink)}
-            </Link>
-          </Box>
-          <Button onClick={dismiss} color='primary'>
-            {t(m.close)}
-            <Close />
-          </Button>
+    <Dialog
+      fullScreen
+      open={active}
+      onClose={dismiss}
+      TransitionComponent={Transition}
+    >
+      {/* HEADER */}
+      <Box className={classes.header}>
+        <Box className={classes.row}>
+          <Typography variant='h1' className={classes.title}>
+            {t(m.title)}
+          </Typography>
+          <Link
+            className={classes.link}
+            a='#'
+            onClick={navigateToBackgroundMaps}
+          >
+            {t(m.manageMapsLink)}
+          </Link>
         </Box>
-        {/* MAP STYLES ROW */}
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <Box className={classes.styleRow}>
-            {mapStyles
-              .filter(({ isImporting }) => !isImporting)
-              .map(({ id, url, name }) => {
-                const isSelected = mapStyle === id
-                return (
-                  <React.Fragment key={id}>
-                    <div className={classes.mapCardWrapper}>
-                      <MapPreviewCard
-                        onClick={() => {
-                          if (isSelected) return
-                          dismiss()
-                          setMapStyle(id)
-                        }}
-                        selected={isSelected}
-                        styleUrl={url}
-                        title={name}
-                      />
-                    </div>
-                  </React.Fragment>
-                )
-              })}
-          </Box>
-        )}
-      </Paper>
-    </Slide>
+        <Button onClick={dismiss} className={classes.closeButton}>
+          {t(m.close)}
+          <Close />
+        </Button>
+      </Box>
+      {/* MAP STYLES ROW */}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Box className={classes.styleRow}>
+          {mapStyles
+            .filter(({ isImporting }) => !isImporting)
+            .map(({ id, url, name }) => {
+              const isSelected = mapStyle === id
+              return (
+                <MapPreviewCard
+                  onClick={() => {
+                    if (isSelected) return
+                    dismiss()
+                    setMapStyle(id)
+                  }}
+                  selected={isSelected}
+                  styleUrl={url}
+                  title={name}
+                  key={id}
+                />
+              )
+            })}
+        </Box>
+      )}
+    </Dialog>
   )
 }
 
@@ -119,6 +123,10 @@ const Loading = () => {
     </Box>
   )
 }
+
+const Transition = React.forwardRef((props, ref) => (
+  <Slide direction='up' mountOnEnter unmountOnExit ref={ref} {...props} />
+))
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -141,7 +149,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     fontSize: 22,
     fontWeight: 500,
-    marginRight: 5
+    marginRight: 10
   },
   row: {
     display: 'flex',
@@ -150,13 +158,13 @@ const useStyles = makeStyles(theme => ({
   },
   styleRow: {
     display: 'flex',
-    padding: 22
+    padding: 22,
+    flexWrap: 'wrap',
+    gap: '40px 20px '
   },
   link: {
-    cursor: 'pointer'
-  },
-  mapCardWrapper: {
-    marginRight: 32
+    cursor: 'pointer',
+    color: MAPEO_BLUE
   },
   loaderContainer: {
     width: '100%',
@@ -164,5 +172,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  closeButton: {
+    color: MAPEO_BLUE
   }
 }))
