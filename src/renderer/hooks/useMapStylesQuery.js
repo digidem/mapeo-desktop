@@ -18,21 +18,39 @@ const m = defineMessages({
   offlineBackgroundMapName: 'Offline Map'
 })
 
-export const useMapStylesQuery = () => {
+export const useMapStylesQuery = (enabled = true) => {
   const backgroundMapsEnabled = useExperimentsFlagsStore(
     store => store.backgroundMaps
   )
 
-  const legacyStyleQueryResult = useLegacyMapStyleQuery(!backgroundMapsEnabled)
+  const legacyStyleQueryResult = useLegacyMapStyleQuery(
+    !backgroundMapsEnabled && enabled
+  )
   const mapStylesQueryResult = useMapServerQuery(
     '/styles',
-    backgroundMapsEnabled
+    backgroundMapsEnabled && enabled
   )
+  const defaultMapStyle = useDefaultMapStyle()
 
-  return backgroundMapsEnabled ? mapStylesQueryResult : legacyStyleQueryResult
+  const queryResult = backgroundMapsEnabled
+    ? {
+        data: [
+          defaultMapStyle,
+          ...(mapStylesQueryResult?.data ? mapStylesQueryResult?.data : [])
+        ],
+        isLoading: mapStylesQueryResult.isLoading,
+        refetch: mapStylesQueryResult.refetch
+      }
+    : {
+        data: legacyStyleQueryResult.data,
+        isLoading: legacyStyleQueryResult.isLoading,
+        refetch: legacyStyleQueryResult.refetch
+      }
+
+  return queryResult
 }
 
-export const useLegacyMapStyleQuery = enabled => {
+const useLegacyMapStyleQuery = enabled => {
   const { formatMessage: t } = useIntl()
   const defaultMapStyle = useDefaultMapStyle()
 
@@ -61,7 +79,7 @@ export const useLegacyMapStyleQuery = enabled => {
   return queryResult
 }
 
-export const useDefaultMapStyle = () => {
+const useDefaultMapStyle = () => {
   const { formatMessage: t } = useIntl()
 
   return {
@@ -69,23 +87,18 @@ export const useDefaultMapStyle = () => {
     url: ONLINE_STYLE_URL,
     bytesStored: 0,
     name: t(m.defaultBackgroundMapName),
-    isImporting: false
+    isImporting: false,
+    isDefault: true
   }
 }
 
 export const useSelectedMapStyle = () => {
-  const backgroundMapsFlag = useExperimentsFlagsStore(
-    store => store.backgroundMaps
-  )
   const backgroundMapStyleId = useBackgroundMapStore(store => store.mapStyle)
-  const defaultMapStyle = useDefaultMapStyle()
 
-  const { data: mapStyles, isLoading } = useMapStylesQuery()
+  const { data: mapStyles } = useMapStylesQuery()
 
-  if (isLoading || !mapStyles) return defaultMapStyle
-
-  return backgroundMapsFlag
-    ? mapStyles?.find(style => style.id === backgroundMapStyleId) ||
-        defaultMapStyle
-    : mapStyles && mapStyles[0]
+  return (
+    mapStyles?.find(style => style.id === backgroundMapStyleId) ||
+    (mapStyles && mapStyles[0])
+  )
 }

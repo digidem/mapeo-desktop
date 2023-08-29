@@ -17,10 +17,7 @@ import {
   useExperimentsFlagsStore,
   usePersistedUiStore
 } from '../../../hooks/store'
-import {
-  useDefaultMapStyle,
-  useMapStylesQuery
-} from '../../../hooks/useMapStylesQuery'
+import { useMapStylesQuery } from '../../../hooks/useMapStylesQuery'
 import Loader from '../../Loader'
 
 const MAPEO_BLUE = '#2469f6'
@@ -49,15 +46,7 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
     setTabIndex(3) // TODO: Set from an ID rather than hardcoded index
   }
 
-  const backgroundMapsEnabled = useExperimentsFlagsStore(
-    store => store.backgroundMaps
-  )
-
-  const defaultMapStyle = useDefaultMapStyle()
-  const { isLoading, data } = useMapStylesQuery()
-
-  const mapStyles =
-    backgroundMapsEnabled && data ? [defaultMapStyle, ...data] : data
+  const { isLoading, data: mapStyles } = useMapStylesQuery()
 
   return (
     <Dialog

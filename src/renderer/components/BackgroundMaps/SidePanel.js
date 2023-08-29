@@ -3,10 +3,10 @@ import { Button, makeStyles } from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useMapServerQuery } from '../../hooks/useMapServerQuery'
 import { ImportMapStyleDialog } from '../dialogs/ImportMapStyle'
 import Loader from '../Loader'
 import { MapCard } from './MapCard'
+import { useMapStylesQuery } from '../../hooks/useMapStylesQuery'
 
 const m = defineMessages({
   // Button to add map background
@@ -28,7 +28,7 @@ export const SidePanel = ({ openSettings, mapValue, setMapValue }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
-  const { data, isLoading, refetch } = useMapServerQuery('/styles', false)
+  const { data, isLoading, refetch } = useMapStylesQuery(false)
 
   return (
     <>
