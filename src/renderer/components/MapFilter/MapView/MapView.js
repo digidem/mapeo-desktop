@@ -1,3 +1,5 @@
+// @ts-check
+
 import React, { useState } from 'react'
 
 import MapViewContent from './MapViewContent'
@@ -5,11 +7,11 @@ import ViewWrapper from '../ViewWrapper'
 import { Avatar, makeStyles } from '@material-ui/core'
 import { LayersOutlined } from '@material-ui/icons'
 import { BackgroundMapSelector } from './BackgroundMapSelector'
-import { useSelectedMapStyle } from '../../../hooks/useMapStylesQuery'
 import {
   useBackgroundMapStore,
   useExperimentsFlagsStore
 } from '../../../hooks/store'
+import { useMapStylesQuery } from '../../../hooks/useMapStylesQuery'
 
 const MapView = (
   {
@@ -30,6 +32,12 @@ const MapView = (
     store => store.backgroundMaps
   )
   const selectedMapStyle = useBackgroundMapStore(store => store.mapStyle)
+  const { data: mapStyles } = useMapStylesQuery()
+
+  const mapStyleUrl =
+    backgroundMapsFlag && selectedMapStyle
+      ? selectedMapStyle?.url
+      : mapStyles && mapStyles[0] && mapStyles[0].url
 
   return (
     <>
@@ -62,7 +70,7 @@ const MapView = (
             getMedia={getMedia}
             presets={presets}
             {...otherProps}
-            mapStyle={selectedMapStyle && selectedMapStyle?.url}
+            mapStyle={mapStyleUrl}
           />
         )}
       </ViewWrapper>

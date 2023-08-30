@@ -56,10 +56,11 @@ const useLegacyMapStyleQuery = enabled => {
 
   const queryResult = useQuery({
     queryKey: ['getLegacyMapStyle'],
-    queryFn: () => {
+    queryFn: async () => {
       try {
         // This checks whether an offline style is available
-        api.getMapStyle('default')
+        await api.getMapStyle('default')
+
         return [
           {
             id: CUSTOM_MAP_ID,

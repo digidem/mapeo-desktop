@@ -61,8 +61,6 @@ export const BackgroundMapInfo = ({ map, unsetMapValue }) => {
 
   const isCurrentMap = mapStyle?.id === map.id
 
-  console.log({ map })
-
   return (
     <Fade in timeout={0}>
       <Paper
