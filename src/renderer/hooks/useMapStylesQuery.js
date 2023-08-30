@@ -1,5 +1,5 @@
 // @ts-check
-import { useExperimentsFlagsStore } from './store'
+import { useBackgroundMapStore, useExperimentsFlagsStore } from './store'
 import { useMapServerQuery } from './useMapServerQuery'
 import { useQuery } from '@tanstack/react-query'
 import api from '../new-api'
@@ -42,7 +42,9 @@ export const useMapStylesQuery = (enabled = true) => {
         refetch: mapStylesQueryResult.refetch
       }
     : {
-        data: legacyStyleQueryResult.data,
+        data: !legacyStyleQueryResult.data
+          ? [defaultMapStyle]
+          : legacyStyleQueryResult.data,
         isLoading: legacyStyleQueryResult.isLoading,
         refetch: legacyStyleQueryResult.refetch
       }
@@ -80,7 +82,7 @@ const useLegacyMapStyleQuery = enabled => {
   return queryResult
 }
 
-const useDefaultMapStyle = () => {
+export const useDefaultMapStyle = () => {
   const { formatMessage: t } = useIntl()
 
   return {

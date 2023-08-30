@@ -1,10 +1,25 @@
 // @ts-check
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { defineMessages } from 'react-intl'
 import store from '../../persist-store'
 
+const m = defineMessages({
+  // The name of the default background map
+  defaultBackgroundMapName: 'Default'
+})
+
+const DEFAULT_MAP = {
+  id: '487x2pc8ws801avhs5hw58qnxc',
+  url: 'mapbox://styles/mapbox/outdoors-v10',
+  bytesStored: 0,
+  name: m.defaultBackgroundMapName,
+  isImporting: false,
+  isDefault: true
+}
+
 /**
- * @typedef {import('./useMapServerQuery').MapServerStyleInfo} MapStyle
+ * @typedef { {id: string, url: string,bytesStored: number,name: import('react-intl').MessageDescriptor}} MapStyle
  */
 
 /**
@@ -56,17 +71,23 @@ const experimentsFlagsStoreSlice = (set, get) => ({
 
 /**
  * @typedef {{
- *  mapStyle: MapStyle | null,
- *  setMapStyle: (mapStyle: MapStyle) => void
+ *  mapStyleLegacy: MapStyle,
+ *  mapStyleMapServer:MapStyle,
+ *  setMapStyleLegacy: (mapStyle:MapStyle) => void,
+ *  setMapStyleServer: (mapStyle:MapStyle) => void
  * }} BackgroundMapStoreSlice
  */
 /**
  * @type {import('zustand').StateCreator<BackgroundMapStoreSlice>}
  */
-const backgroundMapStoreSlice = (set, get) => ({
-  mapStyle: null,
-  setMapStyle: mapStyle => set({ mapStyle })
-})
+const backgroundMapStoreSlice = (set, get) => {
+  return {
+    mapStyleLegacy: DEFAULT_MAP,
+    mapStyleMapServer: DEFAULT_MAP,
+    setMapStyleLegacy: mapStyle => set({ mapStyleLegacy: mapStyle }),
+    setMapStyleServer: mapStyle => set({ mapStyleMapServer: mapStyle })
+  }
+}
 
 /**
  * @typedef {{
@@ -86,7 +107,8 @@ export const useExperimentsFlagsStore = createPersistedStore(
   experimentsFlagsStoreSlice,
   'experiments-flags'
 )
-export const useBackgroundMapStore = createPersistedStore(
+
+const useBackgroundMapState = createPersistedStore(
   backgroundMapStoreSlice,
   'background-maps'
 )
@@ -94,3 +116,17 @@ export const usePersistedUiStore = createPersistedStore(
   persistedUiStoreSlice,
   'ui'
 )
+
+export const useBackgroundMapStore = () => {
+  const backgroundMapsEnabled = useExperimentsFlagsStore(
+    store => store.backgroundMaps
+  )
+
+  const [mapStyle, setMapStyle] = useBackgroundMapState(store =>
+    backgroundMapsEnabled
+      ? [store.mapStyleMapServer, store.setMapStyleServer]
+      : [store.mapStyleLegacy, store.setMapStyleLegacy]
+  )
+
+  return { mapStyle, setMapStyle }
+}

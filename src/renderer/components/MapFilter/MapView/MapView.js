@@ -31,13 +31,7 @@ const MapView = (
   const backgroundMapsFlag = useExperimentsFlagsStore(
     store => store.backgroundMaps
   )
-  const selectedMapStyle = useBackgroundMapStore(store => store.mapStyle)
-  const { data: mapStyles } = useMapStylesQuery()
-
-  const mapStyleUrl =
-    backgroundMapsFlag && selectedMapStyle
-      ? selectedMapStyle?.url
-      : mapStyles && mapStyles[0] && mapStyles[0].url
+  const { mapStyle, setMapStyle } = useBackgroundMapStore()
 
   return (
     <>
@@ -70,7 +64,7 @@ const MapView = (
             getMedia={getMedia}
             presets={presets}
             {...otherProps}
-            mapStyle={mapStyleUrl}
+            mapStyle={mapStyle.url}
           />
         )}
       </ViewWrapper>

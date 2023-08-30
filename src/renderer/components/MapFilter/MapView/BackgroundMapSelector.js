@@ -1,3 +1,4 @@
+// @ts-check
 import * as React from 'react'
 import {
   Box,
@@ -33,10 +34,7 @@ const m = defineMessages({
 export const BackgroundMapSelector = ({ active, dismiss }) => {
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
-  const [mapStyle, setMapStyle] = useBackgroundMapStore(store => [
-    store.mapStyle,
-    store.setMapStyle
-  ])
+  const { mapStyle, setMapStyle } = useBackgroundMapStore()
 
   const setTabIndex = usePersistedUiStore(store => store.setTabIndex)
 
