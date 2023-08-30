@@ -21,23 +21,21 @@ const m = defineMessages({
 
 export const MapboxPrevOnly = ReactMapboxGl({
   accessToken: MAPBOX_ACCESS_TOKEN,
-  dragRotate: false,
-  pitchWithRotate: false,
-  attributionControl: false,
+  interactive: false,
   injectCSS: false
 })
 
 /**
  * @typedef MapCardProps
- * @prop {import('../SettingsView/BackgroundMaps').MapServerStyleInfo} offlineMap
+ * @prop {import('../SettingsView/BackgroundMaps').MapServerStyleInfo & { isDefault?: boolean }} mapStyle
  * @prop {React.Dispatch<React.SetStateAction<import('../SettingsView/BackgroundMaps').MapServerStyleInfo['id'] | null>>} setMap
  * @prop {boolean } isBeingViewed
  */
 
 /** @param {MapCardProps} param */
-export const MapCard = ({ offlineMap, setMap, isBeingViewed }) => {
+export const MapCard = ({ mapStyle, setMap, isBeingViewed }) => {
   const theme = useTheme()
-  const mapStyle = useBackgroundMapStore(store => store.mapStyle)
+  const selectedMapStyle = useBackgroundMapStore(store => store.mapStyle)
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
 
@@ -45,7 +43,7 @@ export const MapCard = ({ offlineMap, setMap, isBeingViewed }) => {
     <Button
       variant='outlined'
       className={classes.root}
-      onClick={() => setMap(offlineMap.id)}
+      onClick={() => setMap(mapStyle.id)}
     >
       <div
         className={classes.inner}
@@ -61,18 +59,21 @@ export const MapCard = ({ offlineMap, setMap, isBeingViewed }) => {
               height: '100%',
               width: '100%'
             }}
-            style={offlineMap.url}
+            style={mapStyle.url}
             zoom={[0]}
+            center={[-77, 0]}
           />
         </div>
         <div className={classes.text}>
-          <Typography>{offlineMap.name}</Typography>
-          <Typography variant='subtitle1'>
-            {`${Math.round(convertKbToMb(offlineMap.bytesStored))} ${t(m.mb)}`}
-          </Typography>
+          <Typography>{mapStyle.name}</Typography>
+          {!mapStyle.isDefault && (
+            <Typography variant='subtitle1'>
+              {`${Math.round(convertKbToMb(mapStyle.bytesStored))} ${t(m.mb)}`}
+            </Typography>
+          )}
         </div>
         <div className={classes.detail}>
-          {mapStyle === offlineMap.id && (
+          {selectedMapStyle?.id === mapStyle.id && (
             <Chip
               size='small'
               style={{

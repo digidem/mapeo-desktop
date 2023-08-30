@@ -33,7 +33,7 @@ export const MapPreviewCard = ({ onClick, selected, styleUrl, title }) => {
               pointerEvents: 'none'
             }}
             style={styleUrl}
-            center={[-75, -0]}
+            center={[-77, 0]}
             zoom={[0]}
           />
         </div>

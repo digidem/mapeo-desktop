@@ -51,13 +51,13 @@ export const SidePanel = ({ openSettings, mapValue, setMapValue }) => {
           {isLoading ? (
             <Loader />
           ) : data ? (
-            data.map(offlineMap => (
+            data.map(mapStyle => (
               <>
                 <MapCard
                   setMap={setMapValue}
-                  key={offlineMap.id}
-                  offlineMap={offlineMap}
-                  isBeingViewed={offlineMap.id === mapValue}
+                  key={mapStyle.id}
+                  mapStyle={mapStyle}
+                  isBeingViewed={mapStyle.id === mapValue}
                 />
               </>
             ))

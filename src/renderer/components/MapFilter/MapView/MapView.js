@@ -6,7 +6,10 @@ import { Avatar, makeStyles } from '@material-ui/core'
 import { LayersOutlined } from '@material-ui/icons'
 import { BackgroundMapSelector } from './BackgroundMapSelector'
 import { useSelectedMapStyle } from '../../../hooks/useMapStylesQuery'
-import { useExperimentsFlagsStore } from '../../../hooks/store'
+import {
+  useBackgroundMapStore,
+  useExperimentsFlagsStore
+} from '../../../hooks/store'
 
 const MapView = (
   {
@@ -26,7 +29,7 @@ const MapView = (
   const backgroundMapsFlag = useExperimentsFlagsStore(
     store => store.backgroundMaps
   )
-  const selectedMapStyle = useSelectedMapStyle()
+  const selectedMapStyle = useBackgroundMapStore(store => store.mapStyle)
 
   return (
     <>

@@ -18,36 +18,37 @@ const m = defineMessages({
  * @typedef BackgroundMapsProps
  * @prop {()=>void} returnToSettings
  */
-
 /** @param {BackgroundMapsProps} param */
 export const BackgroundMaps = ({ returnToSettings }) => {
   const { formatMessage: t } = useIntl()
 
   /** @type {MapServerStyleInfo['id']|null} */
-  const initialMapId = /** {const} */ null
+  const initialMapId = null
 
-  const [mapValue, setMapValue] = React.useState(initialMapId)
+  const [viewingMapId, setViewingMapId] = React.useState(
+    /** @type {string | null} */ (initialMapId)
+  )
 
   const { data } = useMapStylesQuery()
 
-  function unsetMapValue () {
-    setMapValue(null)
+  function unsetViewingMap () {
+    setViewingMapId(null)
   }
 
-  const offlineMap = React.useMemo(
-    () => data && data.find(m => m.id === mapValue),
-    [data, mapValue]
+  const viewingMap = React.useMemo(
+    () => data && data.find(m => m.id === viewingMapId),
+    [data, viewingMapId]
   )
 
   return (
     <>
       <SidePanel
-        mapValue={mapValue}
+        mapValue={viewingMapId}
         openSettings={returnToSettings}
-        setMapValue={setMapValue}
+        setMapValue={setViewingMapId}
       />
 
-      {!mapValue || !data ? (
+      {!viewingMapId || !data ? (
         <div style={{ padding: 40 }}>
           <Typography variant='h4'> {t(m.mapBackgroundTitle)}</Typography>
 
@@ -62,13 +63,11 @@ export const BackgroundMaps = ({ returnToSettings }) => {
             <br />
           </Typography>
         </div>
-      ) : offlineMap ? (
+      ) : viewingMap ? (
         <BackgroundMapInfo
-          key={offlineMap.id}
-          size={offlineMap.bytesStored}
-          id={offlineMap.id}
-          unsetMapValue={unsetMapValue}
-          url={offlineMap.url}
+          key={viewingMap.id}
+          map={viewingMap}
+          unsetMapValue={unsetViewingMap}
         />
       ) : null}
     </>

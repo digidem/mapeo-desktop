@@ -4,13 +4,21 @@ import * as React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined'
 import CheckIcon from '@material-ui/icons/Check'
+import ReactMapboxGl from 'react-mapbox-gl'
 
+import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import Loading from '../Loading'
-import { useMapServerQuery } from '../../hooks/useMapServerQuery'
-import { MapboxPrevOnly } from './MapCard'
 import { convertKbToMb } from '../SettingsView/BackgroundMaps'
 import { useMapServerMutation } from '../../hooks/useMapServerMutation'
 import { useBackgroundMapStore } from '../../hooks/store'
+
+const MapboxPrevOnly = ReactMapboxGl({
+  accessToken: MAPBOX_ACCESS_TOKEN,
+  dragRotate: false,
+  pitchWithRotate: false,
+  attributionControl: false,
+  injectCSS: false
+})
 
 const m = defineMessages({
   // Title for Offline Areas
@@ -34,15 +42,14 @@ const m = defineMessages({
 })
 
 /**
+ * @typedef {import('../../hooks/useMapServerQuery').MapServerStyleInfo & { isDefault?: boolean }} BackgroundMapInfo
  * @typedef BackgroundMapInfoProps
- * @prop {string} id
- * @prop {string} url
- * @prop {number} size
+ * @prop {BackgroundMapInfo} map
  * @prop {()=>void} unsetMapValue
  */
 
 /** @param {BackgroundMapInfoProps} props */
-export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
+export const BackgroundMapInfo = ({ map, unsetMapValue }) => {
   const { formatMessage: t } = useIntl()
 
   const [mapStyle, setMapStyle] = useBackgroundMapStore(store => [
@@ -50,10 +57,11 @@ export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
     store.setMapStyle
   ])
 
-  const { data } = useMapServerQuery(`/styles/${id}`)
   const classes = useStyles()
 
-  const isCurrentMap = mapStyle === id
+  const isCurrentMap = mapStyle?.id === map.id
+
+  console.log({ map })
 
   return (
     <Fade in timeout={0}>
@@ -62,38 +70,36 @@ export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
           flex: 1,
           width: '100%',
           height: '100%',
-          padding: !data ? 40 : 0
+          padding: !map ? 40 : 0
         }}
       >
-        {!data ? (
+        {!map ? (
           <Loading />
         ) : (
           <>
             <MapInfo
-              name={data.name}
-              id={id}
+              name={map.name}
+              id={map.id}
               unsetMapValue={unsetMapValue}
-              url={url}
+              url={map.url}
+              isDefault={map.isDefault}
             />
             {/* Text */}
             <div className={classes.paddedContainer}>
               <Typography variant='subtitle2' style={{ fontSize: 18 }}>
-                {data.name}
+                {map.name}
               </Typography>
-              {data.zoom && (
-                <Typography variant='body1'>
-                  {t(m.zoomLevel, { zoom: data.zoom })}
-                </Typography>
-              )}
-              <Typography variant='body1'>{`${Math.round(
-                convertKbToMb(size)
-              )} ${t(m.mb)}`}</Typography>
+              {!map.isDefault ? (
+                <Typography variant='body1'>{`${Math.round(
+                  convertKbToMb(map.bytesStored)
+                )} ${t(m.mb)}`}</Typography>
+              ) : null}
               <Button
                 variant='outlined'
-                onClick={() => setMapStyle(id)}
+                onClick={() => setMapStyle(map)}
                 className={`${classes.paddedButton} ${isCurrentMap &&
                   classes.iconButton}`}
-                disabled={id === mapStyle}
+                disabled={map.id === mapStyle?.id}
               >
                 <Typography
                   style={{ textTransform: 'none' }}
@@ -113,14 +119,15 @@ export const BackgroundMapInfo = ({ id, unsetMapValue, url, size }) => {
 
 /**
  * @typedef MapInfoProps
- * @prop {string|undefined} name
+ * @prop {string|null|undefined} name
  * @prop {string} id
  * @prop {()=>void} unsetMapValue
  * @prop {string} url
+ * @prop {boolean | undefined} isDefault
  */
 
 /** @param {MapInfoProps} props */
-const MapInfo = ({ name, id, unsetMapValue, url }) => {
+const MapInfo = ({ name, id, isDefault, unsetMapValue, url }) => {
   const classes = useStyles()
 
   const { formatMessage: t } = useIntl()
@@ -138,12 +145,14 @@ const MapInfo = ({ name, id, unsetMapValue, url }) => {
         <Typography variant='h5'>{name}</Typography>
 
         <div>
-          <Button variant='outlined' onClick={() => deleteMap()}>
-            <DeleteIcon className={classes.icon} />
-            <Typography style={{ textTransform: 'none' }} variant='subtitle2'>
-              {t(m.deleteStyle)}
-            </Typography>
-          </Button>
+          {!isDefault && (
+            <Button variant='outlined' onClick={() => deleteMap()}>
+              <DeleteIcon className={classes.icon} />
+              <Typography style={{ textTransform: 'none' }} variant='subtitle2'>
+                {t(m.deleteStyle)}
+              </Typography>
+            </Button>
+          )}
         </div>
       </Paper>
 

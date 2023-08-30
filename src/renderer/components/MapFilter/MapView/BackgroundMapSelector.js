@@ -80,19 +80,19 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
         <Box className={classes.styleRow}>
           {mapStyles
             .filter(({ isImporting }) => !isImporting)
-            .map(({ id, url, name }) => {
-              const isSelected = mapStyle === id
+            .map(map => {
+              const isSelected = mapStyle?.id === map.id
               return (
                 <MapPreviewCard
                   onClick={() => {
                     if (isSelected) return
                     dismiss()
-                    setMapStyle(id)
+                    setMapStyle(map)
                   }}
                   selected={isSelected}
-                  styleUrl={url}
-                  title={name}
-                  key={id}
+                  styleUrl={map.url}
+                  title={map.name}
+                  key={map.id}
                 />
               )
             })}

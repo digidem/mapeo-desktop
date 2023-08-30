@@ -1,5 +1,5 @@
 // @ts-check
-import { useBackgroundMapStore, useExperimentsFlagsStore } from './store'
+import { useExperimentsFlagsStore } from './store'
 import { useMapServerQuery } from './useMapServerQuery'
 import { useQuery } from '@tanstack/react-query'
 import api from '../new-api'
@@ -90,15 +90,4 @@ const useDefaultMapStyle = () => {
     isImporting: false,
     isDefault: true
   }
-}
-
-export const useSelectedMapStyle = () => {
-  const backgroundMapStyleId = useBackgroundMapStore(store => store.mapStyle)
-
-  const { data: mapStyles } = useMapStylesQuery()
-
-  return (
-    mapStyles?.find(style => style.id === backgroundMapStyleId) ||
-    (mapStyles && mapStyles[0])
-  )
 }

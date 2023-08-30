@@ -4,6 +4,10 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import store from '../../persist-store'
 
 /**
+ * @typedef {import('./useMapServerQuery').MapServerStyleInfo} MapStyle
+ */
+
+/**
  * @type {import('zustand/middleware').StateStorage}
  */
 const storage = {
@@ -52,15 +56,15 @@ const experimentsFlagsStoreSlice = (set, get) => ({
 
 /**
  * @typedef {{
- *  mapStyle: string,
- *  setMapStyle: (mapStyle: string) => void
+ *  mapStyle: MapStyle | null,
+ *  setMapStyle: (mapStyle: MapStyle) => void
  * }} BackgroundMapStoreSlice
  */
 /**
  * @type {import('zustand').StateCreator<BackgroundMapStoreSlice>}
  */
 const backgroundMapStoreSlice = (set, get) => ({
-  mapStyle: '',
+  mapStyle: null,
   setMapStyle: mapStyle => set({ mapStyle })
 })
 
