@@ -1,649 +1,669 @@
 {
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
-    "message": "Territorio"
+    "message": "Нутаг дэвсгэр"
   },
   "renderer.components.Home.mapfilter": {
     "description": "MapFilter tab label",
-    "message": "Observaciones"
+    "message": "Сануулгууд"
+  },
+  "renderer.components.Home.settings": {
+    "description": "Settings tab label",
+    "message": "Тохиргоо"
   },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
-    "message": "Sincronizar"
+    "message": "Зэрэгцүүлэх"
   },
   "renderer.components.Home.update": {
-    "message": "Actualizar Mapeo"
+    "message": "Mapeo-г шинэчлэх"
   },
   "renderer.components.Loading.loading": {
     "description": "Displayed whilst observations and presets load",
-    "message": "Cargando…"
+    "message": "Ачааллаж байна"
   },
   "renderer.components.MapEditor.ExportButton.closeButton": {
     "description": "Close button after export error",
-    "message": "Cerrar"
+    "message": "Хаах"
   },
   "renderer.components.MapEditor.ExportButton.defaultFilename": {
     "description": "Default filename for map export",
-    "message": "datos-mapa-mapeo"
+    "message": "mapeo-газрын зураг-өгөгдөл"
   },
   "renderer.components.MapEditor.ExportButton.dialogError": {
     "description": "Expor error message - if there was an error during export",
-    "message": "La exportación ha fallado debido a un error interno"
+    "message": "Дотоод алдааны улмаас экспорт амжилтгүй боллоо"
   },
   "renderer.components.MapEditor.ExportButton.dialogSuccess": {
     "description": "Export success message,",
-    "message": "Exportación completada"
+    "message": "Эксдорт амжилттай хийлээ"
   },
   "renderer.components.MapEditor.ExportButton.dialogTitle": {
     "description": "Export dialog title - shown during export progress and after success/failure",
-    "message": "Exportando datos"
+    "message": "Өгөгдөл экспорт хийж байна"
   },
   "renderer.components.MapEditor.ExportButton.exportButton": {
     "description": "Button tooltip on iD Editor toolbar",
-    "message": "Exportar datos del mapa"
+    "message": "Эксдорт хийх газрын зургийн өгөгдөл"
   },
   "renderer.components.MapEditor.ExportButton.exportGeoJson": {
     "description": "Menu item for exporting GeoJSON",
-    "message": "Exportar datos de territorio como GeoJSON…"
+    "message": "Нутаг дэвсгэрийн өгөгдлийг GeoJSON болгон экспорт хийх..."
   },
   "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
     "description": "Menu item for exporting ICCA Export Packages",
-    "message": "Exportar Paquete de Exportación ICCA…"
+    "message": "ICCA экспортын багцыг экспорт хийх…"
   },
   "renderer.components.MapEditor.ExportButton.exportShapefile": {
     "description": "Menu item for exporting Shapefile",
-    "message": "Exportar datos de territorio como Shapefile…"
+    "message": "Нутаг дэвсгэрийн өгөгдлийг Shapefile болгон экспорт хийх..."
   },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
-    "message": "OK"
+    "message": "Батлгаажуулах"
   },
   "renderer.components.MapEditor.ExportButton.saveTitle": {
     "description": "Save dialog title",
-    "message": "Exportar datos de territorio"
+    "message": "Нутаг дэвсгэрийн өгөгдөлийг экспорт хийх"
   },
   "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
-    "message": "Acerca de ti:"
+    "message": "Чиний тухай:"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
-    "message": "No \t"
+    "message": "Үгүй"
   },
   "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
     "description": "Yes/no answers",
-    "message": "Sí"
+    "message": "Тийм"
   },
   "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
-    "message": "Por favor, rellene al menos un campo."
+    "message": "Дор хаяж нэг талбарыг бөглөнө үү."
   },
   "renderer.components.MapEditor.ICCAExportDialog.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "Цуцлах"
   },
   "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
-    "message": "Inglés"
+    "message": "Англи хэл"
   },
   "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
     "description": "Labels for community name",
-    "message": "Idioma original"
+    "message": "Жинхэнэ хэл"
   },
   "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
-    "message": "Por favor, rellene todos los campos obligatorios."
+    "message": "Шаардлагатай бүх талбарыг бөглөнө үү."
   },
   "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
     "description": "Form instructions",
-    "message": "Por favor, responda a estas preguntas antes de exportar."
+    "message": "Экспорт хийхийн өмнө эдгээр асуултад хариулна уу."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
-    "message": "Para dibujar un límite ICCA, crea un área y etiquetala con el tipo\n    \"Límite ICCA\". Recuerda guardar tus cambios en el mapa antes de\n    exportar."
+    "message": "ICCA хилийг зурахын тулд талбар үүсгэж, \"ICCA Boundary\" гэсэн төрлөөр тэмдэглэнэ үү. Экспорт хийхийн өмнө газрын зураг дээрх өөрчлөлтөө хадгалахаа мартуузай."
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
     "description": "No data to export",
-    "message": "No hay límites ICCA para exportar."
+    "message": "Экспорт хийх ICCA-ийн хил хязгаар байхгүй."
   },
   "renderer.components.MapEditor.ICCAExportDialog.ok": {
     "description": "OK button",
-    "message": "OK"
+    "message": "Баталгаажуулах"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
     "description": "Question prompts",
-    "message": "¿Su comunidad o pueblo indígena ha dado su consentimiento colectivo para compartir el mapa y otra información a UNEP-WCMC? "
+    "message": "UNEP-WCMC-тэй газрын зураг болон бусад мэдээллийг хуваалцахыг танай нийгэмлэг эсвэл уугуул иргэд хамтдаа зөвшөөрсөн үү?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
-    "message": "¿Desea que el mapa y otra información estén disponibles para que todos los vean y descarguen?"
+    "message": "Та газрын зураг болон бусад мэдээллийг хэн ч үзэх, татаж авах боломжтой байлгахыг хүсч байна уу?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
-    "message": "Nombre de la comunidad, pueblo indígena o individuo que proporciona la información (Idioma original, inglés)"
+    "message": "Мэдээлэл өгч буй нийгэмлэг, уугуул иргэд эсвэл хувь хүний нэр (эх хэл, англи хэл)"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
     "description": "Choices for question 4",
-    "message": "Miembro de la comunidad/pueblo indígena"
+    "message": "Нийгэмлэгийн гишүүн/уугуул иргэд"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
-    "message": "Representante o asociado de la comunidad/pueblo indígena"
+    "message": "Нийгэмлэг/уугуул иргэдийн төлөөлөгч эсвэл хамтрагч"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
-    "message": "Representante de una organización no gubernamental"
+    "message": "Төрийн бус байгууллагын төлөөлөгч"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
-    "message": "Otro"
+    "message": "Бусад"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
-    "message": "Si eres un individuo, ¿cuál es tu relación con el pueblo o comunidad \n    indígena?"
+    "message": "Хэрэв та хувь хүн юм бол уугуул иргэд эсвэл олон нийттэй ямар холбоотой вэ?"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
     "description": "Choices for question 5",
-    "message": "Sí, revisión por pares"
+    "message": "Тийм - үе тэнгийнхний үнэлгээ"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer2": {
-    "message": "Sí, revisión del gobierno"
+    "message": "Тийм - засгийн газрын үнэлгээ"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer3": {
-    "message": "No"
+    "message": "Үгүй"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Answer4": {
-    "message": "No sé"
+    "message": "Мэдэхгүй"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
-    "message": "¿La información del TICCA ha sido revisada por un proceso de revisión por pares (es decir, por otras comunidades) o por un organismo gubernamental? (Para obtener más información sobre este tema, consulte el manual de datos de TICCA: https://www.wcmc.io/iccadatamanual)"
+    "message": "ICCA-ийн мэдээллийг үе тэнгийн хяналтын үйл явц (өөрөөр хэлбэл, бусад нийгэмлэгүүд) эсвэл төрийн байгууллага хянаж үзсэн үү? (Энэ сэдвийн талаар дэлгэрэнгүй мэдээллийг ICCA мэдээллийн гарын авлагаас үзнэ үү: https://www.wcmc.io/iccadatamanual)"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Answer1": {
     "description": "Choices for question 6",
-    "message": "Sí - como área protegida"
+    "message": "Тийм - тусгай хамгаалалттай газар нутаг"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Answer2": {
-    "message": "Sí - como OMEC"
+    "message": "Тийм - OECM-ийн хувьд"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Answer3": {
-    "message": "No - solo como TICCA"
+    "message": "Үгүй - зөвхөн ICCA-ийн хувьд"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Answer4": {
-    "message": "No sé"
+    "message": "Мэдэхгүй"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question6Prompt": {
-    "message": "¿Le gustaría presentar el TICCA como un área protegida u Otras Medidas Efectivas de Conservación Basadas en Áreas (OMEC)? (Para obtener más información sobre este tema, consulte el manual de datos de TICCA: https://www.wcmc.io/iccadatamanual_ESP)"
+    "message": "Та ICCA-г тусгай хамгаалалттай газар нутаг эсвэл бусад үр дүнтэй байгаль хамгаалах арга хэмжээ (OECM) болгон оруулахыг хүсч байна уу? (Энэ сэдвийн талаар дэлгэрэнгүй мэдээллийг ICCA мэдээллийн гарын авлагаас үзнэ үү: https://www.wcmc.io/iccadatamanual)"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question7Placeholder": {
     "description": "Placeholder for question 7",
-    "message": "Su información de contacto"
+    "message": "Таны холбоо барих мэдээлэл"
   },
   "renderer.components.MapEditor.ICCAExportDialog.question7Prompt": {
-    "message": "Dirección de correo electrónico donde podamos contactarlo. Nos pondremos en contacto con usted para confirmar que hemos recibido su información y para discutir la información más a fondo cuando sea necesario. También nos comunicaremos con usted periódicamente para asegurarnos de que la información esté actualizada."
+    "message": "Бид тантай холбогдох боломжтой имэйл хаяг. Бид таны мэдээллийг хүлээн авснаа баталгаажуулахын тулд тантай холбоо барьж, шаардлагатай бол мэдээллийг хэлэлцэх болно. Мөн бид тантай үе үе холбогдож мэдээлэл шинэчлэгдсэн эсэхийг шалгах болно."
   },
   "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
     "description": "Helper texts",
-    "message": "Esta respuesta es necesaria."
+    "message": "Энэ хариулт шаардлагатай."
   },
   "renderer.components.MapEditor.ICCAExportDialog.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "Хадгалах"
   },
   "renderer.components.MapEditor.ICCAExportDialog.title": {
     "description": "Title for ICCA package export dialog",
-    "message": "Exportar Paquete de Exportación ICCA"
+    "message": "ICCA экспортын багцыг экспорт хийх"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
-    "message": "Comentarios y Contribuciones"
+    "message": "Санал хүсэлт & хувь нэмэр"
   },
   "renderer.components.MapEditor.index.notes": {
-    "message": "Descripción"
+    "message": "Тодорхойлолт"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
     "description": "Default filename for exported data",
-    "message": "datos-observaciones-mapeo"
+    "message": "mapeo-сануулга-өгөгдөл"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
-    "message": "Todas las observaciones ({count})"
+    "message": "Бүх {count} сануулгууд"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
-    "message": "{count} observaciones filtradas"
+    "message": "{count} шүүсэн сануулгууд"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
     "description": "Label for select to export all data or only filtered",
-    "message": "¿Solo datos filtrado o todos los datos?"
+    "message": "Зөвхөн шүүсэн өгөгдөл эсвэл бүх өгөгдөл үү?"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
     "description": "Label for data format selector",
-    "message": "Formato de datos"
+    "message": "Өгөгдлийн формат"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
     "description": "Label for select to include photos in export",
-    "message": "¿Exportar fotos también?"
+    "message": "Өөр зураг экспорт хийх үү?"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
     "description": "Hint shown when user has selected photos to be included in the export",
-    "message": "El archivo exportado será un Zip con las fotos incluidas"
+    "message": "Экспорт нь өгөгдөл, зураг агуулсан зип файл байх болно"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
     "description": "Label for select option to include no photos in export",
-    "message": "Sin fotos"
+    "message": "Зураг байхгүй"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
     "description": "Label for select option to include full size photos in export",
-    "message": "Con fotos tamaño original"
+    "message": "Бүтэн хэмжээтэй зурагнууд"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
     "description": "Label for select option to include preview size photos in export",
-    "message": "Con fotos tamaño prevista"
+    "message": "Зургуудын хэмжээг урьдчилан үзэх"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "Хадгалах"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
     "description": "Title for export dialog",
-    "message": "Exportar datos"
+    "message": "Сануулгуудыг экспорт хийх"
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
-    "message": "Observaciones exportadas con éxito."
+    "message": "Сануулгуудыг амжилттай экспорт хийх."
   },
   "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
-    "message": "OK"
+    "message": "Баталгаажуулах"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.close": {
-    "message": "Cerrar"
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
-    "message": "No tienes datos para exportar todavía."
+    "message": "Танд экспорт хийх өгөгдөл хараахан байхгүй байна."
   },
   "renderer.components.MapFilter.DataExportDialog.Template.title": {
     "description": "Title for observations export dialog",
-    "message": "Exportar datos"
+    "message": "Сануулгуудыг экспорт хийх"
   },
   "renderer.components.MapFilter.ExportButton.exportButton": {
-    "message": "Exportar observaciones"
+    "message": "Сануулгын өгөгдлийг экспорт хийх"
   },
   "renderer.components.MapFilter.ExportButton.exportData": {
-    "message": "Exportar observaciones…"
+    "message": "Сануулгыг экспорт хийх…"
   },
   "renderer.components.MapFilter.ExportButton.exportMap": {
-    "message": "Exportar mapa para Web…"
+    "message": "Вэб газрын зургийг экспорт хийх..."
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
     "description": "Title of max date field in filter",
-    "message": "A"
+    "message": "-руу/рүү"
   },
   "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
     "description": "Title of min date field in filter",
-    "message": "Desde"
+    "message": "-аас/ээс:"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
     "description": "Label for filter by date observation was created",
-    "message": "Fecha de observación"
+    "message": "Сануулсан огноо"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
     "description": "Button text to change which fields are shown and filterable in the filter pane",
-    "message": "Editar Filtros…"
+    "message": "Шүүлтүүрийг засах..."
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
     "description": "Label for filter by date observation was modified (e.g. edited by a user)",
-    "message": "Editado"
+    "message": "Тохируулсан"
   },
   "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
     "description": "Label for filter by category (e.g. the preset)",
-    "message": "Categoría"
+    "message": "Ангилал"
   },
   "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
     "description": "Button text to only show a particular field value in a filter",
-    "message": "Sólo"
+    "message": "Зөвхөн нэг"
   },
   "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
     "description": "Button text to turn off filters for a field",
-    "message": "Todo"
+    "message": "Бүгд"
   },
   "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
-    "message": "Filtrar datos…"
+    "message": "Шүүлтүүр..."
   },
   "renderer.components.MapFilter.MapExportDialog.cancel": {
     "description": "cancel button",
-    "message": "Cancelar"
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
     "description": "Label for field to enter map description",
-    "message": "Descripción de este mapa"
+    "message": "Газрын зургийн тайлбар"
   },
   "renderer.components.MapFilter.MapExportDialog.save": {
     "description": "Save button",
-    "message": "Guardar"
+    "message": "Хадгалах"
   },
   "renderer.components.MapFilter.MapExportDialog.styleLabel": {
     "description": "Label for field to enter custom map style",
-    "message": "Estilo del mapa"
+    "message": "Газрын зургийн загвар"
   },
   "renderer.components.MapFilter.MapExportDialog.termsHint": {
     "description": "Helper text explaining terms and conditions field",
-    "message": "Añadir términos y limitaciones sobre cómo se pueden utilizar estos datos"
+    "message": "Энэ өгөгдлийг хэрхэн ашиглах тухай нөхцөл, хязгаарлалтыг нэмэх"
   },
   "renderer.components.MapFilter.MapExportDialog.termsLabel": {
     "description": "Label for field to enter terms and conditions",
-    "message": "Términos y limitaciones"
+    "message": "Нөхцөл & хязгаарлалт"
   },
   "renderer.components.MapFilter.MapExportDialog.title": {
     "description": "Title for webmaps export dialog",
-    "message": "Exportar un mapa para compartir en internet"
+    "message": "Онлайнаар хуваалцахын тулд газрын зургийг экспорт хийх"
   },
   "renderer.components.MapFilter.MapExportDialog.titleLabel": {
     "description": "Label for field to enter map title",
-    "message": "Título de este mapa"
+    "message": "Газрын зургийн нэр"
   },
   "renderer.components.MapFilter.MapFilter.errorDescription": {
-    "message": "Los detalles abajo (en Inglés) pueden apoyar a resolver este error…"
+    "message": "Үүнийг засах арга замыг олоход доорх дэлгэрэнгүй мэдээлэл хэрэгтэй болно..."
   },
   "renderer.components.MapFilter.MapFilter.errorTitle": {
-    "message": "Disculpas, ha ocurrido un error"
+    "message": "Эрхэмээ! Алдаа гарсан байна"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
-    "message": "Datos adicionales"
+    "message": "Нэмэлт өгөгдөл"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
     "description": "Cancel button once observation has been edited",
-    "message": "Cancelar"
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
-    "message": "Cancelar"
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
-    "message": "Cerrar sin guardar"
+    "message": "Өөрчлөлтийг хаях"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
-    "message": "Has realizado algunos cambios, si cierras sin guardar se perderán los cambios realizados"
+    "message": "Та зарим өөрчлөлт хийсэн байна, хадгалахгүйгээр хаавал таны хийсэн өөрчлөлт арилах болно"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
-    "message": "¿Cerrar sin guardar?"
+    "message": "Өөрчлөлтүүдийг хадгалахгүйгээр хаах уу?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
-    "message": "Cancelar"
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
-    "message": "Sí, borrar"
+    "message": "Тийм, устгах"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
-    "message": "¿Eliminar observación?"
+    "message": "Сануулгыг устгах уу?"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
     "description": "Menu item to delete an observation",
-    "message": "Eliminar observación"
+    "message": "Сануулгыг устгах"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
     "description": "Header for section that includes the additional details for an observation",
-    "message": "Detalles"
+    "message": "Дэлгэрэнгүй"
   },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
     "description": "Save edit button",
-    "message": "Guardar"
+    "message": "Хадгалах"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
     "description": "Hide all fields in report view",
-    "message": "Ocultar todo"
-  },
-  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
-    "description": "Button label for hide fields menu",
-    "message": "{count, plural, =0 {Ocultar campos} =1 {1 Campos oculto} other {# Campos ocultos}}"
+    "message": "Бүгдийг нуух"
   },
   "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
     "description": "Show all fields in report view",
-    "message": "Mostrar todo"
+    "message": "Бүгдийг харуулах"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
     "description": "Label for description / notes section of report",
-    "message": "Descripción"
+    "message": "Тодорхойлолт"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
     "description": "Shown in reports if an observation has no location recorded",
-    "message": "No hay ubicación registrada"
+    "message": "Ямар нэг байршил бүртгэгдээгүй байна"
   },
   "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
     "description": "Page number in footer",
-    "message": "Página {pageNumber}"
+    "message": "Хуудас"
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
     "description": "Displayed if no observations match current filter, or no observations in Mapeo",
-    "message": "No hay observaciones disponibles."
+    "message": "Ямар нэг сануулга байхгүй байна"
   },
   "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
     "description": "Displayed if an error occurs when rendering the report",
-    "message": "Se ha producido un error desconocido al intentar crear el informe"
+    "message": "Тайлан үүсгэх үед үл мэдэгдэх алдаа гарлаа"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
     "description": "Text showing the current page number when previewing a report",
-    "message": "Página {currentPage}"
+    "message": "Хуудас {currentPage}"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
     "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
-    "message": "Informe de Observaciones de Mapeo.pdf"
+    "message": "Mapeo сануулгын тайлан.pdf"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
     "description": "Button for navigating to the next page in the report",
-    "message": "Siguiente"
+    "message": "Дараагийнх"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
     "description": "Button for nagivating to the previous page in the report",
-    "message": "Anterior"
+    "message": "Өмнөх"
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
     "description": "Shown while the report is generating when saving or printing",
-    "message": "Generando informe…"
+    "message": "Тайлан үүсгэж байна..."
   },
   "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
-    "message": "mostrando {observationCount} de {totalObservations} observaciones"
+    "message": "{totalObservations} ажиглалтын {observationCount}-г харуулж байна"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
     "description": "Button label for Save PDF Button",
-    "message": "Guardar PDF"
+    "message": "PDF өргөтгөлөөр хадгалах"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
     "description": "Button label to cancel saving report",
-    "message": "Cancelar"
+    "message": "Цуцлах"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
     "description": "Button label to confirm saving report",
-    "message": "Continuar"
+    "message": "Үргэлжлүүлэх"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
     "description": "Loading message when report is very long.",
-    "message": "Este informe contiene {observationCount} observaciones y podría tardar unos minutos en crearse. ¿Está seguro de que desea continuar?"
+    "message": "Энэ тайланд {observationCount} сануулгаууд багтсан бөгөөд үүнийг үүсгэхэд хэдэн минут шаардлагатай. Та үргэлжлүүлэхдээ итгэлтэй байна уу?"
   },
   "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
     "description": "Title of print settings dialog",
-    "message": "Advertencia: Informe extenso"
+    "message": "Анхааруулга: Том тайлан"
   },
   "renderer.components.MapFilter.Toolbar.mapTabLabel": {
-    "message": "Mapa"
+    "message": "Газрын зураг"
   },
   "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
-    "message": "Fotos"
+    "message": "Хэвлэл мэдээлэл"
   },
   "renderer.components.MapFilter.Toolbar.reportTabLabel": {
-    "message": "Informe"
+    "message": "Тайлан"
   },
   "renderer.components.MapFilter.messages.defaultObservationName": {
     "description": "Name to show for an observation when it does not match any preset",
-    "message": "Observación"
+    "message": "Сануулга"
+  },
+  "renderer.components.SettingsView.AboutMapeo.mapeoVariant": {
+    "message": "Mapeo төрөл"
+  },
+  "renderer.components.SettingsView.AboutMapeo.mapeoVersion": {
+    "message": "Mapeo хувилбар"
+  },
+  "renderer.components.SettingsView.index.aboutMapeo": {
+    "message": "Mapeoгийн тухай"
+  },
+  "renderer.components.SettingsView.index.aboutMapeoSubtitle": {
+    "message": "Хувилбар ба барилгын дугаар"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
-    "message": "Asegurar que los equipos están encendidos y conectados a la misma red WiFi"
+    "message": "Төхөөрөмжүүд асаалттай, ижил wifi сүлжээнд холбогдсон эсэхийг шалгах хэрэгтэй"
   },
   "renderer.components.SyncView.Searching.searchingTitle": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Buscando…"
+    "message": "Хайлт хийж байна..."
   },
   "renderer.components.SyncView.SyncAppBar.disconnected": {
-    "message": "Desconectado"
+    "message": "Сүлжээний холболт салгасан"
   },
   "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
-    "message": "Primero necesita conectarse a una red WiFi antes de poder sincronizar dispositivos"
+    "message": "Төхөөрөмжүүдийг зэрэгуүүлэхийн өмнө та эхлээд WiFi сүлжээнд холбогдох хэрэгтэй"
   },
   "renderer.components.SyncView.SyncAppBar.newSyncfile": {
     "description": "Button to create a new sync file",
-    "message": "Crear nuevo archivo de sincronización…"
+    "message": "Шинэ синк файл үүсгэх..."
   },
   "renderer.components.SyncView.SyncAppBar.quality": {
-    "message": "Calidad: {quality}%"
+    "message": "Чанар: {quality}%"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
-    "message": "La señal de conexión es excelente"
+    "message": "Холболтын дохио маш сайн"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
-    "message": "La señal de conexión es muy pobre. Intenta acercarte más al router WiFi"
+    "message": "Холболтын дохио маш муу байна. WiFi чиглүүлэгч рүү ойртож үзээрэй"
   },
   "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
-    "message": "La señal de conexión es débil. La sincronización puede tardar más tiempo en completarse"
+    "message": "Холболтын дохио сул байна. Зэрэгцүүлэлтийг дуусгахад илүү их цаг зарцуулж магадгүй"
   },
   "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
     "description": "Button to sync from an existing sync file",
-    "message": "Sincronizar con archivo…"
+    "message": "Файлаас синк хийх..."
   },
   "renderer.components.SyncView.SyncAppBar.title": {
     "description": "Title of sync screen",
-    "message": "Equipos disponibles"
+    "message": "Боломжтой төхөөрөмжүүд"
   },
   "renderer.components.SyncView.SyncAppBar.wifiError": {
-    "message": "Desconocido"
+    "message": "Үл мэдэгдэх"
   },
   "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
-    "message": "Tu tarjeta WiFi u sistema operativo (OS) no ha sido reconocida"
+    "message": "Таны WiFi карт эсвэл үйлдлийн систем (OS) танигдаагүй байна"
   },
   "renderer.components.SyncView.SyncButton.complete": {
     "description": "Button when sync is complete",
-    "message": "Completo"
+    "message": "Дууссан"
   },
   "renderer.components.SyncView.SyncButton.disconnected": {
     "description": "Disconnected",
-    "message": "Desconectado"
+    "message": "Сүлжээний холболт салгасан"
   },
   "renderer.components.SyncView.SyncButton.finishing": {
     "description": "Almost done! But progress is inaccurate.",
-    "message": "Terminando…"
+    "message": "Дуусгаж байна..."
   },
   "renderer.components.SyncView.SyncButton.retry": {
     "description": "Button to retry sync after error",
-    "message": "Reintentar"
+    "message": "Дахин оролдож үзэх"
   },
   "renderer.components.SyncView.SyncButton.starting": {
     "description": "Displayed when sync is starting",
-    "message": "Iniciando…"
+    "message": "Эхэлж байна..."
   },
   "renderer.components.SyncView.SyncButton.sync": {
     "description": "Button to sync a device",
-    "message": "Sincronizar"
+    "message": "Зэрэгцүүлэх"
   },
   "renderer.components.SyncView.SyncTarget.database": {
     "description": "Prompt of how many database objects have synced",
-    "message": "Datos: {sofar} / {total}"
+    "message": "Өгөгдлийн сан: {sofar} / {total}"
   },
   "renderer.components.SyncView.SyncTarget.errorMsg": {
     "description": "Message shown when there is an error while syncing",
-    "message": "Error de sincronización"
+    "message": "Зэрэгцүүлэлтийн алдаа"
   },
   "renderer.components.SyncView.SyncTarget.lastSync": {
     "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
-    "message": "Ultima sincronización:"
+    "message": "Сүүлд зэрэгцүүлэлт хийсэн:"
   },
   "renderer.components.SyncView.SyncTarget.media": {
     "description": "Prompt for how many media items have synced",
-    "message": "Fotos: {sofar} / {total}"
+    "message": "Зургууд: {sofar} / {total}"
   },
   "renderer.components.SyncView.index.createSyncFileDialog": {
-    "message": "Crear nueva base de datos para sincronizar"
+    "message": "Зэрэгцүүлэлт хийхийн тулд шинэ өгөгдлийн сан үүсгэх"
   },
   "renderer.components.SyncView.index.errorMsgVersionThemBad": {
     "description": "Error message when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} necesita actualizar Mapeo"
+    "message": "{deviceName} Mapeo-г шинэчлэх шаардлагатай"
   },
   "renderer.components.SyncView.index.errorMsgVersionUsBad": {
     "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
-    "message": "Tienes que actualizar la versión de Mapeo para poder sincronizar con {deviceName}"
+    "message": "Та {deviceName}-тэй синк хийхийн тулд Mapeo-г шинэчлэх шаардлагатай."
   },
   "renderer.components.SyncView.index.openSyncFileDialog": {
-    "message": "Seleccionar base de datos para sincronizar"
+    "message": "Зэрэгцүүлэх өгөгдлийн санг сонгоно уу"
   },
   "renderer.components.UpdaterView.index.calculatingProgress": {
-    "message": "Estimando..."
+    "message": "Тооцооллож байна"
   },
   "renderer.components.UpdaterView.index.downloadButtonText": {
-    "message": "Descargar"
+    "message": "Татах"
   },
   "renderer.components.UpdaterView.index.downloadProgress": {
-    "message": "Descargando"
+    "message": "Татаж байна"
   },
   "renderer.components.UpdaterView.index.errorMessage": {
-    "message": "Hubo un error y Mapeo no pudo actualizarse. Inténtalo de nuevo más tarde."
+    "message": "Алдаа гарсан бөгөөд Mapeo-г шинэчилж чадсангүй. Дараа дахин оролдоно уу."
   },
   "renderer.components.UpdaterView.index.errorTitle": {
-    "message": "Error"
+    "message": "Алдаа"
   },
   "renderer.components.UpdaterView.index.estimatedDownloadTime": {
-    "message": "Tiempo estimado de descarga es"
+    "message": "Татаж авахад тооцоолсон хугацаа"
   },
   "renderer.components.UpdaterView.index.majorUpdate": {
-    "message": "Esta actualización hará que su aplicación sea incompatible con versiones anteriores."
+    "message": "Энэхүү шинэчлэлт нь таны програмыг өмнөх хувилбаруудтай нийцүүлэх болно."
   },
   "renderer.components.UpdaterView.index.minorUpdate": {
-    "message": "Esta actualización incluye mejoras que pueden cambiar su experiencia."
+    "message": "Энэхүү шинэчлэлт нь таны хэрэглээг өөрчилж болзошгүй сайжруулалтыг багтаасан болно."
   },
   "renderer.components.UpdaterView.index.patchUpdate": {
-    "message": "Esta actualización incluye cambios que corrigen errores críticos. Por favor, actualice lo antes posible."
+    "message": "Энэхүү шинэчлэлт нь чухал алдааг засдаг өөрчлөлтүүдийг агуулдаг. Аль болох хурдан шинэчилнэ үү."
   },
   "renderer.components.UpdaterView.index.restartMapeoButton": {
-    "message": "Reiniciar"
+    "message": "Дахин эхлүүлэх"
   },
   "renderer.components.UpdaterView.index.restartMapeoText": {
-    "message": "Se ha descargado una actualización de Mapeo. Reinicie Mapeo para actualizar."
+    "message": "Mapeo-ийн шинэчлэлтийг татаж авлаа. Шинэчлэхийн тулд Mapeo-г дахин эхлүүлнэ үү."
   },
   "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
-    "message": "Desconocido"
+    "message": "Үл мэдэгдэх"
   },
   "renderer.components.UpdaterView.index.updateAvailable": {
     "description": "Title on sync screen when searching for devices",
-    "message": "Actualizar"
+    "message": "Шинэчлэх"
   },
   "renderer.components.UpdaterView.index.updateNotAvailable": {
-    "message": "¡Mapeo está actualizado! Estás en la última versión."
+    "message": "Mapeo шинэчлэгдсэн! Та хамгийн сүүлийн хувилбар дээр байна."
   },
   "renderer.components.dialogs.ChangeLanguage.button-cancel": {
-    "message": "Cancelar"
+    "message": "Цуцлах"
   },
   "renderer.components.dialogs.ChangeLanguage.button-submit": {
-    "message": "Aceptar"
+    "message": "Батлах"
   },
   "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
-    "message": "Elegir un idioma"
+    "message": "Хэл сонгох"
   },
   "renderer.components.dialogs.Error.close": {
-    "message": "Cerrar"
+    "message": "Хаах"
   },
   "renderer.components.dialogs.Error.openLog": {
-    "message": "Abrir registro..."
+    "message": "Бүртгэлийг нээх..."
   },
   "renderer.components.dialogs.LatLon.button-submit": {
-    "message": "Ir"
+    "message": "Батлах"
   },
   "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
-    "message": "Ingresar coordenadas"
+    "message": "Солбицолуудыг оруулах"
   },
   "renderer.create-zip.errorsFilename": {
     "description": "File name for file with information about export errors",
-    "message": "Exportar errores"
+    "message": "Экспорт хийхэд гарсан алдаа"
   },
   "renderer.create-zip.errorsMsg": {
     "description": "Error message stored in text file in export if there were errors during export",
-    "message": "Se ha producido un error al intentar exportar estos archivos, así que no se encuentran en esta exportación:"
+    "message": "Эдгээр файлуудыг экспорт хийхэд алдаа гарсан тул энэ экспортод байхгүй байна:"
   },
   "renderer.create-zip.missingOriginalsFilename": {
     "description": "File name for file with information about missing originals in export",
-    "message": "Faltan los originales"
+    "message": "Оригинал эх нь дутуу байна"
   },
   "renderer.create-zip.missingOriginalsMsg": {
     "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
-    "message": "No se pudo encontrar el tamaño original de estos archivos, sólo se incluyen imágenes de tamaño de vista previa (1,200 píxeles). Esto puede suceder porque el teléfono que tomó las fotos sólo se ha sincronizado con otros teléfonos, y no directamente con Mapeo Desktop. Para intentar arreglar esto, busque el teléfono que tomó las fotos y sincronícelo con Mapeo Desktop antes de exportar de nuevo."
+    "message": "Эдгээр файлын анхны хэмжээг олж чадсангүй, зөвхөн урьдчилан үзэх хэмжээтэй (1200 пиксел) зургуудыг оруулсан болно. Энэ нь зураг авсан утас нь Mapeo Desktop-той шууд биш, зөвхөн бусад утастай синк хийгдсэн тул ийм зүйл тохиолдож болно. Үүнийг засахын тулд зураг авсан утсаа олоод дахин экспортлохын өмнө Mapeo Desktop-тэй синк хийнэ үү."
+  },
+  "renderer.hooks.useMapStylesQuery.defaultBackgroundMapName": {
+    "description": "The name of the default background map",
+    "message": "Өгөгдмөл"
+  },
+  "renderer.hooks.useMapStylesQuery.offlineBackgroundMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Офлайн газрын зураг"
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "Sin respuesta"
+    "message": "Хариулт алга"
   }
 }
