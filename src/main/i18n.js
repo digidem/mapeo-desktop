@@ -10,7 +10,8 @@ const translations = {
   pt: require('../../messages/main/pt.json'),
   th: require('../../messages/main/th.json'),
   vi: require('../../messages/main/vi.json'),
-  km: require('../../messages/main/km.json')
+  km: require('../../messages/main/km.json'),
+  mn: require('../../messages/main/mn.json')
 }
 
 // We only support generalized locales for now (i.e., no difference between

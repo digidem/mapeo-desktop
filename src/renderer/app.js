@@ -30,7 +30,8 @@ const msgs = {
   pt: require('../../translations/pt.json'),
   vi: require('../../translations/vi.json'),
   km: require('../../translations/km.json'),
-  th: require('../../translations/th.json')
+  th: require('../../translations/th.json'),
+  mn: require('../../translations/mn.json')
 }
 
 if (!logger.configured) {
