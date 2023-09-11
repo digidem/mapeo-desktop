@@ -1,25 +1,18 @@
 // @ts-check
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { defineMessages } from 'react-intl'
 import store from '../../persist-store'
-
-const m = defineMessages({
-  // The name of the default background map
-  defaultBackgroundMapName: 'Default'
-})
-
-const DEFAULT_MAP = {
-  id: '487x2pc8ws801avhs5hw58qnxc',
-  url: 'mapbox://styles/mapbox/outdoors-v10',
-  bytesStored: 0,
-  name: m.defaultBackgroundMapName,
-  isImporting: false,
-  isDefault: true
-}
+import { DEFAULT_MAP } from './useMapStylesQuery'
 
 /**
- * @typedef { {id: string, url: string,bytesStored: number,name: import('react-intl').MessageDescriptor}} MapStyle
+ * @typedef { {
+ * id: string,
+ * url: string,
+ * bytesStored: number,
+ * name: import('react-intl').MessageDescriptor | string,
+ * isDefault?: boolean,
+ * isImporting?: boolean
+ * }} MapStyle
  */
 
 /**
@@ -72,7 +65,7 @@ const experimentsFlagsStoreSlice = (set, get) => ({
 /**
  * @typedef {{
  *  mapStyleLegacy: MapStyle,
- *  mapStyleMapServer:MapStyle,
+ *  mapStyleMapServer: MapStyle,
  *  setMapStyleLegacy: (mapStyle:MapStyle) => void,
  *  setMapStyleServer: (mapStyle:MapStyle) => void
  * }} BackgroundMapStoreSlice
@@ -117,6 +110,10 @@ export const usePersistedUiStore = createPersistedStore(
   'ui'
 )
 
+/**
+ *
+ * @returns {[MapStyle, (mapStyle: MapStyle) => void]}
+ */
 export const useBackgroundMapStore = () => {
   const backgroundMapsEnabled = useExperimentsFlagsStore(
     store => store.backgroundMaps
@@ -128,5 +125,5 @@ export const useBackgroundMapStore = () => {
       : [store.mapStyleLegacy, store.setMapStyleLegacy]
   )
 
-  return { mapStyle, setMapStyle }
+  return [mapStyle, setMapStyle]
 }

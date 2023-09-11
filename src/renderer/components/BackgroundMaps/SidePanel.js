@@ -52,14 +52,13 @@ export const SidePanel = ({ openSettings, mapValue, setMapValue }) => {
             <Loader />
           ) : data ? (
             data.map(mapStyle => (
-              <>
+              <React.Fragment key={mapStyle.id}>
                 <MapCard
                   setMap={setMapValue}
-                  key={mapStyle.id}
                   mapStyle={mapStyle}
                   isBeingViewed={mapStyle.id === mapValue}
                 />
-              </>
+              </React.Fragment>
             ))
           ) : null}
         </div>

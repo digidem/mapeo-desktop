@@ -11,7 +11,6 @@ import {
   useBackgroundMapStore,
   useExperimentsFlagsStore
 } from '../../../hooks/store'
-import { useMapStylesQuery } from '../../../hooks/useMapStylesQuery'
 
 const MapView = (
   {
@@ -31,7 +30,7 @@ const MapView = (
   const backgroundMapsFlag = useExperimentsFlagsStore(
     store => store.backgroundMaps
   )
-  const { mapStyle, setMapStyle } = useBackgroundMapStore()
+  const [mapStyle] = useBackgroundMapStore()
 
   return (
     <>

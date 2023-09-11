@@ -1,5 +1,5 @@
 // @ts-check
-import { useBackgroundMapStore, useExperimentsFlagsStore } from './store'
+import { useExperimentsFlagsStore } from './store'
 import { useMapServerQuery } from './useMapServerQuery'
 import { useQuery } from '@tanstack/react-query'
 import api from '../new-api'
@@ -18,6 +18,15 @@ const m = defineMessages({
   offlineBackgroundMapName: 'Offline Map'
 })
 
+export const DEFAULT_MAP = {
+  id: DEFAULT_MAP_ID,
+  url: ONLINE_STYLE_URL,
+  bytesStored: 0,
+  name: m.defaultBackgroundMapName,
+  isImporting: false,
+  isDefault: true
+}
+
 export const useMapStylesQuery = (enabled = true) => {
   const backgroundMapsEnabled = useExperimentsFlagsStore(
     store => store.backgroundMaps
@@ -30,12 +39,11 @@ export const useMapStylesQuery = (enabled = true) => {
     '/styles',
     backgroundMapsEnabled && enabled
   )
-  const defaultMapStyle = useDefaultMapStyle()
 
   const queryResult = backgroundMapsEnabled
     ? {
         data: [
-          defaultMapStyle,
+          DEFAULT_MAP,
           ...(mapStylesQueryResult?.data ? mapStylesQueryResult?.data : [])
         ],
         isLoading: mapStylesQueryResult.isLoading,
@@ -43,7 +51,7 @@ export const useMapStylesQuery = (enabled = true) => {
       }
     : {
         data: !legacyStyleQueryResult.data
-          ? [defaultMapStyle]
+          ? [DEFAULT_MAP]
           : legacyStyleQueryResult.data,
         isLoading: legacyStyleQueryResult.isLoading,
         refetch: legacyStyleQueryResult.refetch
@@ -54,7 +62,6 @@ export const useMapStylesQuery = (enabled = true) => {
 
 const useLegacyMapStyleQuery = enabled => {
   const { formatMessage: t } = useIntl()
-  const defaultMapStyle = useDefaultMapStyle()
 
   const queryResult = useQuery({
     queryKey: ['getLegacyMapStyle'],
@@ -73,24 +80,11 @@ const useLegacyMapStyleQuery = enabled => {
           }
         ]
       } catch {
-        return [defaultMapStyle]
+        return [DEFAULT_MAP]
       }
     },
     enabled
   })
 
   return queryResult
-}
-
-export const useDefaultMapStyle = () => {
-  const { formatMessage: t } = useIntl()
-
-  return {
-    id: DEFAULT_MAP_ID,
-    url: ONLINE_STYLE_URL,
-    bytesStored: 0,
-    name: t(m.defaultBackgroundMapName),
-    isImporting: false,
-    isDefault: true
-  }
 }

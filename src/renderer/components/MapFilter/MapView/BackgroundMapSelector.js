@@ -34,7 +34,7 @@ const m = defineMessages({
 export const BackgroundMapSelector = ({ active, dismiss }) => {
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
-  const { mapStyle, setMapStyle } = useBackgroundMapStore()
+  const [mapStyle, setMapStyle] = useBackgroundMapStore()
 
   const setTabIndex = usePersistedUiStore(store => store.setTabIndex)
 
@@ -60,7 +60,7 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
           </Typography>
           <Link
             className={classes.link}
-            a='#'
+            href='#'
             onClick={navigateToBackgroundMaps}
           >
             {t(m.manageMapsLink)}
@@ -89,7 +89,7 @@ export const BackgroundMapSelector = ({ active, dismiss }) => {
                   }}
                   selected={isSelected}
                   styleUrl={map.url}
-                  title={map.name}
+                  title={typeof map.name === 'string' ? map.name : t(map.name)}
                   key={map.id}
                 />
               )
