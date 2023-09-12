@@ -11,7 +11,6 @@ import {
   useBackgroundMapStore,
   useExperimentsFlagsStore
 } from '../../../hooks/store'
-import { useMapStylesQuery } from '../../../hooks/useMapStylesQuery'
 
 const MapView = (
   {
@@ -31,13 +30,7 @@ const MapView = (
   const backgroundMapsFlag = useExperimentsFlagsStore(
     store => store.backgroundMaps
   )
-  const selectedMapStyle = useBackgroundMapStore(store => store.mapStyle)
-  const { data: mapStyles } = useMapStylesQuery()
-
-  const mapStyleUrl =
-    backgroundMapsFlag && selectedMapStyle
-      ? selectedMapStyle?.url
-      : mapStyles && mapStyles[0] && mapStyles[0].url
+  const [mapStyle] = useBackgroundMapStore()
 
   return (
     <>
@@ -70,7 +63,7 @@ const MapView = (
             getMedia={getMedia}
             presets={presets}
             {...otherProps}
-            mapStyle={mapStyleUrl}
+            mapStyle={mapStyle.url}
           />
         )}
       </ViewWrapper>

@@ -26,16 +26,17 @@ export const MapboxPrevOnly = ReactMapboxGl({
 })
 
 /**
+ * @typedef {import('../../hooks/store').MapStyle} MapStyle
  * @typedef MapCardProps
- * @prop {import('../SettingsView/BackgroundMaps').MapServerStyleInfo & { isDefault?: boolean }} mapStyle
- * @prop {React.Dispatch<React.SetStateAction<import('../SettingsView/BackgroundMaps').MapServerStyleInfo['id'] | null>>} setMap
+ * @prop {MapStyle} mapStyle
+ * @prop {React.Dispatch<React.SetStateAction<MapStyle['id'] | null>>} setMap
  * @prop {boolean } isBeingViewed
  */
 
 /** @param {MapCardProps} param */
 export const MapCard = ({ mapStyle, setMap, isBeingViewed }) => {
   const theme = useTheme()
-  const selectedMapStyle = useBackgroundMapStore(store => store.mapStyle)
+  const [selectedMapStyle] = useBackgroundMapStore()
   const classes = useStyles()
   const { formatMessage: t } = useIntl()
 
@@ -65,7 +66,11 @@ export const MapCard = ({ mapStyle, setMap, isBeingViewed }) => {
           />
         </div>
         <div className={classes.text}>
-          <Typography>{mapStyle.name}</Typography>
+          <Typography>
+            {typeof mapStyle.name === 'string'
+              ? mapStyle.name
+              : t(mapStyle.name)}
+          </Typography>
           {!mapStyle.isDefault && (
             <Typography variant='subtitle1'>
               {`${Math.round(convertKbToMb(mapStyle.bytesStored))} ${t(m.mb)}`}

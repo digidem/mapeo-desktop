@@ -42,7 +42,7 @@ const m = defineMessages({
 })
 
 /**
- * @typedef {import('../../hooks/useMapServerQuery').MapServerStyleInfo & { isDefault?: boolean }} BackgroundMapInfo
+ * @typedef {import('../../hooks/store').MapStyle} BackgroundMapInfo
  * @typedef BackgroundMapInfoProps
  * @prop {BackgroundMapInfo} map
  * @prop {()=>void} unsetMapValue
@@ -52,10 +52,7 @@ const m = defineMessages({
 export const BackgroundMapInfo = ({ map, unsetMapValue }) => {
   const { formatMessage: t } = useIntl()
 
-  const [mapStyle, setMapStyle] = useBackgroundMapStore(store => [
-    store.mapStyle,
-    store.setMapStyle
-  ])
+  const [mapStyle, setMapStyle] = useBackgroundMapStore()
 
   const classes = useStyles()
 
@@ -76,7 +73,7 @@ export const BackgroundMapInfo = ({ map, unsetMapValue }) => {
         ) : (
           <>
             <MapInfo
-              name={map.name}
+              name={typeof map.name === 'string' ? map.name : t(map.name)}
               id={map.id}
               unsetMapValue={unsetMapValue}
               url={map.url}
@@ -85,7 +82,7 @@ export const BackgroundMapInfo = ({ map, unsetMapValue }) => {
             {/* Text */}
             <div className={classes.paddedContainer}>
               <Typography variant='subtitle2' style={{ fontSize: 18 }}>
-                {map.name}
+                {typeof map.name === 'string' ? map.name : t(map.name)}
               </Typography>
               {!map.isDefault ? (
                 <Typography variant='body1'>{`${Math.round(
