@@ -11,6 +11,7 @@ import Loading from '../Loading'
 import { convertKbToMb } from '../SettingsView/BackgroundMaps'
 import { useMapServerMutation } from '../../hooks/useMapServerMutation'
 import { useBackgroundMapStore } from '../../hooks/store'
+import { DEFAULT_MAP, useMapStylesQuery } from '../../hooks/useMapStylesQuery'
 
 const MapboxPrevOnly = ReactMapboxGl({
   accessToken: MAPBOX_ACCESS_TOKEN,
@@ -78,6 +79,7 @@ export const BackgroundMapInfo = ({ map, unsetMapValue }) => {
               unsetMapValue={unsetMapValue}
               url={map.url}
               isDefault={map.isDefault}
+              isCurrentMap={isCurrentMap}
             />
             {/* Text */}
             <div className={classes.paddedContainer}>
@@ -119,17 +121,24 @@ export const BackgroundMapInfo = ({ map, unsetMapValue }) => {
  * @prop {()=>void} unsetMapValue
  * @prop {string} url
  * @prop {boolean | undefined} isDefault
+ * @prop {boolean} isCurrentMap
  */
 
 /** @param {MapInfoProps} props */
-const MapInfo = ({ name, id, isDefault, unsetMapValue, url }) => {
+const MapInfo = ({ name, id, isDefault, unsetMapValue, url, isCurrentMap }) => {
   const classes = useStyles()
 
   const { formatMessage: t } = useIntl()
 
+  const { data: mapsData } = useMapStylesQuery()
+  const [, setMapStyle] = useBackgroundMapStore()
   const mutation = useMapServerMutation('delete', `/styles/${id}`)
 
+  console.log({ mapsData })
   async function deleteMap () {
+    if (isCurrentMap && mapsData?.length) {
+      setMapStyle(DEFAULT_MAP)
+    }
     await mutation.mutateAsync(null) // tc complains if no arg is passed...
   }
 
