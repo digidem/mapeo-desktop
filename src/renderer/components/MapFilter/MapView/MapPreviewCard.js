@@ -6,9 +6,7 @@ import { MAPBOX_ACCESS_TOKEN } from '../../../../../config'
 
 export const MapboxPreview = ReactMapboxGl({
   accessToken: MAPBOX_ACCESS_TOKEN,
-  dragRotate: false,
-  pitchWithRotate: false,
-  attributionControl: false,
+  interactive: false,
   injectCSS: false
 })
 
