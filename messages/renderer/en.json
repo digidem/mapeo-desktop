@@ -542,6 +542,10 @@
   "renderer.components.SettingsView.AboutMapeo.mapeoVersion": {
     "message": "Mapeo Version"
   },
+  "renderer.components.SettingsView.BackgroundMaps.introText": {
+    "description": "Text introducing the Background Maps feature",
+    "message": "The Background Map in Mapeo is displayed on the observation screen and is used as a background for the observations you collect. This new pilot feature allows you to add your own custom maps and switch between multiple maps. Background Maps is currently an advanced feature - an existing map file in .mbtiles format is required for testing"
+  },
   "renderer.components.SettingsView.BackgroundMaps.mapBackgroundTitle": {
     "description": "Title for description of offline maps",
     "message": "Managing Map Backgrounds and Offline Areas"
@@ -773,10 +777,6 @@
   "renderer.create-zip.missingOriginalsMsg": {
     "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
     "message": "The original size of these files could not be found, only preview size (1,200 pixel) images are included. This can happen because the phone that took the photos has only synced to other phones, and not directly to Mapeo Desktop. To try fixing this, find the phone that took the photos and sync it with Mapeo Desktop before exporting again."
-  },
-  "renderer.hooks.store.defaultBackgroundMapName": {
-    "description": "The name of the default background map",
-    "message": "Default"
   },
   "renderer.hooks.useMapStylesQuery.defaultBackgroundMapName": {
     "description": "The name of the default background map",

@@ -9,7 +9,10 @@ import { useMapStylesQuery } from '../../hooks/useMapStylesQuery'
 
 const m = defineMessages({
   // Title for description of offline maps
-  mapBackgroundTitle: 'Managing Map Backgrounds and Offline Areas'
+  mapBackgroundTitle: 'Managing Map Backgrounds and Offline Areas',
+  // Text introducing the Background Maps feature
+  introText:
+    'The Background Map in Mapeo is displayed on the observation screen and is used as a background for the observations you collect. This new pilot feature allows you to add your own custom maps and switch between multiple maps. Background Maps is currently an advanced feature - an existing map file in .mbtiles format is required for testing'
 })
 
 /** @typedef {import('../../hooks/useMapServerQuery').MapServerStyleInfo} MapServerStyleInfo */
@@ -50,18 +53,11 @@ export const BackgroundMaps = ({ returnToSettings }) => {
 
       {!viewingMapId || !data ? (
         <div style={{ padding: 40 }}>
-          <Typography variant='h4'> {t(m.mapBackgroundTitle)}</Typography>
-
-          <Typography variant='body1'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-            <br />
+          <Typography variant='h4' style={{ marginBottom: 24 }}>
+            {t(m.mapBackgroundTitle)}
           </Typography>
+
+          <Typography variant='body1'>{t(m.introText)}</Typography>
         </div>
       ) : viewingMap ? (
         <BackgroundMapInfo
