@@ -134,7 +134,6 @@ const MapInfo = ({ name, id, isDefault, unsetMapValue, url, isCurrentMap }) => {
   const [, setMapStyle] = useBackgroundMapStore()
   const mutation = useMapServerMutation('delete', `/styles/${id}`)
 
-  console.log({ mapsData })
   async function deleteMap () {
     if (isCurrentMap && mapsData?.length) {
       setMapStyle(DEFAULT_MAP)
