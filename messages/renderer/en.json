@@ -1,4 +1,60 @@
 {
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.createOfflineArea": {
+    "description": "Button to create an offline area",
+    "message": "Create Offline Area"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.currentMap": {
+    "description": "Button text for 'Use Map' button when map is selected",
+    "message": "Current Map"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteErrorDescription": {
+    "description": "Description for error message when deleting style,",
+    "message": "There was an error deleting the style"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteErrorTitle": {
+    "description": "Title for error message when deleting style",
+    "message": "Error Deleting Style"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.deleteStyle": {
+    "description": "Button to delete style",
+    "message": "Delete Style"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.offlineAreas": {
+    "description": "Title for Offline Areas",
+    "message": "Offline Areas"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.useMap": {
+    "description": "Button text for 'Use Map' button",
+    "message": "Use Map"
+  },
+  "renderer.components.BackgroundMaps.BackgroundMapInfo.zoomLevel": {
+    "description": "Zoom Level Title",
+    "message": "Zoom Level: {zoom}"
+  },
+  "renderer.components.BackgroundMaps.MapCard.areas": {
+    "description": "indicates how many offline areas",
+    "message": "offline areas"
+  },
+  "renderer.components.BackgroundMaps.MapCard.currentMap": {
+    "description": "Label to indicate when map is selected",
+    "message": "Current Map"
+  },
+  "renderer.components.BackgroundMaps.MapCard.mb": {
+    "description": "Abbreviation for megabytes",
+    "message": "MB"
+  },
+  "renderer.components.BackgroundMaps.SidePanel.addMap": {
+    "description": "Button to add map background",
+    "message": "Add Map Background"
+  },
+  "renderer.components.BackgroundMaps.SidePanel.backToSettings": {
+    "description": "button to go back to settings",
+    "message": "Back to Settings"
+  },
   "renderer.components.Home.mapeditor": {
     "description": "MapEditor tab label",
     "message": "Territory"
@@ -339,6 +395,18 @@
   "renderer.components.MapFilter.MapFilter.errorTitle": {
     "message": "Oh dear! An error has occurred"
   },
+  "renderer.components.MapFilter.MapView.BackgroundMapSelector.close": {
+    "description": "Label for dismiss button",
+    "message": "Close"
+  },
+  "renderer.components.MapFilter.MapView.BackgroundMapSelector.manageMapsLink": {
+    "description": "Label for link to manage maps",
+    "message": "Manage Maps"
+  },
+  "renderer.components.MapFilter.MapView.BackgroundMapSelector.title": {
+    "description": "Title for background maps overlay",
+    "message": "Background Maps"
+  },
   "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
     "description": "Header for section with additional fields that are not defined in the preset",
     "message": "Additional data"
@@ -474,11 +542,43 @@
   "renderer.components.SettingsView.AboutMapeo.mapeoVersion": {
     "message": "Mapeo Version"
   },
+  "renderer.components.SettingsView.BackgroundMaps.introText": {
+    "description": "Text introducing the Background Maps feature",
+    "message": "The Background Map in Mapeo is displayed on the observation screen and is used as a background for the observations you collect. This new pilot feature allows you to add your own custom maps and switch between multiple maps. Background Maps is currently an advanced feature - an existing map file in .mbtiles format is required for testing"
+  },
+  "renderer.components.SettingsView.BackgroundMaps.mapBackgroundTitle": {
+    "description": "Title for description of offline maps",
+    "message": "Managing Map Backgrounds and Offline Areas"
+  },
+  "renderer.components.SettingsView.ExperimentsMenu.backgroundMaps": {
+    "message": "Background Maps"
+  },
+  "renderer.components.SettingsView.SettingsItem.off": {
+    "message": "Off"
+  },
+  "renderer.components.SettingsView.SettingsItem.on": {
+    "message": "On"
+  },
+  "renderer.components.SettingsView.SettingsList.off": {
+    "message": "Off"
+  },
+  "renderer.components.SettingsView.SettingsList.on": {
+    "message": "On"
+  },
   "renderer.components.SettingsView.index.aboutMapeo": {
     "message": "About Mapeo"
   },
   "renderer.components.SettingsView.index.aboutMapeoSubtitle": {
     "message": "Version and build number"
+  },
+  "renderer.components.SettingsView.index.backgroundMaps": {
+    "message": "Background maps"
+  },
+  "renderer.components.SettingsView.index.experiments": {
+    "message": "Experiments"
+  },
+  "renderer.components.SettingsView.index.experimentsSubtitle": {
+    "message": "Turn on experimental new features"
   },
   "renderer.components.SyncView.Searching.searchingHint": {
     "description": "Hint on sync screen when searching on wifi for devices",
@@ -635,6 +735,26 @@
   },
   "renderer.components.dialogs.Error.openLog": {
     "message": "Open log..."
+  },
+  "renderer.components.dialogs.ImportMapStyle.addMap": {
+    "description": "Title of screen used to add a new background map",
+    "message": "Add Map Background"
+  },
+  "renderer.components.dialogs.ImportMapStyle.cancel": {
+    "description": "button to cancel the import of a background map",
+    "message": "Cancel"
+  },
+  "renderer.components.dialogs.ImportMapStyle.importErrorDescription": {
+    "description": "Description of map import error",
+    "message": "There was an error importing the background maps. Please try again. Error message:"
+  },
+  "renderer.components.dialogs.ImportMapStyle.importErrorTitle": {
+    "description": "Title for import errot pop up dialog,",
+    "message": "Background Maps Import Error"
+  },
+  "renderer.components.dialogs.ImportMapStyle.importFile": {
+    "description": "Label of 'Import File' button",
+    "message": "Import File"
   },
   "renderer.components.dialogs.LatLon.button-submit": {
     "message": "Submit"

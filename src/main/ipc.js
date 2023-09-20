@@ -95,6 +95,19 @@ module.exports = function (ipcSend) {
     return i18n.t('closing-screen')
   })
 
+  ipcMain.handle('select-mb-tile-file', async function () {
+    const result = await dialog.showOpenDialog({
+      filters: [{ name: 'MbTiles', extensions: ['mbtiles'] }],
+      properties: ['openFile']
+    })
+
+    return result
+  })
+
+  ipcMain.on('show-error-dialog', function (event, title, content) {
+    dialog.showErrorBox(title, content)
+  })
+
   ipcMain.on('save-file', function () {
     var metadata = userConfig.getSettings('metadata')
     var ext = metadata ? metadata.dataset_id : 'mapeodata'

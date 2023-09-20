@@ -18,29 +18,58 @@ const m = defineMessages({
   offlineBackgroundMapName: 'Offline Map'
 })
 
-export const useMapStylesQuery = () => {
+export const DEFAULT_MAP = {
+  id: DEFAULT_MAP_ID,
+  url: ONLINE_STYLE_URL,
+  bytesStored: 0,
+  name: m.defaultBackgroundMapName,
+  isImporting: false,
+  isDefault: true
+}
+
+export const useMapStylesQuery = (enabled = true) => {
   const backgroundMapsEnabled = useExperimentsFlagsStore(
     store => store.backgroundMaps
   )
 
-  const legacyStyleQueryResult = useLegacyMapStyleQuery(!backgroundMapsEnabled)
+  const legacyStyleQueryResult = useLegacyMapStyleQuery(
+    !backgroundMapsEnabled && enabled
+  )
   const mapStylesQueryResult = useMapServerQuery(
     '/styles',
-    backgroundMapsEnabled
+    backgroundMapsEnabled && enabled
   )
 
-  return backgroundMapsEnabled ? mapStylesQueryResult : legacyStyleQueryResult
+  const queryResult = backgroundMapsEnabled
+    ? {
+        data: [
+          DEFAULT_MAP,
+          ...(mapStylesQueryResult?.data ? mapStylesQueryResult?.data : [])
+        ],
+        isLoading: mapStylesQueryResult.isLoading,
+        refetch: mapStylesQueryResult.refetch
+      }
+    : {
+        data: !legacyStyleQueryResult.data
+          ? [DEFAULT_MAP]
+          : legacyStyleQueryResult.data,
+        isLoading: legacyStyleQueryResult.isLoading,
+        refetch: legacyStyleQueryResult.refetch
+      }
+
+  return queryResult
 }
 
-export const useLegacyMapStyleQuery = enabled => {
+const useLegacyMapStyleQuery = enabled => {
   const { formatMessage: t } = useIntl()
 
   const queryResult = useQuery({
     queryKey: ['getLegacyMapStyle'],
-    queryFn: () => {
+    queryFn: async () => {
       try {
         // This checks whether an offline style is available
-        api.getMapStyle('default')
+        await api.getMapStyle('default')
+
         return [
           {
             id: CUSTOM_MAP_ID,
@@ -51,15 +80,7 @@ export const useLegacyMapStyleQuery = enabled => {
           }
         ]
       } catch {
-        return [
-          {
-            id: DEFAULT_MAP_ID,
-            url: ONLINE_STYLE_URL,
-            bytesStored: 0,
-            name: t(m.defaultBackgroundMapName),
-            isImporting: false
-          }
-        ]
+        return [DEFAULT_MAP]
       }
     },
     enabled
