@@ -1,1 +1,21 @@
-{}
+{
+  "button-submit": "Sawa",
+  "button-cancel": "Ghairi",
+  "dialog-enter-latlon-coordinates": "Weka Viratibu",
+  "replication-data-complete": "Inasasisha faharasa... inaweza kucheleweshwa kwa muda mfupi.",
+  "replication-complete": "Usawazishaji umefanikiwa kukamilika.",
+  "replication-started": "Usawazishaji umeanza, inasubiri jibu...",
+  "replication-progress": "Inasawazisha: Inaendelea...",
+  "menu-file": "Faili",
+  "menu-change-language": "Badilisha lugha...",
+  "menu-change-language-title": "Weka lugha (k.m., 'en' au 'es')",
+  "menu-config-complete": "Umefanikiwa kuleta usanidi: ",
+  "menu-import-tiles-file": "Faili (.tar)",
+  "menu-import-tiles-directory": "Saraka ya vigae",
+  "menu-import-tiles": "Leta Vigae vya Ramani za Nje ya Mtandao...",
+  "menu-import-tiles-error": "Haikuweza kuleta vigae",
+  "menu-import-tiles-error-known": "Haikuweza kuleta vigae kwa sababu ya hitilafu",
+  "menu-import-configuration": "Usanidi wa Uletaji...",
+  "menu-import-configuration-title": "Chagua faili ya usanidi",
+  "menu-import-configuration-error": "Haikuweza kuleta usanidi"
+}
