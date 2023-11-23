@@ -1,0 +1,673 @@
+{
+  "renderer.components.Home.mapeditor": {
+    "description": "MapEditor tab label",
+    "message": "Himaya"
+  },
+  "renderer.components.Home.mapfilter": {
+    "description": "MapFilter tab label",
+    "message": "Chunguzi"
+  },
+  "renderer.components.Home.settings": {
+    "description": "Settings tab label",
+    "message": "Mipangilio"
+  },
+  "renderer.components.Home.sync": {
+    "description": "Synchronize tab label",
+    "message": "Sawazisha"
+  },
+  "renderer.components.Home.update": {
+    "message": "Sasisha Mapeo"
+  },
+  "renderer.components.Loading.loading": {
+    "description": "Displayed whilst observations and presets load",
+    "message": "Inapakia…"
+  },
+  "renderer.components.MapEditor.ExportButton.closeButton": {
+    "description": "Close button after export error",
+    "message": "Funga"
+  },
+  "renderer.components.MapEditor.ExportButton.defaultFilename": {
+    "description": "Default filename for map export",
+    "message": "mapeo-map-data"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogError": {
+    "description": "Expor error message - if there was an error during export",
+    "message": "Uhamishaji umeshindikana kwa sababu ya hitilafu ya ndani"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogSuccess": {
+    "description": "Export success message,",
+    "message": "Uhamishaji umekamilika"
+  },
+  "renderer.components.MapEditor.ExportButton.dialogTitle": {
+    "description": "Export dialog title - shown during export progress and after success/failure",
+    "message": "Inahamisha data"
+  },
+  "renderer.components.MapEditor.ExportButton.exportButton": {
+    "description": "Button tooltip on iD Editor toolbar",
+    "message": "Hamisha data ya ramani"
+  },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Hamisha Data ya Himaya kama GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
+    "description": "Menu item for exporting ICCA Export Packages",
+    "message": "Hamisha Kifurushuji cha Uhamishaji cha ICCA…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Hamisha Data ya Himaya kama Shapefile…"
+  },
+  "renderer.components.MapEditor.ExportButton.okButton": {
+    "description": "OK button after successful export",
+    "message": "Sawa"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "Hamisha Data ya Himaya"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "Kukuhusu:"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "Hapana"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "Ndiyo"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
+    "message": "Tafadhali jaza angalau sehemu moja."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Ghairi"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
+    "message": "Kiingereza"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
+    "description": "Labels for community name",
+    "message": "Lugha asili"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
+    "message": "Tafadhali jaza sehemu zote zinazohitajika."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
+    "description": "Form instructions",
+    "message": "Tafadhaji jibu maswali haya kabla ya kuhamisha."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
+    "message": "Ili kuchora mpaka wa ICCA, unda eneo na uliwekee lebo ya aina\n    \"Mipaka ya ICCA.\" Kumbuka kuhifadhi mabadiliko kwenye ramani kabla\n    ya kuhamisha."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
+    "description": "No data to export",
+    "message": "Hakuna mipaka ya ICCA ya kuhamisha."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "Sawa"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "Je, jumuiya yako au watu wa kiasili wamekubali kwa pamoja ramani \n    na taarifa nyingine kushirikiwa na UNEP-WCMC?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "Je, ungependa ramani na taarifa nyingine zipatikane kwa \n    mtu yeyote kutazama na kupakua?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "Jina la jumuiya, watu wa kiasili, au mtu binafsi anayetoa\n    taarifa (Lugha asili, Kiingereza)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
+    "description": "Choices for question 4",
+    "message": "Mwanajumuiya/watu wa kiasili"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer2": {
+    "message": "Mwakilishi au mshirika wa jamuiya/watu wa kiasili"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer3": {
+    "message": "Mwakilishi wa shirika lisilo la kiserikali"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer4": {
+    "message": "Wengine"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Prompt": {
+    "message": "Ikiwa wewe ni mtu binafsi, una uhusiano gani \n    na watu wa kiasili au jamuiya?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer1": {
+    "description": "Choices for question 5",
+    "message": "Ndiyo - ukaguzi wa wanarika"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer2": {
+    "message": "Ndiyo - ukaguzi wa serikali"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer3": {
+    "message": "Hapana"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Answer4": {
+    "message": "Sijui"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question5Prompt": {
+    "message": "Je, taarifa za ICCA zimekaguliwa aidha kwa mchakato wa ukaguzi wa wanarika \n    (k.m, na jumuiya nyingine) au na shirika la serikali? (Kwa taarifa zaidi kuhusu mada hii, \n    tafadhali angalia mwongozo wa data wa ICCA: https://www.wcmc.io/iccadatamanual)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer1": {
+    "description": "Choices for question 6",
+    "message": "Ndiyo - kama eneo linalolindwa"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer2": {
+    "message": "Ndiyo - kama OECM"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer3": {
+    "message": "Hapana - kama ICCA pekee"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Answer4": {
+    "message": "Sijui"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question6Prompt": {
+    "message": "Je, ungependa kuwasilisha ICCA kama eneo linalolindwa au hatua nyingine inayofaa \n    ya kuhifadhi eneo (OECM)?  (Kwa taarifa zaidi kuhusu mada hii, \n    tafadhali angalia mwongozo wa data wa ICCA: https://www.wcmc.io/iccadatamanual)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Placeholder": {
+    "description": "Placeholder for question 7",
+    "message": "Maelezo yako ya mawasiliano"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question7Prompt": {
+    "message": "Anwani ya barua pepe ambapo tunaweza kuwasiliana na wewe. Tutawasiliana na wewe \n    ili kuthibitisha kuwa tumepokea taarifa zako na kujadili \n    taarifa zaidi zikihitajika. Pia tutawasiliana nawe mara kwa mara \n    ili kuhakikisha kuwa taarifa hizo zimesasishwa."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.requiredAnswer": {
+    "description": "Helper texts",
+    "message": "Jibu hili linahitajika."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.save": {
+    "description": "Save button",
+    "message": "Hifadhi"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.title": {
+    "description": "Title for ICCA package export dialog",
+    "message": "Hamisha kifurushi cha uhamishaji cha ICCA"
+  },
+  "renderer.components.MapEditor.index.feedback-contribute-button": {
+    "message": "Toa maoni na Uchangie"
+  },
+  "renderer.components.MapEditor.index.notes": {
+    "message": "Maelezo"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.cancel": {
+    "description": "cancel button",
+    "message": "Ghairi"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.defaultExportFilename": {
+    "description": "Default filename for exported data",
+    "message": "mapeo-observation-data"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportAll": {
+    "message": "Chunguzi zote {count}"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.exportFiltered": {
+    "message": "Chunguzi {count} zilizochujwa"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.filteredOrAll": {
+    "description": "Label for select to export all data or only filtered",
+    "message": "Data iliyochujwa tu au data yote?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.format": {
+    "description": "Label for data format selector",
+    "message": "Muundo wa data"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotos": {
+    "description": "Label for select to include photos in export",
+    "message": "Hamisha picha pia?"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosHint": {
+    "description": "Hint shown when user has selected photos to be included in the export",
+    "message": "Hamisha itakuwa faili ya zip ikijumuisha data na picha"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosNone": {
+    "description": "Label for select option to include no photos in export",
+    "message": "Hakuna Picha"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosOriginal": {
+    "description": "Label for select option to include full size photos in export",
+    "message": "Picha zenye ukubwa kamili"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.includePhotosPreview": {
+    "description": "Label for select option to include preview size photos in export",
+    "message": "Picha zenye ukubwa wa toleo tanguzi"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.save": {
+    "description": "Save button",
+    "message": "Hifadhi"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportDetailsForm.title": {
+    "description": "Title for export dialog",
+    "message": "Hamisha Chunguzi"
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessful": {
+    "message": "Imefanikiwa kuhamisha chunguzi."
+  },
+  "renderer.components.MapFilter.DataExportDialog.ExportSuccessful.exportSuccessfulButton": {
+    "message": "Sawa"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.close": {
+    "message": "Funga"
+  },
+  "renderer.components.MapFilter.DataExportDialog.NoData.noData": {
+    "message": "Bado huna data yoyote ya kuhamisha."
+  },
+  "renderer.components.MapFilter.DataExportDialog.Template.title": {
+    "description": "Title for observations export dialog",
+    "message": "Hamisha Chunguzi"
+  },
+  "renderer.components.MapFilter.ExportButton.exportButton": {
+    "message": "Hamisha Data ya Uchunguzi"
+  },
+  "renderer.components.MapFilter.ExportButton.exportData": {
+    "message": "Hamisha Chunguzi…"
+  },
+  "renderer.components.MapFilter.ExportButton.exportMap": {
+    "message": "Hamisha Webmap…"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.max": {
+    "description": "Title of max date field in filter",
+    "message": "Kwa"
+  },
+  "renderer.components.MapFilter.FilterPanel.DateFilter.min": {
+    "description": "Title of min date field in filter",
+    "message": "Kutoka"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.created": {
+    "description": "Label for filter by date observation was created",
+    "message": "Tarehe ya uchunguzi"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.editFilters": {
+    "description": "Button text to change which fields are shown and filterable in the filter pane",
+    "message": "Hariri Vichujio…"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.modified": {
+    "description": "Label for filter by date observation was modified (e.g. edited by a user)",
+    "message": "Imerekebishwa"
+  },
+  "renderer.components.MapFilter.FilterPanel.FilterPanel.preset": {
+    "description": "Label for filter by category (e.g. the preset)",
+    "message": "Kategoria"
+  },
+  "renderer.components.MapFilter.FilterPanel.OnlyButton.only": {
+    "description": "Button text to only show a particular field value in a filter",
+    "message": "Pekee"
+  },
+  "renderer.components.MapFilter.FilterPanel.ShowAllButton.showAll": {
+    "description": "Button text to turn off filters for a field",
+    "message": "Yote"
+  },
+  "renderer.components.MapFilter.FilterPanel.index.filterHeader": {
+    "message": "Chuja kwa…"
+  },
+  "renderer.components.MapFilter.MapExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Ghairi"
+  },
+  "renderer.components.MapFilter.MapExportDialog.descriptionLabel": {
+    "description": "Label for field to enter map description",
+    "message": "Ufafanuzi wa Ramani"
+  },
+  "renderer.components.MapFilter.MapExportDialog.save": {
+    "description": "Save button",
+    "message": "Hifadhi"
+  },
+  "renderer.components.MapFilter.MapExportDialog.styleLabel": {
+    "description": "Label for field to enter custom map style",
+    "message": "Mtindo wa Ramani"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsHint": {
+    "description": "Helper text explaining terms and conditions field",
+    "message": "Ongeza masharti na vizuizi kuhusu jinsi data hii inaweza kutumiwa"
+  },
+  "renderer.components.MapFilter.MapExportDialog.termsLabel": {
+    "description": "Label for field to enter terms and conditions",
+    "message": "Masharti na Vizuizi"
+  },
+  "renderer.components.MapFilter.MapExportDialog.title": {
+    "description": "Title for webmaps export dialog",
+    "message": "Hamisha ramani ili ushiriki mtandaoni"
+  },
+  "renderer.components.MapFilter.MapExportDialog.titleLabel": {
+    "description": "Label for field to enter map title",
+    "message": "Kichwa cha Ramani"
+  },
+  "renderer.components.MapFilter.MapFilter.errorDescription": {
+    "message": "Maelezo hapa chini yatakuwa muhimu kwa kutafuta njia ya kurekebisha hii…"
+  },
+  "renderer.components.MapFilter.MapFilter.errorTitle": {
+    "message": "Lo! Hitilafu imetokea"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.additionalHeader": {
+    "description": "Header for section with additional fields that are not defined in the preset",
+    "message": "Data ya ziada"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.cancelEditButton": {
+    "description": "Cancel button once observation has been edited",
+    "message": "Ghairi"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonCancel": {
+    "message": "Ghairi"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseButtonConfirm": {
+    "message": "Tupa mabadiliko"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseDescription": {
+    "message": "Umefanya mabadiliko kadhaa, kufunga bila kuhifadhi kutapoteza mabadiliko unayofanya"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmCloseTitle": {
+    "message": "Ungependa kufunga bila kuhifadhi mabadiliko?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonCancel": {
+    "message": "Ghairi"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteButtonConfirm": {
+    "message": "Ndiyo, futa"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.confirmDeleteTitle": {
+    "message": "Ungependa kufuta uchunguzi?"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.deleteObservationMenuItem": {
+    "description": "Menu item to delete an observation",
+    "message": "Futa uchunguzi"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.detailsHeader": {
+    "description": "Header for section that includes the additional details for an observation",
+    "message": "Maelezo"
+  },
+  "renderer.components.MapFilter.ObservationDialog.ObservationDialog.saveEditButton": {
+    "description": "Save edit button",
+    "message": "Hifadhi"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideAll": {
+    "description": "Hide all fields in report view",
+    "message": "Ficha Zote"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.hideFieldsLabel": {
+    "description": "Button label for hide fields menu",
+    "message": "{count, plural, one {}=0 {Ficha Sehemu} =1 {Sehemu 1 Iliyofichwa} other {Sehemu # Zilizofichwa}}"
+  },
+  "renderer.components.MapFilter.ReportView.HideFieldsButton.showAll": {
+    "description": "Show all fields in report view",
+    "message": "Onyesha Zote"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.descriptionLabel": {
+    "description": "Label for description / notes section of report",
+    "message": "Maelezo"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.noLocation": {
+    "description": "Shown in reports if an observation has no location recorded",
+    "message": "Hakuna Eneo Lililorekodiwa"
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "Ukurasa wa {pageNumber}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "Hakuna chunguzi zinazopatikana."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Hitilafu isiyojulikana imetokea wakati wa kujaribu kuunda ripoti"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Ukurasa wa {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Ripoti ya Uchunguzi ya Mapeo.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Inayofuata"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Iliyotangulia"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Inazalisha ripoti…"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "inaonyesha chunguzi {observationCount} kati ya {totalObservations}"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Hifadhi PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Ghairi"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Endelea"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Ripoti hii ina chunguzi {observationCount}, na inaweza kuchukua dakika chache kuunda. Una uhakika ungependa kuendelea?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Onyo: Ripoti Kubwa"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Ramani"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Maudhui"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Ripoti"
+  },
+  "renderer.components.MapFilter.messages.defaultObservationName": {
+    "description": "Name to show for an observation when it does not match any preset",
+    "message": "Uchunguzi"
+  },
+  "renderer.components.SettingsView.AboutMapeo.mapeoVariant": {
+    "message": "Aina ya Mapeo"
+  },
+  "renderer.components.SettingsView.AboutMapeo.mapeoVersion": {
+    "message": "Toleo la Mapeo"
+  },
+  "renderer.components.SettingsView.index.aboutMapeo": {
+    "message": "Kuhuu Mapeo"
+  },
+  "renderer.components.SettingsView.index.aboutMapeoSubtitle": {
+    "message": "Toleo na nambari ya muundo"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "Hakikisha vifaa vimewashwa na vimeunganishwa kwenye mtandao mmoja wa wifi"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Inatafuta…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Imetenganishwa"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "Kwanza unahitaji kuunganisha kwenye mtandao wa WiFi kabla ya kuweza kusawazisha vifaa"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Unda syncfile mpya…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "Ubora: {quality}%"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipAdequate": {
+    "message": "Ishara ya muunganisho ni nzuri sana"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipPoor": {
+    "message": "Ishara ya muunganisho ni mbaya sana. Jaribu kukaribia kisambaza data cha WiFi"
+  },
+  "renderer.components.SyncView.SyncAppBar.qualityTooltipWeak": {
+    "message": "Ishara ya muunganisho ni dhaifu. Usawazishaji unaweza kuchukua muda mrefu zaidi kukamilika"
+  },
+  "renderer.components.SyncView.SyncAppBar.selectSyncfile": {
+    "description": "Button to sync from an existing sync file",
+    "message": "Sawazisha kutoka kwenye faili…"
+  },
+  "renderer.components.SyncView.SyncAppBar.title": {
+    "description": "Title of sync screen",
+    "message": "Vifaa Vinavyopatikana"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiError": {
+    "message": "Haijulikani"
+  },
+  "renderer.components.SyncView.SyncAppBar.wifiErrorTooltip": {
+    "message": "Kadi yako ya WiFi au Mfumo wa Uendeshaji (OS) haujatambuliwa"
+  },
+  "renderer.components.SyncView.SyncButton.complete": {
+    "description": "Button when sync is complete",
+    "message": "Imekamilika"
+  },
+  "renderer.components.SyncView.SyncButton.disconnected": {
+    "description": "Disconnected",
+    "message": "Imetenganishwa"
+  },
+  "renderer.components.SyncView.SyncButton.finishing": {
+    "description": "Almost done! But progress is inaccurate.",
+    "message": "Inamalizia…"
+  },
+  "renderer.components.SyncView.SyncButton.retry": {
+    "description": "Button to retry sync after error",
+    "message": "Jaribu upya"
+  },
+  "renderer.components.SyncView.SyncButton.starting": {
+    "description": "Displayed when sync is starting",
+    "message": "Inaanza…"
+  },
+  "renderer.components.SyncView.SyncButton.sync": {
+    "description": "Button to sync a device",
+    "message": "Sawazisha"
+  },
+  "renderer.components.SyncView.SyncTarget.database": {
+    "description": "Prompt of how many database objects have synced",
+    "message": "Hifadhidata: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.SyncTarget.errorMsg": {
+    "description": "Message shown when there is an error while syncing",
+    "message": "Hitilafu ya Usawazishaji"
+  },
+  "renderer.components.SyncView.SyncTarget.lastSync": {
+    "description": "Shown before last sync time, e.g. 'Last synchronized: 2 hours ago'",
+    "message": "Ilisawazishwa mara ya mwisho:"
+  },
+  "renderer.components.SyncView.SyncTarget.media": {
+    "description": "Prompt for how many media items have synced",
+    "message": "Picha: {sofar} / {total}"
+  },
+  "renderer.components.SyncView.index.createSyncFileDialog": {
+    "message": "Unda hifadhidata mpya ili usawazishe"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionThemBad": {
+    "description": "Error message when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} inahitaji kuboresha Mapeo"
+  },
+  "renderer.components.SyncView.index.errorMsgVersionUsBad": {
+    "description": "Error messagewhen trying to sync with an incompatible newer version of Mapeo",
+    "message": "Unahitaji kuboresha Mapeo ili kusawazisha na {deviceName}"
+  },
+  "renderer.components.SyncView.index.openSyncFileDialog": {
+    "message": "Chagua hifadhidata ili usawazishe"
+  },
+  "renderer.components.UpdaterView.index.calculatingProgress": {
+    "message": "Inakadiria..."
+  },
+  "renderer.components.UpdaterView.index.downloadButtonText": {
+    "message": "Pakua"
+  },
+  "renderer.components.UpdaterView.index.downloadProgress": {
+    "message": "Inapakua"
+  },
+  "renderer.components.UpdaterView.index.errorMessage": {
+    "message": "Kulikuwa na hitilafu na Mapeo haikuweza kusasisha. Jaribu tena baadaye."
+  },
+  "renderer.components.UpdaterView.index.errorTitle": {
+    "message": "Hitilafu"
+  },
+  "renderer.components.UpdaterView.index.estimatedDownloadTime": {
+    "message": "Muda unaokadiriwa wa upakuaji ni"
+  },
+  "renderer.components.UpdaterView.index.majorUpdate": {
+    "message": "Sasisho hili litafanya programu yako isiendane na matoleo ya awali."
+  },
+  "renderer.components.UpdaterView.index.minorUpdate": {
+    "message": "Sasisho hili linajumuisha maboresho ambayo yanaweza kubadilisha matumizi yako."
+  },
+  "renderer.components.UpdaterView.index.patchUpdate": {
+    "message": "Sasisho hili linajumuisha mabadiliko ambayo hurekebisha makosa muhimu. Tafadhali sasisha haraka iwezekanavyo."
+  },
+  "renderer.components.UpdaterView.index.restartMapeoButton": {
+    "message": "Anzisha tena"
+  },
+  "renderer.components.UpdaterView.index.restartMapeoText": {
+    "message": "Sasisho la Mapeo limepakuliwa. Anzisha upya Mapeo ili usasishe."
+  },
+  "renderer.components.UpdaterView.index.unknownDownloadSpeed": {
+    "message": "Haijulikani"
+  },
+  "renderer.components.UpdaterView.index.updateAvailable": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Sasisha"
+  },
+  "renderer.components.UpdaterView.index.updateNotAvailable": {
+    "message": "Mapeo imesasishwa! Uko kwenye toleo jipya zaidi."
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-cancel": {
+    "message": "Ghairi"
+  },
+  "renderer.components.dialogs.ChangeLanguage.button-submit": {
+    "message": "Wasilisha"
+  },
+  "renderer.components.dialogs.ChangeLanguage.dialog-enter-language": {
+    "message": "Chagua lugha"
+  },
+  "renderer.components.dialogs.Error.close": {
+    "message": "Funga"
+  },
+  "renderer.components.dialogs.Error.openLog": {
+    "message": "Fungua kumbukumbu..."
+  },
+  "renderer.components.dialogs.LatLon.button-submit": {
+    "message": "Wasilisha"
+  },
+  "renderer.components.dialogs.LatLon.dialog-enter-latlon-coordinates": {
+    "message": "Weka Viratibu"
+  },
+  "renderer.create-zip.errorsFilename": {
+    "description": "File name for file with information about export errors",
+    "message": "Hamisha Hitilafu"
+  },
+  "renderer.create-zip.errorsMsg": {
+    "description": "Error message stored in text file in export if there were errors during export",
+    "message": "Kulikuwa na hitilafu wakati wa kujaribu kuhamisha faili hizi, kwa hivyo hazipo kwenye uhamishaji huu:"
+  },
+  "renderer.create-zip.missingOriginalsFilename": {
+    "description": "File name for file with information about missing originals in export",
+    "message": "Halisi Zinakosekana"
+  },
+  "renderer.create-zip.missingOriginalsMsg": {
+    "description": "Message stored in text file in export if originals are missing. The message is followed by a list of filenames with missing originals",
+    "message": "Ukubwa halisi wa faili hizi haukuweza kupatikana, picha za ukubwa wa onyesho la kukagua tu (pikseli 1,200) ndizo zilizojumuishwa. Hili linaweza kutokea kwa sababu simu iliyopiga picha hizo imesawazishwa tu kwenye simu nyingine, na si moja kwa moja kwenye Mapeo Desktop. Ili kujaribu kurekebisha hili, tafuta simu iliyopiga picha na uisawazishe na Mapeo Desktop kabla ya kuhamisha tena."
+  },
+  "renderer.hooks.useMapStylesQuery.defaultBackgroundMapName": {
+    "description": "The name of the default background map",
+    "message": "Chaguomsingi"
+  },
+  "renderer.hooks.useMapStylesQuery.offlineBackgroundMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Ramani ya Nje ya Mtandao"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Hakuna jibu"
+  }
+}
