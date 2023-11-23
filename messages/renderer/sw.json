@@ -92,5 +92,102 @@
   },
   "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
     "message": "Ili kuchora mpaka wa ICCA, unda eneo na uliwekee lebo ya aina\n    \"Mipaka ya ICCA.\" Kumbuka kuhifadhi mabadiliko kwenye ramani kabla\n    ya kuhamisha."
+  },
+  "renderer.components.MapFilter.ReportView.PDFReport.pageNumber": {
+    "description": "Page number in footer",
+    "message": "Ukurasa wa {pageNumber}"
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.noObservations": {
+    "description": "Displayed if no observations match current filter, or no observations in Mapeo",
+    "message": "Hakuna chunguzi zinazopatikana."
+  },
+  "renderer.components.MapFilter.ReportView.PDFViewer.reportError": {
+    "description": "Displayed if an error occurs when rendering the report",
+    "message": "Hitilafu isiyojulikana imetokea wakati wa kujaribu kuunda ripoti"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.currentPage": {
+    "description": "Text showing the current page number when previewing a report",
+    "message": "Ukurasa wa {currentPage}"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.defaultReportName": {
+    "description": "Default filename for a report (prefixed with date as YYYY-MM-YY)",
+    "message": "Ripoti ya Uchunguzi ya Mapeo.pdf"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.nextPage": {
+    "description": "Button for navigating to the next page in the report",
+    "message": "Inayofuata"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.prevPage": {
+    "description": "Button for nagivating to the previous page in the report",
+    "message": "Iliyotangulia"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.savingProgress": {
+    "description": "Shown while the report is generating when saving or printing",
+    "message": "Inazalisha ripoti…"
+  },
+  "renderer.components.MapFilter.ReportView.ReportViewContent.xOfY": {
+    "message": "inaonyesha chunguzi {observationCount} kati ya {totalObservations}"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.buttonLabel": {
+    "description": "Button label for Save PDF Button",
+    "message": "Hifadhi PDF"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.cancel": {
+    "description": "Button label to cancel saving report",
+    "message": "Ghairi"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.confirm": {
+    "description": "Button label to confirm saving report",
+    "message": "Endelea"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogContent": {
+    "description": "Loading message when report is very long.",
+    "message": "Ripoti hii ina chunguzi {observationCount}, na inaweza kuchukua dakika chache kuunda. Una uhakika ungependa kuendelea?"
+  },
+  "renderer.components.MapFilter.ReportView.SaveButton.dialogTitle": {
+    "description": "Title of print settings dialog",
+    "message": "Onyo: Ripoti Kubwa"
+  },
+  "renderer.components.MapFilter.Toolbar.mapTabLabel": {
+    "message": "Ramani"
+  },
+  "renderer.components.MapFilter.Toolbar.mediaTabLabel": {
+    "message": "Maudhui"
+  },
+  "renderer.components.MapFilter.Toolbar.reportTabLabel": {
+    "message": "Ripoti"
+  },
+  "renderer.components.SettingsView.AboutMapeo.mapeoVariant": {
+    "message": "Aina ya Mapeo"
+  },
+  "renderer.components.SettingsView.AboutMapeo.mapeoVersion": {
+    "message": "Toleo la Mapeo"
+  },
+  "renderer.components.SettingsView.index.aboutMapeo": {
+    "message": "Kuhuu Mapeo"
+  },
+  "renderer.components.SettingsView.index.aboutMapeoSubtitle": {
+    "message": "Toleo na nambari ya muundo"
+  },
+  "renderer.components.SyncView.Searching.searchingHint": {
+    "description": "Hint on sync screen when searching on wifi for devices",
+    "message": "Hakikisha vifaa vimewashwa na vimeunganishwa kwenye mtandao mmoja wa wifi"
+  },
+  "renderer.components.SyncView.Searching.searchingTitle": {
+    "description": "Title on sync screen when searching for devices",
+    "message": "Inatafuta…"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnected": {
+    "message": "Imetenganishwa"
+  },
+  "renderer.components.SyncView.SyncAppBar.disconnectedTooltip": {
+    "message": "Kwanza unahitaji kuunganisha kwenye mtandao wa WiFi kabla ya kuweza kusawazisha vifaa"
+  },
+  "renderer.components.SyncView.SyncAppBar.newSyncfile": {
+    "description": "Button to create a new sync file",
+    "message": "Unda syncfile mpya…"
+  },
+  "renderer.components.SyncView.SyncAppBar.quality": {
+    "message": "Ubora: {quality}%"
   }
 }
