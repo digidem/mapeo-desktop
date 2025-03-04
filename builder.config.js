@@ -28,7 +28,11 @@ const config = {
     target: 'NSIS',
     artifactName: 'Install_Mapeo_v${version}_${os}-${env.ARCH}.${ext}',
     rfc3161TimeStampServer: 'http://timestamp.digicert.com',
-    timeStampServer: 'http://timestamp.digicert.com'
+    timeStampServer: 'http://timestamp.digicert.com',
+    // TODO: Remove these to re-enable code signing for Windows
+    forceCodeSigning: false,
+    signAndEditExecutable: false,
+    sign: async () => {}
   },
   linux: {
     target: ['AppImage', 'deb'],
