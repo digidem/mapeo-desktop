@@ -84,7 +84,7 @@ jobs:
           npx rimraf@2 'dist/${{ matrix.variant }}/!(*.exe|*.deb|*.AppImage|*.dmg|*.yml|*.zip|github)'
         shell: bash
       - name: Upload artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: '${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.variant }}'
           path: dist/${{ matrix.variant }}
