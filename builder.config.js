@@ -20,8 +20,9 @@ const config = {
     entitlements: 'build/entitlements.mac.plist',
     entitlementsInherit: 'build/entitlements.mac.plist',
     // TODO: Remove these to re-enable code signing on macOS
+    // https://github.com/electron-userland/electron-builder/blob/v22.14.10/docs/code-signing.md#how-to-disable-code-signing-during-the-build-process-on-macos
     forceCodeSigning: false,
-    sign: async () => {}
+    identity: null
   },
   directories: {
     buildResources: 'build',
@@ -32,7 +33,7 @@ const config = {
     artifactName: 'Install_Mapeo_v${version}_${os}-${env.ARCH}.${ext}',
     rfc3161TimeStampServer: 'http://timestamp.digicert.com',
     timeStampServer: 'http://timestamp.digicert.com',
-    // TODO: Remove these to re-enable code signing for Windows
+    // TODO: Remove these to re-enable code signing on Windows
     forceCodeSigning: false,
     signAndEditExecutable: false,
     sign: async () => {}
