@@ -16,7 +16,7 @@ jobs:
       matrix:
         config:
           - { os: macos-13, arch: x64 }
-          - { os: ubuntu-latest, arch: x64 }
+          - { os: ubuntu-24.04, arch: x64 }
           - { os: windows-2019, arch: x64 }
           - { os: windows-2019, arch: ia32 }
         variant:
