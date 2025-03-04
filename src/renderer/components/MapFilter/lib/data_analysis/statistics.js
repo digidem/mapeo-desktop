@@ -151,6 +151,7 @@ function addNumberStats (value: number, stats: NumberStatistic) {
 
 function addDateTimeStats (value: string, stats: DateStatistic) {
   const dateAsNumber = +Date.parse(value)
+  if (isNaN(dateAsNumber)) return // ignore invalid dates
   stats.count += 1
   const { mean } = statReduce(
     {
