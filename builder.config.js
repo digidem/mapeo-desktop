@@ -18,7 +18,10 @@ const config = {
     gatekeeperAssess: false,
     hardenedRuntime: true,
     entitlements: 'build/entitlements.mac.plist',
-    entitlementsInherit: 'build/entitlements.mac.plist'
+    entitlementsInherit: 'build/entitlements.mac.plist',
+    // TODO: Remove these to re-enable code signing on macOS
+    forceCodeSigning: false,
+    sign: async () => {}
   },
   directories: {
     buildResources: 'build',
