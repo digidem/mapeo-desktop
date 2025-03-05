@@ -7,7 +7,7 @@ const { nodeFileTrace } = require('@vercel/nft')
 require('dotenv').config()
 
 const config = {
-  // afterSign: 'bin/notarize.js',
+  afterSign: 'bin/notarize.js',
   detectUpdateChannel: true,
   generateUpdatesFilesForAllChannels: true,
   appId: 'org.digital-democracy.mapeo-desktop',
