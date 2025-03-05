@@ -18,11 +18,7 @@ const config = {
     gatekeeperAssess: false,
     hardenedRuntime: true,
     entitlements: 'build/entitlements.mac.plist',
-    entitlementsInherit: 'build/entitlements.mac.plist',
-    // TODO: Remove these to re-enable code signing on macOS
-    // https://github.com/electron-userland/electron-builder/blob/v22.14.10/docs/code-signing.md#how-to-disable-code-signing-during-the-build-process-on-macos
-    forceCodeSigning: false,
-    identity: null
+    entitlementsInherit: 'build/entitlements.mac.plist'
   },
   directories: {
     buildResources: 'build',
