@@ -71,6 +71,7 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           MAPEO_VARIANT: ${{ matrix.variant }}
           MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
+          CSC_FOR_PULL_REQUEST: "true"
       - name: Publish (unsigned)
         # Currently undocumented, but if it is None (e.g. PR from a fork) then secrets are not defined
         if: github.secret_source != 'Actions'
