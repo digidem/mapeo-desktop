@@ -7,6 +7,10 @@
     "description": "MapFilter tab label",
     "message": "Các quan sát"
   },
+  "renderer.components.Home.settings": {
+    "description": "Settings tab label",
+    "message": "Cài đặt"
+  },
   "renderer.components.Home.sync": {
     "description": "Synchronize tab label",
     "message": "Đồng bộ"
@@ -42,9 +46,81 @@
     "description": "Button tooltip on iD Editor toolbar",
     "message": "Xuất dữ liệu"
   },
+  "renderer.components.MapEditor.ExportButton.exportGeoJson": {
+    "description": "Menu item for exporting GeoJSON",
+    "message": "Xuất dữ liệu lãnh thổ dưới dạng GeoJSON…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportICCAPackage": {
+    "description": "Menu item for exporting ICCA Export Packages",
+    "message": "Xuất Gói Xuất ICCA…"
+  },
+  "renderer.components.MapEditor.ExportButton.exportShapefile": {
+    "description": "Menu item for exporting Shapefile",
+    "message": "Xuất dữ liệu lãnh thổ dưới dạng Shapefile…"
+  },
   "renderer.components.MapEditor.ExportButton.okButton": {
     "description": "OK button after successful export",
     "message": "OK"
+  },
+  "renderer.components.MapEditor.ExportButton.saveTitle": {
+    "description": "Save dialog title",
+    "message": "Dữ liệu Lãnh thổ Xuất"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.aboutYouSection": {
+    "message": "Về bạn:"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerNo": {
+    "message": "Không"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.answerYes": {
+    "description": "Yes/no answers",
+    "message": "Có"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.atLeastOneAnswer": {
+    "message": "Vui lòng điền ít nhất một trường."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.cancel": {
+    "description": "cancel button",
+    "message": "Hủy"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityEnglishName": {
+    "message": "Tiếng Anh"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.communityOriginalName": {
+    "description": "Labels for community name",
+    "message": "Ngôn ngữ gốc"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.errorMissingRequired": {
+    "message": "Vui lòng nhập toàn bộ các trường."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.formInstructions": {
+    "description": "Form instructions",
+    "message": "Vui lòng trả lời những câu hỏi này trước khi xuất."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataInstructions": {
+    "message": "Để vẽ ranh giới ICCA, tạo một khu vực và gắn thẻ với kiểu\n    \"Ranh giới ICCA.\" Hãy nhớ lưu các thay đổi của bạn lên bản đồ trước\n    Xuất dữ liệu."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.noDataSummary": {
+    "description": "No data to export",
+    "message": "Không có ranh giới ICCA để xuất."
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.ok": {
+    "description": "OK button",
+    "message": "OK"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question1Prompt": {
+    "description": "Question prompts",
+    "message": "Cộng đồng hoặc người bản địa của bạn đã đồng ý với bản đồ chưa \n    và các thông tin khác được chia sẻ với UNEP-WCMC?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question2Prompt": {
+    "message": "Bạn có muốn bản đồ và các thông tin khác được cung cấp cho bất kỳ ai không? \n    Để xem và tải về?"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question3Prompt": {
+    "message": "Tên cộng đồng, người bản địa hoặc cá nhân cung cấp\n    thông tin (Ngôn ngữ gốc, tiếng Anh)"
+  },
+  "renderer.components.MapEditor.ICCAExportDialog.question4Answer1": {
+    "description": "Choices for question 4",
+    "message": "Thành viên cộng đồng/người bản địa"
   },
   "renderer.components.MapEditor.index.feedback-contribute-button": {
     "message": "Phản hồi & Đóng góp"
